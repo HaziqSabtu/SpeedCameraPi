@@ -14,7 +14,18 @@ set(wxWidgets_USE_STATIC 1)
 
 find_package(wxWidgets REQUIRED)
 
-set(SRCS main.cpp)
+find_package(OpenCV REQUIRED)
+
+if(OpenCV_FOUND)
+    message("OpenCV found!")
+    include_directories(${OpenCV_INCLUDE_DIRS})
+else()
+    message(FATAL_ERROR "OpenCV not found!")
+endif()
+
+# include_directories( ${OpenCV_INCLUDE_DIRS} )
+
+set(SRCS main.cpp ./data_srz/fileWR.cpp BufferedBitMap.cpp MainFrame.cpp OtherFrame.cpp)
 
 include(${wxWidgets_USE_FILE})
 
@@ -31,4 +42,4 @@ else()
     add_executable(main WIN32 ${SRCS} main.exe.manifest)
 endif()
 
-target_link_libraries(main PRIVATE ${wxWidgets_LIBRARIES})
+target_link_libraries(main PRIVATE ${wxWidgets_LIBRARIES} ${OpenCV_LIBS})
