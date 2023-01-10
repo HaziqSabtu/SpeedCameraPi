@@ -12,6 +12,8 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     Prev_Button = new wxButton(button_panel, Prev_Button_ID, "Prev");
     Sel_Button = new wxButton(button_panel, Sel_Button_ID, "Select");
     Frame_Button = new wxButton(button_panel, Frame_Button_ID, "Frame Change");
+    RemoveROI_Button =
+        new wxButton(button_panel, RemoveROI_Button_ID, "Remove ROI");
 
     // Create the button sizer
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -19,6 +21,7 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     button_sizer->Add(Prev_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Sel_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Frame_Button, 0, wxALL | wxCENTER, 5);
+    button_sizer->Add(RemoveROI_Button, 0, wxALL | wxCENTER, 5);
     button_panel->SetSizer(button_sizer);
 
     // Create the image panel
@@ -87,10 +90,19 @@ void MainFrame::OnSwitchPanel(wxCommandEvent &e) {
     main_sizer->Layout();
     this->Refresh();
 }
+void MainFrame::OnToggleROI(wxCommandEvent &e) {
+    // check if img_panel2 is hidden
+    // if (img_panel2->IsShown()) {
+    //     isROISelect = !isROISelect;
+    // }
+    img_bitmap->SetImage(imgData[count].image);
+    img_bitmap->RemoveRectangle();
+}
 
 // clang-format off
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 EVT_BUTTON(Frame_Button_ID, MainFrame::OnSwitchPanel)
+EVT_BUTTON(RemoveROI_Button_ID, MainFrame::OnToggleROI)
 EVT_BUTTON(wxID_ANY, MainFrame::OnButton)
 EVT_KEY_DOWN(MainFrame::OnKeyPress)
 END_EVENT_TABLE()

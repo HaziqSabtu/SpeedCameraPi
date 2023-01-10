@@ -17,9 +17,20 @@ class BufferedBitmap : public wxStaticBitmap {
     // avoiding the immediate repainting on the control.
   public:
     BufferedBitmap(wxWindow *parent, wxWindowID id);
-    void BufferedBitmap::SetImage(const cv::Mat &image);
-    void BufferedBitmap::OnPaint(wxPaintEvent &event);
-    wxImage BufferedBitmap::matToWxImage(const cv::Mat &mat);
+    void SetImage(const cv::Mat &image);
+    wxImage matToWxImage(const cv::Mat &mat);
+    void DrawRectangle(int x, int y, int width, int height);
+    void DrawRectangle(wxPoint p1, wxPoint p2);
+    void RemoveRectangle();
+
+  private:
+    cv::Rect rectangle;
+    bool draw_rect = false;
+    int start_x = -1, start_y = -1, end_x = -1, end_y = -1;
+    void OnPaint(wxPaintEvent &event);
+    void OnLeftDown(wxMouseEvent &event);
+    void OnLeftUp(wxMouseEvent &event);
+    void OnMouseMove(wxMouseEvent &e);
     wxDECLARE_EVENT_TABLE();
 };
 
