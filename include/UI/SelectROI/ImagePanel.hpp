@@ -1,16 +1,9 @@
 #ifndef SELECT_ROI_PANEL_IMAGE
 #define SELECT_ROI_PANEL_IMAGE
 
-#include "BufferedBitmap.hpp"
-#include "data_srz/fileWR.hpp"
+#include <Utils/BufferedBitmap.hpp>
+#include <Utils/fileWR.hpp>
 #include <wx/wx.h>
-
-// enum {
-//     Next_Button_ID = 1,
-//     Prev_Button_ID = 2,
-//     Sel_Button_ID = 3,
-//     RemoveROI_Button_ID = 4,
-// };
 
 class SelectRoiPanelImage : public wxPanel {
   public:

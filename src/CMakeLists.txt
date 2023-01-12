@@ -23,9 +23,10 @@ else()
     message(FATAL_ERROR "OpenCV not found!")
 endif()
 
-# include_directories( ${OpenCV_INCLUDE_DIRS} )
-# file(GLOB_RECURSE SRCS *.cpp)
-set(SRCS main.cpp ./data_srz/fileWR.cpp BufferedBitMap.cpp MainFrame.cpp SelectroiPanel.cpp SelectroiPanel.Image.cpp SelectroiPanel.Button.cpp)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
+
+file(GLOB_RECURSE SRCS *.cpp)
+# set(SRCS main.cpp ./data_srz/fileWR.cpp BufferedBitMap.cpp MainFrame.cpp SelectroiPanel.cpp SelectroiPanel.Image.cpp SelectroiPanel.Button.cpp)
 set_source_files_properties( CMakeCXXCompilerId.cpp PROPERTIES EXCLUDE_FROM_ALL TRUE )
 include(${wxWidgets_USE_FILE})
 

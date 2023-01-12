@@ -1,4 +1,4 @@
-#include "BufferedBitmap.hpp"
+#include <Utils/BufferedBitmap.hpp>
 
 BufferedBitmap::BufferedBitmap(wxWindow *parent, wxWindowID id)
     : wxStaticBitmap(parent, id, wxNullBitmap) {

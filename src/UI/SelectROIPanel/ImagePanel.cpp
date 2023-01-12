@@ -1,4 +1,4 @@
-#include "SelectroiPanel.Image.hpp"
+#include <UI/SelectROI/ImagePanel.hpp>
 
 SelectRoiPanelImage::SelectRoiPanelImage(wxWindow *parent, wxWindowID id,
                                          std::vector<ImgData> &imgData)

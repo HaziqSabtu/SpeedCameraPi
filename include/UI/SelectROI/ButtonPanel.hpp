@@ -1,15 +1,9 @@
 #ifndef SELECT_ROI_PANEL_BUTTON
 #define SELECT_ROI_PANEL_BUTTON
 
-#include "SelectroiPanel.Image.hpp"
+#include <UI/SelectROI/ImagePanel.hpp>
+#include <Utils/Enum.hpp>
 #include <wx/wx.h>
-
-enum {
-    Next_Button_ID = 1,
-    Prev_Button_ID,
-    Sel_Button_ID,
-    RemoveROI_Button_ID,
-};
 
 class SelectRoiPanelButton : public wxPanel {
   public:
@@ -20,7 +14,6 @@ class SelectRoiPanelButton : public wxPanel {
   private:
     wxWindowID IMG_PANEL_ID;
 
-    int count = 0;
     wxPanel *button_panel;
     wxBoxSizer *button_sizer;
     wxButton *Next_Button;

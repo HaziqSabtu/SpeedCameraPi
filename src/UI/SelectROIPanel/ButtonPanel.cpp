@@ -1,14 +1,15 @@
-#include "SelectroiPanel.Button.hpp"
+#include <UI/SelectROI/ButtonPanel.hpp>
 
 SelectRoiPanelButton::SelectRoiPanelButton(wxWindow *parent, wxWindowID id,
                                            wxWindowID img_id)
     : wxPanel(parent, id) {
     IMG_PANEL_ID = img_id;
     // Create Button Panel and Buttons
-    Next_Button = new wxButton(this, Next_Button_ID, "Next");
-    Prev_Button = new wxButton(this, Prev_Button_ID, "Prev");
-    Sel_Button = new wxButton(this, Sel_Button_ID, "Select");
-    RemoveROI_Button = new wxButton(this, RemoveROI_Button_ID, "Remove ROI");
+    Next_Button = new wxButton(this, Enum::Next_Button_ID, "Next");
+    Prev_Button = new wxButton(this, Enum::Prev_Button_ID, "Prev");
+    Sel_Button = new wxButton(this, Enum::Sel_Button_ID, "Select");
+    RemoveROI_Button =
+        new wxButton(this, Enum::RemoveROI_Button_ID, "Remove ROI");
 
     // Create the button sizer
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -22,11 +23,11 @@ SelectRoiPanelButton::SelectRoiPanelButton(wxWindow *parent, wxWindowID id,
 void SelectRoiPanelButton::OnButton(wxCommandEvent &e) {
     SelectRoiPanelImage *img_panel = dynamic_cast<SelectRoiPanelImage *>(
         GetParent()->FindWindow(IMG_PANEL_ID));
-    if (e.GetId() == Next_Button_ID) {
+    if (e.GetId() == Enum::Next_Button_ID) {
         img_panel->OnButtonIncrement();
-    } else if (e.GetId() == Prev_Button_ID) {
+    } else if (e.GetId() == Enum::Prev_Button_ID) {
         img_panel->OnButtonDecrement();
-    } else if (e.GetId() == Sel_Button_ID) {
+    } else if (e.GetId() == Enum::Sel_Button_ID) {
         // todo set selected IMG
     }
 }
