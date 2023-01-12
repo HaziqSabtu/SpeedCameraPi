@@ -2,15 +2,12 @@
 #define SELECT_ROI_PANEL
 
 #include "BufferedBitmap.hpp"
+#include "SelectroiPanel.Button.hpp"
+#include "SelectroiPanel.Image.hpp"
 #include "data_srz/fileWR.hpp"
 #include <wx/wx.h>
 
-enum {
-    Next_Button_ID = 1,
-    Prev_Button_ID = 2,
-    Sel_Button_ID = 3,
-    RemoveROI_Button_ID = 4,
-};
+enum { IMG_PANEL_ID = 100, BUTTON_PANEL_ID };
 
 class SelectRoiPanel : public wxPanel {
   public:
@@ -18,14 +15,13 @@ class SelectRoiPanel : public wxPanel {
     void OnButton(wxCommandEvent &e);
     void OnKeyPress(wxKeyEvent &e);
     void OnToggleROI(wxCommandEvent &e);
-    // void OnSize(wxSizeEvent &e);
+    void OnSize(wxSizeEvent &e);
     DECLARE_EVENT_TABLE()
 
   private:
     int count = 0;
     std::vector<ImgData> imgData;
 
-    wxPanel *button_panel;
     wxBoxSizer *button_sizer;
     wxButton *Next_Button;
     wxButton *Prev_Button;

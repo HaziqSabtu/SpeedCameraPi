@@ -22,10 +22,23 @@ class BufferedBitmap : public wxStaticBitmap {
     void DrawRectangle(int x, int y, int width, int height);
     void DrawRectangle(wxPoint p1, wxPoint p2);
     void RemoveRectangle();
+    void setClientSize(wxSize size);
 
   private:
     cv::Rect rectangle;
+    cv::Rect trueRectangle;
+
     bool draw_rect = false;
+
+    int resizeWidth;
+    int resizeHeight;
+
+    double imgRatio;
+    double clientRatio;
+
+    double widthRatio;
+    double heightRatio;
+
     wxSize client_size;
     wxSize client_size2 = wxSize(-1, -1);
     int start_x = -1, start_y = -1, end_x = -1, end_y = -1;
@@ -33,7 +46,6 @@ class BufferedBitmap : public wxStaticBitmap {
     void OnLeftDown(wxMouseEvent &event);
     void OnLeftUp(wxMouseEvent &event);
     void OnMouseMove(wxMouseEvent &e);
-    void setClientSize(wxSize size);
     wxDECLARE_EVENT_TABLE();
 };
 

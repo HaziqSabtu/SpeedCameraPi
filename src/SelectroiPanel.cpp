@@ -5,39 +5,16 @@ SelectRoiPanel::SelectRoiPanel(wxWindow *parent, wxWindowID id)
 
     std::string filePath = "C:/Users/kakik/Desktop/P1/data/bin/car7_768F.bin";
     FILEWR::ReadFile(filePath, imgData);
-    cv::Mat firstImg = imgData[count].image;
 
-    // Create Button Panel and Buttons
-    button_panel = new wxPanel(this);
-    Next_Button = new wxButton(button_panel, Next_Button_ID, "Next");
-    Prev_Button = new wxButton(button_panel, Prev_Button_ID, "Prev");
-    Sel_Button = new wxButton(button_panel, Sel_Button_ID, "Select");
-    RemoveROI_Button =
-        new wxButton(button_panel, RemoveROI_Button_ID, "Remove ROI");
+    SelectRoiPanelButton *button_panel =
+        new SelectRoiPanelButton(this, BUTTON_PANEL_ID, IMG_PANEL_ID);
 
-    // Create the button sizer
-    button_sizer = new wxBoxSizer(wxHORIZONTAL);
-    button_sizer->Add(Next_Button, 0, wxALL | wxCENTER, 5);
-    button_sizer->Add(Prev_Button, 0, wxALL | wxCENTER, 5);
-    button_sizer->Add(Sel_Button, 0, wxALL | wxCENTER, 5);
-    button_sizer->Add(RemoveROI_Button, 0, wxALL | wxCENTER, 5);
-    button_panel->SetSizer(button_sizer);
-
-    // Create the image panel
-    img_panel = new wxPanel(this);
-    // img_panel->SetSize(500, 500);
-    img_bitmap = new BufferedBitmap(img_panel, wxID_ANY);
-    img_bitmap->SetImage(firstImg);
-
-    img_sizer = new wxBoxSizer(wxHORIZONTAL);
-    img_sizer->Add(img_bitmap, 0);
-    wxSize img_panel_size = img_panel->GetClientSize();
-    img_panel->SetSizer(img_sizer);
-    // img_bitmap->SetSize(img_panel_size);
+    SelectRoiPanelImage *img_panel =
+        new SelectRoiPanelImage(this, IMG_PANEL_ID, imgData);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
-    main_sizer->Add(img_panel, 1, wxEXPAND | wxALL, 5);
+    main_sizer->Add(img_panel, 1, wxEXPAND);
     SetSizer(main_sizer);
     Fit();
 
@@ -75,15 +52,22 @@ void SelectRoiPanel::OnToggleROI(wxCommandEvent &e) {
     img_bitmap->RemoveRectangle();
 }
 
-// void SelectRoiPanel::OnSize(wxSizeEvent &e) {
-//     wxSize img_panel_size = GetClientSize();
-//     img_bitmap->SetClientSize(img_panel_size);
-// }
+void SelectRoiPanel::OnSize(wxSizeEvent &e) {
+    wxSize img_panel_size = e.GetSize();
+
+    // get size of img_panel
+    // wxSize img_panel_size = img_panel->GetSize();
+    // wxSize imgSize = img_panel->GetSize();
+    // // wxSize imgSize = img_bitmap->GetSize();
+    // img_bitmap->setClientSize(imgSize);
+    img_bitmap->SetClientSize(img_panel_size);
+    img_panel->SetSize(img_panel_size);
+    // Layout();
+}
 
 // clang-format off
 BEGIN_EVENT_TABLE(SelectRoiPanel, wxPanel)
-EVT_BUTTON(RemoveROI_Button_ID, SelectRoiPanel::OnToggleROI)
-EVT_BUTTON(wxID_ANY, SelectRoiPanel::OnButton)
-EVT_KEY_DOWN(SelectRoiPanel::OnKeyPress)
-// EVT_SIZE(SelectRoiPanel::OnSize)
+// EVT_BUTTON(RemoveROI_Button_ID, SelectRoiPanel::OnToggleROI)
+// EVT_BUTTON(wxID_ANY, SelectRoiPanel::OnButton)
+// EVT_KEY_DOWN(SelectRoiPanel::OnKeyPress)
 END_EVENT_TABLE()
