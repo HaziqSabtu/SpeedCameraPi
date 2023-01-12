@@ -29,28 +29,17 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     img_bitmap = new BufferedBitmap(img_panel, wxID_ANY);
     img_bitmap->SetImage(firstImg);
 
-    img_panel2 = new wxPanel(this);
-    img_bitmap2 = new BufferedBitmap(img_panel2, wxID_ANY);
-    img_bitmap2->SetImage(firstImg);
-
     img_sizer = new wxBoxSizer(wxHORIZONTAL);
     img_sizer->Add(img_bitmap, 0);
-    img_panel->SetSizer(img_sizer);
-
-    img_sizer2 = new wxBoxSizer(wxHORIZONTAL);
-    img_sizer2->Add(img_bitmap2, 0);
-    img_panel2->SetSizer(img_sizer2);
+    wxSize size = GetClientSize();
+    img_panel->SetSize(size);
 
     // Set the main sizer for the frame
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
     main_sizer->Add(img_panel, 1, wxEXPAND);
-    main_sizer->Add(img_panel2, 1, wxEXPAND);
     SetSizer(main_sizer);
     Fit();
-
-    img_panel->Show();
-    img_panel2->Hide();
 
     SetFocus();
 }
@@ -61,7 +50,7 @@ void MainFrame::OnButton(wxCommandEvent &e) {
     } else if (e.GetId() == Prev_Button_ID) {
         count = (count <= 0) ? 0 : count - 1;
     } else if (e.GetId() == Sel_Button_ID) {
-        img_bitmap2->SetImage(imgData[count].image);
+        // todo set selected IMG
     }
     img_bitmap->SetImage(imgData[count].image);
 }
@@ -72,7 +61,7 @@ void MainFrame::OnKeyPress(wxKeyEvent &e) {
     } else if (e.GetKeyCode() == 'p' || e.GetKeyCode() == WXK_LEFT) {
         count = (count <= 0) ? 0 : count - 1;
     } else if (e.GetKeyCode() == 's' || e.GetKeyCode() == WXK_RETURN) {
-        img_bitmap2->SetImage(imgData[count].image);
+        // todo set selected IMG
     }
     img_bitmap->SetImage(imgData[count].image);
 }
@@ -80,9 +69,7 @@ void MainFrame::OnKeyPress(wxKeyEvent &e) {
 void MainFrame::OnSwitchPanel(wxCommandEvent &e) {
     if (img_panel->IsShown()) {
         img_panel->Hide();
-        img_panel2->Show();
     } else {
-        img_panel2->Hide();
         img_panel->Show();
     }
     // Tell the sizer to adjust the size and position of the widgets based on

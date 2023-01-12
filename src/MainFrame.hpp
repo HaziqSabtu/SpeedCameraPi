@@ -35,10 +35,6 @@ class MainFrame : public wxFrame {
     BufferedBitmap *img_bitmap;
     wxBoxSizer *img_sizer;
 
-    wxPanel *img_panel2;
-    BufferedBitmap *img_bitmap2;
-    wxBoxSizer *img_sizer2;
-
     wxBoxSizer *img_sizer3;
 
     wxBoxSizer *main_sizer;
