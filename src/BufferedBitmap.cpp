@@ -12,11 +12,57 @@ void BufferedBitmap::SetImage(const cv::Mat &image) {
 }
 
 void BufferedBitmap::OnPaint(wxPaintEvent &event) {
+    client_size = GetClientSize();
+
+    int width = client_size.GetWidth();
+    int height = client_size.GetHeight();
+
+    imgRatio = (double)img.cols / (double)img.rows;
+    clientRatio = (double)width / (double)height;
+
+    if (imgRatio > clientRatio) {
+        resizeWidth = width;
+        resizeHeight = (int)((double)width / imgRatio);
+    } else {
+        resizeHeight = height;
+        resizeWidth = (int)((double)height * imgRatio);
+    }
+
+    widthRatio = (double)img.cols / (double)resizeWidth;
+    heightRatio = (double)img.rows / (double)resizeHeight;
+
+    cv::Mat img_rs;
+    cv::resize(img, img_rs, cv::Size(resizeWidth, resizeHeight));
+
     wxAutoBufferedPaintDC dc(this);
-    cv::Mat img_cp = img.clone();
+
+    // clear the buffered image to prevent stacking when resizing
+    dc.Clear();
+
+    cv::Mat img_cp = img_rs.clone();
+    // cv::Mat img_cp2 = img.clone();
+
     if (draw_rect && rectangle.width > 0 && rectangle.height > 0) {
         cv::rectangle(img_cp, rectangle, cv::Scalar(0, 255, 0), 2);
+        // cv::rectangle(img_cp2, trueRectangle, cv::Scalar(0, 255, 0), 2);
     }
+
+    // cv::imshow("img", img_cp2);
+
+    // set clinet size to string
+    std::string cs = "Client Size: " + std::to_string(client_size.GetWidth()) +
+                     "x" + std::to_string(client_size.GetHeight());
+    std::string cs2 =
+        "Client Size 2: " + std::to_string(client_size2.GetWidth()) + "x" +
+        std::to_string(client_size2.GetHeight());
+    std::string cs3 = "RatioWidth: " + std::to_string(widthRatio) +
+                      "  RatioHeight: " + std::to_string(heightRatio);
+    cv::putText(img_cp, cs, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 1,
+                cv::Scalar(0, 0, 255), 2);
+    // cv::putText(img_cp, cs2, cv::Point(10, 70), cv::FONT_HERSHEY_SIMPLEX, 1,
+    //             cv::Scalar(0, 0, 255), 2);
+    // cv::putText(img_cp, cs3, cv::Point(10, 110), cv::FONT_HERSHEY_SIMPLEX, 1,
+    //             cv::Scalar(0, 0, 255), 2);
     wxImage wximg = matToWxImage(img_cp);
     dc.DrawBitmap(wxBitmap(wximg), 0, 0);
 }
@@ -30,19 +76,33 @@ void BufferedBitmap::OnLeftDown(wxMouseEvent &event) {
 void BufferedBitmap::OnLeftUp(wxMouseEvent &event) {
     end_x = event.GetX();
     end_y = event.GetY();
+
     if (start_x != -1 && start_y != -1 && end_x != -1 && end_y != -1) {
         if (start_x < end_x && start_y < end_y) {
             rectangle =
                 cv::Rect(start_x, start_y, end_x - start_x, end_y - start_y);
+            trueRectangle =
+                cv::Rect(start_x * widthRatio, start_y * heightRatio,
+                         (end_x - start_x) * widthRatio,
+                         (end_y - start_y) * heightRatio);
         } else if (start_x > end_x && start_y < end_y) {
             rectangle =
                 cv::Rect(end_x, start_y, start_x - end_x, end_y - start_y);
+            trueRectangle = cv::Rect(end_x * widthRatio, start_y * heightRatio,
+                                     (start_x - end_x) * widthRatio,
+                                     (end_y - start_y) * heightRatio);
         } else if (start_x < end_x && start_y > end_y) {
             rectangle =
                 cv::Rect(start_x, end_y, end_x - start_x, start_y - end_y);
+            trueRectangle = cv::Rect(start_x * widthRatio, end_y * heightRatio,
+                                     (end_x - start_x) * widthRatio,
+                                     (start_y - end_y) * heightRatio);
         } else if (start_x > end_x && start_y > end_y) {
             rectangle =
                 cv::Rect(end_x, end_y, start_x - end_x, start_y - end_y);
+            trueRectangle = cv::Rect(end_x * widthRatio, end_y * heightRatio,
+                                     (start_x - end_x) * widthRatio,
+                                     (start_y - end_y) * heightRatio);
         }
         Refresh();
     }
@@ -57,15 +117,31 @@ void BufferedBitmap::OnMouseMove(wxMouseEvent &e) {
             if (start_x < end_x && start_y < end_y) {
                 rectangle = cv::Rect(start_x, start_y, end_x - start_x,
                                      end_y - start_y);
+                trueRectangle =
+                    cv::Rect(start_x * widthRatio, start_y * heightRatio,
+                             (end_x - start_x) * widthRatio,
+                             (end_y - start_y) * heightRatio);
             } else if (start_x > end_x && start_y < end_y) {
                 rectangle =
                     cv::Rect(end_x, start_y, start_x - end_x, end_y - start_y);
+                trueRectangle =
+                    cv::Rect(end_x * widthRatio, start_y * heightRatio,
+                             (start_x - end_x) * widthRatio,
+                             (end_y - start_y) * heightRatio);
             } else if (start_x < end_x && start_y > end_y) {
                 rectangle =
                     cv::Rect(start_x, end_y, end_x - start_x, start_y - end_y);
+                trueRectangle =
+                    cv::Rect(start_x * widthRatio, end_y * heightRatio,
+                             (end_x - start_x) * widthRatio,
+                             (start_y - end_y) * heightRatio);
             } else if (start_x > end_x && start_y > end_y) {
                 rectangle =
                     cv::Rect(end_x, end_y, start_x - end_x, start_y - end_y);
+                trueRectangle =
+                    cv::Rect(end_x * widthRatio, end_y * heightRatio,
+                             (start_x - end_x) * widthRatio,
+                             (start_y - end_y) * heightRatio);
             }
             Refresh();
         }
@@ -90,6 +166,8 @@ void BufferedBitmap::RemoveRectangle() {
     end_y = -1;
     Refresh();
 }
+
+void BufferedBitmap::setClientSize(wxSize size) { client_size2 = size; }
 
 wxImage BufferedBitmap::matToWxImage(const cv::Mat &mat) {
     if (mat.empty())

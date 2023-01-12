@@ -24,9 +24,9 @@ else()
 endif()
 
 # include_directories( ${OpenCV_INCLUDE_DIRS} )
-
-set(SRCS main.cpp ./data_srz/fileWR.cpp BufferedBitMap.cpp MainFrame.cpp OtherFrame.cpp)
-
+# file(GLOB_RECURSE SRCS *.cpp)
+set(SRCS main.cpp ./data_srz/fileWR.cpp BufferedBitMap.cpp MainFrame.cpp SelectroiPanel.cpp SelectroiPanel.Image.cpp SelectroiPanel.Button.cpp)
+set_source_files_properties( CMakeCXXCompilerId.cpp PROPERTIES EXCLUDE_FROM_ALL TRUE )
 include(${wxWidgets_USE_FILE})
 
 if(APPLE)
