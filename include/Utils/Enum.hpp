@@ -5,8 +5,11 @@
 
 namespace Enum {
 enum ProjectIDs {
+
+    // Notebook
+    NOTEBOOK_ID = wxID_HIGHEST + 1,
     // SelectRoiPanel
-    IMG_PANEL_ID = wxID_HIGHEST + 1,
+    IMG_PANEL_ID,
     BUTTON_PANEL_ID,
     Next_Button_ID,
     Prev_Button_ID,

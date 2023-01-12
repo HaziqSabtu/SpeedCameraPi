@@ -14,6 +14,7 @@ void SelectRoiPanelImage::OnButtonIncrement() {
     count = (count >= imgData.size() - 1) ? imgData.size() - 1 : count + 1;
     img_bitmap->SetImage(imgData[count].image);
 }
+
 void SelectRoiPanelImage::OnButtonDecrement() {
     count = (count <= 0) ? 0 : count - 1;
     img_bitmap->SetImage(imgData[count].image);
@@ -41,8 +42,6 @@ void SelectRoiPanelImage::OnSize(wxSizeEvent &e) {
 
 // clang-format off
 BEGIN_EVENT_TABLE(SelectRoiPanelImage, wxPanel)
-// EVT_BUTTON(RemoveROI_Button_ID, SelectRoiPanelImage::OnToggleROI)
-// EVT_BUTTON(wxID_ANY, SelectRoiPanelImage::OnButton)
 EVT_KEY_DOWN(SelectRoiPanelImage::OnKeyPress)
 EVT_SIZE(SelectRoiPanelImage::OnSize)
 END_EVENT_TABLE()

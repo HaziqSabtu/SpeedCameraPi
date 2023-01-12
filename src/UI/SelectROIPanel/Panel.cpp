@@ -14,6 +14,7 @@ SelectRoiPanel::SelectRoiPanel(wxWindow *parent, wxWindowID id)
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
     main_sizer->Add(img_panel, 1, wxEXPAND);
+
     SetSizer(main_sizer);
     Fit();
 

@@ -19,6 +19,7 @@ class SelectRoiPanelImage : public wxPanel {
 
   private:
     int count = 0;
+
     std::vector<ImgData> imgData;
 
     wxPanel *img_panel;
