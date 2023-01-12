@@ -58,5 +58,8 @@ If it's not, dynamic_cast will return a null pointer and the code will crash.
 It's better to pass a pointer to the image panel to the button panel's 
 constructor as an argument, as I described in my previous answer, this way you 
 can be sure that the pointer passed is the correct one.
+
+tldr: if casting at constructor there is no way to know if the class casted is of panel image class.
+it could be any other class which have different structure/methods. therefore code crashed may occur.
 */
 
