@@ -12,11 +12,45 @@ void BufferedBitmap::SetImage(const cv::Mat &image) {
 }
 
 void BufferedBitmap::OnPaint(wxPaintEvent &event) {
+    client_size = GetClientSize();
+    int width = client_size.GetWidth();
+    int height = client_size.GetHeight();
+
+    double imgRatio = (double)img.cols / (double)img.rows;
+    double clientRatio = (double)width / (double)height;
+
+    int newWidth, newHeight;
+
+    if (imgRatio > clientRatio) {
+        newWidth = width;
+        newHeight = (int)((double)width / imgRatio);
+    } else {
+        newHeight = height;
+        newWidth = (int)((double)height * imgRatio);
+    }
+
+    cv::Mat img_rs;
+    cv::resize(img, img_rs, cv::Size(newWidth, newHeight));
+
     wxAutoBufferedPaintDC dc(this);
-    cv::Mat img_cp = img.clone();
+
+    // clear the buffered image to prevent stacking when resizing
+    dc.Clear();
+    cv::Mat img_cp = img_rs.clone();
+
     if (draw_rect && rectangle.width > 0 && rectangle.height > 0) {
         cv::rectangle(img_cp, rectangle, cv::Scalar(0, 255, 0), 2);
     }
+    // set clinet size to string
+    std::string cs = "Client Size: " + std::to_string(client_size.GetWidth()) +
+                     "x" + std::to_string(client_size.GetHeight());
+    std::string cs2 =
+        "Client Size 2: " + std::to_string(client_size2.GetWidth()) + "x" +
+        std::to_string(client_size2.GetHeight());
+    cv::putText(img_cp, cs, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 1,
+                cv::Scalar(0, 0, 255), 2);
+    cv::putText(img_cp, cs2, cv::Point(10, 70), cv::FONT_HERSHEY_SIMPLEX, 1,
+                cv::Scalar(0, 0, 255), 2);
     wxImage wximg = matToWxImage(img_cp);
     dc.DrawBitmap(wxBitmap(wximg), 0, 0);
 }
@@ -90,6 +124,8 @@ void BufferedBitmap::RemoveRectangle() {
     end_y = -1;
     Refresh();
 }
+
+void BufferedBitmap::setClientSize(wxSize size) { client_size = size; }
 
 wxImage BufferedBitmap::matToWxImage(const cv::Mat &mat) {
     if (mat.empty())

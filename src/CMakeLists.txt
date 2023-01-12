@@ -25,7 +25,7 @@ endif()
 
 # include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-set(SRCS main.cpp ./data_srz/fileWR.cpp BufferedBitMap.cpp MainFrame.cpp OtherFrame.cpp)
+set(SRCS main.cpp ./data_srz/fileWR.cpp BufferedBitMap.cpp MainFrame.cpp SelectroiPanel.cpp )
 
 include(${wxWidgets_USE_FILE})
 

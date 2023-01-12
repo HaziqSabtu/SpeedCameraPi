@@ -26,11 +26,14 @@ class BufferedBitmap : public wxStaticBitmap {
   private:
     cv::Rect rectangle;
     bool draw_rect = false;
+    wxSize client_size;
+    wxSize client_size2 = wxSize(-1, -1);
     int start_x = -1, start_y = -1, end_x = -1, end_y = -1;
     void OnPaint(wxPaintEvent &event);
     void OnLeftDown(wxMouseEvent &event);
     void OnLeftUp(wxMouseEvent &event);
     void OnMouseMove(wxMouseEvent &e);
+    void setClientSize(wxSize size);
     wxDECLARE_EVENT_TABLE();
 };
 
