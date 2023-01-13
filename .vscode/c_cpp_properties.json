@@ -19,7 +19,8 @@
             "includePath": [
                 "${workspaceFolder}/src/**",
                 "${workspaceFolder}/build/stage/include/**",
-                "C:/Users/kakik/OpenCV/build/install/include"
+                "C:/Users/kakik/OpenCV/build/install/include",
+                "${workspaceFolder}/include/**"
             ],
             "defines": ["__WXMSW__", "_UNICODE", "_DEBUG", "NDEBUG"],
             "compilerPath": "cl.exe",
