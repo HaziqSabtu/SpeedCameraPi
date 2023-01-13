@@ -9,7 +9,6 @@
 #include <wx/notebook.h>
 #include <wx/wx.h>
 
-
 class MainFrame : public wxFrame {
   public:
     MainFrame(const wxString &title);
@@ -21,6 +20,7 @@ class MainFrame : public wxFrame {
     SelectRoiPanel *select_roi_panel;
     OpticalFlowPanel *optical_flow_panel;
     Panel2 *p2, *p3, *p4, *p5;
+    void OnPageChanged(wxNotebookEvent &event);
 };
 
 #endif

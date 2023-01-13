@@ -19,3 +19,8 @@ void BBOpticalFlow::OnPaint(wxPaintEvent &e) {
     wxImage wximg = matToWxImage(img_cp);
     dc.DrawBitmap(wxBitmap(wximg), 0, 0);
 }
+
+// clang-format off
+wxBEGIN_EVENT_TABLE(BBOpticalFlow, BufferedBitmap)
+EVT_PAINT(BBOpticalFlow::OnPaint) 
+wxEND_EVENT_TABLE()

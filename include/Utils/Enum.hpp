@@ -15,6 +15,7 @@ enum ProjectIDs {
     SR_Prev_Button_ID,
     SR_Sel_Button_ID,
     SR_RemoveROI_Button_ID,
+    SR_NextPage_Button_ID,
     // OpticalFlowPanel
     OF_IMG_PANEL_ID,
     OF_BUTTON_PANEL_ID,

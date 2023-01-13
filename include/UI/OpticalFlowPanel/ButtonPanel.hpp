@@ -7,13 +7,11 @@
 
 class OpticalFlowPanelButton : public wxPanel {
   public:
-    OpticalFlowPanelButton(wxWindow *parent, wxWindowID id, wxWindowID img_id);
+    OpticalFlowPanelButton(wxWindow *parent, wxWindowID id);
     void OnButton(wxCommandEvent &e);
     void OnKeyPress(wxKeyEvent &e);
 
   private:
-    wxWindowID IMG_PANEL_ID;
-
     wxPanel *button_panel;
     wxBoxSizer *button_sizer;
     wxButton *Next_Button;

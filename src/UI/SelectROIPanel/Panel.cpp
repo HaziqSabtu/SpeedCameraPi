@@ -4,8 +4,7 @@ SelectRoiPanel::SelectRoiPanel(wxWindow *parent, wxWindowID id,
                                std::vector<ImgData> &imgData)
     : wxPanel(parent, id) {
 
-    button_panel = new SelectRoiPanelButton(this, Enum::SR_BUTTON_PANEL_ID,
-                                            Enum::SR_IMG_PANEL_ID);
+    button_panel = new SelectRoiPanelButton(this, Enum::SR_BUTTON_PANEL_ID);
 
     img_panel = new SelectRoiPanelImage(this, Enum::SR_IMG_PANEL_ID, imgData);
 

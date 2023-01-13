@@ -1,9 +1,7 @@
 #include <UI/OpticalFlowPanel/ButtonPanel.hpp>
 
-OpticalFlowPanelButton::OpticalFlowPanelButton(wxWindow *parent, wxWindowID id,
-                                               wxWindowID img_id)
+OpticalFlowPanelButton::OpticalFlowPanelButton(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id) {
-    IMG_PANEL_ID = img_id;
     // Create Button Panel and Buttons
     Next_Button = new wxButton(this, Enum::OF_Next_Button_ID, "Next");
     Prev_Button = new wxButton(this, Enum::OF_Prev_Button_ID, "Prev");
@@ -22,7 +20,7 @@ OpticalFlowPanelButton::OpticalFlowPanelButton(wxWindow *parent, wxWindowID id,
 
 void OpticalFlowPanelButton::OnButton(wxCommandEvent &e) {
     OpticalFlowPanelImage *img_panel = dynamic_cast<OpticalFlowPanelImage *>(
-        GetParent()->FindWindow(IMG_PANEL_ID));
+        GetParent()->FindWindow(Enum::OF_IMG_PANEL_ID));
     if (e.GetId() == Enum::OF_Next_Button_ID) {
         img_panel->OnButtonIncrement();
     } else if (e.GetId() == Enum::OF_Prev_Button_ID) {
@@ -34,7 +32,7 @@ void OpticalFlowPanelButton::OnButton(wxCommandEvent &e) {
 
 void OpticalFlowPanelButton::OnKeyPress(wxKeyEvent &e) {
     OpticalFlowPanelImage *img_panel = dynamic_cast<OpticalFlowPanelImage *>(
-        GetParent()->FindWindow(IMG_PANEL_ID));
+        GetParent()->FindWindow(Enum::OF_IMG_PANEL_ID));
     if (e.GetKeyCode() == 'n' || e.GetKeyCode() == WXK_RIGHT) {
         img_panel->OnButtonIncrement();
     } else if (e.GetKeyCode() == 'p' || e.GetKeyCode() == WXK_LEFT) {

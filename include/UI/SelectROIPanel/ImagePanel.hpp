@@ -14,7 +14,7 @@ class SelectRoiPanelImage : public wxPanel {
     void OnSize(wxSizeEvent &e);
     void OnButtonIncrement();
     void OnButtonDecrement();
-
+    int GetCount();
     DECLARE_EVENT_TABLE()
 
   private:

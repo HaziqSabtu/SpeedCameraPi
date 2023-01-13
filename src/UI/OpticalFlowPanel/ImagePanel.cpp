@@ -6,8 +6,28 @@ OpticalFlowPanelImage::OpticalFlowPanelImage(wxWindow *parent, wxWindowID id,
     this->imgData = imgData;
     cv::Mat firstImg = imgData[count].image;
 
-    img_bitmap = new BBImage(this, wxID_ANY);
+    img_bitmap = new BBOpticalFlow(this, wxID_ANY);
     img_bitmap->SetImage(firstImg);
+}
+
+void OpticalFlowPanelImage::OnKeyPress(wxKeyEvent &e) {
+    // if (e.GetKeyCode() == 'n' || e.GetKeyCode() == WXK_RIGHT) {
+    //     OnButtonIncrement();
+    // } else if (e.GetKeyCode() == 'p' || e.GetKeyCode() == WXK_LEFT) {
+    //     OnButtonDecrement();
+    // } else if (e.GetKeyCode() == 's' || e.GetKeyCode() == WXK_RETURN) {
+    //     // todo set selected IMG
+    // }
+}
+
+void OpticalFlowPanelImage::OnSize(wxSizeEvent &e) {
+    wxSize this_size = e.GetSize();
+    img_bitmap->SetClientSize(this_size);
+}
+
+void OpticalFlowPanelImage::SetCount(int count) {
+    this->count = count;
+    img_bitmap->SetImage(imgData[count].image);
 }
 
 void OpticalFlowPanelImage::OnButtonIncrement() {
@@ -18,26 +38,6 @@ void OpticalFlowPanelImage::OnButtonIncrement() {
 void OpticalFlowPanelImage::OnButtonDecrement() {
     count = (count <= 0) ? 0 : count - 1;
     img_bitmap->SetImage(imgData[count].image);
-}
-
-void OpticalFlowPanelImage::OnKeyPress(wxKeyEvent &e) {
-    if (e.GetKeyCode() == 'n' || e.GetKeyCode() == WXK_RIGHT) {
-        OnButtonIncrement();
-    } else if (e.GetKeyCode() == 'p' || e.GetKeyCode() == WXK_LEFT) {
-        OnButtonDecrement();
-    } else if (e.GetKeyCode() == 's' || e.GetKeyCode() == WXK_RETURN) {
-        // todo set selected IMG
-    }
-}
-
-void OpticalFlowPanelImage::OnToggleROI(wxCommandEvent &e) {
-    img_bitmap->SetImage(imgData[count].image);
-    img_bitmap->RemoveRectangle();
-}
-
-void OpticalFlowPanelImage::OnSize(wxSizeEvent &e) {
-    wxSize this_size = e.GetSize();
-    img_bitmap->SetClientSize(this_size);
 }
 
 // clang-format off

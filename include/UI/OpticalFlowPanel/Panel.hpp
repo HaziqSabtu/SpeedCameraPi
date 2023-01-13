@@ -3,6 +3,7 @@
 
 #include <UI/OpticalFlowPanel/ButtonPanel.hpp>
 #include <UI/OpticalFlowPanel/ImagePanel.hpp>
+#include <UI/SelectROIPanel/ImagePanel.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/fileWR.hpp>
 #include <wx/wx.h>
@@ -11,6 +12,7 @@ class OpticalFlowPanel : public wxPanel {
   public:
     OpticalFlowPanel(wxWindow *parent, wxWindowID id,
                      std::vector<ImgData> &imgData);
+    void OnPageChanged();
 
   private:
     OpticalFlowPanelButton *button_panel;

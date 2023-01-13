@@ -10,7 +10,7 @@ class BBOpticalFlow : public BufferedBitmap {
 
   private:
     void OnPaint(wxPaintEvent &e);
-    // wxDECLARE_EVENT_TABLE();
+    wxDECLARE_EVENT_TABLE();
 };
 
 #endif
