@@ -1,7 +1,7 @@
 #ifndef SELECT_ROI_PANEL_IMAGE
 #define SELECT_ROI_PANEL_IMAGE
 
-#include <Utils/BufferedBitmap.hpp>
+#include <Utils/BufferedBitmap/Derived/BBImage.hpp>
 #include <Utils/fileWR.hpp>
 #include <wx/wx.h>
 
@@ -23,7 +23,7 @@ class SelectRoiPanelImage : public wxPanel {
     std::vector<ImgData> imgData;
 
     wxPanel *img_panel;
-    BufferedBitmap *img_bitmap;
+    BBImage *img_bitmap;
     wxBoxSizer *img_sizer;
 };
 #endif

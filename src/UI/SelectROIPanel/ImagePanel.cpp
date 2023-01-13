@@ -6,7 +6,7 @@ SelectRoiPanelImage::SelectRoiPanelImage(wxWindow *parent, wxWindowID id,
     this->imgData = imgData;
     cv::Mat firstImg = imgData[count].image;
 
-    img_bitmap = new BufferedBitmap(this, wxID_ANY);
+    img_bitmap = new BBImage(this, wxID_ANY);
     img_bitmap->SetImage(firstImg);
 }
 

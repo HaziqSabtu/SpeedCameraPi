@@ -8,8 +8,7 @@
 #include <wx/wx.h>
 
 class BufferedBitmap : public wxStaticBitmap {
-    cv::Mat img;
-    cv::Mat RGBImg;
+
     // Double buffering: To fix screen flickering. This can be done by creating
     // a wxBufferedPaintDC instead of a wxPaintDC when the control is repainted.
     // This creates a bitmap in memory that is used to draw the new image, then
@@ -18,16 +17,12 @@ class BufferedBitmap : public wxStaticBitmap {
   public:
     BufferedBitmap(wxWindow *parent, wxWindowID id);
     void SetImage(const cv::Mat &image);
-    void DrawRectangle(int x, int y, int width, int height);
-    void DrawRectangle(wxPoint p1, wxPoint p2);
-    void RemoveRectangle();
-    void setClientSize(wxSize size);
 
-  private:
-    cv::Rect rectangle;
-    cv::Rect trueRectangle;
+  protected:
+    cv::Mat img;
+    cv::Mat RGBImg;
 
-    bool draw_rect = false;
+    wxSize client_size;
 
     int resizeWidth;
     int resizeHeight;
@@ -38,17 +33,37 @@ class BufferedBitmap : public wxStaticBitmap {
     double widthRatio;
     double heightRatio;
 
-    wxSize client_size;
-    wxSize client_size2 = wxSize(-1, -1);
-    int start_x = -1, start_y = -1, end_x = -1, end_y = -1;
-    void OnPaint(wxPaintEvent &event);
-    void OnLeftDown(wxMouseEvent &event);
-    void OnLeftUp(wxMouseEvent &event);
-    void OnMouseMove(wxMouseEvent &e);
-
+    void processRatio();
     wxImage matToWxImage(const cv::Mat &mat);
-    inline void processRatio();
+
+  private:
+    virtual void OnPaint(wxPaintEvent &e) = 0;
+
     wxDECLARE_EVENT_TABLE();
 };
+
+// inline method should be defined in the header file
+// -> avoid linker error
+// https://isocpp.org/wiki/faq/inline-functions#where-to-put-inline-keyword
+inline void BufferedBitmap::processRatio() {
+    client_size = GetClientSize();
+
+    int width = client_size.GetWidth();
+    int height = client_size.GetHeight();
+
+    imgRatio = (double)img.cols / (double)img.rows;
+    clientRatio = (double)width / (double)height;
+
+    if (imgRatio > clientRatio) {
+        resizeWidth = width;
+        resizeHeight = (int)((double)width / imgRatio);
+    } else {
+        resizeHeight = height;
+        resizeWidth = (int)((double)height * imgRatio);
+    }
+
+    widthRatio = (double)img.cols / (double)resizeWidth;
+    heightRatio = (double)img.rows / (double)resizeHeight;
+}
 
 #endif
