@@ -15,6 +15,10 @@ enum ProjectIDs {
     Prev_Button_ID,
     Sel_Button_ID,
     RemoveROI_Button_ID,
+
+    // panel2
+    NEXT_PANEL_ID,
+    PREV_PANEL_ID,
 };
 }; // namespace Enum
 

@@ -18,7 +18,6 @@ class BufferedBitmap : public wxStaticBitmap {
   public:
     BufferedBitmap(wxWindow *parent, wxWindowID id);
     void SetImage(const cv::Mat &image);
-    wxImage matToWxImage(const cv::Mat &mat);
     void DrawRectangle(int x, int y, int width, int height);
     void DrawRectangle(wxPoint p1, wxPoint p2);
     void RemoveRectangle();
@@ -46,6 +45,9 @@ class BufferedBitmap : public wxStaticBitmap {
     void OnLeftDown(wxMouseEvent &event);
     void OnLeftUp(wxMouseEvent &event);
     void OnMouseMove(wxMouseEvent &e);
+
+    wxImage matToWxImage(const cv::Mat &mat);
+    inline void processRatio();
     wxDECLARE_EVENT_TABLE();
 };
 

@@ -11,6 +11,27 @@ void BufferedBitmap::SetImage(const cv::Mat &image) {
     wxStaticBitmap::SetBitmap(wxBitmap(wximg));
 }
 
+// inline void BufferedBitmap::processRatio() {
+//     client_size = GetClientSize();
+
+//     int width = client_size.GetWidth();
+//     int height = client_size.GetHeight();
+
+//     imgRatio = (double)img.cols / (double)img.rows;
+//     clientRatio = (double)width / (double)height;
+
+//     if (imgRatio > clientRatio) {
+//         resizeWidth = width;
+//         resizeHeight = (int)((double)width / imgRatio);
+//     } else {
+//         resizeHeight = height;
+//         resizeWidth = (int)((double)height * imgRatio);
+//     }
+
+//     widthRatio = (double)img.cols / (double)resizeWidth;
+//     heightRatio = (double)img.rows / (double)resizeHeight;
+// }
+
 void BufferedBitmap::OnPaint(wxPaintEvent &event) {
     client_size = GetClientSize();
 
