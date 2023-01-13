@@ -18,17 +18,16 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     notebook->AddPage(p4, "Panel4", false);
     notebook->AddPage(p5, "Panel5", false);
 
-    notebook->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &MainFrame::OnPageChanged,
-                   this);
+    notebook->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &MainFrame::OnPageChange, this);
 
     // select_roi_panel->Show(true);
     SetSize(800, 600);
     Center();
 }
 
-void MainFrame::OnPageChanged(wxNotebookEvent &event) {
+void MainFrame::OnPageChange(wxNotebookEvent &event) {
     int page = event.GetSelection();
     if (page == 1) {
-        optical_flow_panel->OnPageChanged();
+        optical_flow_panel->OnPageChange();
     }
 }

@@ -42,6 +42,10 @@ void SelectRoiPanelImage::OnSize(wxSizeEvent &e) {
 
 int SelectRoiPanelImage::GetCount() { return count; }
 
+cv::Rect SelectRoiPanelImage::GetTrueRect() {
+    return img_bitmap->GetTrueRect();
+}
+
 // clang-format off
 BEGIN_EVENT_TABLE(SelectRoiPanelImage, wxPanel)
 EVT_KEY_DOWN(SelectRoiPanelImage::OnKeyPress)

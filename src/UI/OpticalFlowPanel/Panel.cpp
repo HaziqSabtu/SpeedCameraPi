@@ -5,7 +5,6 @@ OpticalFlowPanel::OpticalFlowPanel(wxWindow *parent, wxWindowID id,
     : wxPanel(parent, id) {
 
     button_panel = new OpticalFlowPanelButton(this, Enum::OF_BUTTON_PANEL_ID);
-
     img_panel = new OpticalFlowPanelImage(this, Enum::OF_IMG_PANEL_ID, imgData);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
@@ -18,12 +17,15 @@ OpticalFlowPanel::OpticalFlowPanel(wxWindow *parent, wxWindowID id,
     SetFocus();
 }
 
-void OpticalFlowPanel::OnPageChanged() {
+void OpticalFlowPanel::OnPageChange() {
     SelectRoiPanelImage *img_panel_roi = dynamic_cast<SelectRoiPanelImage *>(
         GetParent()->FindWindow(Enum::SR_IMG_PANEL_ID));
+
     int count = img_panel_roi->GetCount();
-    // wxMessageBox(wxString::Format("Count: %d", count));
     img_panel->SetCount(count);
+
+    cv::Rect r = img_panel_roi->GetTrueRect();
+    img_panel->SetTrueRect(r);
 }
 
 // clang-format off

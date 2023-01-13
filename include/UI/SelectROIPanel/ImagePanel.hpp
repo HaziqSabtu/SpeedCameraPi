@@ -15,6 +15,7 @@ class SelectRoiPanelImage : public wxPanel {
     void OnButtonIncrement();
     void OnButtonDecrement();
     int GetCount();
+    cv::Rect GetTrueRect();
     DECLARE_EVENT_TABLE()
 
   private:

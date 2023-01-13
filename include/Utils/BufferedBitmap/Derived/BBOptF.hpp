@@ -7,8 +7,14 @@
 class BBOpticalFlow : public BufferedBitmap {
   public:
     BBOpticalFlow(wxWindow *parent, wxWindowID id);
+    void SetTrueRect(cv::Rect r);
+    cv::Rect GetTrueRect();
 
   private:
+    boolean draw_rect = false;
+    cv::Rect rectangle;
+    cv::Rect trueRectangle;
+
     void OnPaint(wxPaintEvent &e);
     wxDECLARE_EVENT_TABLE();
 };

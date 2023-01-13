@@ -5,7 +5,7 @@ OpticalFlowPanelButton::OpticalFlowPanelButton(wxWindow *parent, wxWindowID id)
     // Create Button Panel and Buttons
     Next_Button = new wxButton(this, Enum::OF_Next_Button_ID, "Next");
     Prev_Button = new wxButton(this, Enum::OF_Prev_Button_ID, "Prev");
-    Sel_Button = new wxButton(this, Enum::OF_Sel_Button_ID, "Select");
+    Track_Button = new wxButton(this, Enum::OF_Track_Button_ID, "Track Object");
     RemoveROI_Button =
         new wxButton(this, Enum::OF_RemoveROI_Button_ID, "Remove ROI");
 
@@ -13,7 +13,7 @@ OpticalFlowPanelButton::OpticalFlowPanelButton(wxWindow *parent, wxWindowID id)
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
     button_sizer->Add(Next_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Prev_Button, 0, wxALL | wxCENTER, 5);
-    button_sizer->Add(Sel_Button, 0, wxALL | wxCENTER, 5);
+    button_sizer->Add(Track_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(RemoveROI_Button, 0, wxALL | wxCENTER, 5);
     this->SetSizer(button_sizer);
 }
@@ -25,8 +25,6 @@ void OpticalFlowPanelButton::OnButton(wxCommandEvent &e) {
         img_panel->OnButtonIncrement();
     } else if (e.GetId() == Enum::OF_Prev_Button_ID) {
         img_panel->OnButtonDecrement();
-    } else if (e.GetId() == Enum::OF_Sel_Button_ID) {
-        // todo set selected IMG
     }
 }
 
@@ -37,13 +35,19 @@ void OpticalFlowPanelButton::OnKeyPress(wxKeyEvent &e) {
         img_panel->OnButtonIncrement();
     } else if (e.GetKeyCode() == 'p' || e.GetKeyCode() == WXK_LEFT) {
         img_panel->OnButtonDecrement();
-    } else if (e.GetKeyCode() == 's' || e.GetKeyCode() == WXK_RETURN) {
-        // todo set selected IMG
     }
+}
+
+void OpticalFlowPanelButton::OnToggleTracker(wxCommandEvent &e) {
+    OpticalFlowPanelImage *img_panel = dynamic_cast<OpticalFlowPanelImage *>(
+        GetParent()->FindWindow(Enum::OF_IMG_PANEL_ID));
+    // wxMessageBox("OnToggleTracker");
+    img_panel->StartTracking();
 }
 
 // clang-format off
 BEGIN_EVENT_TABLE(OpticalFlowPanelButton, wxPanel)
+EVT_BUTTON(Enum::OF_Track_Button_ID, OpticalFlowPanelButton::OnToggleTracker)
 EVT_BUTTON(wxID_ANY, OpticalFlowPanelButton::OnButton)
 EVT_KEY_DOWN(OpticalFlowPanelButton::OnKeyPress)
 END_EVENT_TABLE()

@@ -29,29 +29,19 @@ void BBImage::processRect() {
         if (start_x < end_x && start_y < end_y) {
             rectangle =
                 cv::Rect(start_x, start_y, end_x - start_x, end_y - start_y);
-            trueRectangle =
-                cv::Rect(start_x * widthRatio, start_y * heightRatio,
-                         (end_x - start_x) * widthRatio,
-                         (end_y - start_y) * heightRatio);
         } else if (start_x > end_x && start_y < end_y) {
             rectangle =
                 cv::Rect(end_x, start_y, start_x - end_x, end_y - start_y);
-            trueRectangle = cv::Rect(end_x * widthRatio, start_y * heightRatio,
-                                     (start_x - end_x) * widthRatio,
-                                     (end_y - start_y) * heightRatio);
         } else if (start_x < end_x && start_y > end_y) {
             rectangle =
                 cv::Rect(start_x, end_y, end_x - start_x, start_y - end_y);
-            trueRectangle = cv::Rect(start_x * widthRatio, end_y * heightRatio,
-                                     (end_x - start_x) * widthRatio,
-                                     (start_y - end_y) * heightRatio);
         } else if (start_x > end_x && start_y > end_y) {
             rectangle =
                 cv::Rect(end_x, end_y, start_x - end_x, start_y - end_y);
-            trueRectangle = cv::Rect(end_x * widthRatio, end_y * heightRatio,
-                                     (start_x - end_x) * widthRatio,
-                                     (start_y - end_y) * heightRatio);
         }
+        trueRectangle = cv::Rect(
+            rectangle.x * widthRatio, rectangle.y * heightRatio,
+            rectangle.width * widthRatio, rectangle.height * heightRatio);
         Refresh();
     }
 }
@@ -91,6 +81,8 @@ void BBImage::OnPaint(wxPaintEvent &e) {
     wxImage wximg = matToWxImage(img_cp);
     dc.DrawBitmap(wxBitmap(wximg), 0, 0);
 }
+
+cv::Rect BBImage::GetTrueRect() { return trueRectangle; }
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(BBImage, BufferedBitmap)

@@ -6,6 +6,8 @@ OpticalFlowPanelImage::OpticalFlowPanelImage(wxWindow *parent, wxWindowID id,
     this->imgData = imgData;
     cv::Mat firstImg = imgData[count].image;
 
+    tracker = new OBJECTTRACKER("CSRT");
+
     img_bitmap = new BBOpticalFlow(this, wxID_ANY);
     img_bitmap->SetImage(firstImg);
 }
@@ -30,14 +32,33 @@ void OpticalFlowPanelImage::SetCount(int count) {
     img_bitmap->SetImage(imgData[count].image);
 }
 
+void OpticalFlowPanelImage::SetTrueRect(cv::Rect rect) {
+    img_bitmap->SetTrueRect(rect);
+}
+
 void OpticalFlowPanelImage::OnButtonIncrement() {
     count = (count >= imgData.size() - 1) ? imgData.size() - 1 : count + 1;
+    if (isObjectTracked) {
+        cv::Rect r = tracker->UpdateTracker(imgData[count].image);
+        img_bitmap->SetTrueRect(r);
+    }
     img_bitmap->SetImage(imgData[count].image);
 }
 
 void OpticalFlowPanelImage::OnButtonDecrement() {
     count = (count <= 0) ? 0 : count - 1;
+    if (isObjectTracked) {
+        cv::Rect r = tracker->UpdateTracker(imgData[count].image);
+        img_bitmap->SetTrueRect(r);
+    }
     img_bitmap->SetImage(imgData[count].image);
+}
+
+void OpticalFlowPanelImage::StartTracking() {
+    if (!isObjectTracked) {
+        tracker->InitTracker(imgData[count].image, img_bitmap->GetTrueRect());
+        isObjectTracked = true;
+    }
 }
 
 // clang-format off

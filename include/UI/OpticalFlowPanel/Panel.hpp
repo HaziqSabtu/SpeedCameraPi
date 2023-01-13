@@ -12,7 +12,7 @@ class OpticalFlowPanel : public wxPanel {
   public:
     OpticalFlowPanel(wxWindow *parent, wxWindowID id,
                      std::vector<ImgData> &imgData);
-    void OnPageChanged();
+    void OnPageChange();
 
   private:
     OpticalFlowPanelButton *button_panel;

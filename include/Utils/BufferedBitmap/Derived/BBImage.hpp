@@ -7,8 +7,10 @@
 class BBImage : public BufferedBitmap {
   public:
     BBImage(wxWindow *parent, wxWindowID id);
+
     void DrawRectangle(int x, int y, int width, int height);
     void RemoveRectangle();
+    cv::Rect GetTrueRect();
 
   protected:
   private:

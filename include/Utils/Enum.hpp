@@ -21,7 +21,7 @@ enum ProjectIDs {
     OF_BUTTON_PANEL_ID,
     OF_Next_Button_ID,
     OF_Prev_Button_ID,
-    OF_Sel_Button_ID,
+    OF_Track_Button_ID,
     OF_RemoveROI_Button_ID,
 
     // panel2
