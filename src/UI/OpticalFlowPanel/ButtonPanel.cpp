@@ -1,15 +1,15 @@
-#include <UI/SelectROIPanel/ButtonPanel.hpp>
+#include <UI/OpticalFlowPanel/ButtonPanel.hpp>
 
-SelectRoiPanelButton::SelectRoiPanelButton(wxWindow *parent, wxWindowID id,
-                                           wxWindowID img_id)
+OpticalFlowPanelButton::OpticalFlowPanelButton(wxWindow *parent, wxWindowID id,
+                                               wxWindowID img_id)
     : wxPanel(parent, id) {
     IMG_PANEL_ID = img_id;
     // Create Button Panel and Buttons
-    Next_Button = new wxButton(this, Enum::SR_Next_Button_ID, "Next");
-    Prev_Button = new wxButton(this, Enum::SR_Prev_Button_ID, "Prev");
-    Sel_Button = new wxButton(this, Enum::SR_Sel_Button_ID, "Select");
+    Next_Button = new wxButton(this, Enum::OF_Next_Button_ID, "Next");
+    Prev_Button = new wxButton(this, Enum::OF_Prev_Button_ID, "Prev");
+    Sel_Button = new wxButton(this, Enum::OF_Sel_Button_ID, "Select");
     RemoveROI_Button =
-        new wxButton(this, Enum::SR_RemoveROI_Button_ID, "Remove ROI");
+        new wxButton(this, Enum::OF_RemoveROI_Button_ID, "Remove ROI");
 
     // Create the button sizer
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -20,20 +20,20 @@ SelectRoiPanelButton::SelectRoiPanelButton(wxWindow *parent, wxWindowID id,
     this->SetSizer(button_sizer);
 }
 
-void SelectRoiPanelButton::OnButton(wxCommandEvent &e) {
-    SelectRoiPanelImage *img_panel = dynamic_cast<SelectRoiPanelImage *>(
+void OpticalFlowPanelButton::OnButton(wxCommandEvent &e) {
+    OpticalFlowPanelImage *img_panel = dynamic_cast<OpticalFlowPanelImage *>(
         GetParent()->FindWindow(IMG_PANEL_ID));
-    if (e.GetId() == Enum::SR_Next_Button_ID) {
+    if (e.GetId() == Enum::OF_Next_Button_ID) {
         img_panel->OnButtonIncrement();
-    } else if (e.GetId() == Enum::SR_Prev_Button_ID) {
+    } else if (e.GetId() == Enum::OF_Prev_Button_ID) {
         img_panel->OnButtonDecrement();
-    } else if (e.GetId() == Enum::SR_Sel_Button_ID) {
+    } else if (e.GetId() == Enum::OF_Sel_Button_ID) {
         // todo set selected IMG
     }
 }
 
-void SelectRoiPanelButton::OnKeyPress(wxKeyEvent &e) {
-    SelectRoiPanelImage *img_panel = dynamic_cast<SelectRoiPanelImage *>(
+void OpticalFlowPanelButton::OnKeyPress(wxKeyEvent &e) {
+    OpticalFlowPanelImage *img_panel = dynamic_cast<OpticalFlowPanelImage *>(
         GetParent()->FindWindow(IMG_PANEL_ID));
     if (e.GetKeyCode() == 'n' || e.GetKeyCode() == WXK_RIGHT) {
         img_panel->OnButtonIncrement();
@@ -45,9 +45,9 @@ void SelectRoiPanelButton::OnKeyPress(wxKeyEvent &e) {
 }
 
 // clang-format off
-BEGIN_EVENT_TABLE(SelectRoiPanelButton, wxPanel)
-EVT_BUTTON(wxID_ANY, SelectRoiPanelButton::OnButton)
-EVT_KEY_DOWN(SelectRoiPanelButton::OnKeyPress)
+BEGIN_EVENT_TABLE(OpticalFlowPanelButton, wxPanel)
+EVT_BUTTON(wxID_ANY, OpticalFlowPanelButton::OnButton)
+EVT_KEY_DOWN(OpticalFlowPanelButton::OnKeyPress)
 END_EVENT_TABLE()
 
 

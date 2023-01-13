@@ -9,12 +9,19 @@ enum ProjectIDs {
     // Notebook
     NOTEBOOK_ID = wxID_HIGHEST + 1,
     // SelectRoiPanel
-    IMG_PANEL_ID,
-    BUTTON_PANEL_ID,
-    Next_Button_ID,
-    Prev_Button_ID,
-    Sel_Button_ID,
-    RemoveROI_Button_ID,
+    SR_IMG_PANEL_ID,
+    SR_BUTTON_PANEL_ID,
+    SR_Next_Button_ID,
+    SR_Prev_Button_ID,
+    SR_Sel_Button_ID,
+    SR_RemoveROI_Button_ID,
+    // OpticalFlowPanel
+    OF_IMG_PANEL_ID,
+    OF_BUTTON_PANEL_ID,
+    OF_Next_Button_ID,
+    OF_Prev_Button_ID,
+    OF_Sel_Button_ID,
+    OF_RemoveROI_Button_ID,
 
     // panel2
     NEXT_PANEL_ID,

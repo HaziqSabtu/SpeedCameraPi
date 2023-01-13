@@ -1,15 +1,13 @@
-#include <UI/SelectROI/Panel.hpp>
+#include <UI/SelectROIPanel/Panel.hpp>
 
-SelectRoiPanel::SelectRoiPanel(wxWindow *parent, wxWindowID id)
+SelectRoiPanel::SelectRoiPanel(wxWindow *parent, wxWindowID id,
+                               std::vector<ImgData> &imgData)
     : wxPanel(parent, id) {
 
-    std::string filePath = "C:/Users/kakik/Desktop/P1/data/bin/car7_768F.bin";
-    FILEWR::ReadFile(filePath, imgData);
+    button_panel = new SelectRoiPanelButton(this, Enum::SR_BUTTON_PANEL_ID,
+                                            Enum::SR_IMG_PANEL_ID);
 
-    button_panel = new SelectRoiPanelButton(this, Enum::BUTTON_PANEL_ID,
-                                            Enum::IMG_PANEL_ID);
-
-    img_panel = new SelectRoiPanelImage(this, Enum::IMG_PANEL_ID, imgData);
+    img_panel = new SelectRoiPanelImage(this, Enum::SR_IMG_PANEL_ID, imgData);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);

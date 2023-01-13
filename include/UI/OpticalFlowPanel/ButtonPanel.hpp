@@ -1,13 +1,13 @@
-#ifndef SELECT_ROI_PANEL_BUTTON
-#define SELECT_ROI_PANEL_BUTTON
+#ifndef OPTICAL_FLOW_PANEL_BUTTON
+#define OPTICAL_FLOW_PANEL_BUTTON
 
-#include <UI/SelectROI/ImagePanel.hpp>
+#include <UI/OpticalFlowPanel/ImagePanel.hpp>
 #include <Utils/Enum.hpp>
 #include <wx/wx.h>
 
-class SelectRoiPanelButton : public wxPanel {
+class OpticalFlowPanelButton : public wxPanel {
   public:
-    SelectRoiPanelButton(wxWindow *parent, wxWindowID id, wxWindowID img_id);
+    OpticalFlowPanelButton(wxWindow *parent, wxWindowID id, wxWindowID img_id);
     void OnButton(wxCommandEvent &e);
     void OnKeyPress(wxKeyEvent &e);
 

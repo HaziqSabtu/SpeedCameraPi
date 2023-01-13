@@ -1,7 +1,7 @@
-#include <UI/SelectROIPanel/ImagePanel.hpp>
+#include <UI/OpticalFlowPanel/ImagePanel.hpp>
 
-SelectRoiPanelImage::SelectRoiPanelImage(wxWindow *parent, wxWindowID id,
-                                         std::vector<ImgData> &imgData)
+OpticalFlowPanelImage::OpticalFlowPanelImage(wxWindow *parent, wxWindowID id,
+                                             std::vector<ImgData> &imgData)
     : wxPanel(parent, id) {
     this->imgData = imgData;
     cv::Mat firstImg = imgData[count].image;
@@ -10,17 +10,17 @@ SelectRoiPanelImage::SelectRoiPanelImage(wxWindow *parent, wxWindowID id,
     img_bitmap->SetImage(firstImg);
 }
 
-void SelectRoiPanelImage::OnButtonIncrement() {
+void OpticalFlowPanelImage::OnButtonIncrement() {
     count = (count >= imgData.size() - 1) ? imgData.size() - 1 : count + 1;
     img_bitmap->SetImage(imgData[count].image);
 }
 
-void SelectRoiPanelImage::OnButtonDecrement() {
+void OpticalFlowPanelImage::OnButtonDecrement() {
     count = (count <= 0) ? 0 : count - 1;
     img_bitmap->SetImage(imgData[count].image);
 }
 
-void SelectRoiPanelImage::OnKeyPress(wxKeyEvent &e) {
+void OpticalFlowPanelImage::OnKeyPress(wxKeyEvent &e) {
     if (e.GetKeyCode() == 'n' || e.GetKeyCode() == WXK_RIGHT) {
         OnButtonIncrement();
     } else if (e.GetKeyCode() == 'p' || e.GetKeyCode() == WXK_LEFT) {
@@ -30,18 +30,18 @@ void SelectRoiPanelImage::OnKeyPress(wxKeyEvent &e) {
     }
 }
 
-void SelectRoiPanelImage::OnToggleROI(wxCommandEvent &e) {
+void OpticalFlowPanelImage::OnToggleROI(wxCommandEvent &e) {
     img_bitmap->SetImage(imgData[count].image);
     img_bitmap->RemoveRectangle();
 }
 
-void SelectRoiPanelImage::OnSize(wxSizeEvent &e) {
+void OpticalFlowPanelImage::OnSize(wxSizeEvent &e) {
     wxSize this_size = e.GetSize();
     img_bitmap->SetClientSize(this_size);
 }
 
 // clang-format off
-BEGIN_EVENT_TABLE(SelectRoiPanelImage, wxPanel)
-EVT_KEY_DOWN(SelectRoiPanelImage::OnKeyPress)
-EVT_SIZE(SelectRoiPanelImage::OnSize)
+BEGIN_EVENT_TABLE(OpticalFlowPanelImage, wxPanel)
+EVT_KEY_DOWN(OpticalFlowPanelImage::OnKeyPress)
+EVT_SIZE(OpticalFlowPanelImage::OnSize)
 END_EVENT_TABLE()
