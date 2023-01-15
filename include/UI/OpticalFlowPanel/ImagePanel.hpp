@@ -23,7 +23,8 @@ class OpticalFlowPanelImage : public wxPanel {
 
   private:
     // OpticalFlow Variables
-    const int MAX_COUNT = 5;
+    const int OF_MAX_COUNT = 5;
+    const int OF_LIMIT = 3;
     bool isOpticalFlow = false;
 
     int count = 0;

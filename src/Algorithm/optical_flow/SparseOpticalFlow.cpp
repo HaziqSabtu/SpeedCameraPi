@@ -32,10 +32,17 @@ void SparseOF::setRoiPoints(const cv::Rect &roi) {
 }
 
 void SparseOF::Init(const cv::Mat &frame, cv::Rect &roi) {
+    if (!prevGray.empty()) {
+        prevGray.release();
+    }
+
     cv::cvtColor(frame, prevGray, cv::COLOR_BGR2GRAY);
     setInitialPoints();
     setRoiPoints(roi);
-    mask = cv::Mat::zeros(frame.size(), frame.type());
+
+    if (mask.empty()) {
+        mask = cv::Mat::zeros(frame.size(), frame.type());
+    }
 }
 
 void SparseOF::run(const cv::Mat &frame) {
@@ -104,21 +111,17 @@ void SparseOF::frameSkip(std::vector<std::vector<PointData>> &pointData,
     pointData = temp;
 }
 
-bool SparseOF::isROIEmpty() {
+bool SparseOF::isInitPointValid(const int LIMIT) {
     if (roiPoints.size() == 0) {
         std::cout << "No Points Available for Tracking" << std::endl;
-        return true;
+        return false;
     }
 
-    if (roiPoints.size() < 3) {
+    if (roiPoints.size() < LIMIT) {
         std::cout << "Not Enough Points Available for Tracking" << std::endl;
-        return true;
+        return false;
     }
-    for (auto &point : roiPoints) {
-        std::cout << "ROI: " << point << std::endl;
-    }
-    pushCollection(roiPoints);
-    return false;
+    return true;
 }
 
 std::vector<std::vector<PointData>> SparseOF::evaluateCollection() {

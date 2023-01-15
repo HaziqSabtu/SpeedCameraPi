@@ -73,7 +73,7 @@ class SparseOF {
     void updatePrevVariables(const cv::Mat &g,
                              const std::vector<cv::Point2f> &p);
     std::vector<std::vector<PointData>> evaluateCollection();
-    bool isROIEmpty();
+    bool isInitPointValid(const int LIMIT);
     void clearVector();
     std::vector<std::vector<PointData>> getCollection();
     cv::Rect getRoi();
