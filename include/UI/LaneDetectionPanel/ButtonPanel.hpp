@@ -12,6 +12,8 @@ class LaneDetectionPanelButton : public wxPanel {
 
   private:
     void OnRunAlgorithm(wxCommandEvent &e);
+    void OnNext(wxCommandEvent &e);
+    void OnPrev(wxCommandEvent &e);
 
     wxPanel *button_panel;
     wxBoxSizer *button_sizer;

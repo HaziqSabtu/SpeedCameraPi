@@ -22,6 +22,11 @@ void LaneDetectionPanelImage::SetCount(int count) {
     img_bitmap->SetImage(imgData[count].image);
 }
 
+void LaneDetectionPanelImage::SetFirstImage(cv::Mat firstImg) {
+    this->firstImg = firstImg;
+    img_bitmap->SetImage(firstImg);
+}
+
 void LaneDetectionPanelImage::SetROIPoints(
     std::vector<std::vector<cv::Point2f>> roiPoints) {
     this->roiPoints = roiPoints;
@@ -29,9 +34,30 @@ void LaneDetectionPanelImage::SetROIPoints(
 
 void LaneDetectionPanelImage::RunLaneDetection() {
     laneDetection->process(imgData[count].image, roiPoints);
-    wxMessageBox("Lane Detection Done");
+    GenerateImage();
 }
 
+void LaneDetectionPanelImage::GenerateImage() {
+    cv::Mat generatedImg =
+        laneDetection->generateComplexImage(IMAGE_TO_GENERATE, IMAGE_PER_ROW);
+    if (generatedImg.size().width != firstImg.size().width) {
+        cv::resize(generatedImg, generatedImg, firstImg.size());
+    }
+    img_bitmap->SetImage(generatedImg);
+    img_bitmap->RefreshBitmap();
+}
+
+void LaneDetectionPanelImage::OnIncrement() {
+    imgC += IMAGE_TO_GENERATE;
+    laneDetection->setImgGenCount(imgC);
+    GenerateImage();
+}
+
+void LaneDetectionPanelImage::OnDecrement() {
+    imgC -= IMAGE_TO_GENERATE;
+    laneDetection->setImgGenCount(imgC);
+    GenerateImage();
+}
 // clang-format off
 BEGIN_EVENT_TABLE(LaneDetectionPanelImage, wxPanel)
 EVT_SIZE(LaneDetectionPanelImage::OnSize)

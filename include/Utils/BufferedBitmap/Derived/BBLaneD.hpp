@@ -7,6 +7,7 @@
 class BBLaneD : public BufferedBitmap {
   public:
     BBLaneD(wxWindow *parent, wxWindowID id);
+    void RefreshBitmap();
 
   protected:
   private:

@@ -22,8 +22,8 @@ void LaneDetectionPanel::OnPageChange() {
     OpticalFlowPanelImage *img_panel_of = dynamic_cast<OpticalFlowPanelImage *>(
         GetParent()->FindWindow(Enum::OF_IMG_PANEL_ID));
 
-    int count = img_panel_of->GetCount();
-    img_panel->SetCount(count);
+    cv::Mat firstImage = img_panel_of->GetFirstImage();
+    img_panel->SetFirstImage(firstImage);
 
     std::vector<std::vector<PointData>> roiData = img_panel_of->GetRoiData();
     std::vector<std::vector<cv::Point2f>> roiPoints =

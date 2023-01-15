@@ -127,6 +127,10 @@ std::vector<std::vector<PointData>> OpticalFlowPanelImage::GetRoiData() {
 // * This function will return FirstImage
 int OpticalFlowPanelImage::GetCount() { return count - OF_MAX_COUNT + 1; }
 
+cv::Mat OpticalFlowPanelImage::GetFirstImage() {
+    return imgData[count - OF_MAX_COUNT + 1].image;
+}
+
 // clang-format off
 BEGIN_EVENT_TABLE(OpticalFlowPanelImage, wxPanel)
 EVT_KEY_DOWN(OpticalFlowPanelImage::OnKeyPress)

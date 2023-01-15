@@ -24,6 +24,7 @@ class OpticalFlowPanelImage : public wxPanel {
 
     std::vector<std::vector<PointData>> GetRoiData();
     int GetCount();
+    cv::Mat GetFirstImage();
 
   private:
     // OpticalFlow Variables
