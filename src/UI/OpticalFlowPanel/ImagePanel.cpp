@@ -78,6 +78,7 @@ void OpticalFlowPanelImage::StartOpticalFlow() {
         if (!isObjectTracked) {
             tracker->InitTracker(f, r);
             isObjectTracked = true;
+            img_bitmap->ToggleDrawRect();
         }
 
         count = (count >= imgData.size() - 1) ? imgData.size() - 1 : count + 1;

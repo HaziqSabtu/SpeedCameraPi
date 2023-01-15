@@ -9,6 +9,7 @@ class BBOpticalFlow : public BufferedBitmap {
     BBOpticalFlow(wxWindow *parent, wxWindowID id);
     void SetTrueRect(cv::Rect r);
     cv::Rect GetTrueRect();
+    void ToggleDrawRect();
 
   private:
     boolean draw_rect = false;

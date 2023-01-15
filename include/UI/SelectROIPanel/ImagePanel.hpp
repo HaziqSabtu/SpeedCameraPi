@@ -12,11 +12,11 @@ class SelectRoiPanelImage : public wxPanel {
     void OnKeyPress(wxKeyEvent &e);
     void OnToggleROI(wxCommandEvent &e);
     void OnSize(wxSizeEvent &e);
+    void OnLeftUp(wxMouseEvent &e);
     void OnButtonIncrement();
     void OnButtonDecrement();
     int GetCount();
     cv::Rect GetTrueRect();
-    DECLARE_EVENT_TABLE()
 
   private:
     int count = 0;
@@ -26,5 +26,7 @@ class SelectRoiPanelImage : public wxPanel {
     wxPanel *img_panel;
     BBImage *img_bitmap;
     wxBoxSizer *img_sizer;
+
+    DECLARE_EVENT_TABLE();
 };
 #endif

@@ -24,13 +24,17 @@ void BBOpticalFlow::OnPaint(wxPaintEvent &e) {
 
 void BBOpticalFlow::SetTrueRect(cv::Rect r) {
     this->trueRectangle = r;
-    this->draw_rect = true;
     this->rectangle = cv::Rect(r.x / widthRatio, r.y / heightRatio,
                                r.width / widthRatio, r.height / heightRatio);
     Refresh();
 }
 
 cv::Rect BBOpticalFlow::GetTrueRect() { return this->trueRectangle; }
+
+void BBOpticalFlow::ToggleDrawRect() {
+    this->draw_rect = !this->draw_rect;
+    Refresh();
+}
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(BBOpticalFlow, BufferedBitmap)

@@ -5,7 +5,6 @@ SelectRoiPanelButton::SelectRoiPanelButton(wxWindow *parent, wxWindowID id)
     // Create Button Panel and Buttons
     Next_Button = new wxButton(this, Enum::SR_Next_Button_ID, "Next");
     Prev_Button = new wxButton(this, Enum::SR_Prev_Button_ID, "Prev");
-    Sel_Button = new wxButton(this, Enum::SR_Sel_Button_ID, "Select");
     RemoveROI_Button =
         new wxButton(this, Enum::SR_RemoveROI_Button_ID, "Remove ROI");
     NextPage_Button =
@@ -15,7 +14,6 @@ SelectRoiPanelButton::SelectRoiPanelButton(wxWindow *parent, wxWindowID id)
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
     button_sizer->Add(Next_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Prev_Button, 0, wxALL | wxCENTER, 5);
-    button_sizer->Add(Sel_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(RemoveROI_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(NextPage_Button, 0, wxALL | wxCENTER, 5);
     this->SetSizer(button_sizer);
@@ -23,20 +21,19 @@ SelectRoiPanelButton::SelectRoiPanelButton(wxWindow *parent, wxWindowID id)
 
 void SelectRoiPanelButton::OnNextPage(wxCommandEvent &e) {
     // todo next page
+    SelectRoiPanelImage *img_panel_roi = dynamic_cast<SelectRoiPanelImage *>(
+        GetParent()->FindWindow(Enum::SR_IMG_PANEL_ID));
+    cv::Rect trueRect = img_panel_roi->GetTrueRect();
+    if (trueRect.width == 0 || trueRect.height == 0) {
+        wxMessageBox("Please select a ROI", "No ROI Selected",
+                     wxOK | wxICON_INFORMATION);
+        return;
+    }
     wxNotebook *notebook = (wxNotebook *)FindWindowById(Enum::NOTEBOOK_ID);
     int current_page = notebook->GetSelection();
     if (current_page < notebook->GetPageCount() - 1) {
         notebook->SetSelection(current_page + 1);
     }
-    SelectRoiPanelImage *img_panel_roi = dynamic_cast<SelectRoiPanelImage *>(
-        GetParent()->FindWindow(Enum::SR_IMG_PANEL_ID));
-    int count = img_panel_roi->GetCount();
-    // wxMessageBox(std::to_string(count), std::to_string(count),
-    //              wxOK | wxICON_INFORMATION);
-
-    OpticalFlowPanelImage *img_panel = dynamic_cast<OpticalFlowPanelImage *>(
-        GetParent()->FindWindow(Enum::OF_IMG_PANEL_ID));
-    // img_panel->SetCount(count);
 }
 
 void SelectRoiPanelButton::OnButton(wxCommandEvent &e) {
@@ -64,6 +61,12 @@ void SelectRoiPanelButton::OnKeyPress(wxKeyEvent &e) {
     } else if (e.GetKeyCode() == 's' || e.GetKeyCode() == WXK_RETURN) {
         // todo set selected IMG
     }
+}
+
+void SelectRoiPanelButton::EnableNextPageButton() { NextPage_Button->Enable(); }
+
+void SelectRoiPanelButton::DisableNextPageButton() {
+    NextPage_Button->Disable();
 }
 
 // clang-format off

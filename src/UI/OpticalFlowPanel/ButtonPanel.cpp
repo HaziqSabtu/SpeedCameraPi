@@ -19,6 +19,11 @@ OpticalFlowPanelButton::OpticalFlowPanelButton(wxWindow *parent, wxWindowID id)
     button_sizer->Add(RemoveROI_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Optical_Button, 0, wxALL | wxCENTER, 5);
     this->SetSizer(button_sizer);
+
+    Next_Button->Disable();
+    Prev_Button->Disable();
+    Track_Button->Disable();
+    RemoveROI_Button->Disable();
 }
 
 void OpticalFlowPanelButton::OnButton(wxCommandEvent &e) {
