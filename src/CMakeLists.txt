@@ -26,8 +26,6 @@ endif()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 
 file(GLOB_RECURSE SRCS *.cpp)
-# set(SRCS main.cpp ./data_srz/fileWR.cpp BufferedBitMap.cpp MainFrame.cpp SelectroiPanel.cpp SelectroiPanel.Image.cpp SelectroiPanel.Button.cpp)
-set_source_files_properties( CMakeCXXCompilerId.cpp PROPERTIES EXCLUDE_FROM_ALL TRUE )
 include(${wxWidgets_USE_FILE})
 
 if(APPLE)
@@ -40,7 +38,8 @@ else()
     # the WIN32 is needed for Windows in order for it to look for WinMain
     # instead of the main function. This is ignored on other systems,
     # so it works on all platforms
-    add_executable(main WIN32 ${SRCS} main.exe.manifest)
+    add_executable(main WIN32 ${SRCS} )
+    # add_executable(main WIN32 ${SRCS} main.exe.manifest)
 endif()
 
 target_link_libraries(main PRIVATE ${wxWidgets_LIBRARIES} ${OpenCV_LIBS})

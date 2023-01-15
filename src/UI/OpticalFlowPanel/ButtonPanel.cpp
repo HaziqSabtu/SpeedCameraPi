@@ -8,6 +8,8 @@ OpticalFlowPanelButton::OpticalFlowPanelButton(wxWindow *parent, wxWindowID id)
     Track_Button = new wxButton(this, Enum::OF_Track_Button_ID, "Track Object");
     RemoveROI_Button =
         new wxButton(this, Enum::OF_RemoveROI_Button_ID, "Remove ROI");
+    Optical_Button =
+        new wxButton(this, Enum::OF_Optical_Button_ID, "Optical Flow");
 
     // Create the button sizer
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -15,7 +17,13 @@ OpticalFlowPanelButton::OpticalFlowPanelButton(wxWindow *parent, wxWindowID id)
     button_sizer->Add(Prev_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Track_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(RemoveROI_Button, 0, wxALL | wxCENTER, 5);
+    button_sizer->Add(Optical_Button, 0, wxALL | wxCENTER, 5);
     this->SetSizer(button_sizer);
+
+    Next_Button->Disable();
+    Prev_Button->Disable();
+    Track_Button->Disable();
+    RemoveROI_Button->Disable();
 }
 
 void OpticalFlowPanelButton::OnButton(wxCommandEvent &e) {
@@ -45,8 +53,18 @@ void OpticalFlowPanelButton::OnToggleTracker(wxCommandEvent &e) {
     img_panel->StartTracking();
 }
 
+void OpticalFlowPanelButton::OnToggleOpticalFlow(wxCommandEvent &e) {
+    OpticalFlowPanelImage *img_panel = dynamic_cast<OpticalFlowPanelImage *>(
+        GetParent()->FindWindow(Enum::OF_IMG_PANEL_ID));
+    // wxMessageBox("OnToggleOpticalFlow");
+    img_panel->StartOpticalFlow();
+    Optical_Button->SetLabel("Optical Flow Running");
+    Optical_Button->Disable();
+}
+
 // clang-format off
 BEGIN_EVENT_TABLE(OpticalFlowPanelButton, wxPanel)
+EVT_BUTTON(Enum::OF_Optical_Button_ID, OpticalFlowPanelButton::OnToggleOpticalFlow)
 EVT_BUTTON(Enum::OF_Track_Button_ID, OpticalFlowPanelButton::OnToggleTracker)
 EVT_BUTTON(wxID_ANY, OpticalFlowPanelButton::OnButton)
 EVT_KEY_DOWN(OpticalFlowPanelButton::OnKeyPress)

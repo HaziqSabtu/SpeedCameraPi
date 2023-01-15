@@ -23,6 +23,7 @@ enum ProjectIDs {
     OF_Prev_Button_ID,
     OF_Track_Button_ID,
     OF_RemoveROI_Button_ID,
+    OF_Optical_Button_ID,
 
     // panel2
     NEXT_PANEL_ID,

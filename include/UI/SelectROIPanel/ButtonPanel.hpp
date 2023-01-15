@@ -10,6 +10,8 @@
 class SelectRoiPanelButton : public wxPanel {
   public:
     SelectRoiPanelButton(wxWindow *parent, wxWindowID id);
+    void EnableNextPageButton();
+    void DisableNextPageButton();
 
   private:
     wxPanel *button_panel;

@@ -11,6 +11,7 @@ class OpticalFlowPanelButton : public wxPanel {
     void OnButton(wxCommandEvent &e);
     void OnKeyPress(wxKeyEvent &e);
     void OnToggleTracker(wxCommandEvent &e);
+    void OnToggleOpticalFlow(wxCommandEvent &e);
 
   private:
     wxPanel *button_panel;
@@ -19,6 +20,7 @@ class OpticalFlowPanelButton : public wxPanel {
     wxButton *Prev_Button;
     wxButton *Track_Button;
     wxButton *RemoveROI_Button;
+    wxButton *Optical_Button;
 
     DECLARE_EVENT_TABLE()
 };

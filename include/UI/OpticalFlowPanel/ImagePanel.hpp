@@ -2,6 +2,7 @@
 #define OPTICAL_FLOW_PANEL_IMAGE
 
 #include <Algorithm/object_tracker/ObjectTracker.hpp>
+#include <Algorithm/optical_flow/SparseOpticalFlow.hpp>
 #include <Utils/BufferedBitmap/Derived/BBOptF.hpp>
 #include <Utils/fileWR.hpp>
 #include <wx/wx.h>
@@ -18,13 +19,21 @@ class OpticalFlowPanelImage : public wxPanel {
     void SetCount(int count);
     void SetTrueRect(cv::Rect r);
     void StartTracking();
+    void StartOpticalFlow();
 
   private:
+    // OpticalFlow Variables
+    const int OF_MAX_COUNT = 5;
+    const int OF_LIMIT = 3;
+    bool isOpticalFlow = false;
+
     int count = 0;
     bool isObjectTracked = false;
     std::vector<ImgData> imgData;
 
     OBJECTTRACKER *tracker;
+    SparseOF *opticalFlow;
+
     wxPanel *img_panel;
     BBOpticalFlow *img_bitmap;
     wxBoxSizer *img_sizer;
