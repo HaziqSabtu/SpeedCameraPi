@@ -63,23 +63,38 @@ void OpticalFlowPanelImage::StartTracking() {
 }
 
 void OpticalFlowPanelImage::StartOpticalFlow() {
-
     cv::Mat f = imgData[count].image;
     cv::Rect r = img_bitmap->GetTrueRect();
     opticalFlow->Init(f, r);
 
-    while (opticalFlow->getCollection().size() < MAX_COUNT) {
+    while (!(opticalFlow->isInitPointValid(OF_LIMIT))) {
+
+        /**
+         * ! pottential error:
+         * ! the loop might run till end of vector
+         * ! might not have enough vector left for further run ?
+         */
+
+        if (!isObjectTracked) {
+            tracker->InitTracker(f, r);
+            isObjectTracked = true;
+        }
+
+        count = (count >= imgData.size() - 1) ? imgData.size() - 1 : count + 1;
+        f = imgData[count].image;
+        r = tracker->UpdateTracker(f);
+
+        opticalFlow->Init(f, r);
+        img_bitmap->SetTrueRect(r);
+        img_bitmap->SetImage(f);
+    }
+
+    while (opticalFlow->getCollection().size() < OF_MAX_COUNT) {
         count = (count >= imgData.size() - 1) ? imgData.size() - 1 : count + 1;
         f = imgData[count].image;
         opticalFlow->run(f);
         img_bitmap->SetImage(opticalFlow->getOutput());
     }
-    // if (!isOpticalFlow) {
-    //     cv::Mat f = imgData[count].image.clone();
-    //     cv::Rect r = img_bitmap->GetTrueRect();
-    //     opticalFlow->Init(f, r);
-    //     isOpticalFlow = true;
-    // }
 }
 
 // clang-format off
