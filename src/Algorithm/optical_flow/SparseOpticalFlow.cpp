@@ -60,11 +60,12 @@ void SparseOF::run(const cv::Mat &frame) {
 }
 
 void SparseOF::drawPoints(const cv::Mat &frame) {
+    cv::Mat t = frame.clone();
     for (int i = 0; i < trackingPoints.size(); i++) {
         cv::line(mask, trackingPoints[i], roiPoints[i], colors[i], 2);
-        cv::circle(frame, trackingPoints[i], 5, colors[i], -1);
+        cv::circle(t, trackingPoints[i], 5, colors[i], -1);
     }
-    cv::add(frame, mask, output);
+    cv::add(t, mask, output);
 }
 
 void SparseOF::updatePrevVariables(const cv::Mat &g,
@@ -128,7 +129,6 @@ std::vector<std::vector<PointData>> SparseOF::evaluateCollection() {
     std::vector<std::vector<PointData>> pass =
         std::vector<std::vector<PointData>>(collection.size());
     std::vector<int> passPos;
-    const int MAXERROR = 20;
     for (int i = 0; i < collection[0].size(); i++) {
         for (int j = 0; j < collection.size(); j++) {
             if (collection[j][i].status == 1) {
@@ -143,17 +143,16 @@ std::vector<std::vector<PointData>> SparseOF::evaluateCollection() {
     }
 
     for (auto &pos : passPos) {
-        std::cout << "Pass: " << pos << std::endl;
+        // std::cout << "Pass: " << pos << std::endl;
         for (int i = 0; i < collection.size(); i++) {
             pass[i].push_back(collection[i][pos]);
         }
     }
+    // std::cout << "Pass Size: " << pass.size() << std::endl;
+    // std::cout << "Pass[0] Size: " << pass[0].size() << std::endl;
 
-    std::cout << "Pass Size: " << pass.size() << std::endl;
-    std::cout << "Pass[0] Size: " << pass[0].size() << std::endl;
-
-    std::cout << "Collection Size: " << collection.size() << std::endl;
-    std::cout << "Collection[0] Size: " << collection[0].size() << std::endl;
+    // std::cout << "Collection Size: " << collection.size() << std::endl;
+    // std::cout << "Collection[0] Size: " << collection[0].size() << std::endl;
     return pass;
 }
 

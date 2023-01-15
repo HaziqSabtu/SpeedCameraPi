@@ -1,7 +1,7 @@
 #include <UI/OpticalFlowPanel/ImagePanel.hpp>
 
-OpticalFlowPanelImage::OpticalFlowPanelImage(wxWindow *parent, wxWindowID id,
-                                             std::vector<ImgData> &imgData)
+OpticalFlowPanelImage::OpticalFlowPanelImage(
+    wxWindow *parent, wxWindowID id, const std::vector<ImgData> &imgData)
     : wxPanel(parent, id) {
     this->imgData = imgData;
     cv::Mat firstImg = imgData[count].image;
@@ -97,6 +97,35 @@ void OpticalFlowPanelImage::StartOpticalFlow() {
         img_bitmap->SetImage(opticalFlow->getOutput());
     }
 }
+
+void OpticalFlowPanelImage::EvalOFResult() {
+    roiData = opticalFlow->evaluateCollection();
+
+    cv::Mat firstFrame = imgData[count - OF_MAX_COUNT + 1].image.clone();
+
+    // Draw Point
+    for (int i = 0; i < roiData.size(); i++) {
+        for (auto &p : roiData[i]) {
+            circle(firstFrame, p.point, 2, cv::Scalar(0, 0, 255), 2);
+        }
+    }
+
+    // Draw Line for each point
+    for (int i = 0; i < roiData[0].size(); i++) {
+        cv::Point2f p1 = roiData[0][i].point;
+        cv::Point2f p2 = roiData[roiData.size() - 1][i].point;
+        line(firstFrame, p1, p2, cv::Scalar(0, 255, 0), 1);
+    }
+
+    img_bitmap->SetImage(firstFrame);
+}
+
+std::vector<std::vector<PointData>> OpticalFlowPanelImage::GetRoiData() {
+    return roiData;
+}
+
+// * This function will return FirstImage
+int OpticalFlowPanelImage::GetCount() { return count - OF_MAX_COUNT + 1; }
 
 // clang-format off
 BEGIN_EVENT_TABLE(OpticalFlowPanelImage, wxPanel)

@@ -3,6 +3,7 @@
 
 #include <UI/OpticalFlowPanel/ImagePanel.hpp>
 #include <Utils/Enum.hpp>
+#include <wx/notebook.h>
 #include <wx/wx.h>
 
 class OpticalFlowPanelButton : public wxPanel {
@@ -12,6 +13,8 @@ class OpticalFlowPanelButton : public wxPanel {
     void OnKeyPress(wxKeyEvent &e);
     void OnToggleTracker(wxCommandEvent &e);
     void OnToggleOpticalFlow(wxCommandEvent &e);
+    void OnEval(wxCommandEvent &e);
+    void OnNextPage(wxCommandEvent &e);
 
   private:
     wxPanel *button_panel;
@@ -21,6 +24,8 @@ class OpticalFlowPanelButton : public wxPanel {
     wxButton *Track_Button;
     wxButton *RemoveROI_Button;
     wxButton *Optical_Button;
+    wxButton *Eval_Button;
+    wxButton *NextPage_Button;
 
     DECLARE_EVENT_TABLE()
 };

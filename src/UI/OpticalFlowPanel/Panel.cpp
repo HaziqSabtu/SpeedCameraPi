@@ -1,7 +1,7 @@
 #include <UI/OpticalFlowPanel/Panel.hpp>
 
 OpticalFlowPanel::OpticalFlowPanel(wxWindow *parent, wxWindowID id,
-                                   std::vector<ImgData> &imgData)
+                                   const std::vector<ImgData> &imgData)
     : wxPanel(parent, id) {
 
     button_panel = new OpticalFlowPanelButton(this, Enum::OF_BUTTON_PANEL_ID);
