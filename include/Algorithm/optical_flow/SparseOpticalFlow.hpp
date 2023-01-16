@@ -21,6 +21,7 @@ class SparseOF {
   private:
     cv::TermCriteria criteria;
     cv::RNG rng;
+    const int MAXERROR = 20;
 
     // TermCriteria Parameter
     cv::TermCriteria::Type criteriaType =

@@ -24,7 +24,14 @@ enum ProjectIDs {
     OF_Track_Button_ID,
     OF_RemoveROI_Button_ID,
     OF_Optical_Button_ID,
-
+    OF_Eval_Button_ID,
+    OF_NextPage_Button_ID,
+    // LaneDetectionPanel
+    LD_IMG_PANEL_ID,
+    LD_BUTTON_PANEL_ID,
+    LD_Next_Button_ID,
+    LD_Prev_Button_ID,
+    LD_Run_Button_ID,
     // panel2
     NEXT_PANEL_ID,
     PREV_PANEL_ID,

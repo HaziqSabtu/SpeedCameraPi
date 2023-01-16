@@ -10,7 +10,7 @@
 class OpticalFlowPanelImage : public wxPanel {
   public:
     OpticalFlowPanelImage(wxWindow *parent, wxWindowID id,
-                          std::vector<ImgData> &imgData);
+                          const std::vector<ImgData> &imgData);
 
     void OnKeyPress(wxKeyEvent &e);
     void OnSize(wxSizeEvent &e);
@@ -20,6 +20,11 @@ class OpticalFlowPanelImage : public wxPanel {
     void SetTrueRect(cv::Rect r);
     void StartTracking();
     void StartOpticalFlow();
+    void EvalOFResult();
+
+    std::vector<std::vector<PointData>> GetRoiData();
+    int GetCount();
+    cv::Mat GetFirstImage();
 
   private:
     // OpticalFlow Variables
@@ -30,6 +35,7 @@ class OpticalFlowPanelImage : public wxPanel {
     int count = 0;
     bool isObjectTracked = false;
     std::vector<ImgData> imgData;
+    std::vector<std::vector<PointData>> roiData;
 
     OBJECTTRACKER *tracker;
     SparseOF *opticalFlow;

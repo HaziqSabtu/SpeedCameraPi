@@ -11,7 +11,7 @@
 class OpticalFlowPanel : public wxPanel {
   public:
     OpticalFlowPanel(wxWindow *parent, wxWindowID id,
-                     std::vector<ImgData> &imgData);
+                     const std::vector<ImgData> &imgData);
     void OnPageChange();
 
   private:

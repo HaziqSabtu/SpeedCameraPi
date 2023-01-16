@@ -6,10 +6,11 @@ BufferedBitmap::BufferedBitmap(wxWindow *parent, wxWindowID id)
 }
 
 void BufferedBitmap::SetImage(const cv::Mat &image) {
-    // wxMessageBox("CrashHere");
     img = image.clone();
+    BufferedBitmap::processRatio();
     wxImage wximg = matToWxImage(img);
     wxStaticBitmap::SetBitmap(wxBitmap(wximg));
+    Refresh();
 }
 
 wxImage BufferedBitmap::matToWxImage(const cv::Mat &mat) {
