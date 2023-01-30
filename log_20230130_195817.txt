@@ -1,2 +1,0 @@
-2023-01-30 19:58:17: 19:58:17: Starting application
-2023-01-30 19:58:18: 19:58:18: Application closed

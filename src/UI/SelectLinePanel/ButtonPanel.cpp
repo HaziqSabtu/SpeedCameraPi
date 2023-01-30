@@ -17,6 +17,7 @@ void SelectLinePanelButton::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::SL_Next_Button_ID) {
         img_panel->OnButtonIncrement();
     }
+    std::cout << "Button Clicked" << std::endl;
 }
 
 // clang-format off

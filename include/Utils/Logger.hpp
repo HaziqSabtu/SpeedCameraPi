@@ -1,6 +1,7 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
+#include <Utils/StreamBuff.hpp>
 #include <wx/file.h>
 #include <wx/log.h>
 #include <wx/wx.h>
@@ -15,6 +16,13 @@ class AppLogger : public wxLog {
 
   private:
     wxFile m_logFile;
+    MyStreambuf *m_streambuf;
+    std::streambuf *m_coutBuf;
 };
 
 #endif
+
+/**
+ * redirecting cout to wxLogMessage
+ *
+ */
