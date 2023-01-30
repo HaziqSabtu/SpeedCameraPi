@@ -15,6 +15,15 @@ void LineDetection::SetImage(cv::Mat &image) {
     this->ProcessImage();
 }
 
+cv::Mat LineDetection::GetCanny() {
+    // return canny in rgb format
+    cv::Mat cannyRGB;
+    cv::cvtColor(cannyImage, cannyRGB, cv::COLOR_GRAY2BGR);
+    return cannyRGB;
+}
+
+std::vector<cv::Vec4i> LineDetection::GetLinesP() { return linesP; }
+
 bool LineDetection::isPointOnLine(cv::Vec4i line, cv::Point2f point,
                                   int tolerance) {
     float x1 = line[0], y1 = line[1], x2 = line[2], y2 = line[3];

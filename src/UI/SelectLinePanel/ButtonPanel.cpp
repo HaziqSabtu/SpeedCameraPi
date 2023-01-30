@@ -3,26 +3,36 @@
 SelectLinePanelButton::SelectLinePanelButton(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id) {
     // Create Button Panel and Buttons
-    Next_Button = new wxButton(this, Enum::SL_Next_Button_ID, "Next");
+    Canny_Button = new wxButton(this, Enum::SL_Canny_Button_ID, "Show Canny");
+    Hough_Button = new wxButton(this, Enum::SL_Hough_Button_ID, "Show Hough");
 
     // Create the button sizer
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
-    button_sizer->Add(Next_Button, 0, wxALL | wxCENTER, 5);
+    button_sizer->Add(Canny_Button, 0, wxALL | wxCENTER, 5);
+    button_sizer->Add(Hough_Button, 0, wxALL | wxCENTER, 5);
     this->SetSizer(button_sizer);
 }
 
-void SelectLinePanelButton::OnButton(wxCommandEvent &e) {
-    SelectLinePanelImage *img_panel = dynamic_cast<SelectLinePanelImage *>(
-        GetParent()->FindWindow(Enum::SL_IMG_PANEL_ID));
-    if (e.GetId() == Enum::SL_Next_Button_ID) {
-        img_panel->OnButtonIncrement();
+void SelectLinePanelButton::OnCanny() {
+    isCanny = !isCanny;
+    if (isCanny) {
+        Canny_Button->SetLabel("Hide Canny");
+    } else {
+        Canny_Button->SetLabel("Show Canny");
     }
-    std::cout << "Button Clicked" << std::endl;
+}
+
+void SelectLinePanelButton::OnHough() {
+    isHough = !isHough;
+    if (isHough) {
+        Hough_Button->SetLabel("Hide Hough");
+    } else {
+        Hough_Button->SetLabel("Show Hough");
+    }
 }
 
 // clang-format off
 BEGIN_EVENT_TABLE(SelectLinePanelButton, wxPanel)
-EVT_BUTTON(wxID_ANY, SelectLinePanelButton::OnButton)
 END_EVENT_TABLE()
 
 

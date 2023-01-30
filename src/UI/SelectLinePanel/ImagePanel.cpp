@@ -2,7 +2,7 @@
 
 SelectLinePanelImage::SelectLinePanelImage(wxWindow *parent, wxWindowID id,
                                            std::vector<ImgData> &imgData)
-    : wxPanel(parent, id) {
+    : wxPanel(parent, id), lineDetection() {
     this->imgData = imgData;
     cv::Mat firstImg = imgData[count].image;
 
@@ -10,24 +10,28 @@ SelectLinePanelImage::SelectLinePanelImage(wxWindow *parent, wxWindowID id,
     img_bitmap->SetImage(firstImg);
 }
 
-void SelectLinePanelImage::OnButtonIncrement() {
-    count = (count >= imgData.size() - 1) ? imgData.size() - 1 : count + 1;
-    img_bitmap->SetImage(imgData[count].image);
-}
-
-void SelectLinePanelImage::OnButtonDecrement() {
-    count = (count <= 0) ? 0 : count - 1;
-    img_bitmap->SetImage(imgData[count].image);
-}
-
-void SelectLinePanelImage::OnKeyPress(wxKeyEvent &e) {
-    if (e.GetKeyCode() == 'n' || e.GetKeyCode() == WXK_RIGHT) {
-        OnButtonIncrement();
-    } else if (e.GetKeyCode() == 'p' || e.GetKeyCode() == WXK_LEFT) {
-        OnButtonDecrement();
-    } else if (e.GetKeyCode() == 's' || e.GetKeyCode() == WXK_RETURN) {
-        // todo set selected IMG
+void SelectLinePanelImage::OnCanny() {
+    isCanny = !isCanny;
+    if (isCanny) {
+        wxLogMessage("Show Canny");
+        lineDetection.SetImage(imgData[count].image);
+        img_bitmap->SetImage(lineDetection.GetCanny());
+        return;
     }
+    wxLogMessage("Hide Canny");
+    img_bitmap->SetImage(imgData[count].image);
+}
+
+void SelectLinePanelImage::OnHough() {
+    img_bitmap->ToggleHough();
+
+    if (img_bitmap->GetIsHough()) {
+        wxLogMessage("Show Hough");
+        lineDetection.SetImage(imgData[count].image);
+        img_bitmap->SetLinesP(lineDetection.GetLinesP());
+        return;
+    }
+    wxLogMessage("Hide Hough");
 }
 
 void SelectLinePanelImage::OnSize(wxSizeEvent &e) {
@@ -37,6 +41,5 @@ void SelectLinePanelImage::OnSize(wxSizeEvent &e) {
 
 // clang-format off
 BEGIN_EVENT_TABLE(SelectLinePanelImage, wxPanel)
-EVT_KEY_DOWN(SelectLinePanelImage::OnKeyPress)
 EVT_SIZE(SelectLinePanelImage::OnSize)
 END_EVENT_TABLE()

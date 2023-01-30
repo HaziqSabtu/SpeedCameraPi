@@ -18,6 +18,20 @@ SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
     SetFocus();
 }
 
+void SelectLinePanel::OnButton(wxCommandEvent &e) {
+
+    if (e.GetId() == Enum::SL_Canny_Button_ID) {
+        img_panel->OnCanny();
+        button_panel->OnCanny();
+    }
+
+    if (e.GetId() == Enum::SL_Hough_Button_ID) {
+        img_panel->OnHough();
+        button_panel->OnHough();
+    }
+}
+
 // clang-format off
 BEGIN_EVENT_TABLE(SelectLinePanel, wxPanel)
+    EVT_BUTTON(wxID_ANY, SelectLinePanel::OnButton)
 END_EVENT_TABLE()

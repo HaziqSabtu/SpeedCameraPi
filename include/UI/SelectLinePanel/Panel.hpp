@@ -18,6 +18,8 @@ class SelectLinePanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
+    void OnButton(wxCommandEvent &e);
+
     DECLARE_EVENT_TABLE()
 };
 #endif

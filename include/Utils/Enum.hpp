@@ -38,7 +38,8 @@ enum ProjectIDs {
     // SelectLinePanel
     SL_IMG_PANEL_ID,
     SL_BUTTON_PANEL_ID,
-    SL_Next_Button_ID,
+    SL_Canny_Button_ID,
+    SL_Hough_Button_ID,
     // panel2
     NEXT_PANEL_ID,
     PREV_PANEL_ID,

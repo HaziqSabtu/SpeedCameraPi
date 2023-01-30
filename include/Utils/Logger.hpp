@@ -16,7 +16,7 @@ class AppLogger : public wxLog {
 
   private:
     wxFile m_logFile;
-    MyStreambuf *m_streambuf;
+    AppStreamBuf *m_streambuf;
     std::streambuf *m_coutBuf;
 };
 

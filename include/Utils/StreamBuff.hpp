@@ -6,9 +6,9 @@
 #include <wx/file.h>
 #include <wx/wx.h>
 
-class MyStreambuf : public std::streambuf {
+class AppStreamBuf : public std::streambuf {
   public:
-    MyStreambuf(wxFile &file) : m_file(file) {}
+    AppStreamBuf(wxFile &file) : m_file(file) {}
 
     virtual int_type overflow(int_type ch) {
         if (ch != EOF) {
