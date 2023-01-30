@@ -2,29 +2,19 @@
 #define LOGGER_HPP
 
 #include <wx/file.h>
-#include <wx/filename.h>
 #include <wx/log.h>
 #include <wx/wx.h>
 
-class Logger : public wxLog {
+class AppLogger : public wxLog {
   public:
-    Logger() : wxLog() {
-        wxString cwd = wxFileName::GetCwd();
-        // wxLogMessage("Current working directory: %s", cwd);
-    }
+    // getcurrent time as file name withour regex
 
-    virtual void DoLogText(const wxString &msg) {
-        wxString filepath = wxFileName::GetCwd() + "\\log.txt";
-        wxLogMessage("log file path: %s", filepath);
-        wxFile file(filepath, wxFile::write_append);
-        if (!file.IsOpened()) {
-            wxLogError("Failed to open log file %s", filepath);
-            return;
-        }
-        file.Write(msg);
-        file.Write("\n");
-        file.Close();
-    }
+    AppLogger();
+
+    virtual void DoLogText(const wxString &msg);
+
+  private:
+    wxFile m_logFile;
 };
 
 #endif

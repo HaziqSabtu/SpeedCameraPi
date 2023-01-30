@@ -35,6 +35,10 @@ enum ProjectIDs {
     LD_Left_Button_ID,
     LD_Right_Button_ID,
     LD_Both_Button_ID,
+    // SelectLinePanel
+    SL_IMG_PANEL_ID,
+    SL_BUTTON_PANEL_ID,
+    SL_Next_Button_ID,
     // panel2
     NEXT_PANEL_ID,
     PREV_PANEL_ID,

@@ -4,6 +4,7 @@
 #include <UI/LaneDetectionPanel/Panel.hpp>
 #include <UI/OpticalFlowPanel/Panel.hpp>
 #include <UI/Panel2.hpp>
+#include <UI/SelectLinePanel/Panel.hpp>
 #include <UI/SelectROIPanel/Panel.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/fileWR.hpp>
@@ -18,9 +19,7 @@ class MainFrame : public wxFrame {
     std::vector<ImgData> imgData;
 
     wxNotebook *notebook;
-    SelectRoiPanel *select_roi_panel;
-    OpticalFlowPanel *optical_flow_panel;
-    LaneDetectionPanel *lane_detection_panel;
+    SelectLinePanel *select_line_panel;
 
     Panel2 *p2, *p3, *p4;
     void OnPageChange(wxNotebookEvent &event);
