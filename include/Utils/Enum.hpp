@@ -32,6 +32,9 @@ enum ProjectIDs {
     LD_Next_Button_ID,
     LD_Prev_Button_ID,
     LD_Run_Button_ID,
+    LD_Left_Button_ID,
+    LD_Right_Button_ID,
+    LD_Both_Button_ID,
     // panel2
     NEXT_PANEL_ID,
     PREV_PANEL_ID,

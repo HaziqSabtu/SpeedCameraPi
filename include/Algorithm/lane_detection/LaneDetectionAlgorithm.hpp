@@ -83,6 +83,8 @@ class LaneDetectionAlgorithm {
     int imgGenCount = 0;
     int selectedEvalData = 0;
 
+    int imgGenCountLeft = 0;
+
     cv::Mat frame;
     cv::Mat hlsFrame;
     cv::Mat hlsMask;
@@ -97,6 +99,8 @@ class LaneDetectionAlgorithm {
     std::vector<ROI> roiDataList;
     std::vector<LineCombination> lineCombinations;
     std::vector<EvaluationData> evalData;
+    std::vector<EvaluationData> evalDataLeft;
+    std::vector<EvaluationData> evalDataRight;
 
   public:
     LaneDetectionAlgorithm();
@@ -116,6 +120,11 @@ class LaneDetectionAlgorithm {
     void generateBestImage(int count);
     std::vector<cv::Mat> generateBestImageV(int count);
     cv::Mat generateComplexImage(int count, int hLimit);
+
+    // new
+    void generateEvalDataLeft(int choice);
+    cv::Mat generateComplexImageLeft(int count, int hLimit);
+    std::vector<cv::Mat> generateBestImageLeft(int count);
 
     // SETTERS
     void setImgGenCount(int count);

@@ -14,6 +14,7 @@ class LaneDetectionPanelButton : public wxPanel {
     void OnRunAlgorithm(wxCommandEvent &e);
     void OnNext(wxCommandEvent &e);
     void OnPrev(wxCommandEvent &e);
+    void OnButton(wxCommandEvent &e);
 
     wxPanel *button_panel;
     wxBoxSizer *button_sizer;
@@ -21,6 +22,9 @@ class LaneDetectionPanelButton : public wxPanel {
     wxButton *Next_Button;
     wxButton *Prev_Button;
     wxButton *Run_Button;
+    wxButton *Left_Button;
+    wxButton *Right_Button;
+    wxButton *Both_Button;
 
     DECLARE_EVENT_TABLE()
 };

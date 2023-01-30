@@ -262,11 +262,13 @@ void LaneDetectionAlgorithm::filterDetLine(std::vector<DetLine> &detectedLines,
     }
     std::cout << "filteredLines.size(): " << filteredLines.size() << std::endl;
 }
-
-// Generate all possible line combinations from detected Lines
-// Filter Out all combinations that are not parallel
-// Filter Out all combinations that are not within the angle range
-// Filter Out all combinations that are not within the distance range
+/**
+ * * Generate all possible line combinations from detected Lines
+ * * Filter Out all combinations that are not parallel
+ * * Generate all possible line combinations from detected Lines
+ * * Filter Out all combinations that are not within the angle range
+ * * Filter Out all combinations that are not within the distance range
+ */
 void LaneDetectionAlgorithm::generateLineCombo(std::vector<DetLine> &lines,
                                                int debug = -1,
                                                bool draw = false) {
@@ -399,9 +401,11 @@ void LaneDetectionAlgorithm::generateLineCombo(std::vector<DetLine> &lines,
     }
 }
 
-// loop through every line combo
-// and evaluate it
-// sort the line combo by the lowest error
+/**
+ * * loop through every line combo
+ * * and evaluate it
+ * * sort the line combo by the lowest error
+ */
 void LaneDetectionAlgorithm::evaluateLineCombo(
     std::vector<LineCombination> lineCombos, std::vector<int> debug = {}) {
 
@@ -416,6 +420,7 @@ void LaneDetectionAlgorithm::evaluateLineCombo(
         [](EvaluationData a, EvaluationData b) { return a.error < b.error; });
 }
 
+// ! Deprecated
 void LaneDetectionAlgorithm::generateBestImage(int count) {
     std::cout << "Generating best images" << std::endl;
     for (int i = imgGenCount; i < count; i++) {
@@ -509,6 +514,92 @@ cv::Mat LaneDetectionAlgorithm::generateComplexImage(int count,
     }
 
     return complexImage;
+}
+
+// Todo: reusable code
+void LaneDetectionAlgorithm::generateEvalDataLeft(int choice) {
+    if (evalDataLeft.size() > 0) {
+        evalDataLeft.clear();
+    }
+    int selectedEval = choice + imgGenCount;
+    EvaluationData ed = evalData[selectedEval];
+
+    LineCombination lc = ed.lineCombination;
+
+    const int TOLERANCE_PIXEL = 30;
+
+    for (auto &eData : evalData) {
+        if ((fabs(eData.lineCombination.pointLeft.front().x -
+                  lc.pointLeft.front().x) < TOLERANCE_PIXEL) &&
+            (fabs(eData.lineCombination.pointLeft.back().x -
+                  lc.pointLeft.back().x) < TOLERANCE_PIXEL)) {
+            evalDataLeft.push_back(eData);
+        }
+    }
+}
+
+// Todo: reusable code
+cv::Mat LaneDetectionAlgorithm::generateComplexImageLeft(int count,
+                                                         int hLimit = 4) {
+    std::vector<cv::Mat> imageArray = generateBestImageLeft(count);
+    cv::Mat complexImage;
+    std::vector<cv::Mat> tempHImgArray;
+    std::vector<cv::Mat> tempConcat;
+
+    int vLimit = (int)((imageArray.size() / (double)hLimit) + 0.5);
+    for (int i = 1; i <= vLimit * hLimit; i++) {
+        if (i <= imageArray.size()) {
+            cv::Mat img = imageArray[i - 1];
+            cv::putText(img, std::to_string(i - 1), cv::Point(50, 50),
+                        cv::FONT_HERSHEY_SIMPLEX, 2, cv::Scalar(0, 0, 255), 3,
+                        cv::LINE_AA);
+            tempHImgArray.push_back(img);
+        }
+
+        else {
+            tempHImgArray.push_back(cv::Mat::zeros(
+                imageArray[0].rows, imageArray[0].cols, CV_8UC3));
+        }
+
+        if (i % hLimit == 0 && i != 0) {
+            cv::Mat temp;
+            cv::hconcat(tempHImgArray, temp);
+            tempConcat.push_back(temp);
+            tempHImgArray.clear();
+        }
+    }
+    cv::vconcat(tempConcat, complexImage);
+    tempConcat.clear();
+
+    double resizeFactorH, resizeFactorV;
+
+    resizeFactorH = 1920.0 / complexImage.cols;
+    cv::resize(complexImage, complexImage, cv::Size(), resizeFactorH,
+               resizeFactorH);
+
+    if (complexImage.rows > 1080) {
+        resizeFactorV = 1080.0 / complexImage.rows;
+        cv::resize(complexImage, complexImage, cv::Size(), resizeFactorV,
+                   resizeFactorV);
+    }
+
+    return complexImage;
+}
+
+// Todo: reusable code
+std::vector<cv::Mat> LaneDetectionAlgorithm::generateBestImageLeft(int count) {
+    std::vector<cv::Mat> images;
+    for (int i = imgGenCountLeft; i < count + imgGenCountLeft; i++) {
+        EvaluationData ed = evalDataLeft[i];
+        cv::Mat img = hlsOutput.clone();
+        LineCombination lc = ed.lineCombination;
+        cv::line(img, lc.pointLeft.front(), lc.pointLeft.back(),
+                 cv::Scalar(255, 0, 255), 2);
+        cv::line(img, lc.pointRight.front(), lc.pointRight.back(),
+                 cv::Scalar(255, 0, 0), 2);
+        images.push_back(img);
+    }
+    return images;
 }
 
 // SETTERS
@@ -638,8 +729,8 @@ LaneDetectionAlgorithm::getAllPointY(cv::Point2f &startPoint,
     float c = startPoint.y - m * startPoint.x;
     int start, end;
 
-    // By Default StartPoint.y Should be ALways LARGER (located lower position)
-    // than Intersection.y in any Directions
+    // By Default StartPoint.y Should be ALways LARGER (located lower
+    // position) than Intersection.y in any Directions
     if (startPoint.y < intersection.y) {
         std::cout << "SOMETHING SUSSY HAPPENED" << std::endl;
         std::cout << "STARTPOINT Y SHOULD BE LARGER THAN INTERSECTION Y"
@@ -674,8 +765,8 @@ double LaneDetectionAlgorithm::runEvaluation(LineCombination &l,
 
     // angleBetweenError
     // evaluate the angle between left and right line
-    // By Default the angle between left and right line should be larger than
-    // ROI if the angle is smaller than ROI higher punishment
+    // By Default the angle between left and right line should be larger
+    // than ROI if the angle is smaller than ROI higher punishment
     double angleBetweenError = 0;
     if (l.angleBetween < roiData.angleBetween) {
         angleBetweenError += (roiData.angleBetween / l.angleBetween) * 10;
@@ -683,9 +774,11 @@ double LaneDetectionAlgorithm::runEvaluation(LineCombination &l,
 
     // roiIntersectionPointError
     // evaluate the intersection point of the line combo
-    // ** Deprecated
-    // // By Default the merging of lineCombo should be higher location than ROI
-    // // in some cases the intersection point of line combo is lower than ROI
+    // ! Deprecated
+    // // By Default the merging of lineCombo should be higher location than
+    // ROI
+    // // in some cases the intersection point of line combo is lower than
+    // ROI
     // // thus tolerance is given 5 % of the Frame height
     // // any value larger will result in higher punishment
     // // if lineCombo is heading to the left side of the frame (180-270)

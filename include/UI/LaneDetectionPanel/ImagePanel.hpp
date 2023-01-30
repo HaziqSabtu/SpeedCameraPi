@@ -17,8 +17,10 @@ class LaneDetectionPanelImage : public wxPanel {
     void RunLaneDetection();
     void OnIncrement();
     void OnDecrement();
+    void SetLeftData();
 
   private:
+    int imgIndex = 8;
     const int IMAGE_TO_GENERATE = 9;
     const int IMAGE_PER_ROW = 3;
     int imgC = 0;
@@ -28,7 +30,9 @@ class LaneDetectionPanelImage : public wxPanel {
     std::vector<std::vector<cv::Point2f>> roiPoints;
 
     void OnSize(wxSizeEvent &e);
+    void OnLeftDown(wxMouseEvent &e);
     void GenerateImage();
+    void GenerateImageLeft();
 
     wxPanel *img_panel;
     BBLaneD *img_bitmap;

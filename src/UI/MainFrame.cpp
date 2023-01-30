@@ -1,7 +1,8 @@
 #include <UI/MainFrame.hpp>
 
 MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
-    std::string filePath = "C:/Users/kakik/Desktop/P1/data/bin/car7_768F.bin";
+    std::string filePath =
+        "C:/Users/kakik/Desktop/P1/data/bin/29012023093818.bin";
     FILEWR::ReadFile(filePath, imgData);
 
     notebook = new wxNotebook(this, Enum::NOTEBOOK_ID);

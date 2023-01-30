@@ -24,6 +24,9 @@ class BufferedBitmap : public wxStaticBitmap {
 
     wxSize client_size;
 
+    int width;
+    int height;
+
     int resizeWidth;
     int resizeHeight;
 
@@ -48,8 +51,8 @@ class BufferedBitmap : public wxStaticBitmap {
 inline void BufferedBitmap::processRatio() {
     client_size = GetClientSize();
 
-    int width = client_size.GetWidth();
-    int height = client_size.GetHeight();
+    width = client_size.GetWidth();
+    height = client_size.GetHeight();
 
     imgRatio = (double)img.cols / (double)img.rows;
     clientRatio = (double)width / (double)height;
