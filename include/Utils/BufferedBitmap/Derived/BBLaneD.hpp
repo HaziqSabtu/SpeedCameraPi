@@ -6,11 +6,21 @@
 
 class BBLaneD : public BufferedBitmap {
   public:
-    BBLaneD(wxWindow *parent, wxWindowID id);
+    BBLaneD(wxWindow *parent, wxWindowID id, wxSize size);
     void RefreshBitmap();
+    void OnLeftDown(wxMouseEvent &e);
 
   protected:
   private:
+    const int IMAGE_TO_GENERATE = 9;
+    const int IMAGE_PER_ROW = 3;
+    const wxSize DEFAULT_IMG_SIZE;
+    int RECT_WIDTH;
+    int RECT_HEIGHT;
+
+    bool isDrawRect = false;
+    cv::Rect rectangle;
+
     void OnPaint(wxPaintEvent &e);
     wxDECLARE_EVENT_TABLE();
 };
