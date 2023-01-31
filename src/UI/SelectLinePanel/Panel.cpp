@@ -29,9 +29,17 @@ void SelectLinePanel::OnButton(wxCommandEvent &e) {
         img_panel->OnHough();
         button_panel->OnHough();
     }
+
+    if (e.GetId() == Enum::SL_Clear_Button_ID) {
+        img_panel->OnClear();
+    }
 }
 
+void SelectLinePanel::OnLeftDown(wxMouseEvent &e) {
+    wxLogMessage("SelectLinePanel::OnLeftDown");
+}
 // clang-format off
 BEGIN_EVENT_TABLE(SelectLinePanel, wxPanel)
     EVT_BUTTON(wxID_ANY, SelectLinePanel::OnButton)
+    EVT_LEFT_DOWN(SelectLinePanel::OnLeftDown)
 END_EVENT_TABLE()

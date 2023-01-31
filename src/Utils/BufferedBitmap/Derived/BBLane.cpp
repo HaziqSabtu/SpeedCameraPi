@@ -19,6 +19,14 @@ void BBLane::OnPaint(wxPaintEvent &e) {
         }
     }
 
+    if (!detLines.empty()) {
+        for (auto &line : detLines) {
+            cv::line(img_cp, cv::Point(line[0], line[1]),
+                     cv::Point(line[2], line[3]), cv::Scalar(0, 255, 0), 3,
+                     cv::LINE_AA);
+        }
+    }
+
     cv::Mat img_rs;
     cv::resize(img_cp, img_rs, cv::Size(resizeWidth, resizeHeight));
 
@@ -40,9 +48,31 @@ void BBLane::ToggleHough() {
     Refresh();
 }
 
+void BBLane::addLine(cv::Vec4i line) {
+    if (detLines.size() <= 1) {
+        detLines.push_back(line);
+    } else {
+        detLines[1] = line;
+    }
+    Refresh();
+}
+
+void BBLane::clearLines() {
+    detLines.clear();
+    Refresh();
+}
+
 bool BBLane::GetIsHough() { return isHough; }
+
+wxPoint BBLane::GetRealMousePos(wxPoint mousePos) {
+    wxPoint realMousePos;
+    realMousePos.x = mousePos.x * widthRatio;
+    realMousePos.y = mousePos.y * heightRatio;
+    return realMousePos;
+}
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(BBLane, BufferedBitmap)
-EVT_PAINT(BBLane::OnPaint) 
+EVT_PAINT(BBLane::OnPaint)
 wxEND_EVENT_TABLE()
+

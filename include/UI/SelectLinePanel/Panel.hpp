@@ -19,6 +19,7 @@ class SelectLinePanel : public wxPanel {
     wxBoxSizer *main_sizer;
 
     void OnButton(wxCommandEvent &e);
+    void OnLeftDown(wxMouseEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

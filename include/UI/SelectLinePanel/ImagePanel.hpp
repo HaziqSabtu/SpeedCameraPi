@@ -3,6 +3,7 @@
 
 #include <Algorithm/line_detection/lineDetection.hpp>
 #include <Utils/BufferedBitmap/Derived/BBLane.hpp>
+#include <Utils/Enum.hpp>
 #include <Utils/fileWR.hpp>
 #include <wx/wx.h>
 
@@ -10,11 +11,10 @@ class SelectLinePanelImage : public wxPanel {
   public:
     SelectLinePanelImage(wxWindow *parent, wxWindowID id,
                          std::vector<ImgData> &imgData);
-    void OnSize(wxSizeEvent &e);
-    void OnButtonIncrement();
-    void OnButtonDecrement();
     void OnCanny();
     void OnHough();
+    void OnClear();
+    void checkForLine(wxPoint realMousePos);
 
   private:
     int count = 0;
@@ -28,6 +28,14 @@ class SelectLinePanelImage : public wxPanel {
 
     LineDetection lineDetection;
 
+    void OnSize(wxSizeEvent &e);
+    void OnLeftDown(wxMouseEvent &e);
     DECLARE_EVENT_TABLE();
 };
 #endif
+
+/**
+ * Event Propagation
+ * Some event () does not propagate to parent window
+ * So we need to manually propagate it with dynamically (Bind)
+ */

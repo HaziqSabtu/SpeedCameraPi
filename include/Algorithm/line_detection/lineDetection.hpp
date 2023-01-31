@@ -12,6 +12,7 @@ class LineDetection {
     static bool isPointOnLine(cv::Vec4i line, cv::Point2f point,
                               int tolerance = 1);
     static cv::Vec4i extrapolateLine(cv::Vec4i line, int height);
+    static cv::Vec4i averageLines(std::vector<cv::Vec4i> lines);
 
   private:
     cv::Mat image;

@@ -20,6 +20,7 @@ class SelectLinePanelButton : public wxPanel {
     wxButton *Next_Button;
     wxButton *Canny_Button;
     wxButton *Hough_Button;
+    wxButton *Clear_Button;
 
     DECLARE_EVENT_TABLE()
 };

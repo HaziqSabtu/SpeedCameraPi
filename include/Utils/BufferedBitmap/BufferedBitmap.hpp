@@ -17,6 +17,8 @@ class BufferedBitmap : public wxStaticBitmap {
   public:
     BufferedBitmap(wxWindow *parent, wxWindowID id);
     void SetImage(const cv::Mat &image);
+    double GetWidthRatio();
+    double GetHeightRatio();
 
   protected:
     cv::Mat img;

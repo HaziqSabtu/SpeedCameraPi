@@ -29,6 +29,10 @@ wxImage BufferedBitmap::matToWxImage(const cv::Mat &mat) {
         throw std::runtime_error("Unsupported image format");
 }
 
+double BufferedBitmap::GetWidthRatio() { return widthRatio; }
+
+double BufferedBitmap::GetHeightRatio() { return heightRatio; }
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(BufferedBitmap, wxStaticBitmap)
 wxEND_EVENT_TABLE()
