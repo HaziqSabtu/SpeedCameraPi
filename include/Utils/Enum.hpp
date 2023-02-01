@@ -42,6 +42,11 @@ enum ProjectIDs {
     SL_Canny_Button_ID,
     SL_Hough_Button_ID,
     SL_Clear_Button_ID,
+    // ObjectDetectionPanel
+    OD_IMG_PANEL_ID,
+    OD_BUTTON_PANEL_ID,
+    OD_BB_ID,
+    OD_Next_Button_ID,
     // panel2
     NEXT_PANEL_ID,
     PREV_PANEL_ID,

@@ -2,6 +2,7 @@
 #define MAIN_FRAME_HPP
 
 #include <UI/LaneDetectionPanel/Panel.hpp>
+#include <UI/ObjectDetectionPanel/Panel.hpp>
 #include <UI/OpticalFlowPanel/Panel.hpp>
 #include <UI/Panel2.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
@@ -20,6 +21,7 @@ class MainFrame : public wxFrame {
 
     wxNotebook *notebook;
     SelectLinePanel *select_line_panel;
+    ObjectDetectionPanel *object_detection_panel;
 
     Panel2 *p2, *p3, *p4;
     void OnPageChange(wxNotebookEvent &event);
