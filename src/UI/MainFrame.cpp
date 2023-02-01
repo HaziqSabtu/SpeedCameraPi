@@ -31,7 +31,8 @@ void MainFrame::OnPageChange(wxNotebookEvent &event) {
     //     optical_flow_panel->OnPageChange();
     // }
 
-    // if (page == 2) {
-    //     lane_detection_panel->OnPageChange();
-    // }
+    if (page == 1) {
+        wxLogMessage("Changing To Page Object Detection");
+        object_detection_panel->OnPageChange();
+    }
 }

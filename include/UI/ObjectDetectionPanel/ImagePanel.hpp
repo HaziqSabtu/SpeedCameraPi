@@ -1,7 +1,7 @@
 #ifndef OBJECT_DETECTION_PANEL_IMAGE
 #define OBJECT_DETECTION_PANEL_IMAGE
 
-#include <Utils/BufferedBitmap/Derived/BBImage.hpp>
+#include <Algorithm/object_detection/ObjectDetection.hpp>
 #include <Utils/BufferedBitmap/Derived/BBObjD.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/fileWR.hpp>
@@ -10,20 +10,29 @@
 class ObjectDetectionPanelImage : public wxPanel {
   public:
     ObjectDetectionPanelImage(wxWindow *parent, wxWindowID id,
+                              ObjectDetection &objD,
                               std::vector<ImgData> &imgData);
     void OnSize(wxSizeEvent &e);
     void OnButtonIncrement();
     void OnButtonDecrement();
+    void OnBBox();
+    void OnOptF();
+    void OnBotL();
+    void runDetection();
     int GetCount();
+    std::vector<std::vector<cv::Point2f>> GetOpticalFlowPoints();
 
   private:
     int count = 0;
 
     std::vector<ImgData> imgData;
+    std::vector<std::vector<cv::Point2f>> opticalFlowPoints;
 
     wxPanel *img_panel;
     BBObjD *img_bitmap;
     wxBoxSizer *img_sizer;
+
+    ObjectDetection objD;
 
     DECLARE_EVENT_TABLE();
 };

@@ -1,6 +1,7 @@
 #ifndef OBJECT_DETECTION_PANEL_BUTTON
 #define OBJECT_DETECTION_PANEL_BUTTON
 
+#include <Algorithm/object_detection/ObjectDetection.hpp>
 #include <Utils/Enum.hpp>
 #include <wx/notebook.h>
 #include <wx/wx.h>
@@ -8,11 +9,23 @@
 class ObjectDetectionPanelButton : public wxPanel {
   public:
     ObjectDetectionPanelButton(wxWindow *parent, wxWindowID id);
+    void enableAllButtons();
+    void OnBBox();
+    // void OnBBox(bool isBBox);
+    void OnOptF();
+    void OnBotL();
 
   private:
+    bool isBBox = false;
+    bool isOptF = false;
+    bool isBotL = false;
+
     wxPanel *button_panel;
     wxBoxSizer *button_sizer;
     wxButton *Next_Button;
+    wxButton *BBox_Button;
+    wxButton *OptF_Button;
+    wxButton *BotL_Button;
 
     DECLARE_EVENT_TABLE()
 };

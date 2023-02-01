@@ -47,6 +47,9 @@ enum ProjectIDs {
     OD_BUTTON_PANEL_ID,
     OD_BB_ID,
     OD_Next_Button_ID,
+    OD_BBox_Button_ID,
+    OD_OptF_Button_ID,
+    OD_BotL_Button_ID,
     // panel2
     NEXT_PANEL_ID,
     PREV_PANEL_ID,

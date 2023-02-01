@@ -4,11 +4,14 @@ ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
                                            std::vector<ImgData> &imgData)
     : wxPanel(parent, id) {
 
+    cv::RNG rng;
+    ObjectDetection objD(rng);
+
     button_panel =
         new ObjectDetectionPanelButton(this, Enum::SR_BUTTON_PANEL_ID);
 
-    img_panel =
-        new ObjectDetectionPanelImage(this, Enum::SR_IMG_PANEL_ID, imgData);
+    img_panel = new ObjectDetectionPanelImage(this, Enum::SR_IMG_PANEL_ID, objD,
+                                              imgData);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
@@ -21,10 +24,34 @@ ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
 }
 
 void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
-    wxLogMessage("ObjectDetectionPanel::OnButton");
     if (e.GetId() == Enum::OD_Next_Button_ID) {
+        wxLogMessage("Next button pressed");
         img_panel->OnButtonIncrement();
     }
+
+    if (e.GetId() == Enum::OD_BBox_Button_ID) {
+        wxLogMessage("BBox button pressed");
+        img_panel->OnBBox();
+        button_panel->OnBBox();
+    }
+
+    if (e.GetId() == Enum::OD_OptF_Button_ID) {
+        wxLogMessage("OptF button pressed");
+        img_panel->OnOptF();
+        button_panel->OnOptF();
+    }
+
+    if (e.GetId() == Enum::OD_BotL_Button_ID) {
+        wxLogMessage("BotL button pressed");
+        img_panel->OnBotL();
+        button_panel->OnBotL();
+    }
+}
+
+void ObjectDetectionPanel::OnPageChange() {
+    if (img_panel->GetOpticalFlowPoints().size() == 0)
+        img_panel->runDetection();
+    button_panel->enableAllButtons();
 }
 
 // clang-format off

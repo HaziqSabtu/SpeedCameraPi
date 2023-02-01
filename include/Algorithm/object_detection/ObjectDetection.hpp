@@ -47,6 +47,15 @@ class ObjectDetection {
     std::vector<std::vector<cv::Point2f>>
     GetOpticalFlowPoints(bool reshape = false);
 
+    static cv::Rect GetRect(const std::vector<cv::Point2f> &points);
+
+    static std::vector<cv::Point2f>
+    GetBottomLine(const std::vector<cv::Point2f> &points, int width);
+
+    static std::vector<std::vector<cv::Point2f>>
+    GetOFPoints(const std::vector<std::vector<cv::Point2f>> &opticalFlowPoints,
+                int count);
+
   private:
     void initOpticalFlow(cv::Mat &frame);
 
