@@ -62,6 +62,8 @@ void BBLane::clearLines() {
     Refresh();
 }
 
+std::vector<cv::Vec4i> BBLane::GetDetectedLines() { return detLines; }
+
 bool BBLane::GetIsHough() { return isHough; }
 
 wxPoint BBLane::GetRealMousePos(wxPoint mousePos) {

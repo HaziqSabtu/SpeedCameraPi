@@ -47,15 +47,31 @@ void ObjectDetection::SetMinPointDistance(double minPointDistance) {
     this->minPointDistance = minPointDistance;
 }
 
+// std::vector<cv::Point2f>
+// ObjectDetection::GetBottomLine(const std::vector<cv::Point2f> &points,
+//                                int width) {
+//     std::vector<cv::Point2f> bottomLine;
+//     cv::Rect rect = GetRect(points);
+//     bottomLine.push_back(
+//         cv::Point2f(0, static_cast<float>(rect.y + rect.height)));
+//     bottomLine.push_back(cv::Point2f(static_cast<float>(width),
+//                                      static_cast<float>(rect.y +
+//                                      rect.height)));
+//     return bottomLine;
+// }
+
 std::vector<cv::Point2f>
 ObjectDetection::GetBottomLine(const std::vector<cv::Point2f> &points,
                                int width) {
     std::vector<cv::Point2f> bottomLine;
-    cv::Rect rect = GetRect(points);
+    std::vector<cv::Point2f> tmp;
+    tmp.assign(points.begin(), points.end());
+    std::sort(tmp.begin(), tmp.end(),
+              [](cv::Point2f a, cv::Point2f b) { return a.y > b.y; });
+    cv::Point2f mostBottomLine = tmp.front();
+    bottomLine.push_back(cv::Point2f(0, mostBottomLine.y));
     bottomLine.push_back(
-        cv::Point2f(0, static_cast<float>(rect.y + rect.height)));
-    bottomLine.push_back(cv::Point2f(static_cast<float>(width),
-                                     static_cast<float>(rect.y + rect.height)));
+        cv::Point2f(static_cast<float>(width), mostBottomLine.y));
     return bottomLine;
 }
 

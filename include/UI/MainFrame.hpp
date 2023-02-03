@@ -8,6 +8,7 @@
 #include <UI/SelectLinePanel/Panel.hpp>
 #include <UI/SelectROIPanel/Panel.hpp>
 #include <Utils/Enum.hpp>
+#include <Utils/ImageUtils.hpp>
 #include <Utils/fileWR.hpp>
 #include <wx/notebook.h>
 #include <wx/wx.h>

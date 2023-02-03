@@ -15,15 +15,23 @@ class ObjectDetectionPanelImage : public wxPanel {
     void OnSize(wxSizeEvent &e);
     void OnButtonIncrement();
     void OnButtonDecrement();
+
     void OnBBox();
     void OnOptF();
     void OnBotL();
+    void OnLine();
+
     void runDetection();
     int GetCount();
+    void SetLine(std::vector<cv::Vec4i> l);
     std::vector<std::vector<cv::Point2f>> GetOpticalFlowPoints();
 
   private:
     int count = 0;
+
+    void handleBBox();
+    void handleOptF();
+    void handleBotL();
 
     std::vector<ImgData> imgData;
     std::vector<std::vector<cv::Point2f>> opticalFlowPoints;

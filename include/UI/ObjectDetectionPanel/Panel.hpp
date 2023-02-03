@@ -4,6 +4,7 @@
 #include <Algorithm/object_detection/ObjectDetection.hpp>
 #include <UI/ObjectDetectionPanel/ButtonPanel.hpp>
 #include <UI/ObjectDetectionPanel/ImagePanel.hpp>
+#include <UI/SelectLinePanel/ImagePanel.hpp>
 #include <Utils/BufferedBitmap/Derived/BBObjD.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/fileWR.hpp>

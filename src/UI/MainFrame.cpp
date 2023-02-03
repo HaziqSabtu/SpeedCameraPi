@@ -5,6 +5,9 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
         "C:/Users/kakik/Desktop/P1/data/bin/29012023093818.bin";
     FILEWR::ReadFile(filePath, imgData);
 
+    int rotationAngle = 7;
+    ImageUtils::RotateImage(imgData, rotationAngle);
+
     notebook = new wxNotebook(this, Enum::NOTEBOOK_ID);
 
     select_line_panel = new SelectLinePanel(notebook, wxID_ANY, imgData);
@@ -27,12 +30,13 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
 
 void MainFrame::OnPageChange(wxNotebookEvent &event) {
     int page = event.GetSelection();
-    // if (page == 1) {
-    //     optical_flow_panel->OnPageChange();
-    // }
+    if (page == 0) {
+        wxLogMessage("Changing To Page: Line Selection");
+        // optical_flow_panel->OnPageChange();
+    }
 
     if (page == 1) {
-        wxLogMessage("Changing To Page Object Detection");
+        wxLogMessage("Changing To Page: Object Detection");
         object_detection_panel->OnPageChange();
     }
 }

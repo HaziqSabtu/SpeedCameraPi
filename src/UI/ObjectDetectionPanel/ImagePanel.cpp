@@ -23,16 +23,15 @@ void ObjectDetectionPanelImage::OnButtonIncrement() {
     img_bitmap->SetImage(imgData[count].image);
 
     if (img_bitmap->GetIsBBox()) {
-        img_bitmap->SetRect(objD.GetRect(opticalFlowPoints[count]));
+        handleBBox();
     }
 
     if (img_bitmap->GetIsBotL()) {
-        img_bitmap->setBotL(objD.GetBottomLine(opticalFlowPoints[count],
-                                               imgData[count].image.cols));
+        handleBotL();
     }
 
     if (img_bitmap->GetIsOptF()) {
-        img_bitmap->setPoints(objD.GetOFPoints(opticalFlowPoints, count));
+        handleOptF();
     }
 }
 
@@ -50,17 +49,18 @@ void ObjectDetectionPanelImage::OnBBox() {
     img_bitmap->toggleBBox();
     if (img_bitmap->GetIsBBox()) {
         wxLogMessage("Bounding Box -> On");
-        img_bitmap->SetRect(objD.GetRect(opticalFlowPoints[count]));
+        handleBBox();
         return;
     }
     wxLogMessage("Bounding Box -> Off");
 }
 
 void ObjectDetectionPanelImage::OnOptF() {
+    wxLogMessage("OnOptF");
     img_bitmap->toggleOptF();
     if (img_bitmap->GetIsOptF()) {
         wxLogMessage("Optical Flow -> On");
-        img_bitmap->setPoints(objD.GetOFPoints(opticalFlowPoints, count));
+        handleOptF();
         return;
     }
     wxLogMessage("Optical Flow -> Off");
@@ -70,11 +70,35 @@ void ObjectDetectionPanelImage::OnBotL() {
     img_bitmap->toggleBotL();
     if (img_bitmap->GetIsBotL()) {
         wxLogMessage("Bottom Line -> On");
-        img_bitmap->setBotL(objD.GetBottomLine(opticalFlowPoints[count],
-                                               imgData[count].image.cols));
+        handleBotL();
         return;
     }
     wxLogMessage("Bottom Line -> Off");
+}
+
+void ObjectDetectionPanelImage::OnLine() {
+    img_bitmap->toggleLine();
+    if (img_bitmap->GetIsLine()) {
+        wxLogMessage("Line -> On");
+        return;
+    }
+    wxLogMessage("Line -> Off");
+}
+
+void ObjectDetectionPanelImage::handleBBox() {
+    img_bitmap->SetRect(objD.GetRect(opticalFlowPoints[count]));
+}
+
+void ObjectDetectionPanelImage::handleOptF() {
+    img_bitmap->SetPoints(objD.GetOFPoints(opticalFlowPoints, count));
+}
+
+void ObjectDetectionPanelImage::handleBotL() {
+    std::vector<cv::Point2f> points =
+        objD.GetBottomLine(opticalFlowPoints[count], imgData[count].image.cols);
+    wxLogMessage("Bottom Line y: %f", points[0].y);
+    img_bitmap->SetBotL(objD.GetBottomLine(opticalFlowPoints[count],
+                                           imgData[count].image.cols));
 }
 
 int ObjectDetectionPanelImage::GetCount() { return count; }
@@ -82,6 +106,10 @@ int ObjectDetectionPanelImage::GetCount() { return count; }
 std::vector<std::vector<cv::Point2f>>
 ObjectDetectionPanelImage::GetOpticalFlowPoints() {
     return opticalFlowPoints;
+}
+
+void ObjectDetectionPanelImage::SetLine(std::vector<cv::Vec4i> l) {
+    img_bitmap->SetLine(l);
 }
 
 // clang-format off

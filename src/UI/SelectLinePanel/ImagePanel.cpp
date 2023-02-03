@@ -86,6 +86,10 @@ void SelectLinePanelImage::OnLeftDown(wxMouseEvent &e) {
     checkForLine(realPos);
 }
 
+std::vector<cv::Vec4i> SelectLinePanelImage::GetDetectedLines() {
+    return img_bitmap->GetDetectedLines();
+}
+
 // clang-format off
 BEGIN_EVENT_TABLE(SelectLinePanelImage, wxPanel)
 EVT_SIZE(SelectLinePanelImage::OnSize)

@@ -15,6 +15,7 @@ class SelectLinePanelImage : public wxPanel {
     void OnHough();
     void OnClear();
     void checkForLine(wxPoint realMousePos);
+    std::vector<cv::Vec4i> GetDetectedLines();
 
   private:
     int count = 0;

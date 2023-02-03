@@ -14,13 +14,13 @@ class BBLane : public BufferedBitmap {
     wxPoint GetRealMousePos(wxPoint mousePos);
     void addLine(cv::Vec4i line);
     void clearLines();
+    std::vector<cv::Vec4i> GetDetectedLines();
 
   private:
     bool isHough = false;
     std::vector<cv::Vec4i> linesP;
     std::vector<cv::Vec4i> detLines;
     void OnPaint(wxPaintEvent &e);
-    void OnLeftDown(wxMouseEvent &e);
     wxDECLARE_EVENT_TABLE();
 };
 

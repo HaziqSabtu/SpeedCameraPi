@@ -46,11 +46,23 @@ void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
         img_panel->OnBotL();
         button_panel->OnBotL();
     }
+
+    if (e.GetId() == Enum::OD_Line_Button_ID) {
+        wxLogMessage("Line button pressed");
+        img_panel->OnLine();
+        button_panel->OnLine();
+    }
 }
 
 void ObjectDetectionPanel::OnPageChange() {
-    if (img_panel->GetOpticalFlowPoints().size() == 0)
+    if (img_panel->GetOpticalFlowPoints().size() == 0) {
         img_panel->runDetection();
+    }
+
+    SelectLinePanelImage *img_panel_lineD =
+        dynamic_cast<SelectLinePanelImage *>(
+            GetParent()->FindWindow(Enum::SL_IMG_PANEL_ID));
+    img_panel->SetLine(img_panel_lineD->GetDetectedLines());
     button_panel->enableAllButtons();
 }
 
