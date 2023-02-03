@@ -2,6 +2,7 @@
 #define OBJECT_DETECTION_PANEL
 
 #include <Algorithm/object_detection/ObjectDetection.hpp>
+#include <Algorithm/speed_calculation/speedCalculation.hpp>
 #include <UI/ObjectDetectionPanel/ButtonPanel.hpp>
 #include <UI/ObjectDetectionPanel/ImagePanel.hpp>
 #include <UI/SelectLinePanel/ImagePanel.hpp>

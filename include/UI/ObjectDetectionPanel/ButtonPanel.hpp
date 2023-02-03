@@ -10,10 +10,12 @@ class ObjectDetectionPanelButton : public wxPanel {
   public:
     ObjectDetectionPanelButton(wxWindow *parent, wxWindowID id);
     void enableAllButtons();
+
     void OnBBox();
     void OnOptF();
     void OnBotL();
     void OnLine();
+    void OnSpeed();
 
   private:
     bool isBBox = false;
@@ -29,6 +31,7 @@ class ObjectDetectionPanelButton : public wxPanel {
     wxButton *OptF_Button;
     wxButton *BotL_Button;
     wxButton *Line_Button;
+    wxButton *Speed_Button;
     DECLARE_EVENT_TABLE()
 };
 #endif

@@ -23,6 +23,8 @@ class BBObjD : public BufferedBitmap {
     void SetBotL(std::vector<cv::Point2f> p);
     void SetLine(std::vector<cv::Vec4i> l);
 
+    std::vector<cv::Vec4i> GetLine();
+
   protected:
   private:
     bool isBBox = false;

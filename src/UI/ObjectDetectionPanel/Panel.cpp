@@ -6,12 +6,13 @@ ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
 
     cv::RNG rng;
     ObjectDetection objD(rng);
+    SpeedCalculation spdC;
 
     button_panel =
         new ObjectDetectionPanelButton(this, Enum::SR_BUTTON_PANEL_ID);
 
     img_panel = new ObjectDetectionPanelImage(this, Enum::SR_IMG_PANEL_ID, objD,
-                                              imgData);
+                                              spdC, imgData);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
@@ -51,6 +52,12 @@ void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
         wxLogMessage("Line button pressed");
         img_panel->OnLine();
         button_panel->OnLine();
+    }
+
+    if (e.GetId() == Enum::OD_Speed_Button_ID) {
+        wxLogMessage("Speed button pressed");
+        img_panel->OnSpeed();
+        button_panel->OnSpeed();
     }
 }
 

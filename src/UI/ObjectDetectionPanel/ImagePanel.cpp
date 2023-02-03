@@ -2,8 +2,8 @@
 
 ObjectDetectionPanelImage::ObjectDetectionPanelImage(
     wxWindow *parent, wxWindowID id, ObjectDetection &objd,
-    std::vector<ImgData> &imgData)
-    : wxPanel(parent, id), objD(objd), imgData(imgData) {
+    SpeedCalculation &spdC, std::vector<ImgData> &imgData)
+    : wxPanel(parent, id), objD(objd), speedCalc(spdC), imgData(imgData) {
 
     cv::Mat firstImg = imgData[count].image;
 
@@ -84,6 +84,13 @@ void ObjectDetectionPanelImage::OnLine() {
     }
     wxLogMessage("Line -> Off");
 }
+
+void ObjectDetectionPanelImage::OnSpeed() {
+    wxLogMessage("Speed Calculation Started");
+    speedCalc.SetLine(img_bitmap->GetLine());
+    speedCalc.runCalculation(speedCalc.toSpeedData(imgData, opticalFlowPoints));
+    wxLogMessage("Speed Calculation Complete");
+};
 
 void ObjectDetectionPanelImage::handleBBox() {
     img_bitmap->SetRect(objD.GetRect(opticalFlowPoints[count]));

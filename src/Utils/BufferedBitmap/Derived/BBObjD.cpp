@@ -98,6 +98,8 @@ void BBObjD::SetLine(std::vector<cv::Vec4i> l) {
     Refresh();
 }
 
+std::vector<cv::Vec4i> BBObjD::GetLine() { return line; }
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(BBObjD, BufferedBitmap)
 EVT_PAINT(BBObjD::OnPaint) 

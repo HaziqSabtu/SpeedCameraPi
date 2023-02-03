@@ -9,6 +9,7 @@ ObjectDetectionPanelButton::ObjectDetectionPanelButton(wxWindow *parent,
     OptF_Button = new wxButton(this, Enum::OD_OptF_Button_ID, "OptF");
     BotL_Button = new wxButton(this, Enum::OD_BotL_Button_ID, "BotL");
     Line_Button = new wxButton(this, Enum::OD_Line_Button_ID, "Line");
+    Speed_Button = new wxButton(this, Enum::OD_Speed_Button_ID, "Speed");
 
     // Create the button sizer
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -17,6 +18,7 @@ ObjectDetectionPanelButton::ObjectDetectionPanelButton(wxWindow *parent,
     button_sizer->Add(OptF_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(BotL_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Line_Button, 0, wxALL | wxCENTER, 5);
+    button_sizer->Add(Speed_Button, 0, wxALL | wxCENTER, 5);
     this->SetSizer(button_sizer);
 
     // Disable buttons
@@ -25,6 +27,7 @@ ObjectDetectionPanelButton::ObjectDetectionPanelButton(wxWindow *parent,
     OptF_Button->Disable();
     BotL_Button->Disable();
     Line_Button->Disable();
+    Speed_Button->Disable();
 }
 
 void ObjectDetectionPanelButton::enableAllButtons() {
@@ -34,6 +37,7 @@ void ObjectDetectionPanelButton::enableAllButtons() {
     OptF_Button->Enable();
     BotL_Button->Enable();
     Line_Button->Enable();
+    Speed_Button->Enable();
 }
 
 void ObjectDetectionPanelButton::OnBBox() {
@@ -70,6 +74,10 @@ void ObjectDetectionPanelButton::OnLine() {
     } else {
         Line_Button->SetLabel("Show Line");
     }
+}
+
+void ObjectDetectionPanelButton::OnSpeed() {
+    wxLogMessage("Speed Button Clicked");
 }
 
 // clang-format off
