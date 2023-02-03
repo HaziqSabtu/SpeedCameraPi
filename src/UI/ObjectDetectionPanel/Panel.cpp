@@ -6,7 +6,8 @@ ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
 
     cv::RNG rng;
     ObjectDetection objD(rng);
-    SpeedCalculation spdC;
+    SpeedCalculation spdC(imgData[0].image.cols);
+    wxLogMessage("Image Width: %d", imgData[0].image.cols);
 
     button_panel =
         new ObjectDetectionPanelButton(this, Enum::SR_BUTTON_PANEL_ID);
