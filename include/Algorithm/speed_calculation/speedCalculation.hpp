@@ -1,10 +1,12 @@
 #ifndef SPEED_CALCULATION_HPP
 #define SPEED_CALCULATION_HPP
 
+#include <Utils/fileAVI.hpp>
 #include <Utils/fileWR.hpp>
 #include <chrono>
 #include <opencv2/core.hpp>
 #include <wx/log.h>
+
 
 struct SpeedData {
     cv::Mat image;
@@ -42,6 +44,7 @@ class SpeedCalculation {
 
   private:
     std::vector<cv::Vec4i> line;
+    std::vector<double> speeds;
 
   private:
     const int imageWidth;

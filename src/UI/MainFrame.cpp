@@ -1,12 +1,16 @@
 #include <UI/MainFrame.hpp>
 
 MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
-    std::string filePath =
+    std::string filePath2 =
         "C:/Users/kakik/Desktop/P1/data/bin/29012023093818.bin";
-    FILEWR::ReadFile(filePath, imgData);
+    // FILEWR::ReadFile(filePath2, imgData);
+    std::string filePath = "C:/Users/kakik/Desktop/P1/data/avi/output2.avi";
+    FILEAVI::ReadFile(filePath, imgData);
 
-    int rotationAngle = 7;
-    ImageUtils::RotateImage(imgData, rotationAngle);
+    int rotationAngle = 0;
+    if (rotationAngle != 0) {
+        ImageUtils::RotateImage(imgData, rotationAngle);
+    }
 
     notebook = new wxNotebook(this, Enum::NOTEBOOK_ID);
 
@@ -27,6 +31,8 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     SetSize(800, 600);
     Center();
 }
+
+MainFrame::~MainFrame() {}
 
 void MainFrame::OnPageChange(wxNotebookEvent &event) {
     int page = event.GetSelection();

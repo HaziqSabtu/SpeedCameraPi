@@ -12,13 +12,18 @@ ObjectDetection::ObjectDetection(cv::RNG rng) : ObjectDetection(rng, 1000) {}
 
 void ObjectDetection::runDetection(const std::vector<ImgData> &imgData) {
     cv::Mat firstImage = imgData[0].image;
+    std::cout << "Initializing Optical Flow" << std::endl;
     initOpticalFlow(firstImage);
+    std::cout << "Optical Flow Initialized" << std::endl;
     for (int i = 1; i < imgData.size(); i++) {
+        std::cout << "Frame: " << i << std::endl;
         refreshVectors();
         frame = imgData[i].image;
         cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
+        std::cout << "Calculating Optical Flow" << std::endl;
+        std::cout << "Old Points Size: " << oldPoints.size() << std::endl;
         cv::calcOpticalFlowPyrLK(oldGray, gray, oldPoints, points, status, err);
-
+        std::cout << "Optical Flow Calculated" << std::endl;
         std::vector<cv::Point2f> goodPoints;
         std::vector<int> deletedIDs;
 
@@ -30,6 +35,8 @@ void ObjectDetection::runDetection(const std::vector<ImgData> &imgData) {
             }
             deletedIDs.push_back(i);
         }
+
+        std::cout << "Points Validated" << std::endl;
 
         if (deletedIDs.size() > 0) {
             removeUntrackedPoints(deletedIDs);

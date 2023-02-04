@@ -27,25 +27,45 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     }
 
     wxLogMessage("Intersection");
+    speeds.clear();
     for (SpeedData data : speedData) {
         cv::Point2f bottom = data.BottomLine();
         cv::Point2f intersection1 = intersection(bottom.y, line[0]);
         cv::Point2f intersection2 = intersection(bottom.y, line[1]);
-        wxLogMessage("Bottom: %f, %f", bottom.x, bottom.y);
-        wxLogMessage("Intersection1: %f, %f", intersection1.x, intersection1.y);
-        wxLogMessage("Intersection2: %f, %f", intersection2.x, intersection2.y);
+        // wxLogMessage("Bottom: %f, %f", bottom.x, bottom.y);
+        // wxLogMessage("Intersection1: %f, %f", intersection1.x,
+        // intersection1.y); wxLogMessage("Intersection2: %f, %f",
+        // intersection2.x, intersection2.y);
         double pixelDist = fabs(intersection1.x - intersection2.x);
         double dist1 = distanceFromCamera(pixelDist);
-        wxLogMessage("pixelDist: %f", pixelDist);
-        wxLogMessage("Distance from Camera: %f", dist1);
+        // wxLogMessage("pixelDist: %f", pixelDist);
+        // wxLogMessage("Distance from Camera: %f", dist1);
         if (prevDistFromCamera != -1) {
             double speed =
                 calcSpeed(prevDistFromCamera, dist1, prevTime, data.time);
             wxLogMessage("Speed: %f", speed);
+            speeds.push_back(speed);
         }
         prevDistFromCamera = dist1;
         prevTime = data.time;
     }
+
+    std::sort(speeds.begin(), speeds.end(),
+              [](double a, double b) { return a < b; });
+
+    double totalSpeed = 0;
+    for (double s : speeds) {
+        wxLogMessage("Speed: %f", s);
+        totalSpeed += s;
+    }
+    double avgSpeed = totalSpeed / speeds.size();
+    wxLogMessage("Average Speed: %f", avgSpeed);
+
+    double measuredSpeed = 1200 / 4665.2;
+    wxLogMessage("Measured Speed: %f", measuredSpeed);
+
+    double error = fabs(avgSpeed - measuredSpeed) * 100 / measuredSpeed;
+    wxLogMessage("Error: %f", error);
 }
 
 double SpeedCalculation::distanceFromCamera(float pixelWidth) {
@@ -94,7 +114,7 @@ double SpeedCalculation::calcSpeed(
     std::chrono::high_resolution_clock::time_point prevTime,
     std::chrono::high_resolution_clock::time_point curTime) {
     double distDiff = fabs(curDist - prevDist);
-    double timeDiff = FILEWR::getTimeDifference(prevTime, curTime);
+    double timeDiff = FILEAVI::getTimeDifference(prevTime, curTime);
     wxLogMessage("DistDiff: %f", distDiff);
     wxLogMessage("TimeDiff: %f", timeDiff);
     return distDiff / timeDiff;

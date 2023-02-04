@@ -20,6 +20,7 @@ void ObjectDetectionPanelImage::runDetection() {
 
 void ObjectDetectionPanelImage::OnButtonIncrement() {
     count = (count >= imgData.size() - 1) ? imgData.size() - 1 : count + 1;
+    wxLogMessage("Incrementing to frame: %d", count);
     img_bitmap->SetImage(imgData[count].image);
 
     if (img_bitmap->GetIsBBox()) {

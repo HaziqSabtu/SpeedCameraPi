@@ -33,7 +33,7 @@ class ObjectDetection {
     int blockSize = 3;
     bool useHarrisDetector = false;
     double k = 0.04;
-    double minPointDistance = 0.4;
+    double minPointDistance = 0.2;
 
   public:
     ObjectDetection(cv::RNG rng, int maxCorners);
