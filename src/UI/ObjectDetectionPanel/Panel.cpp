@@ -33,32 +33,32 @@ void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::OD_BBox_Button_ID) {
         wxLogMessage("BBox button pressed");
-        img_panel->OnBBox();
         button_panel->OnBBox();
+        img_panel->OnBBox();
     }
 
     if (e.GetId() == Enum::OD_OptF_Button_ID) {
         wxLogMessage("OptF button pressed");
-        img_panel->OnOptF();
         button_panel->OnOptF();
+        img_panel->OnOptF();
     }
 
     if (e.GetId() == Enum::OD_BotL_Button_ID) {
         wxLogMessage("BotL button pressed");
-        img_panel->OnBotL();
         button_panel->OnBotL();
+        img_panel->OnBotL();
     }
 
     if (e.GetId() == Enum::OD_Line_Button_ID) {
         wxLogMessage("Line button pressed");
-        img_panel->OnLine();
         button_panel->OnLine();
+        img_panel->OnLine();
     }
 
     if (e.GetId() == Enum::OD_Speed_Button_ID) {
         wxLogMessage("Speed button pressed");
-        img_panel->OnSpeed();
         button_panel->OnSpeed();
+        img_panel->OnSpeed();
     }
 }
 

@@ -25,10 +25,13 @@ class MainFrame : public wxFrame {
   private:
     cv::VideoCapture *video_capture;
     std::vector<ImgData> imgData;
+
     wxNotebook *notebook;
     SelectLinePanel *select_line_panel;
     ObjectDetectionPanel *object_detection_panel;
+
     Panel2 *p2, *p3, *p4;
+
     void OnPageChange(wxNotebookEvent &event);
 };
 
