@@ -14,7 +14,10 @@ ObjectDetectionPanelImage::ObjectDetectionPanelImage(
 void ObjectDetectionPanelImage::runDetection() {
     wxLogMessage("Running Object Detection");
     objD.runDetection(imgData);
+    wxLogMessage("Object Detection Complete");
+    // opticalFlowPoints = objD.GetOpticalFlowPoints();
     opticalFlowPoints = objD.GetOpticalFlowPoints(true);
+    wxLogMessage("Optical Flow Points: %zd", opticalFlowPoints.size());
     wxLogMessage("Object Detection Complete");
 }
 

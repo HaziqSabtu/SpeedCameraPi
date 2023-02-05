@@ -13,11 +13,14 @@ void FILEAVI::ReadFile(std::string path, std::vector<ImgData> &imgData) {
     }
 
     cv::Mat frame;
+
     std::chrono ::high_resolution_clock::time_point startTime =
         std::chrono::high_resolution_clock::now();
+
     while (cap.read(frame)) {
         cv::Mat frameCopy = frame.clone();
         double timestamp = cap.get(cv::CAP_PROP_POS_MSEC);
+        std::cout << "Timestamp: " << timestamp << std::endl;
         std::chrono ::high_resolution_clock::time_point time =
             startTime + std::chrono::milliseconds((int)timestamp);
         imgData.push_back({frameCopy, time});

@@ -1,6 +1,7 @@
 #ifndef SPEED_CALCULATION_HPP
 #define SPEED_CALCULATION_HPP
 
+#include <Utils/ImageUtils.hpp>
 #include <Utils/fileAVI.hpp>
 #include <Utils/fileWR.hpp>
 #include <chrono>
@@ -48,13 +49,13 @@ class SpeedCalculation {
 
   private:
     const int imageWidth;
-    const double LANE_WIDTH = 371.00; // in mm
+    const double LANE_WIDTH = 360.00; // in mm
     // const double LANE_WIDTH = 0.37100; // in meters
 
     // Camera Parameters
-    const double SensorWidth = 3.68;  // in mm
-    const double SensorHeight = 2.76; // in mm
-    const double FocalLength = 3.04;  // in mm
+    const double SensorWidth = 3.68; // in mm
+    // const double SensorHeight = 2.76; // in mm
+    const double FocalLength = 3.04; // in mm
 
     // set default values for prevTime -1
     double prevDistFromCamera = -1;

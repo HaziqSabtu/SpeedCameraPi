@@ -42,8 +42,16 @@ void ObjectDetection::runDetection(const std::vector<ImgData> &imgData) {
             removeUntrackedPoints(deletedIDs);
         }
 
+        std::cout << "Points Removed" << std::endl;
+
         copyOldData(goodPoints);
     }
+
+    std::cout << "Optical Flow Finished" << std::endl;
+    std::cout << "Optical Flow Points Size: " << opticalFlowPoints.size()
+              << std::endl;
+    std::cout << "Optical Flow Points Size 0: " << opticalFlowPoints[0].size()
+              << std::endl;
 }
 
 cv::Rect ObjectDetection::GetRect(const std::vector<cv::Point2f> &points) {
@@ -146,19 +154,17 @@ void ObjectDetection::refreshVectors() {
 
 std::vector<std::vector<cv::Point2f>> ObjectDetection::reshapeVectors(
     std::vector<std::vector<cv::Point2f>> &vectors) {
-    std::vector<std::vector<cv::Point2f>> reshapedVectors;
-    std::cout << "vectors.size() = " << vectors.size() << std::endl;
-    std::cout << "vectors[0].size() = " << vectors[0].size() << std::endl;
-    for (int i = 0; i < vectors[i].size(); i++) {
+    size_t m = vectors.size();
+    size_t n = vectors[0].size();
+    std::vector<std::vector<cv::Point2f>> reshapedVectors(
+        n, std::vector<cv::Point2f>(m));
+
+    for (int i = 0; i < m; i++) {
+        std::cout << "i = " << i << std::endl;
         std::vector<cv::Point2f> tmp;
-        for (int j = 0; j < vectors.size(); j++) {
-            tmp.push_back(vectors[j][i]);
+        for (int j = 0; j < n; j++) {
+            reshapedVectors[j][i] = vectors[i][j];
         }
-        reshapedVectors.push_back(tmp);
     }
-    std::cout << "reshapedVectors.size() = " << reshapedVectors.size()
-              << std::endl;
-    std::cout << "reshapedVectors[0].size() = " << reshapedVectors[0].size()
-              << std::endl;
     return reshapedVectors;
 }

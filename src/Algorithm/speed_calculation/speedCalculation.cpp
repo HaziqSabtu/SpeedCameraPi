@@ -1,6 +1,8 @@
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 
-SpeedCalculation::SpeedCalculation(int imageWidth) : imageWidth(imageWidth) {}
+SpeedCalculation::SpeedCalculation(int imageWidth) : imageWidth(imageWidth) {
+    std::cout << "imageWidth: " << imageWidth << std::endl;
+}
 
 void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     if (line.size() != 2) {
@@ -13,55 +15,48 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
         return;
     }
 
-    wxLogMessage("Calculating speed");
-    for (auto l : line) {
-        wxLogMessage("Line: %d, %d, %d, %d", l[0], l[1], l[2], l[3]);
-    }
-    for (int i = 0; i < speedData.size(); i++) {
-        wxLogMessage("Image: %d", i);
-        wxLogMessage("Time: %lld",
-                     std::chrono::duration_cast<std::chrono::milliseconds>(
-                         speedData[i].time.time_since_epoch())
-                         .count());
-        wxLogMessage("Points: %zd", speedData[i].points.size());
-    }
+    // wxLogMessage("Calculating speed");
+    // for (auto l : line) {
+    //     wxLogMessage("Line: %d, %d, %d, %d", l[0], l[1], l[2], l[3]);
+    // }
+    // for (int i = 0; i < speedData.size(); i++) {
+    //     wxLogMessage("Image: %d", i);
+    //     wxLogMessage("Time: %lld",
+    //                  std::chrono::duration_cast<std::chrono::milliseconds>(
+    //                      speedData[i].time.time_since_epoch())
+    //                      .count());
+    //     wxLogMessage("Points: %zd", speedData[i].points.size());
+    // }
 
     wxLogMessage("Intersection");
     speeds.clear();
+    int i = 0;
     for (SpeedData data : speedData) {
+
         cv::Point2f bottom = data.BottomLine();
         cv::Point2f intersection1 = intersection(bottom.y, line[0]);
         cv::Point2f intersection2 = intersection(bottom.y, line[1]);
-        // wxLogMessage("Bottom: %f, %f", bottom.x, bottom.y);
-        // wxLogMessage("Intersection1: %f, %f", intersection1.x,
-        // intersection1.y); wxLogMessage("Intersection2: %f, %f",
-        // intersection2.x, intersection2.y);
+
         double pixelDist = fabs(intersection1.x - intersection2.x);
         double dist1 = distanceFromCamera(pixelDist);
-        // wxLogMessage("pixelDist: %f", pixelDist);
-        // wxLogMessage("Distance from Camera: %f", dist1);
+        wxLogMessage("%d: Distance: %f", i, dist1);
+
         if (prevDistFromCamera != -1) {
             double speed =
                 calcSpeed(prevDistFromCamera, dist1, prevTime, data.time);
             wxLogMessage("Speed: %f", speed);
             speeds.push_back(speed);
         }
+
         prevDistFromCamera = dist1;
         prevTime = data.time;
+        i++;
     }
 
-    std::sort(speeds.begin(), speeds.end(),
-              [](double a, double b) { return a < b; });
+    double avgSpeed = ImageUtils::TrimmedMean(speeds, 10);
 
-    double totalSpeed = 0;
-    for (double s : speeds) {
-        wxLogMessage("Speed: %f", s);
-        totalSpeed += s;
-    }
-    double avgSpeed = totalSpeed / speeds.size();
-    wxLogMessage("Average Speed: %f", avgSpeed);
-
-    double measuredSpeed = 1200 / 4665.2;
+    double measuredSpeed = 0.3 / 1.2;
+    // double measuredSpeed = 1200 / 4665.2;
     wxLogMessage("Measured Speed: %f", measuredSpeed);
 
     double error = fabs(avgSpeed - measuredSpeed) * 100 / measuredSpeed;

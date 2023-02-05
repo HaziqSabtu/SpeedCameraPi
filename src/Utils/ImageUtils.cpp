@@ -12,3 +12,19 @@ void ImageUtils::RotateImage(std::vector<ImgData> &imgData, int angle) {
         wxLogMessage("Rotated image %d", i);
     }
 }
+
+double ImageUtils::TrimmedMean(const std::vector<double> &data,
+                               double percentage) {
+    int n = data.size();
+    int trim = (int)(percentage / 100.0 * n);
+
+    std::vector<double> sortedData;
+    sortedData.assign(data.begin(), data.end());
+    std::sort(sortedData.begin(), sortedData.end(), std::less<double>());
+
+    double sum = 0;
+    for (int i = trim; i < n - trim; i++) {
+        sum += sortedData[i];
+    }
+    return sum / (n - 2 * trim);
+}

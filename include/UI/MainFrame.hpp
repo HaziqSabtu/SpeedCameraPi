@@ -10,6 +10,7 @@
 #include <Utils/Enum.hpp>
 #include <Utils/ImageUtils.hpp>
 #include <Utils/fileAVI.hpp>
+#include <Utils/fileH264.hpp>
 #include <Utils/fileWR.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>

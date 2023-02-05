@@ -9,6 +9,8 @@
 class ImageUtils {
   public:
     static void RotateImage(std::vector<ImgData> &imgData, int angle);
+    static double TrimmedMean(const std::vector<double> &data,
+                              double percentage);
 };
 
 #endif
