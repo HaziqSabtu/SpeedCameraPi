@@ -12,7 +12,7 @@ class BBOpticalFlow : public BufferedBitmap {
     void ToggleDrawRect();
 
   private:
-    boolean draw_rect = false;
+    bool draw_rect = false;
     cv::Rect rectangle;
     cv::Rect trueRectangle;
 

@@ -34,6 +34,11 @@ void FILEH264::ReadFile(std::string path, std::vector<ImgData> &imgData) {
     std::cout << "Release file " << path << std::endl;
 }
 
+void FILEH264::ReadFile(wxString path, std::vector<ImgData> &imgData) {
+    std::string s = std::string(path.mb_str(wxConvUTF8));
+    ReadFile(s, imgData);
+}
+
 double FILEH264::getTimeDifference(
     std::chrono::high_resolution_clock::time_point time1,
     std::chrono::high_resolution_clock::time_point time2) {

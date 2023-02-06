@@ -6,7 +6,7 @@ MainFrame::MainFrame(const wxString &title, wxString filename,
     std::string filePath2 =
         "C:/Users/kakik/Desktop/P1/data/bin/29012023093818.bin";
     // FILEWR::ReadFile(filePath2, imgData);
-    std::string filePath = dirLocation + filename;
+    wxString filePath = dirLocation + filename;
     // std::string filePath = "C:/Users/kakik/Desktop/P1/data/avi/output2.avi";
     FILEH264::ReadFile(filePath, imgData);
 

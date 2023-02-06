@@ -14,7 +14,7 @@ class OBJECTTRACKER {
   public:
     OBJECTTRACKER(std::string type);
     ~OBJECTTRACKER();
-    cv::Rect OBJECTTRACKER::UpdateTracker(cv::Mat &frame);
+    cv::Rect UpdateTracker(cv::Mat &frame);
     void InitTracker(cv::Mat &frame, cv::Rect roi);
 
   private:

@@ -19,7 +19,7 @@ class BBImage : public BufferedBitmap {
     int end_x = -1;
     int end_y = -1;
 
-    boolean draw_rect = false;
+    bool draw_rect = false;
     cv::Rect rectangle;
     cv::Rect trueRectangle;
 

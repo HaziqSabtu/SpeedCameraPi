@@ -67,8 +67,19 @@ inline void BufferedBitmap::processRatio() {
         resizeWidth = (int)((double)height * imgRatio);
     }
 
+
     widthRatio = (double)img.cols / (double)resizeWidth;
     heightRatio = (double)img.rows / (double)resizeHeight;
+
+
+    std::cout << "width: " << width << std::endl;
+    std::cout << "height: " << height << std::endl;
+    std::cout << "imgRatio: " << imgRatio << std::endl;
+    std::cout << "clientRatio: " << clientRatio << std::endl;
+    std::cout << "resizeWidth: " << resizeWidth << std::endl;
+    std::cout << "resizeHeight: " << resizeHeight << std::endl;
+    std::cout << "widthRatio: " << widthRatio << std::endl;
+    std::cout << "heightRatio: " << heightRatio << std::endl;
 }
 
 #endif

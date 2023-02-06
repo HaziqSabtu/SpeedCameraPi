@@ -108,7 +108,7 @@ class LaneDetectionAlgorithm {
 
     void preProcessImage(cv::Mat &input);
     void getAllLine();
-    void processDetectedLines(std::vector<cv::Vec4i> lines, bool draw);
+    void processDetectedLines(std::vector<cv::Vec4i> lines, bool draw = false);
     void processRawData(std::vector<std::vector<cv::Point2f>> &rois, bool debug,
                         bool draw);
     void processROIData(std::vector<std::vector<cv::Point2f>> &rois, bool debug,
@@ -144,8 +144,8 @@ class LaneDetectionAlgorithm {
                                         cv::Point2f p3, cv::Point2f p4);
     static std::vector<cv::Point2f> getAllPointX(cv::Point2f &startPoint,
                                                  cv::Point2f &intersection);
-    static std::vector<cv::Point2f> getAllPointY(cv::Point2f &startPoint,
-                                                 cv::Point2f &intersection);
+    static std::vector<cv::Point2f> getAllPointY(cv::Point2f startPoint,
+                                                 cv::Point2f intersection);
     double runEvaluation(LineCombination &l, std::vector<int> debug);
 
     // PROCESS

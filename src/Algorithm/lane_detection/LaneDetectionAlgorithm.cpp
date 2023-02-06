@@ -45,7 +45,7 @@ void LaneDetectionAlgorithm::getAllLine() {
 }
 
 void LaneDetectionAlgorithm::processDetectedLines(std::vector<cv::Vec4i> lines,
-                                                  bool draw = false) {
+                                                  bool draw) {
     // process every line
     // get intersection from (0 -> frameHeight)
     // sort by x
@@ -81,7 +81,7 @@ void LaneDetectionAlgorithm::processDetectedLines(std::vector<cv::Vec4i> lines,
     }
 
     stable_sort(detectedLines.begin(), detectedLines.end(),
-                [](const DetLine &a, const DetLine &b) {
+                [](const DetLine a, const DetLine b) {
                     return a.start.x < b.start.x;
                 });
 
@@ -717,8 +717,8 @@ LaneDetectionAlgorithm::getAllPointX(cv::Point2f &startPoint,
 // get All Points in Y direction
 // todo add iteration
 std::vector<cv::Point2f>
-LaneDetectionAlgorithm::getAllPointY(cv::Point2f &startPoint,
-                                     cv::Point2f &intersection) {
+LaneDetectionAlgorithm::getAllPointY(cv::Point2f startPoint,
+                                     cv::Point2f intersection) {
 
     std::vector<cv::Point2f> points;
 

@@ -31,6 +31,8 @@ void SelectLinePanelImage::OnHough() {
 
     if (img_bitmap->GetIsHough()) {
         wxLogMessage("Show Hough");
+        std::vector<cv::Vec4i> l = lineDetection.GetLinesP();
+        std::cout << "l: " << l.size() << std::endl;
         img_bitmap->SetLinesP(lineDetection.GetLinesP());
         return;
     }
