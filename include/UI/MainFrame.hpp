@@ -14,12 +14,13 @@
 #include <Utils/fileWR.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
+#include <wx/filename.h>
 #include <wx/notebook.h>
 #include <wx/wx.h>
 
 class MainFrame : public wxFrame {
   public:
-    MainFrame(const wxString &title);
+    MainFrame(const wxString &title, wxString filename, wxString dirLocation);
     ~MainFrame();
 
   private:

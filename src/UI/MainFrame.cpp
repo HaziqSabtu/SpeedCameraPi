@@ -1,11 +1,12 @@
 #include <UI/MainFrame.hpp>
 
-MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
+MainFrame::MainFrame(const wxString &title, wxString filename,
+                     wxString dirLocation)
+    : wxFrame(NULL, wxID_ANY, title) {
     std::string filePath2 =
         "C:/Users/kakik/Desktop/P1/data/bin/29012023093818.bin";
     // FILEWR::ReadFile(filePath2, imgData);
-    std::string filePath =
-        "C:/Users/kakik/Desktop/P1/data/avi/20230205153530.h264";
+    std::string filePath = dirLocation + filename;
     // std::string filePath = "C:/Users/kakik/Desktop/P1/data/avi/output2.avi";
     FILEH264::ReadFile(filePath, imgData);
 
