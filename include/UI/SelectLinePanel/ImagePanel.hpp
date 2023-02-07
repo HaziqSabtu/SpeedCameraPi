@@ -31,6 +31,7 @@ class SelectLinePanelImage : public wxPanel {
 
     void OnSize(wxSizeEvent &e);
     void OnLeftDown(wxMouseEvent &e);
+    void OnPaint(wxPaintEvent &e);
     DECLARE_EVENT_TABLE();
 };
 #endif
