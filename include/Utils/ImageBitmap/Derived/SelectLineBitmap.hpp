@@ -14,14 +14,13 @@ class SelectLineBitmap : public ImageBitmap {
 
     void SetPoints(std::vector<cv::Point2f> *ptns);
     void SetHoughLines(std::vector<cv::Vec4i> *houghLines);
+    void setSelectedLines(std::vector<cv::Vec4i> *selectedLines);
     virtual void drawBitMap() override;
 
   private:
-    // cv::Mat image;
-    // cv::Mat rgbImage;
-
     std::vector<cv::Point2f> *ptns;
     std::vector<cv::Vec4i> *houghLines;
+    std::vector<cv::Vec4i> *selectedLines;
 
     wxDECLARE_EVENT_TABLE();
 };

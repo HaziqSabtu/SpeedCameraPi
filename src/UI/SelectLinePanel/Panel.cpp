@@ -6,12 +6,14 @@ SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
 
     ptns = new std::vector<cv::Point2f>();
     houghLines = new std::vector<cv::Vec4i>();
+    selectedLines = new std::vector<cv::Vec4i>();
 
     button_panel = new SelectLinePanelButton(this, Enum::SL_BUTTON_PANEL_ID);
 
     img_bitmap = new SelectLineBitmap(this, Enum::SL_BB_ID);
     img_bitmap->SetPoints(ptns);
     img_bitmap->SetHoughLines(houghLines);
+    img_bitmap->setSelectedLines(selectedLines);
     img_bitmap->SetImage(imgData[c].image);
     img_bitmap->Bind(wxEVT_LEFT_DOWN, &SelectLinePanel::OnLeftDown, this);
     img_bitmap->Bind(wxEVT_SIZE, &SelectLinePanel::OnSize, this);
@@ -35,10 +37,10 @@ SelectLinePanel::~SelectLinePanel() {
     delete main_sizer;
     delete ptns;
     delete houghLines;
+    delete selectedLines;
 }
 
 void SelectLinePanel::OnButton(wxCommandEvent &e) {
-
     if (e.GetId() == Enum::SL_Canny_Button_ID) {
         wxLogMessage("oncanny");
         button_panel->OnCanny();
@@ -70,19 +72,75 @@ void SelectLinePanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::SL_Clear_Button_ID) {
-        // img_panel->OnClear();
+        ptns->clear();
+        selectedLines->clear();
+        img_bitmap->drawBitMap();
     }
 }
 
 void SelectLinePanel::OnLeftDown(wxMouseEvent &e) {
     wxPoint mousePos = e.GetPosition();
     wxPoint realPos = img_bitmap->GetRealMousePos(mousePos);
-    cv::Point2f p(realPos.x, realPos.y);
-    ptns->push_back(p);
+    addPoints(realPos);
+    checkForLine(realPos);
     img_bitmap->drawBitMap();
 }
 
 void SelectLinePanel::OnSize(wxSizeEvent &e) { img_bitmap->drawBitMap(); }
+
+void SelectLinePanel::checkForLine(wxPoint realMousePos) {
+    cv::Point2f mousePos(realMousePos.x, realMousePos.y);
+    std::vector<cv::Vec4i> detLines;
+    std::vector<cv::Vec4i> &linesP = lineDetection.GetLinesP();
+
+    if (linesP.empty()) {
+        wxLogMessage("No Lines Available");
+        return;
+    }
+
+    for (auto line : linesP) {
+        if (lineDetection.isPointOnLine(line, mousePos, 3)) {
+            detLines.push_back(line);
+            wxLogMessage("Line Point1: (%d, %d) Point2: (%d, %d)", line[0],
+                         line[1], line[2], line[3]);
+        }
+    }
+
+    if (detLines.size() == 0) {
+        wxLogMessage("No Lines Found");
+        return;
+    }
+
+    // ! [Possible Error] -> Some Lines might have Different Angle
+    cv::Vec4i avgLine = lineDetection.averageLines(detLines);
+    wxLogMessage(
+        "Found %zd lines from linesP --> Average Line Point1: (%d, %d) "
+        "Point2: (%d, %d)",
+        detLines.size(), avgLine[0], avgLine[1], avgLine[2], avgLine[3]);
+    addLine(
+        lineDetection.extrapolateLine(avgLine, imgData[c].image.size().height));
+}
+
+void SelectLinePanel::addPoints(wxPoint realMousePos) {
+    if (ptns == NULL) {
+        ptns = new std::vector<cv::Point2f>();
+        img_bitmap->SetPoints(ptns);
+    }
+    ptns->push_back(cv::Point2f(realMousePos.x, realMousePos.y));
+}
+
+void SelectLinePanel::addLine(cv::Vec4i line) {
+    if (selectedLines == NULL) {
+        selectedLines = new std::vector<cv::Vec4i>();
+        img_bitmap->setSelectedLines(selectedLines);
+    }
+
+    if (selectedLines->size() <= 1) {
+        selectedLines->push_back(line);
+    } else {
+        selectedLines->at(1) = line;
+    }
+}
 
 // clang-format off
 BEGIN_EVENT_TABLE(SelectLinePanel, wxPanel)

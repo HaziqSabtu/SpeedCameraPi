@@ -21,6 +21,7 @@ class SelectLinePanel : public wxPanel {
     std::vector<ImgData> imgData;
     std::vector<cv::Point2f> *ptns;
     std::vector<cv::Vec4i> *houghLines;
+    std::vector<cv::Vec4i> *selectedLines;
 
     LineDetection lineDetection;
 
@@ -34,6 +35,10 @@ class SelectLinePanel : public wxPanel {
     void OnButton(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);
     void OnSize(wxSizeEvent &e);
+
+    void checkForLine(wxPoint realMousePos);
+    void addLine(cv::Vec4i line);
+    void addPoints(wxPoint realMousePos);
 
     DECLARE_EVENT_TABLE()
 };

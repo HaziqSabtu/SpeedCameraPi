@@ -14,6 +14,10 @@ void SelectLineBitmap::SetHoughLines(std::vector<cv::Vec4i> *houghLines) {
     this->houghLines = houghLines;
 }
 
+void SelectLineBitmap::setSelectedLines(std::vector<cv::Vec4i> *selectedLines) {
+    this->selectedLines = selectedLines;
+}
+
 SelectLineBitmap::~SelectLineBitmap() {}
 
 void SelectLineBitmap::drawBitMap() {
@@ -32,6 +36,13 @@ void SelectLineBitmap::drawBitMap() {
         for (auto l : *houghLines) {
             cv::line(img_cp, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
                      cv::Scalar(0, 255, 0), 2);
+        }
+    }
+
+    if (selectedLines && !selectedLines->empty()) {
+        for (auto l : *selectedLines) {
+            cv::line(img_cp, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
+                     cv::Scalar(0, 255, 255), 2);
         }
     }
     cv::Mat img_rs;
