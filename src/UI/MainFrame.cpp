@@ -18,14 +18,15 @@ MainFrame::MainFrame(const wxString &title, wxString filename,
     notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
                               wxSize(800, 600));
 
-    select_line_panel = new SelectLinePanel(notebook, wxID_ANY, imgData);
-    // object_detection_panel =
-    // new ObjectDetectionPanel(notebook, wxID_ANY, imgData);
+    select_line_panel =
+        new SelectLinePanel(notebook, Enum::SL_Panel_ID, imgData);
+    object_detection_panel =
+        new ObjectDetectionPanel(notebook, wxID_ANY, imgData);
 
     p3 = new Panel2(notebook, wxID_ANY);
 
     notebook->AddPage(select_line_panel, "Select ROI", true);
-    // notebook->AddPage(object_detection_panel, "Object Detection", false);
+    notebook->AddPage(object_detection_panel, "Object Detection", false);
     notebook->AddPage(p3, "Panel3", false);
 
     notebook->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &MainFrame::OnPageChange, this);

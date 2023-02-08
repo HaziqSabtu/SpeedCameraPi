@@ -14,6 +14,8 @@ class SelectLinePanel : public wxPanel {
                     std::vector<ImgData> &imgData);
     ~SelectLinePanel();
 
+    std::vector<cv::Vec4i> GetSelectedLines();
+
   private:
     SelectLinePanelButton *button_panel;
     SelectLineBitmap *img_bitmap;

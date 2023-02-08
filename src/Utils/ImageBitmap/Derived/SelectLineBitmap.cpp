@@ -6,6 +6,8 @@ SelectLineBitmap::SelectLineBitmap(wxWindow *parent, wxWindowID id,
                                    const wxString &name)
     : ImageBitmap(parent, id, bitmap, pos, size, style, name) {}
 
+SelectLineBitmap::~SelectLineBitmap() {}
+
 void SelectLineBitmap::SetPoints(std::vector<cv::Point2f> *ptns) {
     this->ptns = ptns;
 }
@@ -17,8 +19,6 @@ void SelectLineBitmap::SetHoughLines(std::vector<cv::Vec4i> *houghLines) {
 void SelectLineBitmap::setSelectedLines(std::vector<cv::Vec4i> *selectedLines) {
     this->selectedLines = selectedLines;
 }
-
-SelectLineBitmap::~SelectLineBitmap() {}
 
 void SelectLineBitmap::drawBitMap() {
     if (image.empty()) {

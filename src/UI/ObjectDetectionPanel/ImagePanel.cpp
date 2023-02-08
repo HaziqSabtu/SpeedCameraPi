@@ -97,7 +97,7 @@ void ObjectDetectionPanelImage::OnSpeed() {
 };
 
 void ObjectDetectionPanelImage::handleBBox() {
-    img_bitmap->SetRect(objD.GetRect(opticalFlowPoints[count]));
+    // img_bitmap->SetRect(objD.GetRect(opticalFlowPoints[count]));
 }
 
 void ObjectDetectionPanelImage::handleOptF() {

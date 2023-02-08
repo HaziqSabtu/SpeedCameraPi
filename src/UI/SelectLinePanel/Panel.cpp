@@ -142,6 +142,18 @@ void SelectLinePanel::addLine(cv::Vec4i line) {
     }
 }
 
+std::vector<cv::Vec4i> SelectLinePanel::GetSelectedLines() {
+    wxLogMessage("selecting lines");
+    if (selectedLines == NULL || selectedLines->empty()) {
+        wxLogMessage("No Lines Selected");
+        return std::vector<cv::Vec4i>();
+    } else {
+        wxLogMessage("Lines Selected not empty");
+        wxLogMessage("Size: %zd", selectedLines->size());
+    }
+    return *selectedLines;
+}
+
 // clang-format off
 BEGIN_EVENT_TABLE(SelectLinePanel, wxPanel)
     EVT_BUTTON(wxID_ANY, SelectLinePanel::OnButton)

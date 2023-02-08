@@ -36,6 +36,7 @@ enum ProjectIDs {
     LD_Right_Button_ID,
     LD_Both_Button_ID,
     // SelectLinePanel
+    SL_Panel_ID,
     SL_IMG_PANEL_ID,
     SL_BUTTON_PANEL_ID,
     SL_BB_ID,

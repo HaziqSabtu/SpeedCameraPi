@@ -54,8 +54,9 @@ void ObjectDetection::runDetection(const std::vector<ImgData> &imgData) {
               << std::endl;
 }
 
-cv::Rect ObjectDetection::GetRect(const std::vector<cv::Point2f> &points) {
-    return cv::boundingRect(points);
+cv::Rect &ObjectDetection::GetRect(const std::vector<cv::Point2f> &points) {
+    bbox = cv::boundingRect(points);
+    return bbox;
 }
 
 void ObjectDetection::SetMinPointDistance(double minPointDistance) {
@@ -75,10 +76,10 @@ void ObjectDetection::SetMinPointDistance(double minPointDistance) {
 //     return bottomLine;
 // }
 
-std::vector<cv::Point2f>
+std::vector<cv::Point2f> &
 ObjectDetection::GetBottomLine(const std::vector<cv::Point2f> &points,
                                int width) {
-    std::vector<cv::Point2f> bottomLine;
+    bottomLine.clear();
     std::vector<cv::Point2f> tmp;
     tmp.assign(points.begin(), points.end());
     std::sort(tmp.begin(), tmp.end(),
@@ -90,9 +91,9 @@ ObjectDetection::GetBottomLine(const std::vector<cv::Point2f> &points,
     return bottomLine;
 }
 
-std::vector<std::vector<cv::Point2f>> ObjectDetection::GetOFPoints(
+std::vector<std::vector<cv::Point2f>> &ObjectDetection::GetOFPoints(
     const std::vector<std::vector<cv::Point2f>> &opticalFlowPoints, int count) {
-    std::vector<std::vector<cv::Point2f>> result;
+    result.clear();
     result.assign(opticalFlowPoints.begin(),
                   opticalFlowPoints.begin() + count + 1);
     return result;

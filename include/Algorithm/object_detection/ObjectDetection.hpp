@@ -35,6 +35,10 @@ class ObjectDetection {
     double k = 0.04;
     double minPointDistance = 0.2;
 
+    cv::Rect bbox;
+    std::vector<std::vector<cv::Point2f>> result;
+    std::vector<cv::Point2f> bottomLine;
+
   public:
     ObjectDetection(cv::RNG rng, int maxCorners);
 
@@ -47,12 +51,12 @@ class ObjectDetection {
     std::vector<std::vector<cv::Point2f>>
     GetOpticalFlowPoints(bool reshape = false);
 
-    static cv::Rect GetRect(const std::vector<cv::Point2f> &points);
+    cv::Rect &GetRect(const std::vector<cv::Point2f> &points);
 
-    static std::vector<cv::Point2f>
+    std::vector<cv::Point2f> &
     GetBottomLine(const std::vector<cv::Point2f> &points, int width);
 
-    static std::vector<std::vector<cv::Point2f>>
+    std::vector<std::vector<cv::Point2f>> &
     GetOFPoints(const std::vector<std::vector<cv::Point2f>> &opticalFlowPoints,
                 int count);
 
