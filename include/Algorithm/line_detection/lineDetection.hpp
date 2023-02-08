@@ -8,7 +8,8 @@ class LineDetection {
     LineDetection();
     void SetImage(cv::Mat &image);
     cv::Mat GetCanny();
-    std::vector<cv::Vec4i> GetLinesP();
+    // std::vector<cv::Vec4i> GetLinesP();
+    std::vector<cv::Vec4i> &GetLinesP();
     static bool isPointOnLine(cv::Vec4i line, cv::Point2f point,
                               int tolerance = 1);
     static cv::Vec4i extrapolateLine(cv::Vec4i line, int height);

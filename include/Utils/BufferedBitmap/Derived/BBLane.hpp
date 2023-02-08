@@ -15,12 +15,11 @@ class BBLane : public BufferedBitmap {
     void addLine(cv::Vec4i line);
     void clearLines();
     std::vector<cv::Vec4i> GetDetectedLines();
-    void SetImage2(const cv::Mat &image);
-    wxImage matToWxImage2(const cv::Mat &mat);
+    void SetImage2(cv::Mat &image);
+    wxImage matToWxImage2(cv::Mat &mat);
     void OnPaint(wxPaintEvent &e);
     void OnPaint2(wxPaintEvent &e);
     void OnPainttt();
-
 
   private:
     bool isHough = false;

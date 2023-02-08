@@ -20,7 +20,7 @@ class BufferedBitmap : public wxStaticBitmap {
     double GetWidthRatio();
     double GetHeightRatio();
 
-  protected:
+  public:
     cv::Mat img;
     cv::Mat RGBImg;
 
@@ -59,16 +59,16 @@ inline void BufferedBitmap::processRatio() {
     width = client_size.GetWidth();
     height = client_size.GetHeight();
 
-    if (width==0 || height == 0){
-      wxLogMessage("returning");
-      return;
+    if (width == 0 || height == 0) {
+        wxLogMessage("returning");
+        return;
     }
 
     std::cout << "cols: " << img.cols << std::endl;
     std::cout << "rows: " << img.rows << std::endl;
-    if (img.cols <= 10 ||img.rows <= 10){
-      wxLogMessage("returning");
-      return;
+    if (img.cols <= 10 || img.rows <= 10) {
+        wxLogMessage("returning");
+        // return;
     }
 
     imgRatio = (double)img.cols / (double)img.rows;
@@ -82,10 +82,8 @@ inline void BufferedBitmap::processRatio() {
         resizeWidth = (int)((double)height * imgRatio);
     }
 
-
     widthRatio = (double)img.cols / (double)resizeWidth;
     heightRatio = (double)img.rows / (double)resizeHeight;
-
 
     std::cout << "width: " << width << std::endl;
     std::cout << "height: " << height << std::endl;

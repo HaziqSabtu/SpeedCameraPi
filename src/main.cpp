@@ -15,7 +15,8 @@ class MyApp : public wxApp {
         wxString dirLocation = conf.GetDirLocation();
         wxLogMessage("Loaded: %s", filename);
         wxLogMessage("Loaded: %s", dirLocation);
-        MainFrame *frame = new MainFrame("Speed Gun", filename, dirLocation);
+        MainFrame *frame =
+            new MainFrame("Speed Gun", filename, dirLocation, wxSize(800, 600));
 
         frame->Show(true);
         return true;

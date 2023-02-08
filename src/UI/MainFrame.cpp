@@ -1,8 +1,8 @@
 #include <UI/MainFrame.hpp>
 
 MainFrame::MainFrame(const wxString &title, wxString filename,
-                     wxString dirLocation)
-    : wxFrame(NULL, wxID_ANY, title) {
+                     wxString dirLocation, wxSize size)
+    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size) {
     std::string filePath2 =
         "C:/Users/kakik/Desktop/P1/data/bin/29012023093818.bin";
     // FILEWR::ReadFile(filePath2, imgData);
@@ -15,24 +15,20 @@ MainFrame::MainFrame(const wxString &title, wxString filename,
         ImageUtils::RotateImage(imgData, rotationAngle);
     }
 
-    SetSize(800, 600);
-    Center();
-
-    notebook = new wxNotebook(this, Enum::NOTEBOOK_ID);
+    notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
+                              wxSize(800, 600));
 
     select_line_panel = new SelectLinePanel(notebook, wxID_ANY, imgData);
-    object_detection_panel =
-        new ObjectDetectionPanel(notebook, wxID_ANY, imgData);
+    // object_detection_panel =
+    // new ObjectDetectionPanel(notebook, wxID_ANY, imgData);
 
     p3 = new Panel2(notebook, wxID_ANY);
 
     notebook->AddPage(select_line_panel, "Select ROI", true);
-    notebook->AddPage(object_detection_panel, "Object Detection", false);
+    // notebook->AddPage(object_detection_panel, "Object Detection", false);
     notebook->AddPage(p3, "Panel3", false);
 
     notebook->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &MainFrame::OnPageChange, this);
-
-
 }
 
 MainFrame::~MainFrame() {}
