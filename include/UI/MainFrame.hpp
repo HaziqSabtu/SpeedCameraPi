@@ -31,7 +31,7 @@ class MainFrame : public wxFrame {
     SelectLinePanel *select_line_panel;
     ObjectDetectionPanel *object_detection_panel;
 
-    Panel2 *p2, *p3, *p4;
+    Panel2 *p3;
 
     void OnPageChange(wxNotebookEvent &event);
 };

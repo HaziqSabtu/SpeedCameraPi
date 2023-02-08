@@ -55,6 +55,8 @@ enum ProjectIDs {
     // panel2
     NEXT_PANEL_ID,
     PREV_PANEL_ID,
+    P2_C_Button_ID,
+    P2_S_Button_ID
 };
 }; // namespace Enum
 

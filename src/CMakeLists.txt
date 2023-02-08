@@ -42,4 +42,4 @@ else()
     # add_executable(main WIN32 ${SRCS} main.exe.manifest)
 endif()
 
-target_link_libraries(main PRIVATE ${wxWidgets_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(main PRIVATE ${wxWidgets_LIBRARIES} ${OpenCV_LIBS} -Wno-psabi)

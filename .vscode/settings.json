@@ -5,7 +5,8 @@
         "editor.suggest.insertMode": "replace",
         "editor.semanticHighlighting.enabled": true
     },
-    "clang-format.executable": "C:/Program Files/LLVM/bin/clang-format.exe",
+    "clang-format.executable": "/usr/bin/clang-format",
+    // "clang-format.executable": "C:/Program Files/LLVM/bin/clang-format.exe",
 
     "C_Cpp.errorSquiggles": "enabled",
     "files.associations": {
@@ -94,5 +95,5 @@
         "typeindex": "cpp",
         "random": "cpp",
         "*.inc": "cpp"
-    }
+    },    
 }
