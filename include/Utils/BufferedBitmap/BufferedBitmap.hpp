@@ -16,11 +16,11 @@ class BufferedBitmap : public wxStaticBitmap {
     // avoiding the immediate repainting on the control.
   public:
     BufferedBitmap(wxWindow *parent, wxWindowID id);
-    void SetImage(const cv::Mat &image);
+    virtual void SetImage(const cv::Mat &image);
     double GetWidthRatio();
     double GetHeightRatio();
 
-  protected:
+  public:
     cv::Mat img;
     cv::Mat RGBImg;
 
@@ -42,7 +42,10 @@ class BufferedBitmap : public wxStaticBitmap {
     wxImage matToWxImage(const cv::Mat &mat);
 
   private:
-    virtual void OnPaint(wxPaintEvent &e) = 0;
+    void OnPaint(wxPaintEvent &e);
+    // virtual void OnPaint(wxPaintEvent &e) {
+    //   std::cout << "onPaint" << std::endl;
+    // };
 
     wxDECLARE_EVENT_TABLE();
 };
@@ -56,6 +59,18 @@ inline void BufferedBitmap::processRatio() {
     width = client_size.GetWidth();
     height = client_size.GetHeight();
 
+    if (width == 0 || height == 0) {
+        wxLogMessage("returning");
+        return;
+    }
+
+    std::cout << "cols: " << img.cols << std::endl;
+    std::cout << "rows: " << img.rows << std::endl;
+    if (img.cols <= 10 || img.rows <= 10) {
+        wxLogMessage("returning");
+        // return;
+    }
+
     imgRatio = (double)img.cols / (double)img.rows;
     clientRatio = (double)width / (double)height;
 
@@ -67,10 +82,8 @@ inline void BufferedBitmap::processRatio() {
         resizeWidth = (int)((double)height * imgRatio);
     }
 
-
     widthRatio = (double)img.cols / (double)resizeWidth;
     heightRatio = (double)img.rows / (double)resizeHeight;
-
 
     std::cout << "width: " << width << std::endl;
     std::cout << "height: " << height << std::endl;

@@ -7,6 +7,7 @@ BufferedBitmap::BufferedBitmap(wxWindow *parent, wxWindowID id)
 
 void BufferedBitmap::SetImage(const cv::Mat &image) {
     img = image.clone();
+    wxLogMessage("Setting Image");
     BufferedBitmap::processRatio();
     wxImage wximg = matToWxImage(img);
     wxStaticBitmap::SetBitmap(wxBitmap(wximg));
@@ -14,6 +15,7 @@ void BufferedBitmap::SetImage(const cv::Mat &image) {
 }
 
 wxImage BufferedBitmap::matToWxImage(const cv::Mat &mat) {
+    wxLogMessage("mattoxwimage");
     if (mat.empty())
         return wxImage();
     if (mat.type() == CV_8UC3) {
@@ -33,6 +35,12 @@ double BufferedBitmap::GetWidthRatio() { return widthRatio; }
 
 double BufferedBitmap::GetHeightRatio() { return heightRatio; }
 
+void BufferedBitmap::OnPaint(wxPaintEvent &e){
+    std::cout << "from BB" << std::endl;
+}
+
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(BufferedBitmap, wxStaticBitmap)
+EVT_PAINT(BufferedBitmap::OnPaint)
 wxEND_EVENT_TABLE()

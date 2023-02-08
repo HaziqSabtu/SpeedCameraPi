@@ -1,12 +1,9 @@
 #ifndef MAIN_FRAME_HPP
 #define MAIN_FRAME_HPP
 
-#include <UI/LaneDetectionPanel/Panel.hpp>
 #include <UI/ObjectDetectionPanel/Panel.hpp>
-#include <UI/OpticalFlowPanel/Panel.hpp>
 #include <UI/Panel2.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
-#include <UI/SelectROIPanel/Panel.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/ImageUtils.hpp>
 #include <Utils/fileAVI.hpp>
@@ -20,7 +17,8 @@
 
 class MainFrame : public wxFrame {
   public:
-    MainFrame(const wxString &title, wxString filename, wxString dirLocation);
+    MainFrame(const wxString &title, wxString filename, wxString dirLocation,
+              wxSize size);
     ~MainFrame();
 
   private:
@@ -31,7 +29,7 @@ class MainFrame : public wxFrame {
     SelectLinePanel *select_line_panel;
     ObjectDetectionPanel *object_detection_panel;
 
-    Panel2 *p2, *p3, *p4;
+    Panel2 *p3;
 
     void OnPageChange(wxNotebookEvent &event);
 };

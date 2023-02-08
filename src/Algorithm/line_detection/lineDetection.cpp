@@ -22,7 +22,8 @@ cv::Mat LineDetection::GetCanny() {
     return cannyRGB;
 }
 
-std::vector<cv::Vec4i> LineDetection::GetLinesP() { return linesP; }
+// std::vector<cv::Vec4i> LineDetection::GetLinesP() { return linesP; }
+std::vector<cv::Vec4i> &LineDetection::GetLinesP() { return linesP; }
 
 bool LineDetection::isPointOnLine(cv::Vec4i line, cv::Point2f point,
                                   int tolerance) {

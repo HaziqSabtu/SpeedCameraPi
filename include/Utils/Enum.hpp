@@ -39,6 +39,7 @@ enum ProjectIDs {
     SL_IMG_PANEL_ID,
     SL_BUTTON_PANEL_ID,
     SL_BB_ID,
+    SL_BIT_ID,
     SL_Canny_Button_ID,
     SL_Hough_Button_ID,
     SL_Clear_Button_ID,
@@ -55,6 +56,8 @@ enum ProjectIDs {
     // panel2
     NEXT_PANEL_ID,
     PREV_PANEL_ID,
+    P2_C_Button_ID,
+    P2_S_Button_ID
 };
 }; // namespace Enum
 
