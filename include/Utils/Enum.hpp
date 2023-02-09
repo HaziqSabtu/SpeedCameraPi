@@ -45,6 +45,7 @@ enum ProjectIDs {
     SL_Hough_Button_ID,
     SL_Clear_Button_ID,
     // ObjectDetectionPanel
+    OD_Panel_ID,
     OD_IMG_PANEL_ID,
     OD_BUTTON_PANEL_ID,
     OD_BB_ID,
@@ -60,10 +61,17 @@ enum ProjectIDs {
     P2_C_Button_ID,
     P2_S_Button_ID,
     // CameraPanel
+    CP_Panel_ID,
     CP_IMG_PANEL_ID,
     CP_BUTTON_PANEL_ID,
     CP_Capture_Button_ID,
     CP_Stop_Button_ID,
+    // CaptureViewPanel
+    CV_Panel_ID,
+    CV_IMG_PANEL_ID,
+    CV_BUTTON_PANEL_ID,
+    CV_Next_Button_ID,
+    CV_Prev_Button_ID,
 };
 }; // namespace Enum
 

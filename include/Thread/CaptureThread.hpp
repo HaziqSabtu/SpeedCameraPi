@@ -8,12 +8,18 @@
 class CaptureThread : public wxThread {
   public:
     // CaptureThread(Panel2 *p);
-    CaptureThread();
+    // CaptureThread();
+    CaptureThread(bool *isCapturing,
+                  std::vector<std::pair<cv::Mat, time_t>> *imgData,
+                  cv::Mat *frame);
     virtual ~CaptureThread();
 
   private:
     virtual void *Entry();
-    // Panel2 *m_parent;
+    cv::Mat *frame;
+    bool *isCapturing;
+    std::vector<std::pair<cv::Mat, time_t>> *imgData;
+    // CameraPanel m_parent;
 };
 
 #endif

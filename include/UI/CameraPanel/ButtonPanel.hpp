@@ -7,6 +7,7 @@
 class CameraPanelButton : public wxPanel {
   public:
     CameraPanelButton(wxWindow *parent, wxWindowID id);
+    void onCaptureToggle(bool isCapturing);
 
   private:
     wxPanel *button_panel;

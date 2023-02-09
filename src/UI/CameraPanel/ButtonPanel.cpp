@@ -11,8 +11,17 @@ CameraPanelButton::CameraPanelButton(wxWindow *parent, wxWindowID id)
     button_sizer->Add(Stop_Button, 0, wxALL | wxCENTER, 5);
     this->SetSizer(button_sizer);
 
-    // Capture_Button->Disable();
     Stop_Button->Disable();
+}
+
+void CameraPanelButton::onCaptureToggle(bool isCapturing) {
+    if (isCapturing) {
+        Capture_Button->Disable();
+        Stop_Button->Enable();
+    } else {
+        Capture_Button->Enable();
+        Stop_Button->Disable();
+    }
 }
 
 // clang-format off

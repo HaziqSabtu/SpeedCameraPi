@@ -3,11 +3,7 @@
 MainFrame::MainFrame(const wxString &title, wxString filename,
                      wxString dirLocation, wxSize size)
     : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size) {
-    std::string filePath2 =
-        "C:/Users/kakik/Desktop/P1/data/bin/29012023093818.bin";
-    // FILEWR::ReadFile(filePath2, imgData);
     wxString filePath = dirLocation + filename;
-    // std::string filePath = "C:/Users/kakik/Desktop/P1/data/avi/output2.avi";
     FILEH264::ReadFile(filePath, imgData);
 
     int rotationAngle = 0;
@@ -21,11 +17,14 @@ MainFrame::MainFrame(const wxString &title, wxString filename,
     select_line_panel =
         new SelectLinePanel(notebook, Enum::SL_Panel_ID, imgData);
     object_detection_panel =
-        new ObjectDetectionPanel(notebook, wxID_ANY, imgData);
+        new ObjectDetectionPanel(notebook, Enum::OD_Panel_ID, imgData);
 
-    camera_panel = new CameraPanel(notebook, wxID_ANY);
+    camera_panel = new CameraPanel(notebook, Enum::CP_Panel_ID);
+
+    capture_view_panel = new CaptureViewPanel(notebook, Enum::CV_Panel_ID);
 
     notebook->AddPage(camera_panel, "Camera", true);
+    notebook->AddPage(capture_view_panel, "Capture View", false);
     notebook->AddPage(select_line_panel, "Select ROI", false);
     notebook->AddPage(object_detection_panel, "Object Detection", false);
 
@@ -37,11 +36,15 @@ MainFrame::~MainFrame() {}
 void MainFrame::OnPageChange(wxNotebookEvent &event) {
     int page = event.GetSelection();
     if (page == 1) {
+        wxLogMessage("Changing To Page: Capture View");
+        capture_view_panel->OnPageChange();
+    }
+    if (page == 2) {
         wxLogMessage("Changing To Page: Line Selection");
         // optical_flow_panel->OnPageChange();
     }
 
-    if (page == 2) {
+    if (page == 3) {
         wxLogMessage("Changing To Page: Object Detection");
         object_detection_panel->OnPageChange();
     }
