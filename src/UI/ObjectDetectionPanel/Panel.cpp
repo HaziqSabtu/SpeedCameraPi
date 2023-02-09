@@ -4,7 +4,8 @@ ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
                                            std::vector<ImgData> &imgData)
     : wxPanel(parent, id), objectDetection(rng), imgData(imgData) {
 
-    SpeedCalculation spdC(imgData[0].image.cols);
+    speedCalculation.SetImageWidth(imgData[c].image.cols);
+    wxLogMessage("imgData[c].image.cols: %d", imgData[c].image.cols);
 
     button_panel =
         new ObjectDetectionPanelButton(this, Enum::SR_BUTTON_PANEL_ID);
@@ -101,7 +102,7 @@ void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::OD_Speed_Button_ID) {
         wxLogMessage("Speed button pressed");
         button_panel->OnSpeed();
-        // img_panel->OnSpeed();
+        handleSpeed();
     }
 }
 
@@ -125,6 +126,12 @@ void ObjectDetectionPanel::handleBotL() {
     bottomLine = &objectDetection.GetBottomLine(opticalFlowPoints[c],
                                                 imgData[c].image.cols);
     img_bitmap->SetBottomLine(bottomLine);
+}
+
+void ObjectDetectionPanel::handleSpeed() {
+    speedCalculation.SetLine(selectedLines);
+    speedCalculation.runCalculation(
+        speedCalculation.toSpeedData(imgData, opticalFlowPoints));
 }
 
 void ObjectDetectionPanel::OnIncrement() {

@@ -4,9 +4,7 @@
 #include <Algorithm/object_detection/ObjectDetection.hpp>
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 #include <UI/ObjectDetectionPanel/ButtonPanel.hpp>
-#include <UI/ObjectDetectionPanel/ImagePanel.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
-#include <Utils/BufferedBitmap/Derived/BBObjD.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/ImageBitmap/Derived/ObjectDetectionBitmap.hpp>
 #include <Utils/fileWR.hpp>
@@ -33,7 +31,6 @@ class ObjectDetectionPanel : public wxPanel {
     std::vector<ImgData> imgData;
 
     ObjectDetectionPanelButton *button_panel;
-    // ObjectDetectionPanelImage *img_panel;
 
     wxBoxSizer *main_sizer;
 
@@ -41,10 +38,12 @@ class ObjectDetectionPanel : public wxPanel {
 
     cv::RNG rng;
     ObjectDetection objectDetection;
+    SpeedCalculation speedCalculation;
 
     void handleBBox();
     void handleOptF();
     void handleBotL();
+    void handleSpeed();
 
     void OnButton(wxCommandEvent &e);
     void OnIncrement();

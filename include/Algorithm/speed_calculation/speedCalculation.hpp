@@ -8,7 +8,6 @@
 #include <opencv2/core.hpp>
 #include <wx/log.h>
 
-
 struct SpeedData {
     cv::Mat image;
     std::chrono::high_resolution_clock::time_point time;
@@ -26,13 +25,15 @@ struct SpeedData {
 
 class SpeedCalculation {
   public:
-    SpeedCalculation(int imageWidth);
+    // SpeedCalculation(int imageWidth);
+    SpeedCalculation();
 
     void runCalculation(std::vector<SpeedData> speedData);
 
     static std::vector<SpeedData>
     toSpeedData(std::vector<ImgData> &imgData,
                 std::vector<std::vector<cv::Point2f>> &points);
+    void SetImageWidth(int w);
     void SetLine(std::vector<cv::Vec4i> l);
     double distanceFromCamera(float pixelWidth);
 
@@ -48,7 +49,7 @@ class SpeedCalculation {
     std::vector<double> speeds;
 
   private:
-    const int imageWidth;
+    int imageWidth;
     const double LANE_WIDTH = 360.00; // in mm
     // const double LANE_WIDTH = 0.37100; // in meters
 

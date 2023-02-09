@@ -1,8 +1,10 @@
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 
-SpeedCalculation::SpeedCalculation(int imageWidth) : imageWidth(imageWidth) {
-    std::cout << "imageWidth: " << imageWidth << std::endl;
-}
+SpeedCalculation::SpeedCalculation() {}
+
+// SpeedCalculation::SpeedCalculation(int imageWidth) : imageWidth(imageWidth) {
+//     std::cout << "imageWidth: " << imageWidth << std::endl;
+// }
 
 void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     if (line.size() != 2) {
@@ -15,20 +17,6 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
         return;
     }
 
-    // wxLogMessage("Calculating speed");
-    // for (auto l : line) {
-    //     wxLogMessage("Line: %d, %d, %d, %d", l[0], l[1], l[2], l[3]);
-    // }
-    // for (int i = 0; i < speedData.size(); i++) {
-    //     wxLogMessage("Image: %d", i);
-    //     wxLogMessage("Time: %lld",
-    //                  std::chrono::duration_cast<std::chrono::milliseconds>(
-    //                      speedData[i].time.time_since_epoch())
-    //                      .count());
-    //     wxLogMessage("Points: %zd", speedData[i].points.size());
-    // }
-
-    wxLogMessage("Intersection");
     speeds.clear();
     int i = 0;
     for (SpeedData data : speedData) {
@@ -39,6 +27,7 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
 
         double pixelDist = fabs(intersection1.x - intersection2.x);
         double dist1 = distanceFromCamera(pixelDist);
+        wxLogMessage("####################");
         wxLogMessage("%d: Distance: %f", i, dist1);
 
         if (prevDistFromCamera != -1) {
@@ -68,6 +57,8 @@ double SpeedCalculation::distanceFromCamera(float pixelWidth) {
 }
 
 void SpeedCalculation::SetLine(std::vector<cv::Vec4i> l) { line = l; }
+
+void SpeedCalculation::SetImageWidth(int w) { this->imageWidth = w; }
 
 std::vector<SpeedData>
 SpeedCalculation::toSpeedData(std::vector<ImgData> &imgData,
