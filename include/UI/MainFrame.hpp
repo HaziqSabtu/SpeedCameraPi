@@ -1,8 +1,8 @@
 #ifndef MAIN_FRAME_HPP
 #define MAIN_FRAME_HPP
 
+#include <UI/CameraPanel/Panel.hpp>
 #include <UI/ObjectDetectionPanel/Panel.hpp>
-#include <UI/Panel2.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/ImageUtils.hpp>
@@ -29,7 +29,7 @@ class MainFrame : public wxFrame {
     SelectLinePanel *select_line_panel;
     ObjectDetectionPanel *object_detection_panel;
 
-    Panel2 *p3;
+    CameraPanel *camera_panel;
 
     void OnPageChange(wxNotebookEvent &event);
 };

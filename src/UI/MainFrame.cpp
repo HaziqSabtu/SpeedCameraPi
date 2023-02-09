@@ -23,11 +23,11 @@ MainFrame::MainFrame(const wxString &title, wxString filename,
     object_detection_panel =
         new ObjectDetectionPanel(notebook, wxID_ANY, imgData);
 
-    p3 = new Panel2(notebook, wxID_ANY);
+    camera_panel = new CameraPanel(notebook, wxID_ANY);
 
-    notebook->AddPage(select_line_panel, "Select ROI", true);
+    notebook->AddPage(camera_panel, "Camera", true);
+    notebook->AddPage(select_line_panel, "Select ROI", false);
     notebook->AddPage(object_detection_panel, "Object Detection", false);
-    notebook->AddPage(p3, "Panel3", false);
 
     notebook->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &MainFrame::OnPageChange, this);
 }
@@ -36,12 +36,12 @@ MainFrame::~MainFrame() {}
 
 void MainFrame::OnPageChange(wxNotebookEvent &event) {
     int page = event.GetSelection();
-    if (page == 0) {
+    if (page == 1) {
         wxLogMessage("Changing To Page: Line Selection");
         // optical_flow_panel->OnPageChange();
     }
 
-    if (page == 1) {
+    if (page == 2) {
         wxLogMessage("Changing To Page: Object Detection");
         object_detection_panel->OnPageChange();
     }

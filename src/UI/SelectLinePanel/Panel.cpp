@@ -22,10 +22,10 @@ SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
     main_sizer->Add(button_panel, 0, wxEXPAND);
     main_sizer->Add(img_bitmap, 1, wxEXPAND);
 
-    lineDetection.SetImage(imgData[c].image);
-
     SetSizer(main_sizer);
     Fit();
+
+    lineDetection.SetImage(imgData[c].image);
 
     isHough = false;
     isCanny = false;

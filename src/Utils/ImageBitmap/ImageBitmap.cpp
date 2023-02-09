@@ -11,16 +11,18 @@ void ImageBitmap::SetImage(const cv::Mat &img) {
 }
 
 void ImageBitmap::drawBitMap() {
-    wxLogMessage("ImageBitmap::drawBitMap()");
     if (image.empty()) {
         return;
     }
     processRatio();
 
+    // TODO: fix this later
+    if (width == 0 || height == 0) {
+        return;
+    }
     cv::Mat img_cp = image.clone();
     cv::Mat img_rs;
     cv::resize(img_cp, img_rs, cv::Size(resizeWidth, resizeHeight));
-
     wxImage wximg = matToWxImage(img_rs);
     SetBitmap(wxBitmap(wximg));
 }
@@ -32,6 +34,7 @@ void ImageBitmap::processRatio() {
     height = clientSize.GetHeight();
 
     if (width == 0 || height == 0) {
+        wxLogMessage("width or height is 0");
         return;
     }
 

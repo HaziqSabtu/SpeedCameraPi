@@ -58,7 +58,12 @@ enum ProjectIDs {
     NEXT_PANEL_ID,
     PREV_PANEL_ID,
     P2_C_Button_ID,
-    P2_S_Button_ID
+    P2_S_Button_ID,
+    // CameraPanel
+    CP_IMG_PANEL_ID,
+    CP_BUTTON_PANEL_ID,
+    CP_Capture_Button_ID,
+    CP_Stop_Button_ID,
 };
 }; // namespace Enum
 
