@@ -1,7 +1,7 @@
 #ifndef OBJECT_DETECTION_HPP
 #define OBJECT_DETECTION_HPP
 
-#include <Utils/fileWR.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>

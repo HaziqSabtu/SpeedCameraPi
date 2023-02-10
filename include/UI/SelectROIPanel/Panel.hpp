@@ -4,7 +4,7 @@
 #include <UI/SelectROIPanel/ButtonPanel.hpp>
 #include <UI/SelectROIPanel/ImagePanel.hpp>
 #include <Utils/Enum.hpp>
-#include <Utils/fileWR.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <wx/wx.h>
 
 class SelectRoiPanel : public wxPanel {

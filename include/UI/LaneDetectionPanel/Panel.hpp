@@ -5,7 +5,7 @@
 #include <UI/LaneDetectionPanel/ButtonPanel.hpp>
 #include <UI/LaneDetectionPanel/ImagePanel.hpp>
 #include <UI/OpticalFlowPanel/ImagePanel.hpp>
-#include <Utils/fileWR.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <wx/wx.h>
 
 class LaneDetectionPanel : public wxPanel {

@@ -1,17 +1,11 @@
 #ifndef FILEWR_HPP
 #define FILEWR_HPP
 
-#include <Utils/fileAVI.hpp>
+#include <Utils/FileReader/fileAVI.hpp>
 #include <chrono>
 #include <fstream>
 #include <iostream>
 #include <opencv2/core.hpp>
-
-
-// struct ImgData {
-//     cv::Mat image;
-//     std::chrono::high_resolution_clock::time_point time;
-// };
 
 class FILEWR {
   private:

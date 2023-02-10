@@ -6,10 +6,10 @@
 #include <UI/ObjectDetectionPanel/Panel.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
 #include <Utils/Enum.hpp>
+#include <Utils/FileReader/fileAVI.hpp>
+#include <Utils/FileReader/fileH264.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageUtils.hpp>
-#include <Utils/fileAVI.hpp>
-#include <Utils/fileH264.hpp>
-#include <Utils/fileWR.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 #include <wx/filename.h>

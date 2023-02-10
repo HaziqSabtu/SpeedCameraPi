@@ -1,9 +1,9 @@
 #ifndef SPEED_CALCULATION_HPP
 #define SPEED_CALCULATION_HPP
 
+#include <Utils/FileReader/fileAVI.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageUtils.hpp>
-#include <Utils/fileAVI.hpp>
-#include <Utils/fileWR.hpp>
 #include <chrono>
 #include <opencv2/core.hpp>
 #include <wx/log.h>

@@ -4,7 +4,7 @@
 #include <Algorithm/object_tracker/ObjectTracker.hpp>
 #include <Algorithm/optical_flow/SparseOpticalFlow.hpp>
 #include <Utils/BufferedBitmap/Derived/BBOptF.hpp>
-#include <Utils/fileWR.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <wx/wx.h>
 
 class OpticalFlowPanelImage : public wxPanel {

@@ -1,7 +1,7 @@
 #ifndef IMAGE_UTILS_HPP
 #define IMAGE_UTILS_HPP
 
-#include <Utils/fileWR.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <opencv2/opencv.hpp>
 #include <wx/log.h>
 #include <wx/wx.h>

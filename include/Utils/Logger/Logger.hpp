@@ -1,7 +1,7 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include <Utils/StreamBuff.hpp>
+#include <Utils/Logger/StreamBuff.hpp>
 #include <wx/file.h>
 #include <wx/log.h>
 #include <wx/wx.h>

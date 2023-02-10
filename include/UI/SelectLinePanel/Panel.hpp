@@ -4,8 +4,8 @@
 #include <Algorithm/line_detection/lineDetection.hpp>
 #include <UI/SelectLinePanel/ButtonPanel.hpp>
 #include <Utils/Enum.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageBitmap/Derived/SelectLineBitmap.hpp>
-#include <Utils/fileWR.hpp>
 #include <wx/wx.h>
 
 class SelectLinePanel : public wxPanel {

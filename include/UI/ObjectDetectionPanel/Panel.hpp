@@ -6,8 +6,8 @@
 #include <UI/ObjectDetectionPanel/ButtonPanel.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
 #include <Utils/Enum.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageBitmap/Derived/ObjectDetectionBitmap.hpp>
-#include <Utils/fileWR.hpp>
 #include <wx/wx.h>
 
 class ObjectDetectionPanel : public wxPanel {

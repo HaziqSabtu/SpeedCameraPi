@@ -2,7 +2,7 @@
 #define SELECT_ROI_PANEL_IMAGE
 
 #include <Utils/BufferedBitmap/Derived/BBImage.hpp>
-#include <Utils/fileWR.hpp>
+#include <Utils/FileReader/fileWR.hpp>
 #include <wx/wx.h>
 
 class SelectRoiPanelImage : public wxPanel {

@@ -1,19 +1,13 @@
 #ifndef FILE_H264_HPP
 #define FILE_H264_HPP
 
-#include <Utils/fileAVI.hpp>
+#include <Utils/FileReader/fileAVI.hpp>
 #include <chrono>
 #include <fstream>
 #include <iostream>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 #include <wx/string.h>
-
-
-// struct ImgData {
-//     cv::Mat image;
-//     std::chrono::high_resolution_clock::time_point time;
-// };
 
 class FILEH264 {
   private:

@@ -1,6 +1,6 @@
 #include <UI/MainFrame.hpp>
 #include <Utils/AppConfig.hpp>
-#include <Utils/Logger.hpp>
+#include <Utils/Logger/Logger.hpp>
 #include <wx/wx.h>
 
 class MyApp : public wxApp {
