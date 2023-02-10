@@ -21,12 +21,12 @@ CaptureViewPanel::~CaptureViewPanel() {}
 
 void CaptureViewPanel::OnIncrement() {
     c = (c >= imgData.size() - 1) ? imgData.size() - 1 : c + 1;
-    img_bitmap->SetImage(imgData[c].first);
+    img_bitmap->SetImage(imgData[c].image);
 }
 
 void CaptureViewPanel::OnDecrement() {
     c = (c <= 0) ? 0 : c - 1;
-    img_bitmap->SetImage(imgData[c].first);
+    img_bitmap->SetImage(imgData[c].image);
 }
 
 void CaptureViewPanel::OnPageChange() {
@@ -34,7 +34,11 @@ void CaptureViewPanel::OnPageChange() {
         dynamic_cast<CameraPanel *>(GetParent()->FindWindow(Enum::CP_Panel_ID));
     if (p_Camera != NULL) {
         imgData = p_Camera->GetImgData();
-        img_bitmap->SetImage(imgData[c].first);
+        img_bitmap->SetImage(imgData[c].image);
+        for (int i = 1; i < imgData.size(); i++) {
+            double timediff = imgData[i].TimeDiff(imgData[i - 1]);
+            wxLogMessage("Time diff: %f", timediff);
+        }
     } else {
         wxLogMessage("CameraPanel not found");
     }

@@ -1,15 +1,6 @@
 #include <Thread/CaptureThread.hpp>
 
-// CaptureThread::CaptureThread(Panel2 *p)
-//     : wxThread(wxTHREAD_JOINABLE), m_parent(p) {
-//     wxLogMessage("creating new thread");
-// }
-// CaptureThread::CaptureThread() : wxThread(wxTHREAD_JOINABLE) {
-//     wxLogMessage("creating new thread");
-// }
-
-CaptureThread::CaptureThread(bool *isCapturing,
-                             std::vector<std::pair<cv::Mat, time_t>> *imgData,
+CaptureThread::CaptureThread(bool *isCapturing, std::vector<ImageData> *imgData,
                              cv::Mat *frame)
     : wxThread(wxTHREAD_JOINABLE), isCapturing(isCapturing), imgData(imgData),
       frame(frame) {
@@ -19,13 +10,14 @@ CaptureThread::CaptureThread(bool *isCapturing,
 CaptureThread::~CaptureThread() { wxLogMessage("deleting thread"); }
 
 void *CaptureThread::Entry() {
-    // cv::Mat f = *frame.clone();
-    time_t start = time(0);
-    time_t current;
+    std::chrono::high_resolution_clock::time_point start =
+        std::chrono::high_resolution_clock::now();
 
     wxLogMessage("running on thread");
 
-    while ((current = time(0)) - start < 2) {
+    int MAXCOUNT = 20;
+
+    while (imgData->size() < MAXCOUNT) {
         wxLogMessage("in while loop");
         if (TestDestroy()) {
             wxLogMessage("break");
@@ -36,7 +28,7 @@ void *CaptureThread::Entry() {
         wxLogMessage("lock");
         // wxCriticalSectionLocker lock(m_parent->m_criticalSection);
         wxLogMessage("pushing");
-        imgData->push_back(std::make_pair(frame->clone(), current));
+        imgData->push_back(ImageData(frame->clone()));
         // m_pimgarent->m_capturedFrames.push_back(
         //     std::make_pair(frame.clone(), current));
         // wxLogMessage("done loop");

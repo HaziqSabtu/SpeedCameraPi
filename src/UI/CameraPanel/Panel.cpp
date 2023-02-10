@@ -85,9 +85,9 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     }
 }
 
-std::vector<std::pair<cv::Mat, time_t>> CameraPanel::GetImgData() {
+std::vector<ImageData> CameraPanel::GetImgData() {
     if (imgData.empty()) {
-        return std::vector<std::pair<cv::Mat, time_t>>();
+        return std::vector<ImageData>();
     }
     return imgData;
 }

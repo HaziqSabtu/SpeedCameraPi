@@ -3,6 +3,7 @@
 
 #include <UI/CameraPanel/Panel.hpp>
 #include <UI/CaptureViewPanel/ButtonPanel.hpp>
+#include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/ImageBitmap/ImageBitmap.hpp>
 #include <opencv2/opencv.hpp>
@@ -19,7 +20,7 @@ class CaptureViewPanel : public wxPanel {
   private:
     int c = 0;
 
-    std::vector<std::pair<cv::Mat, time_t>> imgData;
+    std::vector<ImageData> imgData;
 
     CaptureViewPanelButton *button_panel;
     ImageBitmap *img_bitmap;

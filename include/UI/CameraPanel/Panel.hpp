@@ -3,6 +3,7 @@
 
 #include <Thread/CaptureThread.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
+#include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/ImageBitmap/Derived/CameraBitmap.hpp>
 #include <opencv2/opencv.hpp>
@@ -14,7 +15,7 @@ class CameraPanel : public wxPanel {
   public:
     CameraPanel(wxWindow *parent, wxWindowID id);
     ~CameraPanel();
-    std::vector<std::pair<cv::Mat, time_t>> GetImgData();
+    std::vector<ImageData> GetImgData();
 
   public:
     void OnButton(wxCommandEvent &e);
@@ -34,7 +35,7 @@ class CameraPanel : public wxPanel {
     wxBoxSizer *main_sizer;
 
     wxCriticalSection criticalSection;
-    std::vector<std::pair<cv::Mat, time_t>> imgData;
+    std::vector<ImageData> imgData;
 
     wxThread *captureThread;
 
