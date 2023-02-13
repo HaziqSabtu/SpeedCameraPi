@@ -5,6 +5,7 @@ CaptureThread::CaptureThread(bool *isCapturing, std::vector<ImageData> *imgData,
     : wxThread(wxTHREAD_JOINABLE), isCapturing(isCapturing), imgData(imgData),
       frame(frame) {
     wxLogMessage("creating new thread");
+    featureDetector = FeatureDetector("SIFT", false, false);
 }
 
 CaptureThread::~CaptureThread() { wxLogMessage("deleting thread"); }
@@ -13,26 +14,29 @@ void *CaptureThread::Entry() {
     std::chrono::high_resolution_clock::time_point start =
         std::chrono::high_resolution_clock::now();
 
-    wxLogMessage("running on thread");
-
+    ThreadPool threadPool(2);
     int MAXCOUNT = 20;
+    int currentImage = 0;
+
+    cv::Mat firstImage;
+    cv::Mat cImg;
 
     while (imgData->size() < MAXCOUNT) {
-        wxLogMessage("in while loop");
         if (TestDestroy()) {
             wxLogMessage("break");
             break;
         }
-        // wxLogMessage("fetching camera");
-        // frame = m_parent->m_frame;
-        wxLogMessage("lock");
-        // wxCriticalSectionLocker lock(m_parent->m_criticalSection);
-        wxLogMessage("pushing");
-        imgData->push_back(ImageData(frame->clone()));
-        // m_pimgarent->m_capturedFrames.push_back(
-        //     std::make_pair(frame.clone(), current));
-        // wxLogMessage("done loop");
-        wxThread::Sleep(100);
+        cImg = frame->clone();
+        imgData->push_back(ImageData(cImg));
+        if (currentImage != 0) {
+
+            threadPool.AddTask(new SiftTask(imgData, currentImage));
+        } else {
+            firstImage = cImg;
+            wxLogMessage("currentImage == 0");
+        }
+        currentImage++;
+        wxThread::Sleep(33);
     }
     return NULL;
 };

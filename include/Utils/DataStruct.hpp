@@ -8,6 +8,8 @@ struct ImageData {
     cv::Mat image;
     std::chrono::high_resolution_clock::time_point time;
 
+    ImageData() {}
+
     ImageData(cv::Mat image,
               std::chrono::high_resolution_clock::time_point time)
         : image(image), time(time) {}

@@ -82,7 +82,6 @@ void DESCRIPTORMATCHER::FlannBasedMatcher(
             cv::makePtr<cv::flann::LshIndexParams>(12, 20, 2));
         matcher.knnMatch(query, target, matches, 2);
     } else if (type == "SIFT") {
-        std::cout << "Running FlannBasedMatcher with SIFT" << std::endl;
         cv::Ptr<cv::DescriptorMatcher> matcher =
             cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
         matcher->knnMatch(query, target, matches, 2);

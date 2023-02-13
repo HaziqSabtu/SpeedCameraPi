@@ -13,6 +13,7 @@ class FeatureDetector {
   public:
     FeatureDetector(std::string type, bool imgMatches = false,
                     bool imgFillOutput = false);
+    FeatureDetector();
     void run(cv::Mat &image1, cv::Mat &image2);
     void processImageData(std::vector<ImgData> &imgData);
     cv::Mat GetFillOutput();
@@ -20,6 +21,7 @@ class FeatureDetector {
 
   private:
     cv::Ptr<cv::Feature2D> detector_;
+    cv::Ptr<cv::SIFT> detector;
     std::string detector_type_;
     bool drawMatches_;
     bool drawFillOutput_;

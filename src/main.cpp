@@ -1,6 +1,7 @@
 #include <UI/MainFrame.hpp>
 #include <Utils/AppConfig.hpp>
 #include <Utils/Logger/Logger.hpp>
+#include <wx/thread.h>
 #include <wx/wx.h>
 
 class MyApp : public wxApp {
@@ -15,6 +16,7 @@ class MyApp : public wxApp {
         wxString dirLocation = conf.GetDirLocation();
         wxLogMessage("Loaded: %s", filename);
         wxLogMessage("Loaded: %s", dirLocation);
+
         MainFrame *frame =
             new MainFrame("Speed Gun", filename, dirLocation, wxSize(800, 600));
 
