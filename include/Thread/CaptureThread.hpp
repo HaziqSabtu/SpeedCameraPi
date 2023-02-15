@@ -4,23 +4,26 @@
 #include <Thread/SIFTTask.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <Utils/DataStruct.hpp>
-#include <chrono>
 #include <opencv2/core.hpp>
 #include <wx/thread.h>
 #include <wx/wx.h>
 
 class CaptureThread : public wxThread {
   public:
-    CaptureThread(bool *isCapturing, std::vector<ImageData> *imgData,
-                  cv::Mat *frame);
+    CaptureThread(bool *isCapturing, bool *isProcessing,
+                  std::vector<ImageData> *imgData, cv::Mat *frame);
     virtual ~CaptureThread();
 
   private:
     virtual void *Entry();
 
+    const int maxFrameCount;
+    int imageCount = 0;
     cv::Mat *frame;
-    bool *isCapturing;
     std::vector<ImageData> *imgData;
+
+    bool *isCapturing;
+    bool *isProcessing;
 };
 
 #endif

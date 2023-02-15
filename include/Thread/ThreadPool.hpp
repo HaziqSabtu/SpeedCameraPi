@@ -15,6 +15,8 @@ class ThreadPool {
 
     void AddTask(Task *task);
 
+    bool HasTasks();
+
   private:
     void WorkerThread();
 

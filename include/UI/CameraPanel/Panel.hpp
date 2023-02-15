@@ -26,6 +26,7 @@ class CameraPanel : public wxPanel {
   private:
     cv::Mat frame;
     bool isCapturing = false;
+    bool isProcessing = false;
 
     cv::VideoCapture camera;
     wxTimer timer;

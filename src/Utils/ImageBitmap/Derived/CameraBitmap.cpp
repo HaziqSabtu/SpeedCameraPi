@@ -25,6 +25,11 @@ void CameraBitmap::drawBitMap() {
         rectangle(img_cp, cv::Point(0, 0),
                   cv::Point(image.size().width, image.size().height),
                   cv::Scalar(0, 0, 255), 4);
+    } else if (*isProcessing) {
+        // draw box around the frame
+        rectangle(img_cp, cv::Point(0, 0),
+                  cv::Point(image.size().width, image.size().height),
+                  cv::Scalar(0, 255, 0), 4);
     }
 
     cv::Mat img_rs;
@@ -36,6 +41,10 @@ void CameraBitmap::drawBitMap() {
 
 void CameraBitmap::SetIsCapturing(bool *isCapturing) {
     this->isCapturing = isCapturing;
+}
+
+void CameraBitmap::SetIsProcessing(bool *isProcessing) {
+    this->isProcessing = isProcessing;
 }
 
 // clang-format off

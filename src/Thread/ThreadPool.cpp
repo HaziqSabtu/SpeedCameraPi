@@ -42,9 +42,20 @@ void ThreadPool::WorkerThread() {
     }
 }
 
+bool ThreadPool::HasTasks() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    return !taskQueue.empty();
+}
+
 /*
  * Curly Braces in Mutex, Why?
  * -> to define a block of code that should be executed with the lock held
  * -> ensure the lock automatically released when the block is finished
  * -> important to prevent deadlocks
+ */
+
+/*
+ * Const on Methods
+ * -> the method does not modify the state of the object it is called on
+ * -> only inspect or retrieve information about the object's state.
  */

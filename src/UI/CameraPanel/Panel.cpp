@@ -6,6 +6,7 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
 
     img_bitmap = new CameraBitmap(this, Enum::CP_IMG_PANEL_ID);
     img_bitmap->SetIsCapturing(&isCapturing);
+    img_bitmap->SetIsProcessing(&isProcessing);
     img_bitmap->Bind(wxEVT_SIZE, &CameraPanel::OnSize, this);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
@@ -56,9 +57,11 @@ void CameraPanel::OnCapture() {
     }
     wxLogMessage("Start Capture");
     isCapturing = true;
+    isProcessing = true;
     button_panel->onCaptureToggle(isCapturing);
     imgData.clear();
-    captureThread = new CaptureThread(&isCapturing, &imgData, &frame);
+    captureThread =
+        new CaptureThread(&isCapturing, &isProcessing, &imgData, &frame);
     captureThread->Create();
     captureThread->Run();
 }
