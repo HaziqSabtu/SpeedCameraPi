@@ -3,10 +3,7 @@
 CaptureThread::CaptureThread(bool *isCapturing, std::vector<ImageData> *imgData,
                              cv::Mat *frame)
     : wxThread(wxTHREAD_JOINABLE), isCapturing(isCapturing), imgData(imgData),
-      frame(frame) {
-    wxLogMessage("creating new thread");
-    featureDetector = FeatureDetector("SIFT", false, false);
-}
+      frame(frame) {}
 
 CaptureThread::~CaptureThread() { wxLogMessage("deleting thread"); }
 
@@ -29,11 +26,9 @@ void *CaptureThread::Entry() {
         cImg = frame->clone();
         imgData->push_back(ImageData(cImg));
         if (currentImage != 0) {
-
             threadPool.AddTask(new SiftTask(imgData, currentImage));
         } else {
             firstImage = cImg;
-            wxLogMessage("currentImage == 0");
         }
         currentImage++;
         wxThread::Sleep(33);

@@ -1,9 +1,6 @@
 #ifndef CAPTURE_THREAD_HPP
 #define CAPTURE_THREAD_HPP
 
-#include <Algorithm/image_stabilizer/FeatureDetector.hpp>
-
-#include <Thread/ProcessThread.hpp>
 #include <Thread/SIFTTask.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <Utils/DataStruct.hpp>
@@ -20,13 +17,10 @@ class CaptureThread : public wxThread {
 
   private:
     virtual void *Entry();
+
     cv::Mat *frame;
     bool *isCapturing;
     std::vector<ImageData> *imgData;
-    std::array<wxThread *, 100> g_ThreadArray;
-    std::size_t g_ThreadArrayIndex = 0;
-
-    FeatureDetector featureDetector;
 };
 
 #endif
