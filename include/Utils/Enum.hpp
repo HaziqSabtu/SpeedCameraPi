@@ -68,6 +68,7 @@ enum ProjectIDs {
     CP_BUTTON_PANEL_ID,
     CP_Capture_Button_ID,
     CP_Stop_Button_ID,
+    CP_Load_Button_ID,
     // CaptureViewPanel
     CV_Panel_ID,
     CV_IMG_PANEL_ID,

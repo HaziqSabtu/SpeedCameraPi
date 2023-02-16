@@ -14,7 +14,7 @@ MainFrame::MainFrame(const wxString &title, wxString filename,
     object_detection_panel =
         new ObjectDetectionPanel(notebook, Enum::OD_Panel_ID, imgData);
 
-    camera_panel = new CameraPanel(notebook, Enum::CP_Panel_ID);
+    camera_panel = new CameraPanel(notebook, Enum::CP_Panel_ID, filePath);
 
     capture_view_panel = new CaptureViewPanel(notebook, Enum::CV_Panel_ID);
 

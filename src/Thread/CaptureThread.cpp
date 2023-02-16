@@ -13,6 +13,9 @@ void *CaptureThread::Entry() {
 
     imageCount = 0;
 
+    *isCapturing = true;
+    *isProcessing = true;
+
     while (imageCount < maxFrameCount) {
         imgData->push_back(ImageData(frame->clone()));
 

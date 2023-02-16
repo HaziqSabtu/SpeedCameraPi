@@ -2,9 +2,11 @@
 #define CAMERA_PANEL_HPP
 
 #include <Thread/CaptureThread.hpp>
+#include <Thread/DemoThread.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
+#include <Utils/FileReader/fileH264.hpp>
 #include <Utils/ImageBitmap/Derived/CameraBitmap.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>
@@ -13,7 +15,7 @@
 
 class CameraPanel : public wxPanel {
   public:
-    CameraPanel(wxWindow *parent, wxWindowID id);
+    CameraPanel(wxWindow *parent, wxWindowID id, wxString filePath);
     ~CameraPanel();
     std::vector<ImageData> GetImgData();
 
@@ -24,9 +26,10 @@ class CameraPanel : public wxPanel {
     void OnStopCapture();
 
   private:
+    wxString filePath;
     cv::Mat frame;
-    bool isCapturing = false;
-    bool isProcessing = false;
+    bool isCapturing;
+    bool isProcessing;
 
     cv::VideoCapture camera;
     wxTimer timer;
@@ -39,6 +42,7 @@ class CameraPanel : public wxPanel {
     std::vector<ImageData> imgData;
 
     wxThread *captureThread;
+    wxThread *loadThread;
 
     void OnSize(wxSizeEvent &e);
     DECLARE_EVENT_TABLE()

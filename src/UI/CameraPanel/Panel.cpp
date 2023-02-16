@@ -1,7 +1,7 @@
 #include <UI/CameraPanel/Panel.hpp>
 
-CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
-    : wxPanel(parent, id) {
+CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, wxString filePath)
+    : wxPanel(parent, id), filePath(filePath) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new CameraBitmap(this, Enum::CP_IMG_PANEL_ID);
@@ -30,6 +30,9 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     timer.SetOwner(this, wxID_ANY);
     timer.Start(33); // 30 FPS
 
+    isCapturing = false;
+    isProcessing = false;
+
     Connect(wxID_ANY, wxEVT_TIMER, wxTimerEventHandler(CameraPanel::OnTimer));
 };
 
@@ -38,6 +41,11 @@ CameraPanel::~CameraPanel() {
     if (captureThread != NULL) {
         captureThread->Delete();
         captureThread = NULL;
+    }
+
+    if (loadThread != NULL) {
+        loadThread->Delete();
+        loadThread = NULL;
     }
     camera.release();
 }
@@ -52,12 +60,10 @@ void CameraPanel::OnTimer(wxTimerEvent &event) {
 void CameraPanel::OnSize(wxSizeEvent &e) { img_bitmap->drawBitMap(); }
 
 void CameraPanel::OnCapture() {
-    if (isCapturing) {
+    if (isCapturing || isProcessing) {
         return;
     }
     wxLogMessage("Start Capture");
-    isCapturing = true;
-    isProcessing = true;
     button_panel->onCaptureToggle(isCapturing);
     imgData.clear();
     captureThread =
@@ -67,15 +73,12 @@ void CameraPanel::OnCapture() {
 }
 
 void CameraPanel::OnStopCapture() {
-    wxLogMessage("Stop Capture");
     isCapturing = false;
     button_panel->onCaptureToggle(isCapturing);
     if (captureThread != NULL) {
         captureThread->Delete();
         captureThread = NULL;
     }
-    wxLogMessage("Capture Stopped");
-    wxLogMessage("Image Data Size: %zd", imgData.size());
 }
 
 void CameraPanel::OnButton(wxCommandEvent &e) {
@@ -85,6 +88,21 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::CP_Stop_Button_ID) {
         OnStopCapture();
+    }
+
+    if (e.GetId() == Enum::CP_Load_Button_ID) {
+        if (isCapturing || isProcessing) {
+            return;
+        }
+
+        if (!imgData.empty()) {
+            imgData.clear();
+        }
+
+        FILEH264::ReadFile(filePath, imgData);
+        loadThread = new DemoThread(&isCapturing, &isProcessing, &imgData);
+        loadThread->Create();
+        loadThread->Run();
     }
 }
 

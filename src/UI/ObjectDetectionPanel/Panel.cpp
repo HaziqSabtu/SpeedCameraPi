@@ -166,11 +166,11 @@ void ObjectDetectionPanel::OnPageChange() {
     SelectLinePanel *sl_panel = dynamic_cast<SelectLinePanel *>(
         GetParent()->FindWindow(Enum::SL_Panel_ID));
 
-    // imgData = sl_panel->GetImgData();
+    imgData = sl_panel->GetImgData();
 
-    // if (imgData.empty()) {
-    //     return;
-    // }
+    if (imgData.empty()) {
+        return;
+    }
 
     if (opticalFlowPoints.empty()) {
         objectDetectionThread =
