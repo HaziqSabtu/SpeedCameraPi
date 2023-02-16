@@ -12,7 +12,7 @@
 class SelectLinePanel : public wxPanel {
   public:
     SelectLinePanel(wxWindow *parent, wxWindowID id,
-                    std::vector<ImgData> &imgData);
+                    std::vector<ImageData> &imgData);
     ~SelectLinePanel();
 
     std::vector<cv::Vec4i> GetSelectedLines();

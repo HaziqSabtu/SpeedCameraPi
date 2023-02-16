@@ -1,7 +1,7 @@
 #include <UI/ObjectDetectionPanel/Panel.hpp>
 
 ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
-                                           std::vector<ImgData> &imgData)
+                                           std::vector<ImageData> &imgData)
     : wxPanel(parent, id), objectDetection(rng), imgData(imgData) {
 
     speedCalculation.SetImageWidth(imgData[c].image.cols);

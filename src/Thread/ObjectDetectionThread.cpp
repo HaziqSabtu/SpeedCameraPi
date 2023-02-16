@@ -1,7 +1,7 @@
 #include <Thread/ObjectDetectionThread.hpp>
 
 ObjectDetectionThread::ObjectDetectionThread(ObjectDetection *objDetection,
-                                             std::vector<ImgData> *imgData,
+                                             std::vector<ImageData> *imgData,
                                              bool *isRunning)
     : wxThread(wxTHREAD_JOINABLE), objDetection(objDetection), imgData(imgData),
       isRunning(isRunning) {}

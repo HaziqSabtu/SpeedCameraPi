@@ -10,7 +10,7 @@ ObjectDetection::ObjectDetection(cv::RNG rng, int maxCorners) : rng(rng) {
 
 ObjectDetection::ObjectDetection(cv::RNG rng) : ObjectDetection(rng, 1000) {}
 
-void ObjectDetection::runDetection(std::vector<ImgData> &imgData) {
+void ObjectDetection::runDetection(std::vector<ImageData> &imgData) {
     cv::Mat firstImage = imgData[0].image;
     std::cout << "Initializing Optical Flow" << std::endl;
     initOpticalFlow(firstImage);
@@ -20,10 +20,8 @@ void ObjectDetection::runDetection(std::vector<ImgData> &imgData) {
         refreshVectors();
         frame = imgData[i].image;
         cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
-        std::cout << "Calculating Optical Flow" << std::endl;
         std::cout << "Old Points Size: " << oldPoints.size() << std::endl;
         cv::calcOpticalFlowPyrLK(oldGray, gray, oldPoints, points, status, err);
-        std::cout << "Optical Flow Calculated" << std::endl;
         std::vector<cv::Point2f> goodPoints;
         std::vector<int> deletedIDs;
 
@@ -36,21 +34,15 @@ void ObjectDetection::runDetection(std::vector<ImgData> &imgData) {
             deletedIDs.push_back(i);
         }
 
-        std::cout << "Points Validated" << std::endl;
-
         if (deletedIDs.size() > 0) {
             removeUntrackedPoints(deletedIDs);
         }
-
-        std::cout << "Points Removed" << std::endl;
 
         copyOldData(goodPoints);
     }
 
     std::cout << "Optical Flow Finished" << std::endl;
     std::cout << "Optical Flow Points Size: " << opticalFlowPoints.size()
-              << std::endl;
-    std::cout << "Optical Flow Points Size 0: " << opticalFlowPoints[0].size()
               << std::endl;
 }
 
@@ -62,19 +54,6 @@ cv::Rect &ObjectDetection::GetRect(const std::vector<cv::Point2f> &points) {
 void ObjectDetection::SetMinPointDistance(double minPointDistance) {
     this->minPointDistance = minPointDistance;
 }
-
-// std::vector<cv::Point2f>
-// ObjectDetection::GetBottomLine(const std::vector<cv::Point2f> &points,
-//                                int width) {
-//     std::vector<cv::Point2f> bottomLine;
-//     cv::Rect rect = GetRect(points);
-//     bottomLine.push_back(
-//         cv::Point2f(0, static_cast<float>(rect.y + rect.height)));
-//     bottomLine.push_back(cv::Point2f(static_cast<float>(width),
-//                                      static_cast<float>(rect.y +
-//                                      rect.height)));
-//     return bottomLine;
-// }
 
 std::vector<cv::Point2f> &
 ObjectDetection::GetBottomLine(const std::vector<cv::Point2f> &points,

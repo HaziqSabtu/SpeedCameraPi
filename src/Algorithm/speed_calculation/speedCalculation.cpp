@@ -61,7 +61,7 @@ void SpeedCalculation::SetLine(std::vector<cv::Vec4i> l) { line = l; }
 void SpeedCalculation::SetImageWidth(int w) { this->imageWidth = w; }
 
 std::vector<SpeedData>
-SpeedCalculation::toSpeedData(std::vector<ImgData> &imgData,
+SpeedCalculation::toSpeedData(std::vector<ImageData> &imgData,
                               std::vector<std::vector<cv::Point2f>> &points) {
     std::vector<SpeedData> speedData;
     for (int i = 0; i < imgData.size(); i++) {

@@ -1,27 +1,13 @@
 #ifndef SPEED_CALCULATION_HPP
 #define SPEED_CALCULATION_HPP
 
+#include <Utils/DataStruct.hpp>
 #include <Utils/FileReader/fileAVI.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageUtils.hpp>
 #include <chrono>
 #include <opencv2/core.hpp>
 #include <wx/log.h>
-
-struct SpeedData {
-    cv::Mat image;
-    std::chrono::high_resolution_clock::time_point time;
-    std::vector<cv::Point2f> points;
-
-    cv::Point2f BottomLine() {
-        // same Implementation as in ObjectDetection
-        std::vector<cv::Point2f> tmp;
-        tmp.assign(points.begin(), points.end());
-        std::sort(tmp.begin(), tmp.end(),
-                  [](cv::Point2f a, cv::Point2f b) { return a.y > b.y; });
-        return tmp.front();
-    }
-};
 
 class SpeedCalculation {
   public:
@@ -31,7 +17,7 @@ class SpeedCalculation {
     void runCalculation(std::vector<SpeedData> speedData);
 
     static std::vector<SpeedData>
-    toSpeedData(std::vector<ImgData> &imgData,
+    toSpeedData(std::vector<ImageData> &imgData,
                 std::vector<std::vector<cv::Point2f>> &points);
     void SetImageWidth(int w);
     void SetLine(std::vector<cv::Vec4i> l);

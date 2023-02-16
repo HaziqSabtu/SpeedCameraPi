@@ -14,7 +14,7 @@
 class ObjectDetectionPanel : public wxPanel {
   public:
     ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
-                         std::vector<ImgData> &imgData);
+                         std::vector<ImageData> &imgData);
     void OnPageChange();
 
   private:
@@ -30,7 +30,7 @@ class ObjectDetectionPanel : public wxPanel {
     std::vector<cv::Point2f> *bottomLine;
     std::vector<cv::Vec4i> selectedLines;
     std::vector<std::vector<cv::Point2f>> opticalFlowPoints;
-    std::vector<ImgData> imgData;
+    std::vector<ImageData> imgData;
 
     ObjectDetectionPanelButton *button_panel;
 

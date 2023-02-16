@@ -24,4 +24,19 @@ struct ImageData {
     }
 };
 
+struct SpeedData {
+    cv::Mat image;
+    std::chrono::high_resolution_clock::time_point time;
+    std::vector<cv::Point2f> points;
+
+    cv::Point2f BottomLine() {
+        // same Implementation as in ObjectDetection
+        std::vector<cv::Point2f> tmp;
+        tmp.assign(points.begin(), points.end());
+        std::sort(tmp.begin(), tmp.end(),
+                  [](cv::Point2f a, cv::Point2f b) { return a.y > b.y; });
+        return tmp.front();
+    }
+};
+
 #endif

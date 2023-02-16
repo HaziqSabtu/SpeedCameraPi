@@ -1,7 +1,7 @@
 #include <UI/SelectLinePanel/Panel.hpp>
 
 SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
-                                 std::vector<ImgData> &imgData)
+                                 std::vector<ImageData> &imgData)
     : wxPanel(parent, id), lineDetection() {
 
     ptns = new std::vector<cv::Point2f>();

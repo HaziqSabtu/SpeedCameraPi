@@ -6,11 +6,6 @@ MainFrame::MainFrame(const wxString &title, wxString filename,
     wxString filePath = dirLocation + filename;
     FILEH264::ReadFile(filePath, imgData);
 
-    int rotationAngle = 0;
-    if (rotationAngle != 0) {
-        ImageUtils::RotateImage(imgData, rotationAngle);
-    }
-
     notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
                               wxSize(800, 600));
 

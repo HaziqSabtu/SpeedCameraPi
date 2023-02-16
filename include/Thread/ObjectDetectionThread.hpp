@@ -9,14 +9,14 @@
 class ObjectDetectionThread : public wxThread {
   public:
     ObjectDetectionThread(ObjectDetection *objDetection,
-                          std::vector<ImgData> *imgData, bool *isRunning);
+                          std::vector<ImageData> *imgData, bool *isRunning);
     virtual ~ObjectDetectionThread();
 
   private:
     virtual void *Entry();
 
     ObjectDetection *objDetection;
-    std::vector<ImgData> *imgData;
+    std::vector<ImageData> *imgData;
     bool *isRunning;
 };
 #endif

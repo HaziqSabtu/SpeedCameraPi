@@ -1,12 +1,11 @@
 #ifndef OBJECT_DETECTION_HPP
 #define OBJECT_DETECTION_HPP
 
-#include <Utils/FileReader/fileWR.hpp>
+#include <Utils/DataStruct.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/video.hpp>
-
 class ObjectDetection {
 
   private:
@@ -44,7 +43,7 @@ class ObjectDetection {
 
     ObjectDetection(cv::RNG rng);
 
-    void runDetection(std::vector<ImgData> &imgData);
+    void runDetection(std::vector<ImageData> &imgData);
 
     void SetMinPointDistance(double minPointDistance);
 

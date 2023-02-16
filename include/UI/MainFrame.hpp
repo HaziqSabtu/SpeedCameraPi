@@ -24,7 +24,7 @@ class MainFrame : public wxFrame {
 
   private:
     cv::VideoCapture *video_capture;
-    std::vector<ImgData> imgData;
+    std::vector<ImageData> imgData;
 
     wxNotebook *notebook;
     CameraPanel *camera_panel;
