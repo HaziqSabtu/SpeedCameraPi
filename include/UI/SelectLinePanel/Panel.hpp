@@ -2,6 +2,7 @@
 #define SELECT_LINE_PANEL
 
 #include <Algorithm/line_detection/lineDetection.hpp>
+#include <UI/CameraPanel/Panel.hpp>
 #include <UI/SelectLinePanel/ButtonPanel.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/FileReader/fileWR.hpp>
@@ -15,12 +16,14 @@ class SelectLinePanel : public wxPanel {
     ~SelectLinePanel();
 
     std::vector<cv::Vec4i> GetSelectedLines();
+    std::vector<ImageData> GetImgData();
+    void OnPageChange();
 
   private:
     SelectLinePanelButton *button_panel;
     SelectLineBitmap *img_bitmap;
 
-    std::vector<ImgData> imgData;
+    std::vector<ImageData> imgData;
     std::vector<cv::Point2f> *ptns;
     std::vector<cv::Vec4i> *houghLines;
     std::vector<cv::Vec4i> *selectedLines;

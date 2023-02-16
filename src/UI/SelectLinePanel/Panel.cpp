@@ -2,7 +2,7 @@
 
 SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
                                  std::vector<ImgData> &imgData)
-    : wxPanel(parent, id), imgData(imgData), lineDetection() {
+    : wxPanel(parent, id), lineDetection() {
 
     ptns = new std::vector<cv::Point2f>();
     houghLines = new std::vector<cv::Vec4i>();
@@ -14,7 +14,7 @@ SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
     img_bitmap->SetPoints(ptns);
     img_bitmap->SetHoughLines(houghLines);
     img_bitmap->setSelectedLines(selectedLines);
-    img_bitmap->SetImage(imgData[c].image);
+    // img_bitmap->SetImage(imgData[c].image);
     img_bitmap->Bind(wxEVT_LEFT_DOWN, &SelectLinePanel::OnLeftDown, this);
     img_bitmap->Bind(wxEVT_SIZE, &SelectLinePanel::OnSize, this);
 
@@ -74,6 +74,24 @@ void SelectLinePanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::SL_Clear_Button_ID) {
         ptns->clear();
         selectedLines->clear();
+        img_bitmap->drawBitMap();
+    }
+
+    if (e.GetId() == Enum::SL_Next_Button_ID) {
+        ++c;
+        if (c >= imgData.size()) {
+            c = 0;
+        }
+        img_bitmap->SetImage(imgData[c].image);
+        img_bitmap->drawBitMap();
+    }
+
+    if (e.GetId() == Enum::SL_Prev_Button_ID) {
+        --c;
+        if (c < 0) {
+            c = imgData.size() - 1;
+        }
+        img_bitmap->SetImage(imgData[c].image);
         img_bitmap->drawBitMap();
     }
 }
@@ -152,6 +170,21 @@ std::vector<cv::Vec4i> SelectLinePanel::GetSelectedLines() {
         wxLogMessage("Size: %zd", selectedLines->size());
     }
     return *selectedLines;
+}
+
+std::vector<ImageData> SelectLinePanel::GetImgData() { return imgData; }
+
+void SelectLinePanel::OnPageChange() {
+    CameraPanel *cp_panel =
+        dynamic_cast<CameraPanel *>(GetParent()->FindWindow(Enum::CP_Panel_ID));
+    imgData = cp_panel->GetImgData();
+    if (imgData.empty()) {
+        wxLogMessage("No Images Available");
+        return;
+    }
+    img_bitmap->SetImage(imgData[c].image);
+    img_bitmap->drawBitMap();
+    // button_panel->enableAllButtons();
 }
 
 // clang-format off

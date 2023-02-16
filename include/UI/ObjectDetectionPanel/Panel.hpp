@@ -3,6 +3,7 @@
 
 #include <Algorithm/object_detection/ObjectDetection.hpp>
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
+#include <Thread/ObjectDetectionThread.hpp>
 #include <UI/ObjectDetectionPanel/ButtonPanel.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
 #include <Utils/Enum.hpp>
@@ -21,6 +22,7 @@ class ObjectDetectionPanel : public wxPanel {
     bool isOptF;
     bool isBotL;
     bool isLine;
+    bool isRunning;
 
     int c = 0;
     cv::Rect *bbox;
@@ -39,6 +41,8 @@ class ObjectDetectionPanel : public wxPanel {
     cv::RNG rng;
     ObjectDetection objectDetection;
     SpeedCalculation speedCalculation;
+    wxThread *objectDetectionThread;
+    wxTimer timer;
 
     void handleBBox();
     void handleOptF();
@@ -48,6 +52,7 @@ class ObjectDetectionPanel : public wxPanel {
     void OnButton(wxCommandEvent &e);
     void OnIncrement();
     void OnSize(wxSizeEvent &e);
+    void OnTimer(wxTimerEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

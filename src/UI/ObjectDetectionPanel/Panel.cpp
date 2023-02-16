@@ -21,10 +21,25 @@ ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
     SetSizer(main_sizer);
     Fit();
 
+    timer.SetOwner(this, wxID_ANY);
+    Connect(wxID_ANY, wxEVT_TIMER,
+            wxTimerEventHandler(ObjectDetectionPanel::OnTimer));
+
     isBBox = false;
     isOptF = false;
     isBotL = false;
     isLine = false;
+}
+
+void ObjectDetectionPanel::OnTimer(wxTimerEvent &e) {
+    if (!isRunning) {
+        wxLogMessage("Timer stopped");
+        button_panel->enableAllButtons();
+        opticalFlowPoints = objectDetection.GetOpticalFlowPoints(true);
+        timer.Stop();
+        return;
+    }
+    wxLogMessage("Timer running");
 }
 
 void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
@@ -50,10 +65,15 @@ void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::OD_BBox_Button_ID) {
         wxLogMessage("BBox button pressed");
         isBBox = !isBBox;
+        wxLogMessage("toggleBBOX");
         button_panel->OnBBox();
+        wxLogMessage("OnBBOX");
         if (isBBox) {
+            wxLogMessage("handleBBOX");
             handleBBox();
+            wxLogMessage("drawBitMap");
             img_bitmap->drawBitMap();
+            wxLogMessage("return");
             return;
         }
         img_bitmap->SetBBox(nullptr);
@@ -142,18 +162,25 @@ void ObjectDetectionPanel::OnIncrement() {
 void ObjectDetectionPanel::OnSize(wxSizeEvent &e) { img_bitmap->drawBitMap(); }
 
 void ObjectDetectionPanel::OnPageChange() {
-    wxLogMessage("Object Detection Page Change");
-    if (opticalFlowPoints.empty()) {
-        objectDetection.runDetection(imgData);
-        opticalFlowPoints = objectDetection.GetOpticalFlowPoints(true);
-    }
-    wxLogMessage("Object Detection Page Change 2");
 
     SelectLinePanel *sl_panel = dynamic_cast<SelectLinePanel *>(
         GetParent()->FindWindow(Enum::SL_Panel_ID));
-    selectedLines = sl_panel->GetSelectedLines();
 
-    button_panel->enableAllButtons();
+    // imgData = sl_panel->GetImgData();
+
+    // if (imgData.empty()) {
+    //     return;
+    // }
+
+    if (opticalFlowPoints.empty()) {
+        objectDetectionThread =
+            new ObjectDetectionThread(&objectDetection, &imgData, &isRunning);
+        objectDetectionThread->Create();
+        objectDetectionThread->Run();
+        timer.Start(33);
+    }
+
+    selectedLines = sl_panel->GetSelectedLines();
 }
 
 // clang-format off

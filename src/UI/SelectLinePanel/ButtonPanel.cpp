@@ -3,12 +3,16 @@
 SelectLinePanelButton::SelectLinePanelButton(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id) {
     // Create Button Panel and Buttons
+    Next_Button = new wxButton(this, Enum::SL_Next_Button_ID, "Next");
+    Prev_Button = new wxButton(this, Enum::SL_Prev_Button_ID, "Prev");
     Canny_Button = new wxButton(this, Enum::SL_Canny_Button_ID, "Show Canny");
     Hough_Button = new wxButton(this, Enum::SL_Hough_Button_ID, "Show Hough");
     Clear_Button = new wxButton(this, Enum::SL_Clear_Button_ID, "Clear Line");
 
     // Create the button sizer
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
+    button_sizer->Add(Next_Button, 0, wxALL | wxCENTER, 5);
+    button_sizer->Add(Prev_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Canny_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Hough_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Clear_Button, 0, wxALL | wxCENTER, 5);

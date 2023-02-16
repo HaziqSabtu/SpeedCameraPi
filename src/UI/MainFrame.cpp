@@ -41,7 +41,7 @@ void MainFrame::OnPageChange(wxNotebookEvent &event) {
     }
     if (page == 2) {
         wxLogMessage("Changing To Page: Line Selection");
-        // optical_flow_panel->OnPageChange();
+        select_line_panel->OnPageChange();
     }
 
     if (page == 3) {

@@ -10,7 +10,7 @@ ObjectDetection::ObjectDetection(cv::RNG rng, int maxCorners) : rng(rng) {
 
 ObjectDetection::ObjectDetection(cv::RNG rng) : ObjectDetection(rng, 1000) {}
 
-void ObjectDetection::runDetection(const std::vector<ImgData> &imgData) {
+void ObjectDetection::runDetection(std::vector<ImgData> &imgData) {
     cv::Mat firstImage = imgData[0].image;
     std::cout << "Initializing Optical Flow" << std::endl;
     initOpticalFlow(firstImage);

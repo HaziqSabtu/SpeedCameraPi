@@ -41,6 +41,8 @@ enum ProjectIDs {
     SL_BUTTON_PANEL_ID,
     SL_BB_ID,
     SL_BIT_ID,
+    SL_Next_Button_ID,
+    SL_Prev_Button_ID,
     SL_Canny_Button_ID,
     SL_Hough_Button_ID,
     SL_Clear_Button_ID,

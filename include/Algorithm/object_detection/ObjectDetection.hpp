@@ -44,7 +44,7 @@ class ObjectDetection {
 
     ObjectDetection(cv::RNG rng);
 
-    void runDetection(const std::vector<ImgData> &imgData);
+    void runDetection(std::vector<ImgData> &imgData);
 
     void SetMinPointDistance(double minPointDistance);
 

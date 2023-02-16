@@ -98,5 +98,4 @@ std::vector<ImageData> CameraPanel::GetImgData() {
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel) 
 EVT_BUTTON(wxID_ANY, CameraPanel::OnButton)
-
 wxEND_EVENT_TABLE()
