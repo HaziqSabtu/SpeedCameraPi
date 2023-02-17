@@ -17,11 +17,12 @@ class SelectLinePanelButton : public wxPanel {
 
     wxPanel *button_panel;
     wxBoxSizer *button_sizer;
-    wxButton *Next_Button;
-    wxButton *Prev_Button;
     wxButton *Canny_Button;
     wxButton *Hough_Button;
     wxButton *Clear_Button;
+    wxButton *Next_Button;
+    wxButton *Prev_Button;
+    wxStaticText *Spacer;
 
     DECLARE_EVENT_TABLE()
 };

@@ -4,40 +4,39 @@ ObjectDetectionPanelButton::ObjectDetectionPanelButton(wxWindow *parent,
                                                        wxWindowID id)
     : wxPanel(parent, id) {
     // Create Button Panel and Buttons
-    Next_Button = new wxButton(this, Enum::OD_Next_Button_ID, "Next");
+    Replay_Button = new wxButton(this, Enum::OD_Replay_Button_ID, "Replay");
     BBox_Button = new wxButton(this, Enum::OD_BBox_Button_ID, "BBox");
     OptF_Button = new wxButton(this, Enum::OD_OptF_Button_ID, "OptF");
     BotL_Button = new wxButton(this, Enum::OD_BotL_Button_ID, "BotL");
     Line_Button = new wxButton(this, Enum::OD_Line_Button_ID, "Line");
-    Speed_Button = new wxButton(this, Enum::OD_Speed_Button_ID, "Speed");
-
+    Spacer = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition,
+                              wxDefaultSize, wxALIGN_RIGHT);
     // Create the button sizer
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
-    button_sizer->Add(Next_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(BBox_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(OptF_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(BotL_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Line_Button, 0, wxALL | wxCENTER, 5);
-    button_sizer->Add(Speed_Button, 0, wxALL | wxCENTER, 5);
+    button_sizer->Add(Spacer, 1, wxALL | wxCENTER, 5);
+    button_sizer->Add(Replay_Button, 0, wxALL | wxCENTER, 5);
+
     this->SetSizer(button_sizer);
 
     // Disable buttons
-    Next_Button->Disable();
+    Replay_Button->Disable();
     BBox_Button->Disable();
     OptF_Button->Disable();
     BotL_Button->Disable();
     Line_Button->Disable();
-    Speed_Button->Disable();
 }
 
 void ObjectDetectionPanelButton::enableAllButtons() {
     wxLogMessage("Enabling all buttons");
-    Next_Button->Enable();
+    Replay_Button->Enable();
     BBox_Button->Enable();
     OptF_Button->Enable();
     BotL_Button->Enable();
     Line_Button->Enable();
-    Speed_Button->Enable();
 }
 
 void ObjectDetectionPanelButton::OnBBox() {
@@ -74,10 +73,6 @@ void ObjectDetectionPanelButton::OnLine() {
     } else {
         Line_Button->SetLabel("Show Line");
     }
-}
-
-void ObjectDetectionPanelButton::OnSpeed() {
-    wxLogMessage("Speed Button Clicked");
 }
 
 // clang-format off

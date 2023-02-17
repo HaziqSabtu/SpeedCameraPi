@@ -13,8 +13,7 @@
 
 class ObjectDetectionPanel : public wxPanel {
   public:
-    ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
-                         std::vector<ImageData> &imgData);
+    ObjectDetectionPanel(wxWindow *parent, wxWindowID id);
     void OnPageChange();
 
   private:

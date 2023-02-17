@@ -2,14 +2,9 @@
 #define MAIN_FRAME_HPP
 
 #include <UI/CameraPanel/Panel.hpp>
-#include <UI/CaptureViewPanel/Panel.hpp>
 #include <UI/ObjectDetectionPanel/Panel.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
 #include <Utils/Enum.hpp>
-#include <Utils/FileReader/fileAVI.hpp>
-#include <Utils/FileReader/fileH264.hpp>
-#include <Utils/FileReader/fileWR.hpp>
-#include <Utils/ImageUtils.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 #include <wx/filename.h>
@@ -28,7 +23,6 @@ class MainFrame : public wxFrame {
 
     wxNotebook *notebook;
     CameraPanel *camera_panel;
-    CaptureViewPanel *capture_view_panel;
     SelectLinePanel *select_line_panel;
     ObjectDetectionPanel *object_detection_panel;
 

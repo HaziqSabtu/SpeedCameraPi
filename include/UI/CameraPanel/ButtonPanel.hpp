@@ -16,6 +16,8 @@ class CameraPanelButton : public wxPanel {
     wxButton *Capture_Button;
     wxButton *Stop_Button;
     wxButton *Load_Button;
+    wxStaticText *Spacer;
+
     DECLARE_EVENT_TABLE();
 };
 #endif

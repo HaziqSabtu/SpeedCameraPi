@@ -1,17 +1,12 @@
 #include <UI/ObjectDetectionPanel/Panel.hpp>
 
-ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
-                                           std::vector<ImageData> &imgData)
-    : wxPanel(parent, id), objectDetection(rng), imgData(imgData) {
-
-    speedCalculation.SetImageWidth(imgData[c].image.cols);
-    wxLogMessage("imgData[c].image.cols: %d", imgData[c].image.cols);
+ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id)
+    : wxPanel(parent, id), objectDetection(rng) {
 
     button_panel =
         new ObjectDetectionPanelButton(this, Enum::SR_BUTTON_PANEL_ID);
 
-    img_bitmap = new ObjectDetectionBitmap(this, Enum::OD_BB_ID);
-    img_bitmap->SetImage(imgData[c].image);
+    img_bitmap = new ObjectDetectionBitmap(this, Enum::OD_BITMAP_ID);
     img_bitmap->Bind(wxEVT_SIZE, &ObjectDetectionPanel::OnSize, this);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
@@ -67,23 +62,7 @@ void ObjectDetectionPanel::OnImageLoop(wxTimerEvent &e) {
 }
 
 void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
-    if (e.GetId() == Enum::OD_Next_Button_ID) {
-        // wxLogMessage("Next button pressed");
-        // OnIncrement();
-
-        // if (isBBox) {
-        //     handleBBox();
-        // }
-
-        // if (isOptF) {
-        //     handleOptF();
-        // }
-
-        // if (isBotL) {
-        //     handleBotL();
-        // }
-
-        // img_bitmap->drawBitMap();
+    if (e.GetId() == Enum::OD_Replay_Button_ID) {
         c = 0;
         loopTimer.Start(500);
     }
@@ -139,12 +118,6 @@ void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
         img_bitmap->SetSelectedLines(std::vector<cv::Vec4i>());
         img_bitmap->drawBitMap();
     }
-
-    if (e.GetId() == Enum::OD_Speed_Button_ID) {
-        wxLogMessage("Speed button pressed");
-        button_panel->OnSpeed();
-        handleSpeed();
-    }
 }
 
 void ObjectDetectionPanel::handleBBox() {
@@ -170,6 +143,7 @@ void ObjectDetectionPanel::handleBotL() {
 }
 
 void ObjectDetectionPanel::handleSpeed() {
+    speedCalculation.SetImageWidth(imgData[c].image.cols);
     speedCalculation.SetLine(selectedLines);
     speedCalculation.runCalculation(
         speedCalculation.toSpeedData(imgData, opticalFlowPoints));
@@ -188,6 +162,8 @@ void ObjectDetectionPanel::OnPageChange() {
         GetParent()->FindWindow(Enum::SL_Panel_ID));
 
     imgData = sl_panel->GetImgData();
+    img_bitmap->SetImage(imgData[0].image);
+    img_bitmap->drawBitMap();
 
     if (imgData.empty()) {
         return;

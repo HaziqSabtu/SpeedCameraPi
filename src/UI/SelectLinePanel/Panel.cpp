@@ -1,7 +1,6 @@
 #include <UI/SelectLinePanel/Panel.hpp>
 
-SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
-                                 std::vector<ImageData> &imgData)
+SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id), lineDetection() {
 
     ptns = new std::vector<cv::Point2f>();
@@ -10,11 +9,10 @@ SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
 
     button_panel = new SelectLinePanelButton(this, Enum::SL_BUTTON_PANEL_ID);
 
-    img_bitmap = new SelectLineBitmap(this, Enum::SL_BB_ID);
+    img_bitmap = new SelectLineBitmap(this, Enum::SL_BITMAP_ID);
     img_bitmap->SetPoints(ptns);
     img_bitmap->SetHoughLines(houghLines);
     img_bitmap->setSelectedLines(selectedLines);
-    img_bitmap->SetImage(imgData[c].image);
     img_bitmap->Bind(wxEVT_LEFT_DOWN, &SelectLinePanel::OnLeftDown, this);
     img_bitmap->Bind(wxEVT_SIZE, &SelectLinePanel::OnSize, this);
 
@@ -24,8 +22,6 @@ SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
 
     SetSizer(main_sizer);
     Fit();
-
-    lineDetection.SetImage(imgData[c].image);
 
     isHough = false;
     isCanny = false;
