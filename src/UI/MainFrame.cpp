@@ -4,7 +4,9 @@ MainFrame::MainFrame(const wxString &title, wxString filename,
                      wxString dirLocation, wxSize size)
     : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size) {
     wxString filePath = dirLocation + filename;
-    FILEH264::ReadFile(filePath, imgData);
+
+    wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
+    SetIcon(icon);
 
     notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
                               wxSize(800, 600));
