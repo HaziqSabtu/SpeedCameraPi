@@ -16,10 +16,6 @@ void ObjectDetectionBitmap::drawBitMap() {
     processRatio();
     cv::Mat img_cp = image.clone();
 
-    if (bbox) {
-        cv::rectangle(img_cp, *bbox, cv::Scalar(0, 0, 255), 2);
-    }
-
     if (result && !result->empty()) {
         for (auto pts : *result) {
             for (auto pt : pts) {
@@ -40,6 +36,10 @@ void ObjectDetectionBitmap::drawBitMap() {
             cv::Point2f p2(line[2], line[3]);
             cv::line(img_cp, p1, p2, cv::Scalar(0, 255, 255), 2);
         }
+    }
+
+    if (bbox) {
+        cv::rectangle(img_cp, *bbox, cv::Scalar(0, 0, 255), 2);
     }
 
     if (speed && *speed > 0) {
