@@ -38,32 +38,28 @@ SelectLinePanel::~SelectLinePanel() {
 
 void SelectLinePanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::SL_Canny_Button_ID) {
-        wxLogMessage("oncanny");
         button_panel->OnCanny();
-        if (!isCanny) {
-            isCanny = !isCanny;
+        isCanny = !isCanny;
+        if (isCanny) {
             lineDetection.SetImage(imgData[c].image);
             img_bitmap->SetImage(lineDetection.GetCanny());
             return;
         }
-        isCanny = !isCanny;
-        ++c;
         img_bitmap->SetImage(imgData[c].image);
     }
 
     if (e.GetId() == Enum::SL_Hough_Button_ID) {
         button_panel->OnHough();
-        if (!isHough) {
-            isHough = !isHough;
+        isHough = !isHough;
+        if (isHough) {
             lineDetection.SetImage(imgData[c].image);
             houghLines = &lineDetection.GetLinesP();
             img_bitmap->SetHoughLines(houghLines);
             img_bitmap->drawBitMap();
             return;
         }
-        isHough = !isHough;
         houghLines->clear();
-        img_bitmap->SetHoughLines(NULL);
+        img_bitmap->SetHoughLines(nullptr);
         img_bitmap->drawBitMap();
     }
 
@@ -74,22 +70,22 @@ void SelectLinePanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::SL_Next_Button_ID) {
-        ++c;
-        if (c >= imgData.size()) {
-            c = 0;
-        }
-        img_bitmap->SetImage(imgData[c].image);
-        img_bitmap->drawBitMap();
+        OnIncrement();
     }
 
     if (e.GetId() == Enum::SL_Prev_Button_ID) {
-        --c;
-        if (c < 0) {
-            c = imgData.size() - 1;
-        }
-        img_bitmap->SetImage(imgData[c].image);
-        img_bitmap->drawBitMap();
+        OnDecrement();
     }
+}
+
+void SelectLinePanel::OnIncrement() {
+    c = (c >= imgData.size() - 1) ? c : c + 1;
+    img_bitmap->SetImage(imgData[c].image);
+}
+
+void SelectLinePanel::OnDecrement() {
+    c = (c <= 0) ? c : c - 1;
+    img_bitmap->SetImage(imgData[c].image);
 }
 
 void SelectLinePanel::OnLeftDown(wxMouseEvent &e) {
@@ -157,13 +153,8 @@ void SelectLinePanel::addLine(cv::Vec4i line) {
 }
 
 std::vector<cv::Vec4i> SelectLinePanel::GetSelectedLines() {
-    wxLogMessage("selecting lines");
     if (selectedLines == NULL || selectedLines->empty()) {
-        wxLogMessage("No Lines Selected");
         return std::vector<cv::Vec4i>();
-    } else {
-        wxLogMessage("Lines Selected not empty");
-        wxLogMessage("Size: %zd", selectedLines->size());
     }
     return *selectedLines;
 }
@@ -180,7 +171,6 @@ void SelectLinePanel::OnPageChange() {
     }
     img_bitmap->SetImage(imgData[c].image);
     img_bitmap->drawBitMap();
-    // button_panel->enableAllButtons();
 }
 
 // clang-format off

@@ -39,6 +39,8 @@ class SelectLinePanel : public wxPanel {
     void OnButton(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);
     void OnSize(wxSizeEvent &e);
+    void OnIncrement();
+    void OnDecrement();
 
     void checkForLine(wxPoint realMousePos);
     void addLine(cv::Vec4i line);
