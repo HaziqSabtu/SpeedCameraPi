@@ -26,6 +26,7 @@ ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id)
     isLine = false;
 }
 
+// todo: better implementation
 void ObjectDetectionPanel::OnTimer(wxTimerEvent &e) {
     if (!isRunning) {
         wxLogMessage("Timer stopped");
@@ -121,7 +122,9 @@ void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
 }
 
 void ObjectDetectionPanel::handleBBox() {
-    bbox = &objectDetection.GetRect(opticalFlowPoints[c]);
+    if (c < opticalFlowPoints.size()) {
+        bbox = &objectDetection.GetRect(opticalFlowPoints[c]);
+    }
     img_bitmap->SetBBox(bbox);
 }
 
@@ -129,7 +132,9 @@ void ObjectDetectionPanel::handleOptF() {
     if (opticalFlowPoints.empty() == 0) {
         opticalFlowPoints = objectDetection.GetOpticalFlowPoints(true);
     }
-    result = &objectDetection.GetOFPoints(opticalFlowPoints, c);
+    if (c < opticalFlowPoints.size()) {
+        result = &objectDetection.GetOFPoints(opticalFlowPoints, c);
+    }
     img_bitmap->SetResult(result);
 }
 
@@ -137,8 +142,11 @@ void ObjectDetectionPanel::handleBotL() {
     if (opticalFlowPoints.empty()) {
         opticalFlowPoints = objectDetection.GetOpticalFlowPoints(true);
     }
-    bottomLine = &objectDetection.GetBottomLine(opticalFlowPoints[c],
-                                                imgData[c].image.cols);
+
+    if (c < opticalFlowPoints.size()) {
+        bottomLine = &objectDetection.GetBottomLine(opticalFlowPoints[c],
+                                                    imgData[c].image.cols);
+    }
     img_bitmap->SetBottomLine(bottomLine);
 }
 
