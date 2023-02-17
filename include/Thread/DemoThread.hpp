@@ -10,7 +10,7 @@
 
 class DemoThread : public wxThread {
   public:
-    DemoThread(bool *isCapturing, bool *isProcessing,
+    DemoThread(bool *isCapturing, bool *isProcessing, bool *isThreadRunning,
                std::vector<ImageData> *imgData);
     virtual ~DemoThread();
 
@@ -22,6 +22,7 @@ class DemoThread : public wxThread {
 
     bool *isCapturing;
     bool *isProcessing;
+    bool *isThreadRunning;
 };
 
 #endif

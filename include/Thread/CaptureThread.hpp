@@ -10,7 +10,7 @@
 
 class CaptureThread : public wxThread {
   public:
-    CaptureThread(bool *isCapturing, bool *isProcessing,
+    CaptureThread(bool *isCapturing, bool *isProcessing, bool *isThreadRunning,
                   std::vector<ImageData> *imgData, cv::Mat *frame);
     virtual ~CaptureThread();
 
@@ -24,6 +24,7 @@ class CaptureThread : public wxThread {
 
     bool *isCapturing;
     bool *isProcessing;
+    bool *isThreadRunning;
 };
 
 #endif

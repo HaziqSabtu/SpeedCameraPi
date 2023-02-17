@@ -8,13 +8,14 @@ class CameraPanelButton : public wxPanel {
   public:
     CameraPanelButton(wxWindow *parent, wxWindowID id);
     void onCaptureToggle(bool isCapturing);
+    void DisableAllButtons();
+    void EnableAllButtons();
 
   private:
     wxPanel *button_panel;
     wxBoxSizer *button_sizer;
 
     wxButton *Capture_Button;
-    wxButton *Stop_Button;
     wxButton *Load_Button;
     wxStaticText *Spacer;
 

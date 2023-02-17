@@ -1,10 +1,11 @@
 #include <Thread/CaptureThread.hpp>
 
 CaptureThread::CaptureThread(bool *isCapturing, bool *isProcessing,
+                             bool *isThreadRunning,
                              std::vector<ImageData> *imgData, cv::Mat *frame)
     : wxThread(wxTHREAD_JOINABLE), isCapturing(isCapturing),
-      isProcessing(isProcessing), imgData(imgData), frame(frame),
-      maxFrameCount(20) {}
+      isProcessing(isProcessing), isThreadRunning(isThreadRunning),
+      imgData(imgData), frame(frame), maxFrameCount(20) {}
 
 CaptureThread::~CaptureThread() { wxLogMessage("deleting thread"); }
 
@@ -35,5 +36,6 @@ void *CaptureThread::Entry() {
     }
 
     *isProcessing = false;
+    *isThreadRunning = false;
     return NULL;
 };

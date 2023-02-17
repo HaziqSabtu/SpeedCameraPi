@@ -1,9 +1,10 @@
 #include <Thread/DemoThread.hpp>
 
 DemoThread::DemoThread(bool *isCapturing, bool *isProcessing,
-                       std::vector<ImageData> *imgData)
+                       bool *isThreadRunning, std::vector<ImageData> *imgData)
     : wxThread(wxTHREAD_JOINABLE), isCapturing(isCapturing),
-      isProcessing(isProcessing), imgData(imgData) {}
+      isThreadRunning(isThreadRunning), isProcessing(isProcessing),
+      imgData(imgData) {}
 
 DemoThread::~DemoThread() { wxLogMessage("deleting thread"); }
 
@@ -30,5 +31,6 @@ void *DemoThread::Entry() {
         wxThread::Sleep(33);
     }
     *isProcessing = false;
+    *isThreadRunning = false;
     return NULL;
 };

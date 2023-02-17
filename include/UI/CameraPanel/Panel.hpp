@@ -21,18 +21,21 @@ class CameraPanel : public wxPanel {
 
   public:
     void OnButton(wxCommandEvent &e);
-    void OnTimer(wxTimerEvent &event);
+    void OnTimer(wxTimerEvent &e);
+    void OnThreadCheck(wxTimerEvent &e);
     void OnCapture();
-    void OnStopCapture();
+    void OnLoadFile();
 
   private:
     wxString filePath;
     cv::Mat frame;
     bool isCapturing;
     bool isProcessing;
+    bool isThreadRunning;
 
     cv::VideoCapture camera;
     wxTimer timer;
+    wxTimer threadCheckTimer;
     CameraPanelButton *button_panel;
     CameraBitmap *img_bitmap;
 

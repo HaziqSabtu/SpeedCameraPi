@@ -27,13 +27,14 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, wxString filePath)
     camera.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
     camera.set(cv::CAP_PROP_FPS, 30);
 
-    timer.SetOwner(this, wxID_ANY);
+    // timer.SetOwner(this, wxID_ANY);
+    timer.Bind(wxEVT_TIMER, &CameraPanel::OnTimer, this);
     timer.Start(33); // 30 FPS
+
+    threadCheckTimer.Bind(wxEVT_TIMER, &CameraPanel::OnThreadCheck, this);
 
     isCapturing = false;
     isProcessing = false;
-
-    Connect(wxID_ANY, wxEVT_TIMER, wxTimerEventHandler(CameraPanel::OnTimer));
 };
 
 CameraPanel::~CameraPanel() {
@@ -50,10 +51,17 @@ CameraPanel::~CameraPanel() {
     camera.release();
 }
 
-void CameraPanel::OnTimer(wxTimerEvent &event) {
+void CameraPanel::OnTimer(wxTimerEvent &e) {
     camera >> frame;
     if (!frame.empty()) {
         img_bitmap->SetImage(frame);
+    }
+}
+
+void CameraPanel::OnThreadCheck(wxTimerEvent &e) {
+    if (!isThreadRunning) {
+        threadCheckTimer.Stop();
+        button_panel->EnableAllButtons();
     }
 }
 
@@ -64,21 +72,14 @@ void CameraPanel::OnCapture() {
         return;
     }
     wxLogMessage("Start Capture");
-    button_panel->onCaptureToggle(isCapturing);
+    button_panel->DisableAllButtons();
+    isThreadRunning = true;
     imgData.clear();
-    captureThread =
-        new CaptureThread(&isCapturing, &isProcessing, &imgData, &frame);
+    captureThread = new CaptureThread(&isCapturing, &isProcessing,
+                                      &isThreadRunning, &imgData, &frame);
     captureThread->Create();
     captureThread->Run();
-}
-
-void CameraPanel::OnStopCapture() {
-    isCapturing = false;
-    button_panel->onCaptureToggle(isCapturing);
-    if (captureThread != NULL) {
-        captureThread->Delete();
-        captureThread = NULL;
-    }
+    threadCheckTimer.Start(100);
 }
 
 void CameraPanel::OnButton(wxCommandEvent &e) {
@@ -86,24 +87,27 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
         OnCapture();
     }
 
-    if (e.GetId() == Enum::CP_Stop_Button_ID) {
-        OnStopCapture();
-    }
-
     if (e.GetId() == Enum::CP_Load_Button_ID) {
-        if (isCapturing || isProcessing) {
-            return;
-        }
-
-        if (!imgData.empty()) {
-            imgData.clear();
-        }
-
-        FILEH264::ReadFile(filePath, imgData);
-        loadThread = new DemoThread(&isCapturing, &isProcessing, &imgData);
-        loadThread->Create();
-        loadThread->Run();
+        OnLoadFile();
     }
+}
+
+void CameraPanel::OnLoadFile() {
+    if (isCapturing || isProcessing) {
+        return;
+    }
+
+    if (!imgData.empty()) {
+        imgData.clear();
+    }
+
+    FILEH264::ReadFile(filePath, imgData);
+    button_panel->DisableAllButtons();
+    isThreadRunning = true;
+    loadThread =
+        new DemoThread(&isCapturing, &isProcessing, &isThreadRunning, &imgData);
+    loadThread->Create();
+    loadThread->Run();
 }
 
 std::vector<ImageData> CameraPanel::GetImgData() {
@@ -115,5 +119,5 @@ std::vector<ImageData> CameraPanel::GetImgData() {
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel) 
-EVT_BUTTON(wxID_ANY, CameraPanel::OnButton)
+    EVT_BUTTON(wxID_ANY, CameraPanel::OnButton)
 wxEND_EVENT_TABLE()

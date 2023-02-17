@@ -22,14 +22,21 @@ void CameraBitmap::drawBitMap() {
 
     if (*isCapturing) {
         // draw box around the frame
+        std::string text = "Capturing";
+        cv::Scalar color = cv::Scalar(0, 0, 255);
         rectangle(img_cp, cv::Point(0, 0),
-                  cv::Point(image.size().width, image.size().height),
-                  cv::Scalar(0, 0, 255), 4);
+                  cv::Point(image.size().width, image.size().height), color, 4);
+        cv::putText(img_cp, text, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX,
+                    1, color, 2);
+
     } else if (*isProcessing) {
         // draw box around the frame
+        std::string text = "Processing";
+        cv::Scalar color = cv::Scalar(0, 255, 0);
         rectangle(img_cp, cv::Point(0, 0),
-                  cv::Point(image.size().width, image.size().height),
-                  cv::Scalar(0, 255, 0), 4);
+                  cv::Point(image.size().width, image.size().height), color, 4);
+        cv::putText(img_cp, text, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX,
+                    1, color, 2);
     }
 
     cv::Mat img_rs;
