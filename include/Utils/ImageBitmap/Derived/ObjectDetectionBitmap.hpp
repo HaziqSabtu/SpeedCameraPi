@@ -16,6 +16,7 @@ class ObjectDetectionBitmap : public ImageBitmap {
     void SetBottomLine(std::vector<cv::Point2f> *bottomLine);
     void SetResult(std::vector<std::vector<cv::Point2f>> *result);
     void SetSelectedLines(std::vector<cv::Vec4i> selectedLines);
+    void SetSpeed(double *speed);
     virtual void drawBitMap() override;
 
   private:
@@ -23,6 +24,7 @@ class ObjectDetectionBitmap : public ImageBitmap {
     std::vector<std::vector<cv::Point2f>> *result;
     std::vector<cv::Point2f> *bottomLine;
     std::vector<cv::Vec4i> selectedLines;
+    double *speed;
 
     wxDECLARE_EVENT_TABLE();
 };

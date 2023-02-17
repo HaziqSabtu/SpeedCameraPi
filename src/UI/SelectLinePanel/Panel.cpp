@@ -14,7 +14,7 @@ SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id,
     img_bitmap->SetPoints(ptns);
     img_bitmap->SetHoughLines(houghLines);
     img_bitmap->setSelectedLines(selectedLines);
-    // img_bitmap->SetImage(imgData[c].image);
+    img_bitmap->SetImage(imgData[c].image);
     img_bitmap->Bind(wxEVT_LEFT_DOWN, &SelectLinePanel::OnLeftDown, this);
     img_bitmap->Bind(wxEVT_SIZE, &SelectLinePanel::OnSize, this);
 

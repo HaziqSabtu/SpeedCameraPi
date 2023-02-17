@@ -22,6 +22,7 @@ class SpeedCalculation {
     void SetImageWidth(int w);
     void SetLine(std::vector<cv::Vec4i> l);
     double distanceFromCamera(float pixelWidth);
+    double GetAvgSpeed();
 
     static cv::Point2f intersection(float y, cv::Vec4i b);
     static cv::Point2f intersection(cv::Vec4f a, cv::Vec4f b);
@@ -33,6 +34,7 @@ class SpeedCalculation {
   private:
     std::vector<cv::Vec4i> line;
     std::vector<double> speeds;
+    double avgSpeed = -1;
 
   private:
     int imageWidth;

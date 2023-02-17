@@ -31,6 +31,7 @@ class ObjectDetectionPanel : public wxPanel {
     std::vector<cv::Vec4i> selectedLines;
     std::vector<std::vector<cv::Point2f>> opticalFlowPoints;
     std::vector<ImageData> imgData;
+    double calculatedSpeed;
 
     ObjectDetectionPanelButton *button_panel;
 
@@ -43,6 +44,7 @@ class ObjectDetectionPanel : public wxPanel {
     SpeedCalculation speedCalculation;
     wxThread *objectDetectionThread;
     wxTimer timer;
+    wxTimer loopTimer;
 
     void handleBBox();
     void handleOptF();
@@ -53,6 +55,7 @@ class ObjectDetectionPanel : public wxPanel {
     void OnIncrement();
     void OnSize(wxSizeEvent &e);
     void OnTimer(wxTimerEvent &e);
+    void OnImageLoop(wxTimerEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

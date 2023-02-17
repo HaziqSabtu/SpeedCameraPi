@@ -42,7 +42,7 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
         i++;
     }
 
-    double avgSpeed = ImageUtils::TrimmedMean(speeds, 10);
+    avgSpeed = ImageUtils::TrimmedMean(speeds, 10);
 
     double measuredSpeed = 0.3 / 1.2;
     // double measuredSpeed = 1200 / 4665.2;
@@ -105,3 +105,8 @@ double SpeedCalculation::calcSpeed(
     wxLogMessage("TimeDiff: %f", timeDiff);
     return distDiff / timeDiff;
 }
+
+// return double in 2 decimal places
+double SpeedCalculation::GetAvgSpeed() { return avgSpeed; }
+// double SpeedCalculation::GetAvgSpeed() { return round(avgSpeed * 100) / 100;
+// }

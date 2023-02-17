@@ -40,8 +40,12 @@ void ObjectDetectionBitmap::drawBitMap() {
             cv::Point2f p2(line[2], line[3]);
             cv::line(img_cp, p1, p2, cv::Scalar(0, 255, 255), 2);
         }
-    } else {
-        std::cout << "selectedLines is empty" << std::endl;
+    }
+
+    if (speed && *speed > 0) {
+        std::string speedStr = "Speed: " + std::to_string(*speed) + " m/s";
+        cv::putText(img_cp, speedStr, cv::Point(10, 30),
+                    cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
     }
 
     cv::Mat img_rs;
@@ -67,6 +71,8 @@ void ObjectDetectionBitmap::SetSelectedLines(
     std::vector<cv::Vec4i> selectedLines) {
     this->selectedLines = selectedLines;
 }
+
+void ObjectDetectionBitmap::SetSpeed(double *speed) { this->speed = speed; }
 
 BEGIN_EVENT_TABLE(ObjectDetectionBitmap, ImageBitmap)
 END_EVENT_TABLE()

@@ -21,9 +21,9 @@ ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
     SetSizer(main_sizer);
     Fit();
 
-    timer.SetOwner(this, wxID_ANY);
-    Connect(wxID_ANY, wxEVT_TIMER,
-            wxTimerEventHandler(ObjectDetectionPanel::OnTimer));
+    timer.Bind(wxEVT_TIMER, &ObjectDetectionPanel::OnTimer, this);
+
+    loopTimer.Bind(wxEVT_TIMER, &ObjectDetectionPanel::OnImageLoop, this);
 
     isBBox = false;
     isOptF = false;
@@ -36,17 +36,18 @@ void ObjectDetectionPanel::OnTimer(wxTimerEvent &e) {
         wxLogMessage("Timer stopped");
         button_panel->enableAllButtons();
         opticalFlowPoints = objectDetection.GetOpticalFlowPoints(true);
+        handleSpeed();
+        calculatedSpeed = speedCalculation.GetAvgSpeed();
+        img_bitmap->SetSpeed(&calculatedSpeed);
         timer.Stop();
+        loopTimer.Start(500);
         return;
     }
-    wxLogMessage("Timer running");
 }
 
-void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
-    if (e.GetId() == Enum::OD_Next_Button_ID) {
-        wxLogMessage("Next button pressed");
-        OnIncrement();
-
+void ObjectDetectionPanel::OnImageLoop(wxTimerEvent &e) {
+    if (c < imgData.size()) {
+        img_bitmap->SetImage(imgData[c].image);
         if (isBBox) {
             handleBBox();
         }
@@ -58,22 +59,42 @@ void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
         if (isBotL) {
             handleBotL();
         }
-
         img_bitmap->drawBitMap();
+        c++;
+    } else {
+        loopTimer.Stop();
+    }
+}
+
+void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
+    if (e.GetId() == Enum::OD_Next_Button_ID) {
+        // wxLogMessage("Next button pressed");
+        // OnIncrement();
+
+        // if (isBBox) {
+        //     handleBBox();
+        // }
+
+        // if (isOptF) {
+        //     handleOptF();
+        // }
+
+        // if (isBotL) {
+        //     handleBotL();
+        // }
+
+        // img_bitmap->drawBitMap();
+        c = 0;
+        loopTimer.Start(500);
     }
 
     if (e.GetId() == Enum::OD_BBox_Button_ID) {
         wxLogMessage("BBox button pressed");
         isBBox = !isBBox;
-        wxLogMessage("toggleBBOX");
         button_panel->OnBBox();
-        wxLogMessage("OnBBOX");
         if (isBBox) {
-            wxLogMessage("handleBBOX");
             handleBBox();
-            wxLogMessage("drawBitMap");
             img_bitmap->drawBitMap();
-            wxLogMessage("return");
             return;
         }
         img_bitmap->SetBBox(nullptr);
