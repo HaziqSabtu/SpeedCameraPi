@@ -6,6 +6,7 @@
 #include <Thread/ObjectDetectionThread.hpp>
 #include <UI/ObjectDetectionPanel/ButtonPanel.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageBitmap/Derived/ObjectDetectionBitmap.hpp>
@@ -13,7 +14,7 @@
 
 class ObjectDetectionPanel : public wxPanel {
   public:
-    ObjectDetectionPanel(wxWindow *parent, wxWindowID id);
+    ObjectDetectionPanel(wxWindow *parent, wxWindowID id, AppConfig *config);
     void OnPageChange();
 
   private:
@@ -24,6 +25,7 @@ class ObjectDetectionPanel : public wxPanel {
     bool isRunning;
 
     int c = 0;
+    int CameraPanelRefreshRate;
     cv::Rect *bbox;
     std::vector<std::vector<cv::Point2f>> *result;
     std::vector<cv::Point2f> *bottomLine;

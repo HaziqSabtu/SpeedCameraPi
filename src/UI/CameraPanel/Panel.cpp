@@ -1,7 +1,7 @@
 #include <UI/CameraPanel/Panel.hpp>
 
-CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, wxString filePath)
-    : wxPanel(parent, id), filePath(filePath) {
+CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
+    : wxPanel(parent, id) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new CameraBitmap(this, Enum::CP_IMG_PANEL_ID);
@@ -18,18 +18,21 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, wxString filePath)
     SetSize(800, 600);
     Center();
 
-    camera.open(0);
+    CameraConfig cameraConfig = config->GetCameraConfig();
+    camera.open(cameraConfig.Camera_ID);
     if (!camera.isOpened()) {
         wxMessageBox("Could not open camera", "Error", wxOK | wxICON_ERROR);
         Close();
     }
-    camera.set(cv::CAP_PROP_FRAME_WIDTH, 640);
-    camera.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
-    camera.set(cv::CAP_PROP_FPS, 30);
+    camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
+    camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
+    camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
+
+    filePath = config->GetLoadFileName();
 
     // timer.SetOwner(this, wxID_ANY);
     timer.Bind(wxEVT_TIMER, &CameraPanel::OnTimer, this);
-    timer.Start(33); // 30 FPS
+    timer.Start(config->GetCameraPanelRefreshRate()); // 30 FPS
 
     threadCheckTimer.Bind(wxEVT_TIMER, &CameraPanel::OnThreadCheck, this);
 
@@ -108,6 +111,7 @@ void CameraPanel::OnLoadFile() {
         new DemoThread(&isCapturing, &isProcessing, &isThreadRunning, &imgData);
     loadThread->Create();
     loadThread->Run();
+    threadCheckTimer.Start(100);
 }
 
 std::vector<ImageData> CameraPanel::GetImgData() {

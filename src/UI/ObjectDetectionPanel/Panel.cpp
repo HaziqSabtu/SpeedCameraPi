@@ -1,8 +1,8 @@
 #include <UI/ObjectDetectionPanel/Panel.hpp>
 
-ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id)
+ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id,
+                                           AppConfig *config)
     : wxPanel(parent, id), objectDetection(rng) {
-
     button_panel =
         new ObjectDetectionPanelButton(this, Enum::SR_BUTTON_PANEL_ID);
 
@@ -13,6 +13,7 @@ ObjectDetectionPanel::ObjectDetectionPanel(wxWindow *parent, wxWindowID id)
     main_sizer->Add(button_panel, 0, wxEXPAND);
     main_sizer->Add(img_bitmap, 1, wxEXPAND);
 
+    CameraPanelRefreshRate = config->GetResultPanelRefreshRate();
     SetSizer(main_sizer);
     Fit();
 
@@ -36,7 +37,7 @@ void ObjectDetectionPanel::OnTimer(wxTimerEvent &e) {
         calculatedSpeed = speedCalculation.GetAvgSpeed();
         img_bitmap->SetSpeed(&calculatedSpeed);
         timer.Stop();
-        loopTimer.Start(500);
+        loopTimer.Start(CameraPanelRefreshRate);
         return;
     }
 }
@@ -65,7 +66,7 @@ void ObjectDetectionPanel::OnImageLoop(wxTimerEvent &e) {
 void ObjectDetectionPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::OD_Replay_Button_ID) {
         c = 0;
-        loopTimer.Start(500);
+        loopTimer.Start(CameraPanelRefreshRate);
     }
 
     if (e.GetId() == Enum::OD_BBox_Button_ID) {

@@ -1,5 +1,5 @@
 #include <UI/MainFrame.hpp>
-#include <Utils/AppConfig.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <Utils/Logger/Logger.hpp>
 #include <wx/thread.h>
 #include <wx/wx.h>
@@ -12,13 +12,7 @@ class MyApp : public wxApp {
         wxLog::SetActiveTarget(new AppLogger);
         wxLogMessage("Application Started");
 
-        wxString filename = conf.GetFileName();
-        wxString dirLocation = conf.GetDirLocation();
-        wxLogMessage("Loaded: %s", filename);
-        wxLogMessage("Loaded: %s", dirLocation);
-
-        MainFrame *frame =
-            new MainFrame("Speed Gun", filename, dirLocation, wxSize(800, 600));
+        MainFrame *frame = new MainFrame("Speed Gun", wxSize(800, 600), &conf);
 
         frame->Show(true);
         return true;

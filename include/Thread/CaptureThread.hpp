@@ -3,6 +3,7 @@
 
 #include <Thread/SIFTTask.hpp>
 #include <Thread/ThreadPool.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <Utils/DataStruct.hpp>
 #include <opencv2/core.hpp>
 #include <wx/thread.h>
@@ -17,7 +18,9 @@ class CaptureThread : public wxThread {
   private:
     virtual void *Entry();
 
-    const int maxFrameCount;
+    int maxFrameCount;
+    int threadPoolCount;
+    int frameInterval;
     int imageCount = 0;
     cv::Mat *frame;
     std::vector<ImageData> *imgData;

@@ -7,8 +7,8 @@ FeatureDetector::FeatureDetector(std::string type, bool imgMatches,
     std::cout << "type: " << type << std::endl;
     if (detector_type_ == "SIFT") {
         std::cout << "SIFT" << std::endl;
-        detector_ = cv::SIFT::create(100);
-        detector = cv::SIFT::create(100);
+        detector_ = cv::SIFT::create();
+        // detector = cv::SIFT::create(100);
 
     } else {
         detector_ = cv::ORB::create(nfeatures, scaleFactor, nlevels,
@@ -22,7 +22,7 @@ FeatureDetector::FeatureDetector() { FeatureDetector("SIFT", false, false); }
 void FeatureDetector::run(cv::Mat &image1, cv::Mat &image2) {
     FeatureDetector::clearVector();
     detector_->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
-    detector->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
+    detector_->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
 
     DESCRIPTORMATCHER::FlannBasedMatcher(descriptors1, descriptors2, matchKP,
                                          "SIFT");

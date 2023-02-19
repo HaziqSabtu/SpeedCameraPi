@@ -5,12 +5,20 @@ CaptureThread::CaptureThread(bool *isCapturing, bool *isProcessing,
                              std::vector<ImageData> *imgData, cv::Mat *frame)
     : wxThread(wxTHREAD_JOINABLE), isCapturing(isCapturing),
       isProcessing(isProcessing), isThreadRunning(isThreadRunning),
-      imgData(imgData), frame(frame), maxFrameCount(20) {}
+      imgData(imgData), frame(frame) {
+
+    AppConfig *config = new AppConfig();
+    CaptureConfig captureConfig = config->GetCaptureConfig();
+
+    maxFrameCount = captureConfig.Max_Frame_Count;
+    threadPoolCount = captureConfig.Thread_Pool_Size;
+    frameInterval = captureConfig.Frame_Interval;
+}
 
 CaptureThread::~CaptureThread() { wxLogMessage("deleting thread"); }
 
 void *CaptureThread::Entry() {
-    ThreadPool threadPool(2);
+    ThreadPool threadPool(threadPoolCount);
 
     imageCount = 0;
 
@@ -26,13 +34,13 @@ void *CaptureThread::Entry() {
         }
 
         imageCount++;
-        wxThread::Sleep(33);
+        wxThread::Sleep(frameInterval);
     }
 
     *isCapturing = false;
 
     while (threadPool.HasTasks()) {
-        wxThread::Sleep(33);
+        wxThread::Sleep(frameInterval);
     }
 
     *isProcessing = false;

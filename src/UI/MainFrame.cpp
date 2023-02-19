@@ -1,9 +1,8 @@
 #include <UI/MainFrame.hpp>
 
-MainFrame::MainFrame(const wxString &title, wxString filename,
-                     wxString dirLocation, wxSize size)
-    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size) {
-    wxString filePath = dirLocation + filename;
+MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
+    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size), config(config) {
+    wxString filePath = "dirLocation + filename";
 
     wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
     SetIcon(icon);
@@ -11,12 +10,12 @@ MainFrame::MainFrame(const wxString &title, wxString filename,
     notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
                               wxSize(800, 600));
 
-    camera_panel = new CameraPanel(notebook, Enum::CP_Panel_ID, filePath);
+    camera_panel = new CameraPanel(notebook, Enum::CP_Panel_ID, config);
 
     select_line_panel = new SelectLinePanel(notebook, Enum::SL_Panel_ID);
 
     object_detection_panel =
-        new ObjectDetectionPanel(notebook, Enum::OD_Panel_ID);
+        new ObjectDetectionPanel(notebook, Enum::OD_Panel_ID, config);
 
     notebook->AddPage(camera_panel, "Camera", true);
     notebook->AddPage(select_line_panel, "Select Line", false);

@@ -4,6 +4,7 @@
 #include <UI/CameraPanel/Panel.hpp>
 #include <UI/ObjectDetectionPanel/Panel.hpp>
 #include <UI/SelectLinePanel/Panel.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <Utils/Enum.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
@@ -13,13 +14,14 @@
 
 class MainFrame : public wxFrame {
   public:
-    MainFrame(const wxString &title, wxString filename, wxString dirLocation,
-              wxSize size);
+    MainFrame(const wxString &title, wxSize size, AppConfig *config);
     ~MainFrame();
 
   private:
     cv::VideoCapture *video_capture;
     std::vector<ImageData> imgData;
+
+    AppConfig *config;
 
     wxNotebook *notebook;
     CameraPanel *camera_panel;

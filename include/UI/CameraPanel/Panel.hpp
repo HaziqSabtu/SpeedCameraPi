@@ -4,6 +4,8 @@
 #include <Thread/CaptureThread.hpp>
 #include <Thread/DemoThread.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
+#include <Utils/Config/AppConfig.hpp>
+#include <Utils/Config/ConfigStruct.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/FileReader/fileH264.hpp>
@@ -15,7 +17,7 @@
 
 class CameraPanel : public wxPanel {
   public:
-    CameraPanel(wxWindow *parent, wxWindowID id, wxString filePath);
+    CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config);
     ~CameraPanel();
     std::vector<ImageData> GetImgData();
 
