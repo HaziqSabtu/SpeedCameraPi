@@ -11,7 +11,7 @@
 class DemoThread : public wxThread {
   public:
     DemoThread(bool *isCapturing, bool *isProcessing, bool *isThreadRunning,
-               std::vector<ImageData> *imgData);
+               std::vector<ImageData> *imgData, int maxLoadFrame);
     virtual ~DemoThread();
 
   private:

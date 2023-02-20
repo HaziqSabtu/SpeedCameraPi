@@ -29,6 +29,7 @@ class CameraPanel : public wxPanel {
     void OnLoadFile();
 
   private:
+    int maxLoadFrame;
     wxString filePath;
     cv::Mat frame;
     bool isCapturing;

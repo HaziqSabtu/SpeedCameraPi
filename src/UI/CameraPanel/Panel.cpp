@@ -29,6 +29,7 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
     camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
 
     filePath = config->GetLoadFileName();
+    maxLoadFrame = config->GetMaxLoadFrame();
 
     // timer.SetOwner(this, wxID_ANY);
     timer.Bind(wxEVT_TIMER, &CameraPanel::OnTimer, this);
@@ -107,8 +108,8 @@ void CameraPanel::OnLoadFile() {
     FILEH264::ReadFile(filePath, imgData);
     button_panel->DisableAllButtons();
     isThreadRunning = true;
-    loadThread =
-        new DemoThread(&isCapturing, &isProcessing, &isThreadRunning, &imgData);
+    loadThread = new DemoThread(&isCapturing, &isProcessing, &isThreadRunning,
+                                &imgData, maxLoadFrame);
     loadThread->Create();
     loadThread->Run();
     threadCheckTimer.Start(100);

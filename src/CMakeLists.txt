@@ -5,6 +5,11 @@ project(wx_cmake_template_core LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_compile_options(-Wno-psabi)
+
+message("CMAKE_C_COMPILER_ID: ${CMAKE_C_COMPILER_ID}")
+
+
 # hack for buggy CMake's FindwxWidgets script
 if(DEFINED ENV_WX_CONFIG)
     set(ENV{WX_CONFIG} ${ENV_WX_CONFIG})

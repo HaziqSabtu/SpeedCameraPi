@@ -22,6 +22,8 @@ class AppConfig {
 
     CaptureConfig GetCaptureConfig();
 
+    int GetMaxLoadFrame();
+
   private:
     wxFileConfig *config;
 
@@ -42,6 +44,11 @@ class AppConfig {
     int Default_Max_Frame_Count = 10;
     int Default_Frame_Interval = 100;
     int Default_Thread_Pool_Size = 2;
+
+    // Load Parameter
+    wxString Default_Load_File_Name = "default";
+    wxString Default_Load_Dir_Location = "default";
+    int Default_Max_Frame = 10;
 };
 
 #endif

@@ -26,8 +26,9 @@ AppConfig::AppConfig() {
         config->Write("Panel_Refresh_Rate", 33);
 
         config->SetPath("/Load_Parameter");
-        config->Write("Load_File_Name", "default");
-        config->Write("Load_Dir_Location", "default");
+        config->Write("Load_File_Name", Default_Load_File_Name);
+        config->Write("Load_Dir_Location", Default_Load_File_Name);
+        config->Write("Max_Frame", Default_Max_Frame);
         config->Flush();
     } else {
         config = new wxFileConfig("", "", ini_filename);
@@ -78,12 +79,19 @@ wxString AppConfig::GetLoadFileName() {
     wxString fileName;
     wxString dirLocation;
     config->SetPath("/Load_Parameter");
-    config->Read("Load_File_Name", &fileName, "default");
-    config->Read("Load_Dir_Location", &dirLocation, "default");
+    config->Read("Load_File_Name", &fileName, Default_Load_File_Name);
+    config->Read("Load_Dir_Location", &dirLocation, Default_Load_Dir_Location);
     if (fileName == "default" || dirLocation == "default") {
         return "";
     }
     return dirLocation + fileName;
+}
+
+int AppConfig::GetMaxLoadFrame() {
+    int maxFrame;
+    config->SetPath("/Load_Parameter");
+    config->Read("Max_Frame", &maxFrame, Default_Max_Frame);
+    return maxFrame;
 }
 
 AppConfig::~AppConfig() { delete config; }
