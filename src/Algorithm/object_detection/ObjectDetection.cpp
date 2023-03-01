@@ -1,5 +1,22 @@
+/**
+ * @file ObjectDetection.cpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Class for Detecting Objects from Image using Optical Flow
+ * @version 1.0.0
+ * @date 2023-03-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #include <Algorithm/object_detection/ObjectDetection.hpp>
 
+/**
+ * @brief Construct a new Object Detection:: Object Detection object
+ *
+ * @param rng random number generator
+ * @param maxCorners maximum number of corners to be detected
+ */
 ObjectDetection::ObjectDetection(cv::RNG rng, int maxCorners) : rng(rng) {
     this->maxCorners = maxCorners;
     for (int i = 0; i < maxCorners; i++) {
@@ -8,8 +25,16 @@ ObjectDetection::ObjectDetection(cv::RNG rng, int maxCorners) : rng(rng) {
     }
 }
 
+/**
+ * @overload ObjectDetection::ObjectDetection(rng, 1000)
+ */
 ObjectDetection::ObjectDetection(cv::RNG rng) : ObjectDetection(rng, 1000) {}
 
+/**
+ * @brief Initialize Optical Flow
+ *
+ * @param firstImage first image to be processed
+ */
 void ObjectDetection::runDetection(std::vector<ImageData> &imgData) {
     cv::Mat firstImage = imgData[0].image;
     std::cout << "Initializing Optical Flow" << std::endl;
@@ -46,15 +71,34 @@ void ObjectDetection::runDetection(std::vector<ImageData> &imgData) {
               << std::endl;
 }
 
+/**
+ * @brief Get the Result of the Object Detection
+ * @param points points of the object from optical flow
+ * @return cv::Rect& rectangle of the detected object
+ */
 cv::Rect &ObjectDetection::GetRect(const std::vector<cv::Point2f> &points) {
     bbox = cv::boundingRect(points);
     return bbox;
 }
 
+/**
+ * @brief Set the Minimum Point Distance of Point
+ *
+ * @param minPointDistance minimum distance moved by the point between frames to
+ * consider as valid moving point
+ */
 void ObjectDetection::SetMinPointDistance(double minPointDistance) {
     this->minPointDistance = minPointDistance;
 }
 
+/**
+
+* @brief Returns a line with two points, representing the bottom edge of the
+Bounding Box from Object Detection.
+* @param points Vector of points from result of object detection.
+* @param width Width of the image.
+* @return std::vectorcv::Point2f& Reference to the bottom line points.
+*/
 std::vector<cv::Point2f> &
 ObjectDetection::GetBottomLine(const std::vector<cv::Point2f> &points,
                                int width) {
@@ -78,6 +122,14 @@ std::vector<std::vector<cv::Point2f>> &ObjectDetection::GetOFPoints(
     return result;
 }
 
+/**
+ * @brief Get the Result of the Object Detection in the form of vector of
+ * points
+ *
+ * @param reshape whether to reshape the vector of points to be 2D vector
+ * @return std::vector<std::vector<cv::Point2f>> vector of points from optical
+ * flow
+ */
 std::vector<std::vector<cv::Point2f>>
 ObjectDetection::GetOpticalFlowPoints(bool reshape) {
     return reshape ? reshapeVectors(opticalFlowPoints) : opticalFlowPoints;

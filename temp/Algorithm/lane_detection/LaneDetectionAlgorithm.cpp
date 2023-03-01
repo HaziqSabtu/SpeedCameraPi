@@ -80,10 +80,9 @@ void LaneDetectionAlgorithm::processDetectedLines(std::vector<cv::Vec4i> lines,
         detectedLines.push_back(d);
     }
 
-    stable_sort(detectedLines.begin(), detectedLines.end(),
-                [](const DetLine a, const DetLine b) {
-                    return a.start.x < b.start.x;
-                });
+    stable_sort(
+        detectedLines.begin(), detectedLines.end(),
+        [](const DetLine a, const DetLine b) { return a.start.x < b.start.x; });
 
     std::cout << "detectedLines.size(): " << detectedLines.size() << std::endl;
 

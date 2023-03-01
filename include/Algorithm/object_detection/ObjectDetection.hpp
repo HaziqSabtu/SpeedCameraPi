@@ -1,3 +1,14 @@
+/**
+ * @file ObjectDetection.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Class for Detecting Objects from Image using Optical Flow
+ * @version 1.0.0
+ * @date 2023-03-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef OBJECT_DETECTION_HPP
 #define OBJECT_DETECTION_HPP
 

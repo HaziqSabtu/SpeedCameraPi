@@ -1,5 +1,20 @@
+/**
+ * @file SparseOpticalFlow.cpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Class for Sparse Optical Flow
+ * @version 1.0.0
+ * @date 2023-03-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #include <Algorithm/optical_flow/SparseOpticalFlow.hpp>
 
+/**
+ * @brief Construct a new SparseOF::SparseOF object
+ *
+ */
 SparseOF::SparseOF() : criteria(criteriaType, maxCount, epsilon), rng() {
     for (int i = 0; i < 100; i++) {
         int r = rng.uniform(0, 256);
@@ -9,6 +24,10 @@ SparseOF::SparseOF() : criteria(criteriaType, maxCount, epsilon), rng() {
     }
 }
 
+/**
+ * @brief Destroy the SparseOF::SparseOF object
+ *
+ */
 SparseOF::~SparseOF() {}
 
 void SparseOF::setInitialPoints() {
@@ -31,6 +50,13 @@ void SparseOF::setRoiPoints(const cv::Rect &roi) {
     pushCollection(roiPoints);
 }
 
+/**
+ * @brief Initialize optical flow  by detecting features to be tracked from
+ * image
+ *
+ * @param frame image to be used to initialize optical flow
+ * @param roi
+ */
 void SparseOF::Init(const cv::Mat &frame, cv::Rect &roi) {
     if (!prevGray.empty()) {
         prevGray.release();

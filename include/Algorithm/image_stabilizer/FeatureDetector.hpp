@@ -1,3 +1,15 @@
+/**
+ * @file FeatureDetector.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Class for detecting and matching features between two images and
+ * alligning them
+ * @version 1.0.0
+ * @date 2023-03-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef FeatureDetector_HPP
 #define FeatureDetector_HPP
 
@@ -28,6 +40,7 @@ class FeatureDetector {
     void clearVector();
 
     // ORB Parameters
+    // TODO: DOCS -> SET ACCESSORS METHODS
     int nfeatures = 2000;
     float scaleFactor = 1.2f;
     int nlevels = 8;

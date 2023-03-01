@@ -1,3 +1,15 @@
+/**
+ * @file Homography.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Class for Running Homography based on the result from Feature
+ * Detection
+ * @version 1.0.0
+ * @date 2023-03-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef HOMOGRAPHY_H
 #define HOMOGRAPHY_H
 

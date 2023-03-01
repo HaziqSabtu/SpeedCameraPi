@@ -1,3 +1,14 @@
+/**
+ * @file SparseOpticalFlow.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Class for Sparse Optical Flow
+ * @version 1.0.0
+ * @date 2023-03-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef SPARSE_OPTICALFLOW_HPP
 #define SPARSE_OPTICALFLOW_HPP
 

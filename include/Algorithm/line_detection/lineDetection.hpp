@@ -1,3 +1,14 @@
+/**
+ * @file lineDetection.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Class for Detecting Lines from Image using Hough Line Transform
+ * @version 1.0.0
+ * @date 2023-03-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef LINE_DETECTION_HPP
 #define LINE_DETECTION_HPP
 

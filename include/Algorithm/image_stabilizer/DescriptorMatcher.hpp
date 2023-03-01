@@ -1,3 +1,16 @@
+/**
+ * @file DescriptorMatcher.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief  A class for performing feature matching using OpenCV's
+ * DescriptorMatcher class.
+ *
+ * @version 1.0.0
+ * @date 2023-03-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef DESCRIPTOR_MATCHER_H
 #define DESCRIPTOR_MATCHER_H
 
@@ -28,37 +41,4 @@ class DESCRIPTORMATCHER {
     FilterKeyPoints(std::vector<std::vector<cv::DMatch>> &knnMatches,
                     std::vector<cv::DMatch> &goodMatch, double RATIO = 0.3);
 };
-
-// if (descriptors1.type() != CV_32F) {
-//     cout << "Converting to CV_32F" << endl;
-//     descriptors1.convertTo(descriptors1, CV_32F);
-// }
-// if (descriptors2.type() != CV_32F) {
-//     cout << "Converting to CV_32F" << endl;
-//     descriptors2.convertTo(descriptors2, CV_32F);
-// }
-
-//   double max_dist = 0; double min_dist = 100;
-
-//   //-- Quick calculation of max and min distances between keypoints
-//   for( int i = 0; i < descriptors_object.rows; i++ )
-//   { double dist = matches[i].distance;
-//     if( dist < min_dist ) min_dist = dist;
-//     if( dist > max_dist ) max_dist = dist;
-//   }
-
-//   printf("-- Max dist : %f \n", max_dist );
-//   printf("-- Min dist : %f \n", min_dist );
-
-//   //-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist
-//   ) std::vector< DMatch > good_matches;
-
-//   for( int i = 0; i < descriptors_object.rows; i++ )
-//   { if( matches[i].distance < 3*min_dist )
-//      { good_matches.push_back( matches[i]); }
-//   }
 #endif
-
-// todo
-// add template for repeated methods
-// figure out inline methods
