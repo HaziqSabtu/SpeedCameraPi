@@ -1,33 +1,31 @@
-cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10)
 
-project(wx_cmake_template LANGUAGES CXX)
+project(SpeedCamera)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-psabi -Wall -Wextra -pedantic")
+set(CMAKE_BUILD_TYPE "Release")
+add_compile_options(-Wno-psabi)
 
-# ExternalProject base
-set_property(DIRECTORY PROPERTY EP_BASE ${CMAKE_BINARY_DIR}/subprojects)
+# Find OpenCV
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+if(OpenCV_FOUND)
+    message("OpenCV found!")
+else()
+    message(FATAL_ERROR "OpenCV not found!")
+endif()
 
-set(STAGED_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/stage)
+# Find wxWidgets
+find_package(wxWidgets REQUIRED)
+include(${wxWidgets_USE_FILE})
+if(wxWidgets_FOUND)
+    message("wxWIdgets found!")
+else()
+    message(FATAL_ERROR "wxWIdgets not found!")
+endif()
 
-add_subdirectory(thirdparty)
-
-include(ExternalProject)
-ExternalProject_Add(${PROJECT_NAME}_core
-  DEPENDS
-  wxWidgets_external
-  SOURCE_DIR
-  ${CMAKE_CURRENT_SOURCE_DIR}/src
-  CMAKE_ARGS
-  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-
-  -DwxWidgets_ROOT_DIR=${wxWidgets_ROOT_DIR}
-  -DENV_WX_CONFIG=${ENV_WX_CONFIG}
-  CMAKE_CACHE_ARGS
-  -DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH}
-  BUILD_ALWAYS
-  1
-  INSTALL_COMMAND
-  ""
-)
+include_directories(include)
+file(GLOB_RECURSE SRCS ./src/*.cpp)
+add_executable(SpeedCamera ./src/main.cpp ${SRCS})
+target_link_libraries(SpeedCamera PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
