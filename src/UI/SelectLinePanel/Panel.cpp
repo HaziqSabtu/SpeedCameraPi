@@ -81,11 +81,17 @@ void SelectLinePanel::OnButton(wxCommandEvent &e) {
 void SelectLinePanel::OnIncrement() {
     c = (c >= imgData.size() - 1) ? c : c + 1;
     img_bitmap->SetImage(imgData[c].image);
+    lineDetection.SetImage(imgData[c].image);
+    houghLines = &lineDetection.GetLinesP();
+    img_bitmap->SetHoughLines(houghLines);
 }
 
 void SelectLinePanel::OnDecrement() {
     c = (c <= 0) ? c : c - 1;
     img_bitmap->SetImage(imgData[c].image);
+    lineDetection.SetImage(imgData[c].image);
+    houghLines = &lineDetection.GetLinesP();
+    img_bitmap->SetHoughLines(houghLines);
 }
 
 void SelectLinePanel::OnLeftDown(wxMouseEvent &e) {

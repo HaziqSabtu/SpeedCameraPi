@@ -23,6 +23,7 @@ class SpeedCalculation {
     void SetLine(std::vector<cv::Vec4i> l);
     double distanceFromCamera(float pixelWidth);
     double GetAvgSpeed();
+    double rawAvgSpeed(std::vector<double> &speeds);
 
     static cv::Point2f intersection(float y, cv::Vec4i b);
     static cv::Point2f intersection(cv::Vec4f a, cv::Vec4f b);

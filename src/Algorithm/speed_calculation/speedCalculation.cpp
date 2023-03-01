@@ -42,14 +42,18 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
         i++;
     }
 
+    double rawSpeed = rawAvgSpeed(speeds);
     avgSpeed = ImageUtils::TrimmedMean(speeds, 10);
 
     double measuredSpeed = 0.3 / 1.2;
     // double measuredSpeed = 1200 / 4665.2;
     wxLogMessage("Measured Speed: %f", measuredSpeed);
+    wxLogMessage("average Speed: %f", avgSpeed);
 
     double error = fabs(avgSpeed - measuredSpeed) * 100 / measuredSpeed;
     wxLogMessage("Error: %f", error);
+
+    wxLogMessage("Raw Speed: %f", rawSpeed);
 }
 
 double SpeedCalculation::distanceFromCamera(float pixelWidth) {
@@ -93,6 +97,14 @@ cv::Point2f SpeedCalculation::intersection(cv::Vec4f a, cv::Vec4f b) {
     p.y =
         ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
     return p;
+}
+
+double SpeedCalculation::rawAvgSpeed(std::vector<double> &speeds) {
+    double sum = 0;
+    for (double speed : speeds) {
+        sum += speed;
+    }
+    return sum / speeds.size();
 }
 
 double SpeedCalculation::calcSpeed(

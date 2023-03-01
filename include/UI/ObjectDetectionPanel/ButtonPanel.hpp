@@ -10,6 +10,7 @@ class ObjectDetectionPanelButton : public wxPanel {
   public:
     ObjectDetectionPanelButton(wxWindow *parent, wxWindowID id);
     void enableAllButtons();
+    void disableAllButtons();
 
     void OnBBox();
     void OnOptF();

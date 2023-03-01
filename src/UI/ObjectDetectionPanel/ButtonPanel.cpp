@@ -39,6 +39,15 @@ void ObjectDetectionPanelButton::enableAllButtons() {
     Line_Button->Enable();
 }
 
+void ObjectDetectionPanelButton::disableAllButtons() {
+    wxLogMessage("Disabling all buttons");
+    Replay_Button->Disable();
+    BBox_Button->Disable();
+    OptF_Button->Disable();
+    BotL_Button->Disable();
+    Line_Button->Disable();
+}
+
 void ObjectDetectionPanelButton::OnBBox() {
     isBBox = !isBBox;
     if (isBBox) {

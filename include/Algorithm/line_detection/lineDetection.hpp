@@ -31,7 +31,7 @@ class LineDetection {
     double rho = 1;
     double theta = CV_PI / 180;
     int threshold = 50;
-    double minLineLength = 50;
+    double minLineLength = 25;
     double maxLineGap = 10;
 
     // private Methods

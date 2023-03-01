@@ -170,6 +170,9 @@ void ObjectDetectionPanel::OnPageChange() {
     SelectLinePanel *sl_panel = dynamic_cast<SelectLinePanel *>(
         GetParent()->FindWindow(Enum::SL_Panel_ID));
 
+    button_panel->disableAllButtons();
+    timer.Stop();
+    imgData.clear();
     imgData = sl_panel->GetImgData();
     img_bitmap->SetImage(imgData[0].image);
     img_bitmap->drawBitMap();
@@ -178,13 +181,12 @@ void ObjectDetectionPanel::OnPageChange() {
         return;
     }
 
-    if (opticalFlowPoints.empty()) {
-        objectDetectionThread =
-            new ObjectDetectionThread(&objectDetection, &imgData, &isRunning);
-        objectDetectionThread->Create();
-        objectDetectionThread->Run();
-        timer.Start(33);
-    }
+    // if (opticalFlowPoints.empty()) {
+    objectDetectionThread =
+        new ObjectDetectionThread(&objectDetection, &imgData, &isRunning);
+    objectDetectionThread->Create();
+    objectDetectionThread->Run();
+    timer.Start(33);
 
     selectedLines = sl_panel->GetSelectedLines();
 }
