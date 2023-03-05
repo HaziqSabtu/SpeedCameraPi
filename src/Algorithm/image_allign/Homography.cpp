@@ -15,6 +15,7 @@
 /**
 *@brief Computes the homography matrix between two sets of keypoints and
 computes the good matches between them.
+*@details https://docs.opencv.org/3.4/d9/d0c/group__calib3d.html for more information
 *
 *@param keypoints_obj The keypoints in the first image.
 *@param keypoints_scene The keypoints in the second image.
@@ -37,7 +38,6 @@ cv::Mat Homography::FindHomography(std::vector<cv::KeyPoint> keypoints_obj,
 }
 
 /**
-
 *@brief Applies a perspective transformation to the target image using the
 * specified homography matrix.
 *

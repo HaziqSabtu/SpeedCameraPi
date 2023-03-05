@@ -1,5 +1,5 @@
 /**
- * @file DMatcher.cpp
+ * @file DescriptorMatcher.cpp
  * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
  * @brief A class for performing feature matching using OpenCV's
  * DMatcher class.

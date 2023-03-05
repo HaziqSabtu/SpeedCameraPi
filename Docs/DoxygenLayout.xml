@@ -4,8 +4,12 @@
   <navindex>
     <tab type="mainpage" visible="yes" title=""/>
     <tab type="user" visible="yes" title="Getting Started">
-      <tab type="user" visible="yes" title="0. Installing Dependency" url="md__docs__installing_required_dependency.html"/>
-      <tab type="user" visible="yes" title="1. Compiling Program" url="md__docs__compiling_programm.html"/>
+      <tab type="user" visible="yes" title="0. Installing Dependency" url="md__docs_markdown__installing_required_dependency.html"/>
+      <tab type="user" visible="yes" title="1. Compiling Program" url="md__docs_markdown__compiling_programm.html"/>
+    </tab>
+    <tab type="user" visible="yes" title="Algorithms">
+      <tab type="user" visible="yes" title="Image Allignment" url="md__docs_markdown__image_allignment.html"/>
+      <tab type="user" visible="yes" title="1. Compiling Program" url="md__docs_markdown__compiling_programm.html"/>
     </tab>
     <tab type="pages" visible="yes" title="" intro=""/>
     <tab type="modules" visible="yes" title="" intro=""/>
