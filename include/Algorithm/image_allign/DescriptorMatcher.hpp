@@ -14,12 +14,13 @@
 #ifndef DESCRIPTOR_MATCHER_H
 #define DESCRIPTOR_MATCHER_H
 
+#include <Algorithm/image_allign/Enum.hpp>
 #include <iostream>
 #include <opencv2/core.hpp>
 #include <opencv2/flann.hpp>
 #include <opencv2/xfeatures2d.hpp>
 
-class DESCRIPTORMATCHER {
+class DMatcher {
   public:
     static void BruteForceMatcher(cv::Mat &query, cv::Mat &target,
                                   std::vector<cv::DMatch> &matches,
@@ -34,7 +35,7 @@ class DESCRIPTORMATCHER {
 
     static void FlannBasedMatcher(cv::Mat &query, cv::Mat &target,
                                   std::vector<std::vector<cv::DMatch>> &matches,
-                                  std::string type);
+                                  DetectorType type);
 
     // Run Lowe's Ratio Test to remove bad matches on KNN.
     static void

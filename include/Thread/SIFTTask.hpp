@@ -1,7 +1,7 @@
 #ifndef SIFT_TASK_HPP
 #define SIFT_TASK_HPP
 
-#include <Algorithm/image_stabilizer/FeatureDetector.hpp>
+#include <Algorithm/image_allign/FeatureDetector.hpp>
 #include <Thread/Task.hpp>
 #include <Utils/DataStruct.hpp>
 

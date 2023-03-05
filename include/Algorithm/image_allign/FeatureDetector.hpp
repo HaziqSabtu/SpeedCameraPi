@@ -1,8 +1,8 @@
 /**
  * @file FeatureDetector.hpp
  * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
- * @brief Class for detecting and matching features between two images and
- * alligning them
+ * @brief Helper Class for detecting and matching features between two images
+ * and alligning them
  * @version 1.0.0
  * @date 2023-03-01
  *
@@ -13,8 +13,9 @@
 #ifndef FeatureDetector_HPP
 #define FeatureDetector_HPP
 
-#include <Algorithm/image_stabilizer/DescriptorMatcher.hpp>
-#include <Algorithm/image_stabilizer/Homography.hpp>
+#include <Algorithm/image_allign/DescriptorMatcher.hpp>
+#include <Algorithm/image_allign/Enum.hpp>
+#include <Algorithm/image_allign/Homography.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
@@ -23,20 +24,18 @@
 class FeatureDetector {
 
   public:
-    FeatureDetector(std::string type, bool imgMatches = false,
-                    bool imgFillOutput = false);
+    FeatureDetector(DetectorType type);
     FeatureDetector();
-    void run(cv::Mat &image1, cv::Mat &image2);
-    void processImageData(std::vector<ImgData> &imgData);
-    cv::Mat GetFillOutput();
-    cv::Mat GetTransform();
+    void allign(cv::Mat &image1, cv::Mat &image2);
+    void allign(std::vector<ImgData> &imgData);
+    cv::Mat GetMatchImage(cv::Mat &image1, cv::Mat &image2);
+    cv::Mat GetHomographyMatrix();
+    cv::Mat GetAllignedImage();
+    cv::Mat GetAllignedImage(cv::Mat &bg);
 
   private:
-    cv::Ptr<cv::Feature2D> detector_;
     cv::Ptr<cv::SIFT> detector;
-    std::string detector_type_;
-    bool drawMatches_;
-    bool drawFillOutput_;
+    DetectorType detectorType;
     void clearVector();
 
     // ORB Parameters
@@ -54,26 +53,23 @@ class FeatureDetector {
   private:
     cv::Mat descriptors1;
     cv::Mat descriptors2;
-    cv::Mat siftResult;
     cv::Mat homographyMatrix;
     cv::Mat transform;
-    cv::Mat fillOutput;
 
     std::vector<cv::KeyPoint> keyPoints1;
     std::vector<cv::KeyPoint> keyPoints2;
-
-    std::vector<cv::Point2f> obj;
-    std::vector<cv::Point2f> scene;
 
     std::vector<cv::DMatch> filterKP;
     std::vector<std::vector<cv::DMatch>> matchKP;
 };
 
+/**
+ * @brief Inline function to clear all vectors from previous run
+ *
+ */
 inline void FeatureDetector::clearVector() {
     filterKP.clear();
     matchKP.clear();
-    obj.clear();
-    scene.clear();
     keyPoints1.clear();
     keyPoints2.clear();
 }

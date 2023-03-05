@@ -6,7 +6,7 @@ SiftTask::SiftTask(std::vector<ImageData> *imgData, int id)
 void SiftTask::Execute() {
     ImageData firstImage = (*imgData)[0];
     ImageData targetImage = (*imgData)[id];
-    FeatureDetector featureDetector = FeatureDetector("SIFT", false, false);
-    featureDetector.run(firstImage.image, targetImage.image);
-    imgData->at(id).image = featureDetector.GetTransform().clone();
+    FeatureDetector featureDetector = FeatureDetector(DetectorType::SIFT);
+    featureDetector.allign(firstImage.image, targetImage.image);
+    imgData->at(id).image = featureDetector.GetAllignedImage().clone();
 }

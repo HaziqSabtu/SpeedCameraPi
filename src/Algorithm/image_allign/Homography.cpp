@@ -1,7 +1,7 @@
 /**
  * @file Homography.cpp
  * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
- * @brief Class for Running Homography based on the result from Feature
+ * @brief Helper Class for running Homography based on the result from Feature
  * Detection
  * @version 1.0.0
  * @date 2023-03-01
@@ -10,7 +10,7 @@
  *
  */
 
-#include <Algorithm/image_stabilizer/Homography.hpp>
+#include <Algorithm/image_allign/Homography.hpp>
 
 /**
 *@brief Computes the homography matrix between two sets of keypoints and
@@ -20,29 +20,21 @@ computes the good matches between them.
 *@param keypoints_scene The keypoints in the second image.
 *@param matches The output vector of good matches between keypoints_obj and
 keypoints_scene.
-*@param obj The output vector of keypoints from the first image that have good
-matches.
-*@param scene The output vector of keypoints from the second image that
-correspond to the keypoints in obj.
-*@param H The output homography matrix that transforms the first image to align
+*@return The homography matrix that transforms the first image to align
 with the second image.
-*@param type The type of detector used in feature detection.
 */
-void HOMOGRAPHY::FindHomography(std::vector<cv::KeyPoint> keypoints_obj,
-                                std::vector<cv::KeyPoint> keypoints_scene,
-                                std::vector<cv::DMatch> &matches,
-                                std::vector<cv::Point2f> &obj,
-                                std::vector<cv::Point2f> &scene, cv::Mat &H,
-                                std::string type) {
-    std::cout << "Running FindHomography on:" << type << std::endl;
+cv::Mat Homography::FindHomography(std::vector<cv::KeyPoint> keypoints_obj,
+                                   std::vector<cv::KeyPoint> keypoints_scene,
+                                   std::vector<cv::DMatch> &matches) {
+    std::vector<cv::Point2f> obj;
+    std::vector<cv::Point2f> scene;
+
     for (int i = 0; i < matches.size(); i++) {
-        //-- Get the keypoints from the good matches
         obj.push_back(keypoints_obj[matches[i].queryIdx].pt);
         scene.push_back(keypoints_scene[matches[i].trainIdx].pt);
     }
-
-    H = cv::findHomography(scene, obj, cv::RANSAC);
-};
+    return cv::findHomography(scene, obj, cv::RANSAC);
+}
 
 /**
 
@@ -53,10 +45,11 @@ void HOMOGRAPHY::FindHomography(std::vector<cv::KeyPoint> keypoints_obj,
 *@param transform The output transformed image.
 *@param M The homography matrix that defines the transformation.
 */
-void HOMOGRAPHY::PerscpectiveTransform(cv::Mat &target, cv::Mat &transform,
-                                       cv::Mat &M) {
+cv::Mat Homography::PerscpectiveTransform(cv::Mat &target, cv::Mat &M) {
+    cv::Mat transform;
     cv::warpPerspective(target, transform, M, target.size(), cv::INTER_LINEAR,
                         cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));
+    return transform;
 }
 
 /**
@@ -65,12 +58,11 @@ void HOMOGRAPHY::PerscpectiveTransform(cv::Mat &target, cv::Mat &transform,
  * @param bg Background image to fill the transformed image on top of
  * @param target Transformed image to be filled
  * @param M Homography matrix used to transform the target image
- * @param result Output image where the filled output will be stored
+ * @return result Output image
  */
-void HOMOGRAPHY::FillTransform(cv::Mat &bg, cv::Mat &target, cv::Mat &M,
-                               cv::Mat &result) {
+cv::Mat Homography::FillTransform(cv::Mat &bg, cv::Mat &target, cv::Mat &M) {
     cv::Mat mask = cv::Mat::zeros(target.size(), target.type());
-    cv::Mat inverse_mask, combine;
+    cv::Mat inverse_mask, combine, result;
 
     std::vector<cv::Point2f> obj_corners(4);
     std::vector<cv::Point2f> scene_corners(4);
@@ -90,4 +82,5 @@ void HOMOGRAPHY::FillTransform(cv::Mat &bg, cv::Mat &target, cv::Mat &M,
     bitwise_not(mask, inverse_mask);
     bitwise_and(bg, inverse_mask, combine);
     bitwise_or(target, combine, result);
+    return result;
 }

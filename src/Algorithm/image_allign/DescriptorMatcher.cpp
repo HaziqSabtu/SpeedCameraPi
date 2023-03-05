@@ -1,8 +1,8 @@
 /**
- * @file DescriptorMatcher.cpp
+ * @file DMatcher.cpp
  * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
  * @brief A class for performing feature matching using OpenCV's
- * DescriptorMatcher class.
+ * DMatcher class.
  * @version 1.0.0
  * @date 2023-03-01
  *
@@ -10,7 +10,7 @@
  *
  */
 
-#include <Algorithm/image_stabilizer/DescriptorMatcher.hpp>
+#include <Algorithm/image_allign/DescriptorMatcher.hpp>
 
 /**
  * @brief Perform brute-force matching between query and target descriptors
@@ -29,9 +29,9 @@
  * @param type The type of descriptors being used.
  * @param normType The type of distance metric to use (default = 0).
  */
-void DESCRIPTORMATCHER::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
-                                          std::vector<cv::DMatch> &matches,
-                                          std::string type, int normType) {
+void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
+                                 std::vector<cv::DMatch> &matches,
+                                 std::string type, int normType) {
     // Only For ORB ?
     cv::NormTypes normTypes;
     std::string typeName;
@@ -46,10 +46,9 @@ void DESCRIPTORMATCHER::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
 }
 
 // TODO: DOCS
-void DESCRIPTORMATCHER::BruteForceMatcher(
-    cv::Mat &query, cv::Mat &target,
-    std::vector<std::vector<cv::DMatch>> &matches, std::string type,
-    int normType) {
+void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
+                                 std::vector<std::vector<cv::DMatch>> &matches,
+                                 std::string type, int normType) {
     // Only For ORB ?
     cv::NormTypes normTypes;
     std::string typeName;
@@ -77,8 +76,8 @@ void DESCRIPTORMATCHER::BruteForceMatcher(
  * @param normTypes The resulting `cv::NormTypes` enum value.
  * @param typeName The resulting string type name.
  */
-void DESCRIPTORMATCHER::getNormType(int normType, cv::NormTypes &normTypes,
-                                    std::string &typeName) {
+void DMatcher::getNormType(int normType, cv::NormTypes &normTypes,
+                           std::string &typeName) {
     switch (normType) {
     case 0:
         normTypes = cv::NORM_HAMMING;
@@ -125,29 +124,23 @@ void DESCRIPTORMATCHER::getNormType(int normType, cv::NormTypes &normTypes,
  *
  * This method matches feature descriptors in the query and target images using
  * the FLANN-based matcher, which is a fast approximate nearest neighbor search
- * algorithm. The method takes as input the query and target images, the
- * resulting vector of vector of matches, and a string type indicating the type
- * of feature descriptor used (`"ORB"` or `"SIFT"`). If the descriptor type is
- * `"ORB"`, a specialized FLANN index is used with specific parameters. If the
- * descriptor type is `"SIFT"`, the default FLANN index is used. The resulting
- * matches are stored in the `matches` vector, where each element of the vector
- * is a vector of `cv::DMatch` objects representing the matches between the
- * query and target descriptors.
+ * algorithm. The resulting matches are stored in the `matches` vector, where
+ * each element of the vector is a vector of `cv::DMatch` objects representing
+ * the matches between the query and target descriptors.
  *
  * @param query The query image feature descriptors.
  * @param target The target image feature descriptors.
  * @param matches The resulting vector of vector of matches.
- * @param type The type of feature descriptor used (`"ORB"` or `"SIFT"`).
+ * @param type The type of feature detector used to generate the descriptors.
  */
-void DESCRIPTORMATCHER::FlannBasedMatcher(
-    cv::Mat &query, cv::Mat &target,
-    std::vector<std::vector<cv::DMatch>> &matches, std::string type) {
-    if (type == "ORB") {
-        std::cout << "Running FlannBasedMatcher with ORB" << std::endl;
+void DMatcher::FlannBasedMatcher(cv::Mat &query, cv::Mat &target,
+                                 std::vector<std::vector<cv::DMatch>> &matches,
+                                 DetectorType type) {
+    if (type == DetectorType::ORB) {
         cv::FlannBasedMatcher matcher = cv::FlannBasedMatcher(
             cv::makePtr<cv::flann::LshIndexParams>(12, 20, 2));
         matcher.knnMatch(query, target, matches, 2);
-    } else if (type == "SIFT") {
+    } else if (type == DetectorType::SIFT) {
         cv::Ptr<cv::DescriptorMatcher> matcher =
             cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
         matcher->knnMatch(query, target, matches, 2);
@@ -162,9 +155,9 @@ void DESCRIPTORMATCHER::FlannBasedMatcher(
  * @param RATIO Threshold ratio for the distances of the first and second
  * nearest neighbors to consider a match good.
  */
-void DESCRIPTORMATCHER::FilterKeyPoints(
-    std::vector<std::vector<cv::DMatch>> &knnMatches,
-    std::vector<cv::DMatch> &goodMatch, double RATIO) {
+void DMatcher::FilterKeyPoints(std::vector<std::vector<cv::DMatch>> &knnMatches,
+                               std::vector<cv::DMatch> &goodMatch,
+                               double RATIO) {
     for (size_t i = 0; i < knnMatches.size(); i++) {
         if (knnMatches[i].size() >= 2) {
             if (knnMatches[i][0].distance < knnMatches[i][1].distance * 0.3)
