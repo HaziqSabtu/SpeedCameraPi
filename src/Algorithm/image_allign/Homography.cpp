@@ -20,8 +20,8 @@ computes the good matches between them.
 *@param keypoints_scene The keypoints in the second image.
 *@param matches The output vector of good matches between keypoints_obj and
 keypoints_scene.
-*@return The homography matrix that transforms the first image to align
-with the second image.
+*@return The homography matrix that transforms the second image to align
+with the first image.
 */
 cv::Mat Homography::FindHomography(std::vector<cv::KeyPoint> keypoints_obj,
                                    std::vector<cv::KeyPoint> keypoints_scene,
@@ -42,8 +42,9 @@ cv::Mat Homography::FindHomography(std::vector<cv::KeyPoint> keypoints_obj,
 * specified homography matrix.
 *
 *@param target The image to be transformed.
-*@param transform The output transformed image.
 *@param M The homography matrix that defines the transformation.
+*
+*@return The transformed image.
 */
 cv::Mat Homography::PerscpectiveTransform(cv::Mat &target, cv::Mat &M) {
     cv::Mat transform;
@@ -58,7 +59,7 @@ cv::Mat Homography::PerscpectiveTransform(cv::Mat &target, cv::Mat &M) {
  * @param bg Background image to fill the transformed image on top of
  * @param target Transformed image to be filled
  * @param M Homography matrix used to transform the target image
- * @return result Output image
+ * @return result transformed image filled on top of the background image
  */
 cv::Mat Homography::FillTransform(cv::Mat &bg, cv::Mat &target, cv::Mat &M) {
     cv::Mat mask = cv::Mat::zeros(target.size(), target.type());
