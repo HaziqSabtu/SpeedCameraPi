@@ -7,17 +7,17 @@ MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
     wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
     SetIcon(icon);
 
-    // notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
-    //                           wxSize(800, 600));
+    notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
+                              wxSize(800, 600));
 
-    // camera_panel = new CameraPanel(notebook, Enum::CP_Panel_ID, config);
+    camera_panel = new CameraPanel(notebook, Enum::CP_Panel_ID, config);
 
     // select_line_panel = new SelectLinePanel(notebook, Enum::SL_Panel_ID);
 
     // object_detection_panel =
     //     new ObjectDetectionPanel(notebook, Enum::OD_Panel_ID, config);
 
-    // notebook->AddPage(camera_panel, "Camera", true);
+    notebook->AddPage(camera_panel, "Camera", true);
     // notebook->AddPage(select_line_panel, "Select Line", false);
     // notebook->AddPage(object_detection_panel, "Result", false);
 

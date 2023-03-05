@@ -27,6 +27,8 @@ class CameraPanel : public wxPanel {
     void OnThreadCheck(wxTimerEvent &e);
     void OnCapture();
     void OnLoadFile();
+    void OnToggleCamera();
+    void startCamera();
 
   private:
     int maxLoadFrame;

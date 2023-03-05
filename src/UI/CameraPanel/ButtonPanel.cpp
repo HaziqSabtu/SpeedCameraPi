@@ -5,11 +5,14 @@ CameraPanelButton::CameraPanelButton(wxWindow *parent, wxWindowID id)
 
     Capture_Button = new wxButton(this, Enum::CP_Capture_Button_ID, "Capture");
     Load_Button = new wxButton(this, Enum::CP_Load_Button_ID, "Load");
+    ToggleCamera_Button =
+        new wxButton(this, Enum::CP_Camera_Button_ID, "Toggle Camera");
     Spacer = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition,
                               wxDefaultSize, wxALIGN_RIGHT);
 
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
     button_sizer->Add(Capture_Button, 0, wxALL | wxCENTER, 5);
+    button_sizer->Add(ToggleCamera_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Spacer, 1, wxALL | wxCENTER, 5);
     button_sizer->Add(Load_Button, 0, wxALL | wxCENTER, 5);
 

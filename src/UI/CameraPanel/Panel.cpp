@@ -18,22 +18,13 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
     SetSize(800, 600);
     Center();
 
-    CameraConfig cameraConfig = config->GetCameraConfig();
-    camera.open(cameraConfig.Camera_ID);
-    if (!camera.isOpened()) {
-        wxMessageBox("Could not open camera", "Error", wxOK | wxICON_ERROR);
-        Close();
-    }
-    camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
-    camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
-    camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
+    startCamera();
 
     filePath = config->GetLoadFileName();
     maxLoadFrame = config->GetMaxLoadFrame();
 
-    // timer.SetOwner(this, wxID_ANY);
     timer.Bind(wxEVT_TIMER, &CameraPanel::OnTimer, this);
-    timer.Start(config->GetCameraPanelRefreshRate()); // 30 FPS
+    timer.Start(config->GetCameraPanelRefreshRate());
 
     threadCheckTimer.Bind(wxEVT_TIMER, &CameraPanel::OnThreadCheck, this);
 
@@ -52,11 +43,14 @@ CameraPanel::~CameraPanel() {
         loadThread->Delete();
         loadThread = NULL;
     }
-    camera.release();
+
+    if (camera.isOpened()) {
+        camera.release();
+    }
 }
 
 void CameraPanel::OnTimer(wxTimerEvent &e) {
-    camera >> frame;
+    camera.read(frame);
     if (!frame.empty()) {
         img_bitmap->SetImage(frame);
     }
@@ -94,6 +88,10 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_Load_Button_ID) {
         OnLoadFile();
     }
+
+    if (e.GetId() == Enum::CP_Camera_Button_ID) {
+        OnToggleCamera();
+    }
 }
 
 void CameraPanel::OnLoadFile() {
@@ -115,11 +113,40 @@ void CameraPanel::OnLoadFile() {
     threadCheckTimer.Start(100);
 }
 
+void CameraPanel::OnToggleCamera() {
+    if (isCapturing || isProcessing) {
+        return;
+    }
+    if (camera.isOpened()) {
+        camera.release();
+        return;
+    }
+
+    startCamera();
+}
+
 std::vector<ImageData> CameraPanel::GetImgData() {
     if (imgData.empty()) {
         return std::vector<ImageData>();
     }
     return imgData;
+}
+
+void CameraPanel::startCamera() {
+    if (camera.isOpened()) {
+        return;
+    }
+
+    AppConfig *config = new AppConfig();
+    CameraConfig cameraConfig = config->GetCameraConfig();
+    camera.open(cameraConfig.Camera_ID);
+    if (!camera.isOpened()) {
+        wxMessageBox("Could not open camera", "Error", wxOK | wxICON_ERROR);
+        Close();
+    }
+    camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
+    camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
+    camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
 }
 
 // clang-format off
