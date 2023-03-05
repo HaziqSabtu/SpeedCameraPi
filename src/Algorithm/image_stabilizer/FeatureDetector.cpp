@@ -51,6 +51,7 @@ FeatureDetector::FeatureDetector() { FeatureDetector("SIFT", false, false); }
  */
 void FeatureDetector::run(cv::Mat &image1, cv::Mat &image2) {
     FeatureDetector::clearVector();
+    // TODO: run first compute at constructor/init
     detector_->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
     detector_->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
 
