@@ -45,15 +45,13 @@ void LineDetection::SetImage(cv::Mat &image) {
  * @return cv::Mat canny image in rgb format
  */
 cv::Mat LineDetection::GetCanny() {
-    // return canny in rgb format
     cv::Mat cannyRGB;
     cv::cvtColor(cannyImage, cannyRGB, cv::COLOR_GRAY2BGR);
     return cannyRGB;
 }
 
-// std::vector<cv::Vec4i> LineDetection::GetLinesP() { return linesP; }
 /**
- * @brief Get the Result of Hough Line
+ * @brief Return the Result of Hough Line in cv::Vec4i format
  * @details return the lines detected by Hough Line Transform. The result will
  * be an array of Vec4i object indicating detected Lines on the images.
  * @return std::vector<cv::Vec4i> lines detected by Hough Line Transform
@@ -61,7 +59,8 @@ cv::Mat LineDetection::GetCanny() {
 std::vector<cv::Vec4i> &LineDetection::GetLinesP() { return linesP; }
 
 /**
- * @brief Return the lines detected by Hough Line Transform
+ * @brief Return the lines detected by Hough Line Transform in Detection::Line
+ * format
  * @details return the lines detected by Hough Line Transform. The result will
  * be an array of Line object indicating detected Lines on the images.
  * @return std::vector<Detection::Line>

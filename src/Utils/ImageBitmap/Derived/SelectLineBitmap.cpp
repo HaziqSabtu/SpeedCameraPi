@@ -44,6 +44,7 @@ void SelectLineBitmap::drawBitMap() {
             cv::line(img_cp, l.p1, l.p2, cv::Scalar(0, 255, 255), 2);
         }
     }
+    
     cv::Mat img_rs;
     cv::resize(img_cp, img_rs, cv::Size(resizeWidth, resizeHeight));
 

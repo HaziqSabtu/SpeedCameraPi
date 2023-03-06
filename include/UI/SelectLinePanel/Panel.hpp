@@ -8,6 +8,7 @@
 #include <Utils/Enum.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageBitmap/Derived/SelectLineBitmap.hpp>
+#include <Utils/Struct/D_Line.hpp>
 #include <wx/wx.h>
 
 class SelectLinePanel : public wxPanel {

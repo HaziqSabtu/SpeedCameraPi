@@ -13,6 +13,7 @@
 #define LINE_DETECTION_HPP
 
 #include <Utils/DataStruct.hpp>
+#include <Utils/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
 
 class LineDetection {
