@@ -1,7 +1,7 @@
-#include <Thread/SIFTTask.hpp>
+#include <Thread/Task/Task_Sift.hpp>
 
 SiftTask::SiftTask(std::vector<ImageData> *imgData, int id)
-    : imgData(imgData), id(id) {}
+    : type(TaskType::TASK_SIFT), imgData(imgData), id(id) {}
 
 void SiftTask::Execute() {
     ImageData firstImage = (*imgData)[0];
@@ -10,3 +10,5 @@ void SiftTask::Execute() {
     featureDetector.allign(firstImage.image, targetImage.image);
     imgData->at(id).image = featureDetector.GetAllignedImage().clone();
 }
+
+TaskType SiftTask::GetType() const { return type; }

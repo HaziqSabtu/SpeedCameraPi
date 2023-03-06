@@ -14,6 +14,7 @@ class ImageBitmap : public wxStaticBitmap {
                 const wxSize &size = wxDefaultSize, long style = 0,
                 const wxString &name = wxStaticBitmapNameStr);
     void SetImage(const cv::Mat &image);
+    void SetImage();
     void OnSize();
     virtual void drawBitMap();
     wxPoint GetRealMousePos(wxPoint mousePos);
@@ -21,6 +22,7 @@ class ImageBitmap : public wxStaticBitmap {
   protected:
     cv::Mat image;
     cv::Mat rgbImage;
+    cv::Mat noImage;
 
     wxSize clientSize;
     int width;

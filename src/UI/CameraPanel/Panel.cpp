@@ -18,7 +18,15 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
     SetSize(800, 600);
     Center();
 
-    startCamera();
+    CameraConfig cameraConfig = config->GetCameraConfig();
+    camera.open(cameraConfig.Camera_ID);
+    if (!camera.isOpened()) {
+        wxMessageBox("Could not open camera", "Error", wxOK | wxICON_ERROR);
+        Close();
+    }
+    camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
+    camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
+    camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
 
     filePath = config->GetLoadFileName();
     maxLoadFrame = config->GetMaxLoadFrame();
@@ -33,7 +41,6 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
 };
 
 CameraPanel::~CameraPanel() {
-    timer.Stop();
     if (captureThread != NULL) {
         captureThread->Delete();
         captureThread = NULL;
@@ -50,7 +57,11 @@ CameraPanel::~CameraPanel() {
 }
 
 void CameraPanel::OnTimer(wxTimerEvent &e) {
-    camera.read(frame);
+    if (!isTimerRunning) {
+        img_bitmap->SetImage();
+        return;
+    }
+    camera >> frame;
     if (!frame.empty()) {
         img_bitmap->SetImage(frame);
     }
@@ -103,6 +114,8 @@ void CameraPanel::OnLoadFile() {
         imgData.clear();
     }
 
+    OnToggleCamera();
+
     FILEH264::ReadFile(filePath, imgData);
     button_panel->DisableAllButtons();
     isThreadRunning = true;
@@ -114,15 +127,15 @@ void CameraPanel::OnLoadFile() {
 }
 
 void CameraPanel::OnToggleCamera() {
-    if (isCapturing || isProcessing) {
-        return;
+    if (isTimerRunning) {
+        isTimerRunning = false;
+        timer.Start(1000);
+        img_bitmap->SetImage();
+    } else {
+        isTimerRunning = true;
+        AppConfig *config = new AppConfig();
+        timer.Start(config->GetCameraPanelRefreshRate());
     }
-    if (camera.isOpened()) {
-        camera.release();
-        return;
-    }
-
-    startCamera();
 }
 
 std::vector<ImageData> CameraPanel::GetImgData() {
@@ -130,23 +143,6 @@ std::vector<ImageData> CameraPanel::GetImgData() {
         return std::vector<ImageData>();
     }
     return imgData;
-}
-
-void CameraPanel::startCamera() {
-    if (camera.isOpened()) {
-        return;
-    }
-
-    AppConfig *config = new AppConfig();
-    CameraConfig cameraConfig = config->GetCameraConfig();
-    camera.open(cameraConfig.Camera_ID);
-    if (!camera.isOpened()) {
-        wxMessageBox("Could not open camera", "Error", wxOK | wxICON_ERROR);
-        Close();
-    }
-    camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
-    camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
-    camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
 }
 
 // clang-format off

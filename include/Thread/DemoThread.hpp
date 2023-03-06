@@ -1,7 +1,7 @@
 #ifndef DEMO_THREAD_HPP
 #define DEMO_THREAD_HPP
 
-#include <Thread/SIFTTask.hpp>
+#include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <Utils/DataStruct.hpp>
 #include <opencv2/core.hpp>

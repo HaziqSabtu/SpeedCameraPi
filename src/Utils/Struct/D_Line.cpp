@@ -16,15 +16,15 @@ namespace Detection {
 /**
  * @brief Construct a new Line:: Line object
  *
- * @param p1
- * @param p2
+ * @param p1 first point of line
+ * @param p2 second point of line
  */
 Line::Line(cv::Point2f p1, cv::Point2f p2) : p1(p1), p2(p2) {}
 
 /**
  * @brief Construct a new Line:: Line object
  *
- * @param line
+ * @param line Vec4i line
  */
 Line::Line(cv::Vec4i line)
     : p1(cv::Point2f(line[0], line[1])), p2(cv::Point2f(line[2], line[3])) {}

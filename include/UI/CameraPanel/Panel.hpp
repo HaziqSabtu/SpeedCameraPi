@@ -28,7 +28,6 @@ class CameraPanel : public wxPanel {
     void OnCapture();
     void OnLoadFile();
     void OnToggleCamera();
-    void startCamera();
 
   private:
     int maxLoadFrame;
@@ -37,6 +36,7 @@ class CameraPanel : public wxPanel {
     bool isCapturing;
     bool isProcessing;
     bool isThreadRunning;
+    bool isTimerRunning = true;
 
     cv::VideoCapture camera;
     wxTimer timer;

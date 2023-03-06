@@ -1,7 +1,7 @@
 #ifndef THREAD_POOL_HPP
 #define THREAD_POOL_HPP
 
-#include <Thread/Task.hpp>
+#include <Thread/Task/Task.hpp>
 #include <condition_variable>
 #include <mutex>
 #include <queue>

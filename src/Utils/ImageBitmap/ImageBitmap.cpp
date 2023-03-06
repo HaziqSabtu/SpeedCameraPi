@@ -3,10 +3,20 @@
 ImageBitmap::ImageBitmap(wxWindow *parent, wxWindowID id,
                          const wxBitmap &bitmap, const wxPoint &pos,
                          const wxSize &size, long style, const wxString &name)
-    : wxStaticBitmap(parent, id, bitmap, pos, size, style, name) {}
+    : wxStaticBitmap(parent, id, bitmap, pos, size, style, name) {
+    noImage = cv::Mat(480, 640, CV_8UC3, cv::Scalar(0, 0, 0));
+    cv::putText(noImage, "No Image", cv::Point(200, 240),
+                cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2,
+                cv::LINE_AA);
+}
 
 void ImageBitmap::SetImage(const cv::Mat &img) {
     this->image = img.clone();
+    drawBitMap();
+}
+
+void ImageBitmap::SetImage() {
+    this->image = noImage;
     drawBitMap();
 }
 

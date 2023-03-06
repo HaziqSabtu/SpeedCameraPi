@@ -15,6 +15,7 @@ class CameraBitmap : public ImageBitmap {
     void SetIsCapturing(bool *isCapturing);
     void SetIsProcessing(bool *isProcessing);
     virtual void drawBitMap() override;
+    void SetImg(cv::Mat *img);
 
   private:
     // std::vector<cv::Point2f> *ptns;

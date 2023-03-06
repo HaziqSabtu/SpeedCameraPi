@@ -11,9 +11,9 @@ void CameraBitmap::drawBitMap() {
     if (image.empty()) {
         return;
     }
-
     // TODO: fix this later
     processRatio();
+
     if (width == 0 || height == 0) {
         return;
     }
