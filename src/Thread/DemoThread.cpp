@@ -32,7 +32,7 @@ void *DemoThread::Entry() {
 
     *isCapturing = false;
 
-    while (threadPool.HasTasks()) {
+    while (threadPool.isBusy()) {
         wxThread::Sleep(33);
     }
     *isProcessing = false;

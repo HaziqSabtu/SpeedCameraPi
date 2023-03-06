@@ -1,3 +1,13 @@
+/**
+ * @file Task_Load.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Task Implementation for Loading H264 to ImageData
+ * @version 1.0.0
+ * @date 2023-03-06
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #ifndef LOAD_TASK_HPP
 #define LOAD_TASK_HPP
 
@@ -12,6 +22,7 @@ class LoadTask : public Task {
              const int maxCapture);
     void Execute() override;
     TaskType GetType() const override;
+    std::string GetName() const override;
 
   private:
     const TaskType type;

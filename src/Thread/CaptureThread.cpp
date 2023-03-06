@@ -39,7 +39,7 @@ void *CaptureThread::Entry() {
 
     *isCapturing = false;
 
-    while (threadPool.HasTasks()) {
+    while (threadPool.isBusy()) {
         wxThread::Sleep(frameInterval);
     }
 

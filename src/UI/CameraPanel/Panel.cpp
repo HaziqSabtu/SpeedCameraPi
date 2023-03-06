@@ -113,24 +113,19 @@ void CameraPanel::OnLoadFile() {
     if (!imgData.empty()) {
         imgData.clear();
     }
-    wxLogMessage("Start Load");
     OnToggleCamera();
     button_panel->DisableAllButtons();
     const int max = 5;
+    std::cout << "Load File" << std::endl;
     threadPool.AddTask(new LoadTask(&imgData, filePath, max));
-    while (threadPool.HasTasks(TaskType::TASK_LOAD)) {
-        wxMilliSleep(100);
+    while (threadPool.isWorkerBusy() ||
+           threadPool.HasTasks(TaskType::TASK_LOAD)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        wxYield();
     }
-    wxLogMessage("Load Finished");
+    std::cout << "Load Finished" << std::endl;
     OnToggleCamera();
     button_panel->EnableAllButtons();
-    // isThreadRunning = true;
-    // loadThread = new DemoThread(&isCapturing, &isProcessing,
-    // &isThreadRunning,
-    //                             &imgData, maxLoadFrame);
-    // loadThread->Create();
-    // loadThread->Run();
-    // threadCheckTimer.Start(100);
 }
 
 void CameraPanel::OnToggleCamera() {
