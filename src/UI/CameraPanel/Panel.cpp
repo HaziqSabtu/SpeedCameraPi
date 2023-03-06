@@ -1,7 +1,7 @@
 #include <UI/CameraPanel/Panel.hpp>
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
-    : wxPanel(parent, id) {
+    : wxPanel(parent, id), threadPool(2) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new CameraBitmap(this, Enum::CP_IMG_PANEL_ID);
@@ -113,17 +113,24 @@ void CameraPanel::OnLoadFile() {
     if (!imgData.empty()) {
         imgData.clear();
     }
-
+    wxLogMessage("Start Load");
     OnToggleCamera();
-
-    FILEH264::ReadFile(filePath, imgData);
     button_panel->DisableAllButtons();
-    isThreadRunning = true;
-    loadThread = new DemoThread(&isCapturing, &isProcessing, &isThreadRunning,
-                                &imgData, maxLoadFrame);
-    loadThread->Create();
-    loadThread->Run();
-    threadCheckTimer.Start(100);
+    const int max = 5;
+    threadPool.AddTask(new LoadTask(&imgData, filePath, max));
+    while (threadPool.HasTasks(TaskType::TASK_LOAD)) {
+        wxMilliSleep(100);
+    }
+    wxLogMessage("Load Finished");
+    OnToggleCamera();
+    button_panel->EnableAllButtons();
+    // isThreadRunning = true;
+    // loadThread = new DemoThread(&isCapturing, &isProcessing,
+    // &isThreadRunning,
+    //                             &imgData, maxLoadFrame);
+    // loadThread->Create();
+    // loadThread->Run();
+    // threadCheckTimer.Start(100);
 }
 
 void CameraPanel::OnToggleCamera() {

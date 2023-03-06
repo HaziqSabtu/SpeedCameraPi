@@ -19,6 +19,7 @@ class FILEH264 {
     static void ReadFile(std::string path, std::vector<ImageData> &imgData);
     static void ReadFile(std::string path, std::vector<ImageData> *imgData);
     static void ReadFile(wxString path, std::vector<ImageData> &imgData);
+    static void ReadFile(wxString path, std::vector<ImageData> *imgData);
     // static int WriteFile(std::string path, std::vector<ImageData> &imgData);
     static double
     getTimeDifference(std::chrono::high_resolution_clock::time_point time1,

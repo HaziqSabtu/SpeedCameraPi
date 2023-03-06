@@ -3,6 +3,8 @@
 
 #include <Thread/CaptureThread.hpp>
 #include <Thread/DemoThread.hpp>
+#include <Thread/Task/Task_Load.hpp>
+#include <Thread/ThreadPool.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Config/ConfigStruct.hpp>
@@ -39,6 +41,8 @@ class CameraPanel : public wxPanel {
     bool isTimerRunning = true;
 
     cv::VideoCapture camera;
+    ThreadPool threadPool;
+
     wxTimer timer;
     wxTimer threadCheckTimer;
     CameraPanelButton *button_panel;

@@ -38,6 +38,10 @@ void FILEH264::ReadFile(wxString path, std::vector<ImageData> &imgData) {
     std::string s = std::string(path.mb_str(wxConvUTF8));
     ReadFile(s, imgData);
 }
+void FILEH264::ReadFile(wxString path, std::vector<ImageData> *imgData) {
+    std::string s = std::string(path.mb_str(wxConvUTF8));
+    ReadFile(s, imgData);
+}
 
 void FILEH264::ReadFile(std::string path, std::vector<ImageData> *imgData) {
     cv::VideoCapture cap(path);

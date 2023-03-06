@@ -16,6 +16,7 @@ class ThreadPool {
     void AddTask(Task *task);
 
     bool HasTasks();
+    bool HasTasks(TaskType type);
 
   private:
     void WorkerThread();
@@ -24,7 +25,7 @@ class ThreadPool {
     bool isStop;
 
     std::vector<std::thread> threadArray;
-    std::queue<Task *> taskQueue;
+    std::deque<Task *> taskQueue;
     std::mutex m_mutex;
     std::condition_variable cv;
 };

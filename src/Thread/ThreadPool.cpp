@@ -20,7 +20,7 @@ ThreadPool::~ThreadPool() {
 
 void ThreadPool::AddTask(Task *task) {
     std::unique_lock<std::mutex> lock(m_mutex);
-    taskQueue.push(task);
+    taskQueue.push_back(task);
     cv.notify_one();
 }
 
@@ -34,7 +34,7 @@ void ThreadPool::WorkerThread() {
                 return;
             }
             task = taskQueue.front();
-            taskQueue.pop();
+            taskQueue.pop_back();
         }
         task->Execute();
         delete task;
@@ -44,6 +44,16 @@ void ThreadPool::WorkerThread() {
 bool ThreadPool::HasTasks() {
     std::unique_lock<std::mutex> lock(m_mutex);
     return !taskQueue.empty();
+}
+
+bool ThreadPool::HasTasks(TaskType type) {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    for (auto &task : taskQueue) {
+        if (task->GetType() == type) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /*

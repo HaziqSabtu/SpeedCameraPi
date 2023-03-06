@@ -1,6 +1,6 @@
 #include <Thread/Task/Task_Load.hpp>
 
-LoadTask::LoadTask(std::vector<ImageData> *imgData, std::string path,
+LoadTask::LoadTask(std::vector<ImageData> *imgData, wxString path,
                    const int maxCapture)
     : type(TaskType::TASK_LOAD), imgData(imgData), path(path),
       maxCapture(maxCapture) {}
