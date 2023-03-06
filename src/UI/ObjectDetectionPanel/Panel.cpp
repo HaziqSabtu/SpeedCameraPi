@@ -188,7 +188,7 @@ void ObjectDetectionPanel::OnPageChange() {
     objectDetectionThread->Run();
     timer.Start(33);
 
-    selectedLines = sl_panel->GetSelectedLines();
+    // selectedLines = sl_panel->GetSelectedLines();
 }
 
 // clang-format off

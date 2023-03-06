@@ -19,7 +19,6 @@ ThreadPool::~ThreadPool() {
 }
 
 void ThreadPool::AddTask(Task *task) {
-    wxLogMessage("Adding task to ThreadPool");
     std::unique_lock<std::mutex> lock(m_mutex);
     taskQueue.push(task);
     cv.notify_one();

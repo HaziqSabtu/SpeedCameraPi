@@ -12,6 +12,7 @@
 #ifndef LINE_DETECTION_HPP
 #define LINE_DETECTION_HPP
 
+#include <Utils/DataStruct.hpp>
 #include <opencv2/opencv.hpp>
 
 class LineDetection {
@@ -19,12 +20,9 @@ class LineDetection {
     LineDetection();
     void SetImage(cv::Mat &image);
     cv::Mat GetCanny();
-    // std::vector<cv::Vec4i> GetLinesP();
     std::vector<cv::Vec4i> &GetLinesP();
-    static bool isPointOnLine(cv::Vec4i line, cv::Point2f point,
-                              int tolerance = 1);
-    static cv::Vec4i extrapolateLine(cv::Vec4i line, int height);
-    static cv::Vec4i averageLines(std::vector<cv::Vec4i> lines);
+    std::vector<Detection::Line> GetLines();
+    Detection::HoughData GetHoughData();
 
   private:
     cv::Mat image;

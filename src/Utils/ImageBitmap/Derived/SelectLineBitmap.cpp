@@ -12,11 +12,12 @@ void SelectLineBitmap::SetPoints(std::vector<cv::Point2f> *ptns) {
     this->ptns = ptns;
 }
 
-void SelectLineBitmap::SetHoughLines(std::vector<cv::Vec4i> *houghLines) {
+void SelectLineBitmap::SetHoughLines(std::vector<Detection::Line> houghLines) {
     this->houghLines = houghLines;
 }
 
-void SelectLineBitmap::setSelectedLines(std::vector<cv::Vec4i> *selectedLines) {
+void SelectLineBitmap::setSelectedLines(
+    std::vector<Detection::Line> *selectedLines) {
     this->selectedLines = selectedLines;
 }
 
@@ -28,21 +29,19 @@ void SelectLineBitmap::drawBitMap() {
     cv::Mat img_cp = image.clone();
     if (ptns != NULL && !ptns->empty()) {
         for (auto p : *ptns) {
-            cv::circle(img_cp, p, 3, cv::Scalar(0, 0, 255), -1);
+            cv::circle(img_cp, p, 20, cv::Scalar(0, 0, 255), -1);
         }
     }
 
-    if (houghLines && !houghLines->empty()) {
-        for (auto l : *houghLines) {
-            cv::line(img_cp, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
-                     cv::Scalar(0, 255, 0), 2);
+    if (!houghLines.empty()) {
+        for (auto l : houghLines) {
+            cv::line(img_cp, l.p1, l.p2, cv::Scalar(0, 255, 0), 2);
         }
     }
 
     if (selectedLines && !selectedLines->empty()) {
         for (auto l : *selectedLines) {
-            cv::line(img_cp, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
-                     cv::Scalar(0, 255, 255), 2);
+            cv::line(img_cp, l.p1, l.p2, cv::Scalar(0, 255, 255), 2);
         }
     }
     cv::Mat img_rs;

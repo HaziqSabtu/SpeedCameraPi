@@ -61,67 +61,24 @@ cv::Mat LineDetection::GetCanny() {
 std::vector<cv::Vec4i> &LineDetection::GetLinesP() { return linesP; }
 
 /**
- * @brief Check if the point is on the line
- * @param line line to be checked
- * @param point point to be checked
- * @param tolerance tolerance of the point to be on the line
- * @return true if the point is on the line
- * @return false if the point is not on the line
+ * @brief Return the lines detected by Hough Line Transform
+ * @details return the lines detected by Hough Line Transform. The result will
+ * be an array of Line object indicating detected Lines on the images.
+ * @return std::vector<Detection::Line>
  */
-bool LineDetection::isPointOnLine(cv::Vec4i line, cv::Point2f point,
-                                  int tolerance) {
-    // check if the point in on the line and dont extrapolate it
-
-    float x1 = static_cast<float>(line[0]);
-    float y1 = static_cast<float>(line[1]);
-    float x2 = static_cast<float>(line[2]);
-    float y2 = static_cast<float>(line[3]);
-    float m = (y2 - y1) / (x2 - x1);
-    float b = y1 - m * x1;
-    float y = m * point.x + b;
-    return fabs(point.y - y) <= tolerance && point.x >= x1 && point.x <= x2;
-}
-
-/**
- * @brief Get the Extrapolated Line object
- * @details Extrapolate the line to the height of the image
- * @param line line to be extrapolated
- * @param height height of the image
- * @return cv::Vec4i extrapolated line
- */
-cv::Vec4i LineDetection::extrapolateLine(cv::Vec4i line, int height) {
-    float x1 = static_cast<float>(line[0]);
-    float y1 = static_cast<float>(line[1]);
-    float x2 = static_cast<float>(line[2]);
-    float y2 = static_cast<float>(line[3]);
-    float m = (y2 - y1) / (x2 - x1);
-    float b = y1 - m * x1;
-    int x0 = static_cast<int>((0 - b) / m);
-    int x3 = static_cast<int>((height - b) / m);
-    return cv::Vec4i(x0, 0, x3, height);
-}
-
-/**
- * @brief Calculate the average of the lines if more than one line is detected
- * @details Get the average of the lines
- * @param lines lines vector to be averaged
- * @return cv::Vec4i average of the lines
- */
-cv::Vec4i LineDetection::averageLines(std::vector<cv::Vec4i> lines) {
-    float x1 = 0;
-    float y1 = 0;
-    float x2 = 0;
-    float y2 = 0;
-    for (cv::Vec4i line : lines) {
-        x1 += static_cast<float>(line[0]);
-        y1 += static_cast<float>(line[1]);
-        x2 += static_cast<float>(line[2]);
-        y2 += static_cast<float>(line[3]);
+std::vector<Detection::Line> LineDetection::GetLines() {
+    std::vector<Detection::Line> lines;
+    for (auto line : linesP) {
+        lines.push_back(Detection::Line(line));
     }
-    x1 /= static_cast<float>(lines.size());
-    y1 /= static_cast<float>(lines.size());
-    x2 /= static_cast<float>(lines.size());
-    y2 /= static_cast<float>(lines.size());
-    return cv::Vec4i(static_cast<int>(x1), static_cast<int>(y1),
-                     static_cast<int>(x2), static_cast<int>(y2));
+    return lines;
+}
+
+/**
+ * @brief Get the Hough Data object
+ *
+ * @return Detection::HoughData
+ */
+Detection::HoughData LineDetection::GetHoughData() {
+    return Detection::HoughData(cannyImage.clone(), GetLines());
 }
