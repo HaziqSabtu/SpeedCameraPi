@@ -72,7 +72,6 @@ void CameraPanel::OnTimer(wxTimerEvent &e) {
 }
 
 void CameraPanel::OnLeftDown(wxMouseEvent &e) {
-    wxLogMessage("Left Down");
     wxPoint mousePos = e.GetPosition();
     wxPoint realPos = img_bitmap->GetRealMousePos(mousePos);
     addPoints(realPos);
@@ -86,6 +85,7 @@ void CameraPanel::addPoints(wxPoint realMousePos) {
         img_bitmap->SetPoints(ptns);
     }
     ptns->push_back(cv::Point2f(realMousePos.x, realMousePos.y));
+    img_bitmap->drawBitMap();
 }
 
 void CameraPanel::OnThreadCheck(wxTimerEvent &e) {
