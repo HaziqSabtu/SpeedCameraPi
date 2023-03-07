@@ -15,6 +15,10 @@
 #include <opencv2/opencv.hpp>
 
 namespace Detection {
+/**
+ * @brief Struct for Optical Flow Point
+ *
+ */
 struct OFPoint {
     int id;
     cv::Point2f point;
