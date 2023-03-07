@@ -1,7 +1,7 @@
 #include <UI/CameraPanel/Panel.hpp>
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
-    : wxPanel(parent, id), threadPool(2) {
+    : wxPanel(parent, id), threadPool(3) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new CameraBitmap(this, Enum::CP_IMG_PANEL_ID);
@@ -116,16 +116,37 @@ void CameraPanel::OnLoadFile() {
     OnToggleCamera();
     button_panel->DisableAllButtons();
     const int max = 5;
+    isProcessing = true;
     std::cout << "Load File" << std::endl;
     threadPool.AddTask(new LoadTask(&imgData, filePath, max));
     while (threadPool.isWorkerBusy() ||
            threadPool.HasTasks(TaskType::TASK_LOAD)) {
+        std::cout << "Waiting..." << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         wxYield();
     }
     std::cout << "Load Finished" << std::endl;
-    OnToggleCamera();
-    button_panel->EnableAllButtons();
+
+    std::cout << "Sift Start" << std::endl;
+    for (int i = 1; i < 5; i++) {
+        threadPool.AddTask(new SiftTask(&imgData, i));
+    }
+    while (threadPool.isWorkerBusy() ||
+           threadPool.HasTasks(TaskType::TASK_SIFT)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        wxYield();
+    }
+    std::cout << "Sift Finished" << std::endl;
+    isProcessing = false;
+    timer.Stop();
+    for (int i = 0; i < 5; i++) {
+        img_bitmap->SetImage(imgData[i].image);
+        wxYield();
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+    // OnToggleCamera();
+    // std::cout << "Task Finished" << std::endl;
+    // button_panel->EnableAllButtons();
 }
 
 void CameraPanel::OnToggleCamera() {

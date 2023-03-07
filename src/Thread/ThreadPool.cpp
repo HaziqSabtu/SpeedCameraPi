@@ -72,8 +72,9 @@ void ThreadPool::WorkerThread(int threadId) {
             if (isStop && taskQueue.empty()) {
                 return;
             }
+
             task = taskQueue.front();
-            taskQueue.pop_back();
+            taskQueue.pop_front();
             threadStatus[threadId] = true;
         }
         task->Execute();
