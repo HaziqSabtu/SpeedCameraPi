@@ -45,6 +45,18 @@ void CameraBitmap::drawBitMap() {
         }
     }
 
+    if (!houghLines.empty()) {
+        for (auto l : houghLines) {
+            cv::line(img_cp, l.p1, l.p2, cv::Scalar(0, 255, 0), 2);
+        }
+    }
+
+    if (selectedLines && !selectedLines->empty()) {
+        for (auto l : *selectedLines) {
+            cv::line(img_cp, l.p1, l.p2, cv::Scalar(0, 255, 255), 2);
+        }
+    }
+
     cv::Mat img_rs;
     cv::resize(img_cp, img_rs, cv::Size(resizeWidth, resizeHeight));
 
@@ -62,6 +74,17 @@ void CameraBitmap::SetIsCapturing(bool *isCapturing) {
 
 void CameraBitmap::SetIsProcessing(bool *isProcessing) {
     this->isProcessing = isProcessing;
+}
+
+void CameraBitmap::SetHoughLines(std::vector<Detection::Line> houghLines) {
+    this->houghLines = houghLines;
+    drawBitMap();
+}
+
+void CameraBitmap::setSelectedLines(
+    std::vector<Detection::Line> *selectedLines) {
+    this->selectedLines = selectedLines;
+    drawBitMap();
 }
 
 // clang-format off

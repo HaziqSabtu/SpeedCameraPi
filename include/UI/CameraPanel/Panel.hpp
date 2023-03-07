@@ -41,6 +41,10 @@ class CameraPanel : public wxPanel {
     void loadExecutor(const int max);
     void siftExecutor(const int max);
     void houghExecutor(const int max);
+    void houghExecutorSingle(int id);
+    void checkForLine(wxPoint realMousePos);
+    void addLine(Detection::Line line);
+
     int maxLoadFrame;
     wxString filePath;
     cv::Mat frame;
@@ -48,7 +52,9 @@ class CameraPanel : public wxPanel {
     bool isProcessing;
     bool isThreadRunning;
     bool isTimerRunning = true;
+
     std::vector<cv::Point2f> *ptns;
+    std::vector<Detection::Line> *selectedLines;
 
     cv::VideoCapture camera;
     ThreadPool threadPool;
