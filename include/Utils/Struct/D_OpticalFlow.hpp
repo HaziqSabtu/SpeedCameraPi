@@ -15,12 +15,31 @@
 #include <opencv2/opencv.hpp>
 
 namespace Detection {
+struct OFPoint {
+    int id;
+    cv::Point2f point;
+    float error;
+
+    OFPoint(int id, cv::Point2f point, float error);
+};
+
+/**
+ * @brief Struct for Optical Flow Data with custom composition of vector
+ *
+ */
 struct OpticalFlowData {
-    std::vector<cv::Point2f> points;
+    cv::Mat gray;
+    std::vector<Detection::OFPoint> data;
 
-    OpticalFlowData(std::vector<cv::Point2f> points);
-
-    OpticalFlowData();
+    OpticalFlowData(cv::Mat gray);
+    OpticalFlowData(cv::Mat gray, std::vector<cv::Point2f> points);
+    Detection::OFPoint &operator[](int index);
+    int size() const;
+    void push(std::vector<cv::Point2f> points);
+    void push(OpticalFlowData OFData, std::vector<cv::Point2f> points,
+              std::vector<float> errors, std::vector<uchar> status);
+    std::vector<cv::Point2f> GetPoint();
+    void update(OpticalFlowData OFData);
 };
 } // namespace Detection
 
