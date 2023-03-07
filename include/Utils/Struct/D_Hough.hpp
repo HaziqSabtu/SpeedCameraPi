@@ -19,10 +19,9 @@ struct HoughData {
     cv::Mat canny;
     std::vector<Detection::Line> lines;
 
-    HoughData(cv::Mat canny, std::vector<Detection::Line> lines)
-        : canny(canny), lines(lines) {}
+    HoughData(cv::Mat canny, std::vector<Detection::Line> lines);
 
-    HoughData() {}
+    HoughData();
 };
 } // namespace Detection
 
