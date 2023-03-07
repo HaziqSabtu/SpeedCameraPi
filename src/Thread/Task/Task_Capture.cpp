@@ -31,7 +31,7 @@ void CaptureTask::Execute() {
     for (int i = 0; i < maxCapture; i++) {
         cv::Mat frame;
         cap->read(frame);
-        imgData->push_back(ImageData(frame));
+        imgData->push_back(ImageData(frame.clone()));
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 }

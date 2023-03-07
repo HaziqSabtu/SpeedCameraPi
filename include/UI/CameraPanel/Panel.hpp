@@ -3,7 +3,9 @@
 
 #include <Thread/CaptureThread.hpp>
 #include <Thread/DemoThread.hpp>
+#include <Thread/Task/Task_Capture.hpp>
 #include <Thread/Task/Task_Load.hpp>
+#include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
 #include <Utils/Config/AppConfig.hpp>
@@ -32,6 +34,9 @@ class CameraPanel : public wxPanel {
     void OnToggleCamera();
 
   private:
+    void captureExecutor(const int max);
+    void loadExecutor(const int max);
+    void siftExecutor(const int max);
     int maxLoadFrame;
     wxString filePath;
     cv::Mat frame;

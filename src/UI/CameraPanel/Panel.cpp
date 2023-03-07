@@ -80,15 +80,35 @@ void CameraPanel::OnCapture() {
     if (isCapturing || isProcessing) {
         return;
     }
-    wxLogMessage("Start Capture");
+
+    isProcessing = true;
+    const int max = 5;
+
+    if (!imgData.empty()) {
+        imgData.clear();
+    }
     button_panel->DisableAllButtons();
-    isThreadRunning = true;
-    imgData.clear();
-    captureThread = new CaptureThread(&isCapturing, &isProcessing,
-                                      &isThreadRunning, &imgData, &frame);
-    captureThread->Create();
-    captureThread->Run();
-    threadCheckTimer.Start(100);
+    OnToggleCamera();
+
+    captureExecutor(max);
+    siftExecutor(max);
+
+    isProcessing = false;
+    timer.Stop();
+
+    for (int i = 0; i < max; i++) {
+        img_bitmap->SetImage(imgData[i].image);
+        wxYield();
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+
+    for (int i = 1; i < max; i++) {
+        double time = imgData[i].TimeDiff(imgData[i - 1]);
+        std::cout << "Time Diff: " << time << std::endl;
+    }
+
+    OnToggleCamera();
+    button_panel->EnableAllButtons();
 }
 
 void CameraPanel::OnButton(wxCommandEvent &e) {
@@ -110,43 +130,29 @@ void CameraPanel::OnLoadFile() {
         return;
     }
 
+    isProcessing = true;
+    const int max = 5;
+
     if (!imgData.empty()) {
         imgData.clear();
     }
-    OnToggleCamera();
     button_panel->DisableAllButtons();
-    const int max = 5;
-    isProcessing = true;
-    std::cout << "Load File" << std::endl;
-    threadPool.AddTask(new LoadTask(&imgData, filePath, max));
-    while (threadPool.isWorkerBusy() ||
-           threadPool.HasTasks(TaskType::TASK_LOAD)) {
-        std::cout << "Waiting..." << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        wxYield();
-    }
-    std::cout << "Load Finished" << std::endl;
+    OnToggleCamera();
 
-    std::cout << "Sift Start" << std::endl;
-    for (int i = 1; i < 5; i++) {
-        threadPool.AddTask(new SiftTask(&imgData, i));
-    }
-    while (threadPool.isWorkerBusy() ||
-           threadPool.HasTasks(TaskType::TASK_SIFT)) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        wxYield();
-    }
-    std::cout << "Sift Finished" << std::endl;
+    loadExecutor(max);
+    siftExecutor(max);
+
     isProcessing = false;
     timer.Stop();
+
     for (int i = 0; i < 5; i++) {
         img_bitmap->SetImage(imgData[i].image);
         wxYield();
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
-    // OnToggleCamera();
-    // std::cout << "Task Finished" << std::endl;
-    // button_panel->EnableAllButtons();
+
+    OnToggleCamera();
+    button_panel->EnableAllButtons();
 }
 
 void CameraPanel::OnToggleCamera() {
@@ -166,6 +172,36 @@ std::vector<ImageData> CameraPanel::GetImgData() {
         return std::vector<ImageData>();
     }
     return imgData;
+}
+
+// TODO: better implementation than MAX use ImageData.size() instead
+void CameraPanel::captureExecutor(const int max) {
+    threadPool.AddTask(new CaptureTask(&imgData, &camera, max));
+    while (threadPool.isWorkerBusy() ||
+           threadPool.HasTasks(TaskType::TASK_CAPTURE)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        wxYield();
+    }
+}
+
+void CameraPanel::loadExecutor(const int max) {
+    threadPool.AddTask(new LoadTask(&imgData, filePath, max));
+    while (threadPool.isWorkerBusy() ||
+           threadPool.HasTasks(TaskType::TASK_LOAD)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        wxYield();
+    }
+}
+
+void CameraPanel::siftExecutor(const int max) {
+    for (int i = 1; i < max; i++) {
+        threadPool.AddTask(new SiftTask(&imgData, i));
+    }
+    while (threadPool.isWorkerBusy() ||
+           threadPool.HasTasks(TaskType::TASK_SIFT)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        wxYield();
+    }
 }
 
 // clang-format off
