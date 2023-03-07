@@ -1,8 +1,6 @@
 #ifndef CAMERA_PANEL_HPP
 #define CAMERA_PANEL_HPP
 
-#include <Thread/CaptureThread.hpp>
-#include <Thread/DemoThread.hpp>
 #include <Thread/Task/Task_Capture.hpp>
 #include <Thread/Task/Task_HoughLine.hpp>
 #include <Thread/Task/Task_Load.hpp>
@@ -13,11 +11,8 @@
 #include <Utils/Config/ConfigStruct.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
-#include <Utils/FileReader/fileH264.hpp>
 #include <Utils/ImageBitmap/Derived/CameraBitmap.hpp>
 #include <opencv2/opencv.hpp>
-#include <opencv2/videoio.hpp>
-#include <wx/notebook.h>
 #include <wx/wx.h>
 
 class CameraPanel : public wxPanel {

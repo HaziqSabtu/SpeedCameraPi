@@ -16,7 +16,7 @@
 #include <Algorithm/image_allign/DescriptorMatcher.hpp>
 #include <Algorithm/image_allign/Enum.hpp>
 #include <Algorithm/image_allign/Homography.hpp>
-#include <Utils/FileReader/fileWR.hpp>
+#include <Utils/DataStruct.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/xfeatures2d.hpp>
@@ -27,7 +27,7 @@ class FeatureDetector {
     FeatureDetector(DetectorType type);
     FeatureDetector();
     void allign(cv::Mat &image1, cv::Mat &image2);
-    void allign(std::vector<ImgData> &imgData);
+    void allign(std::vector<ImageData> &imgData);
     cv::Mat GetMatchImage(cv::Mat &image1, cv::Mat &image2);
     cv::Mat GetHomographyMatrix();
     cv::Mat GetAllignedImage();

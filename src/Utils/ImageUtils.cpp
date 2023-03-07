@@ -1,6 +1,6 @@
 #include <Utils/ImageUtils.hpp>
 
-void ImageUtils::RotateImage(std::vector<ImgData> &imgData, int angle) {
+void ImageUtils::RotateImage(std::vector<ImageData> &imgData, int angle) {
     wxLogMessage("Rotating: %zd images on angle %d", imgData.size(), angle);
     for (int i = 0; i < imgData.size(); i++) {
         cv::Mat img = imgData[i].image;

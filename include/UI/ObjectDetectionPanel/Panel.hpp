@@ -5,10 +5,8 @@
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 #include <Thread/ObjectDetectionThread.hpp>
 #include <UI/ObjectDetectionPanel/ButtonPanel.hpp>
-#include <UI/SelectLinePanel/Panel.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Enum.hpp>
-#include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageBitmap/Derived/ObjectDetectionBitmap.hpp>
 #include <wx/wx.h>
 

@@ -112,10 +112,12 @@ double SpeedCalculation::calcSpeed(
     std::chrono::high_resolution_clock::time_point prevTime,
     std::chrono::high_resolution_clock::time_point curTime) {
     double distDiff = fabs(curDist - prevDist);
-    double timeDiff = FILEAVI::getTimeDifference(prevTime, curTime);
-    wxLogMessage("DistDiff: %f", distDiff);
-    wxLogMessage("TimeDiff: %f", timeDiff);
-    return distDiff / timeDiff;
+    // double timeDiff = FILEAVI::getTimeDifference(prevTime, curTime);
+    // wxLogMessage("DistDiff: %f", distDiff);
+    // wxLogMessage("TimeDiff: %f", timeDiff);
+    // return distDiff / timeDiff;
+    // ! Caution: This is a temporary fix
+    return 0;
 }
 
 // return double in 2 decimal places

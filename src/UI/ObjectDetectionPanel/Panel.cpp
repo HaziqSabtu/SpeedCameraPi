@@ -166,14 +166,14 @@ void ObjectDetectionPanel::OnIncrement() {
 void ObjectDetectionPanel::OnSize(wxSizeEvent &e) { img_bitmap->drawBitMap(); }
 
 void ObjectDetectionPanel::OnPageChange() {
-
-    SelectLinePanel *sl_panel = dynamic_cast<SelectLinePanel *>(
-        GetParent()->FindWindow(Enum::SL_Panel_ID));
+    // ! Refractoring needed
+    // SelectLinePanel *sl_panel = dynamic_cast<SelectLinePanel *>(
+    //     GetParent()->FindWindow(Enum::SL_Panel_ID));
 
     button_panel->disableAllButtons();
     timer.Stop();
     imgData.clear();
-    imgData = sl_panel->GetImgData();
+    // imgData = sl_panel->GetImgData();
     img_bitmap->SetImage(imgData[0].image);
     img_bitmap->drawBitMap();
 

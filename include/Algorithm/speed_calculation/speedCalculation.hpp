@@ -2,8 +2,6 @@
 #define SPEED_CALCULATION_HPP
 
 #include <Utils/DataStruct.hpp>
-#include <Utils/FileReader/fileAVI.hpp>
-#include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageUtils.hpp>
 #include <chrono>
 #include <opencv2/core.hpp>
