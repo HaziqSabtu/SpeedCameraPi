@@ -170,5 +170,17 @@ Line Line::Average(std::vector<Detection::Line> lines) {
     p2 /= static_cast<float>(lines.size());
 
     return Line(p1, p2);
-};
+}
+
+/**
+ * @brief Get the String Representation of Line
+ *
+ * @return std::string
+ */
+std::string Line::ToString() {
+    std::stringstream ss;
+    ss << "Line: (" << p1.x << ", " << p1.y << ") -> (" << p2.x << ", " << p2.y
+       << ")";
+    return ss.str();
+}
 } // namespace Detection

@@ -13,6 +13,7 @@
 #define D_LINE_HPP
 
 #include <opencv2/core.hpp>
+#include <string>
 
 namespace Detection {
 struct Line {
@@ -40,6 +41,8 @@ struct Line {
     bool isIntersect(cv::Point2f p, int radius);
 
     static Line Average(std::vector<Detection::Line> lines);
+
+    std::string ToString();
 };
 } // namespace Detection
 

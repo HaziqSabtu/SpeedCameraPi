@@ -39,11 +39,33 @@ void CameraBitmap::drawBitMap() {
                     1, color, 2);
     }
 
+    if (ptns != NULL && !ptns->empty()) {
+        for (auto p : *ptns) {
+            cv::circle(img_cp, p, 20, cv::Scalar(0, 0, 255), -1);
+        }
+    }
+
+    if (!houghLines.empty()) {
+        for (auto l : houghLines) {
+            cv::line(img_cp, l.p1, l.p2, cv::Scalar(0, 255, 0), 2);
+        }
+    }
+
+    if (selectedLines && !selectedLines->empty()) {
+        for (auto l : *selectedLines) {
+            cv::line(img_cp, l.p1, l.p2, cv::Scalar(0, 255, 255), 2);
+        }
+    }
+
     cv::Mat img_rs;
     cv::resize(img_cp, img_rs, cv::Size(resizeWidth, resizeHeight));
 
     wxImage wximg = matToWxImage(img_rs);
     SetBitmap(wxBitmap(wximg));
+}
+
+void CameraBitmap::SetPoints(std::vector<cv::Point2f> *ptns) {
+    this->ptns = ptns;
 }
 
 void CameraBitmap::SetIsCapturing(bool *isCapturing) {
@@ -52,6 +74,17 @@ void CameraBitmap::SetIsCapturing(bool *isCapturing) {
 
 void CameraBitmap::SetIsProcessing(bool *isProcessing) {
     this->isProcessing = isProcessing;
+}
+
+void CameraBitmap::SetHoughLines(std::vector<Detection::Line> houghLines) {
+    this->houghLines = houghLines;
+    drawBitMap();
+}
+
+void CameraBitmap::setSelectedLines(
+    std::vector<Detection::Line> *selectedLines) {
+    this->selectedLines = selectedLines;
+    drawBitMap();
 }
 
 // clang-format off
