@@ -4,19 +4,21 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
     : wxPanel(parent, id), threadPool(3) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
+    ptns = new std::vector<cv::Point2f>();
+
     img_bitmap = new CameraBitmap(this, Enum::CP_IMG_PANEL_ID);
     img_bitmap->SetIsCapturing(&isCapturing);
     img_bitmap->SetIsProcessing(&isProcessing);
+    img_bitmap->SetPoints(ptns);
     img_bitmap->Bind(wxEVT_SIZE, &CameraPanel::OnSize, this);
+    img_bitmap->Bind(wxEVT_LEFT_DOWN, &CameraPanel::OnLeftDown, this);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
     main_sizer->Add(img_bitmap, 1, wxEXPAND);
 
     SetSizer(main_sizer);
-
-    SetSize(800, 600);
-    Center();
+    Fit();
 
     CameraConfig cameraConfig = config->GetCameraConfig();
     camera.open(cameraConfig.Camera_ID);
@@ -67,6 +69,23 @@ void CameraPanel::OnTimer(wxTimerEvent &e) {
     }
 }
 
+void CameraPanel::OnLeftDown(wxMouseEvent &e) {
+    wxLogMessage("Left Down");
+    wxPoint mousePos = e.GetPosition();
+    wxPoint realPos = img_bitmap->GetRealMousePos(mousePos);
+    addPoints(realPos);
+    // checkForLine(realPos);
+    img_bitmap->drawBitMap();
+}
+
+void CameraPanel::addPoints(wxPoint realMousePos) {
+    if (ptns == NULL) {
+        ptns = new std::vector<cv::Point2f>();
+        img_bitmap->SetPoints(ptns);
+    }
+    ptns->push_back(cv::Point2f(realMousePos.x, realMousePos.y));
+}
+
 void CameraPanel::OnThreadCheck(wxTimerEvent &e) {
     if (!isThreadRunning) {
         threadCheckTimer.Stop();
@@ -87,14 +106,17 @@ void CameraPanel::OnCapture() {
     if (!imgData.empty()) {
         imgData.clear();
     }
+
     button_panel->DisableAllButtons();
-    OnToggleCamera();
+    timer.Stop();
+    // OnToggleCamera();
 
     captureExecutor(max);
+    img_bitmap->SetImage(imgData[0].image);
+
     siftExecutor(max);
 
     isProcessing = false;
-    timer.Stop();
 
     for (int i = 0; i < max; i++) {
         img_bitmap->SetImage(imgData[i].image);
@@ -107,7 +129,7 @@ void CameraPanel::OnCapture() {
         std::cout << "Time Diff: " << time << std::endl;
     }
 
-    OnToggleCamera();
+    // OnToggleCamera();
     button_panel->EnableAllButtons();
 }
 
@@ -136,35 +158,52 @@ void CameraPanel::OnLoadFile() {
     if (!imgData.empty()) {
         imgData.clear();
     }
+
     button_panel->DisableAllButtons();
-    OnToggleCamera();
+    timer.Stop();
+    // OnToggleCamera();
 
     loadExecutor(max);
+    // ! No guarantee that the images are already loaded
+    img_bitmap->SetImage(imgData[0].image);
+
     siftExecutor(max);
+    std::cout << "Sift Done" << std::endl;
+    houghExecutor(max);
+    std::cout << "Hough Done" << std::endl;
 
     isProcessing = false;
-    timer.Stop();
 
     for (int i = 0; i < 5; i++) {
-        img_bitmap->SetImage(imgData[i].image);
+        // img_bitmap->SetImage(imgData[i].image);
+        img_bitmap->SetImage(imgData[i].hough.canny);
+        cv::Mat canny = imgData[i].hough.canny;
+        std::cout << "Canny: " << canny.size() << std::endl;
+        std::cout << "Canny: " << canny.channels() << std::endl;
+        std::vector<Detection::Line> lines = imgData[i].hough.lines;
+        for (Detection::Line line : lines) {
+            std::cout << line.ToString() << std::endl;
+        }
         wxYield();
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 
-    OnToggleCamera();
+    // OnToggleCamera();
     button_panel->EnableAllButtons();
 }
 
 void CameraPanel::OnToggleCamera() {
-    if (isTimerRunning) {
-        isTimerRunning = false;
-        timer.Start(1000);
-        img_bitmap->SetImage();
-    } else {
-        isTimerRunning = true;
-        AppConfig *config = new AppConfig();
-        timer.Start(config->GetCameraPanelRefreshRate());
-    }
+    AppConfig *config = new AppConfig();
+    timer.Start(config->GetCameraPanelRefreshRate());
+    // if (isTimerRunning) {
+    //     isTimerRunning = false;
+    //     timer.Start(1000);
+    //     img_bitmap->SetImage();
+    // } else {
+    //     isTimerRunning = true;
+    //     AppConfig *config = new AppConfig();
+    //     timer.Start(config->GetCameraPanelRefreshRate());
+    // }
 }
 
 std::vector<ImageData> CameraPanel::GetImgData() {
@@ -199,6 +238,17 @@ void CameraPanel::siftExecutor(const int max) {
     }
     while (threadPool.isWorkerBusy() ||
            threadPool.HasTasks(TaskType::TASK_SIFT)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        wxYield();
+    }
+}
+
+void CameraPanel::houghExecutor(const int max) {
+    for (int i = 0; i < max; i++) {
+        threadPool.AddTask(new HoughTask(&imgData, i));
+    }
+    while (threadPool.isWorkerBusy() ||
+           threadPool.HasTasks(TaskType::TASK_HOUGHLINE)) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         wxYield();
     }

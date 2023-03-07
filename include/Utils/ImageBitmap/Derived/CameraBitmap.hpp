@@ -13,12 +13,13 @@ class CameraBitmap : public ImageBitmap {
     virtual ~CameraBitmap();
 
     void SetIsCapturing(bool *isCapturing);
+    void SetPoints(std::vector<cv::Point2f> *ptns);
     void SetIsProcessing(bool *isProcessing);
     virtual void drawBitMap() override;
     void SetImg(cv::Mat *img);
 
   private:
-    // std::vector<cv::Point2f> *ptns;
+    std::vector<cv::Point2f> *ptns;
     bool *isCapturing;
     bool *isProcessing;
     wxDECLARE_EVENT_TABLE();

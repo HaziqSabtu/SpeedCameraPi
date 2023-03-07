@@ -4,6 +4,7 @@
 #include <Thread/CaptureThread.hpp>
 #include <Thread/DemoThread.hpp>
 #include <Thread/Task/Task_Capture.hpp>
+#include <Thread/Task/Task_HoughLine.hpp>
 #include <Thread/Task/Task_Load.hpp>
 #include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
@@ -34,9 +35,12 @@ class CameraPanel : public wxPanel {
     void OnToggleCamera();
 
   private:
+    void addPoints(wxPoint realMousePos);
+    void OnLeftDown(wxMouseEvent &e);
     void captureExecutor(const int max);
     void loadExecutor(const int max);
     void siftExecutor(const int max);
+    void houghExecutor(const int max);
     int maxLoadFrame;
     wxString filePath;
     cv::Mat frame;
@@ -44,6 +48,7 @@ class CameraPanel : public wxPanel {
     bool isProcessing;
     bool isThreadRunning;
     bool isTimerRunning = true;
+    std::vector<cv::Point2f> *ptns;
 
     cv::VideoCapture camera;
     ThreadPool threadPool;

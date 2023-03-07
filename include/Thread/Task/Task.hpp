@@ -22,6 +22,7 @@ enum TaskType {
     TASK_CAPTURE,
     TASK_LOAD,
     TASK_SIFT,
+    TASK_HOUGHLINE,
 };
 
 /**

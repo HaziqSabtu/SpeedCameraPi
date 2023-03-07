@@ -39,11 +39,21 @@ void CameraBitmap::drawBitMap() {
                     1, color, 2);
     }
 
+    if (ptns != NULL && !ptns->empty()) {
+        for (auto p : *ptns) {
+            cv::circle(img_cp, p, 20, cv::Scalar(0, 0, 255), -1);
+        }
+    }
+
     cv::Mat img_rs;
     cv::resize(img_cp, img_rs, cv::Size(resizeWidth, resizeHeight));
 
     wxImage wximg = matToWxImage(img_rs);
     SetBitmap(wxBitmap(wximg));
+}
+
+void CameraBitmap::SetPoints(std::vector<cv::Point2f> *ptns) {
+    this->ptns = ptns;
 }
 
 void CameraBitmap::SetIsCapturing(bool *isCapturing) {

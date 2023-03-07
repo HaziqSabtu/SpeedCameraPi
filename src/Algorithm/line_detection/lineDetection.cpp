@@ -79,5 +79,5 @@ std::vector<Detection::Line> LineDetection::GetLines() {
  * @return Detection::HoughData
  */
 Detection::HoughData LineDetection::GetHoughData() {
-    return Detection::HoughData(cannyImage.clone(), GetLines());
+    return Detection::HoughData(GetCanny(), GetLines());
 }
