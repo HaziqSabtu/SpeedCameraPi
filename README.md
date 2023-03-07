@@ -1,9 +1,10 @@
-# wx_cmake_template
+# SpeedCameraPi(SCP)
 
-A template for multiplatform WxWidgets projects using CMake
+This application is designed to measure the speed of moving vehicles using computer vision. The software uses advanced algorithms and image processing technique that available nowadays to analyze video footage captured by a camera. This application can accurately detect and track moving vehicles, and then calculate their speed based on the distance and time they travel between two frames.
 
-For details see the [blog post](https://www.justdevtutorials.com/post/wxwidgets-cmake/) and the [video](https://www.youtube.com/watch?v=MfuBS9n5_aY) tutorial showcasing installation on Linux, Windows and Mac OS X. 
+For a first contact with SCP, the best place is to have a look at the getting started page that show you how to compile the application.
 
----
-Check out the blog for more! [www.justdevtutorials.com](https://www.justdevtutorials.com)
----
+## Useful links
+
+-   OpenCV: [https://opencv.org/](https://opencv.org/)
+-   wxWidgets: [https://www.wxwidgets.org/](https://www.wxwidgets.org/)
