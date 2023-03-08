@@ -31,6 +31,13 @@ void FlowTask::Execute() {
         imgData->at(i).SetFlow(
             objectDetection.updateFlow(imgData->at(i), imgData->at(i - 1)));
     }
+
+    for (int i = 1; i < imgData->size(); i++) {
+        Detection::OpticalFlowData prevData = imgData->at(i - 1).flow;
+        Detection::OpticalFlowData currData = imgData->at(i).flow;
+
+        imgData->at(i).SetDetection(currData.threshold(prevData, 0.2));
+    }
 }
 
 /**

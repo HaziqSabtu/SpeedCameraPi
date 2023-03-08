@@ -22,19 +22,24 @@ struct ImageData {
     std::chrono::high_resolution_clock::time_point time;
     Detection::HoughData hough;
     Detection::OpticalFlowData flow;
+    Detection::DetectionData detection;
 
     ImageData() {}
 
     ImageData(cv::Mat image,
               std::chrono::high_resolution_clock::time_point time)
-        : image(image), time(time), hough(), flow() {}
+        : image(image), time(time), hough(), flow(), detection() {}
 
     ImageData(cv::Mat image)
         : image(image), time(std::chrono::high_resolution_clock::now()),
-          hough(), flow() {}
+          hough(), flow(), detection() {}
 
     void SetHough(Detection::HoughData hough) { this->hough = hough; }
     void SetFlow(Detection::OpticalFlowData flow) { this->flow = flow; }
+    void SetDetection(Detection::DetectionData detection) {
+        this->detection = detection;
+    }
+    Detection::OpticalFlowData GetFlow() { return flow; }
     double TimeDiff(ImageData &data) {
         return std::chrono::duration_cast<std::chrono::microseconds>(time -
                                                                      data.time)

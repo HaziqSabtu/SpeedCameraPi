@@ -19,8 +19,19 @@ namespace Detection {
  * @param point Optical Flow Point in cv::Point2f
  * @param error error of Optical Flow Point
  */
-OFPoint::OFPoint(int id, cv::Point2f point, float error)
-    : id(id), point(point), error(error) {}
+OFPoint::OFPoint(int id, cv::Point2f point, float error, uchar status)
+    : id(id), point(point), error(error), status(status) {}
+
+/**
+ * @brief Get the Distance between two Optical Flow Point
+ *
+ * @param p1 First Optical Flow Point
+ * @param p2 Second Optical Flow Point
+ * @return float distance
+ */
+float OFPoint::distance(OFPoint &p1, OFPoint &p2) {
+    return cv::norm(p1.point - p2.point);
+}
 
 /**
  * @brief Construct a new Optical Flow Data:: Optical Flow Data object
@@ -81,7 +92,7 @@ void OpticalFlowData::push(std::vector<cv::Point2f> points) {
         data.clear();
     }
     for (int i = 0; i < points.size(); i++) {
-        data.push_back(Detection::OFPoint(i, points[i], 0));
+        data.push_back(Detection::OFPoint(i, points[i], 0, 1));
     }
 }
 
@@ -99,6 +110,7 @@ void OpticalFlowData::push(std::vector<cv::Point2f> points) {
  * @throw "No points detected" if points is empty
  * @throw "Size of points and OFData not match" if size of points and OFData not
  */
+// TODO: Refractor again
 void OpticalFlowData::push(OpticalFlowData &OFData,
                            std::vector<cv::Point2f> points,
                            std::vector<float> errors,
@@ -111,16 +123,22 @@ void OpticalFlowData::push(OpticalFlowData &OFData,
         throw "Size of points and OFData not match";
     }
 
+    if (OFData.data.size() != status.size() || status.size() != errors.size()) {
+        throw "Unmatched size of status and errors";
+    }
+
     if (!data.empty()) {
         data.clear();
     }
 
     for (int i = 0; i < points.size(); i++) {
-        if (status[i] == 1) {
-            data.push_back(
-                Detection::OFPoint(OFData[i].id, points[i], errors[i]));
-        }
+        data.push_back(
+            Detection::OFPoint(OFData[i].id, points[i], errors[i], status[i]));
     }
+}
+
+std::vector<cv::Point2f> OpticalFlowData::GetPoints() {
+    return GetPoints(data);
 }
 
 /**
@@ -128,12 +146,13 @@ void OpticalFlowData::push(OpticalFlowData &OFData,
  *
  * @return std::vector<cv::Point2f>
  */
-std::vector<cv::Point2f> OpticalFlowData::GetPoints() {
-    std::vector<cv::Point2f> points;
-    for (int i = 0; i < data.size(); i++) {
-        points.push_back(data[i].point);
+std::vector<cv::Point2f>
+OpticalFlowData::GetPoints(std::vector<OFPoint> &points) {
+    std::vector<cv::Point2f> p;
+    for (int i = 0; i < points.size(); i++) {
+        p.push_back(points[i].point);
     }
-    return points;
+    return p;
 }
 
 /**
@@ -168,6 +187,52 @@ void OpticalFlowData::update(OpticalFlowData OFData) {
                                             }) == OFData.data.end();
                          }),
                data.end());
+}
+
+std::vector<Detection::OFPoint>
+OpticalFlowData::threshold(OpticalFlowData &previous, float threshold) {
+    std::vector<Detection::OFPoint> points;
+    for (int i = 0; i < data.size(); i++) {
+        Detection::OFPoint currP = data[i];
+        Detection::OFPoint prevP = previous.GetPointById(currP.id);
+        if (currP.status == 1 && prevP.status == 1 &&
+            OFPoint::distance(currP, prevP) > threshold) {
+            points.push_back(data[i]);
+        }
+    }
+    return points;
+}
+
+Detection::OFPoint OpticalFlowData::GetPointById(int id) {
+    auto p = find_if(
+        data.begin(), data.end(),
+        [id](const Detection::OFPoint &point) { return point.id == id; });
+
+    if (p == data.end()) {
+        throw std::runtime_error("No point found with id " +
+                                 std::to_string(id));
+    }
+
+    return *p;
+}
+
+DetectionData::DetectionData() : points(std::vector<Detection::OFPoint>()) {}
+
+DetectionData::DetectionData(std::vector<Detection::OFPoint> points)
+    : points(points) {}
+
+std::vector<cv::Point2f> DetectionData::GetPoints() {
+    return OpticalFlowData::GetPoints(points);
+}
+
+cv::Rect DetectionData::GetRect() { return cv::boundingRect(GetPoints()); }
+
+Detection::Line DetectionData::GetLine() {
+    std::vector<cv::Point2f> p = GetPoints();
+    std::sort(p.begin(), p.end(),
+              [](cv::Point2f &a, cv::Point2f &b) { return a.y > b.y; });
+    cv::Point2f selected = p.front();
+    return Detection::Line(selected, cv::Point2f(selected.x + 1, selected.y));
 }
 
 } // namespace Detection

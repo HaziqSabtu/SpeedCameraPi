@@ -4,6 +4,7 @@
 #include <Thread/Task/Task_Capture.hpp>
 #include <Thread/Task/Task_HoughLine.hpp>
 #include <Thread/Task/Task_Load.hpp>
+#include <Thread/Task/Task_OpticalFlow.hpp>
 #include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
@@ -37,6 +38,7 @@ class CameraPanel : public wxPanel {
     void siftExecutor(const int max);
     void houghExecutor(const int max);
     void houghExecutorSingle(int id);
+    void flowExecutor(const int max);
     void checkForLine(wxPoint realMousePos);
     void addLine(Detection::Line line);
 

@@ -1,7 +1,7 @@
 #include <UI/CameraPanel/Panel.hpp>
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
-    : wxPanel(parent, id), threadPool(3) {
+    : wxPanel(parent, id), threadPool(1) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
     ptns = new std::vector<cv::Point2f>();
@@ -173,6 +173,7 @@ void CameraPanel::OnLoadFile() {
     img_bitmap->SetHoughLines(imgData[0].hough.lines);
     siftExecutor(max);
     // houghExecutor(max);
+    flowExecutor(max);
 
     isProcessing = false;
     img_bitmap->drawBitMap();
@@ -279,6 +280,32 @@ void CameraPanel::houghExecutorSingle(int id) {
            threadPool.HasTasks(TaskType::TASK_HOUGHLINE)) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         wxYield();
+    }
+}
+
+void CameraPanel::flowExecutor(const int max) {
+    std::cout << "Flow Executor" << std::endl;
+    threadPool.AddTask(new FlowTask(&imgData));
+    std::cout << "finish add task" << std::endl;
+    while (threadPool.isWorkerBusy() ||
+           threadPool.HasTasks(TaskType::TASK_FLOW)) {
+        std::cout << "waiting" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        wxYield();
+    }
+    std::cout << "finish" << std::endl;
+
+    for (int i = 0; i < max; i++) {
+        std::vector<cv::Point2f> points = imgData[i].flow.GetPoints();
+        std::vector<Detection::OFPoint> ofPoints = imgData[i].detection.points;
+        std::cout << "########################" << std::endl;
+        std::cout << "Flow: " << i << "   :size: " << points.size()
+                  << std::endl;
+        std::cout << "OF: " << i << "   :size: " << ofPoints.size()
+                  << std::endl;
+        for (int i = 0; i < 10; i++) {
+            std::cout << points[i] << std::endl;
+        }
     }
 }
 
