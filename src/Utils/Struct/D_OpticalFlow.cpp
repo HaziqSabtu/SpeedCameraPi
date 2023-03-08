@@ -25,6 +25,11 @@ OFPoint::OFPoint(int id, cv::Point2f point, float error)
 /**
  * @brief Construct a new Optical Flow Data:: Optical Flow Data object
  *
+ */
+OpticalFlowData::OpticalFlowData() {}
+/**
+ * @brief Construct a new Optical Flow Data:: Optical Flow Data object
+ *
  * @param gray gray image
  */
 OpticalFlowData::OpticalFlowData(cv::Mat gray)
@@ -94,7 +99,7 @@ void OpticalFlowData::push(std::vector<cv::Point2f> points) {
  * @throw "No points detected" if points is empty
  * @throw "Size of points and OFData not match" if size of points and OFData not
  */
-void OpticalFlowData::push(OpticalFlowData OFData,
+void OpticalFlowData::push(OpticalFlowData &OFData,
                            std::vector<cv::Point2f> points,
                            std::vector<float> errors,
                            std::vector<uchar> status) {
@@ -123,7 +128,7 @@ void OpticalFlowData::push(OpticalFlowData OFData,
  *
  * @return std::vector<cv::Point2f>
  */
-std::vector<cv::Point2f> OpticalFlowData::GetPoint() {
+std::vector<cv::Point2f> OpticalFlowData::GetPoints() {
     std::vector<cv::Point2f> points;
     for (int i = 0; i < data.size(); i++) {
         points.push_back(data[i].point);
@@ -148,12 +153,12 @@ void OpticalFlowData::update(OpticalFlowData OFData) {
         return;
     }
 
-    // is this necessary?
-    // arent data is always sorted?
-    // therefore normal iteration is enough
-    // maybe...
-    // but this is safer
-    // but with higher complexity
+    /**
+     * * is this necessary? aren't data is always sorted?
+     * * therefore normal iteration is enough maybe...
+     * * but this is safer but with higher complexity
+     *
+     */
     data.erase(remove_if(data.begin(), data.end(),
                          [&OFData](Detection::OFPoint &point) {
                              return find_if(OFData.data.begin(),

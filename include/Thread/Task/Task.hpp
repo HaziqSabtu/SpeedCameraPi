@@ -18,11 +18,12 @@
  *
  */
 enum TaskType {
-    TASK_TYPE_NONE,
+    TASK_NONE,
     TASK_CAPTURE,
     TASK_LOAD,
     TASK_SIFT,
     TASK_HOUGHLINE,
+    TASK_FLOW,
 };
 
 /**

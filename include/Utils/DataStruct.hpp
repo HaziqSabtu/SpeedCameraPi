@@ -13,6 +13,7 @@
 #define DATA_STRUCT_HPP
 
 #include <Utils/Struct/D_Hough.hpp>
+#include <Utils/Struct/D_OpticalFlow.hpp>
 #include <chrono>
 #include <opencv2/opencv.hpp>
 
@@ -20,19 +21,20 @@ struct ImageData {
     cv::Mat image;
     std::chrono::high_resolution_clock::time_point time;
     Detection::HoughData hough;
+    Detection::OpticalFlowData flow;
 
     ImageData() {}
 
     ImageData(cv::Mat image,
               std::chrono::high_resolution_clock::time_point time)
-        : image(image), time(time), hough() {}
+        : image(image), time(time), hough(), flow() {}
 
     ImageData(cv::Mat image)
         : image(image), time(std::chrono::high_resolution_clock::now()),
-          hough() {}
+          hough(), flow() {}
 
     void SetHough(Detection::HoughData hough) { this->hough = hough; }
-
+    void SetFlow(Detection::OpticalFlowData flow) { this->flow = flow; }
     double TimeDiff(ImageData &data) {
         return std::chrono::duration_cast<std::chrono::microseconds>(time -
                                                                      data.time)

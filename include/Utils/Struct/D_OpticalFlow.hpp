@@ -35,14 +35,15 @@ struct OpticalFlowData {
     cv::Mat gray;
     std::vector<Detection::OFPoint> data;
 
+    OpticalFlowData();
     OpticalFlowData(cv::Mat gray);
     OpticalFlowData(cv::Mat gray, std::vector<cv::Point2f> points);
     Detection::OFPoint &operator[](int index);
     int size() const;
     void push(std::vector<cv::Point2f> points);
-    void push(OpticalFlowData OFData, std::vector<cv::Point2f> points,
+    void push(OpticalFlowData &OFData, std::vector<cv::Point2f> points,
               std::vector<float> errors, std::vector<uchar> status);
-    std::vector<cv::Point2f> GetPoint();
+    std::vector<cv::Point2f> GetPoints();
     void update(OpticalFlowData OFData);
 };
 } // namespace Detection

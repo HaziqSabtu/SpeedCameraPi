@@ -18,7 +18,7 @@
  * @param id index of target image in vector
  */
 HoughTask::HoughTask(std::vector<ImageData> *imgData, int id)
-    : type(TaskType::TASK_HOUGHLINE), imgData(imgData), id(id) {}
+    : type(TaskType::TASK_FLOW), imgData(imgData), id(id) {}
 
 /**
  * @brief Execute Hough Task
@@ -26,11 +26,9 @@ HoughTask::HoughTask(std::vector<ImageData> *imgData, int id)
  *
  */
 void HoughTask::Execute() {
-    std::cout << "HoughTask::Execute(): " << id << std::endl;
     ImageData target = (*imgData)[id];
     LineDetection lineDetection;
     lineDetection.SetImage(target.image);
-    std::cout << "HoughTask::Execute(): complete" << id << std::endl;
     imgData->at(id).SetHough(lineDetection.GetHoughData());
 }
 
