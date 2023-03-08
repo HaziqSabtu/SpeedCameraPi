@@ -41,13 +41,4 @@ Detection::OpticalFlowData OD::updateFlow(ImageData &current,
     return flow;
 }
 
-void OD::detect(std::vector<cv::Mat> &frames) {
-    Detection::OpticalFlowData prevData = init(frames[0]);
-    for (int i = 1; i < frames.size(); i++) {
-        Detection::OpticalFlowData currData =
-            updateFlow(frames[i], frames[i - 1]);
-        currData.threshold(prevData, minPointDistance);
-        prevData = currData;
-    }
-}
 } // namespace Detection
