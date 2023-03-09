@@ -8,6 +8,7 @@ class MyApp : public wxApp {
   public:
     bool OnInit() {
         AppConfig conf;
+        wxInitAllImageHandlers();
 
         wxLog::SetActiveTarget(new AppLogger);
         wxLogMessage("Application Started");

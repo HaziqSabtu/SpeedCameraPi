@@ -2,10 +2,11 @@
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id), imgData(std::vector<ImageData>()),
-      captureThread(nullptr), loadFileThread(nullptr), threadPool(1) {
+      captureThread(nullptr), loadFileThread(nullptr), threadPool(1),
+      processThread(nullptr) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
-    img_bitmap = new CameraBitmap(this, Enum::CP_IMG_PANEL_ID);
+    img_bitmap = new wxImagePanel(this);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
@@ -14,8 +15,8 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     SetSizer(main_sizer);
     Fit();
 
-    img_bitmap->Bind(wxEVT_SIZE, &CameraPanel::OnSize, this);
-    img_bitmap->Bind(wxEVT_LEFT_DOWN, &CameraPanel::OnLeftDown, this);
+    // img_bitmap->Bind(wxEVT_SIZE, &CameraPanel::OnSize, this);
+    // img_bitmap->Bind(wxEVT_LEFT_DOWN, &CameraPanel::OnLeftDown, this);
 
     AppConfig *config = new AppConfig();
     CameraConfig cameraConfig = config->GetCameraConfig();
@@ -54,11 +55,16 @@ CameraPanel::~CameraPanel() {
         delete processThread;
         processThread = nullptr;
     }
+
+    delete button_panel;
+    delete img_bitmap;
 }
 
 void CameraPanel::OnLeftDown(wxMouseEvent &e) {}
 
-void CameraPanel::OnSize(wxSizeEvent &e) { img_bitmap->drawBitMap(); }
+void CameraPanel::OnSize(wxSizeEvent &e) {
+    // img_bitmap->drawBitMap(); }
+}
 
 void CameraPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_Capture_Button_ID) {

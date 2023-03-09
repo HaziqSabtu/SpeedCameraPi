@@ -17,6 +17,7 @@
 #include <Utils/Config/ConfigStruct.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
+#include <Utils/ImageBitmap/Bit.hpp>
 #include <Utils/ImageBitmap/Derived/CameraBitmap.hpp>
 #include <opencv2/opencv.hpp>
 #include <wx/wx.h>
@@ -65,7 +66,8 @@ class CameraPanel : public wxPanel {
     // wxTimer timer;
     // wxTimer threadCheckTimer;
     CameraPanelButton *button_panel;
-    CameraBitmap *img_bitmap;
+    // CameraBitmap *img_bitmap;
+    wxImagePanel *img_bitmap;
     wxBoxSizer *main_sizer;
 
     // wxCriticalSection criticalSection;
