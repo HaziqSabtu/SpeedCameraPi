@@ -44,7 +44,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
     event.SetImageData(first);
     wxPostEvent(parent, event);
 
-    ProcessImageEvent event2(c_PROCESS_IMAGE_EVENT);
+    wxCommandEvent event2(c_PROCESS_IMAGE_EVENT);
     wxPostEvent(parent, event2);
     return 0;
 }

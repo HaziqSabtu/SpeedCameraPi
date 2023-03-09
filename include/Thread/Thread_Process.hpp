@@ -2,6 +2,7 @@
 #define PROCESS_THREAD_HPP
 
 #include <Event/Event_UpdateImage.hpp>
+#include <Thread/Task/Task_OpticalFlow.hpp>
 #include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <opencv2/opencv.hpp>

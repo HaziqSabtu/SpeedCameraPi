@@ -94,7 +94,7 @@ void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
     }
 }
 
-void CameraPanel::OnProcessImage(ProcessImageEvent &e) {
+void CameraPanel::OnProcessImage(wxCommandEvent &e) {
     std::cout << "Process Image" << std::endl;
     processThread = new ProcessThread(this, &threadPool, &imgData);
     processThread->Run();
@@ -117,6 +117,6 @@ void CameraPanel::OnLoadFile() {
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel) 
     EVT_UPDATEIMAGE(wxID_ANY, CameraPanel::OnUpdateImage)
-    EVT_PROCESSIMAGE(wxID_ANY, CameraPanel::OnProcessImage)
+    EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT ,CameraPanel::OnProcessImage)
     EVT_BUTTON(wxID_ANY, CameraPanel::OnButton)
 wxEND_EVENT_TABLE()

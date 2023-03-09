@@ -75,7 +75,7 @@ class CameraPanel : public wxPanel {
     void OnLeftDown(wxMouseEvent &e);
     void OnSize(wxSizeEvent &e);
     void OnUpdateImage(UpdateImageEvent &e);
-    void OnProcessImage(ProcessImageEvent &e);
+    void OnProcessImage(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()
 };
