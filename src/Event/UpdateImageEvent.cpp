@@ -1,23 +1,22 @@
 #include <Event/UpdateImageEvent.hpp>
 
-// wxDECLARE_EVENT(SET_IMAGE_EVENT_TYPE, SetImageEvent);
-wxDEFINE_EVENT(SET_IMAGE_EVENT_TYPE, SetImageEvent);
+wxDEFINE_EVENT(c_UPDATE_IMAGE_EVENT, UpdateImageEvent);
 
-SetImageEvent::SetImageEvent(wxEventType eventType, int id)
+UpdateImageEvent::UpdateImageEvent(wxEventType eventType, int id)
     : wxCommandEvent(eventType, id) {}
 
-SetImageEvent::SetImageEvent(const SetImageEvent &e) : wxCommandEvent(e) {
+UpdateImageEvent::UpdateImageEvent(const UpdateImageEvent &e)
+    : wxCommandEvent(e) {
     this->SetImageData(e.GetImageData());
 }
 
-wxEvent *SetImageEvent::Clone() const { return new SetImageEvent(*this); }
+wxEvent *UpdateImageEvent::Clone() const { return new UpdateImageEvent(*this); }
 
-void SetImageEvent::SetImageData(const std::string &image) {
-    // clone string to avoid dangling pointer
+// is cloning necessary? since the image will be cloned by BitMap
+void UpdateImageEvent::SetImageData(const cv::Mat &image) {
     m_imageData = image;
-    // m_imageData = image.clone();
 }
 
-// std::string SetImageEvent::GetImageData() const { return m_imageData.clone();
+cv::Mat UpdateImageEvent::GetImageData() const { return m_imageData; }
+// cv::Mat UpdateImageEvent::GetImageData() const { return m_imageData.clone();
 // }
-std::string SetImageEvent::GetImageData() const { return m_imageData; }

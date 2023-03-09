@@ -53,7 +53,7 @@ class CameraPanel : public wxPanel {
     // std::vector<cv::Point2f> *ptns;
     // std::vector<Detection::Line> *selectedLines;
 
-    // cv::VideoCapture camera;
+    cv::VideoCapture camera;
     // ThreadPool threadPool;
 
     // wxTimer timer;
@@ -71,7 +71,7 @@ class CameraPanel : public wxPanel {
     void OnButton(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);
     void OnSize(wxSizeEvent &e);
-    void OnSetImage(SetImageEvent &e);
+    void OnImageUpdate(UpdateImageEvent &e);
     ImageThread *m_imageThread;
 
     DECLARE_EVENT_TABLE()

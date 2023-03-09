@@ -16,10 +16,30 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     img_bitmap->Bind(wxEVT_SIZE, &CameraPanel::OnSize, this);
     img_bitmap->Bind(wxEVT_LEFT_DOWN, &CameraPanel::OnLeftDown, this);
 
-    Bind(SET_IMAGE_EVENT_TYPE, &CameraPanel::OnSetImage, this);
+    AppConfig *config = new AppConfig();
+    CameraConfig cameraConfig = config->GetCameraConfig();
+    camera.open(cameraConfig.Camera_ID);
+    if (!camera.isOpened()) {
+        wxMessageBox("Could not open camera", "Error", wxOK | wxICON_ERROR);
+        Close();
+    }
+    camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
+    camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
+    camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
 };
 
-CameraPanel::~CameraPanel() { delete m_imageThread; }
+CameraPanel::~CameraPanel() {
+    if (camera.isOpened()) {
+        camera.release();
+    }
+
+    if (m_imageThread != nullptr) {
+        m_imageThread->Delete();
+        m_imageThread->Wait();
+        delete m_imageThread;
+        m_imageThread = nullptr;
+    }
+}
 
 void CameraPanel::OnLeftDown(wxMouseEvent &e) {}
 
@@ -29,7 +49,7 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_Capture_Button_ID) {
         // OnCapture();
         if (m_imageThread == nullptr) {
-            m_imageThread = new ImageThread(this);
+            m_imageThread = new ImageThread(this, &camera);
             m_imageThread->Run();
         }
     }
@@ -49,22 +69,13 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     }
 }
 
-void CameraPanel::OnSetImage(SetImageEvent &e) {
-    std::cout << "test2" << std::endl;
-    // Get the image data from the custom event
-    std::string imageData = e.GetImageData();
-    std::cout << "Image data: " << imageData << std::endl;
-    // Convert the image data to a wxImage
-    // wxImage image(imageData.cols, imageData.rows, imageData.data, true);
-    // if (image.IsOk()) {
-    //     // Convert the wxImage to a wxBitmap
-    //     m_bitmap = wxBitmap(image);
-    //     Refresh();
-    // }
+void CameraPanel::OnImageUpdate(UpdateImageEvent &e) {
+    cv::Mat imageData = e.GetImageData();
+    img_bitmap->SetImage(imageData);
 }
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel) 
-    EVT_MYFOO(wxID_ANY, CameraPanel::OnSetImage)
+    EVT_UPDATEIMAGE(wxID_ANY, CameraPanel::OnImageUpdate)
     EVT_BUTTON(wxID_ANY, CameraPanel::OnButton)
 wxEND_EVENT_TABLE()

@@ -5,30 +5,27 @@
 #include <string>
 #include <wx/event.h>
 
-class SetImageEvent;
-wxDECLARE_EVENT(SET_IMAGE_EVENT_TYPE, SetImageEvent);
+class UpdateImageEvent;
+wxDECLARE_EVENT(c_UPDATE_IMAGE_EVENT, UpdateImageEvent);
 
-class SetImageEvent : public wxCommandEvent {
+class UpdateImageEvent : public wxCommandEvent {
   public:
-    SetImageEvent(wxEventType eventType = SET_IMAGE_EVENT_TYPE, int id = 0);
-    SetImageEvent(const SetImageEvent &e);
+    UpdateImageEvent(wxEventType eventType = c_UPDATE_IMAGE_EVENT, int id = 0);
+    UpdateImageEvent(const UpdateImageEvent &e);
     virtual wxEvent *Clone() const;
 
     // Define a method to set the image data
-    // void SetImageData(const cv::Mat &image);
-    void SetImageData(const std::string &image);
+    void SetImageData(const cv::Mat &image);
 
     // Define a method to get the image data
-    // cv::Mat GetImageData() const;
-    std::string GetImageData() const;
+    cv::Mat GetImageData() const;
 
   private:
-    // cv::Mat m_imageData;
-    std::string m_imageData;
+    cv::Mat m_imageData;
 };
 
-typedef void (wxEvtHandler::*MyFooEventFunction)(SetImageEvent &);
+typedef void (wxEvtHandler::*MyFooEventFunction)(UpdateImageEvent &);
 #define MyFooEventHandler(func) wxEVENT_HANDLER_CAST(MyFooEventFunction, func)
-#define EVT_MYFOO(id, func)                                                    \
-    wx__DECLARE_EVT1(SET_IMAGE_EVENT_TYPE, id, MyFooEventHandler(func))
+#define EVT_UPDATEIMAGE(id, func)                                              \
+    wx__DECLARE_EVT1(c_UPDATE_IMAGE_EVENT, id, MyFooEventHandler(func))
 #endif

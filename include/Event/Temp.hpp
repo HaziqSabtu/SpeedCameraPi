@@ -8,7 +8,7 @@
 
 class ImageThread : public wxThread {
   public:
-    ImageThread(wxEvtHandler *parent);
+    ImageThread(wxEvtHandler *parent, cv::VideoCapture *cap);
     ~ImageThread();
 
   protected:
@@ -16,6 +16,7 @@ class ImageThread : public wxThread {
 
   private:
     wxEvtHandler *m_parent;
+    cv::VideoCapture *m_cap;
 };
 
 #endif
