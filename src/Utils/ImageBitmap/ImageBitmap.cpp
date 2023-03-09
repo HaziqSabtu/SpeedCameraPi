@@ -8,6 +8,7 @@ ImageBitmap::ImageBitmap(wxWindow *parent, wxWindowID id,
     cv::putText(noImage, "No Image", cv::Point(200, 240),
                 cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2,
                 cv::LINE_AA);
+    this->image = noImage;
 }
 
 void ImageBitmap::SetImage(const cv::Mat &img) {

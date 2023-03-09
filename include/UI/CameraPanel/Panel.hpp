@@ -1,6 +1,8 @@
 #ifndef CAMERA_PANEL_HPP
 #define CAMERA_PANEL_HPP
 
+#include <Event/Temp.hpp>
+#include <Event/UpdateImageEvent.hpp>
 #include <Thread/Task/Task_Capture.hpp>
 #include <Thread/Task/Task_HoughLine.hpp>
 #include <Thread/Task/Task_Load.hpp>
@@ -18,58 +20,60 @@
 
 class CameraPanel : public wxPanel {
   public:
-    CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config);
+    CameraPanel(wxWindow *parent, wxWindowID id);
     ~CameraPanel();
-    std::vector<ImageData> GetImgData();
+    // std::vector<ImageData> GetImgData();
 
   public:
-    void OnButton(wxCommandEvent &e);
-    void OnTimer(wxTimerEvent &e);
-    void OnThreadCheck(wxTimerEvent &e);
-    void OnCapture();
-    void OnLoadFile();
-    void OnToggleCamera();
+    // void OnTimer(wxTimerEvent &e);
+    // void OnThreadCheck(wxTimerEvent &e);
+    // void OnCapture();
+    // void OnLoadFile();
+    // void OnToggleCamera();
 
   private:
-    void addPoints(wxPoint realMousePos);
-    void OnLeftDown(wxMouseEvent &e);
-    void captureExecutor(const int max);
-    void loadExecutor(const int max);
-    void siftExecutor(const int max);
-    void houghExecutor(const int max);
-    void houghExecutorSingle(int id);
-    void flowExecutor(const int max);
-    void checkForLine(wxPoint realMousePos);
-    void addLine(Detection::Line line);
+    // void addPoints(wxPoint realMousePos);
+    // void captureExecutor(const int max);
+    // void loadExecutor(const int max);
+    // void siftExecutor(const int max);
+    // void houghExecutor(const int max);
+    // void houghExecutorSingle(int id);
+    // void flowExecutor(const int max);
+    // void checkForLine(wxPoint realMousePos);
+    // void addLine(Detection::Line line);
 
-    int maxLoadFrame;
-    wxString filePath;
-    cv::Mat frame;
-    bool isCapturing;
-    bool isProcessing;
-    bool isThreadRunning;
-    bool isTimerRunning = true;
+    // int maxLoadFrame;
+    // wxString filePath;
+    // cv::Mat frame;
+    // bool isCapturing;
+    // bool isProcessing;
+    // bool isThreadRunning;
+    // bool isTimerRunning = true;
 
-    std::vector<cv::Point2f> *ptns;
-    std::vector<Detection::Line> *selectedLines;
+    // std::vector<cv::Point2f> *ptns;
+    // std::vector<Detection::Line> *selectedLines;
 
-    cv::VideoCapture camera;
-    ThreadPool threadPool;
+    // cv::VideoCapture camera;
+    // ThreadPool threadPool;
 
-    wxTimer timer;
-    wxTimer threadCheckTimer;
+    // wxTimer timer;
+    // wxTimer threadCheckTimer;
     CameraPanelButton *button_panel;
     CameraBitmap *img_bitmap;
-
     wxBoxSizer *main_sizer;
 
-    wxCriticalSection criticalSection;
-    std::vector<ImageData> imgData;
+    // wxCriticalSection criticalSection;
+    // std::vector<ImageData> imgData;
 
-    wxThread *captureThread;
-    wxThread *loadThread;
+    // wxThread *captureThread;
+    // wxThread *loadThread;
 
+    void OnButton(wxCommandEvent &e);
+    void OnLeftDown(wxMouseEvent &e);
     void OnSize(wxSizeEvent &e);
+    void OnSetImage(SetImageEvent &e);
+    ImageThread *m_imageThread;
+
     DECLARE_EVENT_TABLE()
 };
 #endif
