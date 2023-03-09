@@ -1,4 +1,3 @@
-// CaptureThread.cpp
 #include <Thread/Thread_Capture.hpp>
 
 CaptureThread::CaptureThread(wxEvtHandler *parent, cv::VideoCapture *cap)
@@ -21,10 +20,12 @@ wxThread::ExitCode CaptureThread::Entry() {
             std::cout << "Failed to capture frame" << std::endl;
             continue;
         }
-        UpdateImageEvent event(c_UPDATE_IMAGE_EVENT);
+        UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
         event.SetImageData(frame);
         wxPostEvent(m_parent, event);
         wxMilliSleep(30);
     }
+    UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, CLEAR_IMAGE);
+    wxPostEvent(m_parent, event);
     return 0;
 }

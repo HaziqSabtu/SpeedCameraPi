@@ -1,4 +1,4 @@
-#include <Event/UpdateImageEvent.hpp>
+#include <Event/Event_UpdateImage.hpp>
 
 wxDEFINE_EVENT(c_UPDATE_IMAGE_EVENT, UpdateImageEvent);
 
@@ -12,11 +12,9 @@ UpdateImageEvent::UpdateImageEvent(const UpdateImageEvent &e)
 
 wxEvent *UpdateImageEvent::Clone() const { return new UpdateImageEvent(*this); }
 
-// is cloning necessary? since the image will be cloned by BitMap
+// * is cloning necessary? since the image will be cloned by BitMap
 void UpdateImageEvent::SetImageData(const cv::Mat &image) {
     m_imageData = image;
 }
 
 cv::Mat UpdateImageEvent::GetImageData() const { return m_imageData; }
-// cv::Mat UpdateImageEvent::GetImageData() const { return m_imageData.clone();
-// }

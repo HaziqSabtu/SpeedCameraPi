@@ -1,7 +1,8 @@
 #include <UI/CameraPanel/Panel.hpp>
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
-    : wxPanel(parent, id) {
+    : wxPanel(parent, id), imgData(std::vector<ImageData>()),
+      captureThread(nullptr), loadFileThread(nullptr), threadPool(1) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new CameraBitmap(this, Enum::CP_IMG_PANEL_ID);
@@ -39,6 +40,20 @@ CameraPanel::~CameraPanel() {
         delete captureThread;
         captureThread = nullptr;
     }
+
+    if (loadFileThread != nullptr) {
+        loadFileThread->Delete();
+        loadFileThread->Wait();
+        delete loadFileThread;
+        loadFileThread = nullptr;
+    }
+
+    if (processThread != nullptr) {
+        processThread->Delete();
+        processThread->Wait();
+        delete processThread;
+        processThread = nullptr;
+    }
 }
 
 void CameraPanel::OnLeftDown(wxMouseEvent &e) {}
@@ -51,17 +66,16 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
         if (captureThread == nullptr) {
             captureThread = new CaptureThread(this, &camera);
             captureThread->Run();
+            return;
         }
+        captureThread->Delete();
+        captureThread->Wait();
+        delete captureThread;
+        captureThread = nullptr;
     }
 
     if (e.GetId() == Enum::CP_Load_Button_ID) {
-        // OnLoadFile();
-        if (captureThread != nullptr) {
-            captureThread->Delete();
-            captureThread->Wait();
-            delete captureThread;
-            captureThread = nullptr;
-        }
+        OnLoadFile();
     }
 
     if (e.GetId() == Enum::CP_Camera_Button_ID) {
@@ -69,13 +83,40 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     }
 }
 
-void CameraPanel::OnImageUpdate(UpdateImageEvent &e) {
-    cv::Mat imageData = e.GetImageData();
-    img_bitmap->SetImage(imageData);
+void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
+    if (e.GetId() == UPDATE_IMAGE) {
+        cv::Mat imageData = e.GetImageData();
+        img_bitmap->SetImage(imageData);
+    }
+
+    if (e.GetId() == CLEAR_IMAGE) {
+        img_bitmap->SetImage();
+    }
+}
+
+void CameraPanel::OnProcessImage(ProcessImageEvent &e) {
+    std::cout << "Process Image" << std::endl;
+    processThread = new ProcessThread(this, &threadPool, &imgData);
+    processThread->Run();
+}
+
+void CameraPanel::OnLoadFile() {
+    AppConfig *config = new AppConfig();
+    wxString filePath = config->GetLoadFileName();
+    if (filePath == "") {
+        return;
+    }
+    if (loadFileThread != nullptr) {
+        return;
+    }
+
+    loadFileThread = new LoadFileThread(this, &threadPool, &imgData, filePath);
+    loadFileThread->Run();
 }
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel) 
-    EVT_UPDATEIMAGE(wxID_ANY, CameraPanel::OnImageUpdate)
+    EVT_UPDATEIMAGE(wxID_ANY, CameraPanel::OnUpdateImage)
+    EVT_PROCESSIMAGE(wxID_ANY, CameraPanel::OnProcessImage)
     EVT_BUTTON(wxID_ANY, CameraPanel::OnButton)
 wxEND_EVENT_TABLE()

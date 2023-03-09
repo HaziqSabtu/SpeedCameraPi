@@ -1,7 +1,7 @@
 #ifndef CAPTURE_THREAD_HPP
 #define CAPTURE_THREAD_HPP
 
-#include <Event/UpdateImageEvent.hpp>
+#include <Event/Event_UpdateImage.hpp>
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <wx/thread.h>

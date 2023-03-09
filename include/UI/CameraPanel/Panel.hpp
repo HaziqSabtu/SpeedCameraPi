@@ -1,7 +1,8 @@
 #ifndef CAMERA_PANEL_HPP
 #define CAMERA_PANEL_HPP
 
-#include <Event/UpdateImageEvent.hpp>
+#include <Event/Event_ProcessImage.hpp>
+#include <Event/Event_UpdateImage.hpp>
 #include <Thread/Task/Task_Capture.hpp>
 #include <Thread/Task/Task_HoughLine.hpp>
 #include <Thread/Task/Task_Load.hpp>
@@ -9,6 +10,8 @@
 #include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <Thread/Thread_Capture.hpp>
+#include <Thread/Thread_LoadFile.hpp>
+#include <Thread/Thread_Process.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Config/ConfigStruct.hpp>
@@ -28,7 +31,7 @@ class CameraPanel : public wxPanel {
     // void OnTimer(wxTimerEvent &e);
     // void OnThreadCheck(wxTimerEvent &e);
     // void OnCapture();
-    // void OnLoadFile();
+    void OnLoadFile();
     // void OnToggleCamera();
 
   private:
@@ -55,7 +58,9 @@ class CameraPanel : public wxPanel {
 
     cv::VideoCapture camera;
     CaptureThread *captureThread;
-    // ThreadPool threadPool;
+    LoadFileThread *loadFileThread;
+    ProcessThread *processThread;
+    ThreadPool threadPool;
 
     // wxTimer timer;
     // wxTimer threadCheckTimer;
@@ -64,12 +69,13 @@ class CameraPanel : public wxPanel {
     wxBoxSizer *main_sizer;
 
     // wxCriticalSection criticalSection;
-    // std::vector<ImageData> imgData;
+    std::vector<ImageData> imgData;
 
     void OnButton(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);
     void OnSize(wxSizeEvent &e);
-    void OnImageUpdate(UpdateImageEvent &e);
+    void OnUpdateImage(UpdateImageEvent &e);
+    void OnProcessImage(ProcessImageEvent &e);
 
     DECLARE_EVENT_TABLE()
 };
