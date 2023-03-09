@@ -33,11 +33,11 @@ CameraPanel::~CameraPanel() {
         camera.release();
     }
 
-    if (m_imageThread != nullptr) {
-        m_imageThread->Delete();
-        m_imageThread->Wait();
-        delete m_imageThread;
-        m_imageThread = nullptr;
+    if (captureThread != nullptr) {
+        captureThread->Delete();
+        captureThread->Wait();
+        delete captureThread;
+        captureThread = nullptr;
     }
 }
 
@@ -48,19 +48,19 @@ void CameraPanel::OnSize(wxSizeEvent &e) { img_bitmap->drawBitMap(); }
 void CameraPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_Capture_Button_ID) {
         // OnCapture();
-        if (m_imageThread == nullptr) {
-            m_imageThread = new ImageThread(this, &camera);
-            m_imageThread->Run();
+        if (captureThread == nullptr) {
+            captureThread = new CaptureThread(this, &camera);
+            captureThread->Run();
         }
     }
 
     if (e.GetId() == Enum::CP_Load_Button_ID) {
         // OnLoadFile();
-        if (m_imageThread != nullptr) {
-            m_imageThread->Delete();
-            m_imageThread->Wait();
-            delete m_imageThread;
-            m_imageThread = nullptr;
+        if (captureThread != nullptr) {
+            captureThread->Delete();
+            captureThread->Wait();
+            delete captureThread;
+            captureThread = nullptr;
         }
     }
 

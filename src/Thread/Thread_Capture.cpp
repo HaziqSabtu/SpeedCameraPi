@@ -1,14 +1,14 @@
-// ImageThread.cpp
-#include <Event/Temp.hpp>
+// CaptureThread.cpp
+#include <Thread/Thread_Capture.hpp>
 
-ImageThread::ImageThread(wxEvtHandler *parent, cv::VideoCapture *cap)
+CaptureThread::CaptureThread(wxEvtHandler *parent, cv::VideoCapture *cap)
     : wxThread(wxTHREAD_JOINABLE), m_cap(cap) {
     this->m_parent = parent;
 }
 
-ImageThread::~ImageThread() {}
+CaptureThread::~CaptureThread() {}
 
-wxThread::ExitCode ImageThread::Entry() {
+wxThread::ExitCode CaptureThread::Entry() {
     if (!m_cap->isOpened()) {
         std::cout << "Failed to open camera" << std::endl;
         return 0;

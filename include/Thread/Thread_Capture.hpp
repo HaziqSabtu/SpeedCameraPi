@@ -1,15 +1,15 @@
-#ifndef TEMP_HPP
-#define TEMP_HPP
+#ifndef CAPTURE_THREAD_HPP
+#define CAPTURE_THREAD_HPP
 
 #include <Event/UpdateImageEvent.hpp>
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <wx/thread.h>
 
-class ImageThread : public wxThread {
+class CaptureThread : public wxThread {
   public:
-    ImageThread(wxEvtHandler *parent, cv::VideoCapture *cap);
-    ~ImageThread();
+    CaptureThread(wxEvtHandler *parent, cv::VideoCapture *cap);
+    ~CaptureThread();
 
   protected:
     virtual ExitCode Entry();
