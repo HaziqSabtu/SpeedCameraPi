@@ -1,17 +1,21 @@
 #include <UI/CameraPanel/Panel.hpp>
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
-    : wxPanel(parent, id), imgData(std::vector<ImageData>()),
-      captureThread(nullptr), loadFileThread(nullptr), threadPool(1),
+    : wxPanel(parent, id), imgData(std::vector<ImageData>()), threadPool(1),
       processThread(nullptr) {
-    button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
+    button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID,
+                                         &camera, &imgData, &threadPool);
+    button_panel_hough =
+        new ButtonPanelHough(this, Enum::CP_BUTTON_PANEL_HOUGH_ID);
 
     img_bitmap = new wxImagePanel(this);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
+    main_sizer->Add(button_panel_hough, 0, wxEXPAND);
     main_sizer->Add(img_bitmap, 1, wxEXPAND);
 
+    button_panel_hough->Hide();
     SetSizer(main_sizer);
     Fit();
 
@@ -35,19 +39,12 @@ CameraPanel::~CameraPanel() {
         camera.release();
     }
 
-    if (captureThread != nullptr) {
-        captureThread->Delete();
-        captureThread->Wait();
-        delete captureThread;
-        captureThread = nullptr;
-    }
-
-    if (loadFileThread != nullptr) {
-        loadFileThread->Delete();
-        loadFileThread->Wait();
-        delete loadFileThread;
-        loadFileThread = nullptr;
-    }
+    // if (loadFileThread != nullptr) {
+    //     loadFileThread->Delete();
+    //     loadFileThread->Wait();
+    //     delete loadFileThread;
+    //     loadFileThread = nullptr;
+    // }
 
     if (processThread != nullptr) {
         processThread->Delete();
@@ -67,25 +64,21 @@ void CameraPanel::OnSize(wxSizeEvent &e) {
 }
 
 void CameraPanel::OnButton(wxCommandEvent &e) {
-    if (e.GetId() == Enum::CP_Capture_Button_ID) {
-        // OnCapture();
-        if (captureThread == nullptr) {
-            captureThread = new CaptureThread(this, &camera);
-            captureThread->Run();
-            return;
-        }
-        captureThread->Delete();
-        captureThread->Wait();
-        delete captureThread;
-        captureThread = nullptr;
-    }
 
-    if (e.GetId() == Enum::CP_Load_Button_ID) {
-        OnLoadFile();
-    }
+    // if (e.GetId() == Enum::CP_Load_Button_ID) {
+    //     OnLoadFile();
+    // }
 
     if (e.GetId() == Enum::CP_Camera_Button_ID) {
-        // OnToggleCamera();
+        button_panel->Hide();
+        button_panel_hough->Show();
+        GetSizer()->Layout();
+    }
+
+    if (e.GetId() == Enum::CP_Canny_Button_ID) {
+        button_panel_hough->Hide();
+        button_panel->Show();
+        GetSizer()->Layout();
     }
 }
 
@@ -107,17 +100,17 @@ void CameraPanel::OnProcessImage(wxCommandEvent &e) {
 }
 
 void CameraPanel::OnLoadFile() {
-    AppConfig *config = new AppConfig();
-    wxString filePath = config->GetLoadFileName();
-    if (filePath == "") {
-        return;
-    }
-    if (loadFileThread != nullptr) {
-        return;
-    }
+    // AppConfig *config = new AppConfig();
+    // wxString filePath = config->GetLoadFileName();
+    // if (filePath == "") {
+    //     return;
+    // }
+    // if (loadFileThread != nullptr) {
+    //     return;
+    // }
 
-    loadFileThread = new LoadFileThread(this, &threadPool, &imgData, filePath);
-    loadFileThread->Run();
+    // loadFileThread = new LoadFileThread(this, &threadPool, &imgData,
+    // filePath); loadFileThread->Run();
 }
 
 // clang-format off

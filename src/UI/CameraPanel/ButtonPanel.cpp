@@ -1,14 +1,17 @@
 #include <UI/CameraPanel/ButtonPanel.hpp>
 
-CameraPanelButton::CameraPanelButton(wxWindow *parent, wxWindowID id)
+CameraPanelButton::CameraPanelButton(wxWindow *parent, wxWindowID id,
+                                     cv::VideoCapture *camera,
+                                     std::vector<ImageData> *imgData,
+                                     ThreadPool *pool)
     : wxPanel(parent, id) {
 
-    Capture_Button = new wxButton(this, Enum::CP_Capture_Button_ID, "Capture");
-    Load_Button = new wxButton(this, Enum::CP_Load_Button_ID, "Load");
+    Capture_Button =
+        new ButtonCapture(this, Enum::CP_Capture_Button_ID, camera);
+    Load_Button = new ButtonLoad(this, Enum::CP_Load_Button_ID, imgData, pool);
     ToggleCamera_Button =
         new wxButton(this, Enum::CP_Camera_Button_ID, "Toggle Camera");
-    Spacer = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition,
-                              wxDefaultSize, wxALIGN_RIGHT);
+    Spacer = new wxStaticText(this, wxID_ANY, "");
 
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
     button_sizer->Add(Capture_Button, 0, wxALL | wxCENTER, 5);

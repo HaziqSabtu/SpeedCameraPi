@@ -17,6 +17,15 @@ enum ProjectIDs {
     CP_Stop_Button_ID,
     CP_Load_Button_ID,
     CP_Camera_Button_ID,
+    CP_Camera_Button2_ID,
+
+    // CameraPanel->Hough
+    CP_BUTTON_PANEL_HOUGH_ID,
+    CP_Canny_Button_ID,
+    CP_Hough_Button_ID,
+    CP_Clear_Button_ID,
+    CP_Next_Button_ID,
+    CP_Prev_Button_ID,
 
     // SelectLinePanel
     SL_Panel_ID,

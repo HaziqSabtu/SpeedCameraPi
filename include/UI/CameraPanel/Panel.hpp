@@ -13,6 +13,7 @@
 #include <Thread/Thread_LoadFile.hpp>
 #include <Thread/Thread_Process.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
+#include <UI/CameraPanel/ButtonPanel_Hough.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Config/ConfigStruct.hpp>
 #include <Utils/DataStruct.hpp>
@@ -58,14 +59,15 @@ class CameraPanel : public wxPanel {
     // std::vector<Detection::Line> *selectedLines;
 
     cv::VideoCapture camera;
-    CaptureThread *captureThread;
-    LoadFileThread *loadFileThread;
+    // CaptureThread *captureThread;
+    // LoadFileThread *loadFileThread;
     ProcessThread *processThread;
     ThreadPool threadPool;
 
     // wxTimer timer;
     // wxTimer threadCheckTimer;
     CameraPanelButton *button_panel;
+    ButtonPanelHough *button_panel_hough;
     // CameraBitmap *img_bitmap;
     wxImagePanel *img_bitmap;
     wxBoxSizer *main_sizer;
