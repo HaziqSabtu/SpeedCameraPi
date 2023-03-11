@@ -14,6 +14,8 @@ class ButtonPanelHough : public wxPanel {
     ButtonPanelHough(wxWindow *parent, wxWindowID id);
     void DisableAllButtons();
     void EnableAllButtons();
+    bool GetCannyState();
+    bool GetHoughState();
 
   private:
     wxPanel *button_panel;

@@ -31,3 +31,5 @@ void ButtonWState::toggleState() {
     state = !state;
     render();
 }
+
+bool ButtonWState::GetState() { return state; }

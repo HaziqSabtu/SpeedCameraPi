@@ -79,6 +79,10 @@ void ButtonPanelHough::OnHough(wxCommandEvent &e) {
     e.Skip();
 }
 
+bool ButtonPanelHough::GetCannyState() { return Canny_Button->GetState(); }
+
+bool ButtonPanelHough::GetHoughState() { return Hough_Button->GetState(); }
+
 // clang-format off
 BEGIN_EVENT_TABLE(ButtonPanelHough, wxPanel)
  EVT_BUTTON(wxID_ANY, ButtonPanelHough::OnButton)

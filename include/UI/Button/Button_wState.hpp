@@ -19,6 +19,7 @@ class ButtonWState : public wxButton {
                  const wxValidator &validator = wxDefaultValidator,
                  const wxString &name = wxButtonNameStr);
     virtual ~ButtonWState();
+    bool GetState();
 
   protected:
     virtual void render();

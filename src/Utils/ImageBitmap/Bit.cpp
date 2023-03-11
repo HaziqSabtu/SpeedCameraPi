@@ -1,6 +1,7 @@
 #include <Utils/ImageBitmap/Bit.hpp>
 
-wxImagePanel::wxImagePanel(wxPanel *parent) : wxPanel(parent) {
+wxImagePanel::wxImagePanel(wxPanel *parent)
+    : wxPanel(parent), showType(SHOW_TYPE_IMAGE), isShowHoughLine(false) {
     noImage = cv::Mat(480, 640, CV_8UC3, cv::Scalar(0, 0, 0));
     cv::putText(noImage, "No Image", cv::Point(200, 240),
                 cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2,
@@ -19,19 +20,63 @@ void wxImagePanel::paintNow() {
     render(dc);
 }
 
-void wxImagePanel::SetImage(cv::Mat &img) {
-    image = img.clone();
+void wxImagePanel::SetImageData(ImageData &imgData) {
+    this->imgData = imgData;
     paintNow();
 }
 
-void wxImagePanel::SetImage() {
-    image = noImage;
+void wxImagePanel::SetShowHoughLine(bool isl) {
+    std::cout << "SetShowHoughLine: " << isl << std::endl;
+    this->isShowHoughLine = isl;
+    std::cout << "SetShowHoughLineinclass: " << isShowHoughLine << std::endl;
+    paintNow();
+}
+
+// void wxImagePanel::SetImage(cv::Mat &img) {
+//     image = img.clone();
+//     paintNow();
+// }
+
+// void wxImagePanel::SetImage() {
+//     image = noImage;
+//     paintNow();
+// }
+
+void wxImagePanel::SetImageData() {
+    this->showType = SHOW_TYPE_NONE;
+    paintNow();
+}
+
+void wxImagePanel::SetShowType(SHOW_TYPE showType) {
+    this->showType = showType;
     paintNow();
 }
 
 void wxImagePanel::render(wxDC &dc) {
     int neww, newh;
     dc.GetSize(&neww, &newh);
+
+    switch (showType) {
+    case SHOW_TYPE_NONE:
+        image = noImage.clone();
+        break;
+    case SHOW_TYPE_IMAGE:
+        image = imgData.image.clone();
+        break;
+    case SHOW_TYPE_CANNY:
+        image = imgData.hough.canny.clone();
+        break;
+    }
+
+    if (isShowHoughLine && !imgData.hough.lines.empty()) {
+        std::cout << "Show Hough Line" << std::endl;
+        std::cout << "Line Size: " << imgData.hough.lines.size() << std::endl;
+        std::cout << "isShowHoughLine: " << isShowHoughLine << std::endl;
+        for (auto &line : imgData.hough.lines) {
+            cv::line(image, line.p1, line.p2, cv::Scalar(0, 0, 255), 2,
+                     cv::LINE_AA);
+        }
+    }
 
     if (image.empty()) {
         image = noImage;

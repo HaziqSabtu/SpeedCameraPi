@@ -1,7 +1,7 @@
 #include <UI/Button/Button_Hough.hpp>
 
 ButtonHough::ButtonHough(wxWindow *parent, wxWindowID id)
-    : ButtonWState(parent, id, "Hough", false) {
+    : ButtonWState(parent, id, "Hough", true) {
     Bind(wxEVT_BUTTON, &ButtonHough::OnButton, this);
 }
 

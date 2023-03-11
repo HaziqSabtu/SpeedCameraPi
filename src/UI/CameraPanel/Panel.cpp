@@ -74,16 +74,17 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
         GetSizer()->Layout();
     }
 
-    if (e.GetId() == Enum::CP_Canny_Button_ID) {
-        button_panel_hough->Hide();
-        button_panel->Show();
-        GetSizer()->Layout();
-    }
+    // if (e.GetId() == Enum::CP_Canny_Button_ID) {
+    //     button_panel_hough->Hide();
+    //     button_panel->Show();
+    //     GetSizer()->Layout();
+    // }
 
     if (e.GetId() == Enum::CP_Next_Button_ID) {
         OnIncrement();
         if (!imgData->at(currentImageIndex).hough.lines.empty()) {
-            img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
+            // img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
+            img_bitmap->SetImageData(imgData->at(currentImageIndex));
             return;
         }
         if (houghThread != nullptr) {
@@ -100,7 +101,8 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_Prev_Button_ID) {
         OnDecrement();
         if (!imgData->at(currentImageIndex).hough.lines.empty()) {
-            img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
+            // img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
+            img_bitmap->SetImageData(imgData->at(currentImageIndex));
             return;
         }
         if (houghThread != nullptr) {
@@ -113,16 +115,30 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
                                       imgData->at(currentImageIndex));
         houghThread->Run();
     }
+
+    if (e.GetId() == Enum::CP_Canny_Button_ID) {
+        button_panel_hough->GetCannyState()
+            ? img_bitmap->SetShowType(SHOW_TYPE_CANNY)
+            : img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
+    }
+
+    if (e.GetId() == Enum::CP_Hough_Button_ID) {
+        img_bitmap->SetShowHoughLine(button_panel_hough->GetHoughState());
+    }
 }
 
 void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
     if (e.GetId() == UPDATE_IMAGE) {
-        cv::Mat imageData = e.GetImage();
-        img_bitmap->SetImage(imageData);
+        // cv::Mat imageData = e.GetImage();
+        ImageData iData = ImageData(e.GetImage());
+        // img_bitmap->SetImage(imageData);
+        img_bitmap->SetImageData(iData);
+        // img_bitmap->SetImageData(imgData->at(currentImageIndex));
     }
 
     if (e.GetId() == CLEAR_IMAGE) {
-        img_bitmap->SetImage();
+        // img_bitmap->SetImage();
+        img_bitmap->SetImageData();
     }
 }
 
@@ -135,6 +151,8 @@ void CameraPanel::OnProcessImage(wxCommandEvent &e) {
         houghThread = new HoughThread(button_panel_hough, &threadPool,
                                       imgData->at(currentImageIndex));
         houghThread->Run();
+
+        img_bitmap->SetShowHoughLine(true);
     } else if (e.GetId() == PROCESS_END) {
         // start speed calculation
     }
@@ -153,7 +171,7 @@ void CameraPanel::OnCaptureImage(CaptureImageEvent &e) {
 void CameraPanel::OnHough(HoughEvent &e) {
     if (e.GetId() == HOUGH_END) {
         imgData->at(currentImageIndex).SetHough(*e.GetHoughData());
-        img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
+        img_bitmap->SetImageData(imgData->at(currentImageIndex));
     }
 }
 
