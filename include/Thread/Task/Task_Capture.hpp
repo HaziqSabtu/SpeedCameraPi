@@ -21,11 +21,11 @@ class CaptureTask : public Task {
     CaptureTask(std::vector<ImageData> *imgData, cv::VideoCapture *cap,
                 const int maxCapture);
     void Execute() override;
-    TaskType GetType() const override;
+    TaskProperty GetProperty() const override;
     std::string GetName() const override;
 
   private:
-    const TaskType type;
+    const TaskProperty property;
     const int maxCapture;
     cv::VideoCapture *cap;
     std::vector<ImageData> *imgData;

@@ -6,13 +6,13 @@ HoughEvent::HoughEvent(wxEventType eventType, int id)
     : wxCommandEvent(eventType, id) {}
 
 HoughEvent::HoughEvent(const HoughEvent &e) : wxCommandEvent(e) {
-    this->SetImageData(e.GetImageData());
+    this->SetImageData(e.GetHoughData());
 }
 
 wxEvent *HoughEvent::Clone() const { return new HoughEvent(*this); }
 
-void HoughEvent::SetImageData(std::vector<ImageData> *imgData) {
-    this->imgData = imgData;
+void HoughEvent::SetImageData(Detection::HoughData *houghData) {
+    this->houghData = houghData;
 }
 
-std::vector<ImageData> *HoughEvent::GetImageData() const { return imgData; }
+Detection::HoughData *HoughEvent::GetHoughData() const { return houghData; }

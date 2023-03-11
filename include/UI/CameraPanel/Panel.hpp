@@ -2,6 +2,7 @@
 #define CAMERA_PANEL_HPP
 
 #include <Event/Event_CaptureImage.hpp>
+#include <Event/Event_Hough.hpp>
 #include <Event/Event_ProcessImage.hpp>
 #include <Event/Event_UpdateImage.hpp>
 #include <Thread/Task/Task_Capture.hpp>
@@ -54,7 +55,7 @@ class CameraPanel : public wxPanel {
     void OnUpdateImage(UpdateImageEvent &e);
     void OnProcessImage(wxCommandEvent &e);
     void OnCaptureImage(CaptureImageEvent &e);
-    void OnShow(wxShowEvent &e);
+    void OnHough(HoughEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

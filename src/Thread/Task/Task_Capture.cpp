@@ -19,7 +19,7 @@
  */
 CaptureTask::CaptureTask(std::vector<ImageData> *imgData, cv::VideoCapture *cap,
                          const int maxCapture)
-    : type(TaskType::TASK_CAPTURE), imgData(imgData), cap(cap),
+    : property(TaskType::TASK_CAPTURE), imgData(imgData), cap(cap),
       maxCapture(maxCapture) {}
 
 /**
@@ -41,7 +41,7 @@ void CaptureTask::Execute() {
  *
  * @return TaskType
  */
-TaskType CaptureTask::GetType() const { return type; }
+TaskProperty CaptureTask::GetProperty() const { return property; }
 
 /**
  * @brief Get the Name object

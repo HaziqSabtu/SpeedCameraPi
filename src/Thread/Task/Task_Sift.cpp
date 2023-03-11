@@ -18,7 +18,7 @@
  * @param id index of target image in vector
  */
 SiftTask::SiftTask(std::vector<ImageData> *imgData, int id)
-    : type(TaskType::TASK_SIFT), imgData(imgData), id(id) {}
+    : property(TaskType::TASK_SIFT), imgData(imgData), id(id) {}
 
 /**
  * @brief Execute Sift Task
@@ -38,7 +38,7 @@ void SiftTask::Execute() {
  *
  * @return TaskType
  */
-TaskType SiftTask::GetType() const { return type; }
+TaskProperty SiftTask::GetProperty() const { return property; }
 
 /**
  * @brief Get the Name object

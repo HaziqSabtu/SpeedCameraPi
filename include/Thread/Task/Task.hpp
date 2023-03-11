@@ -11,6 +11,7 @@
 #ifndef TASK_HPP
 #define TASK_HPP
 
+#include <Utils/IDGenerator/IDGenerator.hpp>
 #include <string>
 
 /**
@@ -36,6 +37,20 @@ enum TaskPriority {
     TASK_PRIORITY_HIGH = 2,
 };
 
+struct TaskProperty {
+    TaskType type;
+    int id;
+
+    TaskProperty(TaskType type) {
+        this->type = type;
+        this->id = Utils::IDGenerator::GenerateID();
+    }
+
+    bool operator==(const TaskProperty &other) const {
+        return (this->type == other.type && this->id == other.id);
+    }
+};
+
 /**
  * @brief Interface Class for TaskPool Task
  *
@@ -44,7 +59,7 @@ class Task {
   public:
     virtual ~Task() {}
     virtual void Execute() = 0;
-    virtual TaskType GetType() const = 0;
+    virtual TaskProperty GetProperty() const = 0;
     virtual std::string GetName() const = 0;
 };
 

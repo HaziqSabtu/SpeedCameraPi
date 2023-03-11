@@ -52,8 +52,12 @@ void ThreadPool::AddTask(Task *task) {
 }
 
 void ThreadPool::AddTaskFront(Task *task) {
+    std::cout << "Adding task to front" << std::endl;
     std::unique_lock<std::mutex> lock(m_mutex);
     taskQueue.push_front(task);
+    for (auto &task : taskQueue) {
+        std::cout << task->GetName() << std::endl;
+    }
     cv.notify_one();
 }
 
@@ -77,7 +81,11 @@ void ThreadPool::WorkerThread(int threadId) {
             taskQueue.pop_front();
             threadStatus[threadId] = true;
         }
+        std::cout << "Worker " << threadId
+                  << " executing task: " << task->GetName() << std::endl;
         task->Execute();
+        std::cout << "Worker " << threadId
+                  << " finished task: " << task->GetName() << std::endl;
         delete task;
         threadStatus[threadId] = false;
     }
@@ -127,10 +135,10 @@ bool ThreadPool::isQueueEmpty() {
  * @return true if the task queue has a task of the specified type
  * @return false if the task queue does not have a task of the specified type
  */
-bool ThreadPool::HasTasks(TaskType type) {
+bool ThreadPool::HasTasks(TaskProperty property) {
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto &task : taskQueue) {
-        if (task->GetType() == type) {
+        if (task->GetProperty() == property) {
             return true;
         }
     }

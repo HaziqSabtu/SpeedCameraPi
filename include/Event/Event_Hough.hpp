@@ -1,7 +1,7 @@
 #ifndef HOUGH_EVENT_HPP
 #define HOUGH_EVENT_HPP
 
-#include <Utils/DataStruct.hpp>
+#include <Utils/Struct/D_Hough.hpp>
 #include <wx/event.h>
 
 class HoughEvent;
@@ -15,12 +15,12 @@ class HoughEvent : public wxCommandEvent {
     HoughEvent(const HoughEvent &e);
     virtual wxEvent *Clone() const;
 
-    void SetImageData(std::vector<ImageData> *imgData);
+    void SetImageData(Detection::HoughData *houghData);
 
-    std::vector<ImageData> *GetImageData() const;
+    Detection::HoughData *GetHoughData() const;
 
   private:
-    std::vector<ImageData> *imgData;
+    Detection::HoughData *houghData;
 };
 
 typedef void (wxEvtHandler::*HoughFunction)(HoughEvent &);

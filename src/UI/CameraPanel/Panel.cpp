@@ -32,8 +32,6 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
     camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
     camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
-
-    Bind(wxEVT_SHOW, &CameraPanel::OnShow, this);
 };
 
 CameraPanel::~CameraPanel() {
@@ -89,8 +87,8 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
             delete houghThread;
             houghThread = nullptr;
         }
-        houghThread = new HoughThread(button_panel_hough);
-        houghThread->Run();
+        // houghThread = new HoughThread(button_panel_hough);
+        // houghThread->Run();
     }
 
     if (e.GetId() == Enum::CP_Prev_Button_ID) {
@@ -100,8 +98,8 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
             delete houghThread;
             houghThread = nullptr;
         }
-        houghThread = new HoughThread(button_panel_hough);
-        houghThread->Run();
+        // houghThread = new HoughThread(button_panel_hough);
+        // houghThread->Run();
     }
 }
 
@@ -122,7 +120,8 @@ void CameraPanel::OnProcessImage(wxCommandEvent &e) {
         processThread = new ProcessThread(this, &threadPool, imgData);
         processThread->Run();
 
-        houghThread = new HoughThread(button_panel_hough);
+        houghThread = new HoughThread(button_panel_hough, &threadPool,
+                                      imgData->at(currentImageIndex));
         houghThread->Run();
     } else if (e.GetId() == PROCESS_END) {
         // start speed calculation
@@ -139,10 +138,22 @@ void CameraPanel::OnCaptureImage(CaptureImageEvent &e) {
     }
 }
 
-void CameraPanel::OnShow(wxShowEvent &e) {}
+void CameraPanel::OnHough(HoughEvent &e) {
+    if (e.GetId() == HOUGH_END) {
+        std::cout << "Hough end" << std::endl;
+        ImageData d = imgData->at(currentImageIndex);
+        cv::Mat canny = d.hough.canny;
+        if (canny.empty()) {
+            std::cout << "canny is empty" << std::endl;
+        } else {
+            std::cout << "canny is not empty" << std::endl;
+        }
+    }
+}
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel) 
+    EVT_HOUGH(wxID_ANY, CameraPanel::OnHough)
     EVT_UPDATEIMAGE(wxID_ANY, CameraPanel::OnUpdateImage)
     EVT_CAPTUREIMAGE(wxID_ANY, CameraPanel::OnCaptureImage)
     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT ,CameraPanel::OnProcessImage)

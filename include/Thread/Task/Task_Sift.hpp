@@ -20,11 +20,11 @@ class SiftTask : public Task {
   public:
     SiftTask(std::vector<ImageData> *imgData, int id);
     void Execute() override;
-    TaskType GetType() const override;
+    TaskProperty GetProperty() const override;
     std::string GetName() const override;
 
   private:
-    const TaskType type;
+    const TaskProperty property;
     int id;
     std::vector<ImageData> *imgData;
 };

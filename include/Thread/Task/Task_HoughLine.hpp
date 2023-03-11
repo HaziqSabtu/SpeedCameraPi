@@ -15,18 +15,19 @@
 #include <Algorithm/line_detection/lineDetection.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/DataStruct.hpp>
+#include <Utils/Struct/D_Hough.hpp>
 
 class HoughTask : public Task {
   public:
-    HoughTask(std::vector<ImageData> *imgData, int id);
+    HoughTask(ImageData &imgData, Detection::HoughData *houghData);
     void Execute() override;
-    TaskType GetType() const override;
+    TaskProperty GetProperty() const override;
     std::string GetName() const override;
 
   private:
-    const TaskType type;
-    int id;
-    std::vector<ImageData> *imgData;
+    const TaskProperty property;
+    ImageData &imgData;
+    Detection::HoughData *houghData;
 };
 
 #endif

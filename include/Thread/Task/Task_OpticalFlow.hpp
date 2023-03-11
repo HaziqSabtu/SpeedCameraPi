@@ -21,11 +21,11 @@ class FlowTask : public Task {
   public:
     FlowTask(std::vector<ImageData> *imgData);
     void Execute() override;
-    TaskType GetType() const override;
+    TaskProperty GetProperty() const override;
     std::string GetName() const override;
 
   private:
-    const TaskType type;
+    const TaskProperty property;
     std::vector<ImageData> *imgData;
 };
 

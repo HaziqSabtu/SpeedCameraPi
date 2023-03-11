@@ -17,7 +17,7 @@
  * @param imgData pointer to vector of ImageData
  */
 FlowTask::FlowTask(std::vector<ImageData> *imgData)
-    : type(TaskType::TASK_FLOW), imgData(imgData) {}
+    : property(TaskType::TASK_FLOW), imgData(imgData) {}
 
 /**
  * @brief Execute Flow Task
@@ -45,7 +45,7 @@ void FlowTask::Execute() {
  *
  * @return TaskType
  */
-TaskType FlowTask::GetType() const { return type; }
+TaskProperty FlowTask::GetProperty() const { return property; }
 
 /**
  * @brief Get the Name object

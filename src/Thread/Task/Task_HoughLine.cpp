@@ -17,8 +17,9 @@
  * @param imgData pointer to vector of ImageData
  * @param id index of target image in vector
  */
-HoughTask::HoughTask(std::vector<ImageData> *imgData, int id)
-    : type(TaskType::TASK_FLOW), imgData(imgData), id(id) {}
+HoughTask::HoughTask(ImageData &imgData, Detection::HoughData *houghData)
+    : property(TaskType::TASK_HOUGHLINE), imgData(imgData),
+      houghData(houghData) {}
 
 /**
  * @brief Execute Hough Task
@@ -26,18 +27,25 @@ HoughTask::HoughTask(std::vector<ImageData> *imgData, int id)
  *
  */
 void HoughTask::Execute() {
-    ImageData target = (*imgData)[id];
     LineDetection lineDetection;
-    lineDetection.SetImage(target.image);
-    imgData->at(id).SetHough(lineDetection.GetHoughData());
+    lineDetection.SetImage(imgData.image);
+    Detection::HoughData h = lineDetection.GetHoughData();
+    std::cout << "in task: " << std::endl;
+    if (h.canny.empty()) {
+        std::cout << "Canny is Empty" << std::endl;
+    } else {
+        std::cout << "Canny is not Empty" << std::endl;
+    }
+    houghData = &h;
+    // imgData.SetHough(lineDetection.GetHoughData());
 }
 
 /**
- * @brief Get the Type object
+ * @brief Get the TaskProperty of the task
  *
- * @return TaskType
+ * @return TaskProperty
  */
-TaskType HoughTask::GetType() const { return type; }
+TaskProperty HoughTask::GetProperty() const { return property; }
 
 /**
  * @brief Get the Name object

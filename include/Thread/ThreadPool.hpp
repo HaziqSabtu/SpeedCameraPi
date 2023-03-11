@@ -13,6 +13,7 @@
 #define THREAD_POOL_HPP
 
 #include <Thread/Task/Task.hpp>
+#include <Utils/IDGenerator/IDGenerator.hpp>
 #include <condition_variable>
 #include <iostream>
 #include <mutex>
@@ -29,7 +30,7 @@ class ThreadPool {
     void AddTaskFront(Task *task);
 
     bool isBusy();
-    bool HasTasks(TaskType type);
+    bool HasTasks(TaskProperty property);
     bool isWorkerBusy();
     bool isQueueEmpty();
 
@@ -44,6 +45,7 @@ class ThreadPool {
     std::deque<Task *> taskQueue;
     std::mutex m_mutex;
     std::condition_variable cv;
+    // IDGenerator idGenerator;
 };
 
 #endif
