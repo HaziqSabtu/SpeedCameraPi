@@ -29,15 +29,7 @@ HoughTask::HoughTask(ImageData &imgData, Detection::HoughData *houghData)
 void HoughTask::Execute() {
     LineDetection lineDetection;
     lineDetection.SetImage(imgData.image);
-    Detection::HoughData h = lineDetection.GetHoughData();
-    std::cout << "in task: " << std::endl;
-    if (h.canny.empty()) {
-        std::cout << "Canny is Empty" << std::endl;
-    } else {
-        std::cout << "Canny is not Empty" << std::endl;
-    }
-    houghData = &h;
-    // imgData.SetHough(lineDetection.GetHoughData());
+    *houghData = lineDetection.GetHoughData();
 }
 
 /**

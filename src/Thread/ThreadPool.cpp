@@ -20,6 +20,7 @@ ThreadPool::ThreadPool(int numThreads) : numThreads(numThreads), isStop(false) {
     wxLogMessage("Creating %d threads for ThreadPool", numThreads);
     for (int i = 0; i < numThreads; i++) {
         threadArray.push_back(std::thread(&ThreadPool::WorkerThread, this, i));
+        taskMap[i] = NULL;
     }
     threadStatus.resize(numThreads, false);
 }
@@ -80,14 +81,19 @@ void ThreadPool::WorkerThread(int threadId) {
             task = taskQueue.front();
             taskQueue.pop_front();
             threadStatus[threadId] = true;
+            taskMap[threadId] = task;
         }
-        std::cout << "Worker " << threadId
-                  << " executing task: " << task->GetName() << std::endl;
+        // std::cout << "Worker " << threadId
+        //   << " executing task: " << task->GetName() << std::endl;
         task->Execute();
-        std::cout << "Worker " << threadId
-                  << " finished task: " << task->GetName() << std::endl;
-        delete task;
-        threadStatus[threadId] = false;
+        // std::cout << "Worker " << threadId
+        //           << " finished task: " << task->GetName() << std::endl;
+        {
+            std::unique_lock<std::mutex> lock(m_mutex);
+            delete task;
+            threadStatus[threadId] = false;
+            taskMap[threadId] = NULL;
+        }
     }
 }
 
@@ -109,8 +115,20 @@ bool ThreadPool::isBusy() {
  * @return false if all workers are idle
  */
 bool ThreadPool::isWorkerBusy() {
+    std::unique_lock<std::mutex> lock(m_mutex);
     for (bool status : threadStatus) {
         if (status) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ThreadPool::isWorkerBusy(TaskProperty property) {
+    // std::cout << "Checking if worker is busy" << std::endl;
+    std::unique_lock<std::mutex> lock(m_mutex);
+    for (auto &task : taskMap) {
+        if (task.second != NULL && task.second->GetProperty() == property) {
             return true;
         }
     }
@@ -136,6 +154,18 @@ bool ThreadPool::isQueueEmpty() {
  * @return false if the task queue does not have a task of the specified type
  */
 bool ThreadPool::HasTasks(TaskProperty property) {
+    // std::cout << "Checking if task queue has tasks" << std::endl;
+    std::unique_lock<std::mutex> lock(m_mutex);
+    for (auto &task : taskQueue) {
+        if (task->GetProperty() == property) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ThreadPool::HasTasks2(TaskProperty &property) {
+    // std::cout << "Checking if task queue has tasks2" << std::endl;
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto &task : taskQueue) {
         if (task->GetProperty() == property) {

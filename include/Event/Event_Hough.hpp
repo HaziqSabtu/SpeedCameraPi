@@ -15,7 +15,7 @@ class HoughEvent : public wxCommandEvent {
     HoughEvent(const HoughEvent &e);
     virtual wxEvent *Clone() const;
 
-    void SetImageData(Detection::HoughData *houghData);
+    void SetHoughData(Detection::HoughData *houghData);
 
     Detection::HoughData *GetHoughData() const;
 

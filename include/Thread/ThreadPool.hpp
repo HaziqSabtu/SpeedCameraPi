@@ -19,6 +19,7 @@
 #include <mutex>
 #include <queue>
 #include <thread>
+#include <unordered_map>
 #include <wx/log.h>
 
 class ThreadPool {
@@ -31,7 +32,9 @@ class ThreadPool {
 
     bool isBusy();
     bool HasTasks(TaskProperty property);
+    bool HasTasks2(TaskProperty &property);
     bool isWorkerBusy();
+    bool isWorkerBusy(TaskProperty property);
     bool isQueueEmpty();
 
   private:
@@ -42,6 +45,7 @@ class ThreadPool {
 
     std::vector<std::thread> threadArray;
     std::vector<bool> threadStatus;
+    std::unordered_map<int, Task *> taskMap;
     std::deque<Task *> taskQueue;
     std::mutex m_mutex;
     std::condition_variable cv;

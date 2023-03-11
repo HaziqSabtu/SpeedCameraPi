@@ -81,25 +81,37 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CP_Next_Button_ID) {
+        OnIncrement();
+        if (!imgData->at(currentImageIndex).hough.lines.empty()) {
+            img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
+            return;
+        }
         if (houghThread != nullptr) {
             houghThread->Delete();
             houghThread->Wait();
             delete houghThread;
             houghThread = nullptr;
         }
-        // houghThread = new HoughThread(button_panel_hough);
-        // houghThread->Run();
+        houghThread = new HoughThread(button_panel_hough, &threadPool,
+                                      imgData->at(currentImageIndex));
+        houghThread->Run();
     }
 
     if (e.GetId() == Enum::CP_Prev_Button_ID) {
+        OnDecrement();
+        if (!imgData->at(currentImageIndex).hough.lines.empty()) {
+            img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
+            return;
+        }
         if (houghThread != nullptr) {
             houghThread->Delete();
             houghThread->Wait();
             delete houghThread;
             houghThread = nullptr;
         }
-        // houghThread = new HoughThread(button_panel_hough);
-        // houghThread->Run();
+        houghThread = new HoughThread(button_panel_hough, &threadPool,
+                                      imgData->at(currentImageIndex));
+        houghThread->Run();
     }
 }
 
@@ -140,14 +152,8 @@ void CameraPanel::OnCaptureImage(CaptureImageEvent &e) {
 
 void CameraPanel::OnHough(HoughEvent &e) {
     if (e.GetId() == HOUGH_END) {
-        std::cout << "Hough end" << std::endl;
-        ImageData d = imgData->at(currentImageIndex);
-        cv::Mat canny = d.hough.canny;
-        if (canny.empty()) {
-            std::cout << "canny is empty" << std::endl;
-        } else {
-            std::cout << "canny is not empty" << std::endl;
-        }
+        imgData->at(currentImageIndex).SetHough(*e.GetHoughData());
+        img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
     }
 }
 
