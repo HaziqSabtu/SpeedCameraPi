@@ -23,6 +23,7 @@
 #include <Utils/Enum.hpp>
 #include <Utils/ImageBitmap/Bit.hpp>
 #include <Utils/ImageBitmap/Derived/CameraBitmap.hpp>
+#include <Utils/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
 #include <wx/wx.h>
 
@@ -44,6 +45,11 @@ class CameraPanel : public wxPanel {
     wxBoxSizer *main_sizer;
 
     std::vector<ImageData> *imgData;
+    std::vector<Detection::Line> selectedLine;
+    std::vector<cv::Point2f> selectedPoint;
+
+    void addLine(Detection::Line line);
+    void searchLine(cv::Point2f realMousePos);
 
     int currentImageIndex = 0;
     void OnIncrement();

@@ -2,6 +2,7 @@
 #define BIT_HPP
 
 #include <Utils/DataStruct.hpp>
+#include <Utils/Struct/D_Line.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
@@ -20,13 +21,22 @@ class wxImagePanel : public wxPanel {
     ImageData imgData;
     wxBitmap resized;
     int w, h;
+
     SHOW_TYPE showType;
     bool isShowHoughLine;
+    bool isShowSelectedLine;
+    std::vector<Detection::Line> selectedLine;
+    std::vector<cv::Point2f> selectedPoint;
+
+    float widthRatio;
+    float heightRatio;
 
   public:
+    void calcRatio(wxDC &dc);
+    cv::Point2f calcMousePos(wxPoint &mousePos);
     wxImagePanel(wxPanel *parent);
-
     void paintEvent(wxPaintEvent &evt);
+    void OnLeftDown(wxMouseEvent &e);
     void paintNow();
     void OnSize(wxSizeEvent &event);
     void render(wxDC &dc);
@@ -35,6 +45,9 @@ class wxImagePanel : public wxPanel {
     void SetImageData(ImageData &imgData);
     void SetImageData();
     void SetShowHoughLine(bool isShowHoughLine);
+    void SetShowSelectedLine(bool isShowSelectedLine);
+    void SetSelectedLine(std::vector<Detection::Line> &selectedLine);
+    void SetSelectedPoint(std::vector<cv::Point2f> &selectedPoint);
     // void SetImage(cv::Mat &img);
     // void SetImage();
 

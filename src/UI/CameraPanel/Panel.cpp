@@ -20,7 +20,7 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     Fit();
 
     // img_bitmap->Bind(wxEVT_SIZE, &CameraPanel::OnSize, this);
-    // img_bitmap->Bind(wxEVT_LEFT_DOWN, &CameraPanel::OnLeftDown, this);
+    img_bitmap->Bind(wxEVT_LEFT_DOWN, &CameraPanel::OnLeftDown, this);
 
     AppConfig *config = new AppConfig();
     CameraConfig cameraConfig = config->GetCameraConfig();
@@ -32,6 +32,8 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
     camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
     camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
+
+    // Bind(wxEVT_LEFT_DOWN, &wxImagePanel::OnLeftDown, this);
 };
 
 CameraPanel::~CameraPanel() {
@@ -125,6 +127,11 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_Hough_Button_ID) {
         img_bitmap->SetShowHoughLine(button_panel_hough->GetHoughState());
     }
+
+    if (e.GetId() == Enum::CP_Clear_Button_ID) {
+        selectedLine.clear();
+        img_bitmap->SetSelectedLine(selectedLine);
+    }
 }
 
 void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
@@ -175,6 +182,48 @@ void CameraPanel::OnHough(HoughEvent &e) {
     }
 }
 
+void CameraPanel::OnLeftDown(wxMouseEvent &e) {
+    wxPoint mousePos = e.GetPosition();
+    cv::Point2f p = img_bitmap->calcMousePos(mousePos);
+    selectedPoint.push_back(p);
+    img_bitmap->SetSelectedPoint(selectedPoint);
+    searchLine(p);
+}
+
+void CameraPanel::searchLine(cv::Point2f realMousePos) {
+    std::vector<Detection::Line> detLines;
+    std::vector<Detection::Line> linesP =
+        imgData->at(currentImageIndex).hough.lines;
+
+    if (linesP.empty()) {
+        wxLogMessage("No Lines Available");
+        return;
+    }
+
+    for (auto line : linesP) {
+        if (line.isIntersect(realMousePos, 20)) {
+            detLines.push_back(line);
+        }
+    }
+
+    if (detLines.size() == 0) {
+        wxLogMessage("No Lines Found");
+        return;
+    }
+
+    Detection::Line avgLine = Detection::Line::Average(detLines);
+    addLine(avgLine.Extrapolate(imgData->at(currentImageIndex).image));
+}
+
+void CameraPanel::addLine(Detection::Line line) {
+    if (selectedLine.size() <= 1) {
+        selectedLine.push_back(line);
+    } else {
+        selectedLine[1] = line;
+    }
+    img_bitmap->SetSelectedLine(selectedLine);
+}
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel) 
     EVT_HOUGH(wxID_ANY, CameraPanel::OnHough)
@@ -182,4 +231,5 @@ wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel)
     EVT_CAPTUREIMAGE(wxID_ANY, CameraPanel::OnCaptureImage)
     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT ,CameraPanel::OnProcessImage)
     EVT_BUTTON(wxID_ANY, CameraPanel::OnButton)
+    EVT_LEFT_DOWN(CameraPanel::OnLeftDown)
 wxEND_EVENT_TABLE()
