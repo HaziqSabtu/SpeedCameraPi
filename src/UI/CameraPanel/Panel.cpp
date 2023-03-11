@@ -1,10 +1,10 @@
 #include <UI/CameraPanel/Panel.hpp>
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
-    : wxPanel(parent, id), imgData(std::vector<ImageData>()), threadPool(1),
-      processThread(nullptr) {
+    : wxPanel(parent, id), imgData(nullptr), threadPool(1),
+      processThread(nullptr), houghThread(nullptr) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID,
-                                         &camera, &imgData, &threadPool);
+                                         &camera, &threadPool);
     button_panel_hough =
         new ButtonPanelHough(this, Enum::CP_BUTTON_PANEL_HOUGH_ID);
 
@@ -32,19 +32,14 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
     camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
     camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
+
+    Bind(wxEVT_SHOW, &CameraPanel::OnShow, this);
 };
 
 CameraPanel::~CameraPanel() {
     if (camera.isOpened()) {
         camera.release();
     }
-
-    // if (loadFileThread != nullptr) {
-    //     loadFileThread->Delete();
-    //     loadFileThread->Wait();
-    //     delete loadFileThread;
-    //     loadFileThread = nullptr;
-    // }
 
     if (processThread != nullptr) {
         processThread->Delete();
@@ -53,21 +48,27 @@ CameraPanel::~CameraPanel() {
         processThread = nullptr;
     }
 
+    if (houghThread != nullptr) {
+        houghThread->Delete();
+        houghThread->Wait();
+        delete houghThread;
+        houghThread = nullptr;
+    }
+
     delete button_panel;
     delete img_bitmap;
 }
 
-void CameraPanel::OnLeftDown(wxMouseEvent &e) {}
+void CameraPanel::OnIncrement() {
+    currentImageIndex < imgData->size() - 1 ? currentImageIndex++
+                                            : currentImageIndex;
+}
 
-void CameraPanel::OnSize(wxSizeEvent &e) {
-    // img_bitmap->drawBitMap(); }
+void CameraPanel::OnDecrement() {
+    currentImageIndex > 0 ? currentImageIndex-- : currentImageIndex;
 }
 
 void CameraPanel::OnButton(wxCommandEvent &e) {
-
-    // if (e.GetId() == Enum::CP_Load_Button_ID) {
-    //     OnLoadFile();
-    // }
 
     if (e.GetId() == Enum::CP_Camera_Button_ID) {
         button_panel->Hide();
@@ -80,11 +81,33 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
         button_panel->Show();
         GetSizer()->Layout();
     }
+
+    if (e.GetId() == Enum::CP_Next_Button_ID) {
+        if (houghThread != nullptr) {
+            houghThread->Delete();
+            houghThread->Wait();
+            delete houghThread;
+            houghThread = nullptr;
+        }
+        houghThread = new HoughThread(button_panel_hough);
+        houghThread->Run();
+    }
+
+    if (e.GetId() == Enum::CP_Prev_Button_ID) {
+        if (houghThread != nullptr) {
+            houghThread->Delete();
+            houghThread->Wait();
+            delete houghThread;
+            houghThread = nullptr;
+        }
+        houghThread = new HoughThread(button_panel_hough);
+        houghThread->Run();
+    }
 }
 
 void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
     if (e.GetId() == UPDATE_IMAGE) {
-        cv::Mat imageData = e.GetImageData();
+        cv::Mat imageData = e.GetImage();
         img_bitmap->SetImage(imageData);
     }
 
@@ -94,28 +117,34 @@ void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
 }
 
 void CameraPanel::OnProcessImage(wxCommandEvent &e) {
-    std::cout << "Process Image" << std::endl;
-    processThread = new ProcessThread(this, &threadPool, &imgData);
-    processThread->Run();
+    if (e.GetId() == PROCESS_BEGIN) {
+
+        processThread = new ProcessThread(this, &threadPool, imgData);
+        processThread->Run();
+
+        houghThread = new HoughThread(button_panel_hough);
+        houghThread->Run();
+    } else if (e.GetId() == PROCESS_END) {
+        // start speed calculation
+    }
 }
 
-void CameraPanel::OnLoadFile() {
-    // AppConfig *config = new AppConfig();
-    // wxString filePath = config->GetLoadFileName();
-    // if (filePath == "") {
-    //     return;
-    // }
-    // if (loadFileThread != nullptr) {
-    //     return;
-    // }
+void CameraPanel::OnCaptureImage(CaptureImageEvent &e) {
+    if (e.GetId() == CAPTURE_END) {
+        imgData = e.GetImageData();
 
-    // loadFileThread = new LoadFileThread(this, &threadPool, &imgData,
-    // filePath); loadFileThread->Run();
+        button_panel->Hide();
+        button_panel_hough->Show();
+        GetSizer()->Layout();
+    }
 }
+
+void CameraPanel::OnShow(wxShowEvent &e) {}
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel) 
     EVT_UPDATEIMAGE(wxID_ANY, CameraPanel::OnUpdateImage)
+    EVT_CAPTUREIMAGE(wxID_ANY, CameraPanel::OnCaptureImage)
     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT ,CameraPanel::OnProcessImage)
     EVT_BUTTON(wxID_ANY, CameraPanel::OnButton)
 wxEND_EVENT_TABLE()

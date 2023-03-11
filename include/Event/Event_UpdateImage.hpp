@@ -17,13 +17,13 @@ class UpdateImageEvent : public wxCommandEvent {
     virtual wxEvent *Clone() const;
 
     // Define a method to set the image data
-    void SetImageData(const cv::Mat &image);
+    void SetImageData(const cv::Mat &img);
 
     // Define a method to get the image data
-    cv::Mat GetImageData() const;
+    cv::Mat GetImage() const;
 
   private:
-    cv::Mat m_imageData;
+    cv::Mat image;
 };
 
 typedef void (wxEvtHandler::*UpdateImageFunction)(UpdateImageEvent &);

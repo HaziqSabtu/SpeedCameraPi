@@ -1,15 +1,30 @@
 #include <Thread/Thread_LoadFile.hpp>
 
 LoadFileThread::LoadFileThread(wxEvtHandler *parent, ThreadPool *threadPool,
-                               std::vector<ImageData> *imgData, wxString path)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool), path(path),
-      imgData(imgData) {}
+                               wxString path)
+    : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
+      path(path) {}
 
-LoadFileThread::~LoadFileThread() {}
+LoadFileThread::~LoadFileThread() {
+    if (pool != nullptr) {
+        pool = nullptr;
+    }
+
+    if (parent != nullptr) {
+        parent = nullptr;
+    }
+}
 
 wxThread::ExitCode LoadFileThread::Entry() {
+    std::unique_ptr<std::vector<ImageData>> imgData =
+        std::make_unique<std::vector<ImageData>>();
+
     try {
-        pool->AddTask(new LoadTask(imgData, path, 5));
+        CaptureImageEvent startCaptureEvent(c_CAPTURE_IMAGE_EVENT,
+                                            CAPTURE_START);
+        wxPostEvent(parent, startCaptureEvent);
+
+        pool->AddTask(new LoadTask(imgData.get(), path, 5));
 
         while (imgData->empty()) {
             wxMilliSleep(30);
@@ -29,9 +44,10 @@ wxThread::ExitCode LoadFileThread::Entry() {
 
         for (int i = 1; i < imgData->size(); i++) {
             cv::Mat frame = imgData->at(i).image;
-            UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-            event.SetImageData(frame);
-            wxPostEvent(parent, event);
+            UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT,
+                                              UPDATE_IMAGE);
+            updateImageEvent.SetImageData(frame);
+            wxPostEvent(parent, updateImageEvent);
             wxMilliSleep(100);
         }
     } catch (const std::exception &e) {
@@ -40,11 +56,19 @@ wxThread::ExitCode LoadFileThread::Entry() {
     }
 
     cv::Mat first = imgData->at(0).image;
-    UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-    event.SetImageData(first);
-    wxPostEvent(parent, event);
+    UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
+    updateImageEvent.SetImageData(first);
+    wxPostEvent(parent, updateImageEvent);
 
-    wxCommandEvent event2(c_PROCESS_IMAGE_EVENT);
-    wxPostEvent(parent, event2);
+    CaptureImageEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
+    stopCaptureEvent.SetImageData(imgData.release());
+    wxPostEvent(parent, stopCaptureEvent);
     return 0;
 }
+
+// unique_ptr is a smart pointer that guarantees deletion of the object it
+// points to, either on destruction of the unique_ptr or via an explicit
+// reset(). It is a move-only type - it cannot be copied, only moved. It is
+// typically used to transfer ownership of a dynamically allocated object (i.e.
+// heap allocated) out of a function that returns a unique_ptr by value.
+//

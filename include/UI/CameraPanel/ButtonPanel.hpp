@@ -9,7 +9,7 @@
 class CameraPanelButton : public wxPanel {
   public:
     CameraPanelButton(wxWindow *parent, wxWindowID id, cv::VideoCapture *camera,
-                      std::vector<ImageData> *imgData, ThreadPool *pool);
+                      ThreadPool *pool);
     void onCaptureToggle(bool isCapturing);
     void DisableAllButtons();
     void EnableAllButtons();

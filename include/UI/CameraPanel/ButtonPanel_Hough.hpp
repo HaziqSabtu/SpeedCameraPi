@@ -1,6 +1,8 @@
 #ifndef BUTTON_PANEL_HOUGH_HPP
 #define BUTTON_PANEL_HOUGH_HPP
 
+#include <Event/Event_Hough.hpp>
+#include <Event/Event_ProcessImage.hpp>
 #include <UI/Button/Button_Canny.hpp>
 #include <UI/Button/Button_Hough.hpp>
 #include <Utils/Enum.hpp>
@@ -26,7 +28,11 @@ class ButtonPanelHough : public wxPanel {
     wxButton *Prev_Button;
     wxStaticText *Spacer;
 
+    bool isInit;
+
     void OnButton(wxCommandEvent &e);
+    void OnShow(wxShowEvent &e);
+    void OnHough(wxCommandEvent &e);
     DECLARE_EVENT_TABLE();
 };
 #endif

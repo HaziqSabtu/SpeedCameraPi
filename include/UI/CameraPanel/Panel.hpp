@@ -1,6 +1,7 @@
 #ifndef CAMERA_PANEL_HPP
 #define CAMERA_PANEL_HPP
 
+#include <Event/Event_CaptureImage.hpp>
 #include <Event/Event_ProcessImage.hpp>
 #include <Event/Event_UpdateImage.hpp>
 #include <Thread/Task/Task_Capture.hpp>
@@ -10,6 +11,7 @@
 #include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <Thread/Thread_Capture.hpp>
+#include <Thread/Thread_Hough.hpp>
 #include <Thread/Thread_LoadFile.hpp>
 #include <Thread/Thread_Process.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
@@ -27,59 +29,32 @@ class CameraPanel : public wxPanel {
   public:
     CameraPanel(wxWindow *parent, wxWindowID id);
     ~CameraPanel();
-    // std::vector<ImageData> GetImgData();
-
-  public:
-    // void OnTimer(wxTimerEvent &e);
-    // void OnThreadCheck(wxTimerEvent &e);
-    // void OnCapture();
-    void OnLoadFile();
-    // void OnToggleCamera();
 
   private:
-    // void addPoints(wxPoint realMousePos);
-    // void captureExecutor(const int max);
-    // void loadExecutor(const int max);
-    // void siftExecutor(const int max);
-    // void houghExecutor(const int max);
-    // void houghExecutorSingle(int id);
-    // void flowExecutor(const int max);
-    // void checkForLine(wxPoint realMousePos);
-    // void addLine(Detection::Line line);
-
-    // int maxLoadFrame;
-    // wxString filePath;
-    // cv::Mat frame;
-    // bool isCapturing;
-    // bool isProcessing;
-    // bool isThreadRunning;
-    // bool isTimerRunning = true;
-
-    // std::vector<cv::Point2f> *ptns;
-    // std::vector<Detection::Line> *selectedLines;
-
     cv::VideoCapture camera;
-    // CaptureThread *captureThread;
-    // LoadFileThread *loadFileThread;
-    ProcessThread *processThread;
     ThreadPool threadPool;
 
-    // wxTimer timer;
-    // wxTimer threadCheckTimer;
+    ProcessThread *processThread;
+    HoughThread *houghThread;
+
     CameraPanelButton *button_panel;
     ButtonPanelHough *button_panel_hough;
-    // CameraBitmap *img_bitmap;
     wxImagePanel *img_bitmap;
     wxBoxSizer *main_sizer;
 
-    // wxCriticalSection criticalSection;
-    std::vector<ImageData> imgData;
+    std::vector<ImageData> *imgData;
+
+    int currentImageIndex = 0;
+    void OnIncrement();
+    void OnDecrement();
 
     void OnButton(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);
     void OnSize(wxSizeEvent &e);
     void OnUpdateImage(UpdateImageEvent &e);
     void OnProcessImage(wxCommandEvent &e);
+    void OnCaptureImage(CaptureImageEvent &e);
+    void OnShow(wxShowEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

@@ -2,13 +2,13 @@
 
 CameraPanelButton::CameraPanelButton(wxWindow *parent, wxWindowID id,
                                      cv::VideoCapture *camera,
-                                     std::vector<ImageData> *imgData,
+
                                      ThreadPool *pool)
     : wxPanel(parent, id) {
 
     Capture_Button =
         new ButtonCapture(this, Enum::CP_Capture_Button_ID, camera);
-    Load_Button = new ButtonLoad(this, Enum::CP_Load_Button_ID, imgData, pool);
+    Load_Button = new ButtonLoad(this, Enum::CP_Load_Button_ID, pool);
     ToggleCamera_Button =
         new wxButton(this, Enum::CP_Camera_Button_ID, "Toggle Camera");
     Spacer = new wxStaticText(this, wxID_ANY, "");
