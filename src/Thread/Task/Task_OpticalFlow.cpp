@@ -32,11 +32,14 @@ void FlowTask::Execute() {
             objectDetection.updateFlow(imgData->at(i), imgData->at(i - 1)));
     }
 
+    // * IDEA: Imaging Point moving in 3D space
+    // * The moving points can be seen clearly ?
+    // * Seperate with KNN CLustering
     for (int i = 1; i < imgData->size(); i++) {
         Detection::OpticalFlowData prevData = imgData->at(i - 1).flow;
         Detection::OpticalFlowData currData = imgData->at(i).flow;
 
-        imgData->at(i).SetDetection(currData.threshold(prevData, 0.2));
+        imgData->at(i).SetDetection(currData.threshold(prevData, 1));
     }
 }
 

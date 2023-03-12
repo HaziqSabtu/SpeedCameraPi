@@ -14,6 +14,11 @@ class PanelButtonResult : public wxPanel {
     void DisableAllButtons();
     void EnableAllButtons();
 
+    bool GetBBoxState() { return BBox_Button->GetState(); }
+    bool GetBotLState() { return BotL_Button->GetState(); }
+    bool GetOFPntState() { return OFPnt_Button->GetState(); }
+    bool GetSelLState() { return SelL_Button->GetState(); }
+
   private:
     wxBoxSizer *button_sizer;
 

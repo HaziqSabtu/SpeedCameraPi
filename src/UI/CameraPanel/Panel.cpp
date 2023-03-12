@@ -119,6 +119,29 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
         resultThread = new ResultThread(button_panel_result, imgData);
         resultThread->Run();
     }
+
+    if (e.GetId() == Enum::CP_BBox_Button_ID) {
+        img_bitmap->SetIsRect(button_panel_result->GetBBoxState());
+    }
+
+    if (e.GetId() == Enum::CP_BotL_Button_ID) {
+        img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
+    }
+
+    if (e.GetId() == Enum::CP_OptF_Button_ID) {
+        img_bitmap->SetIsOFPoint(button_panel_result->GetOFPntState());
+    }
+
+    if (e.GetId() == Enum::CP_SelL_Button_ID) {
+        img_bitmap->SetShowSelectedLine(button_panel_result->GetSelLState());
+    }
+
+    if (e.GetId() == Enum::CP_Reselect_Button_ID) {
+        button_panel_result->Hide();
+        button_panel_hough->Show();
+        GetSizer()->Layout();
+        img_bitmap->SetShowSelectedLine(true);
+    }
 }
 
 void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
@@ -172,6 +195,7 @@ void CameraPanel::OnLeftDown(wxMouseEvent &e) {
     cv::Point2f p = img_bitmap->calcMousePos(mousePos);
     selectedPoint.push_back(p);
     img_bitmap->SetSelectedPoint(selectedPoint);
+    img_bitmap->SetShowSelectedLine(true);
     searchLine(p);
 }
 
@@ -221,6 +245,10 @@ void CameraPanel::addLine(Detection::Line line) {
         resultThread = new ResultThread(button_panel_result, imgData);
         resultThread->Run();
         img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
+        img_bitmap->SetIsRect(button_panel_result->GetBBoxState());
+        img_bitmap->SetIsOFPoint(button_panel_result->GetOFPntState());
+        img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
+        img_bitmap->SetShowSelectedLine(button_panel_result->GetSelLState());
     }
 }
 

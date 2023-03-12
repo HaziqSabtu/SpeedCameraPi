@@ -25,6 +25,9 @@ class wxImagePanel : public wxPanel {
     SHOW_TYPE showType;
     bool isShowHoughLine;
     bool isShowSelectedLine;
+    bool isRect;
+    bool isOFPoint;
+    bool isBotLine;
     std::vector<Detection::Line> selectedLine;
     std::vector<cv::Point2f> selectedPoint;
 
@@ -44,6 +47,9 @@ class wxImagePanel : public wxPanel {
     void SetShowType(SHOW_TYPE showType);
     void SetImageData(ImageData &imgData);
     void SetImageData();
+    void SetIsRect(bool isRect);
+    void SetIsOFPoint(bool isOFPoint);
+    void SetIsBotLine(bool isBotLine);
     void SetShowHoughLine(bool isShowHoughLine);
     void SetShowSelectedLine(bool isShowSelectedLine);
     void SetSelectedLine(std::vector<Detection::Line> &selectedLine);

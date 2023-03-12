@@ -31,6 +31,7 @@ class ButtonPanelHough : public wxPanel {
     wxStaticText *Spacer;
 
     bool isInit;
+    bool isProcess;
 
     void OnButton(wxCommandEvent &e);
     void OnShow(wxShowEvent &e);

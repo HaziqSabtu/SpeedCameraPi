@@ -2,7 +2,8 @@
 
 wxImagePanel::wxImagePanel(wxPanel *parent)
     : wxPanel(parent), showType(SHOW_TYPE_IMAGE), isShowHoughLine(false),
-      isShowSelectedLine(false) {
+      isShowSelectedLine(false), isRect(false), isOFPoint(false),
+      isBotLine(false) {
     noImage = cv::Mat(480, 640, CV_8UC3, cv::Scalar(0, 0, 0));
     cv::putText(noImage, "No Image", cv::Point(200, 240),
                 cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2,
@@ -47,6 +48,16 @@ void wxImagePanel::SetShowType(SHOW_TYPE showType) {
     paintNow();
 }
 
+void wxImagePanel::SetIsRect(bool isRect) {
+    this->isRect = isRect;
+    paintNow();
+}
+
+void wxImagePanel::SetIsOFPoint(bool isOFPoint) {
+    this->isOFPoint = isOFPoint;
+    paintNow();
+}
+
 void wxImagePanel::SetShowSelectedLine(bool isl) {
     this->isShowSelectedLine = isl;
     paintNow();
@@ -59,6 +70,11 @@ void wxImagePanel::SetSelectedLine(std::vector<Detection::Line> &selectedLine) {
 
 void wxImagePanel::SetSelectedPoint(std::vector<cv::Point2f> &selectedPoint) {
     this->selectedPoint = selectedPoint;
+    paintNow();
+}
+
+void wxImagePanel::SetIsBotLine(bool isBotLine) {
+    this->isBotLine = isBotLine;
     paintNow();
 }
 
@@ -76,31 +92,6 @@ void wxImagePanel::calcRatio(wxDC &dc) {
     }
     w = newW;
     h = newH;
-
-    // imgRatio = (double)image.cols / (double)image.rows;
-    // clientRatio = (double)width / (double)height;
-
-    // if (imgRatio > clientRatio) {
-    //     resizeWidth = width;
-    //     resizeHeight = (int)((double)width / imgRatio);
-    // } else {
-    //     resizeHeight = height;
-    //     resizeWidth = (int)((double)height * imgRatio);
-    // }
-
-    // widthRatio = (double)image.cols / (double)resizeWidth;
-    // heightRatio = (double)image.rows / (double)resizeHeight;
-
-    // std::cout << "width: " << width << std::endl;
-    // std::cout << "height: " << height << std::endl;
-    // std::cout << "imgRatio: " << imgRatio << std::endl;
-    // std::cout << "img.cols: " << image.cols << std::endl;
-    // std::cout << "img.rows: " << image.rows << std::endl;
-    // std::cout << "clientRatio: " << clientRatio << std::endl;
-    // std::cout << "resizeWidth: " << resizeWidth << std::endl;
-    // std::cout << "resizeHeight: " << resizeHeight << std::endl;
-    // std::cout << "widthRatio: " << widthRatio << std::endl;
-    // std::cout << "heightRatio: " << heightRatio << std::endl;
 }
 
 void wxImagePanel::render(wxDC &dc) {
@@ -131,9 +122,32 @@ void wxImagePanel::render(wxDC &dc) {
         }
     }
 
-    if (!selectedLine.empty()) {
+    if (isShowSelectedLine && !selectedLine.empty()) {
         for (auto &line : selectedLine) {
             cv::line(image, line.p1, line.p2, cv::Scalar(0, 255, 0), 2,
+                     cv::LINE_AA);
+        }
+    }
+
+    if (!imgData.detection.points.empty()) {
+        if (isRect) {
+            cv::Rect rect = imgData.detection.GetRect();
+            cv::rectangle(image, rect, cv::Scalar(0, 255, 0), 2, cv::LINE_AA);
+        }
+
+        if (isOFPoint) {
+            for (auto &point : imgData.detection.GetPoints()) {
+                cv::circle(image, point, 3, cv::Scalar(255, 0, 0), -1,
+                           cv::LINE_AA);
+            }
+        }
+
+        if (isBotLine && !selectedLine.empty()) {
+            Detection::Line l = imgData.detection.GetLine();
+            cv::Point2f int1 = l.Intersection(selectedLine[0]);
+            cv::Point2f int2 = l.Intersection(selectedLine[1]);
+            Detection::Line botLine(int1, int2);
+            cv::line(image, botLine.p1, botLine.p2, cv::Scalar(0, 255, 0), 2,
                      cv::LINE_AA);
         }
     }

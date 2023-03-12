@@ -1,7 +1,7 @@
 #include <UI/Button/Button_BBox.hpp>
 
 ButtonBBox::ButtonBBox(wxWindow *parent, wxWindowID id)
-    : ButtonWState(parent, id, "BBox", false) {
+    : ButtonWState(parent, id, "BBox", true) {
     Bind(wxEVT_BUTTON, &ButtonBBox::OnButton, this);
 }
 

@@ -57,14 +57,11 @@ void ButtonPanelHough::OnShow(wxShowEvent &e) {
         isInit = true;
         return;
     }
-    if (e.IsShown()) {
-        std::cout << "ButtonPanelHough::OnShow" << std::endl;
+    if (e.IsShown() && !isProcess) {
+        isProcess = true;
         wxCommandEvent processImageEvent(c_PROCESS_IMAGE_EVENT, PROCESS_BEGIN);
         wxPostEvent(this, processImageEvent);
-    } else {
-        std::cout << "ButtonPanelHough::OnShow: false" << std::endl;
     }
-    std::cout << "Propagate event" << std::endl;
     e.Skip();
 }
 
