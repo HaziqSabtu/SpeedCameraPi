@@ -6,8 +6,6 @@ ButtonHough::ButtonHough(wxWindow *parent, wxWindowID id)
 }
 
 void ButtonHough::OnButton(wxCommandEvent &e) {
-    int id = e.GetId();
-    std::cout << "ButtonHough::OnButton: " << id << std::endl;
     toggleState();
     e.Skip();
 }

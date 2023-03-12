@@ -7,19 +7,23 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
                                          &camera, &threadPool);
     button_panel_hough =
         new ButtonPanelHough(this, Enum::CP_BUTTON_PANEL_HOUGH_ID);
+    button_panel_result =
+        new PanelButtonResult(this, Enum::CP_BUTTON_PANEL_RESULT_ID);
 
     img_bitmap = new wxImagePanel(this);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
     main_sizer->Add(button_panel_hough, 0, wxEXPAND);
+    main_sizer->Add(button_panel_result, 0, wxEXPAND);
     main_sizer->Add(img_bitmap, 1, wxEXPAND);
 
     button_panel_hough->Hide();
+    button_panel_result->Hide();
+
     SetSizer(main_sizer);
     Fit();
 
-    // img_bitmap->Bind(wxEVT_SIZE, &CameraPanel::OnSize, this);
     img_bitmap->Bind(wxEVT_LEFT_DOWN, &CameraPanel::OnLeftDown, this);
 
     AppConfig *config = new AppConfig();
@@ -32,8 +36,6 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
     camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
     camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
-
-    // Bind(wxEVT_LEFT_DOWN, &wxImagePanel::OnLeftDown, this);
 };
 
 CameraPanel::~CameraPanel() {
@@ -76,34 +78,10 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
         GetSizer()->Layout();
     }
 
-    // if (e.GetId() == Enum::CP_Canny_Button_ID) {
-    //     button_panel_hough->Hide();
-    //     button_panel->Show();
-    //     GetSizer()->Layout();
-    // }
-
-    if (e.GetId() == Enum::CP_Next_Button_ID) {
-        OnIncrement();
+    if (e.GetId() == Enum::CP_Next_Button_ID ||
+        e.GetId() == Enum::CP_Prev_Button_ID) {
+        e.GetId() == Enum::CP_Next_Button_ID ? OnIncrement() : OnDecrement();
         if (!imgData->at(currentImageIndex).hough.lines.empty()) {
-            // img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
-            img_bitmap->SetImageData(imgData->at(currentImageIndex));
-            return;
-        }
-        if (houghThread != nullptr) {
-            houghThread->Delete();
-            houghThread->Wait();
-            delete houghThread;
-            houghThread = nullptr;
-        }
-        houghThread = new HoughThread(button_panel_hough, &threadPool,
-                                      imgData->at(currentImageIndex));
-        houghThread->Run();
-    }
-
-    if (e.GetId() == Enum::CP_Prev_Button_ID) {
-        OnDecrement();
-        if (!imgData->at(currentImageIndex).hough.lines.empty()) {
-            // img_bitmap->SetImage(imgData->at(currentImageIndex).hough.canny);
             img_bitmap->SetImageData(imgData->at(currentImageIndex));
             return;
         }
@@ -136,15 +114,11 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
 
 void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
     if (e.GetId() == UPDATE_IMAGE) {
-        // cv::Mat imageData = e.GetImage();
         ImageData iData = ImageData(e.GetImage());
-        // img_bitmap->SetImage(imageData);
         img_bitmap->SetImageData(iData);
-        // img_bitmap->SetImageData(imgData->at(currentImageIndex));
     }
 
     if (e.GetId() == CLEAR_IMAGE) {
-        // img_bitmap->SetImage();
         img_bitmap->SetImageData();
     }
 }
@@ -196,7 +170,6 @@ void CameraPanel::searchLine(cv::Point2f realMousePos) {
         imgData->at(currentImageIndex).hough.lines;
 
     if (linesP.empty()) {
-        wxLogMessage("No Lines Available");
         return;
     }
 
@@ -207,7 +180,6 @@ void CameraPanel::searchLine(cv::Point2f realMousePos) {
     }
 
     if (detLines.size() == 0) {
-        wxLogMessage("No Lines Found");
         return;
     }
 
@@ -222,6 +194,12 @@ void CameraPanel::addLine(Detection::Line line) {
         selectedLine[1] = line;
     }
     img_bitmap->SetSelectedLine(selectedLine);
+
+    if (selectedLine.size() == 2) {
+        button_panel_result->Show();
+        button_panel_hough->Hide();
+        GetSizer()->Layout();
+    }
 }
 
 // clang-format off

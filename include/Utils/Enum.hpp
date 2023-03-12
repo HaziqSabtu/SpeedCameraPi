@@ -27,6 +27,15 @@ enum ProjectIDs {
     CP_Next_Button_ID,
     CP_Prev_Button_ID,
 
+    // CameraPanel->Result
+    CP_BUTTON_PANEL_RESULT_ID,
+    CP_Replay_Button_ID,
+    CP_BBox_Button_ID,
+    CP_OptF_Button_ID,
+    CP_BotL_Button_ID,
+    CP_SelL_Button_ID,
+    CP_Reselect_Button_ID,
+
     // SelectLinePanel
     SL_Panel_ID,
     SL_IMG_PANEL_ID,

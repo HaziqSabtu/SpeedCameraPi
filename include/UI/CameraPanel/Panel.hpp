@@ -17,6 +17,7 @@
 #include <Thread/Thread_Process.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
 #include <UI/CameraPanel/ButtonPanel_Hough.hpp>
+#include <UI/CameraPanel/Panel_Button_Result.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Config/ConfigStruct.hpp>
 #include <Utils/DataStruct.hpp>
@@ -41,6 +42,8 @@ class CameraPanel : public wxPanel {
 
     CameraPanelButton *button_panel;
     ButtonPanelHough *button_panel_hough;
+    PanelButtonResult *button_panel_result;
+
     wxImagePanel *img_bitmap;
     wxBoxSizer *main_sizer;
 
