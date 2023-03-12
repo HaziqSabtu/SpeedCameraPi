@@ -2,7 +2,7 @@
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id), imgData(nullptr), threadPool(1),
-      processThread(nullptr), houghThread(nullptr) {
+      processThread(nullptr), houghThread(nullptr), resultThread(nullptr) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID,
                                          &camera, &threadPool);
     button_panel_hough =
@@ -57,8 +57,12 @@ CameraPanel::~CameraPanel() {
         houghThread = nullptr;
     }
 
-    delete button_panel;
-    delete img_bitmap;
+    if (resultThread != nullptr) {
+        resultThread->Delete();
+        resultThread->Wait();
+        delete resultThread;
+        resultThread = nullptr;
+    }
 }
 
 void CameraPanel::OnIncrement() {
@@ -71,12 +75,6 @@ void CameraPanel::OnDecrement() {
 }
 
 void CameraPanel::OnButton(wxCommandEvent &e) {
-
-    if (e.GetId() == Enum::CP_Camera_Button_ID) {
-        button_panel->Hide();
-        button_panel_hough->Show();
-        GetSizer()->Layout();
-    }
 
     if (e.GetId() == Enum::CP_Next_Button_ID ||
         e.GetId() == Enum::CP_Prev_Button_ID) {
@@ -110,11 +108,22 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
         selectedLine.clear();
         img_bitmap->SetSelectedLine(selectedLine);
     }
+
+    if (e.GetId() == Enum::CP_Replay_Button_ID) {
+        if (resultThread != nullptr) {
+            resultThread->Delete();
+            resultThread->Wait();
+            delete resultThread;
+            resultThread = nullptr;
+        }
+        resultThread = new ResultThread(button_panel_result, imgData);
+        resultThread->Run();
+    }
 }
 
 void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
     if (e.GetId() == UPDATE_IMAGE) {
-        ImageData iData = ImageData(e.GetImage());
+        ImageData iData = e.GetImageData();
         img_bitmap->SetImageData(iData);
     }
 
@@ -140,7 +149,9 @@ void CameraPanel::OnProcessImage(wxCommandEvent &e) {
 }
 
 void CameraPanel::OnCaptureImage(CaptureImageEvent &e) {
-    if (e.GetId() == CAPTURE_END) {
+    if (e.GetId() == CAPTURE_START) {
+        img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
+    } else if (e.GetId() == CAPTURE_END) {
         imgData = e.GetImageData();
 
         button_panel->Hide();
@@ -194,11 +205,22 @@ void CameraPanel::addLine(Detection::Line line) {
         selectedLine[1] = line;
     }
     img_bitmap->SetSelectedLine(selectedLine);
+    wxYield();
 
     if (selectedLine.size() == 2) {
         button_panel_result->Show();
         button_panel_hough->Hide();
         GetSizer()->Layout();
+
+        if (processThread != nullptr) {
+            processThread->Delete();
+            processThread->Wait();
+            delete processThread;
+            processThread = nullptr;
+        }
+        resultThread = new ResultThread(button_panel_result, imgData);
+        resultThread->Run();
+        img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
     }
 }
 

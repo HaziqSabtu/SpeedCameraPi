@@ -21,7 +21,7 @@ wxThread::ExitCode CaptureThread::Entry() {
             continue;
         }
         UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-        event.SetImageData(frame);
+        event.SetImageData(ImageData(frame));
         wxPostEvent(m_parent, event);
         wxMilliSleep(30);
     }

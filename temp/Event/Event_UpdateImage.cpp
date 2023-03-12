@@ -7,13 +7,12 @@ UpdateImageEvent::UpdateImageEvent(wxEventType eventType, int id)
 
 UpdateImageEvent::UpdateImageEvent(const UpdateImageEvent &e)
     : wxCommandEvent(e) {
-    this->SetImageData(e.GetImageData());
+    this->SetImageData(e.GetImage());
 }
 
 wxEvent *UpdateImageEvent::Clone() const { return new UpdateImageEvent(*this); }
 
-void UpdateImageEvent::SetImageData(const ImageData &imgData) {
-    this->imgData = imgData;
-}
+// * is cloning necessary? since the image will be cloned by BitMap
+void UpdateImageEvent::SetImageData(const cv::Mat &img) { this->image = img; }
 
-ImageData UpdateImageEvent::GetImageData() const { return imgData; }
+cv::Mat UpdateImageEvent::GetImage() const { return image; }

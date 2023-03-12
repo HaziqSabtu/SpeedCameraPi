@@ -15,6 +15,7 @@
 #include <Thread/Thread_Hough.hpp>
 #include <Thread/Thread_LoadFile.hpp>
 #include <Thread/Thread_Process.hpp>
+#include <Thread/Thread_Result.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
 #include <UI/CameraPanel/ButtonPanel_Hough.hpp>
 #include <UI/CameraPanel/Panel_Button_Result.hpp>
@@ -39,6 +40,7 @@ class CameraPanel : public wxPanel {
 
     ProcessThread *processThread;
     HoughThread *houghThread;
+    ResultThread *resultThread;
 
     CameraPanelButton *button_panel;
     ButtonPanelHough *button_panel_hough;

@@ -1,7 +1,6 @@
 #ifndef UPDATE_IMAGE_EVENT_HPP
 #define UPDATE_IMAGE_EVENT_HPP
 
-#include <Utils/DataStruct.hpp>
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <wx/event.h>
@@ -18,13 +17,13 @@ class UpdateImageEvent : public wxCommandEvent {
     virtual wxEvent *Clone() const;
 
     // Define a method to set the image data
-    void SetImageData(const ImageData &imgData);
+    void SetImageData(const cv::Mat &img);
 
     // Define a method to get the image data
-    ImageData GetImageData() const;
+    cv::Mat GetImage() const;
 
   private:
-    ImageData imgData;
+    cv::Mat image;
 };
 
 typedef void (wxEvtHandler::*UpdateImageFunction)(UpdateImageEvent &);

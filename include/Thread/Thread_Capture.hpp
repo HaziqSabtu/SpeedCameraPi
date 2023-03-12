@@ -2,6 +2,7 @@
 #define CAPTURE_THREAD_HPP
 
 #include <Event/Event_UpdateImage.hpp>
+#include <Utils/DataStruct.hpp>
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <wx/thread.h>
