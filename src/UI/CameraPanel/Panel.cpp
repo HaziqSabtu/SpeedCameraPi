@@ -1,8 +1,9 @@
 #include <UI/CameraPanel/Panel.hpp>
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
-    : wxPanel(parent, id), imgData(nullptr), threadPool(1),
-      processThread(nullptr), houghThread(nullptr), resultThread(nullptr) {
+    : wxPanel(parent, id), imgData(nullptr), threadPool(3),
+      processThread(nullptr), houghThread(nullptr), resultThread(nullptr),
+      speedThread(nullptr) {
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID,
                                          &camera, &threadPool);
     button_panel_hough =
@@ -199,6 +200,12 @@ void CameraPanel::OnLeftDown(wxMouseEvent &e) {
     searchLine(p);
 }
 
+void CameraPanel::OnSpeed(SpeedCalcEvent &e) {
+    if (e.GetId() == CALC_OK) {
+        img_bitmap->SetSpeed(e.GetSpeed());
+    }
+}
+
 void CameraPanel::searchLine(cv::Point2f realMousePos) {
     std::vector<Detection::Line> detLines;
     std::vector<Detection::Line> linesP =
@@ -242,6 +249,17 @@ void CameraPanel::addLine(Detection::Line line) {
             delete processThread;
             processThread = nullptr;
         }
+
+        if (speedThread != nullptr) {
+            speedThread->Delete();
+            speedThread->Wait();
+            delete speedThread;
+            speedThread = nullptr;
+        }
+
+        speedThread =
+            new SpeedThread(button_panel_result, imgData, selectedLine);
+        speedThread->Run();
         resultThread = new ResultThread(button_panel_result, imgData);
         resultThread->Run();
         img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
@@ -254,6 +272,7 @@ void CameraPanel::addLine(Detection::Line line) {
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel) 
+    EVT_SPEED(wxID_ANY, CameraPanel::OnSpeed)
     EVT_HOUGH(wxID_ANY, CameraPanel::OnHough)
     EVT_UPDATEIMAGE(wxID_ANY, CameraPanel::OnUpdateImage)
     EVT_CAPTUREIMAGE(wxID_ANY, CameraPanel::OnCaptureImage)

@@ -177,12 +177,20 @@ OpticalFlowData::threshold(OpticalFlowData &previous, float threshold) {
     for (auto it = data.begin(); it != data.end(); it++) {
         Detection::OFPoint currP = it->second;
         Detection::OFPoint prevP = previous.GetPointById(it->first);
-        if (currP.id != prevP.id) {
-            std::cout << "ID not match" << std::endl;
-        }
         if (currP.status == 1 && prevP.status == 1 &&
             OFPoint::distance(currP, prevP) > threshold) {
             points.push_back(currP);
+        }
+    }
+    return points;
+}
+
+std::vector<Detection::OFPoint>
+OpticalFlowData::update2(std::vector<Detection::OFPoint> &refData) {
+    std::vector<Detection::OFPoint> points;
+    for (auto data : refData) {
+        if (data.status == 1) {
+            points.push_back(GetPointById(data.id));
         }
     }
     return points;
@@ -208,10 +216,14 @@ std::vector<cv::Point2f> DetectionData::GetPoints() {
 cv::Rect DetectionData::GetRect() { return cv::boundingRect(GetPoints()); }
 
 Detection::Line DetectionData::GetLine() {
+    std::cout << "GetLine" << std::endl;
     std::vector<cv::Point2f> p = GetPoints();
+    std::cout << "GetPoints: p size" << p.size() << std::endl;
     std::sort(p.begin(), p.end(),
               [](cv::Point2f &a, cv::Point2f &b) { return a.y > b.y; });
+    std::cout << "Sort" << std::endl;
     cv::Point2f selected = p.front();
+    std::cout << "Selected: " << selected << std::endl;
     return Detection::Line(selected, cv::Point2f(selected.x + 1, selected.y));
 }
 

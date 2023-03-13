@@ -30,6 +30,7 @@ class wxImagePanel : public wxPanel {
     bool isBotLine;
     std::vector<Detection::Line> selectedLine;
     std::vector<cv::Point2f> selectedPoint;
+    double speed = -1;
 
     float widthRatio;
     float heightRatio;
@@ -52,6 +53,7 @@ class wxImagePanel : public wxPanel {
     void SetIsBotLine(bool isBotLine);
     void SetShowHoughLine(bool isShowHoughLine);
     void SetShowSelectedLine(bool isShowSelectedLine);
+    void SetSpeed(double speed);
     void SetSelectedLine(std::vector<Detection::Line> &selectedLine);
     void SetSelectedPoint(std::vector<cv::Point2f> &selectedPoint);
     // void SetImage(cv::Mat &img);

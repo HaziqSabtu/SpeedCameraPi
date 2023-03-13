@@ -28,3 +28,12 @@ double ImageUtils::TrimmedMean(const std::vector<double> &data,
     }
     return sum / (n - 2 * trim);
 }
+
+namespace Utils {
+double TimeDiff(std::chrono::high_resolution_clock::time_point time1,
+                std::chrono::high_resolution_clock::time_point time2) {
+    return std::chrono::duration_cast<std::chrono::microseconds>(time2 - time1)
+               .count() /
+           1000.0;
+};
+} // namespace Utils

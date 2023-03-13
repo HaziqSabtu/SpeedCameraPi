@@ -13,4 +13,9 @@ class ImageUtils {
                               double percentage);
 };
 
+namespace Utils {
+double TimeDiff(std::chrono::high_resolution_clock::time_point time1,
+                std::chrono::high_resolution_clock::time_point time2);
+} // namespace Utils
+
 #endif

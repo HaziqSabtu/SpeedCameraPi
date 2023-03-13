@@ -4,6 +4,7 @@
 #include <Event/Event_CaptureImage.hpp>
 #include <Event/Event_Hough.hpp>
 #include <Event/Event_ProcessImage.hpp>
+#include <Event/Event_Speed.hpp>
 #include <Event/Event_UpdateImage.hpp>
 #include <Thread/Task/Task_Capture.hpp>
 #include <Thread/Task/Task_HoughLine.hpp>
@@ -16,6 +17,7 @@
 #include <Thread/Thread_LoadFile.hpp>
 #include <Thread/Thread_Process.hpp>
 #include <Thread/Thread_Result.hpp>
+#include <Thread/Thread_Speed.hpp>
 #include <UI/CameraPanel/ButtonPanel.hpp>
 #include <UI/CameraPanel/ButtonPanel_Hough.hpp>
 #include <UI/CameraPanel/Panel_Button_Result.hpp>
@@ -41,6 +43,7 @@ class CameraPanel : public wxPanel {
     ProcessThread *processThread;
     HoughThread *houghThread;
     ResultThread *resultThread;
+    SpeedThread *speedThread;
 
     CameraPanelButton *button_panel;
     ButtonPanelHough *button_panel_hough;
@@ -67,6 +70,7 @@ class CameraPanel : public wxPanel {
     void OnProcessImage(wxCommandEvent &e);
     void OnCaptureImage(CaptureImageEvent &e);
     void OnHough(HoughEvent &e);
+    void OnSpeed(SpeedCalcEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

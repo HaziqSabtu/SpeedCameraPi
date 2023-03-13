@@ -50,6 +50,7 @@ struct OpticalFlowData {
     std::vector<cv::Point2f> GetPoints();
     void update(OpticalFlowData OFData);
     std::vector<OFPoint> threshold(OpticalFlowData &previous, float threshold);
+    std::vector<OFPoint> update2(std::vector<Detection::OFPoint> &refData);
     Detection::OFPoint GetPointById(int id);
 };
 

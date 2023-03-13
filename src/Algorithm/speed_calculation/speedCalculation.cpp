@@ -67,15 +67,19 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
         wxLogMessage("No data");
         return;
     }
-
-    int i = 0;
-    for (int i = 1; i < imgData->size(); i++) {
-
+    std::cout << "imgData->size(): " << imgData->size() << std::endl;
+    for (int i = 0; i < imgData->size(); i++) {
+        wxLogMessage("i: %d", i);
         Detection::Line botL = imgData->at(i).detection.GetLine();
+        wxLogMessage("botL: %s", botL.ToString().c_str());
         cv::Point2f intersection1 = botL.Intersection(lines[0]);
         cv::Point2f intersection2 = botL.Intersection(lines[1]);
-
+        wxLogMessage("intersection1: x=%f, y=%f", intersection1.x,
+                     intersection1.y);
+        wxLogMessage("intersection2: x=%f, y=%f", intersection2.x,
+                     intersection2.y);
         double pixelDist = fabs(intersection1.x - intersection2.x);
+        wxLogMessage("pixelDist: %f", pixelDist);
         double dist1 = distanceFromCamera(pixelDist);
         wxLogMessage("####################");
         wxLogMessage("%d: Distance: %f", i, dist1);
@@ -83,7 +87,10 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
         std::chrono::high_resolution_clock::time_point currTime =
             imgData->at(i).time;
 
+        wxLogMessage("CurrTime: %lld", currTime.time_since_epoch().count());
+
         if (prevDistFromCamera != -1) {
+
             double speed =
                 calcSpeed(prevDistFromCamera, dist1, prevTime, currTime);
             wxLogMessage("Speed: %f", speed);
@@ -92,7 +99,6 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
 
         prevDistFromCamera = dist1;
         prevTime = currTime;
-        i++;
     }
 
     double rawSpeed = rawAvgSpeed(speeds);
@@ -165,12 +171,12 @@ double SpeedCalculation::calcSpeed(
     std::chrono::high_resolution_clock::time_point prevTime,
     std::chrono::high_resolution_clock::time_point curTime) {
     double distDiff = fabs(curDist - prevDist);
-    // double timeDiff = FILEAVI::getTimeDifference(prevTime, curTime);
-    // wxLogMessage("DistDiff: %f", distDiff);
-    // wxLogMessage("TimeDiff: %f", timeDiff);
-    // return distDiff / timeDiff;
+    double timeDiff = Utils::TimeDiff(prevTime, curTime);
+    wxLogMessage("DistDiff: %f", distDiff);
+    wxLogMessage("TimeDiff: %f", timeDiff);
+    return distDiff / timeDiff;
     // ! Caution: This is a temporary fix
-    return 0;
+    // return 0;
 }
 
 // return double in 2 decimal places

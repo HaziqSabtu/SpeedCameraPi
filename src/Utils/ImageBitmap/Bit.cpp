@@ -38,6 +38,11 @@ void wxImagePanel::SetShowHoughLine(bool isl) {
     paintNow();
 }
 
+void wxImagePanel::SetSpeed(double speed) {
+    this->speed = speed;
+    paintNow();
+}
+
 void wxImagePanel::SetImageData() {
     this->showType = SHOW_TYPE_NONE;
     paintNow();
@@ -150,6 +155,12 @@ void wxImagePanel::render(wxDC &dc) {
             cv::line(image, botLine.p1, botLine.p2, cv::Scalar(0, 255, 0), 2,
                      cv::LINE_AA);
         }
+    }
+
+    if (speed != -1) {
+        std::string text = "Speed: " + std::to_string(speed) + " m/s";
+        cv::putText(image, text, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 1,
+                    cv::Scalar(0, 0, 255), 2, cv::LINE_AA);
     }
 
     if (image.empty()) {

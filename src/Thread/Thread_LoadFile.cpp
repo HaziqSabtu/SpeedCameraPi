@@ -24,7 +24,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
                                             CAPTURE_START);
         wxPostEvent(parent, startCaptureEvent);
 
-        pool->AddTask(new LoadTask(imgData.get(), path, 5));
+        pool->AddTask(new LoadTask(imgData.get(), path, 10));
 
         while (imgData->empty()) {
             wxMilliSleep(30);
@@ -39,7 +39,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
             wxMilliSleep(30);
         }
 
-        int limit = 5;
+        int limit = 10;
         imgData->erase(imgData->begin() + limit, imgData->end());
 
         for (int i = 1; i < imgData->size(); i++) {
