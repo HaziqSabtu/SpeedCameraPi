@@ -3,6 +3,7 @@
 
 #include <Utils/DataStruct.hpp>
 #include <Utils/ImageUtils.hpp>
+#include <Utils/Struct/D_Line.hpp>
 #include <chrono>
 #include <opencv2/core.hpp>
 #include <wx/log.h>
@@ -13,6 +14,8 @@ class SpeedCalculation {
     SpeedCalculation();
 
     void runCalculation(std::vector<SpeedData> speedData);
+    void runCalculation(std::vector<ImageData> *imgData,
+                        std::vector<Detection::Line> &lines);
 
     static std::vector<SpeedData>
     toSpeedData(std::vector<ImageData> &imgData,

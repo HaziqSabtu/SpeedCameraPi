@@ -56,6 +56,59 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     wxLogMessage("Raw Speed: %f", rawSpeed);
 }
 
+void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
+                                      std::vector<Detection::Line> &lines) {
+    if (lines.size() != 2) {
+        wxLogMessage("Line Size Error");
+        return;
+    }
+
+    if (imgData->size() == 0) {
+        wxLogMessage("No data");
+        return;
+    }
+
+    int i = 0;
+    for (int i = 1; i < imgData->size(); i++) {
+
+        Detection::Line botL = imgData->at(i).detection.GetLine();
+        cv::Point2f intersection1 = botL.Intersection(lines[0]);
+        cv::Point2f intersection2 = botL.Intersection(lines[1]);
+
+        double pixelDist = fabs(intersection1.x - intersection2.x);
+        double dist1 = distanceFromCamera(pixelDist);
+        wxLogMessage("####################");
+        wxLogMessage("%d: Distance: %f", i, dist1);
+
+        std::chrono::high_resolution_clock::time_point currTime =
+            imgData->at(i).time;
+
+        if (prevDistFromCamera != -1) {
+            double speed =
+                calcSpeed(prevDistFromCamera, dist1, prevTime, currTime);
+            wxLogMessage("Speed: %f", speed);
+            speeds.push_back(speed);
+        }
+
+        prevDistFromCamera = dist1;
+        prevTime = currTime;
+        i++;
+    }
+
+    double rawSpeed = rawAvgSpeed(speeds);
+    avgSpeed = ImageUtils::TrimmedMean(speeds, 10);
+
+    double measuredSpeed = 0.3 / 1.2;
+    // double measuredSpeed = 1200 / 4665.2;
+    wxLogMessage("Measured Speed: %f", measuredSpeed);
+    wxLogMessage("average Speed: %f", avgSpeed);
+
+    double error = fabs(avgSpeed - measuredSpeed) * 100 / measuredSpeed;
+    wxLogMessage("Error: %f", error);
+
+    wxLogMessage("Raw Speed: %f", rawSpeed);
+}
+
 double SpeedCalculation::distanceFromCamera(float pixelWidth) {
     return (LANE_WIDTH * imageWidth * FocalLength) / (pixelWidth * SensorWidth);
 }
