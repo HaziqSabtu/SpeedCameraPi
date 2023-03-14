@@ -18,7 +18,7 @@ class SpeedCalcEvent : public wxCommandEvent {
     virtual wxEvent *Clone() const;
 
     // Define a method to set the image data
-    void SetSpeed(const double &spd);
+    void SetSpeed(const double spd);
 
     // Define a method to get the image data
     double GetSpeed() const;

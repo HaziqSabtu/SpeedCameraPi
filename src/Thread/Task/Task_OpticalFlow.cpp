@@ -35,14 +35,19 @@ void FlowTask::Execute() {
     // * IDEA: Imagine Point moving in 3D space
     // * The moving points can be seen clearly ?
     // * Seperate with KNN CLustering
-    for (int i = 1; i < imgData->size(); i++) {
-        Detection::OpticalFlowData prevData = imgData->at(i - 1).flow;
-        Detection::OpticalFlowData currData = imgData->at(i).flow;
-
-        imgData->at(i).SetDetection(currData.threshold(prevData, 1));
+    std::vector<int> ids;
+    for (int i = 0; i < imgData->at(0).flow.GetPoints().size(); i++) {
+        ids.push_back(i);
     }
-    imgData->at(0).SetDetection(
-        imgData->at(0).flow.update2(imgData->at(1).detection.points));
+
+    for (int i = 1; i < imgData->size(); i++) {
+        imgData->at(i).flow.thresholdPointsId(ids, imgData->at(i - 1).flow,
+                                              1.0);
+    }
+
+    for (int i = 0; i < imgData->size(); i++) {
+        imgData->at(i).SetDetection(imgData->at(i).flow.GetPointsById(ids));
+    }
 }
 
 /**

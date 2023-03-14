@@ -185,6 +185,28 @@ OpticalFlowData::threshold(OpticalFlowData &previous, float threshold) {
     return points;
 }
 
+void OpticalFlowData::thresholdPointsId(std::vector<int> &ids,
+                                        OpticalFlowData &previous,
+                                        float threshold) {
+    for (int id : ids) {
+        Detection::OFPoint currP = GetPointById(id);
+        Detection::OFPoint prevP = previous.GetPointById(id);
+        if (currP.status != 1 || prevP.status != 1 ||
+            OFPoint::distance(currP, prevP) < threshold) {
+            ids.erase(std::remove(ids.begin(), ids.end(), id), ids.end());
+        }
+    }
+}
+
+std::vector<Detection::OFPoint>
+OpticalFlowData::GetPointsById(std::vector<int> &ids) {
+    std::vector<Detection::OFPoint> points;
+    for (int id : ids) {
+        points.push_back(GetPointById(id));
+    }
+    return points;
+}
+
 std::vector<Detection::OFPoint>
 OpticalFlowData::update2(std::vector<Detection::OFPoint> &refData) {
     std::vector<Detection::OFPoint> points;

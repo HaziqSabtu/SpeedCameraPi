@@ -1,8 +1,9 @@
 #ifndef SPEED_CALCULATION_THREAD_HPP
 #define SPEED_CALCULATION_THREAD_HPP
 
-#include <Algorithm/speed_calculation/speedCalculation.hpp>
 #include <Event/Event_Speed.hpp>
+#include <Thread/Task/Task_Speed.hpp>
+#include <Thread/ThreadPool.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
@@ -11,7 +12,8 @@
 
 class SpeedThread : public wxThread {
   public:
-    SpeedThread(wxEvtHandler *parent, std::vector<ImageData> *imgData,
+    SpeedThread(wxEvtHandler *parent, ThreadPool *pool,
+                std::vector<ImageData> *imgData,
                 std::vector<Detection::Line> &selectedLine);
     ~SpeedThread();
 
@@ -21,6 +23,7 @@ class SpeedThread : public wxThread {
   private:
     wxEvtHandler *m_parent;
     std::vector<ImageData> *imgData;
+    ThreadPool *pool;
     std::vector<Detection::Line> selectedLine;
 };
 

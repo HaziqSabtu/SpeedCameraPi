@@ -11,6 +11,6 @@ SpeedCalcEvent::SpeedCalcEvent(const SpeedCalcEvent &e) : wxCommandEvent(e) {
 
 wxEvent *SpeedCalcEvent::Clone() const { return new SpeedCalcEvent(*this); }
 
-void SpeedCalcEvent::SetSpeed(const double &spd) { this->speed = spd; }
+void SpeedCalcEvent::SetSpeed(const double spd) { this->speed = spd; }
 
 double SpeedCalcEvent::GetSpeed() const { return speed; }

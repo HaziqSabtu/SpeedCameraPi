@@ -257,8 +257,8 @@ void CameraPanel::addLine(Detection::Line line) {
             speedThread = nullptr;
         }
 
-        speedThread =
-            new SpeedThread(button_panel_result, imgData, selectedLine);
+        speedThread = new SpeedThread(button_panel_result, &threadPool, imgData,
+                                      selectedLine);
         speedThread->Run();
         resultThread = new ResultThread(button_panel_result, imgData);
         resultThread->Run();
