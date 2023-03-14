@@ -27,5 +27,8 @@ wxThread::ExitCode ProcessThread::Entry() {
         std::cout << "ProcessThread::Entry() - Error: \n"
                   << e.what() << std::endl;
     }
+
+    wxCommandEvent processImageEvent(c_PROCESS_IMAGE_EVENT, PROCESS_END);
+    wxPostEvent(parent, processImageEvent);
     return 0;
 }

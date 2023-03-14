@@ -1,9 +1,6 @@
 #include <Utils/ImageBitmap/Bit.hpp>
 
-wxImagePanel::wxImagePanel(wxPanel *parent)
-    : wxPanel(parent), showType(SHOW_TYPE_IMAGE), isShowHoughLine(false),
-      isShowSelectedLine(false), isRect(false), isOFPoint(false),
-      isBotLine(false) {
+wxImagePanel::wxImagePanel(wxPanel *parent) : wxPanel(parent) {
     noImage = cv::Mat(480, 640, CV_8UC3, cv::Scalar(0, 0, 0));
     cv::putText(noImage, "No Image", cv::Point(200, 240),
                 cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2,
@@ -11,6 +8,20 @@ wxImagePanel::wxImagePanel(wxPanel *parent)
     // Bind(wxEVT_LEFT_DOWN, &wxImagePanel::OnLeftDown, this);
     w = -1;
     h = -1;
+
+    SetDefaultState();
+}
+
+void wxImagePanel::SetDefaultState() {
+    showType = SHOW_TYPE_IMAGE;
+    isShowHoughLine = false;
+    isShowSelectedLine = false;
+    isRect = false;
+    isOFPoint = false;
+    isBotLine = false;
+    selectedLine.clear();
+    selectedPoint.clear();
+    speed = -1;
 }
 
 void wxImagePanel::OnLeftDown(wxMouseEvent &e) {

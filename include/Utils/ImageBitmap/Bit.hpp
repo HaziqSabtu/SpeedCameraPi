@@ -30,12 +30,13 @@ class wxImagePanel : public wxPanel {
     bool isBotLine;
     std::vector<Detection::Line> selectedLine;
     std::vector<cv::Point2f> selectedPoint;
-    double speed = -1;
+    double speed;
 
     float widthRatio;
     float heightRatio;
 
   public:
+    void SetDefaultState();
     void calcRatio(wxDC &dc);
     cv::Point2f calcMousePos(wxPoint &mousePos);
     wxImagePanel(wxPanel *parent);

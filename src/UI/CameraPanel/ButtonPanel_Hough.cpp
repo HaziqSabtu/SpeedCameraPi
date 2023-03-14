@@ -7,7 +7,7 @@ ButtonPanelHough::ButtonPanelHough(wxWindow *parent, wxWindowID id)
     Hough_Button = new ButtonHough(this, Enum::CP_Hough_Button_ID);
     ClearLine_Button =
         new wxButton(this, Enum::CP_Clear_Button_ID, "Clear Line");
-    Reset_Button = new wxButton(this, wxID_ANY, "Reset");
+    Reset_Button = new wxButton(this, Enum::CP_Reset_Button_ID, "Reset");
     Next_Button = new wxButton(this, Enum::CP_Next_Button_ID, ">>");
     Prev_Button = new wxButton(this, Enum::CP_Prev_Button_ID, "<<");
     Spacer = new wxStaticText(this, wxID_ANY, "");
@@ -29,6 +29,8 @@ ButtonPanelHough::ButtonPanelHough(wxWindow *parent, wxWindowID id)
     Bind(wxEVT_SHOW, &ButtonPanelHough::OnShow, this);
     Bind(c_HOUGH_EVENT, &ButtonPanelHough::OnHough, this);
 }
+
+void ButtonPanelHough::SetDefaultState() { this->isProcess = false; }
 
 void ButtonPanelHough::DisableAllButtons() {
     Canny_Button->Disable();

@@ -1,6 +1,7 @@
 #ifndef PROCESS_THREAD_HPP
 #define PROCESS_THREAD_HPP
 
+#include <Event/Event_ProcessImage.hpp>
 #include <Event/Event_UpdateImage.hpp>
 #include <Thread/Task/Task_OpticalFlow.hpp>
 #include <Thread/Task/Task_Sift.hpp>

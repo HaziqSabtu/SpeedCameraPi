@@ -14,6 +14,7 @@
 #include <Thread/ThreadPool.hpp>
 #include <Thread/Thread_Capture.hpp>
 #include <Thread/Thread_Hough.hpp>
+#include <Thread/Thread_LoadCapture.hpp>
 #include <Thread/Thread_LoadFile.hpp>
 #include <Thread/Thread_Process.hpp>
 #include <Thread/Thread_Result.hpp>
@@ -44,6 +45,9 @@ class CameraPanel : public wxPanel {
     HoughThread *houghThread;
     ResultThread *resultThread;
     SpeedThread *speedThread;
+    LoadFileThread *loadFileThread;
+    CaptureThread *captureThread;
+    LoadCaptureThread *loadCaptureThread;
 
     CameraPanelButton *button_panel;
     ButtonPanelHough *button_panel_hough;
@@ -62,6 +66,8 @@ class CameraPanel : public wxPanel {
     int currentImageIndex = 0;
     void OnIncrement();
     void OnDecrement();
+
+    void deleteThread(wxThread *thread);
 
     void OnButton(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);

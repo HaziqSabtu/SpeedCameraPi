@@ -10,7 +10,7 @@ PanelButtonResult::PanelButtonResult(wxWindow *parent, wxWindowID id)
     Reselect_Button =
         new wxButton(this, Enum::CP_Reselect_Button_ID, "Reselect");
 
-    Reset_Button = new wxButton(this, wxID_ANY, "Reset");
+    Reset_Button = new wxButton(this, Enum::CP_Reset_Button_ID, "Reset");
     Spacer = new wxStaticText(this, wxID_ANY, "");
 
     button_sizer = new wxBoxSizer(wxHORIZONTAL);

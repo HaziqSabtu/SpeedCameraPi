@@ -2,7 +2,6 @@
 #define LOAD_FILE_THREAD_HPP
 
 #include <Event/Event_CaptureImage.hpp>
-#include <Event/Event_ProcessImage.hpp>
 #include <Event/Event_UpdateImage.hpp>
 #include <Thread/Task/Task_Load.hpp>
 #include <Thread/ThreadPool.hpp>

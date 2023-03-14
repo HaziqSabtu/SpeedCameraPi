@@ -18,6 +18,7 @@ enum ProjectIDs {
     CP_Load_Button_ID,
     CP_Camera_Button_ID,
     CP_Camera_Button2_ID,
+    CP_Reset_Button_ID,
 
     // CameraPanel->Hough
     CP_BUTTON_PANEL_HOUGH_ID,

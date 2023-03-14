@@ -1,11 +1,8 @@
 #include <UI/CameraPanel/Panel.hpp>
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
-    : wxPanel(parent, id), imgData(nullptr), threadPool(3),
-      processThread(nullptr), houghThread(nullptr), resultThread(nullptr),
-      speedThread(nullptr) {
-    button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID,
-                                         &camera, &threadPool);
+    : wxPanel(parent, id), imgData(nullptr), threadPool(3) {
+    button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
     button_panel_hough =
         new ButtonPanelHough(this, Enum::CP_BUTTON_PANEL_HOUGH_ID);
     button_panel_result =
@@ -37,6 +34,17 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
     camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
     camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
+
+    processThread = nullptr;
+    houghThread = nullptr;
+    resultThread = nullptr;
+    speedThread = nullptr;
+    loadFileThread = nullptr;
+    loadCaptureThread = nullptr;
+    captureThread = nullptr;
+
+    captureThread = new CaptureThread(this, &camera);
+    captureThread->Run();
 };
 
 CameraPanel::~CameraPanel() {
@@ -44,26 +52,18 @@ CameraPanel::~CameraPanel() {
         camera.release();
     }
 
-    if (processThread != nullptr) {
-        processThread->Delete();
-        processThread->Wait();
-        delete processThread;
-        processThread = nullptr;
-    }
+    imgData->clear();
+    delete imgData;
+    imgData = nullptr;
 
-    if (houghThread != nullptr) {
-        houghThread->Delete();
-        houghThread->Wait();
-        delete houghThread;
-        houghThread = nullptr;
-    }
+    deleteThread(processThread);
+    processThread = nullptr;
 
-    if (resultThread != nullptr) {
-        resultThread->Delete();
-        resultThread->Wait();
-        delete resultThread;
-        resultThread = nullptr;
-    }
+    deleteThread(houghThread);
+    houghThread = nullptr;
+
+    deleteThread(resultThread);
+    resultThread = nullptr;
 }
 
 void CameraPanel::OnIncrement() {
@@ -76,72 +76,133 @@ void CameraPanel::OnDecrement() {
 }
 
 void CameraPanel::OnButton(wxCommandEvent &e) {
+    int id = e.GetId();
 
-    if (e.GetId() == Enum::CP_Next_Button_ID ||
-        e.GetId() == Enum::CP_Prev_Button_ID) {
-        e.GetId() == Enum::CP_Next_Button_ID ? OnIncrement() : OnDecrement();
+    if (id == Enum::CP_Capture_Button_ID) {
+        deleteThread(captureThread);
+        captureThread = nullptr;
+
+        deleteThread(loadCaptureThread);
+        loadCaptureThread = new LoadCaptureThread(
+            button_panel->GetButton(CAPTURE_BUTTON), &camera);
+        loadCaptureThread->Run();
+    }
+
+    if (id == Enum::CP_Load_Button_ID) {
+        AppConfig *config = new AppConfig();
+        wxString filePath = config->GetLoadFileName();
+        deleteThread(captureThread);
+        captureThread = nullptr;
+
+        deleteThread(loadFileThread);
+        loadFileThread = new LoadFileThread(
+            button_panel->GetButton(LOAD_BUTTON), &threadPool, filePath);
+        loadFileThread->Run();
+        delete config;
+        config = nullptr;
+    }
+
+    if (id == Enum::CP_Next_Button_ID || id == Enum::CP_Prev_Button_ID) {
+        id == Enum::CP_Next_Button_ID ? OnIncrement() : OnDecrement();
         if (!imgData->at(currentImageIndex).hough.lines.empty()) {
             img_bitmap->SetImageData(imgData->at(currentImageIndex));
             return;
         }
-        if (houghThread != nullptr) {
-            houghThread->Delete();
-            houghThread->Wait();
-            delete houghThread;
-            houghThread = nullptr;
-        }
+        deleteThread(houghThread);
         houghThread = new HoughThread(button_panel_hough, &threadPool,
                                       imgData->at(currentImageIndex));
         houghThread->Run();
     }
 
-    if (e.GetId() == Enum::CP_Canny_Button_ID) {
+    if (id == Enum::CP_Canny_Button_ID) {
         button_panel_hough->GetCannyState()
             ? img_bitmap->SetShowType(SHOW_TYPE_CANNY)
             : img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
     }
 
-    if (e.GetId() == Enum::CP_Hough_Button_ID) {
+    if (id == Enum::CP_Hough_Button_ID) {
         img_bitmap->SetShowHoughLine(button_panel_hough->GetHoughState());
     }
 
-    if (e.GetId() == Enum::CP_Clear_Button_ID) {
+    if (id == Enum::CP_Clear_Button_ID) {
         selectedLine.clear();
         img_bitmap->SetSelectedLine(selectedLine);
     }
 
-    if (e.GetId() == Enum::CP_Replay_Button_ID) {
-        if (resultThread != nullptr) {
-            resultThread->Delete();
-            resultThread->Wait();
-            delete resultThread;
-            resultThread = nullptr;
-        }
+    if (id == Enum::CP_Replay_Button_ID) {
+        deleteThread(resultThread);
         resultThread = new ResultThread(button_panel_result, imgData);
         resultThread->Run();
     }
 
-    if (e.GetId() == Enum::CP_BBox_Button_ID) {
+    if (id == Enum::CP_BBox_Button_ID) {
         img_bitmap->SetIsRect(button_panel_result->GetBBoxState());
     }
 
-    if (e.GetId() == Enum::CP_BotL_Button_ID) {
+    if (id == Enum::CP_BotL_Button_ID) {
         img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
     }
 
-    if (e.GetId() == Enum::CP_OptF_Button_ID) {
+    if (id == Enum::CP_OptF_Button_ID) {
         img_bitmap->SetIsOFPoint(button_panel_result->GetOFPntState());
     }
 
-    if (e.GetId() == Enum::CP_SelL_Button_ID) {
+    if (id == Enum::CP_SelL_Button_ID) {
         img_bitmap->SetShowSelectedLine(button_panel_result->GetSelLState());
     }
 
-    if (e.GetId() == Enum::CP_Reselect_Button_ID) {
+    if (id == Enum::CP_Reselect_Button_ID) {
         button_panel_result->Hide();
         button_panel_hough->Show();
         GetSizer()->Layout();
         img_bitmap->SetShowSelectedLine(true);
+    }
+
+    if (id == Enum::CP_Reset_Button_ID) {
+        deleteThread(nullptr);
+        processThread = nullptr;
+
+        deleteThread(houghThread);
+        houghThread = nullptr;
+
+        deleteThread(resultThread);
+        resultThread = nullptr;
+
+        deleteThread(speedThread);
+        speedThread = nullptr;
+
+        deleteThread(loadFileThread);
+        loadFileThread = nullptr;
+
+        deleteThread(loadCaptureThread);
+        loadCaptureThread = nullptr;
+
+        deleteThread(captureThread);
+        captureThread = nullptr;
+        captureThread = new CaptureThread(this, &camera);
+        captureThread->Run();
+
+        imgData->clear();
+        delete imgData;
+        imgData = nullptr;
+
+        selectedLine.clear();
+        selectedPoint.clear();
+        currentImageIndex = 0;
+
+        img_bitmap->SetDefaultState();
+        button_panel_hough->SetDefaultState();
+
+        if (button_panel_hough->IsShown()) {
+            button_panel_hough->Hide();
+        }
+
+        if (button_panel_result->IsShown()) {
+            button_panel_result->Hide();
+        }
+
+        button_panel->Show();
+        GetSizer()->Layout();
     }
 }
 
@@ -158,17 +219,41 @@ void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
 
 void CameraPanel::OnProcessImage(wxCommandEvent &e) {
     if (e.GetId() == PROCESS_BEGIN) {
-
+        deleteThread(processThread);
         processThread = new ProcessThread(this, &threadPool, imgData);
         processThread->Run();
 
+        deleteThread(houghThread);
         houghThread = new HoughThread(button_panel_hough, &threadPool,
                                       imgData->at(currentImageIndex));
         houghThread->Run();
 
         img_bitmap->SetShowHoughLine(true);
     } else if (e.GetId() == PROCESS_END) {
-        // start speed calculation
+        deleteThread(processThread);
+        processThread = nullptr;
+
+        if (selectedLine.size() == 2) {
+            button_panel_result->Show();
+            button_panel_hough->Hide();
+            GetSizer()->Layout();
+
+            deleteThread(speedThread);
+            speedThread = new SpeedThread(button_panel_result, &threadPool,
+                                          imgData, selectedLine);
+            speedThread->Run();
+
+            deleteThread(resultThread);
+            resultThread = new ResultThread(button_panel_result, imgData);
+            resultThread->Run();
+
+            img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
+            img_bitmap->SetIsRect(button_panel_result->GetBBoxState());
+            img_bitmap->SetIsOFPoint(button_panel_result->GetOFPntState());
+            img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
+            img_bitmap->SetShowSelectedLine(
+                button_panel_result->GetSelLState());
+        }
     }
 }
 
@@ -198,6 +283,27 @@ void CameraPanel::OnLeftDown(wxMouseEvent &e) {
     img_bitmap->SetSelectedPoint(selectedPoint);
     img_bitmap->SetShowSelectedLine(true);
     searchLine(p);
+
+    if (selectedLine.size() == 2 && processThread == nullptr) {
+        button_panel_result->Show();
+        button_panel_hough->Hide();
+        GetSizer()->Layout();
+
+        deleteThread(speedThread);
+        speedThread = new SpeedThread(button_panel_result, &threadPool, imgData,
+                                      selectedLine);
+        speedThread->Run();
+
+        deleteThread(resultThread);
+        resultThread = new ResultThread(button_panel_result, imgData);
+        resultThread->Run();
+
+        img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
+        img_bitmap->SetIsRect(button_panel_result->GetBBoxState());
+        img_bitmap->SetIsOFPoint(button_panel_result->GetOFPntState());
+        img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
+        img_bitmap->SetShowSelectedLine(button_panel_result->GetSelLState());
+    }
 }
 
 void CameraPanel::OnSpeed(SpeedCalcEvent &e) {
@@ -229,6 +335,20 @@ void CameraPanel::searchLine(cv::Point2f realMousePos) {
     addLine(avgLine.Extrapolate(imgData->at(currentImageIndex).image));
 }
 
+void CameraPanel::deleteThread(wxThread *thread) {
+    /**
+     * Error assigning pointer to nullptr
+     * need to pass reference instead of pointer
+     *
+     */
+    if (thread != nullptr) {
+        thread->Delete();
+        thread->Wait();
+        delete thread;
+        // thread = nullptr;
+    }
+}
+
 void CameraPanel::addLine(Detection::Line line) {
     if (selectedLine.size() <= 1) {
         selectedLine.push_back(line);
@@ -236,38 +356,6 @@ void CameraPanel::addLine(Detection::Line line) {
         selectedLine[1] = line;
     }
     img_bitmap->SetSelectedLine(selectedLine);
-    wxYield();
-
-    if (selectedLine.size() == 2) {
-        button_panel_result->Show();
-        button_panel_hough->Hide();
-        GetSizer()->Layout();
-
-        if (processThread != nullptr) {
-            processThread->Delete();
-            processThread->Wait();
-            delete processThread;
-            processThread = nullptr;
-        }
-
-        if (speedThread != nullptr) {
-            speedThread->Delete();
-            speedThread->Wait();
-            delete speedThread;
-            speedThread = nullptr;
-        }
-
-        speedThread = new SpeedThread(button_panel_result, &threadPool, imgData,
-                                      selectedLine);
-        speedThread->Run();
-        resultThread = new ResultThread(button_panel_result, imgData);
-        resultThread->Run();
-        img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
-        img_bitmap->SetIsRect(button_panel_result->GetBBoxState());
-        img_bitmap->SetIsOFPoint(button_panel_result->GetOFPntState());
-        img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
-        img_bitmap->SetShowSelectedLine(button_panel_result->GetSelLState());
-    }
 }
 
 // clang-format off
