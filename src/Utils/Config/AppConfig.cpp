@@ -24,10 +24,25 @@ AppConfig::AppConfig() {
         config->Write("Load_File_Name", Default_Load_File_Name);
         config->Write("Load_Dir_Location", Default_Load_File_Name);
         config->Write("Max_Frame", Default_Max_Frame);
+
+        config->SetPath("/Detection_Parameter");
+        config->Write("Max_Points", Default_Max_Points);
+        config->Write("Threshold", Default_Threshold);
+
+        config->SetPath("/Line_Selection_Parameter");
+        config->Write("Radius", Default_Radius);
         config->Flush();
     } else {
         config = new wxFileConfig("", "", ini_filename);
     }
+}
+
+DetectionConfig AppConfig::GetDetectionConfig() {
+    DetectionConfig detectionConfig;
+    config->SetPath("/Detection_Parameter");
+    config->Read("Max_Points", &detectionConfig.maxPoints, Default_Max_Points);
+    config->Read("Threshold", &detectionConfig.threshold, Default_Threshold);
+    return detectionConfig;
 }
 
 PanelConfig AppConfig::GetPanelConfig() {
@@ -83,6 +98,36 @@ int AppConfig::GetMaxLoadFrame() {
     config->SetPath("/Load_Parameter");
     config->Read("Max_Frame", &maxFrame, Default_Max_Frame);
     return maxFrame;
+}
+
+int AppConfig::GetRadius() {
+    int radius;
+    config->SetPath("/Line_Selection_Parameter");
+    config->Read("Radius", &radius, Default_Radius);
+    return radius;
+}
+
+CannyConfig AppConfig::GetCannyConfig() {
+    CannyConfig cannyConfig;
+    config->SetPath("/Canny_Parameter");
+    config->Read("Threshold1", &cannyConfig.threshold1, Default_Threshold1);
+    config->Read("Threshold2", &cannyConfig.threshold2, Default_Threshold2);
+    config->Read("Aperture_Size", &cannyConfig.apertureSize,
+                 Default_Aperture_Size);
+    config->Read("L2_Gradient", &cannyConfig.L2gradient, Default_L2_Gradient);
+    return cannyConfig;
+}
+
+HoughConfig AppConfig::GetHoughConfig() {
+    HoughConfig houghConfig;
+    config->SetPath("/Hough_Parameter");
+    config->Read("Rho", &houghConfig.rho, Default_Rho);
+    config->Read("Theta", &houghConfig.theta, Default_Theta);
+    config->Read("Threshold", &houghConfig.threshold, Default_Hough_Threshold);
+    config->Read("Min_Line_Length", &houghConfig.minLineLength,
+                 Default_Min_Line_Length);
+    config->Read("Max_Line_Gap", &houghConfig.maxLineGap, Default_Max_Line_Gap);
+    return houghConfig;
 }
 
 AppConfig::~AppConfig() { delete config; }

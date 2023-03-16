@@ -4,6 +4,7 @@
 #include <Event/Event_Hough.hpp>
 #include <Thread/Task/Task_HoughLine.hpp>
 #include <Thread/ThreadPool.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <Utils/Struct/D_Hough.hpp>
 #include <memory>
 #include <opencv2/opencv.hpp>
@@ -12,7 +13,8 @@
 
 class HoughThread : public wxThread {
   public:
-    HoughThread(wxEvtHandler *parent, ThreadPool *pool, ImageData &imgData);
+    HoughThread(wxEvtHandler *parent, ThreadPool *pool, ImageData &imgData,
+                CannyConfig cannyConfig, HoughConfig houghConfig);
     ~HoughThread();
 
   protected:
@@ -22,6 +24,8 @@ class HoughThread : public wxThread {
     wxEvtHandler *m_parent;
     ThreadPool *pool;
     ImageData &imgData;
+    CannyConfig cannyConfig;
+    HoughConfig houghConfig;
 };
 
 #endif

@@ -20,8 +20,8 @@ wxThread::ExitCode SpeedThread::Entry() {
         wxMilliSleep(100);
     }
 
-    SpeedCalcEvent e(c_SPEED_CALC_EVENT, CALC_OK);
-    e.SetSpeed(*result);
-    wxPostEvent(m_parent, e);
+    SpeedCalcEvent calcEvent(c_SPEED_CALC_EVENT, CALC_OK);
+    calcEvent.SetSpeed(*result);
+    wxPostEvent(m_parent, calcEvent);
     return 0;
 }

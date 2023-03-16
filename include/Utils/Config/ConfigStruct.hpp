@@ -24,4 +24,24 @@ struct PanelConfig {
     int Thread_Pool_Size;
 };
 
+struct DetectionConfig {
+    int maxPoints;
+    double threshold;
+};
+
+struct CannyConfig {
+    double threshold1;
+    double threshold2;
+    int apertureSize;
+    bool L2gradient;
+};
+
+struct HoughConfig {
+    double rho;
+    double theta;
+    int threshold;
+    double minLineLength;
+    double maxLineGap;
+};
+
 #endif

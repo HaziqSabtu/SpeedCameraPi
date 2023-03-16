@@ -19,7 +19,8 @@
 
 class FlowTask : public Task {
   public:
-    FlowTask(std::vector<ImageData> *imgData);
+    FlowTask(std::vector<ImageData> *imgData, const int maxPoints,
+             double threshold);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;
@@ -27,6 +28,9 @@ class FlowTask : public Task {
   private:
     const TaskProperty property;
     std::vector<ImageData> *imgData;
+
+    const int maxPoints;
+    double threshold;
 };
 
 #endif

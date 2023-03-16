@@ -1,6 +1,7 @@
 #include <UI/CameraPanel/Panel_Image.hpp>
 
-ImagePanel::ImagePanel(wxPanel *parent) : wxPanel(parent) {
+ImagePanel::ImagePanel(wxPanel *parent, const int radius)
+    : wxPanel(parent), radius(radius) {
     noImage = cv::Mat(480, 640, CV_8UC3, cv::Scalar(0, 0, 0));
     cv::putText(noImage, "No Image", cv::Point(200, 240),
                 cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2,
@@ -134,7 +135,7 @@ void ImagePanel::render(wxDC &dc) {
 
     if (!selectedPoint.empty()) {
         for (auto &point : selectedPoint) {
-            cv::circle(image, point, 40, cv::Scalar(0, 255, 0), -1,
+            cv::circle(image, point, radius, cv::Scalar(0, 255, 0), -1,
                        cv::LINE_AA);
         }
     }

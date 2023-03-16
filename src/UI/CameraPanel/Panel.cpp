@@ -2,7 +2,8 @@
 
 CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
     : wxPanel(parent, id), imgData(nullptr),
-      threadPool(config->GetPanelConfig().Thread_Pool_Size) {
+      threadPool(config->GetPanelConfig().Thread_Pool_Size),
+      circleRadius(config->GetRadius()) {
 
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
     button_panel_hough =
@@ -10,7 +11,7 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
     button_panel_result =
         new PanelButtonResult(this, Enum::CP_BUTTON_PANEL_RESULT_ID);
 
-    img_bitmap = new ImagePanel(this);
+    img_bitmap = new ImagePanel(this, circleRadius);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
@@ -54,12 +55,6 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
 
 CameraPanel::~CameraPanel() {
 
-    if (imgData != nullptr) {
-        imgData->clear();
-        delete imgData;
-        imgData = nullptr;
-    }
-
     deleteThread(processThread);
     processThread = nullptr;
 
@@ -83,6 +78,12 @@ CameraPanel::~CameraPanel() {
 
     if (camera.isOpened()) {
         camera.release();
+    }
+
+    if (imgData != nullptr) {
+        imgData->clear();
+        delete imgData;
+        imgData = nullptr;
     }
 }
 
@@ -109,6 +110,9 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
             button_panel->GetButton(CAPTURE_BUTTON), &camera,
             captureConfig.maxFrame, captureConfig.Debug);
         loadCaptureThread->Run();
+
+        delete config;
+        config = nullptr;
     }
 
     if (id == Enum::CP_Load_Button_ID) {
@@ -122,6 +126,7 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
             button_panel->GetButton(LOAD_BUTTON), &threadPool, loadConfig.path,
             loadConfig.maxFrame);
         loadFileThread->Run();
+
         delete config;
         config = nullptr;
     }
@@ -132,10 +137,17 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
             img_bitmap->SetImageData(imgData->at(currentImageIndex));
             return;
         }
+        AppConfig *config = new AppConfig();
+        HoughConfig houghConfig = config->GetHoughConfig();
+        CannyConfig cannyConfig = config->GetCannyConfig();
         deleteThread(houghThread);
         houghThread = new HoughThread(button_panel_hough, &threadPool,
-                                      imgData->at(currentImageIndex));
+                                      imgData->at(currentImageIndex),
+                                      cannyConfig, houghConfig);
         houghThread->Run();
+
+        delete config;
+        config = nullptr;
     }
 
     if (id == Enum::CP_Canny_Button_ID) {
@@ -243,14 +255,25 @@ void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
 
 void CameraPanel::OnProcessImage(wxCommandEvent &e) {
     if (e.GetId() == PROCESS_BEGIN) {
+        AppConfig *config = new AppConfig();
+        DetectionConfig detectionConfig = config->GetDetectionConfig();
+
         deleteThread(processThread);
-        processThread = new ProcessThread(this, &threadPool, imgData);
+        processThread = new ProcessThread(this, &threadPool, imgData,
+                                          detectionConfig.maxPoints,
+                                          detectionConfig.threshold);
         processThread->Run();
 
+        HoughConfig houghConfig = config->GetHoughConfig();
+        CannyConfig cannyConfig = config->GetCannyConfig();
         deleteThread(houghThread);
         houghThread = new HoughThread(button_panel_hough, &threadPool,
-                                      imgData->at(currentImageIndex));
+                                      imgData->at(currentImageIndex),
+                                      cannyConfig, houghConfig);
         houghThread->Run();
+
+        delete config;
+        config = nullptr;
 
         img_bitmap->SetShowHoughLine(true);
     } else if (e.GetId() == PROCESS_END) {
@@ -346,7 +369,7 @@ void CameraPanel::searchLine(cv::Point2f realMousePos) {
     }
 
     for (auto line : linesP) {
-        if (line.isIntersect(realMousePos, 40)) {
+        if (line.isIntersect(realMousePos, circleRadius)) {
             detLines.push_back(line);
         }
     }

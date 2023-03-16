@@ -16,8 +16,10 @@
  *
  * @param imgData pointer to vector of ImageData
  */
-FlowTask::FlowTask(std::vector<ImageData> *imgData)
-    : property(TaskType::TASK_FLOW), imgData(imgData) {}
+FlowTask::FlowTask(std::vector<ImageData> *imgData, const int maxPoints,
+                   double threshold)
+    : property(TaskType::TASK_FLOW), imgData(imgData), maxPoints(maxPoints),
+      threshold(threshold) {}
 
 /**
  * @brief Execute Flow Task
@@ -25,7 +27,7 @@ FlowTask::FlowTask(std::vector<ImageData> *imgData)
  *
  */
 void FlowTask::Execute() {
-    Detection::OD objectDetection(1000);
+    Detection::OD objectDetection(maxPoints);
     imgData->at(0).SetFlow(objectDetection.init(imgData->at(0).image));
     for (int i = 1; i < imgData->size(); i++) {
         imgData->at(i).SetFlow(
@@ -42,7 +44,7 @@ void FlowTask::Execute() {
 
     for (int i = 1; i < imgData->size(); i++) {
         imgData->at(i).flow.thresholdPointsId(ids, imgData->at(i - 1).flow,
-                                              2.0);
+                                              threshold);
     }
 
     for (int i = 0; i < imgData->size(); i++) {

@@ -20,6 +20,10 @@ class LineDetection {
   public:
     LineDetection();
     void SetImage(cv::Mat &image);
+    void SetCannyParameters(double threshold1, double threshold2,
+                            int apertureSize, bool L2gradient);
+    void SetHoughLinesPParameters(double rho, double theta, int threshold,
+                                  double minLineLength, double maxLineGap);
     cv::Mat GetCanny();
     std::vector<cv::Vec4i> &GetLinesP();
     std::vector<Detection::Line> GetLines();

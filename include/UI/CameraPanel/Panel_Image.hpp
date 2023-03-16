@@ -21,6 +21,7 @@ class ImagePanel : public wxPanel {
     ImageData imgData;
     wxBitmap resized;
     int w, h;
+    const int radius;
 
     SHOW_TYPE showType;
     bool isShowHoughLine;
@@ -36,10 +37,10 @@ class ImagePanel : public wxPanel {
     float heightRatio;
 
   public:
+    ImagePanel(wxPanel *parent, const int radius);
     void SetDefaultState();
     void calcRatio(wxDC &dc);
     cv::Point2f calcMousePos(wxPoint &mousePos);
-    ImagePanel(wxPanel *parent);
     void paintEvent(wxPaintEvent &evt);
     void OnLeftDown(wxMouseEvent &e);
     void paintNow();

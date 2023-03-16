@@ -51,6 +51,7 @@ class CameraPanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
+    const int circleRadius;
     std::vector<ImageData> *imgData;
     std::vector<Detection::Line> selectedLine;
     std::vector<cv::Point2f> selectedPoint;

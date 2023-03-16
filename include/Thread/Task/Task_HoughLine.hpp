@@ -14,12 +14,14 @@
 
 #include <Algorithm/line_detection/lineDetection.hpp>
 #include <Thread/Task/Task.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Struct/D_Hough.hpp>
 
 class HoughTask : public Task {
   public:
-    HoughTask(ImageData &imgData, Detection::HoughData *houghData);
+    HoughTask(ImageData &imgData, Detection::HoughData *houghData,
+              CannyConfig cannyConfig, HoughConfig houghConfig);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;
@@ -28,6 +30,8 @@ class HoughTask : public Task {
     const TaskProperty property;
     ImageData &imgData;
     Detection::HoughData *houghData;
+    CannyConfig cannyConfig;
+    HoughConfig houghConfig;
 };
 
 #endif

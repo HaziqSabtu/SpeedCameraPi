@@ -14,7 +14,8 @@
 class ProcessThread : public wxThread {
   public:
     ProcessThread(wxEvtHandler *parent, ThreadPool *threadPool,
-                  std::vector<ImageData> *imgData);
+                  std::vector<ImageData> *imgData, int maxPoints,
+                  double threshold);
     ~ProcessThread();
 
   protected:
@@ -24,6 +25,8 @@ class ProcessThread : public wxThread {
     wxEvtHandler *parent;
     ThreadPool *pool;
     std::vector<ImageData> *imgData;
+    int maxPoints;
+    double threshold;
 };
 
 #endif

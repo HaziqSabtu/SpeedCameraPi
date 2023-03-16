@@ -17,9 +17,11 @@
  * @param imgData pointer to vector of ImageData
  * @param id index of target image in vector
  */
-HoughTask::HoughTask(ImageData &imgData, Detection::HoughData *houghData)
+HoughTask::HoughTask(ImageData &imgData, Detection::HoughData *houghData,
+                     CannyConfig cannyConfig, HoughConfig houghConfig)
     : property(TaskType::TASK_HOUGHLINE), imgData(imgData),
-      houghData(houghData) {}
+      houghData(houghData), cannyConfig(cannyConfig), houghConfig(houghConfig) {
+}
 
 /**
  * @brief Execute Hough Task
@@ -28,6 +30,12 @@ HoughTask::HoughTask(ImageData &imgData, Detection::HoughData *houghData)
  */
 void HoughTask::Execute() {
     LineDetection lineDetection;
+    lineDetection.SetCannyParameters(
+        cannyConfig.threshold1, cannyConfig.threshold2,
+        cannyConfig.apertureSize, cannyConfig.L2gradient);
+    lineDetection.SetHoughLinesPParameters(
+        houghConfig.rho, houghConfig.theta, houghConfig.threshold,
+        houghConfig.minLineLength, houghConfig.maxLineGap);
     lineDetection.SetImage(imgData.image);
     *houghData = lineDetection.GetHoughData();
 }

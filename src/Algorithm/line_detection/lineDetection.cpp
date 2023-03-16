@@ -30,6 +30,49 @@ void LineDetection::ProcessImage() {
 }
 
 /**
+ * @brief Set the Canny Parameters
+ *
+ * @param threshold1 lower threshold for the hysteresis procedure
+ * @param threshold2 upper threshold for the hysteresis procedure
+ * @param apertureSize aperture size for the Sobel operator
+ * @param L2gradient a flag, indicating whether a more accurate L_2 norm
+    * should be used to calculate the image gradient magnitude ( L2gradient=true
+ ),
+    * or whether the default L_1 norm is enough ( L2gradient=false ).
+
+ */
+void LineDetection::SetCannyParameters(double threshold1, double threshold2,
+                                       int apertureSize, bool L2gradient) {
+    this->threshold1 = threshold1;
+    this->threshold2 = threshold2;
+    this->apertureSize = apertureSize;
+    this->L2gradient = L2gradient;
+}
+
+/**
+ * @brief Set the Hough Lines Parameters
+ *
+ * @param rho distance resolution of the accumulator
+ * @param theta angle resolution of the accumulator
+ * @param threshold threshold for line segments. Line segments with less than
+    that are rejected.
+ * @param minLineLength minimum length of line. Line segments shorter than that
+    are rejected.
+ * @param maxLineGap maximum allowed gap between points on the same line to link
+    them
+ */
+void LineDetection::SetHoughLinesPParameters(double rho, double theta,
+                                             int threshold,
+                                             double minLineLength,
+                                             double maxLineGap) {
+    this->rho = rho;
+    this->theta = theta;
+    this->threshold = threshold;
+    this->minLineLength = minLineLength;
+    this->maxLineGap = maxLineGap;
+}
+
+/**
  * @brief Set the Image object
  * @details the image parsed will be processed to get the canny and lines
  * @param image image to be processed
