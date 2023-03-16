@@ -14,13 +14,13 @@
 
 #include <Algorithm/object_detection/ObjectDetection.hpp>
 #include <Thread/Task/Task.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Struct/D_OpticalFlow.hpp>
 
 class FlowTask : public Task {
   public:
-    FlowTask(std::vector<ImageData> *imgData, const int maxPoints,
-             double threshold);
+    FlowTask(std::vector<ImageData> *imgData, OpticalFlowConfig config);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;
@@ -29,8 +29,7 @@ class FlowTask : public Task {
     const TaskProperty property;
     std::vector<ImageData> *imgData;
 
-    const int maxPoints;
-    double threshold;
+    OpticalFlowConfig config;
 };
 
 #endif

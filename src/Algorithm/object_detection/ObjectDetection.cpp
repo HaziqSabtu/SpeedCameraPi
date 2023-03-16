@@ -14,6 +14,19 @@
 namespace Detection {
 ObjectDetection::ObjectDetection(int maxCorners) : maxCorners(maxCorners) {}
 
+void ObjectDetection::SetDetectionParams(int maxCorners, double qualityLevel,
+                                         double minDistance, int blockSize,
+                                         bool useHarrisDetector, double k,
+                                         double minPointDistance) {
+    this->maxCorners = maxCorners;
+    this->qualityLevel = qualityLevel;
+    this->minDistance = minDistance;
+    this->blockSize = blockSize;
+    this->useHarrisDetector = useHarrisDetector;
+    this->k = k;
+    this->minPointDistance = minPointDistance;
+}
+
 Detection::OpticalFlowData ObjectDetection::init(cv::Mat &frame) {
     cv::Mat gray;
     std::vector<cv::Point2f> points;

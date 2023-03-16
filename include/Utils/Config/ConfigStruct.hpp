@@ -24,11 +24,6 @@ struct PanelConfig {
     int Thread_Pool_Size;
 };
 
-struct DetectionConfig {
-    int maxPoints;
-    double threshold;
-};
-
 struct CannyConfig {
     double threshold1;
     double threshold2;
@@ -42,6 +37,17 @@ struct HoughConfig {
     int threshold;
     double minLineLength;
     double maxLineGap;
+};
+
+struct OpticalFlowConfig {
+    int maxCorners;
+    double qualityLevel;
+    double minDistance;
+    int blockSize;
+    bool useHarrisDetector;
+    double k;
+    double minPointDistance;
+    double threshold;
 };
 
 #endif

@@ -33,6 +33,10 @@ class ObjectDetection {
 
   public:
     ObjectDetection(int maxCorners);
+    void SetDetectionParams(int maxCorners, double qualityLevel,
+                            double minDistance, int blockSize,
+                            bool useHarrisDetector, double k,
+                            double minPointDistance);
     Detection::OpticalFlowData init(cv::Mat &frame);
     Detection::OpticalFlowData updateFlow(ImageData &current,
                                           ImageData &previous);

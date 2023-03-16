@@ -6,6 +6,7 @@
 #include <Thread/Task/Task_OpticalFlow.hpp>
 #include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <opencv2/opencv.hpp>
 #include <wx/string.h>
 #include <wx/thread.h>
@@ -14,8 +15,7 @@
 class ProcessThread : public wxThread {
   public:
     ProcessThread(wxEvtHandler *parent, ThreadPool *threadPool,
-                  std::vector<ImageData> *imgData, int maxPoints,
-                  double threshold);
+                  std::vector<ImageData> *imgData, OpticalFlowConfig ofConfig);
     ~ProcessThread();
 
   protected:
@@ -25,8 +25,7 @@ class ProcessThread : public wxThread {
     wxEvtHandler *parent;
     ThreadPool *pool;
     std::vector<ImageData> *imgData;
-    int maxPoints;
-    double threshold;
+    OpticalFlowConfig ofConfig;
 };
 
 #endif

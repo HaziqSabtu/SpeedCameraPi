@@ -1,10 +1,10 @@
 #include <Thread/Thread_Process.hpp>
 
 ProcessThread::ProcessThread(wxEvtHandler *parent, ThreadPool *threadPool,
-                             std::vector<ImageData> *imgData, int maxPoints,
-                             double threshold)
+                             std::vector<ImageData> *imgData,
+                             OpticalFlowConfig ofConfig)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
-      imgData(imgData), maxPoints(maxPoints), threshold(threshold) {}
+      imgData(imgData), ofConfig(ofConfig) {}
 
 ProcessThread::~ProcessThread() {}
 
@@ -19,7 +19,7 @@ wxThread::ExitCode ProcessThread::Entry() {
             wxMilliSleep(100);
         }
 
-        pool->AddTask(new FlowTask(imgData, maxPoints, threshold));
+        pool->AddTask(new FlowTask(imgData, ofConfig));
         while (pool->isWorkerBusy() || pool->HasTasks(TaskType::TASK_FLOW)) {
             wxMilliSleep(100);
         }

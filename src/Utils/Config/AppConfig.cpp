@@ -25,24 +25,36 @@ AppConfig::AppConfig() {
         config->Write("Load_Dir_Location", Default_Load_File_Name);
         config->Write("Max_Frame", Default_Max_Frame);
 
-        config->SetPath("/Detection_Parameter");
-        config->Write("Max_Points", Default_Max_Points);
-        config->Write("Threshold", Default_Threshold);
-
         config->SetPath("/Line_Selection_Parameter");
         config->Write("Radius", Default_Radius);
+
+        config->SetPath("/Canny_Parameter");
+        config->Write("Threshold1", Default_Threshold1);
+        config->Write("Threshold2", Default_Threshold2);
+        config->Write("ApertureSize", Default_Aperture_Size);
+        config->Write("L2gradient", Default_L2_Gradient);
+
+        config->SetPath("/Hough_Parameter");
+        config->Write("Rho", Default_Rho);
+        config->Write("Theta", Default_Theta);
+        config->Write("Threshold", Default_Threshold);
+        config->Write("MinLineLength", Default_Min_Line_Length);
+        config->Write("MaxLineGap", Default_Max_Line_Gap);
+
+        config->SetPath("/Optical_Flow_Parameter");
+        config->Write("Max_Corners", Default_Max_Corners);
+        config->Write("Quality_Level", Default_Quality_Level);
+        config->Write("Min_Distance", Default_Min_Distance);
+        config->Write("Block_Size", Default_Block_Size);
+        config->Write("Use_Harris_Detector", Default_Use_Harris_Detector);
+        config->Write("K", Default_K);
+        config->Write("Min_Point_Distance", Default_Min_Point_Distance);
+        config->Write("Threshold", Default_Threshold);
+
         config->Flush();
     } else {
         config = new wxFileConfig("", "", ini_filename);
     }
-}
-
-DetectionConfig AppConfig::GetDetectionConfig() {
-    DetectionConfig detectionConfig;
-    config->SetPath("/Detection_Parameter");
-    config->Read("Max_Points", &detectionConfig.maxPoints, Default_Max_Points);
-    config->Read("Threshold", &detectionConfig.threshold, Default_Threshold);
-    return detectionConfig;
 }
 
 PanelConfig AppConfig::GetPanelConfig() {
@@ -128,6 +140,26 @@ HoughConfig AppConfig::GetHoughConfig() {
                  Default_Min_Line_Length);
     config->Read("Max_Line_Gap", &houghConfig.maxLineGap, Default_Max_Line_Gap);
     return houghConfig;
+}
+
+OpticalFlowConfig AppConfig::GetOpticalFlowConfig() {
+    OpticalFlowConfig opticalFlowConfig;
+    config->SetPath("/Optical_Flow_Parameter");
+    config->Read("Max_Corners", &opticalFlowConfig.maxCorners,
+                 Default_Max_Corners);
+    config->Read("Quality_Level", &opticalFlowConfig.qualityLevel,
+                 Default_Quality_Level);
+    config->Read("Min_Distance", &opticalFlowConfig.minDistance,
+                 Default_Min_Distance);
+    config->Read("Block_Size", &opticalFlowConfig.blockSize,
+                 Default_Block_Size);
+    config->Read("Use_Harris_Detector", &opticalFlowConfig.useHarrisDetector,
+                 Default_Use_Harris_Detector);
+    config->Read("K", &opticalFlowConfig.k, Default_K);
+    config->Read("Min_Point_Distance", &opticalFlowConfig.minPointDistance,
+                 Default_Min_Point_Distance);
+    config->Read("Threshold", &opticalFlowConfig.threshold, Default_Threshold);
+    return opticalFlowConfig;
 }
 
 AppConfig::~AppConfig() { delete config; }

@@ -23,11 +23,11 @@ class AppConfig {
 
     LoadConfig GetLoadConfig();
 
-    DetectionConfig GetDetectionConfig();
-
     CannyConfig GetCannyConfig();
 
     HoughConfig GetHoughConfig();
+
+    OpticalFlowConfig GetOpticalFlowConfig();
 
     int GetMaxLoadFrame();
 
@@ -57,7 +57,6 @@ class AppConfig {
 
     // Detection Parameter
     int Default_Max_Points = 1000;
-    double Default_Threshold = 2.0;
 
     // Line Selection Parameter
     int Default_Radius = 10;
@@ -74,6 +73,16 @@ class AppConfig {
     int Default_Hough_Threshold = 50;
     double Default_Min_Line_Length = 25;
     double Default_Max_Line_Gap = 10;
+
+    // Optical Flow Parameter
+    int Default_Max_Corners = 1000;
+    double Default_Quality_Level = 0.05;
+    double Default_Min_Distance = 7;
+    int Default_Block_Size = 3;
+    bool Default_Use_Harris_Detector = false;
+    double Default_K = 0.04;
+    double Default_Min_Point_Distance = 0.2;
+    double Default_Threshold = 2.0;
 };
 
 #endif

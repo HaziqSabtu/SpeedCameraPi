@@ -256,12 +256,11 @@ void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
 void CameraPanel::OnProcessImage(wxCommandEvent &e) {
     if (e.GetId() == PROCESS_BEGIN) {
         AppConfig *config = new AppConfig();
-        DetectionConfig detectionConfig = config->GetDetectionConfig();
+        OpticalFlowConfig opticalFlowConfig = config->GetOpticalFlowConfig();
 
         deleteThread(processThread);
-        processThread = new ProcessThread(this, &threadPool, imgData,
-                                          detectionConfig.maxPoints,
-                                          detectionConfig.threshold);
+        processThread =
+            new ProcessThread(this, &threadPool, imgData, opticalFlowConfig);
         processThread->Run();
 
         HoughConfig houghConfig = config->GetHoughConfig();
