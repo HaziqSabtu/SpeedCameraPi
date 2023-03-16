@@ -14,6 +14,8 @@
 #include <Thread/Task/Task.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/FileReader/fileH264.hpp>
+#include <Utils/FileReader/fileWR.hpp>
+#include <Utils/ImageUtils.hpp>
 #include <wx/string.h>
 
 class LoadTask : public Task {

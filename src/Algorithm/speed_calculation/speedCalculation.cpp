@@ -68,7 +68,7 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
         return;
     }
     std::cout << "imgData->size(): " << imgData->size() << std::endl;
-    for (int i = 0; i < imgData->size(); i++) {
+    for (int i = 1; i < imgData->size(); i++) {
         wxLogMessage("i: %d", i);
         Detection::Line botL = imgData->at(i).detection.GetLine();
         wxLogMessage("botL: %s", botL.ToString().c_str());
@@ -102,7 +102,7 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
     }
 
     double rawSpeed = rawAvgSpeed(speeds);
-    avgSpeed = ImageUtils::TrimmedMean(speeds, 10);
+    avgSpeed = ImageUtils::TrimmedMean(speeds, 20);
 
     double measuredSpeed = 0.3 / 1.2;
     // double measuredSpeed = 1200 / 4665.2;

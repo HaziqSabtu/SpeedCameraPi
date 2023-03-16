@@ -25,7 +25,17 @@ else()
     message(FATAL_ERROR "wxWIdgets not found!")
 endif()
 
+
+# list(APPEND CMAKE_MODULE_PATH "usr/local/lib/cmake")
+set(CMAKE_MODULE_PATH "/usr/local/lib/cmake" ; ${CMAKE_MODULE_PATH})
+find_package(raspicam REQUIRED)
+if(raspicam_CV_FOUND)
+    message("raspicam found!")
+else()
+    message(FATAL_ERROR "raspicam not found!")
+endif()
+
 include_directories(include)
 file(GLOB_RECURSE SRCS ./src/*.cpp)
 add_executable(SpeedCamera ./src/main.cpp ${SRCS})
-target_link_libraries(SpeedCamera PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
+target_link_libraries(SpeedCamera PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES} ${raspicam_CV_LIBS})

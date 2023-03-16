@@ -4,12 +4,13 @@
 #include <Event/Event_UpdateImage.hpp>
 #include <Utils/DataStruct.hpp>
 #include <opencv2/opencv.hpp>
+#include <raspicam/raspicam_cv.h>
 #include <string>
 #include <wx/thread.h>
 
 class CaptureThread : public wxThread {
   public:
-    CaptureThread(wxEvtHandler *parent, cv::VideoCapture *cap);
+    CaptureThread(wxEvtHandler *parent, raspicam::RaspiCam_Cv *cap);
     ~CaptureThread();
 
   protected:
@@ -17,7 +18,7 @@ class CaptureThread : public wxThread {
 
   private:
     wxEvtHandler *m_parent;
-    cv::VideoCapture *m_cap;
+    raspicam::RaspiCam_Cv *m_cap;
 };
 
 #endif

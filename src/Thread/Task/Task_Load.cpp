@@ -28,7 +28,16 @@ LoadTask::LoadTask(std::vector<ImageData> *imgData, wxString path,
  * @details This method will be called automatically by the thread worker
  *
  */
-void LoadTask::Execute() { FILEH264::ReadFile(path, imgData); }
+void LoadTask::Execute() {
+    std::string s = std::string(path.mb_str(wxConvUTF8));
+    Utils::FileExtension ext = Utils::GetFileExtension(s);
+    if (ext == Utils::FileExtension::H264) {
+        FILEH264::ReadFile(path, imgData);
+    } else if (ext == Utils::FileExtension::BIN) {
+        FILEWR::ReadFile(s, imgData);
+    } else
+        throw std::runtime_error("File extension not supported");
+}
 
 /**
  * @brief Get the Type object

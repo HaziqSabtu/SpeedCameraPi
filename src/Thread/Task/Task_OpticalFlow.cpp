@@ -42,7 +42,7 @@ void FlowTask::Execute() {
 
     for (int i = 1; i < imgData->size(); i++) {
         imgData->at(i).flow.thresholdPointsId(ids, imgData->at(i - 1).flow,
-                                              0.5);
+                                              2.0);
     }
 
     for (int i = 0; i < imgData->size(); i++) {

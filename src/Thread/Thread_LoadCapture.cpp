@@ -1,7 +1,7 @@
 #include <Thread/Thread_LoadCapture.hpp>
 
 LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent,
-                                     cv::VideoCapture *camera)
+                                     raspicam::RaspiCam_Cv *camera)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(camera) {}
 
 LoadCaptureThread::~LoadCaptureThread() { camera = nullptr; }
@@ -26,7 +26,8 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
     const int INTERVAL = captureConfig.Frame_Interval;
 
     for (int i = 0; i < MAX; i++) {
-        camera->read(frame);
+        camera->grab();
+        camera->retrieve(frame);
         if (frame.empty()) {
             std::cout << "Failed to capture frame" << std::endl;
             continue;
@@ -46,6 +47,11 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
     UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
     updateImageEvent.SetImageData(first);
     wxPostEvent(parent, updateImageEvent);
+
+    bool debug = true;
+    if (debug) {
+        FILEWR::WriteFile(imgData.get());
+    }
 
     CaptureImageEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
     stopCaptureEvent.SetImageData(imgData.release());

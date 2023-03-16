@@ -4,11 +4,11 @@ FILEWR::FILEWR(/* args */) {}
 
 FILEWR::~FILEWR() {}
 
-int FILEWR::ReadFile(std::string path, std::vector<ImgData> &imgData) {
+void FILEWR::ReadFile(std::string path, std::vector<ImageData> *imgData) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
         std::cout << "Error opening file" << std::endl;
-        return -1;
+        return;
     }
     while (file) {
         std::chrono::high_resolution_clock::time_point time;
@@ -35,18 +35,18 @@ int FILEWR::ReadFile(std::string path, std::vector<ImgData> &imgData) {
             }
         }
         if (!img.empty() && time.time_since_epoch().count() != 0)
-            imgData.push_back({img, time});
+            imgData->push_back({img, time});
     }
     file.close();
-    return 0;
+    return;
 }
 
-int FILEWR::WriteFile(std::string path, std::vector<ImgData> &imgData) {
+void FILEWR::WriteFile(std::vector<ImageData> *imgData) {
     // check if file exists
-
+    std::string path = Utils::dateToString() + ".bin";
     std::ofstream file(path, std::ios::binary);
 
-    for (auto &img : imgData) {
+    for (auto img : *imgData) {
         std::chrono::high_resolution_clock::time_point time = img.time;
         int cols = img.image.cols;
         int rows = img.image.rows;
@@ -71,13 +71,5 @@ int FILEWR::WriteFile(std::string path, std::vector<ImgData> &imgData) {
         }
     }
     file.close();
-    return 0;
-}
-
-double FILEWR::getTimeDifference(
-    std::chrono::high_resolution_clock::time_point time1,
-    std::chrono::high_resolution_clock::time_point time2) {
-    return std::chrono::duration_cast<std::chrono::microseconds>(time2 - time1)
-               .count() /
-           1000.0;
+    return;
 }

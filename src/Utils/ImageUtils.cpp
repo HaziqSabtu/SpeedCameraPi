@@ -36,4 +36,25 @@ double TimeDiff(std::chrono::high_resolution_clock::time_point time1,
                .count() /
            1000.0;
 };
+
+std::string dateToString() {
+    std::time_t t = std::time(0); // get time now
+    std::tm *now = std::localtime(&t);
+    std::string date =
+        std::to_string(now->tm_year + 1900) + std::to_string(now->tm_mon + 1) +
+        std::to_string(now->tm_mday) + "_" + std::to_string(now->tm_hour) +
+        std::to_string(now->tm_min) + std::to_string(now->tm_sec);
+    return date;
+}
+
+FileExtension GetFileExtension(std::string &path) {
+    std::string ext = path.substr(path.find_last_of(".") + 1);
+    if (ext == "bin") {
+        return BIN;
+    } else if (ext == "h264") {
+        return H264;
+    } else {
+        return UNSUPPORTED;
+    }
+}
 } // namespace Utils

@@ -30,6 +30,7 @@
 #include <Utils/ImageBitmap/Derived/CameraBitmap.hpp>
 #include <Utils/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
+#include <raspicam/raspicam_cv.h>
 #include <wx/wx.h>
 
 class CameraPanel : public wxPanel {
@@ -38,7 +39,8 @@ class CameraPanel : public wxPanel {
     ~CameraPanel();
 
   private:
-    cv::VideoCapture camera;
+    raspicam::RaspiCam_Cv camera;
+    // cv::VideoCapture camera;
     ThreadPool threadPool;
 
     ProcessThread *processThread;
@@ -46,8 +48,8 @@ class CameraPanel : public wxPanel {
     ResultThread *resultThread;
     SpeedThread *speedThread;
     LoadFileThread *loadFileThread;
-    CaptureThread *captureThread;
     LoadCaptureThread *loadCaptureThread;
+    CaptureThread *captureThread;
 
     CameraPanelButton *button_panel;
     ButtonPanelHough *button_panel_hough;

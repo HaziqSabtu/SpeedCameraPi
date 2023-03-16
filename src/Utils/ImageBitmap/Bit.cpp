@@ -134,7 +134,8 @@ void wxImagePanel::render(wxDC &dc) {
 
     if (!selectedPoint.empty()) {
         for (auto &point : selectedPoint) {
-            cv::circle(image, point, 5, cv::Scalar(0, 255, 0), 2, cv::LINE_AA);
+            cv::circle(image, point, 40, cv::Scalar(0, 255, 0), -1,
+                       cv::LINE_AA);
         }
     }
 

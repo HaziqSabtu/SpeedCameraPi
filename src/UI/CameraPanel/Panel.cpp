@@ -26,14 +26,19 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
 
     AppConfig *config = new AppConfig();
     CameraConfig cameraConfig = config->GetCameraConfig();
-    camera.open(cameraConfig.Camera_ID);
+    // camera.open(cameraConfig.Camera_ID);
+    camera.open();
     if (!camera.isOpened()) {
         wxMessageBox("Could not open camera", "Error", wxOK | wxICON_ERROR);
         Close();
     }
+
     camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
     camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
     camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
+
+    delete config;
+    config = nullptr;
 
     processThread = nullptr;
     houghThread = nullptr;
@@ -48,13 +53,12 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
 };
 
 CameraPanel::~CameraPanel() {
-    if (camera.isOpened()) {
-        camera.release();
-    }
 
-    imgData->clear();
-    delete imgData;
-    imgData = nullptr;
+    if (imgData != nullptr) {
+        imgData->clear();
+        delete imgData;
+        imgData = nullptr;
+    }
 
     deleteThread(processThread);
     processThread = nullptr;
@@ -64,6 +68,22 @@ CameraPanel::~CameraPanel() {
 
     deleteThread(resultThread);
     resultThread = nullptr;
+
+    deleteThread(speedThread);
+    speedThread = nullptr;
+
+    deleteThread(loadFileThread);
+    loadFileThread = nullptr;
+
+    deleteThread(loadCaptureThread);
+    loadCaptureThread = nullptr;
+
+    deleteThread(captureThread);
+    captureThread = nullptr;
+
+    if (camera.isOpened()) {
+        camera.release();
+    }
 }
 
 void CameraPanel::OnIncrement() {
@@ -322,7 +342,7 @@ void CameraPanel::searchLine(cv::Point2f realMousePos) {
     }
 
     for (auto line : linesP) {
-        if (line.isIntersect(realMousePos, 20)) {
+        if (line.isIntersect(realMousePos, 40)) {
             detLines.push_back(line);
         }
     }
