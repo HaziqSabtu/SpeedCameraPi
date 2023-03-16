@@ -27,7 +27,7 @@ FlowTask::FlowTask(std::vector<ImageData> *imgData, const int maxPoints,
  *
  */
 void FlowTask::Execute() {
-    Detection::OD objectDetection(maxPoints);
+    Detection::ObjectDetection objectDetection(maxPoints);
     imgData->at(0).SetFlow(objectDetection.init(imgData->at(0).image));
     for (int i = 1; i < imgData->size(); i++) {
         imgData->at(i).SetFlow(

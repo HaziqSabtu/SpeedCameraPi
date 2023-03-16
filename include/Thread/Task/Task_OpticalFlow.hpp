@@ -12,7 +12,7 @@
 #ifndef OPTICAL_FLOW_TASK_HPP
 #define OPTICAL_FLOW_TASK_HPP
 
-#include <Algorithm/object_detection/ObjectDetection2.hpp>
+#include <Algorithm/object_detection/ObjectDetection.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Struct/D_OpticalFlow.hpp>
