@@ -12,6 +12,9 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
         return 0;
     }
 
+    AppConfig *appConfig = new AppConfig();
+    CaptureConfig captureConfig = appConfig->GetCaptureConfig();
+
     std::unique_ptr<std::vector<ImageData>> imgData =
         std::make_unique<std::vector<ImageData>>();
 
@@ -19,7 +22,9 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
     wxPostEvent(parent, startCaptureEvent);
 
     cv::Mat frame;
-    const int MAX = 10;
+    const int MAX = captureConfig.Max_Frame_Count;
+    const int INTERVAL = captureConfig.Frame_Interval;
+
     for (int i = 0; i < MAX; i++) {
         camera->read(frame);
         if (frame.empty()) {
@@ -34,7 +39,7 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
         if (TestDestroy()) {
             break;
         }
-        wxMilliSleep(50);
+        // wxMilliSleep(INTERVAL);
     }
 
     cv::Mat first = imgData->at(0).image;
@@ -45,5 +50,9 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
     CaptureImageEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
     stopCaptureEvent.SetImageData(imgData.release());
     wxPostEvent(parent, stopCaptureEvent);
+
+    delete appConfig;
+    appConfig = nullptr;
+
     return 0;
 }
