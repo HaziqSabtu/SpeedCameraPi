@@ -1,5 +1,5 @@
-#ifndef BIT_HPP
-#define BIT_HPP
+#ifndef PANEL_IMAGE_HPP
+#define PANEL_IMAGE_HPP
 
 #include <Utils/DataStruct.hpp>
 #include <Utils/Struct/D_Line.hpp>
@@ -16,7 +16,7 @@ enum SHOW_TYPE {
     SHOW_TYPE_CANNY,
 };
 
-class wxImagePanel : public wxPanel {
+class ImagePanel : public wxPanel {
     cv::Mat image, noImage;
     ImageData imgData;
     wxBitmap resized;
@@ -39,7 +39,7 @@ class wxImagePanel : public wxPanel {
     void SetDefaultState();
     void calcRatio(wxDC &dc);
     cv::Point2f calcMousePos(wxPoint &mousePos);
-    wxImagePanel(wxPanel *parent);
+    ImagePanel(wxPanel *parent);
     void paintEvent(wxPaintEvent &evt);
     void OnLeftDown(wxMouseEvent &e);
     void paintNow();

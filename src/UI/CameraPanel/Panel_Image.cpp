@@ -1,18 +1,18 @@
-#include <Utils/ImageBitmap/Bit.hpp>
+#include <UI/CameraPanel/Panel_Image.hpp>
 
-wxImagePanel::wxImagePanel(wxPanel *parent) : wxPanel(parent) {
+ImagePanel::ImagePanel(wxPanel *parent) : wxPanel(parent) {
     noImage = cv::Mat(480, 640, CV_8UC3, cv::Scalar(0, 0, 0));
     cv::putText(noImage, "No Image", cv::Point(200, 240),
                 cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255), 2,
                 cv::LINE_AA);
-    // Bind(wxEVT_LEFT_DOWN, &wxImagePanel::OnLeftDown, this);
+    // Bind(wxEVT_LEFT_DOWN, &ImagePanel::OnLeftDown, this);
     w = -1;
     h = -1;
 
     SetDefaultState();
 }
 
-void wxImagePanel::SetDefaultState() {
+void ImagePanel::SetDefaultState() {
     showType = SHOW_TYPE_IMAGE;
     isShowHoughLine = false;
     isShowSelectedLine = false;
@@ -24,83 +24,83 @@ void wxImagePanel::SetDefaultState() {
     speed = -1;
 }
 
-void wxImagePanel::OnLeftDown(wxMouseEvent &e) {
+void ImagePanel::OnLeftDown(wxMouseEvent &e) {
     std::cout << "Left Down" << std::endl;
     e.Skip();
 }
 
-void wxImagePanel::paintEvent(wxPaintEvent &evt) {
+void ImagePanel::paintEvent(wxPaintEvent &evt) {
     wxPaintDC dc(this);
     render(dc);
 }
 
-void wxImagePanel::paintNow() {
+void ImagePanel::paintNow() {
     wxClientDC dc(this);
     render(dc);
 }
 
-void wxImagePanel::SetImageData(ImageData &imgData) {
+void ImagePanel::SetImageData(ImageData &imgData) {
     this->imgData = imgData;
     paintNow();
 }
 
-void wxImagePanel::SetShowHoughLine(bool isl) {
+void ImagePanel::SetShowHoughLine(bool isl) {
     this->isShowHoughLine = isl;
     paintNow();
 }
 
-void wxImagePanel::SetSpeed(double speed) {
+void ImagePanel::SetSpeed(double speed) {
     this->speed = speed;
     paintNow();
 }
 
-void wxImagePanel::SetImageData() {
+void ImagePanel::SetImageData() {
     this->showType = SHOW_TYPE_NONE;
     paintNow();
 }
 
-void wxImagePanel::SetShowType(SHOW_TYPE showType) {
+void ImagePanel::SetShowType(SHOW_TYPE showType) {
     this->showType = showType;
     paintNow();
 }
 
-void wxImagePanel::SetIsRect(bool isRect) {
+void ImagePanel::SetIsRect(bool isRect) {
     this->isRect = isRect;
     paintNow();
 }
 
-void wxImagePanel::SetIsOFPoint(bool isOFPoint) {
+void ImagePanel::SetIsOFPoint(bool isOFPoint) {
     this->isOFPoint = isOFPoint;
     paintNow();
 }
 
-void wxImagePanel::SetShowSelectedLine(bool isl) {
+void ImagePanel::SetShowSelectedLine(bool isl) {
     this->isShowSelectedLine = isl;
     paintNow();
 }
 
-void wxImagePanel::SetSelectedLine(std::vector<Detection::Line> &selectedLine) {
+void ImagePanel::SetSelectedLine(std::vector<Detection::Line> &selectedLine) {
     this->selectedLine = selectedLine;
     paintNow();
 }
 
-void wxImagePanel::SetSelectedPoint(std::vector<cv::Point2f> &selectedPoint) {
+void ImagePanel::SetSelectedPoint(std::vector<cv::Point2f> &selectedPoint) {
     this->selectedPoint = selectedPoint;
     paintNow();
 }
 
-void wxImagePanel::SetIsBotLine(bool isBotLine) {
+void ImagePanel::SetIsBotLine(bool isBotLine) {
     this->isBotLine = isBotLine;
     paintNow();
 }
 
-cv::Point2f wxImagePanel::calcMousePos(wxPoint &mousePos) {
+cv::Point2f ImagePanel::calcMousePos(wxPoint &mousePos) {
     float x = (float)mousePos.x * widthRatio;
     float y = (float)mousePos.y * heightRatio;
     return cv::Point2f(x, y);
 }
 
-void wxImagePanel::calcRatio(wxDC &dc) {
+void ImagePanel::calcRatio(wxDC &dc) {
     int newW, newH;
     dc.GetSize(&newW, &newH);
     if (newW == w && newH == h) {
@@ -110,7 +110,7 @@ void wxImagePanel::calcRatio(wxDC &dc) {
     h = newH;
 }
 
-void wxImagePanel::render(wxDC &dc) {
+void ImagePanel::render(wxDC &dc) {
     calcRatio(dc);
 
     switch (showType) {
@@ -188,13 +188,13 @@ void wxImagePanel::render(wxDC &dc) {
     dc.DrawBitmap(resized, 0, 0, false);
 }
 
-void wxImagePanel::OnSize(wxSizeEvent &event) {
+void ImagePanel::OnSize(wxSizeEvent &event) {
     Refresh();
     event.Skip();
 }
 
-bool wxImagePanel::ConvertMatBitmapTowxBitmap(const cv::Mat &matBitmap,
-                                              wxBitmap &bitmap) {
+bool ImagePanel::ConvertMatBitmapTowxBitmap(const cv::Mat &matBitmap,
+                                            wxBitmap &bitmap) {
     wxCHECK(!matBitmap.empty(), false);
     wxCHECK(matBitmap.type() == CV_8UC3, false);
     wxCHECK(matBitmap.dims == 2, false);
@@ -239,7 +239,7 @@ bool wxImagePanel::ConvertMatBitmapTowxBitmap(const cv::Mat &matBitmap,
     return bitmap.IsOk();
 }
 
-BEGIN_EVENT_TABLE(wxImagePanel, wxPanel)
-EVT_PAINT(wxImagePanel::paintEvent)
-EVT_SIZE(wxImagePanel::OnSize)
+BEGIN_EVENT_TABLE(ImagePanel, wxPanel)
+EVT_PAINT(ImagePanel::paintEvent)
+EVT_SIZE(ImagePanel::OnSize)
 END_EVENT_TABLE()

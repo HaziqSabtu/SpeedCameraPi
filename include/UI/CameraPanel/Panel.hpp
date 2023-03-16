@@ -14,13 +14,13 @@
 #include <Thread/Thread_Process.hpp>
 #include <Thread/Thread_Result.hpp>
 #include <Thread/Thread_Speed.hpp>
-#include <UI/CameraPanel/ButtonPanel.hpp>
-#include <UI/CameraPanel/ButtonPanel_Hough.hpp>
+#include <UI/CameraPanel/Panel_Button_Capture.hpp>
+#include <UI/CameraPanel/Panel_Button_Hough.hpp>
 #include <UI/CameraPanel/Panel_Button_Result.hpp>
+#include <UI/CameraPanel/Panel_Image.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
-#include <Utils/ImageBitmap/Bit.hpp>
 #include <Utils/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
 #include <raspicam/raspicam_cv.h>
@@ -47,8 +47,8 @@ class CameraPanel : public wxPanel {
     CameraPanelButton *button_panel;
     ButtonPanelHough *button_panel_hough;
     PanelButtonResult *button_panel_result;
+    ImagePanel *img_bitmap;
 
-    wxImagePanel *img_bitmap;
     wxBoxSizer *main_sizer;
 
     std::vector<ImageData> *imgData;

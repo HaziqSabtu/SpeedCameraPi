@@ -10,7 +10,7 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
     button_panel_result =
         new PanelButtonResult(this, Enum::CP_BUTTON_PANEL_RESULT_ID);
 
-    img_bitmap = new wxImagePanel(this);
+    img_bitmap = new ImagePanel(this);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);

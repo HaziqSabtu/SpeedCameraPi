@@ -1,4 +1,4 @@
-#include <UI/CameraPanel/ButtonPanel.hpp>
+#include <UI/CameraPanel/Panel_Button_Capture.hpp>
 
 CameraPanelButton::CameraPanelButton(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id) {

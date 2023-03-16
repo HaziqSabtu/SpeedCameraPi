@@ -1,4 +1,4 @@
-#include <UI/CameraPanel/ButtonPanel_Hough.hpp>
+#include <UI/CameraPanel/Panel_Button_Hough.hpp>
 
 ButtonPanelHough::ButtonPanelHough(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id), isInit(false) {

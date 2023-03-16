@@ -1,5 +1,5 @@
-#ifndef BUTTON_PANEL_HOUGH_HPP
-#define BUTTON_PANEL_HOUGH_HPP
+#ifndef PANEL_BUTTON_HOUGH_HPP
+#define PANEL_BUTTON_HOUGH_HPP
 
 #include <Event/Event_Hough.hpp>
 #include <Event/Event_ProcessImage.hpp>

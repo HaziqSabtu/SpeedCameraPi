@@ -1,5 +1,5 @@
-#ifndef CAMERA_PANEL_BUTTON_HPP
-#define CAMERA_PANEL_BUTTON_HPP
+#ifndef PANEL_BUTTON_CAPTURE_HPP
+#define PANEL_BUTTON_CAPTURE_HPP
 
 #include <UI/Button/Button_Capture.hpp>
 #include <UI/Button/Button_Load.hpp>
