@@ -20,8 +20,7 @@
 
 class LoadTask : public Task {
   public:
-    LoadTask(std::vector<ImageData> *imgData, wxString path,
-             const int maxCapture);
+    LoadTask(std::vector<ImageData> *imgData, wxString path);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;
@@ -29,7 +28,6 @@ class LoadTask : public Task {
   private:
     const TaskProperty property;
     wxString path;
-    const int maxCapture;
     std::vector<ImageData> *imgData;
 };
 

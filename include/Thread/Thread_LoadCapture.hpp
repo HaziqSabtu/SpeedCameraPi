@@ -14,7 +14,8 @@
 
 class LoadCaptureThread : public wxThread {
   public:
-    LoadCaptureThread(wxEvtHandler *parent, raspicam::RaspiCam_Cv *camera);
+    LoadCaptureThread(wxEvtHandler *parent, raspicam::RaspiCam_Cv *camera,
+                      const int maxFrame, const bool debug);
     ~LoadCaptureThread();
 
   protected:
@@ -23,6 +24,8 @@ class LoadCaptureThread : public wxThread {
   private:
     wxEvtHandler *parent;
     raspicam::RaspiCam_Cv *camera;
+    const int maxFrame;
+    const bool debug;
 };
 
 #endif

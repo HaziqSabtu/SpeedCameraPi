@@ -1,8 +1,10 @@
 #include <Thread/Thread_LoadCapture.hpp>
 
 LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent,
-                                     raspicam::RaspiCam_Cv *camera)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(camera) {}
+                                     raspicam::RaspiCam_Cv *camera,
+                                     const int maxFrame, const bool debug)
+    : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(camera),
+      maxFrame(maxFrame), debug(debug) {}
 
 LoadCaptureThread::~LoadCaptureThread() { camera = nullptr; }
 
@@ -12,9 +14,6 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
         return 0;
     }
 
-    AppConfig *appConfig = new AppConfig();
-    CaptureConfig captureConfig = appConfig->GetCaptureConfig();
-
     std::unique_ptr<std::vector<ImageData>> imgData =
         std::make_unique<std::vector<ImageData>>();
 
@@ -22,10 +21,8 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
     wxPostEvent(parent, startCaptureEvent);
 
     cv::Mat frame;
-    const int MAX = captureConfig.Max_Frame_Count;
-    const int INTERVAL = captureConfig.Frame_Interval;
 
-    for (int i = 0; i < MAX; i++) {
+    for (int i = 0; i < maxFrame; i++) {
         camera->grab();
         camera->retrieve(frame);
         if (frame.empty()) {
@@ -40,7 +37,6 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
         if (TestDestroy()) {
             break;
         }
-        // wxMilliSleep(INTERVAL);
     }
 
     cv::Mat first = imgData->at(0).image;
@@ -48,7 +44,6 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
     updateImageEvent.SetImageData(first);
     wxPostEvent(parent, updateImageEvent);
 
-    bool debug = true;
     if (debug) {
         FILEWR::WriteFile(imgData.get());
     }
@@ -56,9 +51,6 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
     CaptureImageEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
     stopCaptureEvent.SetImageData(imgData.release());
     wxPostEvent(parent, stopCaptureEvent);
-
-    delete appConfig;
-    appConfig = nullptr;
 
     return 0;
 }

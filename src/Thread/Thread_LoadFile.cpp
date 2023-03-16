@@ -1,9 +1,9 @@
 #include <Thread/Thread_LoadFile.hpp>
 
 LoadFileThread::LoadFileThread(wxEvtHandler *parent, ThreadPool *threadPool,
-                               wxString path)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
-      path(path) {}
+                               wxString path, const int maxFrame)
+    : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool), path(path),
+      maxFrame(maxFrame) {}
 
 LoadFileThread::~LoadFileThread() {
     if (pool != nullptr) {
@@ -24,7 +24,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
                                             CAPTURE_START);
         wxPostEvent(parent, startCaptureEvent);
 
-        pool->AddTask(new LoadTask(imgData.get(), path, 10));
+        pool->AddTask(new LoadTask(imgData.get(), path));
 
         while (imgData->empty()) {
             wxMilliSleep(30);
@@ -39,8 +39,9 @@ wxThread::ExitCode LoadFileThread::Entry() {
             wxMilliSleep(30);
         }
 
-        int limit = 10;
-        imgData->erase(imgData->begin() + limit, imgData->end());
+        if (maxFrame < imgData->size() && maxFrame != -1) {
+            imgData->erase(imgData->begin() + maxFrame, imgData->end());
+        }
 
         for (int i = 1; i < imgData->size(); i++) {
             cv::Mat frame = imgData->at(i).image;

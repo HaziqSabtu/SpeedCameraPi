@@ -1,7 +1,9 @@
 #include <UI/CameraPanel/Panel.hpp>
 
-CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
-    : wxPanel(parent, id), imgData(nullptr), threadPool(3) {
+CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
+    : wxPanel(parent, id), imgData(nullptr),
+      threadPool(config->GetPanelConfig().Thread_Pool_Size) {
+
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
     button_panel_hough =
         new ButtonPanelHough(this, Enum::CP_BUTTON_PANEL_HOUGH_ID);
@@ -24,9 +26,7 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
 
     img_bitmap->Bind(wxEVT_LEFT_DOWN, &CameraPanel::OnLeftDown, this);
 
-    AppConfig *config = new AppConfig();
     CameraConfig cameraConfig = config->GetCameraConfig();
-    // camera.open(cameraConfig.Camera_ID);
     camera.open();
     if (!camera.isOpened()) {
         wxMessageBox("Could not open camera", "Error", wxOK | wxICON_ERROR);
@@ -36,9 +36,6 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
     camera.set(cv::CAP_PROP_FRAME_WIDTH, cameraConfig.Camera_Width);
     camera.set(cv::CAP_PROP_FRAME_HEIGHT, cameraConfig.Camera_Height);
     camera.set(cv::CAP_PROP_FPS, cameraConfig.Camera_FPS);
-
-    delete config;
-    config = nullptr;
 
     processThread = nullptr;
     houghThread = nullptr;
@@ -50,6 +47,9 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id)
 
     captureThread = new CaptureThread(this, &camera);
     captureThread->Run();
+
+    delete config;
+    config = nullptr;
 };
 
 CameraPanel::~CameraPanel() {
@@ -99,24 +99,28 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     int id = e.GetId();
 
     if (id == Enum::CP_Capture_Button_ID) {
+        AppConfig *config = new AppConfig();
+        CaptureConfig captureConfig = config->GetCaptureConfig();
         deleteThread(captureThread);
         captureThread = nullptr;
 
         deleteThread(loadCaptureThread);
         loadCaptureThread = new LoadCaptureThread(
-            button_panel->GetButton(CAPTURE_BUTTON), &camera);
+            button_panel->GetButton(CAPTURE_BUTTON), &camera,
+            captureConfig.maxFrame, captureConfig.Debug);
         loadCaptureThread->Run();
     }
 
     if (id == Enum::CP_Load_Button_ID) {
         AppConfig *config = new AppConfig();
-        wxString filePath = config->GetLoadFileName();
+        LoadConfig loadConfig = config->GetLoadConfig();
         deleteThread(captureThread);
         captureThread = nullptr;
 
         deleteThread(loadFileThread);
         loadFileThread = new LoadFileThread(
-            button_panel->GetButton(LOAD_BUTTON), &threadPool, filePath);
+            button_panel->GetButton(LOAD_BUTTON), &threadPool, loadConfig.path,
+            loadConfig.maxFrame);
         loadFileThread->Run();
         delete config;
         config = nullptr;

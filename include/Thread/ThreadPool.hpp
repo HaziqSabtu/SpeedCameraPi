@@ -24,7 +24,7 @@
 
 class ThreadPool {
   public:
-    ThreadPool(int numThreads);
+    ThreadPool(const int numThreads);
     ~ThreadPool();
 
     void AddTask(Task *task);

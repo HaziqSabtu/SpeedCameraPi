@@ -8,10 +8,8 @@ AppConfig::AppConfig() {
         config = new wxFileConfig("", "", ini_filename);
 
         config->SetPath("/Camera_Panel");
-        config->Write("Panel_Refresh_Rate", Default_Camera_Panel_Refresh_Rate);
+        config->Write("Thread_Pool_Size", Default_Thread_Pool_Size);
 
-        config->SetPath("/Result_Panel");
-        config->Write("Panel_Refresh_Rate", Default_Result_Panel_Refresh_Rate);
         config->SetPath("/Camera_Parameter");
         config->Write("Camera_ID", Default_Camera_ID);
         config->Write("Camera_Width", Default_Camera_Width);
@@ -20,10 +18,7 @@ AppConfig::AppConfig() {
 
         config->SetPath("/Capture_Parameter");
         config->Write("Max_Frame_Count", Default_Max_Frame_Count);
-        config->Write("Frame_Interval", Default_Frame_Interval);
-        config->Write("Thread_Pool_Size", Default_Thread_Pool_Size);
-        config->SetPath("/Select_Line_Panel");
-        config->Write("Panel_Refresh_Rate", 33);
+        config->Write("Debug", Default_Debug);
 
         config->SetPath("/Load_Parameter");
         config->Write("Load_File_Name", Default_Load_File_Name);
@@ -33,6 +28,14 @@ AppConfig::AppConfig() {
     } else {
         config = new wxFileConfig("", "", ini_filename);
     }
+}
+
+PanelConfig AppConfig::GetPanelConfig() {
+    PanelConfig panelConfig;
+    config->SetPath("/Camera_Panel");
+    config->Read("Thread_Pool_Size", &panelConfig.Thread_Pool_Size,
+                 Default_Thread_Pool_Size);
+    return panelConfig;
 }
 
 CameraConfig AppConfig::GetCameraConfig() {
@@ -50,29 +53,17 @@ CameraConfig AppConfig::GetCameraConfig() {
 CaptureConfig AppConfig::GetCaptureConfig() {
     CaptureConfig captureConfig;
     config->SetPath("/Capture_Parameter");
-    config->Read("Max_Frame_Count", &captureConfig.Max_Frame_Count,
+    config->Read("Max_Frame_Count", &captureConfig.maxFrame,
                  Default_Max_Frame_Count);
-    config->Read("Frame_Interval", &captureConfig.Frame_Interval,
-                 Default_Frame_Interval);
-    config->Read("Thread_Pool_Size", &captureConfig.Thread_Pool_Size,
-                 Default_Thread_Pool_Size);
+    config->Read("Debug", &captureConfig.Debug, Default_Debug);
     return captureConfig;
 }
 
-int AppConfig::GetCameraPanelRefreshRate() {
-    int refreshRate;
-    config->SetPath("/Camera_Panel");
-    config->Read("Panel_Refresh_Rate", &refreshRate,
-                 Default_Camera_Panel_Refresh_Rate);
-    return refreshRate;
-}
-
-int AppConfig::GetResultPanelRefreshRate() {
-    int refreshRate;
-    config->SetPath("/Result_Panel");
-    config->Read("Panel_Refresh_Rate", &refreshRate,
-                 Default_Result_Panel_Refresh_Rate);
-    return refreshRate;
+LoadConfig AppConfig::GetLoadConfig() {
+    LoadConfig loadConfig;
+    loadConfig.path = GetLoadFileName();
+    loadConfig.maxFrame = GetMaxLoadFrame();
+    return loadConfig;
 }
 
 wxString AppConfig::GetLoadFileName() {

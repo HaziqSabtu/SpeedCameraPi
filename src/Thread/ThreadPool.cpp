@@ -16,7 +16,8 @@
  *
  * @param numThreads number of threads/workers to create
  */
-ThreadPool::ThreadPool(int numThreads) : numThreads(numThreads), isStop(false) {
+ThreadPool::ThreadPool(const int numThreads)
+    : numThreads(numThreads), isStop(false) {
     wxLogMessage("Creating %d threads for ThreadPool", numThreads);
     for (int i = 0; i < numThreads; i++) {
         threadArray.push_back(std::thread(&ThreadPool::WorkerThread, this, i));

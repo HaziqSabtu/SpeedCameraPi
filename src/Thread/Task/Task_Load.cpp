@@ -18,10 +18,8 @@
  * @param path path to h264 file
  * @param maxCapture maximum number of capture to load
  */
-LoadTask::LoadTask(std::vector<ImageData> *imgData, wxString path,
-                   const int maxCapture)
-    : property(TaskType::TASK_LOAD), imgData(imgData), path(path),
-      maxCapture(maxCapture) {}
+LoadTask::LoadTask(std::vector<ImageData> *imgData, wxString path)
+    : property(TaskType::TASK_LOAD), imgData(imgData), path(path) {}
 
 /**
  * @brief Execute Load Task

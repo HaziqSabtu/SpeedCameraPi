@@ -13,7 +13,8 @@
 
 class LoadFileThread : public wxThread {
   public:
-    LoadFileThread(wxEvtHandler *parent, ThreadPool *threadPool, wxString path);
+    LoadFileThread(wxEvtHandler *parent, ThreadPool *threadPool, wxString path,
+                   const int maxFrame);
     ~LoadFileThread();
 
   protected:
@@ -23,6 +24,7 @@ class LoadFileThread : public wxThread {
     wxEvtHandler *parent;
     ThreadPool *pool;
     wxString path;
+    const int maxFrame;
 };
 
 #endif

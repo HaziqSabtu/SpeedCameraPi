@@ -12,15 +12,15 @@ class AppConfig {
     AppConfig();
     ~AppConfig();
 
-    int GetCameraPanelRefreshRate();
-
-    int GetResultPanelRefreshRate();
-
     wxString GetLoadFileName();
+
+    PanelConfig GetPanelConfig();
 
     CameraConfig GetCameraConfig();
 
     CaptureConfig GetCaptureConfig();
+
+    LoadConfig GetLoadConfig();
 
     int GetMaxLoadFrame();
 
@@ -29,21 +29,17 @@ class AppConfig {
 
     // Default Values
     // Camera Panel
-    int Default_Camera_Panel_Refresh_Rate = 33;
-
-    // Result Panel
-    int Default_Result_Panel_Refresh_Rate = 500;
+    int Default_Thread_Pool_Size = 2;
 
     // Camera Parameter
     int Default_Camera_ID = 0;
-    int Default_Camera_Width = 640;
-    int Default_Camera_Height = 480;
-    int Default_Camera_FPS = 30;
+    int Default_Camera_Width = 1280;
+    int Default_Camera_Height = 960;
+    int Default_Camera_FPS = 10;
 
     // Capture Parameter
     int Default_Max_Frame_Count = 10;
-    int Default_Frame_Interval = 100;
-    int Default_Thread_Pool_Size = 2;
+    bool Default_Debug = false;
 
     // Load Parameter
     wxString Default_Load_File_Name = "default";

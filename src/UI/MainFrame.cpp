@@ -10,7 +10,8 @@ MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
     notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
                               wxSize(800, 600));
 
-    camera_panel = new CameraPanel(notebook, Enum::CP_Panel_ID);
+    camera_panel =
+        new CameraPanel(notebook, Enum::CP_Panel_ID, new AppConfig());
 
     notebook->AddPage(camera_panel, "Camera", true);
 
