@@ -55,7 +55,7 @@ CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
 
 CameraPanel::~CameraPanel() {
 
-    deleteThread(processThread);
+    waitThenDeleteThread(processThread);
     processThread = nullptr;
 
     deleteThread(houghThread);
@@ -195,7 +195,7 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (id == Enum::CP_Reset_Button_ID) {
-        deleteThread(nullptr);
+        waitThenDeleteThread(processThread);
         processThread = nullptr;
 
         deleteThread(houghThread);
@@ -224,8 +224,8 @@ void CameraPanel::OnButton(wxCommandEvent &e) {
 
         selectedLine.clear();
         selectedPoint.clear();
-        currentImageIndex = 0;
 
+        currentImageIndex = 0;
         img_bitmap->SetDefaultState();
         button_panel_hough->SetDefaultState();
 
@@ -258,7 +258,7 @@ void CameraPanel::OnProcessImage(wxCommandEvent &e) {
         AppConfig *config = new AppConfig();
         OpticalFlowConfig opticalFlowConfig = config->GetOpticalFlowConfig();
 
-        deleteThread(processThread);
+        waitThenDeleteThread(processThread);
         processThread =
             new ProcessThread(this, &threadPool, imgData, opticalFlowConfig);
         processThread->Run();
@@ -276,7 +276,7 @@ void CameraPanel::OnProcessImage(wxCommandEvent &e) {
 
         img_bitmap->SetShowHoughLine(true);
     } else if (e.GetId() == PROCESS_END) {
-        deleteThread(processThread);
+        waitThenDeleteThread(processThread);
         processThread = nullptr;
 
         if (selectedLine.size() == 2) {
@@ -401,9 +401,16 @@ void CameraPanel::deleteThread(wxThread *thread) {
      */
     if (thread != nullptr) {
         thread->Delete();
+        delete thread;
+        thread = nullptr;
+    }
+}
+
+void CameraPanel::waitThenDeleteThread(wxThread *thread) {
+    if (thread != nullptr) {
         thread->Wait();
         delete thread;
-        // thread = nullptr;
+        thread = nullptr;
     }
 }
 

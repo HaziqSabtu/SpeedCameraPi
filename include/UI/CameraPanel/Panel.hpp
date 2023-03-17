@@ -64,6 +64,7 @@ class CameraPanel : public wxPanel {
     void OnDecrement();
 
     void deleteThread(wxThread *thread);
+    void waitThenDeleteThread(wxThread *thread);
 
     void OnButton(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);

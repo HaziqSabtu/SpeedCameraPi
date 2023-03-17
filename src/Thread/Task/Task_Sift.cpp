@@ -26,18 +26,11 @@ SiftTask::SiftTask(std::vector<ImageData> *imgData, int id)
  *
  */
 void SiftTask::Execute() {
-    // std::cout << "Executing SiftTask" << std::endl;
     ImageData firstImage = (*imgData)[0];
-    // std::cout << "First Image: " << firstImage.image.size() << std::endl;
     ImageData targetImage = (*imgData)[id];
-    // std::cout << "Target Image: " << targetImage.image.size() << std::endl;
     FeatureDetector featureDetector = FeatureDetector(DetectorType::SIFT);
-    // std::cout << "Feature Detector Created" << std::endl;
     featureDetector.allign(firstImage.image, targetImage.image);
-    // std::cout << "Alligned" << std::endl;
     imgData->at(id).image = featureDetector.GetAllignedImage().clone();
-    // std::cout << "Image Set" << std::endl;
-    // imgData->at(id).keypoints = featureDetector.GetKeypoints();
 }
 
 /**
