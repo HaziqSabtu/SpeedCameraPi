@@ -1,10 +1,10 @@
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 
-SpeedCalculation::SpeedCalculation() {}
-
-// SpeedCalculation::SpeedCalculation(int imageWidth) : imageWidth(imageWidth) {
-//     std::cout << "imageWidth: " << imageWidth << std::endl;
-// }
+SpeedCalculation::SpeedCalculation(const double sensorWidth,
+                                   const double sensorFocalLength,
+                                   const double objectWidth)
+    : SensorWidth(sensorWidth), FocalLength(sensorFocalLength),
+      LANE_WIDTH(objectWidth) {}
 
 void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     if (line.size() != 2) {

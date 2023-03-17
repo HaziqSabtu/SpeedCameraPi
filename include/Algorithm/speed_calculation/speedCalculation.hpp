@@ -10,8 +10,8 @@
 
 class SpeedCalculation {
   public:
-    // SpeedCalculation(int imageWidth);
-    SpeedCalculation();
+    SpeedCalculation(const double sensorWidth, const double sensorFocalLength,
+                     const double objectWidth);
 
     void runCalculation(std::vector<SpeedData> speedData);
     void runCalculation(std::vector<ImageData> *imgData,
@@ -40,13 +40,9 @@ class SpeedCalculation {
 
   private:
     int imageWidth;
-    const double LANE_WIDTH = 360.00; // in mm
-    // const double LANE_WIDTH = 0.37100; // in meters
-
-    // Camera Parameters
-    const double SensorWidth = 3.68; // in mm
-    // const double SensorHeight = 2.76; // in mm
-    const double FocalLength = 3.04; // in mm
+    const double LANE_WIDTH;  // in mm
+    const double SensorWidth; // in mm
+    const double FocalLength; // in mm
 
     // set default values for prevTime -1
     double prevDistFromCamera = -1;

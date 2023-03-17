@@ -31,10 +31,12 @@ class ThreadPool {
     void AddTaskFront(Task *task);
 
     bool isBusy();
-    bool HasTasks(TaskProperty property);
-    bool HasTasks2(TaskProperty &property);
+    bool HasTasks(TaskProperty &property);
+    bool HasTasks(std::vector<TaskProperty> &properties);
+
     bool isWorkerBusy();
-    bool isWorkerBusy(TaskProperty property);
+    bool isWorkerBusy(TaskProperty &property);
+    bool isWorkerBusy(std::vector<TaskProperty> &properties);
     bool isQueueEmpty();
 
   private:
@@ -44,12 +46,10 @@ class ThreadPool {
     bool isStop;
 
     std::vector<std::thread> threadArray;
-    std::vector<bool> threadStatus;
     std::unordered_map<int, Task *> taskMap;
     std::deque<Task *> taskQueue;
     std::mutex m_mutex;
     std::condition_variable cv;
-    // IDGenerator idGenerator;
 };
 
 #endif

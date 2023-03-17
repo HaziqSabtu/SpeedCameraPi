@@ -2,9 +2,10 @@
 
 SpeedThread::SpeedThread(wxEvtHandler *parent, ThreadPool *pool,
                          std::vector<ImageData> *imgData,
-                         std::vector<Detection::Line> &selectedLine)
+                         std::vector<Detection::Line> &selectedLine,
+                         SensorConfig sensorConfig)
     : wxThread(wxTHREAD_JOINABLE), imgData(imgData), pool(pool),
-      selectedLine(selectedLine) {
+      selectedLine(selectedLine), sensorConfig(sensorConfig) {
     this->m_parent = parent;
 }
 
@@ -13,10 +14,11 @@ SpeedThread::~SpeedThread() {}
 wxThread::ExitCode SpeedThread::Entry() {
     std::cout << "Speed Calculation Thread Start" << std::endl;
     std::unique_ptr<float> result;
-    SpeedTask *task = new SpeedTask(imgData, selectedLine, result);
+    SpeedTask *task =
+        new SpeedTask(imgData, selectedLine, result, sensorConfig);
     TaskProperty property = task->GetProperty();
     pool->AddTask(task);
-    while (pool->isWorkerBusy(property) || pool->HasTasks2(property)) {
+    while (pool->isWorkerBusy(property) || pool->HasTasks(property)) {
         wxMilliSleep(100);
     }
 

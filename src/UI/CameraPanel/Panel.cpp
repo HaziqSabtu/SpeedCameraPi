@@ -284,9 +284,12 @@ void CameraPanel::OnProcessImage(wxCommandEvent &e) {
             button_panel_hough->Hide();
             GetSizer()->Layout();
 
+            AppConfig *config = new AppConfig();
+            SensorConfig sensorConfig = config->GetSensorConfig();
+
             deleteThread(speedThread);
             speedThread = new SpeedThread(button_panel_result, &threadPool,
-                                          imgData, selectedLine);
+                                          imgData, selectedLine, sensorConfig);
             speedThread->Run();
 
             deleteThread(resultThread);
@@ -299,6 +302,9 @@ void CameraPanel::OnProcessImage(wxCommandEvent &e) {
             img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
             img_bitmap->SetShowSelectedLine(
                 button_panel_result->GetSelLState());
+
+            delete config;
+            config = nullptr;
         }
     }
 }
@@ -335,9 +341,12 @@ void CameraPanel::OnLeftDown(wxMouseEvent &e) {
         button_panel_hough->Hide();
         GetSizer()->Layout();
 
+        AppConfig *config = new AppConfig();
+        SensorConfig sensorConfig = config->GetSensorConfig();
+
         deleteThread(speedThread);
         speedThread = new SpeedThread(button_panel_result, &threadPool, imgData,
-                                      selectedLine);
+                                      selectedLine, sensorConfig);
         speedThread->Run();
 
         deleteThread(resultThread);
@@ -349,6 +358,9 @@ void CameraPanel::OnLeftDown(wxMouseEvent &e) {
         img_bitmap->SetIsOFPoint(button_panel_result->GetOFPntState());
         img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
         img_bitmap->SetShowSelectedLine(button_panel_result->GetSelLState());
+
+        delete config;
+        config = nullptr;
     }
 }
 

@@ -2,12 +2,14 @@
 
 SpeedTask::SpeedTask(std::vector<ImageData> *imgData,
                      std::vector<Detection::Line> &selectedLine,
-                     std::unique_ptr<float> &result)
+                     std::unique_ptr<float> &result, SensorConfig sensorConfig)
     : property(TaskType::TASK_SPEED), imgData(imgData), result(result),
-      selectedLine(selectedLine) {}
+      selectedLine(selectedLine), sensorConfig(sensorConfig) {}
 
 void SpeedTask::Execute() {
-    SpeedCalculation speedCalc;
+    SpeedCalculation speedCalc(sensorConfig.SensorWidth,
+                               sensorConfig.SensorFocalLength,
+                               sensorConfig.ObjectWidth);
     speedCalc.SetImageWidth(imgData->at(0).image.cols);
     speedCalc.runCalculation(imgData, selectedLine);
     result.reset(new float(speedCalc.GetAvgSpeed()));

@@ -10,17 +10,25 @@ ProcessThread::~ProcessThread() {}
 
 wxThread::ExitCode ProcessThread::Entry() {
     try {
+        std::vector<TaskProperty> taskProperties;
         for (int i = 1; i < imgData->size(); i++) {
-            pool->AddTask(new SiftTask(imgData, i));
+            SiftTask *task = new SiftTask(imgData, i);
+            taskProperties.push_back(task->GetProperty());
+            pool->AddTask(task);
+            task = NULL;
         }
 
         // TODO: Update Waiting
-        while (pool->isWorkerBusy() || pool->HasTasks(TaskType::TASK_SIFT)) {
+        while (pool->isWorkerBusy(taskProperties) ||
+               pool->HasTasks(taskProperties)) {
             wxMilliSleep(100);
         }
 
-        pool->AddTask(new FlowTask(imgData, ofConfig));
-        while (pool->isWorkerBusy() || pool->HasTasks(TaskType::TASK_FLOW)) {
+        FlowTask *flowTask = new FlowTask(imgData, ofConfig);
+        TaskProperty flowProperty = flowTask->GetProperty();
+        pool->AddTask(flowTask);
+        while (pool->isWorkerBusy(flowProperty) ||
+               pool->HasTasks(flowProperty)) {
             wxMilliSleep(100);
         }
 

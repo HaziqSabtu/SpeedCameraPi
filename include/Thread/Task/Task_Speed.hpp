@@ -4,6 +4,7 @@
 
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 #include <Thread/Task/Task.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Struct/D_Line.hpp>
 
@@ -11,7 +12,7 @@ class SpeedTask : public Task {
   public:
     SpeedTask(std::vector<ImageData> *imgData,
               std::vector<Detection::Line> &selectedLine,
-              std::unique_ptr<float> &result);
+              std::unique_ptr<float> &result, SensorConfig sensorConfig);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;
@@ -22,6 +23,7 @@ class SpeedTask : public Task {
     std::vector<ImageData> *imgData;
     std::vector<Detection::Line> selectedLine;
     std::unique_ptr<float> &result;
+    SensorConfig sensorConfig;
 };
 
 #endif

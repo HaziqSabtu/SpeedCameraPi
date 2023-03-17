@@ -16,6 +16,11 @@ AppConfig::AppConfig() {
         config->Write("Camera_Height", Default_Camera_Height);
         config->Write("Camera_FPS", Default_Camera_FPS);
 
+        config->SetPath("/Sensor_Parameter");
+        config->Write("Sensor_Width", Default_Sensor_Width);
+        config->Write("Sensor_Focal_Length", Default_Sensor_Focal_Length);
+        config->Write("Object_Width", Default_Object_Width);
+
         config->SetPath("/Capture_Parameter");
         config->Write("Max_Frame_Count", Default_Max_Frame_Count);
         config->Write("Debug", Default_Debug);
@@ -75,6 +80,18 @@ CameraConfig AppConfig::GetCameraConfig() {
                  Default_Camera_Height);
     config->Read("Camera_FPS", &cameraConfig.Camera_FPS, Default_Camera_FPS);
     return cameraConfig;
+}
+
+SensorConfig AppConfig::GetSensorConfig() {
+    SensorConfig sensorConfig;
+    config->SetPath("/Sensor_Parameter");
+    config->Read("Sensor_Width", &sensorConfig.SensorWidth,
+                 Default_Sensor_Width);
+    config->Read("Sensor_Focal_Length", &sensorConfig.SensorFocalLength,
+                 Default_Sensor_Focal_Length);
+    config->Read("Object_Width", &sensorConfig.ObjectWidth,
+                 Default_Object_Width);
+    return sensorConfig;
 }
 
 CaptureConfig AppConfig::GetCaptureConfig() {

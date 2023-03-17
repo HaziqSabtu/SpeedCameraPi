@@ -29,6 +29,8 @@ class AppConfig {
 
     OpticalFlowConfig GetOpticalFlowConfig();
 
+    SensorConfig GetSensorConfig();
+
     int GetMaxLoadFrame();
 
     int GetRadius();
@@ -45,6 +47,11 @@ class AppConfig {
     int Default_Camera_Width = 1280;
     int Default_Camera_Height = 960;
     int Default_Camera_FPS = 10;
+
+    // Sensor Parameter
+    double Default_Sensor_Width = 3.68;
+    double Default_Sensor_Focal_Length = 3.04;
+    double Default_Object_Width = 360.0;
 
     // Capture Parameter
     int Default_Max_Frame_Count = 10;

@@ -23,7 +23,6 @@ ThreadPool::ThreadPool(const int numThreads)
         threadArray.push_back(std::thread(&ThreadPool::WorkerThread, this, i));
         taskMap[i] = NULL;
     }
-    threadStatus.resize(numThreads, false);
 }
 
 /**
@@ -54,7 +53,6 @@ void ThreadPool::AddTask(Task *task) {
 }
 
 void ThreadPool::AddTaskFront(Task *task) {
-    std::cout << "Adding task to front" << std::endl;
     std::unique_lock<std::mutex> lock(m_mutex);
     taskQueue.push_front(task);
     for (auto &task : taskQueue) {
@@ -81,18 +79,12 @@ void ThreadPool::WorkerThread(int threadId) {
 
             task = taskQueue.front();
             taskQueue.pop_front();
-            threadStatus[threadId] = true;
             taskMap[threadId] = task;
         }
-        // std::cout << "Worker " << threadId
-        //   << " executing task: " << task->GetName() << std::endl;
         task->Execute();
-        // std::cout << "Worker " << threadId
-        //           << " finished task: " << task->GetName() << std::endl;
         {
             std::unique_lock<std::mutex> lock(m_mutex);
             delete task;
-            threadStatus[threadId] = false;
             taskMap[threadId] = NULL;
         }
     }
@@ -117,20 +109,33 @@ bool ThreadPool::isBusy() {
  */
 bool ThreadPool::isWorkerBusy() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    for (bool status : threadStatus) {
-        if (status) {
+    for (auto &task : taskMap) {
+        if (task.second != NULL) {
             return true;
         }
     }
     return false;
 }
 
-bool ThreadPool::isWorkerBusy(TaskProperty property) {
-    // std::cout << "Checking if worker is busy" << std::endl;
+bool ThreadPool::isWorkerBusy(TaskProperty &property) {
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto &task : taskMap) {
         if (task.second != NULL && task.second->GetProperty() == property) {
             return true;
+        }
+    }
+    return false;
+}
+
+bool ThreadPool::isWorkerBusy(std::vector<TaskProperty> &properties) {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    for (auto &task : taskMap) {
+        if (task.second != NULL) {
+            for (auto &property : properties) {
+                if (task.second->GetProperty() == property) {
+                    return true;
+                }
+            }
         }
     }
     return false;
@@ -154,8 +159,7 @@ bool ThreadPool::isQueueEmpty() {
  * @return true if the task queue has a task of the specified type
  * @return false if the task queue does not have a task of the specified type
  */
-bool ThreadPool::HasTasks(TaskProperty property) {
-    // std::cout << "Checking if task queue has tasks" << std::endl;
+bool ThreadPool::HasTasks(TaskProperty &property) {
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto &task : taskQueue) {
         if (task->GetProperty() == property) {
@@ -165,12 +169,13 @@ bool ThreadPool::HasTasks(TaskProperty property) {
     return false;
 }
 
-bool ThreadPool::HasTasks2(TaskProperty &property) {
-    // std::cout << "Checking if task queue has tasks2" << std::endl;
+bool ThreadPool::HasTasks(std::vector<TaskProperty> &properties) {
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto &task : taskQueue) {
-        if (task->GetProperty() == property) {
-            return true;
+        for (auto &property : properties) {
+            if (task->GetProperty() == property) {
+                return true;
+            }
         }
     }
     return false;

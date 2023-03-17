@@ -24,7 +24,9 @@ wxThread::ExitCode LoadFileThread::Entry() {
                                             CAPTURE_START);
         wxPostEvent(parent, startCaptureEvent);
 
-        pool->AddTask(new LoadTask(imgData.get(), path));
+        LoadTask *task = new LoadTask(imgData.get(), path);
+        TaskProperty property = task->GetProperty();
+        pool->AddTask(task);
 
         while (imgData->empty()) {
             wxMilliSleep(30);
@@ -35,7 +37,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
         event.SetImageData(frame);
         wxPostEvent(parent, event);
 
-        while (pool->isWorkerBusy() || pool->HasTasks(TaskType::TASK_LOAD)) {
+        while (pool->isWorkerBusy(property) || pool->HasTasks(property)) {
             wxMilliSleep(30);
         }
 
@@ -51,6 +53,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
             wxPostEvent(parent, updateImageEvent);
             wxMilliSleep(100);
         }
+        task = NULL;
     } catch (const std::exception &e) {
         std::cout << "LoadFileThread::Entry() - Error: \n"
                   << e.what() << std::endl;

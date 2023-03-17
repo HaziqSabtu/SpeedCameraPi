@@ -50,4 +50,10 @@ struct OpticalFlowConfig {
     double threshold;
 };
 
+struct SensorConfig {
+    double SensorWidth;
+    double SensorFocalLength;
+    double ObjectWidth;
+};
+
 #endif

@@ -16,7 +16,7 @@ wxThread::ExitCode HoughThread::Entry() {
     Task *task = new HoughTask(imgData, houghData, cannyConfig, houghConfig);
     TaskProperty prop = task->GetProperty();
     pool->AddTaskFront(task);
-    while (pool->isWorkerBusy(prop) || pool->HasTasks2(prop)) {
+    while (pool->isWorkerBusy(prop) || pool->HasTasks(prop)) {
         wxMilliSleep(30);
     }
     HoughEvent endHoughEvent(c_HOUGH_EVENT, HOUGH_END);
