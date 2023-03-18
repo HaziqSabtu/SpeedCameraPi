@@ -1,9 +1,35 @@
+/**
+ * @file fileWR.cpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Utils Class for reading and writing binary file
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #include <Utils/FileReader/fileWR.hpp>
 
+/**
+ * @brief Construct a new FILEWR::FILEWR object
+ *
+ */
 FILEWR::FILEWR(/* args */) {}
 
+/**
+ * @brief Destroy the FILEWR::FILEWR object
+ *
+ */
 FILEWR::~FILEWR() {}
 
+/**
+ * @brief Read binary file and store it in vector of ImageData
+ * @details TODO: check if the file is available and the content is valid
+ *
+ * @param path path to the file
+ * @param imgData vector of ImageData
+ */
 void FILEWR::ReadFile(std::string path, std::vector<ImageData> *imgData) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
@@ -41,6 +67,12 @@ void FILEWR::ReadFile(std::string path, std::vector<ImageData> *imgData) {
     return;
 }
 
+/**
+ * @brief Write vector of ImageData to binary file
+ * @details only Image and time is written to the file
+ *
+ * @param imgData vector of ImageData
+ */
 void FILEWR::WriteFile(std::vector<ImageData> *imgData) {
     // check if file exists
     std::string path = Utils::dateToString() + ".bin";

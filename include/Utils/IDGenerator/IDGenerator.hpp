@@ -1,15 +1,19 @@
+/**
+ * @file IDGenerator.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Utils Class for generating unique ID between 10000 - 99999
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #ifndef ID_GENERATOR_HPP
 #define ID_GENERATOR_HPP
 
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-
-class RandomIDGenerator {
-  public:
-    RandomIDGenerator();
-    int generateID();
-};
 
 namespace Utils {
 class IDGenerator {

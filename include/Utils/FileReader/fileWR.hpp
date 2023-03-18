@@ -1,3 +1,14 @@
+/**
+ * @file fileWR.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Utils Class for reading and writing binary file
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef FILEWR_HPP
 #define FILEWR_HPP
 

@@ -1,9 +1,35 @@
+/**
+ * @file fileH264.cpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Utils Class for reading H264 file and convert it to vector of
+ * ImageData
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #include <Utils/FileReader/fileH264.hpp>
 
+/**
+ * @brief Construct a new FILEH264::FILEH264 object
+ *
+ */
 FILEH264::FILEH264(/* args */) {}
 
+/**
+ * @brief Destroy the FILEH264::FILEH264 object
+ *
+ */
 FILEH264::~FILEH264() {}
 
+/**
+ * @brief Read H264 file and convert it to vector of ImageData
+ *
+ * @param path path to the file in std::string
+ * @param imgData result vector of ImageData
+ */
 void FILEH264::ReadFile(std::string path, std::vector<ImageData> &imgData) {
     cv::VideoCapture cap(path);
 
@@ -34,15 +60,34 @@ void FILEH264::ReadFile(std::string path, std::vector<ImageData> &imgData) {
     std::cout << "Release file " << path << std::endl;
 }
 
+/**
+ * @brief Overload function for ReadFile. Differ in what parameter is passed
+ *
+ * @param path path to the file in wxString
+ * @param imgData result vector of ImageData
+ */
 void FILEH264::ReadFile(wxString path, std::vector<ImageData> &imgData) {
     std::string s = std::string(path.mb_str(wxConvUTF8));
     ReadFile(s, imgData);
 }
+
+/**
+ * @brief Overload function for ReadFile. Differ in what parameter is passed
+ *
+ * @param path path to the file in wxString
+ * @param imgData pointer to result vector of ImageData
+ */
 void FILEH264::ReadFile(wxString path, std::vector<ImageData> *imgData) {
     std::string s = std::string(path.mb_str(wxConvUTF8));
     ReadFile(s, imgData);
 }
 
+/**
+ * @brief Overload function for ReadFile. Differ in what parameter is passed
+ *
+ * @param path path to the file in std::string
+ * @param imgData pointer to result vector of ImageData
+ */
 void FILEH264::ReadFile(std::string path, std::vector<ImageData> *imgData) {
     cv::VideoCapture cap(path);
 
@@ -71,12 +116,4 @@ void FILEH264::ReadFile(std::string path, std::vector<ImageData> *imgData) {
     std::cout << "Read file " << path << std::endl;
     cap.release();
     std::cout << "Release file " << path << std::endl;
-}
-
-double FILEH264::getTimeDifference(
-    std::chrono::high_resolution_clock::time_point time1,
-    std::chrono::high_resolution_clock::time_point time2) {
-    return std::chrono::duration_cast<std::chrono::microseconds>(time2 - time1)
-               .count() /
-           1000.0;
 }

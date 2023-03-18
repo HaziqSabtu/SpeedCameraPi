@@ -1,3 +1,15 @@
+/**
+ * @file fileH264.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Utils Class for reading H264 file and convert it to vector of
+ * ImageData
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef FILE_H264_HPP
 #define FILE_H264_HPP
 
@@ -19,10 +31,6 @@ class FILEH264 {
     static void ReadFile(std::string path, std::vector<ImageData> *imgData);
     static void ReadFile(wxString path, std::vector<ImageData> &imgData);
     static void ReadFile(wxString path, std::vector<ImageData> *imgData);
-    // static int WriteFile(std::string path, std::vector<ImageData> &imgData);
-    static double
-    getTimeDifference(std::chrono::high_resolution_clock::time_point time1,
-                      std::chrono::high_resolution_clock::time_point time2);
 };
 
 #endif
