@@ -1,11 +1,34 @@
+/**
+ * @file speedCalculation.cpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Class for Calculating Speed of Object from Image using Optical Flow
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 
+/**
+ * @brief Construct a new Speed Calculation:: Speed Calculation object
+ *
+ * @param sensorWidth Width of the sensor in mm
+ * @param sensorFocalLength Focal Length of the sensor in mm
+ * @param objectWidth Width of the object in mm
+ */
 SpeedCalculation::SpeedCalculation(const double sensorWidth,
                                    const double sensorFocalLength,
                                    const double objectWidth)
     : SensorWidth(sensorWidth), FocalLength(sensorFocalLength),
       LANE_WIDTH(objectWidth) {}
 
+/**
+ * @brief Run Speed Calculation
+ * @details this method is not recommended to use. SpeedData will be removed in
+ * the future. Use the other runCalculation method instead
+ * @param speedData
+ */
 void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     if (line.size() != 2) {
         wxLogMessage("Line Size Error");
@@ -56,6 +79,12 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     wxLogMessage("Raw Speed: %f", rawSpeed);
 }
 
+/**
+ * @brief Run Speed Calculation
+ * @details preferred method to use
+ * @param imgData ImageData to be used for calculation
+ * @param lines Selected Lines
+ */
 void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
                                       std::vector<Detection::Line> &lines) {
     if (lines.size() != 2) {
@@ -115,14 +144,41 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
     wxLogMessage("Raw Speed: %f", rawSpeed);
 }
 
+/**
+ * @brief Calculate Object Distance from Camera
+ *
+ * @param pixelWidth Width of the object in pixels
+ * @return double   Distance of the object from the camera in mm
+ */
 double SpeedCalculation::distanceFromCamera(float pixelWidth) {
     return (LANE_WIDTH * imageWidth * FocalLength) / (pixelWidth * SensorWidth);
 }
 
+/**
+ * @brief Set the Selected Line to be used for calculation
+ * @details This method is not recommended to use. SpeedData will be removed in
+ * the future. The selected Lines should be passed to the runCalculation method
+ * instead
+ *
+ * @param l
+ */
 void SpeedCalculation::SetLine(std::vector<cv::Vec4i> l) { line = l; }
 
+/**
+ * @brief Set the Image Width to be used for calculation
+ *
+ * @param w width of the image
+ */
 void SpeedCalculation::SetImageWidth(int w) { this->imageWidth = w; }
 
+/**
+ * @brief Convert ImageData to SpeedData
+ * @details This method is not recommended to use. SpeedData will be removed in
+ * the future.
+ * @param imgData ImageData to be converted
+ * @param points Points to be used for calculation
+ * @return std::vector<SpeedData>
+ */
 std::vector<SpeedData>
 SpeedCalculation::toSpeedData(std::vector<ImageData> &imgData,
                               std::vector<std::vector<cv::Point2f>> &points) {
@@ -137,12 +193,27 @@ SpeedCalculation::toSpeedData(std::vector<ImageData> &imgData,
     return speedData;
 }
 
+/**
+ * @brief Calculate the intersection point of two lines
+ * @details Overloaded method
+ *
+ * @param y
+ * @param b
+ * @return cv::Point2f
+ */
 cv::Point2f SpeedCalculation::intersection(float y, cv::Vec4i b) {
     cv::Vec4f b2(b[0], b[1], b[2], b[3]);
     cv::Vec4f a(0, y, 1, y);
     return intersection(a, b2);
 }
 
+/**
+ * @brief Calculate the intersection point of two lines
+ *
+ * @param a First line in the form of cv::Vec4f
+ * @param b Second line in the form of cv::Vec4f
+ * @return cv::Point2f Intersection point in the form of cv::Point2f
+ */
 cv::Point2f SpeedCalculation::intersection(cv::Vec4f a, cv::Vec4f b) {
     cv::Point2f p;
     float x1 = a[0], y1 = a[1], x2 = a[2], y2 = a[3];
@@ -158,6 +229,12 @@ cv::Point2f SpeedCalculation::intersection(cv::Vec4f a, cv::Vec4f b) {
     return p;
 }
 
+/**
+ * @brief Calculate the average speed from a vector of speeds
+ *
+ * @param speeds vector of speeds
+ * @return double average speed
+ */
 double SpeedCalculation::rawAvgSpeed(std::vector<double> &speeds) {
     double sum = 0;
     for (double speed : speeds) {
@@ -166,6 +243,15 @@ double SpeedCalculation::rawAvgSpeed(std::vector<double> &speeds) {
     return sum / speeds.size();
 }
 
+/**
+ * @brief Calculate the speed of the object
+ *
+ * @param prevDist previous distance of the object from the camera
+ * @param curDist current distance of the object from the camera
+ * @param prevTime previous time of frame
+ * @param curTime current time of frame
+ * @return double speed of the object
+ */
 double SpeedCalculation::calcSpeed(
     double prevDist, double curDist,
     std::chrono::high_resolution_clock::time_point prevTime,
@@ -175,11 +261,11 @@ double SpeedCalculation::calcSpeed(
     wxLogMessage("DistDiff: %f", distDiff);
     wxLogMessage("TimeDiff: %f", timeDiff);
     return distDiff / timeDiff;
-    // ! Caution: This is a temporary fix
-    // return 0;
 }
 
-// return double in 2 decimal places
+/**
+ * @brief Get the Average calculated speed
+ *
+ * @return double average speed
+ */
 double SpeedCalculation::GetAvgSpeed() { return avgSpeed; }
-// double SpeedCalculation::GetAvgSpeed() { return round(avgSpeed * 100) / 100;
-// }

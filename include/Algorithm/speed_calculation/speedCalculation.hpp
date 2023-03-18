@@ -1,3 +1,13 @@
+/**
+ * @file speedCalculation.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Class for Calculating Speed of Object from Image using Optical Flow
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #ifndef SPEED_CALCULATION_HPP
 #define SPEED_CALCULATION_HPP
 

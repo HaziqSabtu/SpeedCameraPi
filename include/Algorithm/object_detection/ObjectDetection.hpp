@@ -40,7 +40,6 @@ class ObjectDetection {
     Detection::OpticalFlowData init(cv::Mat &frame);
     Detection::OpticalFlowData updateFlow(ImageData &current,
                                           ImageData &previous);
-    void detect(std::vector<cv::Mat> &frames);
 
   private:
 };

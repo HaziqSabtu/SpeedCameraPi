@@ -19,6 +19,9 @@ LineDetection::LineDetection() {}
 
 /**
  * @brief Process the image to get the canny and lines
+ * @details 1) Convert the image to grayscale
+ *          2) Apply Canny Edge Detection
+ *          3) Apply Hough Line Transform
  *
  */
 void LineDetection::ProcessImage() {
@@ -75,6 +78,7 @@ void LineDetection::SetHoughLinesPParameters(double rho, double theta,
 /**
  * @brief Set the Image object
  * @details the image parsed will be processed to get the canny and lines
+ * the method ProcessImage() will be called here
  * @param image image to be processed
  */
 void LineDetection::SetImage(cv::Mat &image) {

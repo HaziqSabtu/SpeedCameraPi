@@ -1,3 +1,13 @@
+/**
+ * @file Event_Speed.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Custom Event for Speed Calculation
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #ifndef SPEED_CALCULATION_EVENT_HPP
 #define SPEED_CALCULATION_EVENT_HPP
 
@@ -9,6 +19,23 @@
 class SpeedCalcEvent;
 wxDECLARE_EVENT(c_SPEED_CALC_EVENT, SpeedCalcEvent);
 
+/**
+ * @brief Enum for Speed Calculation Event
+ * @details <table>
+ * <tr>
+ *     <th>Enum</th>
+ *     <th>Event</th>
+ * </tr>
+ * <tr>
+ *     <td>CALC_OK</td>
+ *     <td>Event for Signaling Speed Calculation Success</td>
+ * </tr>
+ * <tr>
+ *     <td>CALC_ERROR</td>
+ *     <td>Event for Signaling Speed Calculation Error</td>
+ * </tr>
+ * </table>
+ */
 enum SPEED_CALC_TYPE { CALC_OK = 1, CALC_ERROR };
 
 class SpeedCalcEvent : public wxCommandEvent {
