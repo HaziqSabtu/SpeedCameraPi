@@ -18,6 +18,10 @@
 #include <opencv2/core.hpp>
 #include <wx/log.h>
 
+/**
+ * @brief Class for Calculating Speed of Object from Image using Optical Flow
+ *
+ */
 class SpeedCalculation {
   public:
     SpeedCalculation(const double sensorWidth, const double sensorFocalLength,

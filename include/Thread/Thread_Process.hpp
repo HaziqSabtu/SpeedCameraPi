@@ -23,6 +23,10 @@
 #include <wx/thread.h>
 #include <wx/wx.h>
 
+/**
+ * @brief Custom wxThread for processing ImageData
+ *
+ */
 class ProcessThread : public wxThread {
   public:
     ProcessThread(wxEvtHandler *parent, ThreadPool *threadPool,

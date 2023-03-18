@@ -16,6 +16,11 @@
 #include <chrono>
 #include <thread>
 
+/**
+ * @brief Task Implementation for Capturing Image from Camera to ImageData
+ *
+ */
+
 class CaptureTask : public Task {
   public:
     CaptureTask(std::vector<ImageData> *imgData, cv::VideoCapture *cap,

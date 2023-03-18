@@ -18,13 +18,10 @@
 #include <wx/log.h>
 #include <wx/wx.h>
 
-class ImageUtils {
-  public:
-    static void RotateImage(std::vector<ImageData> &imgData, int angle);
-    static double TrimmedMean(const std::vector<double> &data,
-                              double percentage);
-};
-
+/**
+ * @brief Utils Class
+ *
+ */
 namespace Utils {
 enum FileExtension { BIN, H264, UNSUPPORTED };
 double TimeDiff(std::chrono::high_resolution_clock::time_point time1,

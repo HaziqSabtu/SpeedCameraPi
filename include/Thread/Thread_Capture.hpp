@@ -18,6 +18,10 @@
 #include <string>
 #include <wx/thread.h>
 
+/**
+ * @brief Custom wxThread for capturing image from camera
+ *
+ */
 class CaptureThread : public wxThread {
   public:
     CaptureThread(wxEvtHandler *parent, raspicam::RaspiCam_Cv *cap);

@@ -38,6 +38,10 @@ wxDECLARE_EVENT(c_SPEED_CALC_EVENT, SpeedCalcEvent);
  */
 enum SPEED_CALC_TYPE { CALC_OK = 1, CALC_ERROR };
 
+/**
+ * @brief Custom Event for Speed Calculation
+ *
+ */
 class SpeedCalcEvent : public wxCommandEvent {
   public:
     SpeedCalcEvent(wxEventType eventType = c_SPEED_CALC_EVENT, int id = 1);

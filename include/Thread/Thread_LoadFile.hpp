@@ -22,6 +22,10 @@
 #include <wx/thread.h>
 #include <wx/wx.h>
 
+/**
+ * @brief Custom wxThread for loading ImageData from file
+ *
+ */
 class LoadFileThread : public wxThread {
   public:
     LoadFileThread(wxEvtHandler *parent, ThreadPool *threadPool, wxString path,

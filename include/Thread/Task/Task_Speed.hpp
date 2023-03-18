@@ -17,6 +17,10 @@
 #include <Utils/DataStruct.hpp>
 #include <Utils/Struct/D_Line.hpp>
 
+/**
+ * @brief Task Implementation for Speed Calculation
+ *
+ */
 class SpeedTask : public Task {
   public:
     SpeedTask(std::vector<ImageData> *imgData,

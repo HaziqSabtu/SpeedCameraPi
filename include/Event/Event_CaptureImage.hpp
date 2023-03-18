@@ -38,6 +38,10 @@ wxDECLARE_EVENT(c_CAPTURE_IMAGE_EVENT, CaptureImageEvent);
  */
 enum CAPTURE_IMAGE_TYPE { CAPTURE_START = 1, CAPTURE_END };
 
+/**
+ * @brief Custom Event for Capture Image
+ *
+ */
 class CaptureImageEvent : public wxCommandEvent {
   public:
     CaptureImageEvent(wxEventType eventType = c_CAPTURE_IMAGE_EVENT,

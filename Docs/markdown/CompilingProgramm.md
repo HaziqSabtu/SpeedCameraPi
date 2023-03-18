@@ -2,30 +2,27 @@
 
 This section describes the steps to compile the application.
 
--   Download the source code of the application from the repository:
+- Download the source code of the application from the repository:
 
-          wget
+        git clone https://github.com/HaziqSabtu/SpeedCameraPi.git
 
--   Extract the downloaded archive and navigate to the extracted directory:
+- Create a build directory and navigate to it:
 
-          tar -xvf something
+        cd SpeedCameraPi
 
-          cd something
+        mkdir build
 
--   Create a build directory and navigate to it:
+        cd build
 
-          mkdir build
+- Configure the build process by running the following command:
 
-          cd build
+        cmake -B. -H..
 
--   Configure the build process by running the following command:
+- Compile the application:
 
-          cmake -B. -H..
+        make -j3
 
--   Compile the application:
+- After finished compiling, the executable file is located in the build
+  directory.
 
-          make -j3
-
--   After finished compiling, the executable file is located in the build directory.
-
-          ./build/something
+        ./build

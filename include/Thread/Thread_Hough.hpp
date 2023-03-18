@@ -22,6 +22,10 @@
 #include <string>
 #include <wx/thread.h>
 
+/**
+ * @brief Custom wxThread for Hough Line Transform
+ *
+ */
 class HoughThread : public wxThread {
   public:
     HoughThread(wxEvtHandler *parent, ThreadPool *pool, ImageData &imgData,

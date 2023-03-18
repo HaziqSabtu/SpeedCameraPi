@@ -19,6 +19,11 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/video.hpp>
 namespace Detection {
+
+/**
+ * @brief Class for Detecting Objects from Image using Optical Flow
+ *
+ */
 class ObjectDetection {
 
   private:

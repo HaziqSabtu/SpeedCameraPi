@@ -21,6 +21,11 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/xfeatures2d.hpp>
 
+/**
+ * @brief Helper Class for detecting and matching features between two images
+ * and alligning them
+ *
+ */
 class FeatureDetector {
 
   public:

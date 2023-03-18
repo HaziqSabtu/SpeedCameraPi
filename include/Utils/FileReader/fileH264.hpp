@@ -21,6 +21,11 @@
 #include <opencv2/videoio.hpp>
 #include <wx/string.h>
 
+/**
+ * @brief Utils Class for reading H264 file and convert it to vector of
+ * ImageData
+ *
+ */
 class FILEH264 {
   private:
     /* data */

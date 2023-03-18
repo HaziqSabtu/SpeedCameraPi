@@ -17,6 +17,10 @@
 #include <chrono>
 #include <opencv2/opencv.hpp>
 
+/**
+ * @brief Struct for ImageData
+ *
+ */
 struct ImageData {
     cv::Mat image;
     std::chrono::high_resolution_clock::time_point time;
@@ -47,6 +51,11 @@ struct ImageData {
     }
 };
 
+/**
+ * @brief Struct for SpeedData
+ * @deprecated
+ *
+ */
 struct SpeedData {
     cv::Mat image;
     std::chrono::high_resolution_clock::time_point time;

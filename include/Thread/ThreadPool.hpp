@@ -22,6 +22,10 @@
 #include <unordered_map>
 #include <wx/log.h>
 
+/**
+ * @brief Class Implementation for Background Thread Pool
+ *
+ */
 class ThreadPool {
   public:
     ThreadPool(const int numThreads);

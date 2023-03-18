@@ -18,6 +18,10 @@
 #include <Utils/DataStruct.hpp>
 #include <Utils/Struct/D_OpticalFlow.hpp>
 
+/**
+ * @brief Task Implementation for Optical Flow Detection
+ *
+ */
 class FlowTask : public Task {
   public:
     FlowTask(std::vector<ImageData> *imgData, OpticalFlowConfig config);

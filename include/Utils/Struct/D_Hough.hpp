@@ -15,6 +15,10 @@
 #include <Utils/Struct/D_Line.hpp>
 
 namespace Detection {
+/**
+ * @brief Struct for Hough Line Detection Data
+ *
+ */
 struct HoughData {
     cv::Mat canny;
     std::vector<Detection::Line> lines;

@@ -20,6 +20,11 @@
 #include <opencv2/flann.hpp>
 #include <opencv2/xfeatures2d.hpp>
 
+/**
+ * @brief A class for performing feature matching using OpenCV's
+ * DescriptorMatcher class.
+ *
+ */
 class DMatcher {
   public:
     static void BruteForceMatcher(cv::Mat &query, cv::Mat &target,

@@ -18,6 +18,10 @@
 #include <Utils/DataStruct.hpp>
 #include <Utils/Struct/D_Hough.hpp>
 
+/**
+ * @brief Task Implementation for Hough Line Detection
+ *
+ */
 class HoughTask : public Task {
   public:
     HoughTask(ImageData &imgData, Detection::HoughData *houghData,

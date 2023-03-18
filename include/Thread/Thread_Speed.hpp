@@ -22,6 +22,10 @@
 #include <string>
 #include <wx/thread.h>
 
+/**
+ * @brief Custom wxThread for calculating speed
+ *
+ */
 class SpeedThread : public wxThread {
   public:
     SpeedThread(wxEvtHandler *parent, ThreadPool *pool,

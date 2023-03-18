@@ -16,6 +16,10 @@
 #include <string>
 
 namespace Detection {
+/**
+ * @brief Custom Implementation of Line Struct with Standard Methods
+ *
+ */
 struct Line {
     cv::Point2f p1;
     cv::Point2f p2;

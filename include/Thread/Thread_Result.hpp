@@ -16,6 +16,10 @@
 #include <wx/thread.h>
 #include <wx/wx.h>
 
+/**
+ * @brief Custom wxThread for displaying result
+ *
+ */
 class ResultThread : public wxThread {
   public:
     ResultThread(wxEvtHandler *parent, std::vector<ImageData> *imgData);

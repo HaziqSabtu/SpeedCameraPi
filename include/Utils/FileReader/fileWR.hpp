@@ -19,6 +19,10 @@
 #include <iostream>
 #include <opencv2/core.hpp>
 
+/**
+ * @brief Utils Class for reading and writing binary file
+ *
+ */
 class FILEWR {
   private:
     /* data */

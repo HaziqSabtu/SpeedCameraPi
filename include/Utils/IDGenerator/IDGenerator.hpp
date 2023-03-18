@@ -16,6 +16,10 @@
 #include <iostream>
 
 namespace Utils {
+/**
+ * @brief Utils Class for generating unique ID between 10000 - 99999
+ *
+ */
 class IDGenerator {
   public:
     static int GenerateID() {

@@ -22,6 +22,10 @@
 #include <wx/thread.h>
 #include <wx/wx.h>
 
+/**
+ * @brief Custom wxThread for loading ImageData from Camera
+ *
+ */
 class LoadCaptureThread : public wxThread {
   public:
     LoadCaptureThread(wxEvtHandler *parent, raspicam::RaspiCam_Cv *camera,

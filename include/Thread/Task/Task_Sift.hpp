@@ -16,6 +16,10 @@
 #include <Thread/Task/Task.hpp>
 #include <Utils/DataStruct.hpp>
 
+/**
+ * @brief Task Implementation for Sift Feature Detection
+ *
+ */
 class SiftTask : public Task {
   public:
     SiftTask(std::vector<ImageData> *imgData, int id);

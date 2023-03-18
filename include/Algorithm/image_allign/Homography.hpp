@@ -18,6 +18,11 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 
+/**
+ * @brief Helper class for Homography based on the result from Feature
+ * Detection
+ *
+ */
 class Homography {
   public:
     static cv::Mat FindHomography(std::vector<cv::KeyPoint> keypoints_obj,

@@ -18,6 +18,10 @@
 #include <Utils/ImageUtils.hpp>
 #include <wx/string.h>
 
+/**
+ * @brief Task Implementation for Loading File to ImageData
+ *
+ */
 class LoadTask : public Task {
   public:
     LoadTask(std::vector<ImageData> *imgData, wxString path);

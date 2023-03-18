@@ -38,6 +38,10 @@ wxDECLARE_EVENT(c_UPDATE_IMAGE_EVENT, UpdateImageEvent);
  */
 enum UPDATE_IMAGE_TYPE { UPDATE_IMAGE = 1, CLEAR_IMAGE };
 
+/**
+ * @brief Custom Event for Update Image
+ *
+ */
 class UpdateImageEvent : public wxCommandEvent {
   public:
     UpdateImageEvent(wxEventType eventType = c_UPDATE_IMAGE_EVENT, int id = 1);

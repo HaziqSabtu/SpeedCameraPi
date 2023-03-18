@@ -16,6 +16,10 @@
 #include <Utils/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
 
+/**
+ * @brief Class for Detecting Lines from Image using Hough Line Transform
+ *
+ */
 class LineDetection {
   public:
     LineDetection();

@@ -39,6 +39,10 @@ wxDECLARE_EVENT(c_HOUGH_EVENT, HoughEvent);
  */
 enum HOUGH_EVENT_TYPE { HOUGH_START = 1, HOUGH_END };
 
+/**
+ * @brief Custom Event for Hough Transform
+ *
+ */
 class HoughEvent : public wxCommandEvent {
   public:
     HoughEvent(wxEventType eventType = c_HOUGH_EVENT, int id = 1);
