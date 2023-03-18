@@ -66,7 +66,7 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     }
 
     double rawSpeed = rawAvgSpeed(speeds);
-    avgSpeed = ImageUtils::TrimmedMean(speeds, 10);
+    avgSpeed = Utils::TrimmedMean(speeds, 10);
 
     double measuredSpeed = 0.3 / 1.2;
     // double measuredSpeed = 1200 / 4665.2;
@@ -131,7 +131,7 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
     }
 
     double rawSpeed = rawAvgSpeed(speeds);
-    avgSpeed = ImageUtils::TrimmedMean(speeds, 20);
+    avgSpeed = Utils::TrimmedMean(speeds, 20);
 
     double measuredSpeed = 0.3 / 1.2;
     // double measuredSpeed = 1200 / 4665.2;
