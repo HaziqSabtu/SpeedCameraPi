@@ -23,6 +23,12 @@ SiftTask::SiftTask(std::vector<ImageData> *imgData, int id)
 /**
  * @brief Execute Sift Task
  * @details This method will be called automatically by the thread worker
+ * <ul>
+ * <li> 1. Create FeatureDetector object
+ * <li> 2. Set DetectorType to SIFT
+ * <li> 3. Run FeatureDetector::allign()
+ * <li> 4. Set the image in vector to the alligned image
+ * </ul>
  *
  */
 void SiftTask::Execute() {

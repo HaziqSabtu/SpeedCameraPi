@@ -32,6 +32,15 @@ FeatureDetector::FeatureDetector() { FeatureDetector(DetectorType::SIFT); }
 /**
  * @brief Runs the feature detection and matching algorithm on two input images.
  *
+ * @details
+ * <ul>
+ * <li> 1. Detect and compute features on both images.
+ * <li> 2. Match features between the two images.
+ * <li> 3. Filter the matched features.
+ * <li> 4. Find homography matrix.
+ * <li> 5. Apply homography matrix to the second image.
+ * </ul>
+ *
  * @param image1 First input image, Source Image.
  * @param image2 Second input image, Image to allign.
  */

@@ -1,3 +1,13 @@
+/**
+ * @file Thread_Capture.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Custom wxThread for capturing image from camera
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #ifndef CAPTURE_THREAD_HPP
 #define CAPTURE_THREAD_HPP
 

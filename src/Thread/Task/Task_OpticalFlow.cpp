@@ -22,6 +22,11 @@ FlowTask::FlowTask(std::vector<ImageData> *imgData, OpticalFlowConfig config)
 /**
  * @brief Execute Flow Task
  * @details This method will be called automatically by the thread worker
+ * <ul>
+ * <li> 1. Initialize Optical Flow
+ * <li> 2. Update Optical Flow for each frame
+ * <li> 3. Threshold the points
+ * </ul>
  *
  */
 void FlowTask::Execute() {

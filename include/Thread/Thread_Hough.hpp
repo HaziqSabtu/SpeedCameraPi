@@ -1,3 +1,14 @@
+/**
+ * @file Thread_Hough.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Custom wxThread for Hough Line Transform
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef HOUGH_THREAD_HPP
 #define HOUGH_THREAD_HPP
 

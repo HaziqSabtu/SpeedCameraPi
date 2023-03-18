@@ -1,10 +1,33 @@
+/**
+ * @file Thread_LoadFile.cpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Custom wxThread for loading ImageData from file
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #include <Thread/Thread_LoadFile.hpp>
 
+/**
+ * @brief Construct a new Load File Thread:: Load File Thread object
+ *
+ * @param parent parent wxEvtHandler
+ * @param threadPool pointer to ThreadPool
+ * @param path path to file
+ * @param maxFrame maximum number of frame to load
+ */
 LoadFileThread::LoadFileThread(wxEvtHandler *parent, ThreadPool *threadPool,
                                wxString path, const int maxFrame)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool), path(path),
       maxFrame(maxFrame) {}
 
+/**
+ * @brief Destroy the Load File Thread:: Load File Thread object
+ *
+ */
 LoadFileThread::~LoadFileThread() {
     if (pool != nullptr) {
         pool = nullptr;
@@ -15,6 +38,17 @@ LoadFileThread::~LoadFileThread() {
     }
 }
 
+/**
+ * @brief Entry point of the thread
+ * @details This function will be called when the thread is started
+ * <ul>
+ * <li>LoadTask is created and added to the thread pool</li>
+ * <li>Wait for the thread pool to finish loading the file</li>
+ * </ul>
+ *
+ *
+ * @return wxThread::ExitCode
+ */
 wxThread::ExitCode LoadFileThread::Entry() {
     std::unique_ptr<std::vector<ImageData>> imgData =
         std::make_unique<std::vector<ImageData>>();

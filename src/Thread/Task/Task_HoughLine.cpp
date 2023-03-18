@@ -26,6 +26,13 @@ HoughTask::HoughTask(ImageData &imgData, Detection::HoughData *houghData,
 /**
  * @brief Execute Hough Task
  * @details This method will be called automatically by the thread worker
+ * <ul>
+ * <li> 1. Create LineDetection object
+ * <li> 2. Set Canny Parameters
+ * <li> 3. Set HoughLinesP Parameters
+ * <li> 4. Set Image and run Detection with LineDetection::SetImage()
+ * <li> 5. Get HoughData
+ * </ul>
  *
  */
 void HoughTask::Execute() {

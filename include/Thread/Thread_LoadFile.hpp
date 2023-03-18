@@ -1,3 +1,14 @@
+/**
+ * @file Thread_LoadFile.hpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Custom wxThread for loading ImageData from file
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef LOAD_FILE_THREAD_HPP
 #define LOAD_FILE_THREAD_HPP
 

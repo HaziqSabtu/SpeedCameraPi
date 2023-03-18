@@ -1,5 +1,25 @@
+/**
+ * @file Thread_Speed.cpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Custom wxThread for calculating speed
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #include <Thread/Thread_Speed.hpp>
 
+/**
+ * @brief Construct a new Speed Thread:: Speed Thread object
+ *
+ * @param parent parent window
+ * @param pool pointer to ThreadPool
+ * @param imgData pointer to vector of ImageData
+ * @param selectedLine vector of selected line
+ * @param sensorConfig SensorConfig
+ */
 SpeedThread::SpeedThread(wxEvtHandler *parent, ThreadPool *pool,
                          std::vector<ImageData> *imgData,
                          std::vector<Detection::Line> &selectedLine,
@@ -9,8 +29,23 @@ SpeedThread::SpeedThread(wxEvtHandler *parent, ThreadPool *pool,
     this->m_parent = parent;
 }
 
+/**
+ * @brief Destroy the Speed Thread:: Speed Thread object
+ *
+ */
 SpeedThread::~SpeedThread() {}
 
+/**
+ * @brief Entry point of the thread
+ * @details This function will be called when the thread is started
+ * <ul>
+ * <li>SpeedTask is created and added to the thread pool</li>
+ * <li>Wait for the thread pool to finish calculating the speed</li>
+ * <li>Post SpeedCalcEvent to parent window</li>
+ * </ul>
+ *
+ * @return wxThread::ExitCode
+ */
 wxThread::ExitCode SpeedThread::Entry() {
     std::cout << "Speed Calculation Thread Start" << std::endl;
     std::unique_ptr<float> result;

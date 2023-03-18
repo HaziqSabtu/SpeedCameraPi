@@ -12,7 +12,7 @@
 
 /**
  * @brief Construct a new Capture Task:: Capture Task object
- *
+ * @details Update Required!
  * @param imgData pointer to vector of ImageData
  * @param cap pointer to VideoCapture
  * @param maxCapture maximum number of capture to load

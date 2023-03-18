@@ -1,13 +1,49 @@
+/**
+ * @file Thread_LoadCapture.cpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Custom wxThread for loading ImageData from Camera
+ * @version 1.0.0
+ * @date 2023-03-18
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #include <Thread/Thread_LoadCapture.hpp>
 
+/**
+ * @brief Construct a new Load Capture Thread:: Load Capture Thread object
+ *
+ * @param parent parent wxEvtHandler
+ * @param camera camera object
+ * @param maxFrame maximum frame to capture
+ * @param debug debug mode
+ */
 LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent,
                                      raspicam::RaspiCam_Cv *camera,
                                      const int maxFrame, const bool debug)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(camera),
       maxFrame(maxFrame), debug(debug) {}
 
+/**
+ * @brief Destroy the Load Capture Thread:: Load Capture Thread object
+ */
 LoadCaptureThread::~LoadCaptureThread() { camera = nullptr; }
 
+/**
+ * @brief Entry point for the thread
+ * @details This function will be called when the thread is started
+ * <ul>
+ * <li>Check if camera is opened</li>
+ * <li>Grab and retrieve frame from camera</li>
+ * <li>Post CaptureImageEvent to parent to signal the start of capture</li>
+ * <li>Post UpdateImageEvent to parent to signal that a new frame is
+ * available</li>
+ * <li>Post CaptureImageEvent to parent to signal the end of capture</li>
+ * </ul>
+ *
+ *
+ * @return wxThread::ExitCode
+ */
 wxThread::ExitCode LoadCaptureThread::Entry() {
     if (!camera->isOpened()) {
         std::cout << "Failed to open camera" << std::endl;

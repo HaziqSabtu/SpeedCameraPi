@@ -15,7 +15,7 @@
  * @brief Construct a new Load Task:: Load Task object
  *
  * @param imgData pointer to vector of ImageData
- * @param path path to h264 file
+ * @param path path to file
  * @param maxCapture maximum number of capture to load
  */
 LoadTask::LoadTask(std::vector<ImageData> *imgData, wxString path)
@@ -24,7 +24,10 @@ LoadTask::LoadTask(std::vector<ImageData> *imgData, wxString path)
 /**
  * @brief Execute Load Task
  * @details This method will be called automatically by the thread worker
- *
+ * <ul>
+ * <li> 1. Check file extension
+ * <li> 2. Load file
+ * </ul>
  */
 void LoadTask::Execute() {
     std::string s = std::string(path.mb_str(wxConvUTF8));
