@@ -18,6 +18,7 @@ namespace Detection {
  * @param id unique id for each point
  * @param point Optical Flow Point in cv::Point2f
  * @param error error of Optical Flow Point
+ * @param status status of Optical Flow Point
  */
 OFPoint::OFPoint(int id, cv::Point2f point, float error, uchar status)
     : id(id), point(point), error(error), status(status) {}
@@ -82,10 +83,6 @@ void OpticalFlowData::push(std::vector<cv::Point2f> points) {
 
 /**
  * @brief Push Optical Flow Point to Optical Flow Data
- * @details This is push function for Optical Flow Data with error.
- * While pushing, the Optical Flow Point will be filtered by status of previous
- * OpticalFlowData. If status is 1, the Optical Flow Point will be pushed to
- * Optical Flow Data.
  *
  * @param OFData Optical Flow Data to compare
  * @param points vector of Optical Flow Point in cv::Point2f
@@ -121,6 +118,11 @@ void OpticalFlowData::push(OpticalFlowData &OFData,
     }
 }
 
+/**
+ * @brief Get Optical Flow Point from Optical Flow Data
+ *
+ * @return std::vector<cv::Point2f>
+ */
 std::vector<cv::Point2f> OpticalFlowData::GetPoints() {
     return GetPoints(data);
 }
@@ -156,12 +158,6 @@ void OpticalFlowData::update(OpticalFlowData OFData) {
         return;
     }
 
-    /**
-     * * is this necessary? aren't data is always sorted?
-     * * therefore normal iteration is enough maybe...
-     * * but this is safer but with higher complexity
-     *
-     */
     for (auto it = data.begin(); it != data.end();) {
         if (OFData.data.find(it->first) == OFData.data.end()) {
             it = data.erase(it);
@@ -171,6 +167,23 @@ void OpticalFlowData::update(OpticalFlowData OFData) {
     }
 }
 
+/**
+ * @brief Apply threshold to Optical Flow Data
+ * @details This function will remove all Optical Flow Point that is not in
+ * threshold
+ * <ul>
+ * <li> Iterate through all Optical Flow Point in Optical Flow Data
+ * <li> Compare Optical Flow Point with Optical Flow Point in previous Optical
+ * Flow Data
+ * <li> If the distance between Optical Flow Point and Optical Flow Point in
+ * previous Optical Flow Data is bigger than threshold, remove it
+ * </ul>
+ *
+ * @param previous previous OpticalFlowData
+ * @param threshold threshold
+ * @return std::vector<Detection::OFPoint> vector of Optical Flow Point that
+ * pass threshold
+ */
 std::vector<Detection::OFPoint>
 OpticalFlowData::threshold(OpticalFlowData &previous, float threshold) {
     std::vector<Detection::OFPoint> points;
@@ -198,6 +211,12 @@ void OpticalFlowData::thresholdPointsId(std::vector<int> &ids,
     }
 }
 
+/**
+ * @brief Get Optical Flow Point by ids
+ *
+ * @param ids vector of id
+ * @return std::vector<Detection::OFPoint>
+ */
 std::vector<Detection::OFPoint>
 OpticalFlowData::GetPointsById(std::vector<int> &ids) {
     std::vector<Detection::OFPoint> points;
@@ -218,15 +237,35 @@ OpticalFlowData::update2(std::vector<Detection::OFPoint> &refData) {
     return points;
 }
 
+/**
+ * @brief Get Optical Flow Point by id
+ *
+ * @param id id
+ * @return Detection::OFPoint
+ */
 Detection::OFPoint OpticalFlowData::GetPointById(int id) {
     return data.find(id)->second;
 }
 
+/**
+ * @brief Construct a new Detection Data:: Detection Data object
+ *
+ */
 DetectionData::DetectionData() : points(std::vector<Detection::OFPoint>()) {}
 
+/**
+ * @brief Construct a new Detection Data:: Detection Data object
+ *
+ * @param points vector of Optical Flow Point
+ */
 DetectionData::DetectionData(std::vector<Detection::OFPoint> points)
     : points(points) {}
 
+/**
+ * @brief Get Optical Flow Point from Detection Data
+ *
+ * @return std::vector<cv::Point2f>
+ */
 std::vector<cv::Point2f> DetectionData::GetPoints() {
     std::vector<cv::Point2f> p;
     for (int i = 0; i < points.size(); i++) {
@@ -235,8 +274,18 @@ std::vector<cv::Point2f> DetectionData::GetPoints() {
     return p;
 }
 
+/**
+ * @brief Get Bounding Box from Detection Data
+ *
+ * @return cv::Rect
+ */
 cv::Rect DetectionData::GetRect() { return cv::boundingRect(GetPoints()); }
 
+/**
+ * @brief Get Line of the Point that located at the bottom of the Bounding Box
+ *
+ * @return Detection::Line
+ */
 Detection::Line DetectionData::GetLine() {
     std::cout << "GetLine" << std::endl;
     std::vector<cv::Point2f> p = GetPoints();
