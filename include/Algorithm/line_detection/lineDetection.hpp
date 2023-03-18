@@ -32,6 +32,7 @@ class LineDetection {
     std::vector<cv::Vec4i> &GetLinesP();
     std::vector<Detection::Line> GetLines();
     Detection::HoughData GetHoughData();
+    void ProcessImage();
 
   private:
     cv::Mat image;
@@ -51,10 +52,6 @@ class LineDetection {
     int threshold = 50;
     double minLineLength = 25;
     double maxLineGap = 10;
-
-    // private Methods
-  private:
-    void ProcessImage();
 };
 
 #endif

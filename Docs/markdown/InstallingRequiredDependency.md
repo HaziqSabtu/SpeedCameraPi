@@ -1,4 +1,4 @@
-# 0. Installing Required Dependencies
+# Installing Required Dependencies
 
 This project requires the following dependencies to be installed:
 
@@ -25,7 +25,7 @@ involve downloading and compiling the source code yourself or using a package
 manager to install pre-built binary packages. You may skip this section if the
 required dependencies are already installed.
 
-## 0.1. Installing OpenCV
+## Installing OpenCV
 
 OpenCV is a powerful computer vision library that provides a vast range of image
 and video processing capabilities. This project uses OpenCV to perform image
@@ -101,7 +101,7 @@ Steps to install OpenCV on Raspberry Pi 4 running Debian:
 
 - Make sure to set swap size to original value after finish installation
 
-## 0.2. Installing wxWidget
+## Installing wxWidget
 
 wxWidgets is a cross-platform GUI library that provides a set of C++ classes for
 creating graphical user interfaces. This project uses wxWidgets to create the
@@ -146,7 +146,7 @@ Steps to install wxWidget on Raspberry Pi 4 running Debian:
 
         make install
 
-## 0.3. Installing RaspiCam
+## Installing RaspiCam
 
 This library provides a set of C++ classes for interfacing with the Raspberry Pi
 camera module. This project uses RaspiCam to capture images and video streams
@@ -185,7 +185,7 @@ Steps to install RaspiCam on Raspberry Pi 4 running Debian:
 
            sudo ldconfig
 
-## 0.4. Installing CMake
+## Installing CMake
 
 CMake is an open-source, cross-platform family of tools designed to build, test
 and package software. This project uses CMake to build the application.

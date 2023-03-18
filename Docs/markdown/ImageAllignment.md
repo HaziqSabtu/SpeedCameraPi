@@ -52,4 +52,5 @@ Finally, the images are transformed using the homography matrix to produce a
 single aligned image. This process can be repeated for multiple images to
 produce a panorama or to track an object in a video stream. Overall, image
 aligning algorithms are an essential tool in computer vision and have numerous
-applications in a variety of fields.
+applications in a variety of fields. Refer FeatureDetector::allign() for
+implementation.

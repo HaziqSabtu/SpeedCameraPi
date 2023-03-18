@@ -19,10 +19,12 @@ LineDetection::LineDetection() {}
 
 /**
  * @brief Process the image to get the canny and lines
- * @details 1) Convert the image to grayscale
- *          2) Apply Canny Edge Detection
- *          3) Apply Hough Line Transform
- *
+ * @details
+ * <ul>
+ * <li>Convert the image to grayscale</li>
+ * <li>Apply Canny Edge Detection</li>
+ * <li>Apply Hough Line Transform</li>
+ * </ul>
  */
 void LineDetection::ProcessImage() {
     cv::cvtColor(image, grayImage, cv::COLOR_BGR2GRAY);

@@ -1,4 +1,4 @@
-# 1. Compiling the Application
+# Compiling the Application
 
 This section describes the steps to compile the application.
 

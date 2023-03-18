@@ -3,16 +3,14 @@
   <!-- Navigation index tabs for HTML output -->
   <navindex>
     <tab type="mainpage" visible="yes" title=""/>
-    <tab type="user" visible="yes" title="Getting Started" url="md__docs_markdown__installing_required_dependency.html">
-      <tab type="user" visible="yes" title="0. Installing Dependency" url="md__docs_markdown__installing_required_dependency.html"/>
-      <tab type="user" visible="yes" title="1. Compiling Program" url="md__docs_markdown__compiling_programm.html"/>
-    </tab>
-    <tab type="user" visible="yes" title="Algorithms" url="md__docs_markdown__image_allignment.html">
-      <tab type="user" visible="yes" title="Image Allignment" url="md__docs_markdown__image_allignment.html"/>
-      <tab type="user" visible="yes" title="1. Compiling Program" url="md__docs_markdown__compiling_programm.html"/>
-    </tab>
-    <tab type="pages" visible="yes" title="" intro=""/>
-    <tab type="modules" visible="yes" title="" intro=""/>
+    <tab type="user" visible="yes" title="Installing Dependency" url="md__docs_markdown__installing_required_dependency.html"/>
+    <tab type="user" visible="yes" title="Compiling Application" url="md__docs_markdown__compiling_programm.html"/>
+    <!-- <tab type="user" visible="yes" title="Algorithms" url="md__docs_markdown__image_allignment.html"> -->
+    <tab type="user" visible="yes" title="Image Allignment" url="md__docs_markdown__image_allignment.html"/>
+    <tab type="user" visible="yes" title="Line Detection" url="md__docs_markdown__line_detection.html"/>
+    <!-- </tab> -->
+    <tab type="pages" visible="no" title="" intro=""/>
+    <tab type="modules" visible="no" title="" intro=""/>
     <tab type="namespaces" visible="yes" title="">
       <tab type="namespacelist" visible="yes" title="" intro=""/>
       <tab type="namespacemembers" visible="yes" title="" intro=""/>
@@ -24,7 +22,7 @@
       <tab type="interfaceindex" visible="$ALPHABETICAL_INDEX" title=""/>
       <tab type="interfacehierarchy" visible="yes" title="" intro=""/>
     </tab>
-    <tab type="classes" visible="yes" title="">
+    <tab type="classes" visible="no" title="">
       <tab type="classlist" visible="yes" title="" intro=""/>
       <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/>
       <tab type="hierarchy" visible="yes" title="" intro=""/>
@@ -39,7 +37,7 @@
       <tab type="exceptionindex" visible="$ALPHABETICAL_INDEX" title=""/>
       <tab type="exceptionhierarchy" visible="yes" title="" intro=""/>
     </tab>
-    <tab type="files" visible="yes" title="">
+    <tab type="files" visible="no" title="">
       <tab type="filelist" visible="yes" title="" intro=""/>
       <tab type="globals" visible="yes" title="" intro=""/>
     </tab>
@@ -246,3 +244,5 @@
     <detaileddescription title=""/>
   </directory>
 </doxygenlayout>
+
+

@@ -1,3 +1,0 @@
-### Gettung Started
-
-something somthing
