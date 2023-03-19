@@ -923,7 +923,8 @@ INPUT                  = src \
                          Docs/markdown/InstallingRequiredDependency.md \
                          Docs/markdown/CompilingProgramm.md \
                          Docs/markdown/ImageAllignment.md \
-                         Docs/markdown/LineDetection.md
+                         Docs/markdown/LineDetection.md \
+                         Docs/markdown/ObjectDetection.md \
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1082,7 +1083,8 @@ EXAMPLE_RECURSIVE      = NO
 IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/iad.jpg \
                          Docs/assets \
-                         Docs/assets/LineDetection.png
+                         Docs/assets/LineDetection.png \
+                         Docs/assets/ObjectDetection.png \
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
