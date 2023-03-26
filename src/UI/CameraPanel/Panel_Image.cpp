@@ -133,12 +133,12 @@ void ImagePanel::render(wxDC &dc) {
         }
     }
 
-    if (!selectedPoint.empty()) {
-        for (auto &point : selectedPoint) {
-            cv::circle(image, point, radius, cv::Scalar(0, 255, 0), -1,
-                       cv::LINE_AA);
-        }
-    }
+    // if (!selectedPoint.empty()) {
+    //     for (auto &point : selectedPoint) {
+    //         cv::circle(image, point, radius, cv::Scalar(0, 255, 0), -1,
+    //                    cv::LINE_AA);
+    //     }
+    // }
 
     if (isShowSelectedLine && !selectedLine.empty()) {
         for (auto &line : selectedLine) {
