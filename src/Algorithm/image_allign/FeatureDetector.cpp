@@ -27,7 +27,7 @@ FeatureDetector::FeatureDetector(DetectorType type) : detectorType(type) {
 /**
  * @overload FeatureDetector::FeatureDetector("SIFT", false, false)
  */
-FeatureDetector::FeatureDetector() { FeatureDetector(DetectorType::SIFT); }
+FeatureDetector::FeatureDetector() : FeatureDetector(DetectorType::SIFT) {}
 
 /**
  * @brief Runs the feature detection and matching algorithm on two input images.

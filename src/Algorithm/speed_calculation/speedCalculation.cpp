@@ -31,12 +31,12 @@ SpeedCalculation::SpeedCalculation(const double sensorWidth,
  */
 void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     if (line.size() != 2) {
-        wxLogMessage("Line Size Error");
+        std::cout << "Line Size Error" << std::endl;
         return;
     }
 
     if (speedData.size() == 0) {
-        wxLogMessage("No data");
+        std::cout << "No data" << std::endl;
         return;
     }
 
@@ -50,13 +50,15 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
 
         double pixelDist = fabs(intersection1.x - intersection2.x);
         double dist1 = distanceFromCamera(pixelDist);
-        wxLogMessage("####################");
-        wxLogMessage("%d: Distance: %f", i, dist1);
+
+        std::cout << "####################" << std::endl;
+        std::cout << i << ": Distance: " << dist1 << std::endl;
 
         if (prevDistFromCamera != -1) {
             double speed =
                 calcSpeed(prevDistFromCamera, dist1, prevTime, data.time);
-            wxLogMessage("Speed: %f", speed);
+
+            std::cout << "Speed: " << speed << std::endl;
             speeds.push_back(speed);
         }
 
@@ -69,14 +71,15 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
     avgSpeed = Utils::TrimmedMean(speeds, 10);
 
     double measuredSpeed = 0.3 / 1.2;
-    // double measuredSpeed = 1200 / 4665.2;
-    wxLogMessage("Measured Speed: %f", measuredSpeed);
-    wxLogMessage("average Speed: %f", avgSpeed);
+
+    std::cout << "Measured Speed: " << measuredSpeed << std::endl;
+    std::cout << "average Speed: " << avgSpeed << std::endl;
 
     double error = fabs(avgSpeed - measuredSpeed) * 100 / measuredSpeed;
-    wxLogMessage("Error: %f", error);
 
-    wxLogMessage("Raw Speed: %f", rawSpeed);
+    std::cout << "Error: " << error << std::endl;
+
+    std::cout << "Raw Speed: " << rawSpeed << std::endl;
 }
 
 /**
@@ -88,41 +91,44 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
 void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
                                       std::vector<Detection::Line> &lines) {
     if (lines.size() != 2) {
-        wxLogMessage("Line Size Error");
+        std::cout << "Line Size Error" << std::endl;
         return;
     }
 
     if (imgData->size() == 0) {
-        wxLogMessage("No data");
+        std::cout << "No data" << std::endl;
         return;
     }
     std::cout << "imgData->size(): " << imgData->size() << std::endl;
     for (int i = 1; i < imgData->size(); i++) {
-        wxLogMessage("i: %d", i);
+
+        std::cout << "i: " << i << std::endl;
         Detection::Line botL = imgData->at(i).detection.GetLine();
-        wxLogMessage("botL: %s", botL.ToString().c_str());
+
+        std::cout << "botL: " << botL.ToString() << std::endl;
         cv::Point2f intersection1 = botL.Intersection(lines[0]);
         cv::Point2f intersection2 = botL.Intersection(lines[1]);
-        wxLogMessage("intersection1: x=%f, y=%f", intersection1.x,
-                     intersection1.y);
-        wxLogMessage("intersection2: x=%f, y=%f", intersection2.x,
-                     intersection2.y);
+
+        std::cout << "intersection1: " << intersection1 << std::endl;
+        std::cout << "intersection2: " << intersection2 << std::endl;
+
         double pixelDist = fabs(intersection1.x - intersection2.x);
-        wxLogMessage("pixelDist: %f", pixelDist);
+
+        std::cout << "pixelDist: " << pixelDist << std::endl;
         double dist1 = distanceFromCamera(pixelDist);
-        wxLogMessage("####################");
-        wxLogMessage("%d: Distance: %f", i, dist1);
+
+        std::cout << "####################" << std::endl;
+        std::cout << i << ": Distance: " << dist1 << std::endl;
 
         std::chrono::high_resolution_clock::time_point currTime =
             imgData->at(i).time;
-
-        wxLogMessage("CurrTime: %lld", currTime.time_since_epoch().count());
 
         if (prevDistFromCamera != -1) {
 
             double speed =
                 calcSpeed(prevDistFromCamera, dist1, prevTime, currTime);
-            wxLogMessage("Speed: %f", speed);
+
+            std::cout << "Speed: " << speed << std::endl;
             speeds.push_back(speed);
         }
 
@@ -134,14 +140,15 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
     avgSpeed = Utils::TrimmedMean(speeds, 20);
 
     double measuredSpeed = 0.3 / 1.2;
-    // double measuredSpeed = 1200 / 4665.2;
-    wxLogMessage("Measured Speed: %f", measuredSpeed);
-    wxLogMessage("average Speed: %f", avgSpeed);
+
+    std::cout << "Measured Speed: " << measuredSpeed << std::endl;
+    std::cout << "average Speed: " << avgSpeed << std::endl;
 
     double error = fabs(avgSpeed - measuredSpeed) * 100 / measuredSpeed;
-    wxLogMessage("Error: %f", error);
 
-    wxLogMessage("Raw Speed: %f", rawSpeed);
+    std::cout << "Error: " << error << std::endl;
+
+    std::cout << "Raw Speed: " << rawSpeed << std::endl;
 }
 
 /**
@@ -258,8 +265,9 @@ double SpeedCalculation::calcSpeed(
     std::chrono::high_resolution_clock::time_point curTime) {
     double distDiff = fabs(curDist - prevDist);
     double timeDiff = Utils::TimeDiff(prevTime, curTime);
-    wxLogMessage("DistDiff: %f", distDiff);
-    wxLogMessage("TimeDiff: %f", timeDiff);
+
+    std::cout << "DistDiff: " << distDiff << std::endl;
+    std::cout << "TimeDiff: " << timeDiff << std::endl;
     return distDiff / timeDiff;
 }
 

@@ -7,15 +7,14 @@ various factors. One of the major challenges is the stability of the device
 while recording. Since the device is held by hand, it is prone to movement and
 shakiness, which can result in a video that is not static. It is important to be
 aware of the challenge and take steps to have higher accuracy in speed
-estimation later on.
+estimation later on. This section describes how an image alignment algorithm can
+be used to solve the shakiness problem from a recorded video.
 
-This section describes how an image alignment algorithm can be used to solve the
-shakiness problem from a recorded video. Image alignment algorithms work by
-analyzing frames of a video and identifying common features in each frame. By
-comparing these features across frames, the algorithm is able to compute
-features that are common across all frames. The algorithm then uses these common
-features to align the frames, which results in a video that is more static and
-stable.
+Image alignment algorithms work by analyzing frames of a video and identifying
+common features in each frame. By comparing these features across frames, the
+algorithm is able to compute features that are common across all frames. The
+algorithm then uses these common features to align the frames, which results in
+a video that is more static and stable.
 
 ## Image Alignment Algorithm
 

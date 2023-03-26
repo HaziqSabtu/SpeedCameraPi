@@ -15,8 +15,6 @@
 #include <Utils/DataStruct.hpp>
 #include <ctime>
 #include <opencv2/opencv.hpp>
-#include <wx/log.h>
-#include <wx/wx.h>
 
 /**
  * @brief Utils Class

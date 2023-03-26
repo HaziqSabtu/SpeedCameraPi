@@ -16,7 +16,6 @@
 #include <Utils/Struct/D_Line.hpp>
 #include <chrono>
 #include <opencv2/core.hpp>
-#include <wx/log.h>
 
 /**
  * @brief Class for Calculating Speed of Object from Image using Optical Flow
