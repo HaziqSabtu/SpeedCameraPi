@@ -50,7 +50,7 @@ class ObjectDetection {
 } // namespace Detection
 
 /**
- * @example ObjectDetection.cpp
+ * @example objectDetection.cpp
  * @brief Example of using ObjectDetection.hpp
  *
  */
