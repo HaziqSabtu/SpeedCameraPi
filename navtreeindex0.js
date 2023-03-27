@@ -1,7 +1,6 @@
 var NAVTREEINDEX0 =
 {
 "ImageAlignment_8cpp-example.html":[7,0],
-"ObjectDetection_8cpp-example.html":[7,1],
 "annotated.html":[9,0],
 "classCaptureImageEvent.html":[9,0,2],
 "classCaptureImageEvent.html#a0ad39472ac9769137455c8166f15afe2":[9,0,2,4],
@@ -142,8 +141,8 @@ var NAVTREEINDEX0 =
 "classUpdateImageEvent.html#ad0effc35c9bd56865bef3850d99ade98":[9,0,30,4],
 "classUpdateImageEvent.html#ad5d5cada13326a97b2cf7b46eae2110b":[9,0,30,1],
 "classUpdateImageEvent.html#ae86eda09fc9f7147ba25b22b98e019cf":[9,0,30,0],
-"classUtils_1_1IDGenerator.html":[9,0,1,0],
 "classUtils_1_1IDGenerator.html":[8,0,0,0],
+"classUtils_1_1IDGenerator.html":[9,0,1,0],
 "classes.html":[9,1],
 "examples.html":[7],
 "functions.html":[9,3,0],
@@ -166,6 +165,7 @@ var NAVTREEINDEX0 =
 "namespacemembers.html":[8,1,0],
 "namespacemembers_func.html":[8,1,1],
 "namespaces.html":[8,0],
+"objectDetection_8cpp-example.html":[7,1],
 "pages.html":[],
 "structDetection_1_1DetectionData.html":[9,0,0,0],
 "structDetection_1_1DetectionData.html#a62a9e0e915eccbc95b1d664ba6714aba":[9,0,0,0,0],
