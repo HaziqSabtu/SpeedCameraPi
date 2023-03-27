@@ -1,0 +1,92 @@
+\hypertarget{class_capture_thread}{}\doxysection{Capture\+Thread Class Reference}
+\label{class_capture_thread}\index{CaptureThread@{CaptureThread}}
+
+
+Custom wx\+Thread for capturing image from camera.  
+
+
+
+
+{\ttfamily \#include $<$Thread\+\_\+\+Capture.\+hpp$>$}
+
+
+
+Inherits wx\+Thread.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_capture_thread_adc711d88d4371de1f17b892ea409b54c}{Capture\+Thread}} (wx\+Evt\+Handler $\ast$parent, raspicam\+::\+Raspi\+Cam\+\_\+\+Cv $\ast$cap)
+\begin{DoxyCompactList}\small\item\em Construct a new Capture Thread\+:\+: Capture Thread object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_capture_thread_aac7388cfd62b4f148ac2f77e3825eb36}{$\sim$\+Capture\+Thread}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the Capture Thread\+:\+: Capture Thread object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual Exit\+Code \mbox{\hyperlink{class_capture_thread_af89014d5d8be434518666e79829be824}{Entry}} ()
+\begin{DoxyCompactList}\small\item\em Thread Entry Point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Custom wx\+Thread for capturing image from camera. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_capture_thread_adc711d88d4371de1f17b892ea409b54c}\label{class_capture_thread_adc711d88d4371de1f17b892ea409b54c}} 
+\index{CaptureThread@{CaptureThread}!CaptureThread@{CaptureThread}}
+\index{CaptureThread@{CaptureThread}!CaptureThread@{CaptureThread}}
+\doxysubsubsection{\texorpdfstring{CaptureThread()}{CaptureThread()}}
+{\footnotesize\ttfamily Capture\+Thread\+::\+Capture\+Thread (\begin{DoxyParamCaption}\item[{wx\+Evt\+Handler $\ast$}]{parent,  }\item[{raspicam\+::\+Raspi\+Cam\+\_\+\+Cv $\ast$}]{cap }\end{DoxyParamCaption})}
+
+
+
+Construct a new Capture Thread\+:\+: Capture Thread object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & parent wx\+Panel/wx\+Evt\+Handler \\
+\hline
+{\em cap} & pointer to Raspi\+Cam\+\_\+\+Cv object \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_capture_thread_aac7388cfd62b4f148ac2f77e3825eb36}\label{class_capture_thread_aac7388cfd62b4f148ac2f77e3825eb36}} 
+\index{CaptureThread@{CaptureThread}!````~CaptureThread@{$\sim$CaptureThread}}
+\index{````~CaptureThread@{$\sim$CaptureThread}!CaptureThread@{CaptureThread}}
+\doxysubsubsection{\texorpdfstring{$\sim$CaptureThread()}{~CaptureThread()}}
+{\footnotesize\ttfamily Capture\+Thread\+::$\sim$\+Capture\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destroy the Capture Thread\+:\+: Capture Thread object. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_capture_thread_af89014d5d8be434518666e79829be824}\label{class_capture_thread_af89014d5d8be434518666e79829be824}} 
+\index{CaptureThread@{CaptureThread}!Entry@{Entry}}
+\index{Entry@{Entry}!CaptureThread@{CaptureThread}}
+\doxysubsubsection{\texorpdfstring{Entry()}{Entry()}}
+{\footnotesize\ttfamily wx\+Thread\+::\+Exit\+Code Capture\+Thread\+::\+Entry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Thread Entry Point. 
+
+This function will be called when the thread is started 
+\begin{DoxyItemize}
+\item Check if camera is opened 
+\item Grab frame from camera 
+\item If frame is empty, skip to next iteration 
+\item Post \mbox{\hyperlink{class_update_image_event}{Update\+Image\+Event}} to signal that a new frame is available 
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+wx\+Thread\+::\+Exit\+Code 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Thread/\mbox{\hyperlink{_thread___capture_8hpp}{Thread\+\_\+\+Capture.\+hpp}}\item 
+src/\+Thread/\mbox{\hyperlink{_thread___capture_8cpp}{Thread\+\_\+\+Capture.\+cpp}}\end{DoxyCompactItemize}

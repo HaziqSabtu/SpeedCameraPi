@@ -1,0 +1,102 @@
+\hypertarget{class_task}{}\doxysection{Task Class Reference}
+\label{class_task}\index{Task@{Task}}
+
+
+Interface Class for Task\+Pool \mbox{\hyperlink{class_task}{Task}}.  
+
+
+
+
+{\ttfamily \#include $<$Task.\+hpp$>$}
+
+Inheritance diagram for Task\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_task}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_task_a7bff79cc05fa4511c72048d33591503b}{$\sim$\+Task}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{class_task}{Task}} object. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_task_a9a3a783ca463dab7e615ded0bd5d07e2}{Execute}} ()=0
+\begin{DoxyCompactList}\small\item\em Execute the \mbox{\hyperlink{class_task}{Task}}. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{struct_task_property}{Task\+Property}} \mbox{\hyperlink{class_task_ae78ff883c2ee40db3eafe44c3e11c168}{Get\+Property}} () const =0
+\begin{DoxyCompactList}\small\item\em Get the Property object. \end{DoxyCompactList}\item 
+virtual std\+::string \mbox{\hyperlink{class_task_aa81c07b87124a2742af2312414607a61}{Get\+Name}} () const =0
+\begin{DoxyCompactList}\small\item\em Get the Priority object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Interface Class for Task\+Pool \mbox{\hyperlink{class_task}{Task}}. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_task_a7bff79cc05fa4511c72048d33591503b}\label{class_task_a7bff79cc05fa4511c72048d33591503b}} 
+\index{Task@{Task}!````~Task@{$\sim$Task}}
+\index{````~Task@{$\sim$Task}!Task@{Task}}
+\doxysubsubsection{\texorpdfstring{$\sim$Task()}{~Task()}}
+{\footnotesize\ttfamily virtual Task\+::$\sim$\+Task (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Destroy the \mbox{\hyperlink{class_task}{Task}} object. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_task_a9a3a783ca463dab7e615ded0bd5d07e2}\label{class_task_a9a3a783ca463dab7e615ded0bd5d07e2}} 
+\index{Task@{Task}!Execute@{Execute}}
+\index{Execute@{Execute}!Task@{Task}}
+\doxysubsubsection{\texorpdfstring{Execute()}{Execute()}}
+{\footnotesize\ttfamily virtual void Task\+::\+Execute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Execute the \mbox{\hyperlink{class_task}{Task}}. 
+
+Implementations required to override this method 
+
+Implemented in \mbox{\hyperlink{class_capture_task_a306ead3635e313bc64b5ac6d1c3b4ef4}{Capture\+Task}}, \mbox{\hyperlink{class_hough_task_a3cc628dfb94054c32fb5cde9afb4b06c}{Hough\+Task}}, \mbox{\hyperlink{class_load_task_a14d2c7c93bcf021606325589a6f27b8f}{Load\+Task}}, \mbox{\hyperlink{class_flow_task_a3f587e8d7efa890047a7464d0f2bd936}{Flow\+Task}}, \mbox{\hyperlink{class_sift_task_ade4324a4e8f1cdc6af5e0f37a7a8b201}{Sift\+Task}}, and \mbox{\hyperlink{class_speed_task_acb54aff9bad15ec4224e77d0fda60219}{Speed\+Task}}.
+
+\mbox{\Hypertarget{class_task_aa81c07b87124a2742af2312414607a61}\label{class_task_aa81c07b87124a2742af2312414607a61}} 
+\index{Task@{Task}!GetName@{GetName}}
+\index{GetName@{GetName}!Task@{Task}}
+\doxysubsubsection{\texorpdfstring{GetName()}{GetName()}}
+{\footnotesize\ttfamily virtual std\+::string Task\+::\+Get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the Priority object. 
+
+\begin{DoxyReturn}{Returns}
+Task\+Priority 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_capture_task_aa12f3fb8f41f0f04ccdf6bad4e99362b}{Capture\+Task}}, \mbox{\hyperlink{class_hough_task_a6899b0518a16042a581e7fa995d1ea3f}{Hough\+Task}}, \mbox{\hyperlink{class_load_task_a97fd954885a2ef73473baa3efc8f5388}{Load\+Task}}, \mbox{\hyperlink{class_flow_task_ac47e6c948c09ef6d43cab46673bad52b}{Flow\+Task}}, \mbox{\hyperlink{class_sift_task_a0e1e13f422691026e6639321e2ebf3c2}{Sift\+Task}}, and \mbox{\hyperlink{class_speed_task_a13cd48d1eef1e1c6c6075b42a0b6c016}{Speed\+Task}}.
+
+\mbox{\Hypertarget{class_task_ae78ff883c2ee40db3eafe44c3e11c168}\label{class_task_ae78ff883c2ee40db3eafe44c3e11c168}} 
+\index{Task@{Task}!GetProperty@{GetProperty}}
+\index{GetProperty@{GetProperty}!Task@{Task}}
+\doxysubsubsection{\texorpdfstring{GetProperty()}{GetProperty()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{struct_task_property}{Task\+Property}} Task\+::\+Get\+Property (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the Property object. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{struct_task_property}{Task\+Property}} 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_capture_task_a8908d816ad5de374e39ae4ab601c082e}{Capture\+Task}}, \mbox{\hyperlink{class_hough_task_a372190b8b363f09beca38a96f95aafb2}{Hough\+Task}}, \mbox{\hyperlink{class_load_task_afa17eb23dced21a84c134a270635ef6d}{Load\+Task}}, \mbox{\hyperlink{class_flow_task_a96742c914797aabcb101dfd4ade866d1}{Flow\+Task}}, \mbox{\hyperlink{class_sift_task_a940bbca34a8a49fb6852c41df278104b}{Sift\+Task}}, and \mbox{\hyperlink{class_speed_task_ae75a80a7bcdf0aa69061251d8b0a925f}{Speed\+Task}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Thread/\+Task/\mbox{\hyperlink{_task_8hpp}{Task.\+hpp}}\end{DoxyCompactItemize}

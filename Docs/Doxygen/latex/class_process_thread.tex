@@ -1,0 +1,96 @@
+\hypertarget{class_process_thread}{}\doxysection{Process\+Thread Class Reference}
+\label{class_process_thread}\index{ProcessThread@{ProcessThread}}
+
+
+Custom wx\+Thread for processing \mbox{\hyperlink{struct_image_data}{Image\+Data}}.  
+
+
+
+
+{\ttfamily \#include $<$Thread\+\_\+\+Process.\+hpp$>$}
+
+
+
+Inherits wx\+Thread.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_process_thread_a663a20874b6c29a1841f78a56f8f5958}{Process\+Thread}} (wx\+Evt\+Handler $\ast$parent, \mbox{\hyperlink{class_thread_pool}{Thread\+Pool}} $\ast$thread\+Pool, std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$img\+Data, Optical\+Flow\+Config of\+Config)
+\begin{DoxyCompactList}\small\item\em Construct a new Process Thread\+:\+: Process Thread object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_process_thread_ad9507e5804bb4867b7a8bbc905faf88d}{$\sim$\+Process\+Thread}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the Process Thread\+:\+: Process Thread object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual Exit\+Code \mbox{\hyperlink{class_process_thread_a311e9ec28a1d668765b9995ec4b43e58}{Entry}} ()
+\begin{DoxyCompactList}\small\item\em Entry point of the thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Custom wx\+Thread for processing \mbox{\hyperlink{struct_image_data}{Image\+Data}}. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_process_thread_a663a20874b6c29a1841f78a56f8f5958}\label{class_process_thread_a663a20874b6c29a1841f78a56f8f5958}} 
+\index{ProcessThread@{ProcessThread}!ProcessThread@{ProcessThread}}
+\index{ProcessThread@{ProcessThread}!ProcessThread@{ProcessThread}}
+\doxysubsubsection{\texorpdfstring{ProcessThread()}{ProcessThread()}}
+{\footnotesize\ttfamily Process\+Thread\+::\+Process\+Thread (\begin{DoxyParamCaption}\item[{wx\+Evt\+Handler $\ast$}]{parent,  }\item[{\mbox{\hyperlink{class_thread_pool}{Thread\+Pool}} $\ast$}]{thread\+Pool,  }\item[{std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$}]{img\+Data,  }\item[{Optical\+Flow\+Config}]{of\+Config }\end{DoxyParamCaption})}
+
+
+
+Construct a new Process Thread\+:\+: Process Thread object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & parent wx\+Evt\+Handler \\
+\hline
+{\em thread\+Pool} & pointer to \mbox{\hyperlink{class_thread_pool}{Thread\+Pool}} \\
+\hline
+{\em img\+Data} & pointer to \mbox{\hyperlink{struct_image_data}{Image\+Data}} vector \\
+\hline
+{\em of\+Config} & Optical\+Flow\+Config \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_process_thread_ad9507e5804bb4867b7a8bbc905faf88d}\label{class_process_thread_ad9507e5804bb4867b7a8bbc905faf88d}} 
+\index{ProcessThread@{ProcessThread}!````~ProcessThread@{$\sim$ProcessThread}}
+\index{````~ProcessThread@{$\sim$ProcessThread}!ProcessThread@{ProcessThread}}
+\doxysubsubsection{\texorpdfstring{$\sim$ProcessThread()}{~ProcessThread()}}
+{\footnotesize\ttfamily Process\+Thread\+::$\sim$\+Process\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destroy the Process Thread\+:\+: Process Thread object. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_process_thread_a311e9ec28a1d668765b9995ec4b43e58}\label{class_process_thread_a311e9ec28a1d668765b9995ec4b43e58}} 
+\index{ProcessThread@{ProcessThread}!Entry@{Entry}}
+\index{Entry@{Entry}!ProcessThread@{ProcessThread}}
+\doxysubsubsection{\texorpdfstring{Entry()}{Entry()}}
+{\footnotesize\ttfamily wx\+Thread\+::\+Exit\+Code Process\+Thread\+::\+Entry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Entry point of the thread. 
+
+This function will be called when the thread is started 
+\begin{DoxyItemize}
+\item For each \mbox{\hyperlink{struct_image_data}{Image\+Data}} in the vector, \mbox{\hyperlink{class_sift_task}{Sift\+Task}} is created and added to the thread pool 
+\item Wait for the thread pool to finish processing the \mbox{\hyperlink{struct_image_data}{Image\+Data}} 
+\item \mbox{\hyperlink{class_flow_task}{Flow\+Task}} is created and added to the thread pool 
+\item Wait for the thread pool to finish processing the \mbox{\hyperlink{struct_image_data}{Image\+Data}} 
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+wx\+Thread\+::\+Exit\+Code 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Thread/\mbox{\hyperlink{_thread___process_8hpp}{Thread\+\_\+\+Process.\+hpp}}\item 
+src/\+Thread/\mbox{\hyperlink{_thread___process_8cpp}{Thread\+\_\+\+Process.\+cpp}}\end{DoxyCompactItemize}

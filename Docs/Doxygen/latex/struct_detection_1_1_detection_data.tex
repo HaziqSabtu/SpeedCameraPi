@@ -1,0 +1,105 @@
+\hypertarget{struct_detection_1_1_detection_data}{}\doxysection{Detection\+::Detection\+Data Struct Reference}
+\label{struct_detection_1_1_detection_data}\index{Detection::DetectionData@{Detection::DetectionData}}
+
+
+Struct for Detection Data.  
+
+
+
+
+{\ttfamily \#include $<$D\+\_\+\+Optical\+Flow.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_detection_1_1_detection_data_a62a9e0e915eccbc95b1d664ba6714aba}{Detection\+Data}} ()
+\begin{DoxyCompactList}\small\item\em Construct a new Detection Data\+:\+: Detection Data object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_detection_1_1_detection_data_ae275f1a36f5f9f0c755f7ccdb320e0cd}{Detection\+Data}} (std\+::vector$<$ \mbox{\hyperlink{struct_detection_1_1_o_f_point}{Detection\+::\+OFPoint}} $>$ points)
+\begin{DoxyCompactList}\small\item\em Construct a new Detection Data\+:\+: Detection Data object. \end{DoxyCompactList}\item 
+std\+::vector$<$ cv\+::\+Point2f $>$ \mbox{\hyperlink{struct_detection_1_1_detection_data_a9203d74399d52605188f0c0a6ef47f0a}{Get\+Points}} ()
+\begin{DoxyCompactList}\small\item\em Get Optical Flow Point from Detection Data. \end{DoxyCompactList}\item 
+cv\+::\+Rect \mbox{\hyperlink{struct_detection_1_1_detection_data_a86291a9bd2bf77ae595fa504823594e8}{Get\+Rect}} ()
+\begin{DoxyCompactList}\small\item\em Get Bounding Box from Detection Data. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_detection_1_1_line}{Detection\+::\+Line}} \mbox{\hyperlink{struct_detection_1_1_detection_data_ae3c73172a4fad6ac4547f234c99dea7b}{Get\+Line}} ()
+\begin{DoxyCompactList}\small\item\em Get \mbox{\hyperlink{struct_detection_1_1_line}{Line}} of the Point that located at the bottom of the Bounding Box. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct for Detection Data. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{struct_detection_1_1_detection_data_a62a9e0e915eccbc95b1d664ba6714aba}\label{struct_detection_1_1_detection_data_a62a9e0e915eccbc95b1d664ba6714aba}} 
+\index{Detection::DetectionData@{Detection::DetectionData}!DetectionData@{DetectionData}}
+\index{DetectionData@{DetectionData}!Detection::DetectionData@{Detection::DetectionData}}
+\doxysubsubsection{\texorpdfstring{DetectionData()}{DetectionData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Detection\+::\+Detection\+Data\+::\+Detection\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Construct a new Detection Data\+:\+: Detection Data object. 
+
+\mbox{\Hypertarget{struct_detection_1_1_detection_data_ae275f1a36f5f9f0c755f7ccdb320e0cd}\label{struct_detection_1_1_detection_data_ae275f1a36f5f9f0c755f7ccdb320e0cd}} 
+\index{Detection::DetectionData@{Detection::DetectionData}!DetectionData@{DetectionData}}
+\index{DetectionData@{DetectionData}!Detection::DetectionData@{Detection::DetectionData}}
+\doxysubsubsection{\texorpdfstring{DetectionData()}{DetectionData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Detection\+::\+Detection\+Data\+::\+Detection\+Data (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{struct_detection_1_1_o_f_point}{Detection\+::\+OFPoint}} $>$}]{points }\end{DoxyParamCaption})}
+
+
+
+Construct a new Detection Data\+:\+: Detection Data object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em points} & vector of Optical Flow Point \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_detection_1_1_detection_data_ae3c73172a4fad6ac4547f234c99dea7b}\label{struct_detection_1_1_detection_data_ae3c73172a4fad6ac4547f234c99dea7b}} 
+\index{Detection::DetectionData@{Detection::DetectionData}!GetLine@{GetLine}}
+\index{GetLine@{GetLine}!Detection::DetectionData@{Detection::DetectionData}}
+\doxysubsubsection{\texorpdfstring{GetLine()}{GetLine()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_detection_1_1_line}{Detection\+::\+Line}} Detection\+::\+Detection\+Data\+::\+Get\+Line (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get \mbox{\hyperlink{struct_detection_1_1_line}{Line}} of the Point that located at the bottom of the Bounding Box. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{struct_detection_1_1_line}{Detection\+::\+Line}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_detection_1_1_detection_data_a9203d74399d52605188f0c0a6ef47f0a}\label{struct_detection_1_1_detection_data_a9203d74399d52605188f0c0a6ef47f0a}} 
+\index{Detection::DetectionData@{Detection::DetectionData}!GetPoints@{GetPoints}}
+\index{GetPoints@{GetPoints}!Detection::DetectionData@{Detection::DetectionData}}
+\doxysubsubsection{\texorpdfstring{GetPoints()}{GetPoints()}}
+{\footnotesize\ttfamily std\+::vector$<$ cv\+::\+Point2f $>$ Detection\+::\+Detection\+Data\+::\+Get\+Points (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get Optical Flow Point from Detection Data. 
+
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$cv\+::\+Point2f$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{struct_detection_1_1_detection_data_a86291a9bd2bf77ae595fa504823594e8}\label{struct_detection_1_1_detection_data_a86291a9bd2bf77ae595fa504823594e8}} 
+\index{Detection::DetectionData@{Detection::DetectionData}!GetRect@{GetRect}}
+\index{GetRect@{GetRect}!Detection::DetectionData@{Detection::DetectionData}}
+\doxysubsubsection{\texorpdfstring{GetRect()}{GetRect()}}
+{\footnotesize\ttfamily cv\+::\+Rect Detection\+::\+Detection\+Data\+::\+Get\+Rect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get Bounding Box from Detection Data. 
+
+\begin{DoxyReturn}{Returns}
+cv\+::\+Rect 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Utils/\+Struct/\mbox{\hyperlink{_d___optical_flow_8hpp}{D\+\_\+\+Optical\+Flow.\+hpp}}\item 
+src/\+Utils/\+Struct/\mbox{\hyperlink{_d___optical_flow_8cpp}{D\+\_\+\+Optical\+Flow.\+cpp}}\end{DoxyCompactItemize}

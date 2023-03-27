@@ -16,42 +16,6 @@ The proposed algorithm offers a low-cost, accurate, and real-time speed
 detection solution that can contribute to improving road safety and reducing the
 incidence of speeding.
 
-## Getting Started
-
-### Prerequisites
-
-- Raspberry Pi 3 or later
-- OpenCV 3.0 or later with Opencv_contrib
-- wxWidgets
-- RaspiCam
-
-### Installation Clone this repository:
-
-- Download the source code of the application from the repository:
-
-        git clone https://github.com/HaziqSabtu/SpeedCameraPi.git
-
-- Create a build directory and navigate to it:
-
-        cd SpeedCameraPi
-
-        mkdir build
-
-        cd build
-
-- Configure the build process by running the following command:
-
-        cmake -B. -H..
-
-- Compile the application:
-
-        make -j3
-
-- After finished compiling, the executable file is located in the build
-  directory.
-
-        ./build
-
 ## Results
 
 The proposed speed camera algorithm was evaluated on a dataset of moving

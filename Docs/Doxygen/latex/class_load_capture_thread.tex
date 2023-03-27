@@ -1,0 +1,88 @@
+\hypertarget{class_load_capture_thread}{}\doxysection{Load\+Capture\+Thread Class Reference}
+\label{class_load_capture_thread}\index{LoadCaptureThread@{LoadCaptureThread}}
+
+
+Custom wx\+Thread for loading \mbox{\hyperlink{struct_image_data}{Image\+Data}} from Camera.  
+
+
+
+
+{\ttfamily \#include $<$Thread\+\_\+\+Load\+Capture.\+hpp$>$}
+
+
+
+Inherits wx\+Thread.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_load_capture_thread_a8a233819ad01d1bbcf7df31fd8a12682}{Load\+Capture\+Thread}} (wx\+Evt\+Handler $\ast$parent, raspicam\+::\+Raspi\+Cam\+\_\+\+Cv $\ast$camera, const int max\+Frame, const bool debug)
+\begin{DoxyCompactList}\small\item\em Construct a new Load Capture Thread\+:\+: Load Capture Thread object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_load_capture_thread_a4fedf2b38461413ae4abec7b0399ab6f}\label{class_load_capture_thread_a4fedf2b38461413ae4abec7b0399ab6f}} 
+{\bfseries $\sim$\+Load\+Capture\+Thread} ()
+\begin{DoxyCompactList}\small\item\em Destroy the Load Capture Thread\+:\+: Load Capture Thread object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Exit\+Code \mbox{\hyperlink{class_load_capture_thread_a854af86d8657b6b090d7f2855a9c5fc6}{Entry}} ()
+\begin{DoxyCompactList}\small\item\em Entry point for the thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Custom wx\+Thread for loading \mbox{\hyperlink{struct_image_data}{Image\+Data}} from Camera. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_load_capture_thread_a8a233819ad01d1bbcf7df31fd8a12682}\label{class_load_capture_thread_a8a233819ad01d1bbcf7df31fd8a12682}} 
+\index{LoadCaptureThread@{LoadCaptureThread}!LoadCaptureThread@{LoadCaptureThread}}
+\index{LoadCaptureThread@{LoadCaptureThread}!LoadCaptureThread@{LoadCaptureThread}}
+\doxysubsubsection{\texorpdfstring{LoadCaptureThread()}{LoadCaptureThread()}}
+{\footnotesize\ttfamily Load\+Capture\+Thread\+::\+Load\+Capture\+Thread (\begin{DoxyParamCaption}\item[{wx\+Evt\+Handler $\ast$}]{parent,  }\item[{raspicam\+::\+Raspi\+Cam\+\_\+\+Cv $\ast$}]{camera,  }\item[{const int}]{max\+Frame,  }\item[{const bool}]{debug }\end{DoxyParamCaption})}
+
+
+
+Construct a new Load Capture Thread\+:\+: Load Capture Thread object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & parent wx\+Evt\+Handler \\
+\hline
+{\em camera} & camera object \\
+\hline
+{\em max\+Frame} & maximum frame to capture \\
+\hline
+{\em debug} & debug mode \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_load_capture_thread_a854af86d8657b6b090d7f2855a9c5fc6}\label{class_load_capture_thread_a854af86d8657b6b090d7f2855a9c5fc6}} 
+\index{LoadCaptureThread@{LoadCaptureThread}!Entry@{Entry}}
+\index{Entry@{Entry}!LoadCaptureThread@{LoadCaptureThread}}
+\doxysubsubsection{\texorpdfstring{Entry()}{Entry()}}
+{\footnotesize\ttfamily wx\+Thread\+::\+Exit\+Code Load\+Capture\+Thread\+::\+Entry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Entry point for the thread. 
+
+This function will be called when the thread is started 
+\begin{DoxyItemize}
+\item Check if camera is opened 
+\item Grab and retrieve frame from camera 
+\item Post \mbox{\hyperlink{class_capture_image_event}{Capture\+Image\+Event}} to parent to signal the start of capture 
+\item Post \mbox{\hyperlink{class_update_image_event}{Update\+Image\+Event}} to parent to signal that a new frame is available 
+\item Post \mbox{\hyperlink{class_capture_image_event}{Capture\+Image\+Event}} to parent to signal the end of capture 
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+wx\+Thread\+::\+Exit\+Code 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Thread/\mbox{\hyperlink{_thread___load_capture_8hpp}{Thread\+\_\+\+Load\+Capture.\+hpp}}\item 
+src/\+Thread/\mbox{\hyperlink{_thread___load_capture_8cpp}{Thread\+\_\+\+Load\+Capture.\+cpp}}\end{DoxyCompactItemize}

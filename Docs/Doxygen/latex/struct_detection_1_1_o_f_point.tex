@@ -1,0 +1,79 @@
+\hypertarget{struct_detection_1_1_o_f_point}{}\doxysection{Detection\+::OFPoint Struct Reference}
+\label{struct_detection_1_1_o_f_point}\index{Detection::OFPoint@{Detection::OFPoint}}
+
+
+Struct for Optical Flow Point.  
+
+
+
+
+{\ttfamily \#include $<$D\+\_\+\+Optical\+Flow.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_detection_1_1_o_f_point_a1a14f4b229cdb6d69dc6f856527a9b4a}{OFPoint}} (int id, cv\+::\+Point2f point, float error, uchar status)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{struct_detection_1_1_o_f_point_a1a14f4b229cdb6d69dc6f856527a9b4a}{OFPoint\+::\+OFPoint}} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static float \mbox{\hyperlink{struct_detection_1_1_o_f_point_a5001490fcf07e404b266fbd138fbcfa3}{distance}} (\mbox{\hyperlink{struct_detection_1_1_o_f_point}{OFPoint}} \&p1, \mbox{\hyperlink{struct_detection_1_1_o_f_point}{OFPoint}} \&p2)
+\begin{DoxyCompactList}\small\item\em Get the Distance between two Optical Flow Point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct for Optical Flow Point. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{struct_detection_1_1_o_f_point_a1a14f4b229cdb6d69dc6f856527a9b4a}\label{struct_detection_1_1_o_f_point_a1a14f4b229cdb6d69dc6f856527a9b4a}} 
+\index{Detection::OFPoint@{Detection::OFPoint}!OFPoint@{OFPoint}}
+\index{OFPoint@{OFPoint}!Detection::OFPoint@{Detection::OFPoint}}
+\doxysubsubsection{\texorpdfstring{OFPoint()}{OFPoint()}}
+{\footnotesize\ttfamily Detection\+::\+OFPoint\+::\+OFPoint (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{cv\+::\+Point2f}]{point,  }\item[{float}]{error,  }\item[{uchar}]{status }\end{DoxyParamCaption})}
+
+
+
+Construct a new \mbox{\hyperlink{struct_detection_1_1_o_f_point_a1a14f4b229cdb6d69dc6f856527a9b4a}{OFPoint\+::\+OFPoint}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & unique id for each point \\
+\hline
+{\em point} & Optical Flow Point in cv\+::\+Point2f \\
+\hline
+{\em error} & error of Optical Flow Point \\
+\hline
+{\em status} & status of Optical Flow Point \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_detection_1_1_o_f_point_a5001490fcf07e404b266fbd138fbcfa3}\label{struct_detection_1_1_o_f_point_a5001490fcf07e404b266fbd138fbcfa3}} 
+\index{Detection::OFPoint@{Detection::OFPoint}!distance@{distance}}
+\index{distance@{distance}!Detection::OFPoint@{Detection::OFPoint}}
+\doxysubsubsection{\texorpdfstring{distance()}{distance()}}
+{\footnotesize\ttfamily float Detection\+::\+OFPoint\+::distance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_detection_1_1_o_f_point}{OFPoint}} \&}]{p1,  }\item[{\mbox{\hyperlink{struct_detection_1_1_o_f_point}{OFPoint}} \&}]{p2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get the Distance between two Optical Flow Point. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p1} & First Optical Flow Point \\
+\hline
+{\em p2} & Second Optical Flow Point \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+float distance 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Utils/\+Struct/\mbox{\hyperlink{_d___optical_flow_8hpp}{D\+\_\+\+Optical\+Flow.\+hpp}}\item 
+src/\+Utils/\+Struct/\mbox{\hyperlink{_d___optical_flow_8cpp}{D\+\_\+\+Optical\+Flow.\+cpp}}\end{DoxyCompactItemize}

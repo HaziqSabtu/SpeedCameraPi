@@ -1,0 +1,124 @@
+\hypertarget{class_hough_event}{}\doxysection{Hough\+Event Class Reference}
+\label{class_hough_event}\index{HoughEvent@{HoughEvent}}
+
+
+Custom Event for Hough Transform.  
+
+
+
+
+{\ttfamily \#include $<$Event\+\_\+\+Hough.\+hpp$>$}
+
+
+
+Inherits wx\+Command\+Event.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_hough_event_a1d819f8d72f118af27e1d88afd1b9a22}{Hough\+Event}} (wx\+Event\+Type event\+Type=c\+\_\+\+HOUGH\+\_\+\+EVENT, int id=1)
+\begin{DoxyCompactList}\small\item\em Construct a new Hough Event\+:\+: Hough Event object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_hough_event_a4b0dac59bddb26bb080cc96f0a77fd48}{Hough\+Event}} (const \mbox{\hyperlink{class_hough_event}{Hough\+Event}} \&e)
+\begin{DoxyCompactList}\small\item\em Construct a new Hough Event\+:\+: Hough Event object. \end{DoxyCompactList}\item 
+virtual wx\+Event $\ast$ \mbox{\hyperlink{class_hough_event_a0cecba3782a26d856ea3f0b4a435b8c2}{Clone}} () const
+\begin{DoxyCompactList}\small\item\em Clone the event. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_hough_event_ab8f04bc5507e4fd3e16ccb536ec8d3d7}{Set\+Hough\+Data}} (\mbox{\hyperlink{struct_detection_1_1_hough_data}{Detection\+::\+Hough\+Data}} $\ast$hough\+Data)
+\begin{DoxyCompactList}\small\item\em Set the Hough Data object to be transported. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_detection_1_1_hough_data}{Detection\+::\+Hough\+Data}} $\ast$ \mbox{\hyperlink{class_hough_event_a21c85bc0c9f380eaf425f10efb342a92}{Get\+Hough\+Data}} () const
+\begin{DoxyCompactList}\small\item\em Get the Hough Data object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Custom Event for Hough Transform. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_hough_event_a1d819f8d72f118af27e1d88afd1b9a22}\label{class_hough_event_a1d819f8d72f118af27e1d88afd1b9a22}} 
+\index{HoughEvent@{HoughEvent}!HoughEvent@{HoughEvent}}
+\index{HoughEvent@{HoughEvent}!HoughEvent@{HoughEvent}}
+\doxysubsubsection{\texorpdfstring{HoughEvent()}{HoughEvent()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Hough\+Event\+::\+Hough\+Event (\begin{DoxyParamCaption}\item[{wx\+Event\+Type}]{event\+Type = {\ttfamily c\+\_\+HOUGH\+\_\+EVENT},  }\item[{int}]{id = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Construct a new Hough Event\+:\+: Hough Event object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event\+Type} & type of event to be created. Default to c\+\_\+\+HOUGH\+\_\+\+EVENT \\
+\hline
+{\em id} & id of the event. See HOUGH\+\_\+\+EVENT\+\_\+\+TYPE for more info \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_hough_event_a4b0dac59bddb26bb080cc96f0a77fd48}\label{class_hough_event_a4b0dac59bddb26bb080cc96f0a77fd48}} 
+\index{HoughEvent@{HoughEvent}!HoughEvent@{HoughEvent}}
+\index{HoughEvent@{HoughEvent}!HoughEvent@{HoughEvent}}
+\doxysubsubsection{\texorpdfstring{HoughEvent()}{HoughEvent()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Hough\+Event\+::\+Hough\+Event (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_hough_event}{Hough\+Event}} \&}]{e }\end{DoxyParamCaption})}
+
+
+
+Construct a new Hough Event\+:\+: Hough Event object. 
+
+Overloaded constructor for copying event This is required for data to be transported \begin{DoxySeeAlso}{See also}
+\href{https://wiki.wxwidgets.org/Custom_Events}{\texttt{ wx\+Widgets Event Handling}}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em e} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_hough_event_a0cecba3782a26d856ea3f0b4a435b8c2}\label{class_hough_event_a0cecba3782a26d856ea3f0b4a435b8c2}} 
+\index{HoughEvent@{HoughEvent}!Clone@{Clone}}
+\index{Clone@{Clone}!HoughEvent@{HoughEvent}}
+\doxysubsubsection{\texorpdfstring{Clone()}{Clone()}}
+{\footnotesize\ttfamily wx\+Event $\ast$ Hough\+Event\+::\+Clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Clone the event. 
+
+Required for sending event with wx\+Post\+Event() \begin{DoxySeeAlso}{See also}
+\href{https://wiki.wxwidgets.org/Custom_Events}{\texttt{ wx\+Widgets Event Handling}}
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+wx\+Event$\ast$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_hough_event_a21c85bc0c9f380eaf425f10efb342a92}\label{class_hough_event_a21c85bc0c9f380eaf425f10efb342a92}} 
+\index{HoughEvent@{HoughEvent}!GetHoughData@{GetHoughData}}
+\index{GetHoughData@{GetHoughData}!HoughEvent@{HoughEvent}}
+\doxysubsubsection{\texorpdfstring{GetHoughData()}{GetHoughData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_detection_1_1_hough_data}{Detection\+::\+Hough\+Data}} $\ast$ Hough\+Event\+::\+Get\+Hough\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the Hough Data object. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{struct_detection_1_1_hough_data}{Detection\+::\+Hough\+Data}}$\ast$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_hough_event_ab8f04bc5507e4fd3e16ccb536ec8d3d7}\label{class_hough_event_ab8f04bc5507e4fd3e16ccb536ec8d3d7}} 
+\index{HoughEvent@{HoughEvent}!SetHoughData@{SetHoughData}}
+\index{SetHoughData@{SetHoughData}!HoughEvent@{HoughEvent}}
+\doxysubsubsection{\texorpdfstring{SetHoughData()}{SetHoughData()}}
+{\footnotesize\ttfamily void Hough\+Event\+::\+Set\+Hough\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_detection_1_1_hough_data}{Detection\+::\+Hough\+Data}} $\ast$}]{hough\+Data }\end{DoxyParamCaption})}
+
+
+
+Set the Hough Data object to be transported. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hough\+Data} & the data \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Event/\mbox{\hyperlink{_event___hough_8hpp}{Event\+\_\+\+Hough.\+hpp}}\item 
+src/\+Event/\mbox{\hyperlink{_event___hough_8cpp}{Event\+\_\+\+Hough.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,124 @@
+\hypertarget{class_flow_task}{}\doxysection{Flow\+Task Class Reference}
+\label{class_flow_task}\index{FlowTask@{FlowTask}}
+
+
+\mbox{\hyperlink{class_task}{Task}} Implementation for Optical Flow Detection.  
+
+
+
+
+{\ttfamily \#include $<$Task\+\_\+\+Optical\+Flow.\+hpp$>$}
+
+Inheritance diagram for Flow\+Task\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_flow_task}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_flow_task_aba9237fd1048cbe0044f205a46d5d493}{Flow\+Task}} (std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$img\+Data, Optical\+Flow\+Config config)
+\begin{DoxyCompactList}\small\item\em Construct a new Flow \mbox{\hyperlink{class_task}{Task}}\+:\+: Flow \mbox{\hyperlink{class_task}{Task}} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_flow_task_a3f587e8d7efa890047a7464d0f2bd936}{Execute}} () override
+\begin{DoxyCompactList}\small\item\em Execute Flow \mbox{\hyperlink{class_task}{Task}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_task_property}{Task\+Property}} \mbox{\hyperlink{class_flow_task_a96742c914797aabcb101dfd4ade866d1}{Get\+Property}} () const override
+\begin{DoxyCompactList}\small\item\em Get the Type object. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_flow_task_ac47e6c948c09ef6d43cab46673bad52b}{Get\+Name}} () const override
+\begin{DoxyCompactList}\small\item\em Get the Name object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_task}{Task}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_task_a7bff79cc05fa4511c72048d33591503b}{$\sim$\+Task}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{class_task}{Task}} object. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_task_a9a3a783ca463dab7e615ded0bd5d07e2}{Execute}} ()=0
+\begin{DoxyCompactList}\small\item\em Execute the \mbox{\hyperlink{class_task}{Task}}. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{struct_task_property}{Task\+Property}} \mbox{\hyperlink{class_task_ae78ff883c2ee40db3eafe44c3e11c168}{Get\+Property}} () const =0
+\begin{DoxyCompactList}\small\item\em Get the Property object. \end{DoxyCompactList}\item 
+virtual std\+::string \mbox{\hyperlink{class_task_aa81c07b87124a2742af2312414607a61}{Get\+Name}} () const =0
+\begin{DoxyCompactList}\small\item\em Get the Priority object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_task}{Task}} Implementation for Optical Flow Detection. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_flow_task_aba9237fd1048cbe0044f205a46d5d493}\label{class_flow_task_aba9237fd1048cbe0044f205a46d5d493}} 
+\index{FlowTask@{FlowTask}!FlowTask@{FlowTask}}
+\index{FlowTask@{FlowTask}!FlowTask@{FlowTask}}
+\doxysubsubsection{\texorpdfstring{FlowTask()}{FlowTask()}}
+{\footnotesize\ttfamily Flow\+Task\+::\+Flow\+Task (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$}]{img\+Data,  }\item[{Optical\+Flow\+Config}]{config }\end{DoxyParamCaption})}
+
+
+
+Construct a new Flow \mbox{\hyperlink{class_task}{Task}}\+:\+: Flow \mbox{\hyperlink{class_task}{Task}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img\+Data} & pointer to vector of \mbox{\hyperlink{struct_image_data}{Image\+Data}} \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_flow_task_a3f587e8d7efa890047a7464d0f2bd936}\label{class_flow_task_a3f587e8d7efa890047a7464d0f2bd936}} 
+\index{FlowTask@{FlowTask}!Execute@{Execute}}
+\index{Execute@{Execute}!FlowTask@{FlowTask}}
+\doxysubsubsection{\texorpdfstring{Execute()}{Execute()}}
+{\footnotesize\ttfamily void Flow\+Task\+::\+Execute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Execute Flow \mbox{\hyperlink{class_task}{Task}}. 
+
+This method will be called automatically by the thread worker 
+\begin{DoxyItemize}
+\item 1. Initialize Optical Flow 
+\item 2. Update Optical Flow for each frame 
+\item 3. Threshold the points 
+\end{DoxyItemize}
+
+Implements \mbox{\hyperlink{class_task_a9a3a783ca463dab7e615ded0bd5d07e2}{Task}}.
+
+\mbox{\Hypertarget{class_flow_task_ac47e6c948c09ef6d43cab46673bad52b}\label{class_flow_task_ac47e6c948c09ef6d43cab46673bad52b}} 
+\index{FlowTask@{FlowTask}!GetName@{GetName}}
+\index{GetName@{GetName}!FlowTask@{FlowTask}}
+\doxysubsubsection{\texorpdfstring{GetName()}{GetName()}}
+{\footnotesize\ttfamily std\+::string Flow\+Task\+::\+Get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the Name object. 
+
+\begin{DoxyReturn}{Returns}
+std\+::string 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_task_aa81c07b87124a2742af2312414607a61}{Task}}.
+
+\mbox{\Hypertarget{class_flow_task_a96742c914797aabcb101dfd4ade866d1}\label{class_flow_task_a96742c914797aabcb101dfd4ade866d1}} 
+\index{FlowTask@{FlowTask}!GetProperty@{GetProperty}}
+\index{GetProperty@{GetProperty}!FlowTask@{FlowTask}}
+\doxysubsubsection{\texorpdfstring{GetProperty()}{GetProperty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_task_property}{Task\+Property}} Flow\+Task\+::\+Get\+Property (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the Type object. 
+
+\begin{DoxyReturn}{Returns}
+Task\+Type 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_task_ae78ff883c2ee40db3eafe44c3e11c168}{Task}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Thread/\+Task/\mbox{\hyperlink{_task___optical_flow_8hpp}{Task\+\_\+\+Optical\+Flow.\+hpp}}\item 
+src/\+Thread/\+Task/\mbox{\hyperlink{_task___optical_flow_8cpp}{Task\+\_\+\+Optical\+Flow.\+cpp}}\end{DoxyCompactItemize}

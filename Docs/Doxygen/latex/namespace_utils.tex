@@ -1,0 +1,121 @@
+\hypertarget{namespace_utils}{}\doxysection{Utils Namespace Reference}
+\label{namespace_utils}\index{Utils@{Utils}}
+
+
+\mbox{\hyperlink{namespace_utils}{Utils}} Class.  
+
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_utils_1_1_i_d_generator}{IDGenerator}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{namespace_utils}{Utils}} Class for generating unique ID between 10000 -\/ 99999. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{namespace_utils_a9f8cc23b193789ca6f12a4687f807c82}{Time\+Diff}} (std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point time1, std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point time2)
+\begin{DoxyCompactList}\small\item\em Calculate the difference between two time points. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{namespace_utils_a78138bf91f0508ece06fe18ac05c8e86}{date\+To\+String}} ()
+\begin{DoxyCompactList}\small\item\em Get the current date and time in string format. \end{DoxyCompactList}\item 
+File\+Extension \mbox{\hyperlink{namespace_utils_a75fc2d5d40fc99d1915b7bdec906607f}{Get\+File\+Extension}} (std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Get File Extension from path. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespace_utils_a0dcc0b4784bad2f873800680b1f9be86}{Rotate\+Image}} (std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ \&img\+Data, int angle)
+\begin{DoxyCompactList}\small\item\em Rotate image. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{namespace_utils_a35476841626a47517ee50dad91da8931}{Trimmed\+Mean}} (const std\+::vector$<$ double $>$ \&data, double percentage)
+\begin{DoxyCompactList}\small\item\em Calculate trimmed mean. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{namespace_utils}{Utils}} Class. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespace_utils_a78138bf91f0508ece06fe18ac05c8e86}\label{namespace_utils_a78138bf91f0508ece06fe18ac05c8e86}} 
+\index{Utils@{Utils}!dateToString@{dateToString}}
+\index{dateToString@{dateToString}!Utils@{Utils}}
+\doxysubsubsection{\texorpdfstring{dateToString()}{dateToString()}}
+{\footnotesize\ttfamily std\+::string Utils\+::date\+To\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the current date and time in string format. 
+
+\begin{DoxyReturn}{Returns}
+std\+::string current date and time in string format 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespace_utils_a75fc2d5d40fc99d1915b7bdec906607f}\label{namespace_utils_a75fc2d5d40fc99d1915b7bdec906607f}} 
+\index{Utils@{Utils}!GetFileExtension@{GetFileExtension}}
+\index{GetFileExtension@{GetFileExtension}!Utils@{Utils}}
+\doxysubsubsection{\texorpdfstring{GetFileExtension()}{GetFileExtension()}}
+{\footnotesize\ttfamily File\+Extension Utils\+::\+Get\+File\+Extension (\begin{DoxyParamCaption}\item[{std\+::string \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Get File Extension from path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & path to file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+File\+Extension file extension 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespace_utils_a0dcc0b4784bad2f873800680b1f9be86}\label{namespace_utils_a0dcc0b4784bad2f873800680b1f9be86}} 
+\index{Utils@{Utils}!RotateImage@{RotateImage}}
+\index{RotateImage@{RotateImage}!Utils@{Utils}}
+\doxysubsubsection{\texorpdfstring{RotateImage()}{RotateImage()}}
+{\footnotesize\ttfamily void Utils\+::\+Rotate\+Image (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ \&}]{img\+Data,  }\item[{int}]{angle }\end{DoxyParamCaption})}
+
+
+
+Rotate image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img\+Data} & image data \\
+\hline
+{\em angle} & angle to rotate in degrees \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_utils_a9f8cc23b193789ca6f12a4687f807c82}\label{namespace_utils_a9f8cc23b193789ca6f12a4687f807c82}} 
+\index{Utils@{Utils}!TimeDiff@{TimeDiff}}
+\index{TimeDiff@{TimeDiff}!Utils@{Utils}}
+\doxysubsubsection{\texorpdfstring{TimeDiff()}{TimeDiff()}}
+{\footnotesize\ttfamily double Utils\+::\+Time\+Diff (\begin{DoxyParamCaption}\item[{std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point}]{time1,  }\item[{std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point}]{time2 }\end{DoxyParamCaption})}
+
+
+
+Calculate the difference between two time points. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time1} & time point 1 \\
+\hline
+{\em time2} & time point 2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double time difference in milliseconds 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespace_utils_a35476841626a47517ee50dad91da8931}\label{namespace_utils_a35476841626a47517ee50dad91da8931}} 
+\index{Utils@{Utils}!TrimmedMean@{TrimmedMean}}
+\index{TrimmedMean@{TrimmedMean}!Utils@{Utils}}
+\doxysubsubsection{\texorpdfstring{TrimmedMean()}{TrimmedMean()}}
+{\footnotesize\ttfamily double Utils\+::\+Trimmed\+Mean (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{data,  }\item[{double}]{percentage }\end{DoxyParamCaption})}
+
+
+
+Calculate trimmed mean. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & data to be trimmed \\
+\hline
+{\em percentage} & percentage to be trimmed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double trimmed mean 
+\end{DoxyReturn}
