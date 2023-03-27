@@ -76,5 +76,6 @@ request.
 
 ## Useful links
 
+- Docs: [GitHub Pages](https://haziqsabtu.github.io/SpeedCameraPi/)
 - OpenCV: [https://opencv.org/](https://opencv.org/)
 - wxWidgets: [https://www.wxwidgets.org/](https://www.wxwidgets.org/)
