@@ -24,7 +24,7 @@ incidence of speeding.
 - wxWidgets
 - RaspiCam
 
-### Installation Clone this repository:
+### Installation
 
 - Download the source code of the application from the repository:
 
