@@ -1,0 +1,172 @@
+\hypertarget{class_feature_detector}{}\doxysection{Feature\+Detector Class Reference}
+\label{class_feature_detector}\index{FeatureDetector@{FeatureDetector}}
+
+
+Helper Class for detecting and matching features between two images and alligning them.  
+
+
+
+
+{\ttfamily \#include $<$Feature\+Detector.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_feature_detector_aed128670457e2089a34eb92b5c070ef1}{Feature\+Detector}} (\mbox{\hyperlink{_algorithm_2image__allign_2_enum_8hpp_aba5019e335fb2939e79e0e5b62202729}{Detector\+Type}} type)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_feature_detector}{Feature\+Detector}} constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_feature_detector_aa2c68b01a5d9f549f98a57a1deff7848}{allign}} (cv\+::\+Mat \&image1, cv\+::\+Mat \&image2)
+\begin{DoxyCompactList}\small\item\em Runs the feature detection and matching algorithm on two input images. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_feature_detector_ab7dc59e23d68f40ff9015fad4bf421e5}{allign}} (std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ \&img\+Data)
+\begin{DoxyCompactList}\small\item\em Run image allignment on a vector of \mbox{\hyperlink{struct_image_data}{Image\+Data}} objects. Attention! The result will replace the original image in the \mbox{\hyperlink{struct_image_data}{Image\+Data}} object. \end{DoxyCompactList}\item 
+cv\+::\+Mat \mbox{\hyperlink{class_feature_detector_a22080f3059cd600ad75aabe789ccddce}{Get\+Match\+Image}} (cv\+::\+Mat \&image1, cv\+::\+Mat \&image2)
+\begin{DoxyCompactList}\small\item\em Returns the image with the keypoints drawn on it. \end{DoxyCompactList}\item 
+cv\+::\+Mat \mbox{\hyperlink{class_feature_detector_ad8162a1701d63e8361ef7307ffb8ce18}{Get\+Homography\+Matrix}} ()
+\begin{DoxyCompactList}\small\item\em Returns the homography matrix used to transform the second image to match the perspective of the first image. \end{DoxyCompactList}\item 
+cv\+::\+Mat \mbox{\hyperlink{class_feature_detector_a0af12773fc5005cb4f4f8e02f1ab3191}{Get\+Alligned\+Image}} ()
+\begin{DoxyCompactList}\small\item\em Returns the transformed image. \end{DoxyCompactList}\item 
+cv\+::\+Mat \mbox{\hyperlink{class_feature_detector_ab5e0907beaff517bc4080481742af4a3}{Get\+Alligned\+Image}} (cv\+::\+Mat \&bg)
+\begin{DoxyCompactList}\small\item\em Returns the image with the transformed image pasted on top of the first image or background. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Helper Class for detecting and matching features between two images and alligning them. \begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_image_alignment_8cpp-example}{Image\+Alignment.\+cpp}}.\end{Desc}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_feature_detector_aed128670457e2089a34eb92b5c070ef1}\label{class_feature_detector_aed128670457e2089a34eb92b5c070ef1}} 
+\index{FeatureDetector@{FeatureDetector}!FeatureDetector@{FeatureDetector}}
+\index{FeatureDetector@{FeatureDetector}!FeatureDetector@{FeatureDetector}}
+\doxysubsubsection{\texorpdfstring{FeatureDetector()}{FeatureDetector()}}
+{\footnotesize\ttfamily Feature\+Detector\+::\+Feature\+Detector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_algorithm_2image__allign_2_enum_8hpp_aba5019e335fb2939e79e0e5b62202729}{Detector\+Type}}}]{type }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_feature_detector}{Feature\+Detector}} constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Feature type from Detector\+Type to be used for feature detection. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_feature_detector_aa2c68b01a5d9f549f98a57a1deff7848}\label{class_feature_detector_aa2c68b01a5d9f549f98a57a1deff7848}} 
+\index{FeatureDetector@{FeatureDetector}!allign@{allign}}
+\index{allign@{allign}!FeatureDetector@{FeatureDetector}}
+\doxysubsubsection{\texorpdfstring{allign()}{allign()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Feature\+Detector\+::allign (\begin{DoxyParamCaption}\item[{cv\+::\+Mat \&}]{image1,  }\item[{cv\+::\+Mat \&}]{image2 }\end{DoxyParamCaption})}
+
+
+
+Runs the feature detection and matching algorithm on two input images. 
+
+
+\begin{DoxyItemize}
+\item 1. Detect and compute features on both images. 
+\item 2. Match features between the two images. 
+\item 3. Filter the matched features. 
+\item 4. Find homography matrix. 
+\item 5. Apply homography matrix to the second image. 
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em image1} & First input image, Source Image. \\
+\hline
+{\em image2} & Second input image, Image to allign. \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_image_alignment_8cpp-example}{Image\+Alignment.\+cpp}}.\end{Desc}
+\mbox{\Hypertarget{class_feature_detector_ab7dc59e23d68f40ff9015fad4bf421e5}\label{class_feature_detector_ab7dc59e23d68f40ff9015fad4bf421e5}} 
+\index{FeatureDetector@{FeatureDetector}!allign@{allign}}
+\index{allign@{allign}!FeatureDetector@{FeatureDetector}}
+\doxysubsubsection{\texorpdfstring{allign()}{allign()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Feature\+Detector\+::allign (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ \&}]{img\+Data }\end{DoxyParamCaption})}
+
+
+
+Run image allignment on a vector of \mbox{\hyperlink{struct_image_data}{Image\+Data}} objects. Attention! The result will replace the original image in the \mbox{\hyperlink{struct_image_data}{Image\+Data}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img\+Data} & result of Image Allignment. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_feature_detector_a0af12773fc5005cb4f4f8e02f1ab3191}\label{class_feature_detector_a0af12773fc5005cb4f4f8e02f1ab3191}} 
+\index{FeatureDetector@{FeatureDetector}!GetAllignedImage@{GetAllignedImage}}
+\index{GetAllignedImage@{GetAllignedImage}!FeatureDetector@{FeatureDetector}}
+\doxysubsubsection{\texorpdfstring{GetAllignedImage()}{GetAllignedImage()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily cv\+::\+Mat Feature\+Detector\+::\+Get\+Alligned\+Image (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the transformed image. 
+
+\begin{DoxyReturn}{Returns}
+cv\+::\+Mat Transformed image. 
+\end{DoxyReturn}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_image_alignment_8cpp-example}{Image\+Alignment.\+cpp}}.\end{Desc}
+\mbox{\Hypertarget{class_feature_detector_ab5e0907beaff517bc4080481742af4a3}\label{class_feature_detector_ab5e0907beaff517bc4080481742af4a3}} 
+\index{FeatureDetector@{FeatureDetector}!GetAllignedImage@{GetAllignedImage}}
+\index{GetAllignedImage@{GetAllignedImage}!FeatureDetector@{FeatureDetector}}
+\doxysubsubsection{\texorpdfstring{GetAllignedImage()}{GetAllignedImage()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily cv\+::\+Mat Feature\+Detector\+::\+Get\+Alligned\+Image (\begin{DoxyParamCaption}\item[{cv\+::\+Mat \&}]{bg }\end{DoxyParamCaption})}
+
+
+
+Returns the image with the transformed image pasted on top of the first image or background. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bg} & Background image. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cv\+::\+Mat result image. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_feature_detector_ad8162a1701d63e8361ef7307ffb8ce18}\label{class_feature_detector_ad8162a1701d63e8361ef7307ffb8ce18}} 
+\index{FeatureDetector@{FeatureDetector}!GetHomographyMatrix@{GetHomographyMatrix}}
+\index{GetHomographyMatrix@{GetHomographyMatrix}!FeatureDetector@{FeatureDetector}}
+\doxysubsubsection{\texorpdfstring{GetHomographyMatrix()}{GetHomographyMatrix()}}
+{\footnotesize\ttfamily cv\+::\+Mat Feature\+Detector\+::\+Get\+Homography\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the homography matrix used to transform the second image to match the perspective of the first image. 
+
+\begin{DoxyReturn}{Returns}
+cv\+::\+Mat \mbox{\hyperlink{class_homography}{Homography}} matrix. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_feature_detector_a22080f3059cd600ad75aabe789ccddce}\label{class_feature_detector_a22080f3059cd600ad75aabe789ccddce}} 
+\index{FeatureDetector@{FeatureDetector}!GetMatchImage@{GetMatchImage}}
+\index{GetMatchImage@{GetMatchImage}!FeatureDetector@{FeatureDetector}}
+\doxysubsubsection{\texorpdfstring{GetMatchImage()}{GetMatchImage()}}
+{\footnotesize\ttfamily cv\+::\+Mat Feature\+Detector\+::\+Get\+Match\+Image (\begin{DoxyParamCaption}\item[{cv\+::\+Mat \&}]{image1,  }\item[{cv\+::\+Mat \&}]{image2 }\end{DoxyParamCaption})}
+
+
+
+Returns the image with the keypoints drawn on it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image1} & Source image. \\
+\hline
+{\em image2} & Target image. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cv\+::\+Mat Image with keypoints drawn on it. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Algorithm/image\+\_\+allign/\mbox{\hyperlink{_feature_detector_8hpp}{Feature\+Detector.\+hpp}}\item 
+src/\+Algorithm/image\+\_\+allign/\mbox{\hyperlink{_feature_detector_8cpp}{Feature\+Detector.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,132 @@
+\hypertarget{class_speed_task}{}\doxysection{Speed\+Task Class Reference}
+\label{class_speed_task}\index{SpeedTask@{SpeedTask}}
+
+
+\mbox{\hyperlink{class_task}{Task}} Implementation for Speed Calculation.  
+
+
+
+
+{\ttfamily \#include $<$Task\+\_\+\+Speed.\+hpp$>$}
+
+Inheritance diagram for Speed\+Task\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_speed_task}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_speed_task_ac453eda4339a71905eeef28c77d77107}{Speed\+Task}} (std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$img\+Data, std\+::vector$<$ \mbox{\hyperlink{struct_detection_1_1_line}{Detection\+::\+Line}} $>$ \&selected\+Line, std\+::unique\+\_\+ptr$<$ float $>$ \&result, Sensor\+Config sensor\+Config)
+\begin{DoxyCompactList}\small\item\em Construct a new Speed \mbox{\hyperlink{class_task}{Task}}\+:\+: Speed \mbox{\hyperlink{class_task}{Task}} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_speed_task_acb54aff9bad15ec4224e77d0fda60219}{Execute}} () override
+\begin{DoxyCompactList}\small\item\em Execute the Speed Calculation. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_task_property}{Task\+Property}} \mbox{\hyperlink{class_speed_task_ae75a80a7bcdf0aa69061251d8b0a925f}{Get\+Property}} () const override
+\begin{DoxyCompactList}\small\item\em Get the Type object. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_speed_task_a13cd48d1eef1e1c6c6075b42a0b6c016}{Get\+Name}} () const override
+\begin{DoxyCompactList}\small\item\em Get the Name object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_task}{Task}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_task_a7bff79cc05fa4511c72048d33591503b}{$\sim$\+Task}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{class_task}{Task}} object. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_task_a9a3a783ca463dab7e615ded0bd5d07e2}{Execute}} ()=0
+\begin{DoxyCompactList}\small\item\em Execute the \mbox{\hyperlink{class_task}{Task}}. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{struct_task_property}{Task\+Property}} \mbox{\hyperlink{class_task_ae78ff883c2ee40db3eafe44c3e11c168}{Get\+Property}} () const =0
+\begin{DoxyCompactList}\small\item\em Get the Property object. \end{DoxyCompactList}\item 
+virtual std\+::string \mbox{\hyperlink{class_task_aa81c07b87124a2742af2312414607a61}{Get\+Name}} () const =0
+\begin{DoxyCompactList}\small\item\em Get the Priority object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_task}{Task}} Implementation for Speed Calculation. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_speed_task_ac453eda4339a71905eeef28c77d77107}\label{class_speed_task_ac453eda4339a71905eeef28c77d77107}} 
+\index{SpeedTask@{SpeedTask}!SpeedTask@{SpeedTask}}
+\index{SpeedTask@{SpeedTask}!SpeedTask@{SpeedTask}}
+\doxysubsubsection{\texorpdfstring{SpeedTask()}{SpeedTask()}}
+{\footnotesize\ttfamily Speed\+Task\+::\+Speed\+Task (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$}]{img\+Data,  }\item[{std\+::vector$<$ \mbox{\hyperlink{struct_detection_1_1_line}{Detection\+::\+Line}} $>$ \&}]{selected\+Line,  }\item[{std\+::unique\+\_\+ptr$<$ float $>$ \&}]{result,  }\item[{Sensor\+Config}]{sensor\+Config }\end{DoxyParamCaption})}
+
+
+
+Construct a new Speed \mbox{\hyperlink{class_task}{Task}}\+:\+: Speed \mbox{\hyperlink{class_task}{Task}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img\+Data} & pointer to \mbox{\hyperlink{struct_image_data}{Image\+Data}} Vector \\
+\hline
+{\em selected\+Line} & Selected Line \\
+\hline
+{\em result} & Result of Speed Calculation \\
+\hline
+{\em sensor\+Config} & Sensor Configuration ... Sensor\+Config \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_speed_task_acb54aff9bad15ec4224e77d0fda60219}\label{class_speed_task_acb54aff9bad15ec4224e77d0fda60219}} 
+\index{SpeedTask@{SpeedTask}!Execute@{Execute}}
+\index{Execute@{Execute}!SpeedTask@{SpeedTask}}
+\doxysubsubsection{\texorpdfstring{Execute()}{Execute()}}
+{\footnotesize\ttfamily void Speed\+Task\+::\+Execute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Execute the Speed Calculation. 
+
+This method will be called automatically by the thread worker 
+\begin{DoxyItemize}
+\item 1. Create \mbox{\hyperlink{class_speed_calculation}{Speed\+Calculation}} object 
+\item 2. Set Sensor Width, Sensor Focal Length, and Object Width 
+\item 3. Set Image Width 
+\item 4. Run \mbox{\hyperlink{class_speed_calculation_a2205156f47e9a84c881b588b42609dc2}{Speed\+Calculation\+::run\+Calculation()}} 
+\item 5. Set the result to the result pointer 
+\end{DoxyItemize}
+
+Implements \mbox{\hyperlink{class_task_a9a3a783ca463dab7e615ded0bd5d07e2}{Task}}.
+
+\mbox{\Hypertarget{class_speed_task_a13cd48d1eef1e1c6c6075b42a0b6c016}\label{class_speed_task_a13cd48d1eef1e1c6c6075b42a0b6c016}} 
+\index{SpeedTask@{SpeedTask}!GetName@{GetName}}
+\index{GetName@{GetName}!SpeedTask@{SpeedTask}}
+\doxysubsubsection{\texorpdfstring{GetName()}{GetName()}}
+{\footnotesize\ttfamily std\+::string Speed\+Task\+::\+Get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the Name object. 
+
+\begin{DoxyReturn}{Returns}
+std\+::string 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_task_aa81c07b87124a2742af2312414607a61}{Task}}.
+
+\mbox{\Hypertarget{class_speed_task_ae75a80a7bcdf0aa69061251d8b0a925f}\label{class_speed_task_ae75a80a7bcdf0aa69061251d8b0a925f}} 
+\index{SpeedTask@{SpeedTask}!GetProperty@{GetProperty}}
+\index{GetProperty@{GetProperty}!SpeedTask@{SpeedTask}}
+\doxysubsubsection{\texorpdfstring{GetProperty()}{GetProperty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_task_property}{Task\+Property}} Speed\+Task\+::\+Get\+Property (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the Type object. 
+
+\begin{DoxyReturn}{Returns}
+Task\+Type 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_task_ae78ff883c2ee40db3eafe44c3e11c168}{Task}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Thread/\+Task/\mbox{\hyperlink{_task___speed_8hpp}{Task\+\_\+\+Speed.\+hpp}}\item 
+src/\+Thread/\+Task/\mbox{\hyperlink{_task___speed_8cpp}{Task\+\_\+\+Speed.\+cpp}}\end{DoxyCompactItemize}

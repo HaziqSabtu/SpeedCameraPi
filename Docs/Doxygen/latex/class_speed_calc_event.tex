@@ -1,0 +1,124 @@
+\hypertarget{class_speed_calc_event}{}\doxysection{Speed\+Calc\+Event Class Reference}
+\label{class_speed_calc_event}\index{SpeedCalcEvent@{SpeedCalcEvent}}
+
+
+Custom Event for Speed Calculation.  
+
+
+
+
+{\ttfamily \#include $<$Event\+\_\+\+Speed.\+hpp$>$}
+
+
+
+Inherits wx\+Command\+Event.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_speed_calc_event_a8808acdd0b5711a8e3c1457859813677}{Speed\+Calc\+Event}} (wx\+Event\+Type event\+Type=c\+\_\+\+SPEED\+\_\+\+CALC\+\_\+\+EVENT, int id=1)
+\begin{DoxyCompactList}\small\item\em Construct a new Speed Calc Event\+:\+: Speed Calc Event object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_speed_calc_event_a5a3a9efc8e4a44d9e2e4b20615541626}{Speed\+Calc\+Event}} (const \mbox{\hyperlink{class_speed_calc_event}{Speed\+Calc\+Event}} \&e)
+\begin{DoxyCompactList}\small\item\em Construct a new Speed Calc Event\+:\+: Speed Calc Event object. \end{DoxyCompactList}\item 
+virtual wx\+Event $\ast$ \mbox{\hyperlink{class_speed_calc_event_aa8f60a194c36084526c74d3d74a5f7e7}{Clone}} () const
+\begin{DoxyCompactList}\small\item\em Clone the event. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_speed_calc_event_acd73c4da80d95bd3e5867c9ac36050aa}{Set\+Speed}} (const double spd)
+\begin{DoxyCompactList}\small\item\em Set the Speed object to be transported. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_speed_calc_event_a4203598bcf0987a8fb45eadbd4dbdf9a}{Get\+Speed}} () const
+\begin{DoxyCompactList}\small\item\em Get the Speed object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Custom Event for Speed Calculation. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_speed_calc_event_a8808acdd0b5711a8e3c1457859813677}\label{class_speed_calc_event_a8808acdd0b5711a8e3c1457859813677}} 
+\index{SpeedCalcEvent@{SpeedCalcEvent}!SpeedCalcEvent@{SpeedCalcEvent}}
+\index{SpeedCalcEvent@{SpeedCalcEvent}!SpeedCalcEvent@{SpeedCalcEvent}}
+\doxysubsubsection{\texorpdfstring{SpeedCalcEvent()}{SpeedCalcEvent()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Speed\+Calc\+Event\+::\+Speed\+Calc\+Event (\begin{DoxyParamCaption}\item[{wx\+Event\+Type}]{event\+Type = {\ttfamily c\+\_\+SPEED\+\_\+CALC\+\_\+EVENT},  }\item[{int}]{id = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Construct a new Speed Calc Event\+:\+: Speed Calc Event object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event\+Type} & type of event to be created. Default to c\+\_\+\+SPEED\+\_\+\+CALC\+\_\+\+EVENT \\
+\hline
+{\em id} & id of the event. See SPEED\+\_\+\+CALC\+\_\+\+EVENT\+\_\+\+TYPE for more info \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_speed_calc_event_a5a3a9efc8e4a44d9e2e4b20615541626}\label{class_speed_calc_event_a5a3a9efc8e4a44d9e2e4b20615541626}} 
+\index{SpeedCalcEvent@{SpeedCalcEvent}!SpeedCalcEvent@{SpeedCalcEvent}}
+\index{SpeedCalcEvent@{SpeedCalcEvent}!SpeedCalcEvent@{SpeedCalcEvent}}
+\doxysubsubsection{\texorpdfstring{SpeedCalcEvent()}{SpeedCalcEvent()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Speed\+Calc\+Event\+::\+Speed\+Calc\+Event (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_speed_calc_event}{Speed\+Calc\+Event}} \&}]{e }\end{DoxyParamCaption})}
+
+
+
+Construct a new Speed Calc Event\+:\+: Speed Calc Event object. 
+
+Overloaded constructor for copying event This is required for data to be transported \begin{DoxySeeAlso}{See also}
+\href{https://wiki.wxwidgets.org/Custom_Events}{\texttt{ wx\+Widgets Event Handling}} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em e} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_speed_calc_event_aa8f60a194c36084526c74d3d74a5f7e7}\label{class_speed_calc_event_aa8f60a194c36084526c74d3d74a5f7e7}} 
+\index{SpeedCalcEvent@{SpeedCalcEvent}!Clone@{Clone}}
+\index{Clone@{Clone}!SpeedCalcEvent@{SpeedCalcEvent}}
+\doxysubsubsection{\texorpdfstring{Clone()}{Clone()}}
+{\footnotesize\ttfamily wx\+Event $\ast$ Speed\+Calc\+Event\+::\+Clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Clone the event. 
+
+Required for sending event with wx\+Post\+Event() \begin{DoxySeeAlso}{See also}
+\href{https://wiki.wxwidgets.org/Custom_Events}{\texttt{ wx\+Widgets Event Handling}}
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+wx\+Event$\ast$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_speed_calc_event_a4203598bcf0987a8fb45eadbd4dbdf9a}\label{class_speed_calc_event_a4203598bcf0987a8fb45eadbd4dbdf9a}} 
+\index{SpeedCalcEvent@{SpeedCalcEvent}!GetSpeed@{GetSpeed}}
+\index{GetSpeed@{GetSpeed}!SpeedCalcEvent@{SpeedCalcEvent}}
+\doxysubsubsection{\texorpdfstring{GetSpeed()}{GetSpeed()}}
+{\footnotesize\ttfamily double Speed\+Calc\+Event\+::\+Get\+Speed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the Speed object. 
+
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_speed_calc_event_acd73c4da80d95bd3e5867c9ac36050aa}\label{class_speed_calc_event_acd73c4da80d95bd3e5867c9ac36050aa}} 
+\index{SpeedCalcEvent@{SpeedCalcEvent}!SetSpeed@{SetSpeed}}
+\index{SetSpeed@{SetSpeed}!SpeedCalcEvent@{SpeedCalcEvent}}
+\doxysubsubsection{\texorpdfstring{SetSpeed()}{SetSpeed()}}
+{\footnotesize\ttfamily void Speed\+Calc\+Event\+::\+Set\+Speed (\begin{DoxyParamCaption}\item[{const double}]{spd }\end{DoxyParamCaption})}
+
+
+
+Set the Speed object to be transported. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spd} & the data \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Event/\mbox{\hyperlink{_event___speed_8hpp}{Event\+\_\+\+Speed.\+hpp}}\item 
+src/\+Event/\mbox{\hyperlink{_event___speed_8cpp}{Event\+\_\+\+Speed.\+cpp}}\end{DoxyCompactItemize}

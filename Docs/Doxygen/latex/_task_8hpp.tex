@@ -1,0 +1,78 @@
+\hypertarget{_task_8hpp}{}\doxysection{include/\+Thread/\+Task/\+Task.hpp File Reference}
+\label{_task_8hpp}\index{include/Thread/Task/Task.hpp@{include/Thread/Task/Task.hpp}}
+
+
+Interface for Task\+Pool \mbox{\hyperlink{class_task}{Task}}.  
+
+
+{\ttfamily \#include $<$Utils/\+IDGenerator/\+IDGenerator.\+hpp$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_task_property}{Task\+Property}}
+\begin{DoxyCompactList}\small\item\em Struct for \mbox{\hyperlink{struct_task_property}{Task\+Property}}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_task}{Task}}
+\begin{DoxyCompactList}\small\item\em Interface Class for Task\+Pool \mbox{\hyperlink{class_task}{Task}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_task_8hpp_a026844c14ab62f42a2e19b54d622609b}{Task\+Type}} 
+\begin{DoxyCompactList}\small\item\em Enum for Task\+Type. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{_task_8hpp_aee057e5f06a7b2533e6f58bde34d15fa}{Task\+Priority}} 
+\begin{DoxyCompactList}\small\item\em Enum for Task\+Priority. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Interface for Task\+Pool \mbox{\hyperlink{class_task}{Task}}. 
+
+\begin{DoxyAuthor}{Author}
+Haziq Sabtu (\href{mailto:mhaziq.sabtu@gmail.com}{\texttt{ mhaziq.\+sabtu@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/03-\/06
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{_task_8hpp_aee057e5f06a7b2533e6f58bde34d15fa}\label{_task_8hpp_aee057e5f06a7b2533e6f58bde34d15fa}} 
+\index{Task.hpp@{Task.hpp}!TaskPriority@{TaskPriority}}
+\index{TaskPriority@{TaskPriority}!Task.hpp@{Task.hpp}}
+\doxysubsubsection{\texorpdfstring{TaskPriority}{TaskPriority}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_task_8hpp_aee057e5f06a7b2533e6f58bde34d15fa}{Task\+Priority}}}
+
+
+
+Enum for Task\+Priority. 
+
+Used to determine the priority of the \mbox{\hyperlink{class_task}{Task}} 
+\begin{DoxyItemize}
+\item TASK\+\_\+\+PRIORITY\+\_\+\+LOW\+: Lowest priority 
+\item TASK\+\_\+\+PRIORITY\+\_\+\+NORMAL\+: Normal priority 
+\item TASK\+\_\+\+PRIORITY\+\_\+\+HIGH\+: Highest priority 
+\end{DoxyItemize}\mbox{\Hypertarget{_task_8hpp_a026844c14ab62f42a2e19b54d622609b}\label{_task_8hpp_a026844c14ab62f42a2e19b54d622609b}} 
+\index{Task.hpp@{Task.hpp}!TaskType@{TaskType}}
+\index{TaskType@{TaskType}!Task.hpp@{Task.hpp}}
+\doxysubsubsection{\texorpdfstring{TaskType}{TaskType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_task_8hpp_a026844c14ab62f42a2e19b54d622609b}{Task\+Type}}}
+
+
+
+Enum for Task\+Type. 
+
+Used to determine the type of the \mbox{\hyperlink{class_task}{Task}} 
+\begin{DoxyItemize}
+\item TASK\+\_\+\+NONE\+: No \mbox{\hyperlink{class_task}{Task}} 
+\item TASK\+\_\+\+CAPTURE\+: \mbox{\hyperlink{class_capture_task}{Capture\+Task}} 
+\item TASK\+\_\+\+LOAD\+: \mbox{\hyperlink{class_load_task}{Load\+Task}} 
+\item TASK\+\_\+\+SIFT\+: \mbox{\hyperlink{class_sift_task}{Sift\+Task}} 
+\item TASK\+\_\+\+HOUGHLINE\+: \mbox{\hyperlink{class_hough_task}{Hough\+Task}} 
+\item TASK\+\_\+\+FLOW\+: \mbox{\hyperlink{class_flow_task}{Flow\+Task}} 
+\item TASK\+\_\+\+SPEED\+: \mbox{\hyperlink{class_speed_task}{Speed\+Task}} 
+\end{DoxyItemize}

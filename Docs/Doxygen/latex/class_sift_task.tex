@@ -1,0 +1,127 @@
+\hypertarget{class_sift_task}{}\doxysection{Sift\+Task Class Reference}
+\label{class_sift_task}\index{SiftTask@{SiftTask}}
+
+
+\mbox{\hyperlink{class_task}{Task}} Implementation for Sift Feature Detection.  
+
+
+
+
+{\ttfamily \#include $<$Task\+\_\+\+Sift.\+hpp$>$}
+
+Inheritance diagram for Sift\+Task\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sift_task}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_sift_task_a891df53db56b28d9a4ae2ed5a24dbb5b}{Sift\+Task}} (std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$img\+Data, int id)
+\begin{DoxyCompactList}\small\item\em Construct a new Sift \mbox{\hyperlink{class_task}{Task}}\+:\+: Sift \mbox{\hyperlink{class_task}{Task}} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sift_task_ade4324a4e8f1cdc6af5e0f37a7a8b201}{Execute}} () override
+\begin{DoxyCompactList}\small\item\em Execute Sift \mbox{\hyperlink{class_task}{Task}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_task_property}{Task\+Property}} \mbox{\hyperlink{class_sift_task_a940bbca34a8a49fb6852c41df278104b}{Get\+Property}} () const override
+\begin{DoxyCompactList}\small\item\em Get the Type object. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_sift_task_a0e1e13f422691026e6639321e2ebf3c2}{Get\+Name}} () const override
+\begin{DoxyCompactList}\small\item\em Get the Name object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_task}{Task}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_task_a7bff79cc05fa4511c72048d33591503b}{$\sim$\+Task}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{class_task}{Task}} object. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_task_a9a3a783ca463dab7e615ded0bd5d07e2}{Execute}} ()=0
+\begin{DoxyCompactList}\small\item\em Execute the \mbox{\hyperlink{class_task}{Task}}. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{struct_task_property}{Task\+Property}} \mbox{\hyperlink{class_task_ae78ff883c2ee40db3eafe44c3e11c168}{Get\+Property}} () const =0
+\begin{DoxyCompactList}\small\item\em Get the Property object. \end{DoxyCompactList}\item 
+virtual std\+::string \mbox{\hyperlink{class_task_aa81c07b87124a2742af2312414607a61}{Get\+Name}} () const =0
+\begin{DoxyCompactList}\small\item\em Get the Priority object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_task}{Task}} Implementation for Sift Feature Detection. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_sift_task_a891df53db56b28d9a4ae2ed5a24dbb5b}\label{class_sift_task_a891df53db56b28d9a4ae2ed5a24dbb5b}} 
+\index{SiftTask@{SiftTask}!SiftTask@{SiftTask}}
+\index{SiftTask@{SiftTask}!SiftTask@{SiftTask}}
+\doxysubsubsection{\texorpdfstring{SiftTask()}{SiftTask()}}
+{\footnotesize\ttfamily Sift\+Task\+::\+Sift\+Task (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$}]{img\+Data,  }\item[{int}]{id }\end{DoxyParamCaption})}
+
+
+
+Construct a new Sift \mbox{\hyperlink{class_task}{Task}}\+:\+: Sift \mbox{\hyperlink{class_task}{Task}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img\+Data} & pointer to vector of \mbox{\hyperlink{struct_image_data}{Image\+Data}} \\
+\hline
+{\em id} & index of target image in vector \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_sift_task_ade4324a4e8f1cdc6af5e0f37a7a8b201}\label{class_sift_task_ade4324a4e8f1cdc6af5e0f37a7a8b201}} 
+\index{SiftTask@{SiftTask}!Execute@{Execute}}
+\index{Execute@{Execute}!SiftTask@{SiftTask}}
+\doxysubsubsection{\texorpdfstring{Execute()}{Execute()}}
+{\footnotesize\ttfamily void Sift\+Task\+::\+Execute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Execute Sift \mbox{\hyperlink{class_task}{Task}}. 
+
+This method will be called automatically by the thread worker 
+\begin{DoxyItemize}
+\item 1. Create \mbox{\hyperlink{class_feature_detector}{Feature\+Detector}} object 
+\item 2. Set Detector\+Type to SIFT 
+\item 3. Run \mbox{\hyperlink{class_feature_detector_aa2c68b01a5d9f549f98a57a1deff7848}{Feature\+Detector\+::allign()}} 
+\item 4. Set the image in vector to the alligned image 
+\end{DoxyItemize}
+
+Implements \mbox{\hyperlink{class_task_a9a3a783ca463dab7e615ded0bd5d07e2}{Task}}.
+
+\mbox{\Hypertarget{class_sift_task_a0e1e13f422691026e6639321e2ebf3c2}\label{class_sift_task_a0e1e13f422691026e6639321e2ebf3c2}} 
+\index{SiftTask@{SiftTask}!GetName@{GetName}}
+\index{GetName@{GetName}!SiftTask@{SiftTask}}
+\doxysubsubsection{\texorpdfstring{GetName()}{GetName()}}
+{\footnotesize\ttfamily std\+::string Sift\+Task\+::\+Get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the Name object. 
+
+\begin{DoxyReturn}{Returns}
+std\+::string 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_task_aa81c07b87124a2742af2312414607a61}{Task}}.
+
+\mbox{\Hypertarget{class_sift_task_a940bbca34a8a49fb6852c41df278104b}\label{class_sift_task_a940bbca34a8a49fb6852c41df278104b}} 
+\index{SiftTask@{SiftTask}!GetProperty@{GetProperty}}
+\index{GetProperty@{GetProperty}!SiftTask@{SiftTask}}
+\doxysubsubsection{\texorpdfstring{GetProperty()}{GetProperty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_task_property}{Task\+Property}} Sift\+Task\+::\+Get\+Property (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the Type object. 
+
+\begin{DoxyReturn}{Returns}
+Task\+Type 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_task_ae78ff883c2ee40db3eafe44c3e11c168}{Task}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Thread/\+Task/\mbox{\hyperlink{_task___sift_8hpp}{Task\+\_\+\+Sift.\+hpp}}\item 
+src/\+Thread/\+Task/\mbox{\hyperlink{_task___sift_8cpp}{Task\+\_\+\+Sift.\+cpp}}\end{DoxyCompactItemize}

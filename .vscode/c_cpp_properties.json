@@ -7,7 +7,11 @@
                 "${workspaceFolder}/build/stage/include/wx-3.1/**",
                 "${workspaceFolder}/build/subprojects/Build/wxWidgets_external/lib/wx/include/osx_cocoa-unicode-static-3.1/**"
             ],
-            "defines": ["__WXOSX_COCOA__", "__WXMAC__", "__WXOSX__"],
+            "defines": [
+                "__WXOSX_COCOA__",
+                "__WXMAC__",
+                "__WXOSX__"
+            ],
             "macFrameworkPath": [],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
@@ -22,7 +26,12 @@
                 "C:/Users/kakik/OpenCV/build/install/include",
                 "${workspaceFolder}/include/**"
             ],
-            "defines": ["__WXMSW__", "_UNICODE", "_DEBUG", "NDEBUG"],
+            "defines": [
+                "__WXMSW__",
+                "_UNICODE",
+                "_DEBUG",
+                "NDEBUG"
+            ],
             "compilerPath": "cl.exe",
             "cStandard": "c11",
             "cppStandard": "c++17",
@@ -32,11 +41,15 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/src/**",
+                "${workspaceFolder}/include/**",
                 "${workspaceFolder}/build/stage/include/wx-3.1/**",
-                "${workspaceFolder}/build/subprojects/Build/wxWidgets_external/lib/wx/include/gtk3-unicode-static-3.1/**"
+                "${workspaceFolder}/build/subprojects/Build/wxWidgets_external/lib/wx/include/gtk3-unicode-static-3.1/**",
+                "/usr/local/include/opencv4"
             ],
-            "defines": ["__WXGTK__"],
-            "compilerPath": "g++",
+            "defines": [
+                "__WXGTK__"
+            ],
+            "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64"

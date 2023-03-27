@@ -1,0 +1,74 @@
+/**
+ * @file Task_OpticalFlow.cpp
+ * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
+ * @brief Task Implementation for Optical Flow Detection
+ * @version 1.0.0
+ * @date 2023-03-08
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
+#include <Thread/Task/Task_OpticalFlow.hpp>
+
+/**
+ * @brief Construct a new Flow Task:: Flow Task object
+ *
+ * @param imgData pointer to vector of ImageData
+ */
+FlowTask::FlowTask(std::vector<ImageData> *imgData, OpticalFlowConfig config)
+    : property(TaskType::TASK_FLOW), imgData(imgData), config(config) {}
+
+/**
+ * @brief Execute Flow Task
+ * @details This method will be called automatically by the thread worker
+ * <ul>
+ * <li> 1. Initialize Optical Flow
+ * <li> 2. Update Optical Flow for each frame
+ * <li> 3. Threshold the points
+ * </ul>
+ *
+ */
+void FlowTask::Execute() {
+    Detection::ObjectDetection objectDetection(config.maxCorners);
+    objectDetection.SetDetectionParams(config.maxCorners, config.qualityLevel,
+                                       config.minDistance, config.blockSize,
+                                       config.useHarrisDetector, config.k,
+                                       config.minPointDistance);
+    imgData->at(0).SetFlow(objectDetection.init(imgData->at(0).image));
+    for (int i = 1; i < imgData->size(); i++) {
+        imgData->at(i).SetFlow(
+            objectDetection.updateFlow(imgData->at(i), imgData->at(i - 1)));
+    }
+
+    // * IDEA: Imagine Point moving in 3D space
+    // * The moving points can be seen clearly ?
+    // * Seperate with KNN CLustering
+    std::vector<int> ids;
+    for (int i = 0; i < imgData->at(0).flow.GetPoints().size(); i++) {
+        ids.push_back(i);
+    }
+
+    for (int i = 1; i < imgData->size(); i++) {
+        imgData->at(i).flow.thresholdPointsId(ids, imgData->at(i - 1).flow,
+                                              config.threshold);
+    }
+
+    for (int i = 0; i < imgData->size(); i++) {
+        imgData->at(i).SetDetection(imgData->at(i).flow.GetPointsById(ids));
+    }
+}
+
+/**
+ * @brief Get the Type object
+ *
+ * @return TaskType
+ */
+TaskProperty FlowTask::GetProperty() const { return property; }
+
+/**
+ * @brief Get the Name object
+ *
+ * @return std::string
+ */
+std::string FlowTask::GetName() const { return "FlowTask"; }

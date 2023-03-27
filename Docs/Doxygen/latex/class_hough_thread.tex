@@ -1,0 +1,98 @@
+\hypertarget{class_hough_thread}{}\doxysection{Hough\+Thread Class Reference}
+\label{class_hough_thread}\index{HoughThread@{HoughThread}}
+
+
+Custom wx\+Thread for Hough Line Transform.  
+
+
+
+
+{\ttfamily \#include $<$Thread\+\_\+\+Hough.\+hpp$>$}
+
+
+
+Inherits wx\+Thread.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_hough_thread_a87aa1436ded2e01b5403c2c5d1d2fc38}{Hough\+Thread}} (wx\+Evt\+Handler $\ast$parent, \mbox{\hyperlink{class_thread_pool}{Thread\+Pool}} $\ast$pool, \mbox{\hyperlink{struct_image_data}{Image\+Data}} \&img\+Data, Canny\+Config canny\+Config, Hough\+Config hough\+Config)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{class_hough_thread_a87aa1436ded2e01b5403c2c5d1d2fc38}{Hough\+Thread\+::\+Hough\+Thread}} object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_hough_thread_aae660cba4bf38d9597f29788397f5103}{$\sim$\+Hough\+Thread}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the Hough Thread\+:\+: Hough Thread object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Exit\+Code \mbox{\hyperlink{class_hough_thread_a5d5060bcac118b7c8d925ddb4cffc4f8}{Entry}} ()
+\begin{DoxyCompactList}\small\item\em Entry point for the thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Custom wx\+Thread for Hough Line Transform. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_hough_thread_a87aa1436ded2e01b5403c2c5d1d2fc38}\label{class_hough_thread_a87aa1436ded2e01b5403c2c5d1d2fc38}} 
+\index{HoughThread@{HoughThread}!HoughThread@{HoughThread}}
+\index{HoughThread@{HoughThread}!HoughThread@{HoughThread}}
+\doxysubsubsection{\texorpdfstring{HoughThread()}{HoughThread()}}
+{\footnotesize\ttfamily Hough\+Thread\+::\+Hough\+Thread (\begin{DoxyParamCaption}\item[{wx\+Evt\+Handler $\ast$}]{parent,  }\item[{\mbox{\hyperlink{class_thread_pool}{Thread\+Pool}} $\ast$}]{pool,  }\item[{\mbox{\hyperlink{struct_image_data}{Image\+Data}} \&}]{img\+Data,  }\item[{Canny\+Config}]{canny\+Config,  }\item[{Hough\+Config}]{hough\+Config }\end{DoxyParamCaption})}
+
+
+
+Construct a new \mbox{\hyperlink{class_hough_thread_a87aa1436ded2e01b5403c2c5d1d2fc38}{Hough\+Thread\+::\+Hough\+Thread}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & parent wx\+Evt\+Handler/wx\+Panel \\
+\hline
+{\em pool} & pointer to \mbox{\hyperlink{class_thread_pool}{Thread\+Pool}} object \\
+\hline
+{\em img\+Data} & pointer to \mbox{\hyperlink{struct_image_data}{Image\+Data}} object \\
+\hline
+{\em canny\+Config} & Canny\+Config \\
+\hline
+{\em hough\+Config} & Hough\+Config \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_hough_thread_aae660cba4bf38d9597f29788397f5103}\label{class_hough_thread_aae660cba4bf38d9597f29788397f5103}} 
+\index{HoughThread@{HoughThread}!````~HoughThread@{$\sim$HoughThread}}
+\index{````~HoughThread@{$\sim$HoughThread}!HoughThread@{HoughThread}}
+\doxysubsubsection{\texorpdfstring{$\sim$HoughThread()}{~HoughThread()}}
+{\footnotesize\ttfamily Hough\+Thread\+::$\sim$\+Hough\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destroy the Hough Thread\+:\+: Hough Thread object. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_hough_thread_a5d5060bcac118b7c8d925ddb4cffc4f8}\label{class_hough_thread_a5d5060bcac118b7c8d925ddb4cffc4f8}} 
+\index{HoughThread@{HoughThread}!Entry@{Entry}}
+\index{Entry@{Entry}!HoughThread@{HoughThread}}
+\doxysubsubsection{\texorpdfstring{Entry()}{Entry()}}
+{\footnotesize\ttfamily wx\+Thread\+::\+Exit\+Code Hough\+Thread\+::\+Entry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Entry point for the thread. 
+
+This function will be called when the thread is started 
+\begin{DoxyItemize}
+\item Post \mbox{\hyperlink{class_hough_event}{Hough\+Event}} to signal that Hough Transform is started 
+\item Create \mbox{\hyperlink{class_hough_task}{Hough\+Task}} and add it to the \mbox{\hyperlink{class_thread_pool}{Thread\+Pool}} 
+\item Wait for the task to finish 
+\item Post \mbox{\hyperlink{class_hough_event}{Hough\+Event}} to signal that Hough Transform is finished 
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+wx\+Thread\+::\+Exit\+Code 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Thread/\mbox{\hyperlink{_thread___hough_8hpp}{Thread\+\_\+\+Hough.\+hpp}}\item 
+src/\+Thread/\mbox{\hyperlink{_thread___hough_8cpp}{Thread\+\_\+\+Hough.\+cpp}}\end{DoxyCompactItemize}

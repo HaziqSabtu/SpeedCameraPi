@@ -5,6 +5,7 @@
         "editor.suggest.insertMode": "replace",
         "editor.semanticHighlighting.enabled": true
     },
+    // "clang-format.executable": "/usr/bin/clang-format",
     "clang-format.executable": "C:/Program Files/LLVM/bin/clang-format.exe",
 
     "C_Cpp.errorSquiggles": "enabled",
@@ -91,6 +92,12 @@
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp",
-        "typeindex": "cpp"
-    }
+        "typeindex": "cpp",
+        "random": "cpp",
+        "*.inc": "cpp"
+    },
+    "doxdocgen.generic.authorTag": "@author {author} ({email})",
+    "doxdocgen.generic.authorName": "Haziq Sabtu",
+    "doxdocgen.generic.authorEmail": "mhaziq.sabtu@gmail.com",
+    "doxdocgen.file.versionTag": "@version 1.0.0"
 }

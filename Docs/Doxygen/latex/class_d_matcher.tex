@@ -1,0 +1,124 @@
+\hypertarget{class_d_matcher}{}\doxysection{DMatcher Class Reference}
+\label{class_d_matcher}\index{DMatcher@{DMatcher}}
+
+
+A class for performing feature matching using Open\+CV\textquotesingle{}s Descriptor\+Matcher class.  
+
+
+
+
+{\ttfamily \#include $<$Descriptor\+Matcher.\+hpp$>$}
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_d_matcher_a385de81ba92400223d6cee08d7c76eb7}{Brute\+Force\+Matcher}} (cv\+::\+Mat \&query, cv\+::\+Mat \&target, std\+::vector$<$ cv\+::\+DMatch $>$ \&matches, std\+::string type, int norm\+Type=0)
+\begin{DoxyCompactList}\small\item\em Perform brute-\/force matching between query and target descriptors using Open\+CV\textquotesingle{}s BFMatcher class. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_d_matcher_a95399ff9b55b450bcde8e432cfd4bab1}{get\+Norm\+Type}} (int norm\+Type, cv\+::\+Norm\+Types \&norm\+Types, std\+::string \&type\+Name)
+\begin{DoxyCompactList}\small\item\em Map an integer {\ttfamily norm\+Type} value to a corresponding {\ttfamily cv\+::\+Norm\+Types} enum value and string type name. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_d_matcher_a471f539e3bfbc5353833919916ee64c6}{Flann\+Based\+Matcher}} (cv\+::\+Mat \&query, cv\+::\+Mat \&target, std\+::vector$<$ std\+::vector$<$ cv\+::\+DMatch $>$ $>$ \&matches, \mbox{\hyperlink{_algorithm_2image__allign_2_enum_8hpp_aba5019e335fb2939e79e0e5b62202729}{Detector\+Type}} type)
+\begin{DoxyCompactList}\small\item\em Match feature descriptors in query and target images using the FLANN-\/based matcher. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_d_matcher_a80e8e87b20f64f4f1776ac0b4bf3b380}{Filter\+Key\+Points}} (std\+::vector$<$ std\+::vector$<$ cv\+::\+DMatch $>$ $>$ \&knn\+Matches, std\+::vector$<$ cv\+::\+DMatch $>$ \&good\+Match, double RATIO=0.\+3)
+\begin{DoxyCompactList}\small\item\em Filters keypoint matches using Lowe\textquotesingle{}s Ratio Test. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class for performing feature matching using Open\+CV\textquotesingle{}s Descriptor\+Matcher class. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_d_matcher_a385de81ba92400223d6cee08d7c76eb7}\label{class_d_matcher_a385de81ba92400223d6cee08d7c76eb7}} 
+\index{DMatcher@{DMatcher}!BruteForceMatcher@{BruteForceMatcher}}
+\index{BruteForceMatcher@{BruteForceMatcher}!DMatcher@{DMatcher}}
+\doxysubsubsection{\texorpdfstring{BruteForceMatcher()}{BruteForceMatcher()}}
+{\footnotesize\ttfamily void DMatcher\+::\+Brute\+Force\+Matcher (\begin{DoxyParamCaption}\item[{cv\+::\+Mat \&}]{query,  }\item[{cv\+::\+Mat \&}]{target,  }\item[{std\+::vector$<$ cv\+::\+DMatch $>$ \&}]{matches,  }\item[{std\+::string}]{type,  }\item[{int}]{norm\+Type = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Perform brute-\/force matching between query and target descriptors using Open\+CV\textquotesingle{}s BFMatcher class. 
+
+method uses the provided {\ttfamily query} and {\ttfamily target} descriptors to perform brute-\/force matching using Open\+CV\textquotesingle{}s {\ttfamily BFMatcher} class. The resulting matches are stored in the {\ttfamily matches} vector. The {\ttfamily type} parameter specifies the type of descriptors being used (e.\+g., \char`\"{}\+ORB\char`\"{}, \char`\"{}\+SIFT\char`\"{}, etc.), while the {\ttfamily norm\+Type} parameter specifies the type of distance metric to use (e.\+g., {\ttfamily cv\+::\+NORM\+\_\+\+L2}, {\ttfamily cv\+::\+NORM\+\_\+\+HAMMING}, etc.).
+
+
+\begin{DoxyParams}{Parameters}
+{\em query} & The query descriptors to match against. \\
+\hline
+{\em target} & The target descriptors to match with. \\
+\hline
+{\em matches} & The resulting matches between query and target descriptors. \\
+\hline
+{\em type} & The type of descriptors being used. \\
+\hline
+{\em norm\+Type} & The type of distance metric to use (default = 0). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_d_matcher_a80e8e87b20f64f4f1776ac0b4bf3b380}\label{class_d_matcher_a80e8e87b20f64f4f1776ac0b4bf3b380}} 
+\index{DMatcher@{DMatcher}!FilterKeyPoints@{FilterKeyPoints}}
+\index{FilterKeyPoints@{FilterKeyPoints}!DMatcher@{DMatcher}}
+\doxysubsubsection{\texorpdfstring{FilterKeyPoints()}{FilterKeyPoints()}}
+{\footnotesize\ttfamily void DMatcher\+::\+Filter\+Key\+Points (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::vector$<$ cv\+::\+DMatch $>$ $>$ \&}]{knn\+Matches,  }\item[{std\+::vector$<$ cv\+::\+DMatch $>$ \&}]{good\+Match,  }\item[{double}]{RATIO = {\ttfamily 0.3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Filters keypoint matches using Lowe\textquotesingle{}s Ratio Test. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em knn\+Matches} & Input vector of k-\/nearest-\/neighbor matches between query and target keypoints. \\
+\hline
+{\em good\+Match} & Output vector of filtered matches. \\
+\hline
+{\em RATIO} & Threshold ratio for the distances of the first and second nearest neighbors to consider a match good. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_d_matcher_a471f539e3bfbc5353833919916ee64c6}\label{class_d_matcher_a471f539e3bfbc5353833919916ee64c6}} 
+\index{DMatcher@{DMatcher}!FlannBasedMatcher@{FlannBasedMatcher}}
+\index{FlannBasedMatcher@{FlannBasedMatcher}!DMatcher@{DMatcher}}
+\doxysubsubsection{\texorpdfstring{FlannBasedMatcher()}{FlannBasedMatcher()}}
+{\footnotesize\ttfamily void DMatcher\+::\+Flann\+Based\+Matcher (\begin{DoxyParamCaption}\item[{cv\+::\+Mat \&}]{query,  }\item[{cv\+::\+Mat \&}]{target,  }\item[{std\+::vector$<$ std\+::vector$<$ cv\+::\+DMatch $>$ $>$ \&}]{matches,  }\item[{\mbox{\hyperlink{_algorithm_2image__allign_2_enum_8hpp_aba5019e335fb2939e79e0e5b62202729}{Detector\+Type}}}]{type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Match feature descriptors in query and target images using the FLANN-\/based matcher. 
+
+This method matches feature descriptors in the query and target images using the FLANN-\/based matcher, which is a fast approximate nearest neighbor search algorithm. The resulting matches are stored in the {\ttfamily matches} vector, where each element of the vector is a vector of {\ttfamily cv\+::\+DMatch} objects representing the matches between the query and target descriptors.
+
+
+\begin{DoxyParams}{Parameters}
+{\em query} & The query image feature descriptors. \\
+\hline
+{\em target} & The target image feature descriptors. \\
+\hline
+{\em matches} & The resulting vector of vector of matches. \\
+\hline
+{\em type} & The type of feature detector used to generate the descriptors. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_d_matcher_a95399ff9b55b450bcde8e432cfd4bab1}\label{class_d_matcher_a95399ff9b55b450bcde8e432cfd4bab1}} 
+\index{DMatcher@{DMatcher}!getNormType@{getNormType}}
+\index{getNormType@{getNormType}!DMatcher@{DMatcher}}
+\doxysubsubsection{\texorpdfstring{getNormType()}{getNormType()}}
+{\footnotesize\ttfamily void DMatcher\+::get\+Norm\+Type (\begin{DoxyParamCaption}\item[{int}]{norm\+Type,  }\item[{cv\+::\+Norm\+Types \&}]{norm\+Types,  }\item[{std\+::string \&}]{type\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Map an integer {\ttfamily norm\+Type} value to a corresponding {\ttfamily cv\+::\+Norm\+Types} enum value and string type name. 
+
+This method takes an integer {\ttfamily norm\+Type} value and maps it to the corresponding {\ttfamily cv\+::\+Norm\+Types} enum value and string type name. The resulting {\ttfamily norm\+Types} and {\ttfamily type\+Name} values are passed by reference. The {\ttfamily norm\+Type} parameter should be an integer between 0 and 8, inclusive, where each value corresponds to a specific type of distance metric.
+
+
+\begin{DoxyParams}{Parameters}
+{\em norm\+Type} & The integer norm type value to map to a {\ttfamily cv\+::\+Norm\+Types} enum value and string type name. \\
+\hline
+{\em norm\+Types} & The resulting {\ttfamily cv\+::\+Norm\+Types} enum value. \\
+\hline
+{\em type\+Name} & The resulting string type name. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Algorithm/image\+\_\+allign/\mbox{\hyperlink{_descriptor_matcher_8hpp}{Descriptor\+Matcher.\+hpp}}\item 
+src/\+Algorithm/image\+\_\+allign/\mbox{\hyperlink{_descriptor_matcher_8cpp}{Descriptor\+Matcher.\+cpp}}\end{DoxyCompactItemize}

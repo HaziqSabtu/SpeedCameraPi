@@ -1,0 +1,90 @@
+\hypertarget{class_result_thread}{}\doxysection{Result\+Thread Class Reference}
+\label{class_result_thread}\index{ResultThread@{ResultThread}}
+
+
+Custom wx\+Thread for displaying result.  
+
+
+
+
+{\ttfamily \#include $<$Thread\+\_\+\+Result.\+hpp$>$}
+
+
+
+Inherits wx\+Thread.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_result_thread_a2b965ef2e1b68d8bb802a0c8b882202f}{Result\+Thread}} (wx\+Evt\+Handler $\ast$parent, std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$img\+Data)
+\begin{DoxyCompactList}\small\item\em Construct a new Result Thread\+:\+: Result Thread object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_result_thread_a16600198bad3e205561d9d812e57ffdc}{$\sim$\+Result\+Thread}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the Result Thread\+:\+: Result Thread object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual Exit\+Code \mbox{\hyperlink{class_result_thread_a3e56a9dcaeef86da6438ec72cc0c6b05}{Entry}} ()
+\begin{DoxyCompactList}\small\item\em Entry point of the thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Custom wx\+Thread for displaying result. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_result_thread_a2b965ef2e1b68d8bb802a0c8b882202f}\label{class_result_thread_a2b965ef2e1b68d8bb802a0c8b882202f}} 
+\index{ResultThread@{ResultThread}!ResultThread@{ResultThread}}
+\index{ResultThread@{ResultThread}!ResultThread@{ResultThread}}
+\doxysubsubsection{\texorpdfstring{ResultThread()}{ResultThread()}}
+{\footnotesize\ttfamily Result\+Thread\+::\+Result\+Thread (\begin{DoxyParamCaption}\item[{wx\+Evt\+Handler $\ast$}]{parent,  }\item[{std\+::vector$<$ \mbox{\hyperlink{struct_image_data}{Image\+Data}} $>$ $\ast$}]{img\+Data }\end{DoxyParamCaption})}
+
+
+
+Construct a new Result Thread\+:\+: Result Thread object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & parent wx\+Evt\+Handler \\
+\hline
+{\em img\+Data} & vector of \mbox{\hyperlink{struct_image_data}{Image\+Data}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_result_thread_a16600198bad3e205561d9d812e57ffdc}\label{class_result_thread_a16600198bad3e205561d9d812e57ffdc}} 
+\index{ResultThread@{ResultThread}!````~ResultThread@{$\sim$ResultThread}}
+\index{````~ResultThread@{$\sim$ResultThread}!ResultThread@{ResultThread}}
+\doxysubsubsection{\texorpdfstring{$\sim$ResultThread()}{~ResultThread()}}
+{\footnotesize\ttfamily Result\+Thread\+::$\sim$\+Result\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destroy the Result Thread\+:\+: Result Thread object. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_result_thread_a3e56a9dcaeef86da6438ec72cc0c6b05}\label{class_result_thread_a3e56a9dcaeef86da6438ec72cc0c6b05}} 
+\index{ResultThread@{ResultThread}!Entry@{Entry}}
+\index{Entry@{Entry}!ResultThread@{ResultThread}}
+\doxysubsubsection{\texorpdfstring{Entry()}{Entry()}}
+{\footnotesize\ttfamily wx\+Thread\+::\+Exit\+Code Result\+Thread\+::\+Entry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Entry point of the thread. 
+
+This function will be called when the thread is started. This loop will display the result of the calculation
+
+
+\begin{DoxyItemize}
+\item Post \mbox{\hyperlink{class_update_image_event}{Update\+Image\+Event}} to parent wx\+Evt\+Handler 
+\item Wait for 500ms before posting the next event 
+\end{DoxyItemize}\begin{DoxyReturn}{Returns}
+wx\+Thread\+::\+Exit\+Code 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Thread/\mbox{\hyperlink{_thread___result_8hpp}{Thread\+\_\+\+Result.\+hpp}}\item 
+src/\+Thread/\mbox{\hyperlink{_thread___result_8cpp}{Thread\+\_\+\+Result.\+cpp}}\end{DoxyCompactItemize}

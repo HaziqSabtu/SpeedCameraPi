@@ -1,39 +1,34 @@
 #include <UI/MainFrame.hpp>
 
-MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
-    std::string filePath =
-        "C:/Users/kakik/Desktop/P1/data/bin/29012023093818.bin";
-    FILEWR::ReadFile(filePath, imgData);
+MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
+    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size), config(config) {
+    wxString filePath = "dirLocation + filename";
 
-    notebook = new wxNotebook(this, Enum::NOTEBOOK_ID);
+    wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
+    SetIcon(icon);
 
-    select_roi_panel = new SelectRoiPanel(notebook, wxID_ANY, imgData);
-    optical_flow_panel = new OpticalFlowPanel(notebook, wxID_ANY, imgData);
-    lane_detection_panel = new LaneDetectionPanel(notebook, wxID_ANY, imgData);
+    notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
+                              wxSize(800, 600));
 
-    p3 = new Panel2(notebook, wxID_ANY);
-    p4 = new Panel2(notebook, wxID_ANY);
+    camera_panel =
+        new CameraPanel(notebook, Enum::CP_Panel_ID, new AppConfig());
 
-    notebook->AddPage(select_roi_panel, "Select ROI", true);
-    notebook->AddPage(optical_flow_panel, "Optical Flow", false);
-    notebook->AddPage(lane_detection_panel, "Lane Detection", false);
-    notebook->AddPage(p3, "Panel3", false);
-    notebook->AddPage(p4, "Panel4", false);
+    notebook->AddPage(camera_panel, "Camera", true);
 
     notebook->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &MainFrame::OnPageChange, this);
-
-    // select_roi_panel->Show(true);
-    SetSize(800, 600);
-    Center();
 }
+
+MainFrame::~MainFrame() {}
 
 void MainFrame::OnPageChange(wxNotebookEvent &event) {
     int page = event.GetSelection();
     if (page == 1) {
-        optical_flow_panel->OnPageChange();
+        wxLogMessage("Changing To Page: Line Selection");
+        // select_line_panel->OnPageChange();
     }
 
-    if (page == 2) {
-        lane_detection_panel->OnPageChange();
-    }
+    // if (page == 2) {
+    //     wxLogMessage("Changing To Page: Object Detection");
+    //     object_detection_panel->OnPageChange();
+    // }
 }

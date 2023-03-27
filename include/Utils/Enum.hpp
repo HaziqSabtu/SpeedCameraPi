@@ -8,6 +8,59 @@ enum ProjectIDs {
 
     // Notebook
     NOTEBOOK_ID = wxID_HIGHEST + 1,
+
+    // CameraPanel
+    CP_Panel_ID,
+    CP_IMG_PANEL_ID,
+    CP_BUTTON_PANEL_ID,
+    CP_Capture_Button_ID,
+    CP_Stop_Button_ID,
+    CP_Load_Button_ID,
+    CP_Camera_Button_ID,
+    CP_Camera_Button2_ID,
+    CP_Reset_Button_ID,
+
+    // CameraPanel->Hough
+    CP_BUTTON_PANEL_HOUGH_ID,
+    CP_Canny_Button_ID,
+    CP_Hough_Button_ID,
+    CP_Clear_Button_ID,
+    CP_Next_Button_ID,
+    CP_Prev_Button_ID,
+
+    // CameraPanel->Result
+    CP_BUTTON_PANEL_RESULT_ID,
+    CP_Replay_Button_ID,
+    CP_BBox_Button_ID,
+    CP_OptF_Button_ID,
+    CP_BotL_Button_ID,
+    CP_SelL_Button_ID,
+    CP_Reselect_Button_ID,
+
+    // SelectLinePanel
+    SL_Panel_ID,
+    SL_IMG_PANEL_ID,
+    SL_BUTTON_PANEL_ID,
+    SL_BITMAP_ID,
+    SL_Next_Button_ID,
+    SL_Prev_Button_ID,
+    SL_Canny_Button_ID,
+    SL_Hough_Button_ID,
+    SL_Clear_Button_ID,
+
+    // ObjectDetectionPanel / Result Panel
+    OD_Panel_ID,
+    OD_IMG_PANEL_ID,
+    OD_BUTTON_PANEL_ID,
+    OD_BITMAP_ID,
+    OD_Replay_Button_ID,
+    OD_BBox_Button_ID,
+    OD_OptF_Button_ID,
+    OD_BotL_Button_ID,
+    OD_Line_Button_ID,
+    OD_Speed_Button_ID,
+
+    // * old Enum Panel
     // SelectRoiPanel
     SR_IMG_PANEL_ID,
     SR_BUTTON_PANEL_ID,
@@ -38,6 +91,14 @@ enum ProjectIDs {
     // panel2
     NEXT_PANEL_ID,
     PREV_PANEL_ID,
+    P2_C_Button_ID,
+    P2_S_Button_ID,
+    // CaptureViewPanel
+    CV_Panel_ID,
+    CV_IMG_PANEL_ID,
+    CV_BUTTON_PANEL_ID,
+    CV_Next_Button_ID,
+    CV_Prev_Button_ID,
 };
 }; // namespace Enum
 

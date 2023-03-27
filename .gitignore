@@ -9,5 +9,10 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
-
+*.txt
 build
+
+data.bin
+src.bin
+output.mp4
+src.h264

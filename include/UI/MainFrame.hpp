@@ -1,28 +1,29 @@
 #ifndef MAIN_FRAME_HPP
 #define MAIN_FRAME_HPP
 
-#include <UI/LaneDetectionPanel/Panel.hpp>
-#include <UI/OpticalFlowPanel/Panel.hpp>
-#include <UI/Panel2.hpp>
-#include <UI/SelectROIPanel/Panel.hpp>
+#include <UI/CameraPanel/Panel.hpp>
+#include <Utils/Config/AppConfig.hpp>
 #include <Utils/Enum.hpp>
-#include <Utils/fileWR.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/videoio.hpp>
+#include <wx/filename.h>
 #include <wx/notebook.h>
 #include <wx/wx.h>
 
 class MainFrame : public wxFrame {
   public:
-    MainFrame(const wxString &title);
+    MainFrame(const wxString &title, wxSize size, AppConfig *config);
+    ~MainFrame();
 
   private:
-    std::vector<ImgData> imgData;
+    cv::VideoCapture *video_capture;
+    std::vector<ImageData> imgData;
+
+    AppConfig *config;
 
     wxNotebook *notebook;
-    SelectRoiPanel *select_roi_panel;
-    OpticalFlowPanel *optical_flow_panel;
-    LaneDetectionPanel *lane_detection_panel;
+    CameraPanel *camera_panel;
 
-    Panel2 *p2, *p3, *p4;
     void OnPageChange(wxNotebookEvent &event);
 };
 

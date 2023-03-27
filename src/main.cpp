@@ -1,24 +1,27 @@
 #include <UI/MainFrame.hpp>
-
-#include <Utils/Logger.hpp>
-#include <iostream>
-#include <opencv2/core.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-#include <wx/dcbuffer.h>
-#include <wx/image.h>
-#include <wx/log.h>
+#include <Utils/Config/AppConfig.hpp>
+#include <Utils/Logger/Logger.hpp>
+#include <wx/thread.h>
 #include <wx/wx.h>
 
 class MyApp : public wxApp {
   public:
     bool OnInit() {
-        wxLog *logger = new Logger();
-        wxLog::SetActiveTarget(logger);
-        // wxLogMessage("Starting application");
-        MainFrame *frame = new MainFrame("Speed Gun");
+        AppConfig conf;
+        wxInitAllImageHandlers();
+
+        wxLog::SetActiveTarget(new AppLogger);
+        wxLogMessage("Application Started");
+
+        MainFrame *frame = new MainFrame("Speed Gun", wxSize(800, 600), &conf);
+
         frame->Show(true);
         return true;
+    }
+
+    virtual int OnExit() {
+        wxLogMessage("Application Closed");
+        return wxApp::OnExit();
     }
 };
 
