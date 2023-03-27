@@ -11,8 +11,10 @@ detect lines in an image using the OpenCV library.
 
 ## Line Detection Algorithm
 
-\image html LineDetection.png "Line Detection Algorithm" \image latex
-LineDetection.png "Line Detection Algorithm"
+<!-- prettier-ignore-start -->
+\image html LineDetection.png "Line Detection Algorithm" 
+\image latex LineDetection.png "Line Detection Algorithm"
+<!-- prettier-ignore-end -->
 
 To perform line detection using the Hough Transform, several pre-processing
 steps are required. The first step is to convert the RGB image to grayscale, as
@@ -29,6 +31,6 @@ prominent in the image. These lines are then returned as output from the Hough
 Transform algorithm. All of this steps are included in
 LineDetection::ProcessImage() method.
 
-### Usefull links
+### Useful links
 
 [OpenCV HoughLinesP](http://docs.opencv.org/2.4/modules/imgproc/doc/feature_detection.html?highlight=houghlinesp#houghlinesp)

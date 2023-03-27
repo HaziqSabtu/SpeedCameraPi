@@ -806,7 +806,7 @@ LAYOUT_FILE            = ./Docs/DoxygenLayout.xml
 # LATEX_BIB_STYLE. To use this feature you need bibtex and perl available in the
 # search path. See also \cite for info how to create references.
 
-CITE_BIB_FILES         =
+CITE_BIB_FILES         = ./Docs/markdown/literatur.bib
 
 #---------------------------------------------------------------------------
 # Configuration options related to warning and progress messages
@@ -923,8 +923,9 @@ INPUT                  = src \
                          Docs/markdown/InstallingRequiredDependency.md \
                          Docs/markdown/CompilingProgramm.md \
                          Docs/markdown/ImageAllignment.md \
-                         Docs/markdown/LineDetection.md \
                          Docs/markdown/ObjectDetection.md \
+                         Docs/markdown/LineDetection.md \
+                         Docs/markdown/SpeedCalculation.md \
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1060,21 +1061,22 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           =
+EXAMPLE_PATH           = example/ImageAlignment/ImageAlignment.cpp \
+EXAMPLE_PATH           = example/ObjectDetection/objectDetection.cpp \
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
 # *.h) to filter out the source-files in the directories. If left blank all
 # files are included.
 
-EXAMPLE_PATTERNS       = *
+EXAMPLE_PATTERNS       = *.cpp
 
 # If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be
 # searched for input files to be used with the \include or \dontinclude commands
 # irrespective of the value of the RECURSIVE tag.
 # The default value is: NO.
 
-EXAMPLE_RECURSIVE      = NO
+EXAMPLE_RECURSIVE      = YES
 
 # The IMAGE_PATH tag can be used to specify one or more files or directories
 # that contain images that are to be included in the documentation (see the
@@ -1084,7 +1086,13 @@ IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/iad.jpg \
                          Docs/assets \
                          Docs/assets/LineDetection.png \
+                         Docs/assets/sift1.png \
+                         Docs/assets/homography1.jpg \
                          Docs/assets/ObjectDetection.png \
+                         Docs/assets/opticalflow_lk.jpg \
+                         Docs/assets/pinholemodel.jpg \
+                         Docs/assets/pinhole2.jpg \
+                         Docs/assets/algo.jpg \
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
@@ -1789,7 +1797,7 @@ FORMULA_MACROFILE      =
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-USE_MATHJAX            = NO
+USE_MATHJAX            = YES
 
 # With MATHJAX_VERSION it is possible to specify the MathJax version to be used.
 # Note that the different versions of MathJax have different requirements with
