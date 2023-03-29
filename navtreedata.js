@@ -27,7 +27,7 @@ var NAVTREE =
   [ "SpeedCameraPi", "index.html", [
     [ "SpeedCameraPi(SCP)", "index.html", null ],
     [ "Installing Dependency", "md_Docs_markdown_InstallingRequiredDependency.html", null ],
-    [ "Compiling Application", "md__docs_markdown__compiling_programm.html", null ],
+    [ "Compiling Application", "md_Docs_markdown_CompilingProgramm.html", null ],
     [ "Image Allignment", "md__docs_markdown__image_allignment.html", null ],
     [ "Object Detection", "md__docs_markdown__object_detection.html", null ],
     [ "Line Detection", "md__docs_markdown__line_detection.html", null ],
