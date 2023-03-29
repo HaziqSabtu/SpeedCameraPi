@@ -26,6 +26,7 @@ jobs:
           find: 'md__docs_markdown__installing_required_dependency'
           replace: 'md_Docs_markdown_InstallingRequiredDependency'
           include: '**DoxygenLayout.xml'
+          regex: false
 
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.1.0
