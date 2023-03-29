@@ -150,7 +150,7 @@ var NAVTREEINDEX0 =
 "hierarchy.html":[9,2],
 "index.html":[],
 "index.html":[0],
-"md_Docs_markdown_InstallingRequiredDependency.html.html":[1],
+"md_Docs_markdown_InstallingRequiredDependency.html":[1],
 "md__docs_markdown__compiling_programm.html":[2],
 "md__docs_markdown__image_allignment.html":[3],
 "md__docs_markdown__line_detection.html":[5],
