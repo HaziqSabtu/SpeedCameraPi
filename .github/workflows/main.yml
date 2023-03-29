@@ -36,6 +36,38 @@ jobs:
           include: '**DoxygenLayout.xml'
           regex: false
 
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__image_allignment'
+          replace: 'md_Docs_markdown_ImageAllignment'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__object_detection'
+          replace: 'md_Docs_markdown_ObjectDetection'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__line_detection'
+          replace: 'md_Docs_markdown_LineDetection'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__speed_calculation'
+          replace: 'md_Docs_markdown_SpeedCalculation'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
