@@ -20,6 +20,54 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__installing_required_dependency'
+          replace: 'md_Docs_markdown_InstallingRequiredDependency'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__compiling_programm'
+          replace: 'md_Docs_markdown_CompilingProgramm'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__image_allignment'
+          replace: 'md_Docs_markdown_ImageAllignment'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__object_detection'
+          replace: 'md_Docs_markdown_ObjectDetection'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__line_detection'
+          replace: 'md_Docs_markdown_LineDetection'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__speed_calculation'
+          replace: 'md_Docs_markdown_SpeedCalculation'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
