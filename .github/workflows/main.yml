@@ -20,6 +20,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: fix file links
+        run: |
+          sed -i 's/md__docs_markdown__installing_required_dependency/md_Docs_markdown_InstallingRequiredDependency.html/g' ./Docs/DoxygenLayout.xml
+
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
