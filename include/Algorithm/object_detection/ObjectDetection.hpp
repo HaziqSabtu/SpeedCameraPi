@@ -22,7 +22,6 @@ namespace Detection {
 
 /**
  * @brief Class for Detecting Objects from Image using Optical Flow
- *
  */
 class ObjectDetection {
 
@@ -49,5 +48,11 @@ class ObjectDetection {
   private:
 };
 } // namespace Detection
+
+/**
+ * @example objectDetection.cpp
+ * @brief Example of using ObjectDetection.hpp
+ *
+ */
 
 #endif

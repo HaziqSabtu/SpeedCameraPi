@@ -26,7 +26,6 @@ else()
 endif()
 
 
-# list(APPEND CMAKE_MODULE_PATH "usr/local/lib/cmake")
 set(CMAKE_MODULE_PATH "/usr/local/lib/cmake" ; ${CMAKE_MODULE_PATH})
 find_package(raspicam REQUIRED)
 if(raspicam_CV_FOUND)

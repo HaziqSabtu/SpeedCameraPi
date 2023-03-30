@@ -24,7 +24,6 @@
 /**
  * @brief Helper Class for detecting and matching features between two images
  * and alligning them
- *
  */
 class FeatureDetector {
 
@@ -78,5 +77,10 @@ inline void FeatureDetector::clearVector() {
     keyPoints1.clear();
     keyPoints2.clear();
 }
+
+/**
+ * @example ImageAlignment.cpp
+ * @brief Example of how to use FeatureDetector class
+ */
 
 #endif
