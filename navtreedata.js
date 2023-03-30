@@ -28,19 +28,20 @@ var NAVTREE =
     [ "SpeedCameraPi(SCP)", "index.html", null ],
     [ "Installing Dependency", "md_Docs_markdown_InstallingRequiredDependency.html", null ],
     [ "Compiling Application", "md_Docs_markdown_CompilingProgramm.html", null ],
+    [ "Using the App", "md__docs_markdown__using_the_app.html", null ],
     [ "Image Allignment", "md_Docs_markdown_ImageAllignment.html", null ],
     [ "Object Detection", "md_Docs_markdown_ObjectDetection.html", null ],
     [ "Line Detection", "md_Docs_markdown_LineDetection.html", null ],
     [ "Speed Calculation", "md_Docs_markdown_SpeedCalculation.html", null ],
     [ "Examples", "examples.html", "examples" ],
-    [ "Namespaces", "namespaces.html", [
+    [ "Namespace List", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
         [ "Functions", "namespacemembers_func.html", null ]
       ] ]
     ] ],
-    [ "Classes", "annotated.html", [
+    [ "Class List", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],

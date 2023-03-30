@@ -26,17 +26,19 @@ var menudata={children:[
 {text:"Main Page",url:"index.html"},
 {text:"Installing Dependency",url:"md_Docs_markdown_InstallingRequiredDependency.html"},
 {text:"Compiling Application",url:"md_Docs_markdown_CompilingProgramm.html"},
+{text:"Using the App",url:"md__docs_markdown__using_the_app.html",children:[
+{text:"Main Page",url:"index.html"},
 {text:"Image Allignment",url:"md_Docs_markdown_ImageAllignment.html"},
 {text:"Object Detection",url:"md_Docs_markdown_ObjectDetection.html"},
 {text:"Line Detection",url:"md_Docs_markdown_LineDetection.html"},
 {text:"Speed Calculation",url:"md_Docs_markdown_SpeedCalculation.html"},
 {text:"Examples",url:"examples.html"},
-{text:"Namespaces",url:"namespaces.html",children:[
+{text:"Namespace List",url:"namespaces.html",children:[
 {text:"Namespace List",url:"namespaces.html"},
 {text:"Namespace Members",url:"namespacemembers.html",children:[
 {text:"All",url:"namespacemembers.html"},
 {text:"Functions",url:"namespacemembers_func.html"}]}]},
-{text:"Classes",url:"annotated.html",children:[
+{text:"Class List",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},
 {text:"Class Index",url:"classes.html"},
 {text:"Class Hierarchy",url:"hierarchy.html"},
@@ -78,4 +80,4 @@ var menudata={children:[
 {text:"t",url:"functions_func.html#index_t"},
 {text:"u",url:"functions_func.html#index_u"},
 {text:"w",url:"functions_func.html#index_w"},
-{text:"~",url:"functions_func.html#index__7E"}]}]}]}]}
+{text:"~",url:"functions_func.html#index__7E"}]}]}]}]}]}
