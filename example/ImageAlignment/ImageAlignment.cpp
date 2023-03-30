@@ -3,9 +3,10 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
-
 // File path
-std::string data_path = "../../../data/";
+// note: the path is relative to the build directory
+// might be different for your system
+std::string data_path = "../../Data/";
 std::string vid_path = data_path + "align1.mp4";
 using namespace std;
 
@@ -24,7 +25,7 @@ int main() {
     cv::Mat firstFrame;
     cap >> firstFrame;
 
-    cv::Size resizesize = cv::Size(640, 480);
+    cv::Size resizesize = cv::Size(320, 240);
 
     cv::resize(firstFrame, firstFrame, resizesize);
 
@@ -46,7 +47,7 @@ int main() {
 
         // Get and display the alligned image
         cv::Mat res = detector.GetAllignedImage();
-        cv::imshow("Frame", res);
+        // cv::imshow("Frame", res);
 
         // Press  ESC on keyboard to exit
         char c = (char)cv::waitKey(25);
