@@ -47,6 +47,17 @@ Raspberry Pi Camera Module V2.
 
 #### Load Parameter
 
+In the repository, there is a sample file called `example.bin` located at
+`SpeedCameraPi/example/Data/example.bin`. To use this example, the configuration
+file should be set as follow:
+
+<!-- prettier-ignore-start -->
+\image html loadexample.jpg "Example for Load"
+\image latex loadexample.jpg "Example for Load"
+<!-- prettier-ignore-end -->
+
+`user` should be replaced with the user name of the pi.
+
 | Variable            | Description                                                                         | Default   |
 | ------------------- | ----------------------------------------------------------------------------------- | --------- |
 | `Load_File_Name`    | Name of the file to be loaded <br> currently only .bin and .h264 file are supported | `default` |

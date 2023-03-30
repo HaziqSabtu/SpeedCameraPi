@@ -1097,6 +1097,7 @@ IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/button1.jpg \
                          Docs/assets/button2.jpg \
                          Docs/assets/button3.jpg \
+                         Docs/assets/loadexample.jpg \
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
