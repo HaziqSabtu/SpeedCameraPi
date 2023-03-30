@@ -26,7 +26,7 @@ var menudata={children:[
 {text:"Main Page",url:"index.html"},
 {text:"Installing Dependency",url:"md_Docs_markdown_InstallingRequiredDependency.html"},
 {text:"Compiling Application",url:"md_Docs_markdown_CompilingProgramm.html"},
-{text:"Using the App",url:"md__docs_markdown__using_the_app.html",children:[
+{text:"Using the App",url:"md_Docs_markdown_UsingTheApp.html",children:[
 {text:"Main Page",url:"index.html"},
 {text:"Image Allignment",url:"md_Docs_markdown_ImageAllignment.html"},
 {text:"Object Detection",url:"md_Docs_markdown_ObjectDetection.html"},
