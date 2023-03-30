@@ -111,7 +111,7 @@ $(document).ready(function(){initNavTree('ImageAlignment_8cpp-example.html','');
 <div class="line"> </div>
 <div class="line"><span class="comment">// File path</span></div>
 <div class="line">std::string data_path = <span class="stringliteral">&quot;../../../data/&quot;</span>;</div>
-<div class="line">std::string vid_path = data_path + <span class="stringliteral">&quot;align1.MOV&quot;</span>;</div>
+<div class="line">std::string vid_path = data_path + <span class="stringliteral">&quot;align1.mp4&quot;</span>;</div>
 <div class="line"><span class="keyword">using namespace </span>std;</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
@@ -129,7 +129,14 @@ $(document).ready(function(){initNavTree('ImageAlignment_8cpp-example.html','');
 <div class="line">    cv::Mat firstFrame;</div>
 <div class="line">    cap &gt;&gt; firstFrame;</div>
 <div class="line"> </div>
-<div class="line">    <span class="keywordflow">while</span> (1) {</div>
+<div class="line">    cv::Size resizesize = cv::Size(640, 480);</div>
+<div class="line"> </div>
+<div class="line">    cv::resize(firstFrame, firstFrame, resizesize);</div>
+<div class="line"> </div>
+<div class="line">    std::chrono::steady_clock::time_point begin =</div>
+<div class="line">        std::chrono::steady_clock::now();</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">while</span> (count != 6) {</div>
 <div class="line">        cv::Mat frame;</div>
 <div class="line">        cap &gt;&gt; frame;</div>
 <div class="line"> </div>
@@ -142,7 +149,7 @@ $(document).ready(function(){initNavTree('ImageAlignment_8cpp-example.html','');
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Get and display the alligned image</span></div>
 <div class="line">        cv::Mat res = detector.<a id="a2" name="a2"></a><a class="code hl_function" href="classFeatureDetector.html#a0af12773fc5005cb4f4f8e02f1ab3191">GetAllignedImage</a>();</div>
-<div class="line">        cv::imshow(<span class="stringliteral">&quot;Frame&quot;</span>, res);</div>
+<div class="line">        <span class="comment">// cv::imshow(&quot;Frame&quot;, res);</span></div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Press  ESC on keyboard to exit</span></div>
 <div class="line">        <span class="keywordtype">char</span> c = (char)cv::waitKey(25);</div>
