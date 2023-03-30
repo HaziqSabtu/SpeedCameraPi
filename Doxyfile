@@ -922,6 +922,7 @@ INPUT                  = src \
                          Docs/markdown/index.md \
                          Docs/markdown/InstallingRequiredDependency.md \
                          Docs/markdown/CompilingProgramm.md \
+                         Docs/markdown/UsingTheApp.md \
                          Docs/markdown/ImageAllignment.md \
                          Docs/markdown/ObjectDetection.md \
                          Docs/markdown/LineDetection.md \
@@ -1093,6 +1094,9 @@ IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/pinholemodel.jpg \
                          Docs/assets/pinhole2.jpg \
                          Docs/assets/algo.jpg \
+                         Docs/assets/button1.jpg \
+                         Docs/assets/button2.jpg \
+                         Docs/assets/button3.jpg \
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
