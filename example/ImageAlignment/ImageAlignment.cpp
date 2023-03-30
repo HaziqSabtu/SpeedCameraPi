@@ -4,7 +4,7 @@
 
 // File path
 std::string data_path = "../../../data/";
-std::string vid_path = data_path + "align1.MOV";
+std::string vid_path = data_path + "align1.mp4";
 using namespace std;
 
 int main() {
@@ -22,7 +22,14 @@ int main() {
     cv::Mat firstFrame;
     cap >> firstFrame;
 
-    while (1) {
+    cv::Size resizesize = cv::Size(640, 480);
+
+    cv::resize(firstFrame, firstFrame, resizesize);
+
+    std::chrono::steady_clock::time_point begin =
+        std::chrono::steady_clock::now();
+
+    while (count != 6) {
         cv::Mat frame;
         cap >> frame;
 
@@ -35,7 +42,7 @@ int main() {
 
         // Get and display the alligned image
         cv::Mat res = detector.GetAllignedImage();
-        cv::imshow("Frame", res);
+        // cv::imshow("Frame", res);
 
         // Press  ESC on keyboard to exit
         char c = (char)cv::waitKey(25);
