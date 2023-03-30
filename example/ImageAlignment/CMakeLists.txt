@@ -21,5 +21,5 @@ file(GLOB_RECURSE DATA_STRUCT_SRCS ../../src/Utils/DataStruct.cpp)
 file(GLOB_RECURSE IMAGEUTILS_SRCS ../../src/Utils/ImageUtils.cpp)
 file(GLOB_RECURSE STRUCT_SRCS ../../src/Utils/Struct/*.cpp)
 
-add_executable(Example_ImageAlignment ${ALGORITHM_SRCS} ${DATA_STRUCT_SRCS} ${STRUCT_SRCS} ${IMAGEUTILS_SRCS} imageAlignment.cpp)
+add_executable(Example_ImageAlignment ImageAlignment.cpp ${ALGORITHM_SRCS} ${DATA_STRUCT_SRCS} ${STRUCT_SRCS} ${IMAGEUTILS_SRCS})
 target_link_libraries(Example_ImageAlignment PRIVATE ${OpenCV_LIBS})
