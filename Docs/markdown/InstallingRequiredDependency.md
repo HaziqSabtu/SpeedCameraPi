@@ -53,7 +53,7 @@ Steps to install OpenCV on Raspberry Pi 4 running Debian:
 
             CONF_SWAPSIZE=4096
 
-  - Next, run the following command:
+- Next, run the following command:
 
             sudo nano /sbin/dphys-swapfile
 
@@ -144,7 +144,7 @@ Steps to install wxWidget on Raspberry Pi 4 running Debian:
 
         make
 
-        make install
+        sudo make install
 
 ## Installing RaspiCam
 
