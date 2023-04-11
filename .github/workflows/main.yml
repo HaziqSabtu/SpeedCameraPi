@@ -68,6 +68,14 @@ jobs:
           include: '**DoxygenLayout.xml'
           regex: false
 
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: 'md__docs_markdown__using_the_app'
+          replace: 'md_Docs_markdown_UsingTheApp'
+          include: '**DoxygenLayout.xml'
+          regex: false
+
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:

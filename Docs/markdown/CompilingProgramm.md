@@ -26,3 +26,8 @@ This section describes the steps to compile the application.
   directory.
 
         ./build
+
+- To run the application, simple double click the executable file or run the
+  following command:
+
+        ./SpeedCameraPi
