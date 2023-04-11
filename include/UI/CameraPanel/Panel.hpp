@@ -18,63 +18,63 @@
 #include <UI/CameraPanel/Panel_Button_Hough.hpp>
 #include <UI/CameraPanel/Panel_Button_Result.hpp>
 #include <UI/CameraPanel/Panel_Image.hpp>
+#include <Utils/Camera/CameraBase.hpp>
+#include <Utils/Camera/libcam.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
-#include <raspicam/raspicam_cv.h>
 #include <wx/wx.h>
 
 class CameraPanel : public wxPanel {
-  public:
-    CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config);
-    ~CameraPanel();
+    public:
+      CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config);
+      ~CameraPanel();
 
-  private:
-    raspicam::RaspiCam_Cv camera;
-    // cv::VideoCapture camera;
-    ThreadPool threadPool;
+    private:
+      LibCam camera;
+      ThreadPool threadPool;
 
-    ProcessThread *processThread;
-    HoughThread *houghThread;
-    ResultThread *resultThread;
-    SpeedThread *speedThread;
-    LoadFileThread *loadFileThread;
-    LoadCaptureThread *loadCaptureThread;
-    CaptureThread *captureThread;
+      ProcessThread *processThread;
+      HoughThread *houghThread;
+      ResultThread *resultThread;
+      SpeedThread *speedThread;
+      LoadFileThread *loadFileThread;
+      LoadCaptureThread *loadCaptureThread;
+      CaptureThread *captureThread;
 
-    CameraPanelButton *button_panel;
-    ButtonPanelHough *button_panel_hough;
-    PanelButtonResult *button_panel_result;
-    ImagePanel *img_bitmap;
+      CameraPanelButton *button_panel;
+      ButtonPanelHough *button_panel_hough;
+      PanelButtonResult *button_panel_result;
+      ImagePanel *img_bitmap;
 
-    wxBoxSizer *main_sizer;
+      wxBoxSizer *main_sizer;
 
-    const int circleRadius;
-    std::vector<ImageData> *imgData;
-    std::vector<Detection::Line> selectedLine;
-    std::vector<cv::Point2f> selectedPoint;
+      const int circleRadius;
+      std::vector<ImageData> *imgData;
+      std::vector<Detection::Line> selectedLine;
+      std::vector<cv::Point2f> selectedPoint;
 
-    void addLine(Detection::Line line);
-    void searchLine(cv::Point2f realMousePos);
+      void addLine(Detection::Line line);
+      void searchLine(cv::Point2f realMousePos);
 
-    int currentImageIndex = 0;
-    void OnIncrement();
-    void OnDecrement();
+      int currentImageIndex = 0;
+      void OnIncrement();
+      void OnDecrement();
 
-    void deleteThread(wxThread *thread);
-    void waitThenDeleteThread(wxThread *thread);
+      void deleteThread(wxThread *thread);
+      void waitThenDeleteThread(wxThread *thread);
 
-    void OnButton(wxCommandEvent &e);
-    void OnLeftDown(wxMouseEvent &e);
-    void OnSize(wxSizeEvent &e);
-    void OnUpdateImage(UpdateImageEvent &e);
-    void OnProcessImage(wxCommandEvent &e);
-    void OnCaptureImage(CaptureImageEvent &e);
-    void OnHough(HoughEvent &e);
-    void OnSpeed(SpeedCalcEvent &e);
+      void OnButton(wxCommandEvent &e);
+      void OnLeftDown(wxMouseEvent &e);
+      void OnSize(wxSizeEvent &e);
+      void OnUpdateImage(UpdateImageEvent &e);
+      void OnProcessImage(wxCommandEvent &e);
+      void OnCaptureImage(CaptureImageEvent &e);
+      void OnHough(HoughEvent &e);
+      void OnSpeed(SpeedCalcEvent &e);
 
-    DECLARE_EVENT_TABLE()
+      DECLARE_EVENT_TABLE()
 };
 #endif

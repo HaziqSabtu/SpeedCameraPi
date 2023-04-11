@@ -13,11 +13,11 @@
 
 #include <Event/Event_CaptureImage.hpp>
 #include <Event/Event_UpdateImage.hpp>
+#include <Utils/Camera/CameraBase.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <memory>
 #include <opencv2/opencv.hpp>
-#include <raspicam/raspicam_cv.h>
 #include <wx/string.h>
 #include <wx/thread.h>
 #include <wx/wx.h>
@@ -27,19 +27,19 @@
  *
  */
 class LoadCaptureThread : public wxThread {
-  public:
-    LoadCaptureThread(wxEvtHandler *parent, raspicam::RaspiCam_Cv *camera,
-                      const int maxFrame, const bool debug);
-    ~LoadCaptureThread();
+    public:
+      LoadCaptureThread(wxEvtHandler *parent, CameraBase *camera,
+                        const int maxFrame, const bool debug);
+      ~LoadCaptureThread();
 
-  protected:
-    ExitCode Entry();
+    protected:
+      ExitCode Entry();
 
-  private:
-    wxEvtHandler *parent;
-    raspicam::RaspiCam_Cv *camera;
-    const int maxFrame;
-    const bool debug;
+    private:
+      wxEvtHandler *parent;
+      CameraBase *camera;
+      const int maxFrame;
+      const bool debug;
 };
 
 #endif
