@@ -12,7 +12,7 @@
             "name": "(lldb-linux) Launch",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/build/subprojects/Build/wx_cmake_template_core/main",
+            "program": "${workspaceFolder}/build/SpeedCamera",
             "preLaunchTask": "Build with CMake"
         },
         {
