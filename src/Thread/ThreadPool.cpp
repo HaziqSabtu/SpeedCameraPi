@@ -54,7 +54,7 @@ void ThreadPool::setNumThreads(const int numThreads) {
  *
  * @param task pointer to Task object
  */
-void ThreadPool::AddTask(std::unique_ptr<Task> task) {
+void ThreadPool::AddTask(std::unique_ptr<Task>& task) {
     std::unique_lock<std::mutex> lock(m_mutex);
     taskQueue.push_back(std::move(task));
     cv.notify_one();

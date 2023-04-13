@@ -56,9 +56,10 @@ wxThread::ExitCode LoadFileThread::Entry() {
                                             CAPTURE_START);
         wxPostEvent(parent, startCaptureEvent);
 
-        std::unique_ptr<LoadTask> task(new LoadTask(imgData, path));
+        std::unique_ptr<Task> task =
+          std::make_unique<LoadTask>(imgData, path);
         TaskProperty property = task->GetProperty();
-        pool->AddTask(std::move(task));
+        pool->AddTask(task);
 
         while (imgData->empty()) {
             wxMilliSleep(30);
@@ -85,7 +86,6 @@ wxThread::ExitCode LoadFileThread::Entry() {
             wxPostEvent(parent, updateImageEvent);
             wxMilliSleep(100);
         }
-        task = NULL;
     } catch (const std::exception& e) {
         std::cout << "LoadFileThread::Entry() - Error: \n"
                   << e.what() << std::endl;

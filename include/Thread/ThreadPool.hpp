@@ -35,7 +35,7 @@ class ThreadPool {
 
     void setNumThreads(const int numThreads);
 
-    void AddTask(std::unique_ptr<Task> task);
+    void AddTask(std::unique_ptr<Task>& task);
     void AddTaskFront(std::unique_ptr<Task> task);
 
     bool isBusy();
