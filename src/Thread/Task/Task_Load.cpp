@@ -19,7 +19,7 @@
  * @param maxCapture maximum number of capture to load
  */
 LoadTask::LoadTask(std::shared_ptr<std::vector<ImageData>> imgData,
-                   wxString path)
+                   std::string path)
     : property(TaskType::TASK_LOAD), imgData(imgData), path(path) {}
 
 /**
@@ -31,14 +31,18 @@ LoadTask::LoadTask(std::shared_ptr<std::vector<ImageData>> imgData,
  * </ul>
  */
 void LoadTask::Execute() {
-    std::string s = std::string(path.mb_str(wxConvUTF8));
-    Utils::FileExtension ext = Utils::GetFileExtension(s);
-    if (ext == Utils::FileExtension::H264) {
-        FILEH264::ReadFile(s, imgData);
-    } else if (ext == Utils::FileExtension::BIN) {
-        FILEWR::ReadFile(s, imgData);
-    } else
-        throw std::runtime_error("File extension not supported");
+    Utils::FileExtension ext = Utils::GetFileExtension(path);
+
+    switch (ext) {
+        case Utils::FileExtension::H264:
+            FILEH264::ReadFile(path, imgData);
+            break;
+        case Utils::FileExtension::BIN:
+            FILEWR::ReadFile(path, imgData);
+            break;
+        default:
+            throw std::runtime_error("File extension not supported");
+    }
 }
 
 /**

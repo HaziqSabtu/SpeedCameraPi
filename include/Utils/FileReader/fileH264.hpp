@@ -20,7 +20,6 @@
 #include <memory>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
-#include <wx/string.h>
 
 /**
  * @brief Utils Class for reading H264 file and convert it to vector of

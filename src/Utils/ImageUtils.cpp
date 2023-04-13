@@ -21,8 +21,9 @@ namespace Utils {
  */
 double TimeDiff(std::chrono::high_resolution_clock::time_point time1,
                 std::chrono::high_resolution_clock::time_point time2) {
-    return std::chrono::duration_cast<std::chrono::microseconds>(time2 - time1)
-               .count() /
+    return std::chrono::duration_cast<std::chrono::microseconds>(time2 -
+                                                                 time1)
+             .count() /
            1000.0;
 };
 
@@ -33,11 +34,12 @@ double TimeDiff(std::chrono::high_resolution_clock::time_point time1,
  */
 std::string dateToString() {
     std::time_t t = std::time(0); // get time now
-    std::tm *now = std::localtime(&t);
+    std::tm* now = std::localtime(&t);
     std::string date =
-        std::to_string(now->tm_year + 1900) + std::to_string(now->tm_mon + 1) +
-        std::to_string(now->tm_mday) + "_" + std::to_string(now->tm_hour) +
-        std::to_string(now->tm_min) + std::to_string(now->tm_sec);
+      std::to_string(now->tm_year + 1900) +
+      std::to_string(now->tm_mon + 1) + std::to_string(now->tm_mday) +
+      "_" + std::to_string(now->tm_hour) + std::to_string(now->tm_min) +
+      std::to_string(now->tm_sec);
     return date;
 }
 
@@ -47,7 +49,7 @@ std::string dateToString() {
  * @param path path to file
  * @return FileExtension file extension
  */
-FileExtension GetFileExtension(std::string &path) {
+FileExtension GetFileExtension(std::string& path) {
     std::string ext = path.substr(path.find_last_of(".") + 1);
     if (ext == "bin") {
         return BIN;
@@ -64,9 +66,9 @@ FileExtension GetFileExtension(std::string &path) {
  * @param imgData image data
  * @param angle angle to rotate in degrees
  */
-void RotateImage(std::vector<ImageData> &imgData, int angle) {
-    std::cout << "Rotating: " << imgData.size() << " images on angle " << angle
-              << std::endl;
+void RotateImage(std::vector<ImageData>& imgData, int angle) {
+    std::cout << "Rotating: " << imgData.size() << " images on angle "
+              << angle << std::endl;
     for (int i = 0; i < imgData.size(); i++) {
         cv::Mat img = imgData[i].image;
         cv::Mat rotatedImg;
@@ -84,7 +86,7 @@ void RotateImage(std::vector<ImageData> &imgData, int angle) {
  * @param percentage percentage to be trimmed
  * @return double trimmed mean
  */
-double TrimmedMean(const std::vector<double> &data, double percentage) {
+double TrimmedMean(const std::vector<double>& data, double percentage) {
     int n = data.size();
     int trim = (int)(percentage / 100.0 * n);
 

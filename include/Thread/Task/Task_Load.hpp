@@ -26,14 +26,14 @@
 class LoadTask : public Task {
   public:
     LoadTask(std::shared_ptr<std::vector<ImageData>> imgData,
-             wxString path);
+             std::string path);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;
 
   private:
     const TaskProperty property;
-    wxString path;
+    std::string path;
     std::shared_ptr<std::vector<ImageData>> imgData;
 };
 

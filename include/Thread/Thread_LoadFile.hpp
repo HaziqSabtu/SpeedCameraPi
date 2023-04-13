@@ -14,10 +14,15 @@
 
 #include <Event/Event_CaptureImage.hpp>
 #include <Event/Event_UpdateImage.hpp>
+
 #include <Thread/Task/Task_Load.hpp>
 #include <Thread/ThreadPool.hpp>
+
+#include <Utils/wxUtils.hpp>
+
 #include <memory>
 #include <opencv2/opencv.hpp>
+
 #include <wx/string.h>
 #include <wx/thread.h>
 #include <wx/wx.h>

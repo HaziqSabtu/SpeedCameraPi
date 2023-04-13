@@ -56,8 +56,11 @@ wxThread::ExitCode LoadFileThread::Entry() {
                                             CAPTURE_START);
         wxPostEvent(parent, startCaptureEvent);
 
+        std::string stringPath = Utils::wxStringToString(this->path);
+
         std::unique_ptr<Task> task =
-          std::make_unique<LoadTask>(imgData, path);
+          std::make_unique<LoadTask>(imgData, stringPath);
+
         TaskProperty property = task->GetProperty();
         pool->AddTask(task);
 

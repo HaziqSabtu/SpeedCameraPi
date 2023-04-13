@@ -25,9 +25,9 @@ enum FileExtension { BIN, H264, UNSUPPORTED };
 double TimeDiff(std::chrono::high_resolution_clock::time_point time1,
                 std::chrono::high_resolution_clock::time_point time2);
 std::string dateToString();
-FileExtension GetFileExtension(std::string &path);
-void RotateImage(std::vector<ImageData> &imgData, int angle);
-double TrimmedMean(const std::vector<double> &data, double percentage);
+FileExtension GetFileExtension(std::string& path);
+void RotateImage(std::vector<ImageData>& imgData, int angle);
+double TrimmedMean(const std::vector<double>& data, double percentage);
 } // namespace Utils
 
 #endif
