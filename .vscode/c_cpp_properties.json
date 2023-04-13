@@ -42,8 +42,6 @@
             "includePath": [
                 "${workspaceFolder}/src/**",
                 "${workspaceFolder}/include/**",
-                "${workspaceFolder}/build/stage/include/wx-3.1/**",
-                "${workspaceFolder}/build/subprojects/Build/wxWidgets_external/lib/wx/include/gtk3-unicode-static-3.1/**",
                 "/usr/local/include/opencv4"
             ],
             "defines": [
