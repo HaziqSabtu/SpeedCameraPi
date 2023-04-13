@@ -29,8 +29,9 @@ class FILEWR {
   public:
     FILEWR(/* args */);
     ~FILEWR();
-    static void ReadFile(std::string path, std::vector<ImageData> *imgData);
-    static void WriteFile(std::vector<ImageData> *imgData);
+    static void ReadFile(std::string path,
+                         std::shared_ptr<std::vector<ImageData>> imgData);
+    static void WriteFile(std::shared_ptr<std::vector<ImageData>> imgData);
 };
 
 #endif

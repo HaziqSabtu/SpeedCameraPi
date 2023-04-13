@@ -16,6 +16,7 @@
 #include <Utils/FileReader/fileH264.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageUtils.hpp>
+#include <memory>
 #include <wx/string.h>
 
 /**
@@ -24,7 +25,8 @@
  */
 class LoadTask : public Task {
   public:
-    LoadTask(std::vector<ImageData> *imgData, wxString path);
+    LoadTask(std::shared_ptr<std::vector<ImageData>> imgData,
+             wxString path);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;
@@ -32,7 +34,7 @@ class LoadTask : public Task {
   private:
     const TaskProperty property;
     wxString path;
-    std::vector<ImageData> *imgData;
+    std::shared_ptr<std::vector<ImageData>> imgData;
 };
 
 #endif

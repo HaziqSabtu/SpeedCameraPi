@@ -17,6 +17,7 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 #include <wx/string.h>
@@ -32,10 +33,8 @@ class FILEH264 {
   public:
     FILEH264(/* args */);
     ~FILEH264();
-    static void ReadFile(std::string path, std::vector<ImageData> &imgData);
-    static void ReadFile(std::string path, std::vector<ImageData> *imgData);
-    static void ReadFile(wxString path, std::vector<ImageData> &imgData);
-    static void ReadFile(wxString path, std::vector<ImageData> *imgData);
+    static void ReadFile(std::string path,
+                         std::shared_ptr<std::vector<ImageData>> imgData);
 };
 
 #endif

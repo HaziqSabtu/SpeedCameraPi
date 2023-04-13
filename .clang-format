@@ -1,3 +1,18 @@
-IndentWidth: 6
-TabWidth: 4
+BasedOnStyle: LLVM
+IndentWidth: 4
+---
+Language: Cpp
+# Force pointers to the type for C++.
+DerivePointerAlignment: false
+PointerAlignment: Left
+AlwaysBreakTemplateDeclarations  : Yes 
+ObjCBlockIndentWidth: 2
+ContinuationIndentWidth: 2
+ColumnLimit: 75
+BinPackArguments: false
+BinPackParameters: false
+IndentCaseLabels: true
+AllowAllParametersOfDeclarationOnNextLine: false
 
+AlignAfterOpenBracket: Align
+PenaltyBreakBeforeFirstCallParameter: 9999

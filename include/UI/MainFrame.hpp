@@ -1,7 +1,9 @@
 #ifndef MAIN_FRAME_HPP
 #define MAIN_FRAME_HPP
 
+#include <Model/Model.hpp>
 #include <UI/CameraPanel/Panel.hpp>
+#include <UI/CameraPanel/Panel2.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Enum.hpp>
 #include <opencv2/core.hpp>
@@ -22,9 +24,7 @@ class MainFrame : public wxFrame {
     AppConfig *config;
 
     wxNotebook *notebook;
-    CameraPanel *camera_panel;
-
-    void OnPageChange(wxNotebookEvent &event);
+    CameraPanel2 *camera_panel;
 };
 
 #endif

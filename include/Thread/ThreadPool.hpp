@@ -16,6 +16,7 @@
 #include <Utils/IDGenerator/IDGenerator.hpp>
 #include <condition_variable>
 #include <iostream>
+#include <memory>
 #include <mutex>
 #include <queue>
 #include <thread>
@@ -28,19 +29,22 @@
  */
 class ThreadPool {
   public:
+    ThreadPool();
     ThreadPool(const int numThreads);
     ~ThreadPool();
 
-    void AddTask(Task *task);
-    void AddTaskFront(Task *task);
+    void setNumThreads(const int numThreads);
+
+    void AddTask(std::unique_ptr<Task> task);
+    void AddTaskFront(std::unique_ptr<Task> task);
 
     bool isBusy();
-    bool HasTasks(TaskProperty &property);
-    bool HasTasks(std::vector<TaskProperty> &properties);
+    bool HasTasks(TaskProperty& property);
+    bool HasTasks(std::vector<TaskProperty>& properties);
 
     bool isWorkerBusy();
-    bool isWorkerBusy(TaskProperty &property);
-    bool isWorkerBusy(std::vector<TaskProperty> &properties);
+    bool isWorkerBusy(TaskProperty& property);
+    bool isWorkerBusy(std::vector<TaskProperty>& properties);
     bool isQueueEmpty();
 
   private:
@@ -50,8 +54,8 @@ class ThreadPool {
     bool isStop;
 
     std::vector<std::thread> threadArray;
-    std::unordered_map<int, Task *> taskMap;
-    std::deque<Task *> taskQueue;
+    std::unordered_map<int, TaskProperty> taskMap;
+    std::deque<std::unique_ptr<Task>> taskQueue;
     std::mutex m_mutex;
     std::condition_variable cv;
 };

@@ -28,7 +28,10 @@
  */
 class LoadFileThread : public wxThread {
   public:
-    LoadFileThread(wxEvtHandler *parent, ThreadPool *threadPool, wxString path,
+    LoadFileThread(wxEvtHandler* parent,
+                   std::shared_ptr<ThreadPool> pool,
+                   std::shared_ptr<std::vector<ImageData>> imgData,
+                   wxString path,
                    const int maxFrame);
     ~LoadFileThread();
 
@@ -36,8 +39,9 @@ class LoadFileThread : public wxThread {
     ExitCode Entry();
 
   private:
-    wxEvtHandler *parent;
-    ThreadPool *pool;
+    wxEvtHandler* parent;
+    std::shared_ptr<std::vector<ImageData>> imgData;
+    std::shared_ptr<ThreadPool> pool;
     wxString path;
     const int maxFrame;
 };

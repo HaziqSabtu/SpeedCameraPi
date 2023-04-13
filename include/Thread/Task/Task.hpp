@@ -62,6 +62,8 @@ struct TaskProperty {
     TaskType type;
     int id;
 
+    TaskProperty() : TaskProperty(TASK_NONE) {}
+
     /**
      * @brief Construct a new Task Property object
      *
@@ -77,12 +79,14 @@ struct TaskProperty {
      *
      * @param other TaskProperty to be compared with
      * @return true true if both TaskProperty are equal in TaskType and ID
-     * @return false false if both TaskProperty are not equal in either TaskType
-     * or ID
+     * @return false false if both TaskProperty are not equal in either
+     * TaskType or ID
      */
-    bool operator==(const TaskProperty &other) const {
+    bool operator==(const TaskProperty& other) const {
         return (this->type == other.type && this->id == other.id);
     }
+
+    bool isTypeNone() const { return (this->type == TASK_NONE); }
 };
 
 /**

@@ -16,23 +16,24 @@
  *
  * @param parent parent wxEvtHandler
  * @param threadPool pointer to ThreadPool
+ * @param imgData pointer to ImageData vector
  * @param path path to file
  * @param maxFrame maximum number of frame to load
  */
-LoadFileThread::LoadFileThread(wxEvtHandler *parent, ThreadPool *threadPool,
-                               wxString path, const int maxFrame)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool), path(path),
-      maxFrame(maxFrame) {}
+LoadFileThread::LoadFileThread(
+  wxEvtHandler* parent,
+  std::shared_ptr<ThreadPool> threadPool,
+  std::shared_ptr<std::vector<ImageData>> imgData,
+  wxString path,
+  const int maxFrame)
+    : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
+      imgData(imgData), path(path), maxFrame(maxFrame) {}
 
 /**
  * @brief Destroy the Load File Thread:: Load File Thread object
  *
  */
 LoadFileThread::~LoadFileThread() {
-    if (pool != nullptr) {
-        pool = nullptr;
-    }
-
     if (parent != nullptr) {
         parent = nullptr;
     }
@@ -50,17 +51,14 @@ LoadFileThread::~LoadFileThread() {
  * @return wxThread::ExitCode
  */
 wxThread::ExitCode LoadFileThread::Entry() {
-    std::unique_ptr<std::vector<ImageData>> imgData =
-        std::make_unique<std::vector<ImageData>>();
-
     try {
         CaptureImageEvent startCaptureEvent(c_CAPTURE_IMAGE_EVENT,
                                             CAPTURE_START);
         wxPostEvent(parent, startCaptureEvent);
 
-        LoadTask *task = new LoadTask(imgData.get(), path);
+        std::unique_ptr<LoadTask> task(new LoadTask(imgData, path));
         TaskProperty property = task->GetProperty();
-        pool->AddTask(task);
+        pool->AddTask(std::move(task));
 
         while (imgData->empty()) {
             wxMilliSleep(30);
@@ -88,7 +86,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
             wxMilliSleep(100);
         }
         task = NULL;
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         std::cout << "LoadFileThread::Entry() - Error: \n"
                   << e.what() << std::endl;
     }
@@ -99,7 +97,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
     wxPostEvent(parent, updateImageEvent);
 
     CaptureImageEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
-    stopCaptureEvent.SetImageData(imgData.release());
+    // stopCaptureEvent.SetImageData(imgData.release());
     wxPostEvent(parent, stopCaptureEvent);
     return 0;
 }
@@ -107,6 +105,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
 // unique_ptr is a smart pointer that guarantees deletion of the object it
 // points to, either on destruction of the unique_ptr or via an explicit
 // reset(). It is a move-only type - it cannot be copied, only moved. It is
-// typically used to transfer ownership of a dynamically allocated object (i.e.
-// heap allocated) out of a function that returns a unique_ptr by value.
+// typically used to transfer ownership of a dynamically allocated object
+// (i.e. heap allocated) out of a function that returns a unique_ptr by
+// value.
 //

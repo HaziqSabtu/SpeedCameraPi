@@ -17,3 +17,4 @@ data.bin
 src.bin
 output.mp4
 src.h264
+.cache

@@ -18,7 +18,8 @@
  * @param path path to file
  * @param maxCapture maximum number of capture to load
  */
-LoadTask::LoadTask(std::vector<ImageData> *imgData, wxString path)
+LoadTask::LoadTask(std::shared_ptr<std::vector<ImageData>> imgData,
+                   wxString path)
     : property(TaskType::TASK_LOAD), imgData(imgData), path(path) {}
 
 /**
@@ -33,7 +34,7 @@ void LoadTask::Execute() {
     std::string s = std::string(path.mb_str(wxConvUTF8));
     Utils::FileExtension ext = Utils::GetFileExtension(s);
     if (ext == Utils::FileExtension::H264) {
-        FILEH264::ReadFile(path, imgData);
+        FILEH264::ReadFile(s, imgData);
     } else if (ext == Utils::FileExtension::BIN) {
         FILEWR::ReadFile(s, imgData);
     } else

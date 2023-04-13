@@ -10,25 +10,10 @@ MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
     notebook = new wxNotebook(this, Enum::NOTEBOOK_ID, wxDefaultPosition,
                               wxSize(800, 600));
 
-    camera_panel =
-        new CameraPanel(notebook, Enum::CP_Panel_ID, new AppConfig());
+    camera_panel = new CameraPanel2(notebook, Enum::CP_Panel_ID,
+                                    new AppConfig(), new Model(this, 0));
 
     notebook->AddPage(camera_panel, "Camera", true);
-
-    notebook->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &MainFrame::OnPageChange, this);
 }
 
 MainFrame::~MainFrame() {}
-
-void MainFrame::OnPageChange(wxNotebookEvent &event) {
-    int page = event.GetSelection();
-    if (page == 1) {
-        wxLogMessage("Changing To Page: Line Selection");
-        // select_line_panel->OnPageChange();
-    }
-
-    // if (page == 2) {
-    //     wxLogMessage("Changing To Page: Object Detection");
-    //     object_detection_panel->OnPageChange();
-    // }
-}
