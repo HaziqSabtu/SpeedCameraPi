@@ -7,7 +7,9 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "build"
+                "build",
+                "-j",
+                "2"
             ],
             "group": {
                 "kind": "build",
@@ -24,7 +26,7 @@
             "args": [
                 "-DCMAKE_BUILD_TYPE=Debug",
                 "-S.",
-                "-Bbuild"
+                "-Bbuild",
             ]
         }
     ]

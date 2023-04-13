@@ -374,6 +374,10 @@ void CameraPanel::OnSpeed(SpeedCalcEvent &e) {
 }
 
 void CameraPanel::searchLine(cv::Point2f realMousePos) {
+      if (imgData == nullptr || imgData->empty()) {
+            return;
+      }
+
       std::vector<Detection::Line> detLines;
       std::vector<Detection::Line> linesP =
           imgData->at(currentImageIndex).hough.lines;
