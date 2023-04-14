@@ -4,6 +4,7 @@
 
 #include <Thread/ThreadPool.hpp>
 #include <Thread/Thread_Capture.hpp>
+#include <Thread/Thread_LoadCapture.hpp>
 #include <Thread/Thread_LoadFile.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>
@@ -25,20 +26,25 @@ class Model : public wxPanel {
                   std::string path);
 
   private:
-    LibCam camera;
+    std::shared_ptr<CameraBase> camera;
 
     std::shared_ptr<ThreadPool> threadPool;
     std::shared_ptr<std::vector<ImageData>> imgData;
 
     CaptureThread* captureThread;
     LoadFileThread* loadFileThread;
+    LoadCaptureThread* loadCaptureThread;
 
     void init();
 
     void startCaptureHandler(wxEvtHandler* parent);
     void endCaptureHandler(wxEvtHandler* parent);
 
-    void LoadFileHandler(wxEvtHandler* parent, std::string path);
+    void startLoadFileHandler(wxEvtHandler* parent, std::string path);
+    void endLoadFileHandler(wxEvtHandler* parent);
+
+    void startLoadCaptureHandler(wxEvtHandler* parent);
+    void endLoadCaptureHandler(wxEvtHandler* parent);
 
     template <typename T>
     T* stopAndDeleteThread(T* threadPtr);

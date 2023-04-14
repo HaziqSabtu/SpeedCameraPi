@@ -16,8 +16,10 @@
 #include <Utils/Camera/CameraBase.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/FileReader/fileWR.hpp>
+
 #include <memory>
 #include <opencv2/opencv.hpp>
+
 #include <wx/string.h>
 #include <wx/thread.h>
 #include <wx/wx.h>
@@ -27,19 +29,25 @@
  *
  */
 class LoadCaptureThread : public wxThread {
-    public:
-      LoadCaptureThread(wxEvtHandler *parent, CameraBase *camera,
-                        const int maxFrame, const bool debug);
-      ~LoadCaptureThread();
+  public:
+    LoadCaptureThread(wxEvtHandler* parent,
+                      std::shared_ptr<CameraBase> camera,
+                      std::shared_ptr<std::vector<ImageData>> imgData,
+                      const int maxFrame,
+                      const bool debug_SaveImageData,
+                      const bool debug_ShowImagesWhenCapture);
+    ~LoadCaptureThread();
 
-    protected:
-      ExitCode Entry();
+  protected:
+    ExitCode Entry();
 
-    private:
-      wxEvtHandler *parent;
-      CameraBase *camera;
-      const int maxFrame;
-      const bool debug;
+  private:
+    wxEvtHandler* parent;
+    std::shared_ptr<CameraBase> camera;
+    std::shared_ptr<std::vector<ImageData>> imgData;
+    const int maxFrame;
+    const bool debug_SaveImageData;
+    const bool debug_ShowImagesWhenCapture;
 };
 
 #endif

@@ -5,11 +5,13 @@ Model::Model(wxWindow* parent, wxWindowID id) : wxPanel(parent, id) {
     AppConfig* config = new AppConfig();
 
     CameraConfig cameraConfig = config->GetCameraConfig();
-    camera.setHeight(cameraConfig.Camera_Height);
-    camera.setWidth(cameraConfig.Camera_Width);
-    camera.setFPS(cameraConfig.Camera_FPS);
 
-    if (!camera.start()) {
+    camera = std::make_shared<LibCam>();
+    camera->setHeight(cameraConfig.Camera_Height);
+    camera->setWidth(cameraConfig.Camera_Width);
+    camera->setFPS(cameraConfig.Camera_FPS);
+
+    if (!camera->start()) {
         // TODO : Error handling
         wxMessageBox(" Camera not found! ", "Error", wxOK | wxICON_ERROR);
         Close();
@@ -49,8 +51,17 @@ void Model::endPoint(wxEvtHandler* parent,
         case ModelEnum::MODEL_END_CAPTURE:
             endCaptureHandler(parent);
             break;
-        case ModelEnum::MODEL_START_PROCESSING_LOAD:
-            LoadFileHandler(parent, path);
+        case ModelEnum::MODEL_START_LOADFILE:
+            startLoadFileHandler(parent, path);
+            break;
+        case ModelEnum::MODEL_END_LOADFILE:
+            endLoadFileHandler(parent);
+            break;
+        case ModelEnum::MODEL_START_LOADCAPTURE:
+            startLoadCaptureHandler(parent);
+            break;
+        case ModelEnum::MODEL_END_LOADCAPTURE:
+            endLoadCaptureHandler(parent);
             break;
         default:
             break;
@@ -61,7 +72,7 @@ void Model::startCaptureHandler(wxEvtHandler* parent) {
     if (captureThread != nullptr) {
         return;
     }
-    captureThread = new CaptureThread(parent, &camera);
+    captureThread = new CaptureThread(parent, camera);
     captureThread->Run();
 }
 
@@ -69,7 +80,7 @@ void Model::endCaptureHandler(wxEvtHandler* parent) {
     captureThread = stopAndDeleteThread(captureThread);
 }
 
-void Model::LoadFileHandler(wxEvtHandler* parent, std::string path) {
+void Model::startLoadFileHandler(wxEvtHandler* parent, std::string path) {
 
     if (imgData->empty()) {
         imgData->clear();
@@ -85,6 +96,32 @@ void Model::LoadFileHandler(wxEvtHandler* parent, std::string path) {
     loadFileThread->Run();
     delete config;
     config = nullptr;
+}
+
+void Model::endLoadFileHandler(wxEvtHandler* parent) {
+    loadFileThread = stopAndDeleteThread(loadFileThread);
+}
+
+void Model::startLoadCaptureHandler(wxEvtHandler* parent) {
+    if (imgData->empty()) {
+        imgData->clear();
+    }
+
+    AppConfig* config = new AppConfig();
+    CaptureConfig captureConfig = config->GetCaptureConfig();
+    loadCaptureThread = new LoadCaptureThread(parent,
+                                              camera,
+                                              imgData,
+                                              captureConfig.maxFrame,
+                                              false,
+                                              false);
+    loadCaptureThread->Run();
+    delete config;
+    config = nullptr;
+}
+
+void Model::endLoadCaptureHandler(wxEvtHandler* parent) {
+    loadCaptureThread = stopAndDeleteThread(loadCaptureThread);
 }
 
 template <typename T>

@@ -50,7 +50,7 @@ CameraPanel::CameraPanel(wxWindow* parent,
     loadCaptureThread = nullptr;
     captureThread = nullptr;
 
-    captureThread = new CaptureThread(this, &camera);
+    // captureThread = new CaptureThread(this, &camera);
     captureThread->Run();
 
     delete config;
@@ -222,7 +222,7 @@ void CameraPanel::OnButton(wxCommandEvent& e) {
 
         deleteThread(captureThread);
         captureThread = nullptr;
-        captureThread = new CaptureThread(this, &camera);
+        // captureThread = new CaptureThread(this, &camera);
         captureThread->Run();
 
         imgData->clear();

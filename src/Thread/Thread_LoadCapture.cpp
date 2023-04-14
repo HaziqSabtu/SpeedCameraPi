@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  *
  */
+
 #include <Thread/Thread_LoadCapture.hpp>
 
 /**
@@ -18,17 +19,22 @@
  * @param maxFrame maximum frame to capture
  * @param debug debug mode
  */
-LoadCaptureThread::LoadCaptureThread(wxEvtHandler* parent,
-                                     CameraBase* camera,
-                                     const int maxFrame,
-                                     const bool debug)
+LoadCaptureThread::LoadCaptureThread(
+  wxEvtHandler* parent,
+  std::shared_ptr<CameraBase> camera,
+  std::shared_ptr<std::vector<ImageData>> imgData,
+  const int maxFrame,
+  const bool debug_SaveImageData,
+  const bool debug_ShowImagesWhenCapture)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(camera),
-      maxFrame(maxFrame), debug(debug) {}
+      imgData(imgData), maxFrame(maxFrame),
+      debug_SaveImageData(debug_SaveImageData),
+      debug_ShowImagesWhenCapture(debug_ShowImagesWhenCapture) {}
 
 /**
  * @brief Destroy the Load Capture Thread:: Load Capture Thread object
  */
-LoadCaptureThread::~LoadCaptureThread() { camera = nullptr; }
+LoadCaptureThread::~LoadCaptureThread() {}
 
 /**
  * @brief Entry point for the thread
@@ -46,42 +52,49 @@ LoadCaptureThread::~LoadCaptureThread() { camera = nullptr; }
  * @return wxThread::ExitCode
  */
 wxThread::ExitCode LoadCaptureThread::Entry() {
-    // std::unique_ptr<std::vector<ImageData>> imgData =
-    //     std::make_unique<std::vector<ImageData>>();
+    try {
+        wxCommandEvent startCaptureEvent(c_CAPTURE_IMAGE_EVENT,
+                                         CAPTURE_START);
+        wxPostEvent(parent, startCaptureEvent);
 
-    // CaptureImageEvent startCaptureEvent(c_CAPTURE_IMAGE_EVENT,
-    // CAPTURE_START); wxPostEvent(parent, startCaptureEvent);
+        cv::Mat frame;
 
-    // cv::Mat frame;
+        for (int i = 0; i < maxFrame; i++) {
 
-    // for (int i = 0; i < maxFrame; i++) {
-    //       camera->getFrame(frame);
-    //       if (frame.empty()) {
-    //             std::cout << "Failed to capture frame" << std::endl;
-    //             continue;
-    //       }
-    //       imgData->push_back(ImageData(frame.clone()));
-    //       UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-    //       event.SetImageData(ImageData(frame));
-    //       wxPostEvent(parent, event);
+            camera->getFrame(frame);
 
-    //       if (TestDestroy()) {
-    //             break;
-    //       }
-    // }
+            if (frame.empty()) {
+                std::cout << "Failed to capture frame" << std::endl;
+                continue;
+            }
 
-    // cv::Mat first = imgData->at(0).image;
-    // UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT,
-    // UPDATE_IMAGE); updateImageEvent.SetImageData(first);
-    // wxPostEvent(parent, updateImageEvent);
+            imgData->push_back(ImageData(frame.clone()));
 
-    // if (debug) {
-    //       FILEWR::WriteFile(imgData.get());
-    // }
+            if (TestDestroy()) {
+                break;
+            }
 
-    // CaptureImageEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT,
-    // CAPTURE_END); stopCaptureEvent.SetImageData(imgData.release());
-    // wxPostEvent(parent, stopCaptureEvent);
+            // if running in VNC there are possibility that the image
+            // captured at wrong captured time ... better turn off for now
+            if (!debug_ShowImagesWhenCapture) {
+                continue;
+            }
 
+            UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
+            event.SetImageData(ImageData(frame));
+            wxPostEvent(parent, event);
+        }
+
+        if (debug_SaveImageData) {
+            FILEWR::WriteFile(imgData);
+        }
+
+    } catch (const std::exception& e) {
+        std::cout << "LoadCaptureThread::Entry() - " << e.what()
+                  << std::endl;
+    }
+
+    wxCommandEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
+    wxPostEvent(parent, stopCaptureEvent);
     return 0;
 }

@@ -274,8 +274,7 @@ void CameraPanel2::OnLoadButton(wxEvtHandler* parent) {
     }
 
     std::string path = Utils::wxStringToString(openFileDialog.GetPath());
-
-    model->endPoint(parent, ModelEnum::MODEL_START_PROCESSING_LOAD, path);
+    model->endPoint(parent, ModelEnum::MODEL_START_LOADFILE, path);
 }
 
 void CameraPanel2::OnUpdateImage(UpdateImageEvent& e) {
