@@ -13,7 +13,18 @@ void ButtonLoad::OnButton(wxCommandEvent& e) {
     e.Skip();
 }
 
-void ButtonLoad::OnCaptureEvent(wxCommandEvent& e) { e.Skip(); }
+void ButtonLoad::OnCaptureEvent(wxCommandEvent& e) {
+    if (e.GetId() == CAPTURE_START) {
+        state = true;
+    }
+
+    if (e.GetId() == CAPTURE_END) {
+        state = false;
+    }
+
+    render();
+    e.Skip();
+}
 
 void ButtonLoad::render() {
     // state ? Enable() : Disable();

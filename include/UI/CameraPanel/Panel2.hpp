@@ -4,7 +4,6 @@
 // #include <Event/Event_CaptureImage.hpp>
 // #include <Event/Event_Hough.hpp>
 // #include <Event/Event_ProcessImage.hpp>
-// #include <Event/Event_Speed.hpp>
 // #include <Event/Event_UpdateImage.hpp>
 // #include <Thread/ThreadPool.hpp>
 // #include <Thread/Thread_Capture.hpp>
@@ -79,6 +78,7 @@ class CameraPanel2 : public wxPanel {
     // void OnProcessImage(wxCommandEvent &e);
     // void OnCaptureImage(CaptureImageEvent &e);
     void OnCaptureEvent(wxCommandEvent& e);
+    void OnError(ErrorEvent& e);
     // void OnHough(HoughEvent &e);
     // void OnSpeed(SpeedCalcEvent &e);
 

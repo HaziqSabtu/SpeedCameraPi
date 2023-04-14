@@ -249,7 +249,7 @@ CameraPanel2::~CameraPanel2() {
 // }
 void CameraPanel2::OnButton(wxCommandEvent& e) {
     if (e.GetId() == Enum::CP_Capture_Button_ID) {
-        model->endPoint(this, ModelEnum::MODEL_START_CAPTURE);
+        model->endPoint(this, ModelEnum::MODEL_START_LOADCAPTURE);
     }
 
     if (e.GetId() == Enum::CP_Camera_Button_ID) {
@@ -469,7 +469,17 @@ void CameraPanel2::OnUpdateImage(UpdateImageEvent& e) {
 //     img_bitmap->SetSelectedLine(selectedLine);
 // }
 void CameraPanel2::OnCaptureEvent(wxCommandEvent& e) {
-    std::cout << "OnCaptureEvent" << std::endl;
+    if (e.GetId() == CAPTURE_END) {
+        model->endPoint(button_panel->Load_Button,
+                        ModelEnum::MODEL_END_LOADCAPTURE);
+    }
+    e.Skip();
+}
+
+void CameraPanel2::OnError(ErrorEvent& e) {
+    std::string msg = e.GetErrorData();
+    wxMessageBox(msg, "Error", wxOK | wxICON_ERROR);
+    Close();
 }
 
 // clang-format off
@@ -482,5 +492,6 @@ wxBEGIN_EVENT_TABLE(CameraPanel2, wxPanel)
     //     ,CameraPanel2::OnProcessImage) 
     EVT_BUTTON(wxID_ANY,CameraPanel2::OnButton) 
     EVT_COMMAND(wxID_ANY, c_CAPTURE_IMAGE_EVENT, CameraPanel2::OnCaptureEvent)
+    EVT_ERROR(wxID_ANY, CameraPanel2::OnError)
     // EVT_LEFT_DOWN(CameraPanel2::OnLeftDown)
 wxEND_EVENT_TABLE()

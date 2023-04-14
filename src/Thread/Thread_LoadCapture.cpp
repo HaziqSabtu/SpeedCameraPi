@@ -59,6 +59,12 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
 
         cv::Mat frame;
 
+        // warmup
+        // first few frames have inconsistent time stamp
+        for (int i = 0; i < 5; i++) {
+            camera->getFrame(frame);
+        }
+
         for (int i = 0; i < maxFrame; i++) {
 
             camera->getFrame(frame);
@@ -76,13 +82,20 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
 
             // if running in VNC there are possibility that the image
             // captured at wrong captured time ... better turn off for now
+            // show the result after finish capturing instead
             if (!debug_ShowImagesWhenCapture) {
                 continue;
             }
+        }
 
-            UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-            event.SetImageData(ImageData(frame));
-            wxPostEvent(parent, event);
+        // showing captured frames
+        for (int i = 0; i < imgData->size(); i++) {
+            cv::Mat frame = imgData->at(i).image;
+            UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT,
+                                              UPDATE_IMAGE);
+            updateImageEvent.SetImageData(frame);
+            wxPostEvent(parent, updateImageEvent);
+            wxMilliSleep(200);
         }
 
         if (debug_SaveImageData) {

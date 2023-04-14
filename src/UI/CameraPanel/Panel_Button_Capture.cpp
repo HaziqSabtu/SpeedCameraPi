@@ -33,7 +33,9 @@ void CameraPanelButton::EnableAllButtons() {
 }
 
 void CameraPanelButton::OnCaptureEvent(wxCommandEvent& e) {
+    std::cout << "Capture Event- Panel" << std::endl;
     if (e.GetId() == CAPTURE_START) {
+        std::cout << "disabling buttons" << std::endl;
         DisableAllButtons();
     }
 

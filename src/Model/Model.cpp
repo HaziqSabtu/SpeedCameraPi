@@ -44,27 +44,33 @@ void Model::endPoint(wxEvtHandler* parent, ModelEnum::ModelIDs id) {
 void Model::endPoint(wxEvtHandler* parent,
                      ModelEnum::ModelIDs id,
                      std::string path) {
-    switch (id) {
-        case ModelEnum::MODEL_START_CAPTURE:
-            startCaptureHandler(parent);
-            break;
-        case ModelEnum::MODEL_END_CAPTURE:
-            endCaptureHandler(parent);
-            break;
-        case ModelEnum::MODEL_START_LOADFILE:
-            startLoadFileHandler(parent, path);
-            break;
-        case ModelEnum::MODEL_END_LOADFILE:
-            endLoadFileHandler(parent);
-            break;
-        case ModelEnum::MODEL_START_LOADCAPTURE:
-            startLoadCaptureHandler(parent);
-            break;
-        case ModelEnum::MODEL_END_LOADCAPTURE:
-            endLoadCaptureHandler(parent);
-            break;
-        default:
-            break;
+    try {
+        switch (id) {
+            case ModelEnum::MODEL_START_CAPTURE:
+                startCaptureHandler(parent);
+                break;
+            case ModelEnum::MODEL_END_CAPTURE:
+                endCaptureHandler(parent);
+                break;
+            case ModelEnum::MODEL_START_LOADFILE:
+                startLoadFileHandler(parent, path);
+                break;
+            case ModelEnum::MODEL_END_LOADFILE:
+                endLoadFileHandler(parent);
+                break;
+            case ModelEnum::MODEL_START_LOADCAPTURE:
+                startLoadCaptureHandler(parent);
+                break;
+            case ModelEnum::MODEL_END_LOADCAPTURE:
+                endLoadCaptureHandler(parent);
+                break;
+            default:
+                break;
+        }
+    } catch (std::exception& e) {
+        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
+        errorEvent.SetErrorData(e.what());
+        wxPostEvent(parent, errorEvent);
     }
 }
 
@@ -82,7 +88,11 @@ void Model::endCaptureHandler(wxEvtHandler* parent) {
 
 void Model::startLoadFileHandler(wxEvtHandler* parent, std::string path) {
 
-    if (imgData->empty()) {
+    if (loadFileThread == nullptr) {
+        throw std::runtime_error("loadFileThread is already running");
+    }
+
+    if (!imgData->empty()) {
         imgData->clear();
     }
 
@@ -103,7 +113,12 @@ void Model::endLoadFileHandler(wxEvtHandler* parent) {
 }
 
 void Model::startLoadCaptureHandler(wxEvtHandler* parent) {
-    if (imgData->empty()) {
+
+    if (loadCaptureThread == nullptr) {
+        throw std::runtime_error("LoadCaptureThread is already running");
+    }
+
+    if (!imgData->empty()) {
         imgData->clear();
     }
 
@@ -121,7 +136,18 @@ void Model::startLoadCaptureHandler(wxEvtHandler* parent) {
 }
 
 void Model::endLoadCaptureHandler(wxEvtHandler* parent) {
+
+    for (int i = 1; i < imgData->size(); i++) {
+        double diff =
+          Utils::TimeDiff(imgData->at(i - 1).time, imgData->at(i).time);
+        std::cout << "Diff " << i << "  : " << diff << std::endl;
+    }
+    std::cout << "Model::endLoadCaptureHandler" << std::endl;
     loadCaptureThread = stopAndDeleteThread(loadCaptureThread);
+    if (loadCaptureThread == nullptr) {
+        std::cout << "LoadCaptureThread is stopped" << std::endl;
+    } else
+        std::cout << "LoadCaptureThread is not stopped" << std::endl;
 }
 
 template <typename T>

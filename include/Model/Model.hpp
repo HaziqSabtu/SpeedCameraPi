@@ -2,6 +2,8 @@
 
 #include <Model/ModelEnum.hpp>
 
+#include <Event/Event_Error.hpp>
+
 #include <Thread/ThreadPool.hpp>
 #include <Thread/Thread_Capture.hpp>
 #include <Thread/Thread_LoadCapture.hpp>
