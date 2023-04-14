@@ -78,6 +78,11 @@ void FILEWR::ReadFile(std::string path,
 void FILEWR::WriteFile(std::shared_ptr<std::vector<ImageData>> imgData) {
     // check if file exists
     std::string path = Utils::dateToString() + ".bin";
+    WriteFile(path, imgData);
+}
+
+void FILEWR::WriteFile(std::string path,
+                       std::shared_ptr<std::vector<ImageData>> imgData) {
     std::ofstream file(path, std::ios::binary);
 
     for (auto img : *imgData) {

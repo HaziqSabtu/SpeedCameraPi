@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(SpeedCamera)
+project(SpeedCameraPi)
 
+set(This SpeedCameraPiSet)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options(-Wno-psabi)
 
-file(GLOB_RECURSE SRCS ./src/*.cpp)
-add_executable(SpeedCamera ./src/main.cpp ${SRCS})
+file(GLOB_RECURSE SRCS ./src/*.cpp EXCLUDE ./src/main.cpp)
+add_executable(SpeedCameraPi ./src/main.cpp ${SRCS})
 
 # Find OpenCV
 find_package(OpenCV REQUIRED)
@@ -38,8 +39,8 @@ if(Threads_FOUND AND LIBCAMERA_FOUND)
     message(STATUS "    version: ${LIBCAMERA_VERSION}")
     message(STATUS "    libraries: ${LIBCAMERA_LINK_LIBRARIES}")
     message(STATUS "    include path: ${LIBCAMERA_INCLUDE_DIRS}")
-    target_link_libraries(SpeedCamera PRIVATE Threads::Threads ${LIBCAMERA_LINK_LIBRARIES})
-    target_include_directories(SpeedCamera PRIVATE /usr/local/include/libcamera)
+    target_link_libraries(SpeedCameraPi PRIVATE Threads::Threads ${LIBCAMERA_LINK_LIBRARIES})
+    target_include_directories(SpeedCameraPi PRIVATE /usr/local/include/libcamera)
 else()
     message(FATAL_ERROR "Threads not found")
 endif()
@@ -54,4 +55,27 @@ endif()
 # endif()
 
 include_directories(include)
-target_link_libraries(SpeedCamera PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
+target_link_libraries(SpeedCameraPi PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
+
+enable_testing()
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
+# Add test directory and link with gtest
+# add_subdirectory(test)
+# target_link_libraries(SpeedCameraPi PRIVATE ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+
+# Add test executable
+file(GLOB_RECURSE UTILS ./src/Utils/*.cpp)
+add_executable(SpeedCameraPiTest ./test/Test.cpp ${UTILS})
+target_link_libraries(SpeedCameraPiTest PRIVATE ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
+
+if(Threads_FOUND AND LIBCAMERA_FOUND)
+    message(STATUS "Threads found for test")
+    target_link_libraries(SpeedCameraPiTest PRIVATE Threads::Threads ${LIBCAMERA_LINK_LIBRARIES})
+    target_include_directories(SpeedCameraPiTest PRIVATE /usr/local/include/libcamera)
+else()
+    message(FATAL_ERROR "Threads not found")
+endif()
+# Add test to CTest
+add_test(NAME SpeedCameraPiTest COMMAND SpeedCameraPiTest)

@@ -32,6 +32,8 @@ class FILEWR {
     static void ReadFile(std::string path,
                          std::shared_ptr<std::vector<ImageData>> imgData);
     static void WriteFile(std::shared_ptr<std::vector<ImageData>> imgData);
+    static void WriteFile(std::string path,
+                          std::shared_ptr<std::vector<ImageData>> imgData);
 };
 
 #endif
