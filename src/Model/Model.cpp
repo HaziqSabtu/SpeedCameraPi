@@ -126,7 +126,7 @@ void Model::endLoadCaptureHandler(wxEvtHandler* parent) {
 
 template <typename T>
 T* Model::stopAndDeleteThread(T* threadPtr) {
-    if (threadPtr != nullptr) {
+    if (threadPtr == nullptr) {
         return nullptr;
     }
 
