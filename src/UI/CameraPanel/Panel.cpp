@@ -108,12 +108,12 @@ void CameraPanel::OnButton(wxCommandEvent& e) {
         captureThread = nullptr;
 
         deleteThread(loadCaptureThread);
-        loadCaptureThread =
-          new LoadCaptureThread(button_panel->GetButton(CAPTURE_BUTTON),
-                                &camera,
-                                captureConfig.maxFrame,
-                                captureConfig.Debug);
-        loadCaptureThread->Run();
+        // loadCaptureThread =
+        //   new LoadCaptureThread(button_panel->GetButton(CAPTURE_BUTTON),
+        //                         &camera,
+        //                         captureConfig.maxFrame,
+        //                         captureConfig.Debug);
+        // loadCaptureThread->Run();
 
         delete config;
         config = nullptr;
@@ -322,11 +322,11 @@ void CameraPanel::OnProcessImage(wxCommandEvent& e) {
     }
 }
 
-void CameraPanel::OnCaptureImage(CaptureImageEvent& e) {
+void CameraPanel::OnCaptureImage(wxCommandEvent& e) {
     if (e.GetId() == CAPTURE_START) {
         img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
     } else if (e.GetId() == CAPTURE_END) {
-        imgData = e.GetImageData();
+        // imgData = e.GetImageData();
 
         button_panel->Hide();
         button_panel_hough->Show();
@@ -449,7 +449,7 @@ wxBEGIN_EVENT_TABLE(CameraPanel, wxPanel)
     EVT_SPEED(wxID_ANY, CameraPanel::OnSpeed)
     EVT_HOUGH(wxID_ANY, CameraPanel::OnHough)
     EVT_UPDATEIMAGE(wxID_ANY, CameraPanel::OnUpdateImage)
-    EVT_CAPTUREIMAGE(wxID_ANY, CameraPanel::OnCaptureImage)
+    EVT_COMMAND(wxID_ANY, c_CAPTURE_IMAGE_EVENT, CameraPanel::OnCaptureImage)
     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT ,CameraPanel::OnProcessImage)
     EVT_BUTTON(wxID_ANY, CameraPanel::OnButton)
     EVT_LEFT_DOWN(CameraPanel::OnLeftDown)

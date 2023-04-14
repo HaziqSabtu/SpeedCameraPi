@@ -6,24 +6,23 @@
 #include <Utils/Enum.hpp>
 #include <wx/wx.h>
 
-enum Button_Type { CAPTURE_BUTTON, LOAD_BUTTON, TOGGLE_CAMERA_BUTTON };
 class CameraPanelButton : public wxPanel {
   public:
-    CameraPanelButton(wxWindow *parent, wxWindowID id);
-    void onCaptureToggle(bool isCapturing);
+    CameraPanelButton(wxWindow* parent, wxWindowID id);
     void DisableAllButtons();
     void EnableAllButtons();
-    wxButton *GetButton(Button_Type type);
-    bool GetButtonState(Button_Type type);
+
+    ButtonWState* Capture_Button;
+    ButtonWState* Load_Button;
+    wxButton* ToggleCamera_Button;
 
   private:
-    wxPanel *button_panel;
-    wxBoxSizer *button_sizer;
+    wxPanel* button_panel;
+    wxBoxSizer* button_sizer;
 
-    ButtonCapture *Capture_Button;
-    ButtonLoad *Load_Button;
-    wxButton *ToggleCamera_Button;
-    wxStaticText *Spacer;
+    wxStaticText* Spacer;
+
+    void OnCaptureEvent(wxCommandEvent& e);
 
     DECLARE_EVENT_TABLE();
 };

@@ -20,6 +20,9 @@ class Model : public wxPanel {
     Model(wxWindow* parent, wxWindowID id);
     ~Model();
     void endPoint(wxEvtHandler* parent, ModelEnum::ModelIDs id);
+    void endPoint(wxEvtHandler* parent,
+                  ModelEnum::ModelIDs id,
+                  std::string path);
 
   private:
     LibCam camera;
@@ -35,7 +38,7 @@ class Model : public wxPanel {
     void startCaptureHandler(wxEvtHandler* parent);
     void endCaptureHandler(wxEvtHandler* parent);
 
-    void LoadFileHandler(wxEvtHandler* parent);
+    void LoadFileHandler(wxEvtHandler* parent, std::string path);
 
     template <typename T>
     T* stopAndDeleteThread(T* threadPtr);

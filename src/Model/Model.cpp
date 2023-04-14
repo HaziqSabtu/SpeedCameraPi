@@ -36,6 +36,12 @@ void Model::init() {
 }
 
 void Model::endPoint(wxEvtHandler* parent, ModelEnum::ModelIDs id) {
+    endPoint(parent, id, "");
+}
+
+void Model::endPoint(wxEvtHandler* parent,
+                     ModelEnum::ModelIDs id,
+                     std::string path) {
     switch (id) {
         case ModelEnum::MODEL_START_CAPTURE:
             startCaptureHandler(parent);
@@ -44,7 +50,7 @@ void Model::endPoint(wxEvtHandler* parent, ModelEnum::ModelIDs id) {
             endCaptureHandler(parent);
             break;
         case ModelEnum::MODEL_START_PROCESSING_LOAD:
-            LoadFileHandler(parent);
+            LoadFileHandler(parent, path);
             break;
         default:
             break;
@@ -63,16 +69,18 @@ void Model::endCaptureHandler(wxEvtHandler* parent) {
     captureThread = stopAndDeleteThread(captureThread);
 }
 
-void Model::LoadFileHandler(wxEvtHandler* parent) {
+void Model::LoadFileHandler(wxEvtHandler* parent, std::string path) {
+
     if (imgData->empty()) {
         imgData->clear();
     }
+
     AppConfig* config = new AppConfig();
     LoadConfig loadConfig = config->GetLoadConfig();
     loadFileThread = new LoadFileThread(parent,
                                         threadPool,
                                         imgData,
-                                        loadConfig.path,
+                                        path,
                                         loadConfig.maxFrame);
     loadFileThread->Run();
     delete config;

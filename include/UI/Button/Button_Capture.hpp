@@ -6,12 +6,12 @@
 
 class ButtonCapture : public ButtonWState {
   public:
-    ButtonCapture(wxWindow *parent, wxWindowID id);
+    ButtonCapture(wxWindow* parent, wxWindowID id);
     ~ButtonCapture();
 
   private:
-    void OnButton(wxCommandEvent &e) override;
-    void OnCaptureImage(CaptureImageEvent &e);
+    void OnButton(wxCommandEvent& e) override;
+    void OnCaptureImage(wxCommandEvent& e);
 
     void render() override;
 };

@@ -24,7 +24,7 @@ LoadFileThread::LoadFileThread(
   wxEvtHandler* parent,
   std::shared_ptr<ThreadPool> threadPool,
   std::shared_ptr<std::vector<ImageData>> imgData,
-  wxString path,
+  std::string path,
   const int maxFrame)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
       imgData(imgData), path(path), maxFrame(maxFrame) {}
@@ -52,26 +52,15 @@ LoadFileThread::~LoadFileThread() {
  */
 wxThread::ExitCode LoadFileThread::Entry() {
     try {
-        CaptureImageEvent startCaptureEvent(c_CAPTURE_IMAGE_EVENT,
-                                            CAPTURE_START);
+        wxCommandEvent startCaptureEvent(c_CAPTURE_IMAGE_EVENT,
+                                         CAPTURE_START);
         wxPostEvent(parent, startCaptureEvent);
 
-        std::string stringPath = Utils::wxStringToString(this->path);
-
         std::unique_ptr<Task> task =
-          std::make_unique<LoadTask>(imgData, stringPath);
+          std::make_unique<LoadTask>(imgData, path);
 
         TaskProperty property = task->GetProperty();
         pool->AddTask(task);
-
-        while (imgData->empty()) {
-            wxMilliSleep(30);
-        }
-
-        cv::Mat frame = imgData->at(0).image;
-        UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-        event.SetImageData(frame);
-        wxPostEvent(parent, event);
 
         while (pool->isWorkerBusy(property) || pool->HasTasks(property)) {
             wxMilliSleep(30);
@@ -81,26 +70,20 @@ wxThread::ExitCode LoadFileThread::Entry() {
             imgData->erase(imgData->begin() + maxFrame, imgData->end());
         }
 
-        for (int i = 1; i < imgData->size(); i++) {
+        for (int i = 0; i < imgData->size(); i++) {
             cv::Mat frame = imgData->at(i).image;
             UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT,
                                               UPDATE_IMAGE);
             updateImageEvent.SetImageData(frame);
             wxPostEvent(parent, updateImageEvent);
-            wxMilliSleep(100);
+            wxMilliSleep(200);
         }
     } catch (const std::exception& e) {
         std::cout << "LoadFileThread::Entry() - Error: \n"
                   << e.what() << std::endl;
     }
 
-    cv::Mat first = imgData->at(0).image;
-    UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-    updateImageEvent.SetImageData(first);
-    wxPostEvent(parent, updateImageEvent);
-
-    CaptureImageEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
-    // stopCaptureEvent.SetImageData(imgData.release());
+    wxCommandEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
     wxPostEvent(parent, stopCaptureEvent);
     return 0;
 }

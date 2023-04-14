@@ -36,7 +36,7 @@ class LoadFileThread : public wxThread {
     LoadFileThread(wxEvtHandler* parent,
                    std::shared_ptr<ThreadPool> pool,
                    std::shared_ptr<std::vector<ImageData>> imgData,
-                   wxString path,
+                   std::string path,
                    const int maxFrame);
     ~LoadFileThread();
 
@@ -47,7 +47,7 @@ class LoadFileThread : public wxThread {
     wxEvtHandler* parent;
     std::shared_ptr<std::vector<ImageData>> imgData;
     std::shared_ptr<ThreadPool> pool;
-    wxString path;
+    std::string path;
     const int maxFrame;
 };
 

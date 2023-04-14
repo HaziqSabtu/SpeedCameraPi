@@ -2,8 +2,10 @@
 #include <UI/CameraPanel/Panel2.hpp>
 #include <wx/event.h>
 
-CameraPanel2::CameraPanel2(wxWindow *parent, wxWindowID id, AppConfig *config,
-                           Model *model)
+CameraPanel2::CameraPanel2(wxWindow* parent,
+                           wxWindowID id,
+                           AppConfig* config,
+                           Model* model)
     : wxPanel(parent, id), model(model) {
     //     , imgData(nullptr),
     // threadPool(config->GetPanelConfig().Thread_Pool_Size),
@@ -134,7 +136,8 @@ CameraPanel2::~CameraPanel2() {
 //         config = nullptr;
 //     }
 
-//     if (id == Enum::CP_Next_Button_ID || id == Enum::CP_Prev_Button_ID) {
+//     if (id == Enum::CP_Next_Button_ID || id == Enum::CP_Prev_Button_ID)
+//     {
 //         id == Enum::CP_Next_Button_ID ? OnIncrement() : OnDecrement();
 //         if (!imgData->at(currentImageIndex).hough.lines.empty()) {
 //             img_bitmap->SetImageData(imgData->at(currentImageIndex));
@@ -244,7 +247,7 @@ CameraPanel2::~CameraPanel2() {
 //         GetSizer()->Layout();
 //     }
 // }
-void CameraPanel2::OnButton(wxCommandEvent &e) {
+void CameraPanel2::OnButton(wxCommandEvent& e) {
     if (e.GetId() == Enum::CP_Capture_Button_ID) {
         model->endPoint(this, ModelEnum::MODEL_START_CAPTURE);
     }
@@ -254,12 +257,28 @@ void CameraPanel2::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CP_Load_Button_ID) {
-        std::cout << "Load Button" << std::endl;
-        model->endPoint(this, ModelEnum::MODEL_START_PROCESSING_LOAD);
+        OnLoadButton(button_panel->Load_Button);
     }
 }
 
-void CameraPanel2::OnUpdateImage(UpdateImageEvent &e) {
+void CameraPanel2::OnLoadButton(wxEvtHandler* parent) {
+    wxFileDialog openFileDialog(this,
+                                _("Open .bin file"),
+                                "",
+                                "",
+                                "XYZ files (*.bin)|*.bin",
+                                wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL) {
+        return;
+    }
+
+    std::string path = Utils::wxStringToString(openFileDialog.GetPath());
+
+    model->endPoint(parent, ModelEnum::MODEL_START_PROCESSING_LOAD, path);
+}
+
+void CameraPanel2::OnUpdateImage(UpdateImageEvent& e) {
     if (e.GetId() == UPDATE_IMAGE) {
         ImageData iData = e.GetImageData();
         img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
@@ -274,17 +293,20 @@ void CameraPanel2::OnUpdateImage(UpdateImageEvent &e) {
 // void CameraPanel2::OnProcessImage(wxCommandEvent &e) {
 //     if (e.GetId() == PROCESS_BEGIN) {
 //         AppConfig *config = new AppConfig();
-//         OpticalFlowConfig opticalFlowConfig = config->GetOpticalFlowConfig();
+//         OpticalFlowConfig opticalFlowConfig =
+//         config->GetOpticalFlowConfig();
 
 //         waitThenDeleteThread(processThread);
 //         processThread =
-//             new ProcessThread(this, &threadPool, imgData, opticalFlowConfig);
+//             new ProcessThread(this, &threadPool, imgData,
+//             opticalFlowConfig);
 //         processThread->Run();
 
 //         HoughConfig houghConfig = config->GetHoughConfig();
 //         CannyConfig cannyConfig = config->GetCannyConfig();
 //         deleteThread(houghThread);
-//         houghThread = new HoughThread(button_panel_hough, &threadPool,
+//         houghThread = new HoughThread(button_panel_hough,
+//         &threadPool,
 //                                       imgData->at(currentImageIndex),
 //                                       cannyConfig, houghConfig);
 //         houghThread->Run();
@@ -306,14 +328,15 @@ void CameraPanel2::OnUpdateImage(UpdateImageEvent &e) {
 //             SensorConfig sensorConfig = config->GetSensorConfig();
 
 //             deleteThread(speedThread);
-//             speedThread = new SpeedThread(button_panel_result, &threadPool,
+//             speedThread = new SpeedThread(button_panel_result,
+//             &threadPool,
 //                                           imgData, selectedLine,
 //                                           sensorConfig);
 //             speedThread->Run();
 
 //             deleteThread(resultThread);
-//             resultThread = new ResultThread(button_panel_result, imgData);
-//             resultThread->Run();
+//             resultThread = new ResultThread(button_panel_result,
+//             imgData); resultThread->Run();
 
 //             img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
 //             img_bitmap->SetIsRect(button_panel_result->GetBBoxState());
@@ -364,14 +387,14 @@ void CameraPanel2::OnUpdateImage(UpdateImageEvent &e) {
 //         SensorConfig sensorConfig = config->GetSensorConfig();
 
 //         deleteThread(speedThread);
-//         speedThread = new SpeedThread(button_panel_result, &threadPool,
-//         imgData,
+//         speedThread = new SpeedThread(button_panel_result,
+//         &threadPool, imgData,
 //                                       selectedLine, sensorConfig);
 //         speedThread->Run();
 
 //         deleteThread(resultThread);
-//         resultThread = new ResultThread(button_panel_result, imgData);
-//         resultThread->Run();
+//         resultThread = new ResultThread(button_panel_result,
+//         imgData); resultThread->Run();
 
 //         img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
 //         img_bitmap->SetIsRect(button_panel_result->GetBBoxState());
@@ -446,6 +469,9 @@ void CameraPanel2::OnUpdateImage(UpdateImageEvent &e) {
 //     }
 //     img_bitmap->SetSelectedLine(selectedLine);
 // }
+void CameraPanel2::OnCaptureEvent(wxCommandEvent& e) {
+    std::cout << "OnCaptureEvent" << std::endl;
+}
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(CameraPanel2, wxPanel)
@@ -456,5 +482,6 @@ wxBEGIN_EVENT_TABLE(CameraPanel2, wxPanel)
     //     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT
     //     ,CameraPanel2::OnProcessImage) 
     EVT_BUTTON(wxID_ANY,CameraPanel2::OnButton) 
+    EVT_COMMAND(wxID_ANY, c_CAPTURE_IMAGE_EVENT, CameraPanel2::OnCaptureEvent)
     // EVT_LEFT_DOWN(CameraPanel2::OnLeftDown)
 wxEND_EVENT_TABLE()

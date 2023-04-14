@@ -30,12 +30,14 @@
 
 class CameraPanel2 : public wxPanel {
   public:
-    CameraPanel2(wxWindow *parent, wxWindowID id, AppConfig *config,
-                 Model *model);
+    CameraPanel2(wxWindow* parent,
+                 wxWindowID id,
+                 AppConfig* config,
+                 Model* model);
     ~CameraPanel2();
 
   private:
-    Model *model;
+    Model* model;
     // LibCam camera;
     // ThreadPool threadPool;
 
@@ -47,12 +49,12 @@ class CameraPanel2 : public wxPanel {
     // LoadCaptureThread *loadCaptureThread;
     // CaptureThread *captureThread;
 
-    CameraPanelButton *button_panel;
+    CameraPanelButton* button_panel;
     // ButtonPanelHough *button_panel_hough;
     // PanelButtonResult *button_panel_result;
-    ImagePanel *img_bitmap;
+    ImagePanel* img_bitmap;
 
-    wxBoxSizer *main_sizer;
+    wxBoxSizer* main_sizer;
 
     // const int circleRadius;
     // std::vector<ImageData> *imgData;
@@ -68,13 +70,15 @@ class CameraPanel2 : public wxPanel {
 
     // void deleteThread(wxThread *thread);
     // void waitThenDeleteThread(wxThread *thread);
+    void OnLoadButton(wxEvtHandler* parent);
 
-    void OnButton(wxCommandEvent &e);
+    void OnButton(wxCommandEvent& e);
     // void OnLeftDown(wxMouseEvent &e);
     // void OnSize(wxSizeEvent &e);
-    void OnUpdateImage(UpdateImageEvent &e);
+    void OnUpdateImage(UpdateImageEvent& e);
     // void OnProcessImage(wxCommandEvent &e);
     // void OnCaptureImage(CaptureImageEvent &e);
+    void OnCaptureEvent(wxCommandEvent& e);
     // void OnHough(HoughEvent &e);
     // void OnSpeed(SpeedCalcEvent &e);
 
