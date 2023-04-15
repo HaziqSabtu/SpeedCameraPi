@@ -11,6 +11,7 @@
 #ifndef CAPTURE_THREAD_HPP
 #define CAPTURE_THREAD_HPP
 
+#include <Event/Event_Capture.hpp>
 #include <Event/Event_UpdateImage.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>

@@ -37,10 +37,11 @@ class Model : public wxPanel {
     LoadFileThread* loadFileThread;
     LoadCaptureThread* loadCaptureThread;
 
-    void init();
+    void initThreads();
+    void deleteThreads();
 
     void startCaptureHandler(wxEvtHandler* parent);
-    void endCaptureHandler(wxEvtHandler* parent);
+    void endCaptureHandler();
 
     void startLoadFileHandler(wxEvtHandler* parent, std::string path);
     void endLoadFileHandler(wxEvtHandler* parent);

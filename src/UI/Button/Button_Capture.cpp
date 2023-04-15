@@ -3,7 +3,7 @@
 ButtonCapture::ButtonCapture(wxWindow* parent, wxWindowID id)
     : ButtonWState(parent, id, "Capture", "Capturing", "Capture", false) {
     Bind(wxEVT_BUTTON, &ButtonCapture::OnButton, this);
-    Bind(c_CAPTURE_IMAGE_EVENT, &ButtonCapture::OnCaptureImage, this);
+    Bind(c_LOAD_IMAGE_EVENT, &ButtonCapture::OnLoadImage, this);
 }
 
 ButtonCapture::~ButtonCapture() {}
@@ -15,12 +15,13 @@ void ButtonCapture::OnButton(wxCommandEvent& e) {
 
 void ButtonCapture::render() { ButtonWState::render(); }
 
-void ButtonCapture::OnCaptureImage(wxCommandEvent& e) {
-    // if (e.GetId() == CAPTURE_START) {
-    //     Disable();
-    // } else if (e.GetId() == CAPTURE_END) {
-    //     Enable();
-    //     toggleState();
-    // }
+void ButtonCapture::OnLoadImage(wxCommandEvent& e) {
+
+    if (e.GetId() == LOAD_END_CAMERA) {
+        state = false;
+    }
+
+    render();
+    e.Skip();
     e.Skip();
 }

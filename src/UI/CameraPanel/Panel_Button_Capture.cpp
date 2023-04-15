@@ -6,7 +6,7 @@ CameraPanelButton::CameraPanelButton(wxWindow* parent, wxWindowID id)
     Capture_Button = new ButtonCapture(this, Enum::CP_Capture_Button_ID);
     Load_Button = new ButtonLoad(this, Enum::CP_Load_Button_ID);
     ToggleCamera_Button =
-      new wxButton(this, Enum::CP_Camera_Button_ID, "Toggle Camera");
+      new ButtonToggleCam(this, Enum::CP_ToggleCamera_Button_ID);
     Spacer = new wxStaticText(this, wxID_ANY, "");
 
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -17,7 +17,7 @@ CameraPanelButton::CameraPanelButton(wxWindow* parent, wxWindowID id)
 
     this->SetSizer(button_sizer);
 
-    Bind(c_CAPTURE_IMAGE_EVENT, &CameraPanelButton::OnCaptureEvent, this);
+    Bind(c_LOAD_IMAGE_EVENT, &CameraPanelButton::OnLoadImage, this);
 }
 
 void CameraPanelButton::DisableAllButtons() {
@@ -32,14 +32,13 @@ void CameraPanelButton::EnableAllButtons() {
     ToggleCamera_Button->Enable();
 }
 
-void CameraPanelButton::OnCaptureEvent(wxCommandEvent& e) {
-    std::cout << "Capture Event- Panel" << std::endl;
-    if (e.GetId() == CAPTURE_START) {
-        std::cout << "disabling buttons" << std::endl;
+void CameraPanelButton::OnLoadImage(wxCommandEvent& e) {
+
+    if (e.GetId() == LOAD_START) {
         DisableAllButtons();
     }
 
-    if (e.GetId() == CAPTURE_END) {
+    if (e.GetId() == LOAD_END_CAMERA || e.GetId() == LOAD_END_FILE) {
         EnableAllButtons();
     }
     e.Skip();

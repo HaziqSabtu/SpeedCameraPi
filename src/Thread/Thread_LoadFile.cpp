@@ -52,9 +52,8 @@ LoadFileThread::~LoadFileThread() {
  */
 wxThread::ExitCode LoadFileThread::Entry() {
     try {
-        wxCommandEvent startCaptureEvent(c_CAPTURE_IMAGE_EVENT,
-                                         CAPTURE_START);
-        wxPostEvent(parent, startCaptureEvent);
+        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START);
+        wxPostEvent(parent, startLoadEvent);
 
         std::unique_ptr<Task> task =
           std::make_unique<LoadTask>(imgData, path);
@@ -83,8 +82,8 @@ wxThread::ExitCode LoadFileThread::Entry() {
                   << e.what() << std::endl;
     }
 
-    wxCommandEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
-    wxPostEvent(parent, stopCaptureEvent);
+    wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_FILE);
+    wxPostEvent(parent, stopLoadEvent);
     return 0;
 }
 

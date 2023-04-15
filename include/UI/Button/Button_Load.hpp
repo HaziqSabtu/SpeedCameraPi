@@ -1,7 +1,7 @@
 #ifndef BUTTON_LOAD_HPP
 #define BUTTON_LOAD_HPP
 
-#include <Event/Event_CaptureImage.hpp>
+#include <Event/Event_LoadImage.hpp>
 #include <UI/Button/Button_wState.hpp>
 
 class ButtonLoad : public ButtonWState {
@@ -11,7 +11,7 @@ class ButtonLoad : public ButtonWState {
 
   private:
     void OnButton(wxCommandEvent& e) override;
-    void OnCaptureEvent(wxCommandEvent& e);
+    void OnLoadImage(wxCommandEvent& e);
 
     void render() override;
 };

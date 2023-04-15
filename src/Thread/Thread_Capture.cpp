@@ -43,6 +43,9 @@ CaptureThread::~CaptureThread() {}
  */
 wxThread::ExitCode CaptureThread::Entry() {
 
+    wxCommandEvent startCaptureEvent(c_CAPTURE_EVENT, CAPTURE_START);
+    wxPostEvent(m_parent, startCaptureEvent);
+
     while (!TestDestroy()) {
         cv::Mat frame;
         camera->getFrame(frame);
@@ -59,5 +62,8 @@ wxThread::ExitCode CaptureThread::Entry() {
 
     UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, CLEAR_IMAGE);
     wxPostEvent(m_parent, event);
+
+    wxCommandEvent endCaptureEvent(c_CAPTURE_EVENT, CAPTURE_END);
+    wxPostEvent(m_parent, endCaptureEvent);
     return 0;
 }

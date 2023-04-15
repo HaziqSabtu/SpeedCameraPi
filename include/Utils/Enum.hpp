@@ -15,6 +15,7 @@ enum ProjectIDs {
     CP_BUTTON_PANEL_ID,
     CP_Capture_Button_ID,
     CP_Stop_Button_ID,
+    CP_ToggleCamera_Button_ID,
     CP_Load_Button_ID,
     CP_Camera_Button_ID,
     CP_Camera_Button2_ID,

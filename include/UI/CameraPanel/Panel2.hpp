@@ -69,7 +69,9 @@ class CameraPanel2 : public wxPanel {
 
     // void deleteThread(wxThread *thread);
     // void waitThenDeleteThread(wxThread *thread);
-    void OnLoadButton(wxEvtHandler* parent);
+    void OnLoadButton(ButtonWState* button);
+    void OnCaptureButton(ButtonWState* button);
+    void OnToggleCameraButton(ButtonWState* button);
 
     void OnButton(wxCommandEvent& e);
     // void OnLeftDown(wxMouseEvent &e);
@@ -77,7 +79,7 @@ class CameraPanel2 : public wxPanel {
     void OnUpdateImage(UpdateImageEvent& e);
     // void OnProcessImage(wxCommandEvent &e);
     // void OnCaptureImage(CaptureImageEvent &e);
-    void OnCaptureEvent(wxCommandEvent& e);
+    void onLoadImage(wxCommandEvent& e);
     void OnError(ErrorEvent& e);
     // void OnHough(HoughEvent &e);
     // void OnSpeed(SpeedCalcEvent &e);

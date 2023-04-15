@@ -1,8 +1,8 @@
 #ifndef CAMERA_PANEL_HPP
 #define CAMERA_PANEL_HPP
 
-#include <Event/Event_CaptureImage.hpp>
 #include <Event/Event_Hough.hpp>
+#include <Event/Event_LoadImage.hpp>
 #include <Event/Event_ProcessImage.hpp>
 #include <Event/Event_Speed.hpp>
 #include <Event/Event_UpdateImage.hpp>

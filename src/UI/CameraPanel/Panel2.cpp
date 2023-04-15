@@ -248,12 +248,12 @@ CameraPanel2::~CameraPanel2() {
 //     }
 // }
 void CameraPanel2::OnButton(wxCommandEvent& e) {
-    if (e.GetId() == Enum::CP_Capture_Button_ID) {
-        model->endPoint(this, ModelEnum::MODEL_START_LOADCAPTURE);
+    if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
+        OnToggleCameraButton(button_panel->ToggleCamera_Button);
     }
 
-    if (e.GetId() == Enum::CP_Camera_Button_ID) {
-        model->endPoint(this, ModelEnum::MODEL_END_CAPTURE);
+    if (e.GetId() == Enum::CP_Capture_Button_ID) {
+        OnCaptureButton(button_panel->Capture_Button);
     }
 
     if (e.GetId() == Enum::CP_Load_Button_ID) {
@@ -261,7 +261,7 @@ void CameraPanel2::OnButton(wxCommandEvent& e) {
     }
 }
 
-void CameraPanel2::OnLoadButton(wxEvtHandler* parent) {
+void CameraPanel2::OnLoadButton(ButtonWState* button) {
     wxFileDialog openFileDialog(this,
                                 _("Open .bin file"),
                                 "",
@@ -274,7 +274,20 @@ void CameraPanel2::OnLoadButton(wxEvtHandler* parent) {
     }
 
     std::string path = Utils::wxStringToString(openFileDialog.GetPath());
-    model->endPoint(parent, ModelEnum::MODEL_START_LOADFILE, path);
+    model->endPoint(button, ModelEnum::MODEL_START_LOADFILE, path);
+}
+
+void CameraPanel2::OnCaptureButton(ButtonWState* button) {
+    model->endPoint(button, ModelEnum::MODEL_START_LOADCAPTURE);
+}
+
+void CameraPanel2::OnToggleCameraButton(ButtonWState* button) {
+    if (button->GetState()) {
+        model->endPoint(button, ModelEnum::MODEL_START_CAPTURE);
+        return;
+    }
+
+    model->endPoint(button, ModelEnum::MODEL_END_CAPTURE);
 }
 
 void CameraPanel2::OnUpdateImage(UpdateImageEvent& e) {
@@ -468,9 +481,14 @@ void CameraPanel2::OnUpdateImage(UpdateImageEvent& e) {
 //     }
 //     img_bitmap->SetSelectedLine(selectedLine);
 // }
-void CameraPanel2::OnCaptureEvent(wxCommandEvent& e) {
-    if (e.GetId() == CAPTURE_END) {
+void CameraPanel2::onLoadImage(wxCommandEvent& e) {
+    if (e.GetId() == LOAD_END_FILE) {
         model->endPoint(button_panel->Load_Button,
+                        ModelEnum::MODEL_END_LOADFILE);
+    }
+
+    if (e.GetId() == LOAD_END_CAMERA) {
+        model->endPoint(button_panel->Capture_Button,
                         ModelEnum::MODEL_END_LOADCAPTURE);
     }
     e.Skip();
@@ -491,7 +509,7 @@ wxBEGIN_EVENT_TABLE(CameraPanel2, wxPanel)
     //     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT
     //     ,CameraPanel2::OnProcessImage) 
     EVT_BUTTON(wxID_ANY,CameraPanel2::OnButton) 
-    EVT_COMMAND(wxID_ANY, c_CAPTURE_IMAGE_EVENT, CameraPanel2::OnCaptureEvent)
+    EVT_COMMAND(wxID_ANY, c_LOAD_IMAGE_EVENT, CameraPanel2::onLoadImage)
     EVT_ERROR(wxID_ANY, CameraPanel2::OnError)
     // EVT_LEFT_DOWN(CameraPanel2::OnLeftDown)
 wxEND_EVENT_TABLE()

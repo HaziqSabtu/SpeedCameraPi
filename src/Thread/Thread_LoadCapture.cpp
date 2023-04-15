@@ -53,9 +53,8 @@ LoadCaptureThread::~LoadCaptureThread() {}
  */
 wxThread::ExitCode LoadCaptureThread::Entry() {
     try {
-        wxCommandEvent startCaptureEvent(c_CAPTURE_IMAGE_EVENT,
-                                         CAPTURE_START);
-        wxPostEvent(parent, startCaptureEvent);
+        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START);
+        wxPostEvent(parent, startLoadEvent);
 
         cv::Mat frame;
 
@@ -107,7 +106,7 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
                   << std::endl;
     }
 
-    wxCommandEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
-    wxPostEvent(parent, stopCaptureEvent);
+    wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_CAMERA);
+    wxPostEvent(parent, stopLoadEvent);
     return 0;
 }

@@ -3,7 +3,7 @@
 ButtonLoad::ButtonLoad(wxWindow* parent, wxWindowID id)
     : ButtonWState(parent, id, "Load", "Loading", "Load", false) {
     Bind(wxEVT_BUTTON, &ButtonLoad::OnButton, this);
-    Bind(c_CAPTURE_IMAGE_EVENT, &ButtonLoad::OnCaptureEvent, this);
+    Bind(c_LOAD_IMAGE_EVENT, &ButtonLoad::OnLoadImage, this);
 }
 
 ButtonLoad::~ButtonLoad() {}
@@ -13,12 +13,9 @@ void ButtonLoad::OnButton(wxCommandEvent& e) {
     e.Skip();
 }
 
-void ButtonLoad::OnCaptureEvent(wxCommandEvent& e) {
-    if (e.GetId() == CAPTURE_START) {
-        state = true;
-    }
+void ButtonLoad::OnLoadImage(wxCommandEvent& e) {
 
-    if (e.GetId() == CAPTURE_END) {
+    if (e.GetId() == LOAD_END_FILE) {
         state = false;
     }
 

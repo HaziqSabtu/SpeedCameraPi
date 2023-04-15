@@ -3,6 +3,7 @@
 
 #include <UI/Button/Button_Capture.hpp>
 #include <UI/Button/Button_Load.hpp>
+#include <UI/Button/Button_ToggleCamera.hpp>
 #include <Utils/Enum.hpp>
 #include <wx/wx.h>
 
@@ -14,7 +15,7 @@ class CameraPanelButton : public wxPanel {
 
     ButtonWState* Capture_Button;
     ButtonWState* Load_Button;
-    wxButton* ToggleCamera_Button;
+    ButtonWState* ToggleCamera_Button;
 
   private:
     wxPanel* button_panel;
@@ -22,7 +23,7 @@ class CameraPanelButton : public wxPanel {
 
     wxStaticText* Spacer;
 
-    void OnCaptureEvent(wxCommandEvent& e);
+    void OnLoadImage(wxCommandEvent& e);
 
     DECLARE_EVENT_TABLE();
 };
