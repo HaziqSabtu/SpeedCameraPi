@@ -17,6 +17,7 @@
 // #include <UI/CameraPanel/Panel_Button_Hough.hpp>
 // #include <UI/CameraPanel/Panel_Button_Result.hpp>
 #include <UI/CameraPanel/Panel_Image.hpp>
+#include <UI/CameraPanel/Panel_Image2.hpp>
 // #include <Utils/Camera/CameraBase.hpp>
 // #include <Utils/Camera/libcam.hpp>
 #include <Model/Model.hpp>
@@ -29,6 +30,7 @@
 
 class CameraPanel2 : public wxPanel {
   public:
+    // CameraPanel2(wxWindow* parent, wxWindowID id, AppConfig* config);
     CameraPanel2(wxWindow* parent,
                  wxWindowID id,
                  AppConfig* config,
@@ -51,7 +53,8 @@ class CameraPanel2 : public wxPanel {
     CameraPanelButton* button_panel;
     // ButtonPanelHough *button_panel_hough;
     // PanelButtonResult *button_panel_result;
-    ImagePanel* img_bitmap;
+    // ImagePanel* img_bitmap;
+    ImagePanelBitmap* img_bitmap;
 
     wxBoxSizer* main_sizer;
 

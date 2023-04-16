@@ -7,6 +7,7 @@ CameraPanel2::CameraPanel2(wxWindow* parent,
                            AppConfig* config,
                            Model* model)
     : wxPanel(parent, id), model(model) {
+    // : wxPanel(parent, id) {
     //     , imgData(nullptr),
     // threadPool(config->GetPanelConfig().Thread_Pool_Size),
     // circleRadius(config->GetRadius()) {
@@ -17,7 +18,8 @@ CameraPanel2::CameraPanel2(wxWindow* parent,
     // button_panel_result =
     //     new PanelButtonResult(this, Enum::CP_BUTTON_PANEL_RESULT_ID);
 
-    img_bitmap = new ImagePanel(this, 10);
+    img_bitmap = new ImagePanelBitmap(this);
+    // img_bitmap = new ImagePanel(this, 10);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(button_panel, 0, wxEXPAND);
@@ -293,12 +295,11 @@ void CameraPanel2::OnToggleCameraButton(ButtonWState* button) {
 void CameraPanel2::OnUpdateImage(UpdateImageEvent& e) {
     if (e.GetId() == UPDATE_IMAGE) {
         ImageData iData = e.GetImageData();
-        img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
-        img_bitmap->SetImageData(iData);
+        // img_bitmap->SetImageData(iData);
     }
 
     if (e.GetId() == CLEAR_IMAGE) {
-        img_bitmap->SetImageData();
+        // img_bitmap->SetImageData();
     }
 }
 

@@ -14,17 +14,17 @@
 
 class MainFrame : public wxFrame {
   public:
-    MainFrame(const wxString &title, wxSize size, AppConfig *config);
+    MainFrame(const wxString& title, wxSize size, AppConfig* config);
     ~MainFrame();
 
   private:
-    cv::VideoCapture *video_capture;
+    cv::VideoCapture* video_capture;
     std::vector<ImageData> imgData;
 
-    AppConfig *config;
+    AppConfig* config;
 
-    wxNotebook *notebook;
-    CameraPanel2 *camera_panel;
+    wxNotebook* notebook;
+    CameraPanel2* camera_panel;
 };
 
 #endif
