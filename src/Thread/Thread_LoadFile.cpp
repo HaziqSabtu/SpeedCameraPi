@@ -71,10 +71,10 @@ wxThread::ExitCode LoadFileThread::Entry() {
 
         for (int i = 0; i < imgData->size(); i++) {
             cv::Mat frame = imgData->at(i).image;
-            UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT,
-                                              UPDATE_IMAGE);
-            updateImageEvent.SetImageData(frame);
-            wxPostEvent(parent, updateImageEvent);
+            UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
+                                                  UPDATE_PREVIEW);
+            updatePreviewEvent.SetImage(frame);
+            wxPostEvent(parent, updatePreviewEvent);
             wxMilliSleep(200);
         }
     } catch (const std::exception& e) {

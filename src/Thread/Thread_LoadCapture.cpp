@@ -43,7 +43,7 @@ LoadCaptureThread::~LoadCaptureThread() {}
  * <li>Check if camera is opened</li>
  * <li>Grab and retrieve frame from camera</li>
  * <li>Post CaptureImageEvent to parent to signal the start of capture</li>
- * <li>Post UpdateImageEvent to parent to signal that a new frame is
+ * <li>Post updatePreviewEvent to parent to signal that a new frame is
  * available</li>
  * <li>Post CaptureImageEvent to parent to signal the end of capture</li>
  * </ul>
@@ -60,7 +60,7 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
 
         // warmup
         // first few frames have inconsistent time stamp
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < WARMPUP_COUNT; i++) {
             camera->getFrame(frame);
         }
 
@@ -90,10 +90,10 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
         // showing captured frames
         for (int i = 0; i < imgData->size(); i++) {
             cv::Mat frame = imgData->at(i).image;
-            UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT,
-                                              UPDATE_IMAGE);
-            updateImageEvent.SetImageData(frame);
-            wxPostEvent(parent, updateImageEvent);
+            UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
+                                                  UPDATE_PREVIEW);
+            updatePreviewEvent.SetImage(frame);
+            wxPostEvent(parent, updatePreviewEvent);
             wxMilliSleep(200);
         }
 

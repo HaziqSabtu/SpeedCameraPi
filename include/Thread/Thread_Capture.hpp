@@ -12,7 +12,7 @@
 #define CAPTURE_THREAD_HPP
 
 #include <Event/Event_Capture.hpp>
-#include <Event/Event_UpdateImage.hpp>
+#include <Event/Event_UpdatePreview.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>
 #include <Utils/DataStruct.hpp>
@@ -38,7 +38,7 @@ class CaptureThread : public wxThread {
     virtual ExitCode Entry();
 
   private:
-    wxEvtHandler* m_parent;
+    wxEvtHandler* parent;
     std::shared_ptr<CameraBase> camera;
 };
 

@@ -20,7 +20,7 @@
 CaptureThread::CaptureThread(wxEvtHandler* parent,
                              std::shared_ptr<CameraBase> camera)
     : wxThread(wxTHREAD_JOINABLE), camera(camera) {
-    this->m_parent = parent;
+    this->parent = parent;
 }
 
 /**
@@ -44,7 +44,7 @@ CaptureThread::~CaptureThread() {}
 wxThread::ExitCode CaptureThread::Entry() {
 
     wxCommandEvent startCaptureEvent(c_CAPTURE_EVENT, CAPTURE_START);
-    wxPostEvent(m_parent, startCaptureEvent);
+    wxPostEvent(parent, startCaptureEvent);
 
     while (!TestDestroy()) {
         cv::Mat frame;
@@ -55,15 +55,17 @@ wxThread::ExitCode CaptureThread::Entry() {
             continue;
         }
 
-        UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-        event.SetImageData(ImageData(frame));
-        wxPostEvent(m_parent, event);
+        UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
+                                              UPDATE_PREVIEW);
+        updatePreviewEvent.SetImage(frame);
+        wxPostEvent(parent, updatePreviewEvent);
     }
 
-    UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, CLEAR_IMAGE);
-    wxPostEvent(m_parent, event);
+    UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT,
+                                         CLEAR_PREVIEW);
+    wxPostEvent(parent, clearPreviewEvent);
 
     wxCommandEvent endCaptureEvent(c_CAPTURE_EVENT, CAPTURE_END);
-    wxPostEvent(m_parent, endCaptureEvent);
+    wxPostEvent(parent, endCaptureEvent);
     return 0;
 }

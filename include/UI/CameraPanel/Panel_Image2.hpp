@@ -21,14 +21,15 @@ class ImagePanelBitmap : public wxPanel {
   public:
     ImagePanelBitmap(wxPanel* parent);
 
-    void render(wxDC& dc);
-    void calcRatio(wxDC& dc);
-
-    const wxBitmap createBitmap(std::string text);
-
-    wxBitmap resize(wxBitmap& bitmap, const wxSize& size);
+    void setImage(wxBitmap& image);
+    void setNoImage();
 
   private:
+    void render(wxDC& dc);
+    void calcRatio(wxDC& dc);
+    const wxBitmap createBitmap(std::string text);
+    wxBitmap resize(wxBitmap& bitmap, const wxSize& size);
+
     void onPaint(wxPaintEvent& e);
     void onSize(wxSizeEvent& e);
 

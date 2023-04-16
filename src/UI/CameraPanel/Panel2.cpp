@@ -292,14 +292,14 @@ void CameraPanel2::OnToggleCameraButton(ButtonWState* button) {
     model->endPoint(button, ModelEnum::MODEL_END_CAPTURE);
 }
 
-void CameraPanel2::OnUpdateImage(UpdateImageEvent& e) {
-    if (e.GetId() == UPDATE_IMAGE) {
-        ImageData iData = e.GetImageData();
-        // img_bitmap->SetImageData(iData);
+void CameraPanel2::OnUpdatePreview(UpdatePreviewEvent& e) {
+    if (e.GetId() == UPDATE_PREVIEW) {
+        wxBitmap image = e.GetImage();
+        img_bitmap->setImage(image);
     }
 
-    if (e.GetId() == CLEAR_IMAGE) {
-        // img_bitmap->SetImageData();
+    if (e.GetId() == CLEAR_PREVIEW) {
+        img_bitmap->setNoImage();
     }
 }
 
@@ -505,7 +505,7 @@ void CameraPanel2::OnError(ErrorEvent& e) {
 wxBEGIN_EVENT_TABLE(CameraPanel2, wxPanel)
     //     EVT_SPEED(wxID_ANY, CameraPanel2::OnSpeed)
     //     EVT_HOUGH(wxID_ANY, CameraPanel2::OnHough)
-    EVT_UPDATEIMAGE(wxID_ANY, CameraPanel2::OnUpdateImage)
+    EVT_UPDATE_PREVIEW(wxID_ANY, CameraPanel2::OnUpdatePreview)
     //     EVT_CAPTUREIMAGE(wxID_ANY, CameraPanel2::OnCaptureImage)
     //     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT
     //     ,CameraPanel2::OnProcessImage) 

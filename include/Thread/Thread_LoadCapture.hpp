@@ -12,7 +12,8 @@
 #define LOAD_CAPTURE_THREAD_HPP
 
 #include <Event/Event_LoadImage.hpp>
-#include <Event/Event_UpdateImage.hpp>
+#include <Event/Event_UpdatePreview.hpp>
+
 #include <Utils/Camera/CameraBase.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/FileReader/fileWR.hpp>
@@ -45,7 +46,9 @@ class LoadCaptureThread : public wxThread {
     wxEvtHandler* parent;
     std::shared_ptr<CameraBase> camera;
     std::shared_ptr<std::vector<ImageData>> imgData;
+
     const int maxFrame;
+    const int WARMPUP_COUNT = 5;
     const bool debug_SaveImageData;
     const bool debug_ShowImagesWhenCapture;
 };

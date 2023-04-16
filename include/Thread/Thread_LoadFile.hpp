@@ -13,7 +13,7 @@
 #define LOAD_FILE_THREAD_HPP
 
 #include <Event/Event_LoadImage.hpp>
-#include <Event/Event_UpdateImage.hpp>
+#include <Event/Event_UpdatePreview.hpp>
 
 #include <Thread/Task/Task_Load.hpp>
 #include <Thread/ThreadPool.hpp>

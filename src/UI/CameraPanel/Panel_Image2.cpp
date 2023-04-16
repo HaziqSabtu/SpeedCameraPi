@@ -10,6 +10,16 @@ ImagePanelBitmap::ImagePanelBitmap(wxPanel* parent) : wxPanel(parent) {
     h = -1;
 }
 
+void ImagePanelBitmap::setImage(wxBitmap& image) {
+    this->image = image;
+    Refresh();
+}
+
+void ImagePanelBitmap::setNoImage() {
+    image = noImageBitmap;
+    Refresh();
+}
+
 const wxBitmap ImagePanelBitmap::createBitmap(std::string text) {
     cv::Mat image = cv::Mat(480, 640, CV_8UC3, cv::Scalar(0, 0, 0));
     cv::putText(image,
