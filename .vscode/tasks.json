@@ -8,7 +8,7 @@
             "args": [
                 "--build",
                 "build",
-                "--j",
+                "-j",
                 "2"
             ],
             "group": {
