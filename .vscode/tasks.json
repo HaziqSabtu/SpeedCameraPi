@@ -7,7 +7,9 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "build"
+                "build",
+                "--j",
+                "2"
             ],
             "group": {
                 "kind": "build",
