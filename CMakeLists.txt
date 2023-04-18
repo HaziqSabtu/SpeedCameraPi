@@ -42,7 +42,7 @@ if(CROSS_COMPILING)
 
     # POST_BUILD command to copy executable to RPi0(target)
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
-        COMMAND scp SpeedCameraPi RPi0:~/CrossCompile/Target
+        COMMAND scp SpeedCameraPi RPi0:~/SCP
     )
 else()
     set(libcamIncludeDir /usr/local/include/libcamera)
