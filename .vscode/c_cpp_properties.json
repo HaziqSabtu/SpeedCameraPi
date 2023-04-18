@@ -55,7 +55,7 @@
             "intelliSenseMode": "gcc-x64"
         },
         {
-            "name": "RPI",
+            "name": "Ubuntu CCX",
             "includePath": [
                 "/home/haziqsabtu/cmake-test/rootfs/usr/local/include/**",
                 "/home/haziqsabtu/cmake-test/rootfs/usr/local/lib/wx/include/**"
