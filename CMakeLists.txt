@@ -39,6 +39,8 @@ if(Threads_FOUND AND LIBCAMERA_FOUND)
     message(STATUS "    version: ${LIBCAMERA_VERSION}")
     message(STATUS "    libraries: ${LIBCAMERA_LINK_LIBRARIES}")
     message(STATUS "    include path: ${LIBCAMERA_INCLUDE_DIRS}")
+    message(STATUS "    Library found in directory: ${LIBCAMERA_LIBRARY_DIRS}")
+
     target_link_libraries(SpeedCameraPi PRIVATE Threads::Threads ${LIBCAMERA_LINK_LIBRARIES})
     target_include_directories(SpeedCameraPi PRIVATE /usr/local/include/libcamera)
 else()
