@@ -1,0 +1,4 @@
+[{
+    "name": "Raspberry Pi",
+    "toolchainFile": "/home/haziqsabtu/cmake-test/PI.cmake"
+}]
