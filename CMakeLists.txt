@@ -2,17 +2,51 @@ cmake_minimum_required(VERSION 3.10)
 
 project(SpeedCameraPi)
 
-set(This SpeedCameraPiSet)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options(-Wno-psabi)
 
-set(ENV{PKG_CONFIG_DIR} "")
-set(ENV{PKG_CONFIG_LIBDIR} "${CMAKE_SYSROOT}/usr/lib/pkgconfig:${CMAKE_SYSROOT}/usr/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig")
-set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
-
 file(GLOB_RECURSE SRCS ./src/*.cpp EXCLUDE ./src/main.cpp)
 add_executable(SpeedCameraPi ./src/main.cpp ${SRCS})
+
+# Check which Linux distribution is being used
+# Currently only Ubuntu and Debian are supported
+# If Ubuntu is Detected, run Cross Compile
+# If Debian is Detected, run Native Compile
+# If neither is detected, throw an error
+if(UNIX AND EXISTS "/etc/os-release")
+  file(READ "/etc/os-release" OS_RELEASE)
+  if(OS_RELEASE MATCHES "Ubuntu")
+    message("Ubuntu detected")
+    message("Cross compiling")
+    set(CROSS_COMPILING ON)
+  elseif(OS_RELEASE MATCHES "Debian")
+    message("Debian detected")
+    message("Native compiling")
+    set(CROSS_COMPILING OFF)
+  else()
+    message(FATAL_ERROR "Unsupported Linux distribution")
+  endif()
+else()
+  message(FATAL_ERROR "Not a Linux system")
+endif()
+
+if(CROSS_COMPILING)
+    # allow pkg-config to find the libraries in sysroot
+    set(ENV{PKG_CONFIG_DIR} "")
+    set(ENV{PKG_CONFIG_LIBDIR} "${CMAKE_SYSROOT}/usr/lib/pkgconfig:${CMAKE_SYSROOT}/usr/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig")
+    set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
+
+    # set the include directory for libcamera
+    set(libcamIncludeDir ${CMAKE_SYSROOT}/usr/local/include/libcamera)
+
+    # POST_BUILD command to copy executable to RPi0(target)
+    add_custom_command(TARGET SpeedCameraPi POST_BUILD
+        COMMAND scp SpeedCameraPi RPi0:~/CrossCompile/Target
+    )
+else()
+    set(libcamIncludeDir /usr/local/include/libcamera)
+endif()
 
 # Find OpenCV
 find_package(OpenCV REQUIRED)
@@ -44,11 +78,10 @@ if(Threads_FOUND AND LIBCAMERA_FOUND)
     message(STATUS "    libraries: ${LIBCAMERA_LINK_LIBRARIES}")
     message(STATUS "    include path: ${LIBCAMERA_INCLUDE_DIRS}")
     target_link_libraries(SpeedCameraPi PRIVATE Threads::Threads ${LIBCAMERA_LINK_LIBRARIES})
-    target_include_directories(SpeedCameraPi PRIVATE /home/haziqsabtu/cmake-test/rootfs/usr/local/include/libcamera)
+    target_include_directories(SpeedCameraPi PRIVATE ${libcamIncludeDir})
 else()
     message(FATAL_ERROR "Threads not found")
 endif()
-
 
 # set(CMAKE_MODULE_PATH "/usr/local/lib/cmake" ; ${CMAKE_MODULE_PATH})
 # find_package(raspicam REQUIRED)
@@ -60,6 +93,7 @@ endif()
 
 include_directories(include)
 target_link_libraries(SpeedCameraPi PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
+
 
 # enable_testing()
 # find_package(GTest REQUIRED)
