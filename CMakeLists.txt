@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options(-Wno-psabi)
 
+include_directories(include)
 file(GLOB_RECURSE SRCS ./src/*.cpp EXCLUDE ./src/main.cpp)
 add_executable(SpeedCameraPi ./src/main.cpp ${SRCS})
 
@@ -42,26 +43,38 @@ if(CROSS_COMPILING)
 
     # POST_BUILD command to copy executable to RPi0(target)
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
-        COMMAND scp SpeedCameraPi RPi0:~/SCP
+        COMMAND ssh RPi0 "mkdir -p ~/Target"
+        COMMAND scp $<TARGET_FILE:SpeedCameraPi> RPi0:~/Target/
+        COMMAND scp ${CMAKE_SOURCE_DIR}/Speed.ico RPi0:~/Target/
     )
 else()
     set(libcamIncludeDir /usr/local/include/libcamera)
+    
+    add_custom_command(TARGET SpeedCameraPi POST_BUILD
+        COMMAND cp ${CMAKE_SOURCE_DIR}/Speed.ico $<TARGET_FILE_DIR:SpeedCameraPi>
+    )
 endif()
 
 # Find OpenCV
 find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS})
 if(OpenCV_FOUND)
-    message(STATUS "OpenCV found!")
+  message(STATUS "OpenCV found!")
+  message(STATUS "    version: ${OpenCV_VERSION}")
+  message(STATUS "    libraries: ${OpenCV_LIBS}")
+  message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+  include_directories(${OpenCV_INCLUDE_DIRS})
 else()
     message(FATAL_ERROR "OpenCV not found!")
 endif()
 
 # Find wxWidgets
 find_package(wxWidgets REQUIRED)
-include(${wxWidgets_USE_FILE})
 if(wxWidgets_FOUND)
-    message(STATUS "wxWIdgets found!")
+  message(STATUS "wxWIdgets found!")
+  message(STATUS "    version: ${wxWidgets_VERSION}")
+  message(STATUS "    libraries: ${wxWidgets_LIBRARIES}")
+  message(STATUS "    include path: ${wxWidgets_INCLUDE_DIRS}")
+  include(${wxWidgets_USE_FILE})
 else()
     message(FATAL_ERROR "wxWIdgets not found!")
 endif()
@@ -91,7 +104,6 @@ endif()
 #     message(FATAL_ERROR "raspicam not found!")
 # endif()
 
-include_directories(include)
 target_link_libraries(SpeedCameraPi PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
 
 
