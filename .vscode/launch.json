@@ -12,7 +12,7 @@
             "name": "(lldb-linux) Launch",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/build/SpeedCamera",
+            "program": "${workspaceFolder}/build/SpeedCameraPi",
             "preLaunchTask": "Build with CMake"
         },
         {

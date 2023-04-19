@@ -66,7 +66,7 @@ void ImagePanelBitmap::render(wxDC& dc) {
 
     dc.DrawBitmap(resized, 0, 0, false);
 
-    wxBrush greenBrush(wxColour(0, 255, 0, 50), wxBRUSHSTYLE_SOLID);
+    wxBrush greenBrush(wxColour(0, 255, 0, 0), wxBRUSHSTYLE_SOLID);
     dc.SetBrush(greenBrush);
     dc.DrawRectangle(0, 0, w, h);
 

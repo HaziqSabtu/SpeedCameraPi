@@ -42,6 +42,8 @@
             "includePath": [
                 "${workspaceFolder}/src/**",
                 "${workspaceFolder}/include/**",
+                "${workspaceFolder}/build/stage/include/wx-3.1/**",
+                "${workspaceFolder}/build/subprojects/Build/wxWidgets_external/lib/wx/include/gtk3-unicode-static-3.1/**",
                 "/usr/local/include/opencv4"
             ],
             "defines": [
@@ -50,9 +52,22 @@
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        },
+        {
+            "name": "Ubuntu CCX",
+            "includePath": [
+                "/home/haziqsabtu/cmake-test/rootfs/usr/local/include/**",
+                "/home/haziqsabtu/cmake-test/rootfs/usr/local/lib/wx/include/**"
+            ],
+            "defines": [
+                "__WXGTK__"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64",
-            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
         }
     ],
     "version": 4
