@@ -1,6 +1,6 @@
-#include <UI/CameraPanel/Panel_Button_Capture.hpp>
+#include <UI/Panel/CapturePanel/Panel_Button.hpp>
 
-CameraPanelButton::CameraPanelButton(wxWindow *parent, wxWindowID id)
+CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id) {
 
     Capture_Button = new ButtonCapture(this, Enum::CP_Capture_Button_ID);
@@ -19,22 +19,22 @@ CameraPanelButton::CameraPanelButton(wxWindow *parent, wxWindowID id)
 
     this->SetSizer(button_sizer);
 
-    Bind(c_LOAD_IMAGE_EVENT, &CameraPanelButton::OnLoadImage, this);
+    Bind(c_LOAD_IMAGE_EVENT, &CaptureButtonPanel::OnLoadImage, this);
 }
 
-void CameraPanelButton::DisableAllButtons() {
+void CaptureButtonPanel::DisableAllButtons() {
     Capture_Button->Disable();
     Load_Button->Disable();
     ToggleCamera_Button->Disable();
 }
 
-void CameraPanelButton::EnableAllButtons() {
+void CaptureButtonPanel::EnableAllButtons() {
     Capture_Button->Enable();
     Load_Button->Enable();
     ToggleCamera_Button->Enable();
 }
 
-void CameraPanelButton::OnLoadImage(wxCommandEvent &e) {
+void CaptureButtonPanel::OnLoadImage(wxCommandEvent &e) {
 
     if (e.GetId() == LOAD_START) {
         DisableAllButtons();
@@ -47,6 +47,6 @@ void CameraPanelButton::OnLoadImage(wxCommandEvent &e) {
 }
 
 // clang-format off
-BEGIN_EVENT_TABLE(CameraPanelButton, wxPanel)
+BEGIN_EVENT_TABLE(CaptureButtonPanel, wxPanel)
 END_EVENT_TABLE()
 

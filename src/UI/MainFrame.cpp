@@ -1,24 +1,40 @@
 #include <UI/MainFrame.hpp>
 
-MainFrame::MainFrame(const wxString& title, wxSize size, AppConfig* config)
-    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size),
-      config(config) {
-    wxString filePath = "dirLocation + filename";
+MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
+    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size) {
 
     wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
     SetIcon(icon);
 
-    notebook = new wxNotebook(this,
-                              Enum::NOTEBOOK_ID,
-                              wxDefaultPosition,
-                              wxSize(800, 600));
+    model = new Model(this, 0);
 
-    camera_panel = new CameraPanel2(notebook,
-                                    Enum::CP_Panel_ID,
-                                    new AppConfig(),
-                                    new Model(notebook, 0));
+    capture_panel = new CapturePanel(this, Enum::CP_Panel_ID, model);
 
-    notebook->AddPage(camera_panel, "Camera", true);
+    roi_panel = new RoiPanel(this, Enum::CP_Panel_ID, model);
+    roi_panel->Hide();
+
+    sizer = new wxBoxSizer(wxVERTICAL);
+    sizer->Add(capture_panel, 1, wxEXPAND);
+    sizer->Add(roi_panel, 1, wxEXPAND);
+    SetSizer(sizer);
 }
 
 MainFrame::~MainFrame() {}
+
+void MainFrame::OnButton(wxCommandEvent &e) {
+    if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
+        if (capture_panel->IsShown()) {
+            capture_panel->Hide();
+            roi_panel->Show();
+        } else {
+            capture_panel->Show();
+            roi_panel->Hide();
+        }
+        GetSizer()->Layout();
+    }
+}
+
+//clang-format off
+BEGIN_EVENT_TABLE(MainFrame, wxFrame)
+EVT_BUTTON(wxID_ANY, MainFrame::OnButton)
+END_EVENT_TABLE()

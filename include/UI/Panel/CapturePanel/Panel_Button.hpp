@@ -1,16 +1,17 @@
-#ifndef PANEL_BUTTON_CAPTURE_HPP
-#define PANEL_BUTTON_CAPTURE_HPP
+#pragma once
 
 #include <UI/Button/Button_Capture.hpp>
 #include <UI/Button/Button_Load.hpp>
 #include <UI/Button/Button_ToggleCamera.hpp>
+
 #include <Utils/Enum.hpp>
+
 #include <wx/gtk/button.h>
 #include <wx/wx.h>
 
-class CameraPanelButton : public wxPanel {
+class CaptureButtonPanel : public wxPanel {
   public:
-    CameraPanelButton(wxWindow *parent, wxWindowID id);
+    CaptureButtonPanel(wxWindow *parent, wxWindowID id);
     void DisableAllButtons();
     void EnableAllButtons();
 
@@ -29,4 +30,3 @@ class CameraPanelButton : public wxPanel {
 
     DECLARE_EVENT_TABLE();
 };
-#endif

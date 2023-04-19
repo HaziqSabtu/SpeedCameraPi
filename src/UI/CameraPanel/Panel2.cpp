@@ -259,6 +259,8 @@ void CameraPanel2::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_Load_Button_ID) {
         OnLoadButton(button_panel->Load_Button);
     }
+    std::cout << "OnButton from panel" << std::endl;
+    e.Skip();
 }
 
 void CameraPanel2::OnLoadButton(ButtonWState *button) {
