@@ -19,13 +19,16 @@ class RoiPanel : public wxPanel {
     Model *model;
 
     RoiButtonPanel *button_panel;
-    BaseImagePanel *img_bitmap;
+    RoiImagePanel *img_bitmap;
 
     wxBoxSizer *main_sizer;
 
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);
     void OnError(ErrorEvent &e);
+    void OnLeftUp(wxMouseEvent &e);
+    void OnLeftDown(wxMouseEvent &e);
+    void OnMotion(wxMouseEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

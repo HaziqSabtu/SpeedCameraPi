@@ -1,7 +1,9 @@
 #pragma once
 
+#include "Model/SessionData.hpp"
 #include <Model/ModelEnum.hpp>
 
+#include <Event/Event_ChangePanel.hpp>
 #include <Event/Event_Error.hpp>
 
 #include <Thread/ThreadPool.hpp>
@@ -16,39 +18,47 @@
 
 #include <memory>
 
+#include <wx/gdicmn.h>
 #include <wx/wx.h>
 
 class Model : public wxPanel {
   public:
-    Model(wxWindow* parent, wxWindowID id);
+    Model(wxWindow *parent, wxWindowID id);
     ~Model();
-    void endPoint(wxEvtHandler* parent, ModelEnum::ModelIDs id);
-    void endPoint(wxEvtHandler* parent,
-                  ModelEnum::ModelIDs id,
+    // TODO: Unified endpoint?
+    void endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id);
+    void endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id,
                   std::string path);
+    void endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id,
+                  PanelID panelID);
+    void endPoint(wxEvtHandler *parent, PanelID panelID, wxRect rect);
 
   private:
+    SessionData sessionData;
     std::shared_ptr<CameraBase> camera;
-
     std::shared_ptr<ThreadPool> threadPool;
-    std::shared_ptr<std::vector<ImageData>> imgData;
 
-    CaptureThread* captureThread;
-    LoadFileThread* loadFileThread;
-    LoadCaptureThread* loadCaptureThread;
+    CaptureThread *captureThread;
+    LoadFileThread *loadFileThread;
+    LoadCaptureThread *loadCaptureThread;
 
     void initThreads();
     void deleteThreads();
 
-    void startCaptureHandler(wxEvtHandler* parent);
+    void startCaptureHandler(wxEvtHandler *parent);
     void endCaptureHandler();
 
-    void startLoadFileHandler(wxEvtHandler* parent, std::string path);
-    void endLoadFileHandler(wxEvtHandler* parent);
+    void startLoadFileHandler(wxEvtHandler *parent, std::string path);
+    void endLoadFileHandler(wxEvtHandler *parent);
 
-    void startLoadCaptureHandler(wxEvtHandler* parent);
-    void endLoadCaptureHandler(wxEvtHandler* parent);
+    void startLoadCaptureHandler(wxEvtHandler *parent);
+    void endLoadCaptureHandler(wxEvtHandler *parent);
+
+    // ChangePanelHandler
+    void requestChangePanel(wxEvtHandler *parent, PanelID panelID);
+
+    void changeCapturePanel(wxEvtHandler *parent);
 
     template <typename T>
-    T* stopAndDeleteThread(T* threadPtr);
+    T *stopAndDeleteThread(T *threadPtr);
 };

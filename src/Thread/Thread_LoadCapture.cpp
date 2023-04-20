@@ -20,12 +20,9 @@
  * @param debug debug mode
  */
 LoadCaptureThread::LoadCaptureThread(
-  wxEvtHandler* parent,
-  std::shared_ptr<CameraBase> camera,
-  std::shared_ptr<std::vector<ImageData>> imgData,
-  const int maxFrame,
-  const bool debug_SaveImageData,
-  const bool debug_ShowImagesWhenCapture)
+    wxEvtHandler *parent, std::shared_ptr<CameraBase> camera,
+    std::shared_ptr<std::vector<ImageData>> imgData, const int maxFrame,
+    const bool debug_SaveImageData, const bool debug_ShowImagesWhenCapture)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(camera),
       imgData(imgData), maxFrame(maxFrame),
       debug_SaveImageData(debug_SaveImageData),
@@ -55,6 +52,10 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
     try {
         wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START);
         wxPostEvent(parent, startLoadEvent);
+
+        if (imgData == nullptr) {
+            throw std::runtime_error("imgData is null");
+        }
 
         cv::Mat frame;
 
@@ -101,9 +102,10 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
             FILEWR::WriteFile(imgData);
         }
 
-    } catch (const std::exception& e) {
-        std::cout << "LoadCaptureThread::Entry() - " << e.what()
-                  << std::endl;
+    } catch (const std::exception &e) {
+        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
+        errorEvent.SetErrorData(e.what());
+        wxPostEvent(parent, errorEvent);
     }
 
     wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_CAMERA);

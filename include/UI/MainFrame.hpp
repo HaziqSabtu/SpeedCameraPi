@@ -22,7 +22,8 @@ class MainFrame : public wxFrame {
     Model *model;
     wxBoxSizer *sizer;
 
-    void OnButton(wxCommandEvent &event);
+    void OnPageChange(wxCommandEvent &e);
+    void OnError(ErrorEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

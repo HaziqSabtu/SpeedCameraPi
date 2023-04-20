@@ -15,6 +15,8 @@ class CapturePanel : public wxPanel {
     CapturePanel(wxWindow *parent, wxWindowID id, Model *model);
     ~CapturePanel();
 
+    void setNextPanel(wxPanel *panel);
+
   private:
     Model *model;
 
@@ -23,13 +25,15 @@ class CapturePanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
+    wxPanel *nextPanel;
+
     void OnLoadButton(ButtonWState *button);
     void OnCaptureButton(ButtonWState *button);
     void OnToggleCameraButton(ButtonWState *button);
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);
-    void onLoadImage(wxCommandEvent &e);
-    void OnError(ErrorEvent &e);
+    void OnLoadImage(wxCommandEvent &e);
+    void OnChangePanel(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

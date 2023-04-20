@@ -20,12 +20,10 @@
  * @param path path to file
  * @param maxFrame maximum number of frame to load
  */
-LoadFileThread::LoadFileThread(
-  wxEvtHandler* parent,
-  std::shared_ptr<ThreadPool> threadPool,
-  std::shared_ptr<std::vector<ImageData>> imgData,
-  std::string path,
-  const int maxFrame)
+LoadFileThread::LoadFileThread(wxEvtHandler *parent,
+                               std::shared_ptr<ThreadPool> threadPool,
+                               std::shared_ptr<std::vector<ImageData>> imgData,
+                               std::string path, const int maxFrame)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
       imgData(imgData), path(path), maxFrame(maxFrame) {}
 
@@ -55,8 +53,11 @@ wxThread::ExitCode LoadFileThread::Entry() {
         wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START);
         wxPostEvent(parent, startLoadEvent);
 
-        std::unique_ptr<Task> task =
-          std::make_unique<LoadTask>(imgData, path);
+        if (imgData == nullptr) {
+            throw std::runtime_error("imgData is null");
+        }
+
+        std::unique_ptr<Task> task = std::make_unique<LoadTask>(imgData, path);
 
         TaskProperty property = task->GetProperty();
         pool->AddTask(task);
@@ -77,9 +78,10 @@ wxThread::ExitCode LoadFileThread::Entry() {
             wxPostEvent(parent, updatePreviewEvent);
             wxMilliSleep(200);
         }
-    } catch (const std::exception& e) {
-        std::cout << "LoadFileThread::Entry() - Error: \n"
-                  << e.what() << std::endl;
+    } catch (const std::exception &e) {
+        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
+        errorEvent.SetErrorData(e.what());
+        wxPostEvent(parent, errorEvent);
     }
 
     wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_FILE);

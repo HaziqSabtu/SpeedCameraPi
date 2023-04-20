@@ -10,24 +10,20 @@
 #include <wx/wx.h>
 
 class RoiImagePanel : public BaseImagePanel {
-  private:
+  public:
     wxRect rect;
     wxPoint p1;
-
+    wxPoint p2;
     bool isDown = false;
 
   public:
     RoiImagePanel(wxPanel *parent);
+    wxRect getRect(wxPoint p1, wxPoint p2);
 
   private:
     void render(wxDC &dc) override;
 
     wxBitmap CropBitmap(wxBitmap &originalBitmap, wxRect region);
-    wxRect getRect(wxPoint p1, wxPoint p2);
-
-    void OnLeftDown(wxMouseEvent &e);
-    void OnLeftUp(wxMouseEvent &e);
-    void OnMotion(wxMouseEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

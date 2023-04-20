@@ -1,10 +1,6 @@
 #include <UI/Panel/RoiPanel/Panel_Image.hpp>
 
-RoiImagePanel::RoiImagePanel(wxPanel *parent) : BaseImagePanel(parent) {
-    Bind(wxEVT_LEFT_DOWN, &RoiImagePanel::OnLeftDown, this);
-    Bind(wxEVT_LEFT_UP, &RoiImagePanel::OnLeftUp, this);
-    Bind(wxEVT_MOTION, &RoiImagePanel::OnMotion, this);
-}
+RoiImagePanel::RoiImagePanel(wxPanel *parent) : BaseImagePanel(parent) {}
 
 void RoiImagePanel::render(wxDC &dc) {
     calcRatio(dc);
@@ -50,39 +46,6 @@ wxRect RoiImagePanel::getRect(wxPoint p1, wxPoint p2) {
     int height = abs(p1.y - p2.y);
 
     return wxRect(x, y, width, height);
-}
-
-void RoiImagePanel::OnLeftDown(wxMouseEvent &e) {
-    p1 = e.GetPosition();
-    isDown = true;
-}
-
-void RoiImagePanel::OnLeftUp(wxMouseEvent &e) {
-
-    if (!isDown) {
-        return;
-    }
-
-    isDown = false;
-
-    wxPoint p2 = e.GetPosition();
-
-    rect = getRect(p1, p2);
-
-    Refresh();
-}
-
-void RoiImagePanel::OnMotion(wxMouseEvent &e) {
-
-    if (!isDown) {
-        return;
-    }
-
-    wxPoint p2 = e.GetPosition();
-
-    rect = getRect(p1, p2);
-
-    Refresh();
 }
 
 BEGIN_EVENT_TABLE(RoiImagePanel, BaseImagePanel)

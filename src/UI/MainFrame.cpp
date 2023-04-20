@@ -12,6 +12,7 @@ MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
 
     roi_panel = new RoiPanel(this, Enum::CP_Panel_ID, model);
     roi_panel->Hide();
+    capture_panel->setNextPanel(roi_panel);
 
     sizer = new wxBoxSizer(wxVERTICAL);
     sizer->Add(capture_panel, 1, wxEXPAND);
@@ -21,20 +22,17 @@ MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
 
 MainFrame::~MainFrame() {}
 
-void MainFrame::OnButton(wxCommandEvent &e) {
-    if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
-        if (capture_panel->IsShown()) {
-            capture_panel->Hide();
-            roi_panel->Show();
-        } else {
-            capture_panel->Show();
-            roi_panel->Hide();
-        }
-        GetSizer()->Layout();
-    }
+void MainFrame::OnPageChange(wxCommandEvent &e) { GetSizer()->Layout(); }
+
+void MainFrame::OnError(ErrorEvent &e) {
+    std::string msg = e.GetErrorData();
+    wxMessageBox(msg, "Error", wxOK | wxICON_ERROR);
 }
 
 //clang-format off
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
-EVT_BUTTON(wxID_ANY, MainFrame::OnButton)
+// EVT_BUTTON(wxID_ANY, MainFrame::OnButton)
+EVT_COMMAND(wxID_ANY, c_CHANGE_PANEL_EVENT, MainFrame::OnPageChange)
+EVT_ERROR(wxID_ANY, MainFrame::OnError)
+
 END_EVENT_TABLE()

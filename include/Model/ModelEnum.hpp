@@ -10,5 +10,8 @@ enum ModelIDs {
     MODEL_END_LOADFILE,
     MODEL_START_LOADCAPTURE,
     MODEL_END_LOADCAPTURE,
+    MODEL_CHANGE_PANEL,
+    MODEL_SWITCH_PANEL
 };
-}
+
+} // namespace ModelEnum

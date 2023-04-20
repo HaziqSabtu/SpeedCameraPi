@@ -1,4 +1,8 @@
+#include "Event/Event_ChangePanel.hpp"
+#include "Model/ModelEnum.hpp"
+#include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/Panel.hpp>
+#include <stdexcept>
 
 CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, Model *model)
     : wxPanel(parent, id), model(model) {
@@ -16,6 +20,8 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, Model *model)
 
 CapturePanel::~CapturePanel() {}
 
+void CapturePanel::setNextPanel(wxPanel *panel) { nextPanel = panel; }
+
 void CapturePanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
         OnToggleCameraButton(button_panel->ToggleCamera_Button);
@@ -27,6 +33,10 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::CP_Load_Button_ID) {
         OnLoadButton(button_panel->Load_Button);
+    }
+
+    if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
+        model->endPoint(this, ModelEnum::MODEL_SWITCH_PANEL, PANEL_CAPTURE);
     }
     e.Skip();
 }
@@ -68,7 +78,7 @@ void CapturePanel::OnUpdatePreview(UpdatePreviewEvent &e) {
     }
 }
 
-void CapturePanel::onLoadImage(wxCommandEvent &e) {
+void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     if (e.GetId() == LOAD_END_FILE) {
         model->endPoint(button_panel->Load_Button,
                         ModelEnum::MODEL_END_LOADFILE);
@@ -81,16 +91,27 @@ void CapturePanel::onLoadImage(wxCommandEvent &e) {
     e.Skip();
 }
 
-void CapturePanel::OnError(ErrorEvent &e) {
-    std::string msg = e.GetErrorData();
-    wxMessageBox(msg, "Error", wxOK | wxICON_ERROR);
-    Close();
+void CapturePanel::OnChangePanel(wxCommandEvent &e) {
+    try {
+        if (nextPanel == nullptr) {
+            throw std::runtime_error("Next panel is not set");
+        }
+
+        this->Hide();
+        nextPanel->Show();
+        e.Skip();
+
+    } catch (std::exception &e) {
+        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
+        errorEvent.SetErrorData(e.what());
+        wxPostEvent(this, errorEvent);
+    }
 }
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(CapturePanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, CapturePanel::OnUpdatePreview)
     EVT_BUTTON(wxID_ANY,CapturePanel::OnButton) 
-    EVT_COMMAND(wxID_ANY, c_LOAD_IMAGE_EVENT, CapturePanel::onLoadImage)
-    EVT_ERROR(wxID_ANY, CapturePanel::OnError)
+    EVT_COMMAND(wxID_ANY, c_LOAD_IMAGE_EVENT, CapturePanel::OnLoadImage)
+    EVT_COMMAND(wxID_ANY, c_CHANGE_PANEL_EVENT, CapturePanel::OnChangePanel)
 wxEND_EVENT_TABLE()
