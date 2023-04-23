@@ -47,16 +47,60 @@ FeatureDetector::FeatureDetector() : FeatureDetector(DetectorType::SIFT) {}
 void FeatureDetector::allign(cv::Mat &image1, cv::Mat &image2) {
     // TODO: run first compute at constructor/init
     FeatureDetector::clearVector();
+    std::chrono::steady_clock::time_point t0 = std::chrono::steady_clock::now();
     detector->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
+
+    std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
     detector->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
 
+    std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
     DMatcher::FlannBasedMatcher(descriptors1, descriptors2, matchKP,
                                 detectorType);
+
+    std::chrono::steady_clock::time_point t3 = std::chrono::steady_clock::now();
     DMatcher::FilterKeyPoints(matchKP, filterKP, 0.3);
 
+    std::chrono::steady_clock::time_point t4 = std::chrono::steady_clock::now();
     homographyMatrix =
         Homography::FindHomography(keyPoints1, keyPoints2, filterKP);
+
+    std::chrono::steady_clock::time_point t5 = std::chrono::steady_clock::now();
     transform = Homography::PerscpectiveTransform(image2, homographyMatrix);
+    std::chrono::steady_clock::time_point t6 = std::chrono::steady_clock::now();
+
+    std::cout << "Init1: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Init2: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Flann MAtcher: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t3 - t2)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Filter KP: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3)
+                     .count()
+              << " ms" << std::endl;
+    std::cout << "Find Homography: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t5 - t4)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Transform: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t6 - t5)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Total: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t6 - t0)
+                     .count()
+              << " ms" << std::endl;
 }
 
 /**

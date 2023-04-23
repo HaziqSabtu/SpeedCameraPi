@@ -17,7 +17,7 @@ int main() {
         std::cout << "Error opening video stream or file" << std::endl;
         return -1;
     }
-
+    int count = 0;
     // Read the first frame
     cv::Mat firstFrame;
     cap >> firstFrame;
