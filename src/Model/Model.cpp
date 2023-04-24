@@ -209,9 +209,9 @@ void Model::startProcessHandler(wxEvtHandler *parent) {
     }
 
     if (sessionData.isImageDataEmpty()) {
-        throw std::runtime_error("sessionData is empty");
+        throw std::runtime_error("imageData is empty");
     }
-
+    std::cout << "Model::startProcessHandler()" << std::endl;
     processThread =
         new ProcessThread(parent, threadPool, sessionData.imageData);
     processThread->Run();
