@@ -33,6 +33,8 @@ SiftTask::SiftTask(std::shared_ptr<std::vector<ImageData>> imgData, int id)
  *
  */
 void SiftTask::Execute() {
+    std::cout << "id: " << id << std::endl;
+
     if (id == 0) {
         imgData->at(id).allign.image = imgData->at(id).image.clone();
         imgData->at(id).allign.status = DONE;
@@ -42,8 +44,15 @@ void SiftTask::Execute() {
     ImageData firstImage = (*imgData)[0];
     ImageData targetImage = (*imgData)[id];
 
+    std::cout << "firstImage: " << std::endl;
+
     FeatureDetector featureDetector = FeatureDetector(DetectorType::SIFT);
+
+    std::cout << "featureDetector created" << std::endl;
+
     featureDetector.allign(firstImage.image, targetImage.image);
+
+    std::cout << "allign complete" << std::endl;
 
     imgData->at(id).allign.image = featureDetector.GetAllignedImage().clone();
     imgData->at(id).allign.homographyMatrix =

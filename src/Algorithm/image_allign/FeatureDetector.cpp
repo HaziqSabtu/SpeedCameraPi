@@ -10,6 +10,7 @@
  */
 
 #include <Algorithm/image_allign/FeatureDetector.hpp>
+#include <opencv2/imgproc.hpp>
 
 /**
  * @brief FeatureDetector constructor
@@ -44,19 +45,42 @@ FeatureDetector::FeatureDetector() : FeatureDetector(DetectorType::SIFT) {}
  * @param image1 First input image, Source Image.
  * @param image2 Second input image, Image to allign.
  */
-void FeatureDetector::allign(cv::Mat &image1, cv::Mat &image2) {
+void FeatureDetector::allign(cv::Mat image1, cv::Mat image2) {
     // TODO: run first compute at constructor/init
+    std::cout << "clearing vector" << std::endl;
+    std::cout << "image1: " << image1.size() << std::endl;
+    std::cout << "image2: " << image2.size() << std::endl;
     FeatureDetector::clearVector();
-    detector->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
+    // convert to gray
+    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
+    std::cout << "detecting keypoints0" << std::endl;
+    keyPoints1 = std::vector<cv::KeyPoint>();
+    keyPoints2 = std::vector<cv::KeyPoint>();
+    descriptors1 = cv::Mat();
+    descriptors2 = cv::Mat();
+    try {
+        detector->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << '\n';
+    }
+    std::cout << "detecting keypoints1" << std::endl;
     detector->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
+    std::cout << "detecting keypoints2" << std::endl;
+    std::cout << "keypoints1: " << keyPoints1.size() << std::endl;
+    std::cout << "keypoints2: " << keyPoints2.size() << std::endl;
 
+    std::cout << "matching keypoints" << std::endl;
     DMatcher::FlannBasedMatcher(descriptors1, descriptors2, matchKP,
                                 detectorType);
+    std::cout << "matching keypoints2" << std::endl;
     DMatcher::FilterKeyPoints(matchKP, filterKP, 0.3);
+    std::cout << "filtering keypoints" << std::endl;
 
     homographyMatrix =
         Homography::FindHomography(keyPoints1, keyPoints2, filterKP);
+    std::cout << "finding homography" << std::endl;
     transform = Homography::PerscpectiveTransform(image2, homographyMatrix);
+    std::cout << "transforming image" << std::endl;
 }
 
 /**
