@@ -60,21 +60,6 @@ void FeatureDetector::allign(cv::Mat &image1, cv::Mat &image2) {
 }
 
 /**
- * @brief Run image allignment on a vector of ImageData objects.
- * Attention! The result will replace the original image in the ImageData
- * object.
- *
- * @param imgData result of Image Allignment.
- */
-void FeatureDetector::allign(std::vector<ImageData> &imgData) {
-    cv::Mat firstImg = imgData.front().image;
-    for (ImageData &img : imgData) {
-        allign(firstImg, img.image);
-        img.image = transform.clone();
-    }
-}
-
-/**
  * @brief Returns the image with the keypoints drawn on it.
  *
  * @param image1 Source image.

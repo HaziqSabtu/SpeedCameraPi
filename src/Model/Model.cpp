@@ -40,12 +40,15 @@ void Model::initThreads() {
     captureThread = nullptr;
     loadFileThread = nullptr;
     loadCaptureThread = nullptr;
+
+    processThread = nullptr;
 }
 
 void Model::deleteThreads() {
     captureThread = stopAndDeleteThread(captureThread);
     loadFileThread = stopAndDeleteThread(loadFileThread);
     loadCaptureThread = stopAndDeleteThread(loadCaptureThread);
+    processThread = stopAndDeleteThread(processThread);
 }
 
 void Model::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id,
@@ -97,6 +100,11 @@ void Model::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id,
 
         if (id == ModelEnum::MODEL_END_LOADCAPTURE) {
             endLoadCaptureHandler(parent);
+            return;
+        }
+
+        if (id == ModelEnum::MODEL_START_PROCESS) {
+            startProcessHandler(parent);
             return;
         }
 
@@ -193,6 +201,20 @@ void Model::startLoadCaptureHandler(wxEvtHandler *parent) {
 
 void Model::endLoadCaptureHandler(wxEvtHandler *parent) {
     loadCaptureThread = stopAndDeleteThread(loadCaptureThread);
+}
+
+void Model::startProcessHandler(wxEvtHandler *parent) {
+    if (processThread != nullptr) {
+        throw std::runtime_error("ProcessThread is already running");
+    }
+
+    if (sessionData.isImageDataEmpty()) {
+        throw std::runtime_error("sessionData is empty");
+    }
+
+    processThread =
+        new ProcessThread(parent, threadPool, sessionData.imageData);
+    processThread->Run();
 }
 
 template <typename T>

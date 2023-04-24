@@ -13,11 +13,12 @@
 #define PROCESS_THREAD_HPP
 
 #include <Event/Event_ProcessImage.hpp>
-#include <Event/Event_UpdateImage.hpp>
+#include <Event/Event_UpdatePreview.hpp>
 #include <Thread/Task/Task_OpticalFlow.hpp>
 #include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <Utils/Config/AppConfig.hpp>
+#include <memory>
 #include <opencv2/opencv.hpp>
 #include <wx/string.h>
 #include <wx/thread.h>
@@ -29,8 +30,8 @@
  */
 class ProcessThread : public wxThread {
   public:
-    ProcessThread(wxEvtHandler *parent, ThreadPool *threadPool,
-                  std::vector<ImageData> *imgData, OpticalFlowConfig ofConfig);
+    ProcessThread(wxEvtHandler *parent, std::shared_ptr<ThreadPool> threadPool,
+                  std::shared_ptr<std::vector<ImageData>> imgData);
     ~ProcessThread();
 
   protected:
@@ -38,9 +39,8 @@ class ProcessThread : public wxThread {
 
   private:
     wxEvtHandler *parent;
-    ThreadPool *pool;
-    std::vector<ImageData> *imgData;
-    OpticalFlowConfig ofConfig;
+    std::shared_ptr<ThreadPool> pool;
+    std::shared_ptr<std::vector<ImageData>> imgData;
 };
 
 #endif

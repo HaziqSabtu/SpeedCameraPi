@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Process.hpp"
 #include <Model/ModelEnum.hpp>
 
 #include <Event/Event_ChangePanel.hpp>
@@ -10,6 +11,7 @@
 #include <Thread/Thread_Capture.hpp>
 #include <Thread/Thread_LoadCapture.hpp>
 #include <Thread/Thread_LoadFile.hpp>
+#include <Thread/Thread_Process.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>
 #include <Utils/Camera/libcam.hpp>
@@ -41,6 +43,7 @@ class Model : public wxPanel {
     CaptureThread *captureThread;
     LoadFileThread *loadFileThread;
     LoadCaptureThread *loadCaptureThread;
+    ProcessThread *processThread;
 
     void initThreads();
     void deleteThreads();
@@ -53,6 +56,8 @@ class Model : public wxPanel {
 
     void startLoadCaptureHandler(wxEvtHandler *parent);
     void endLoadCaptureHandler(wxEvtHandler *parent);
+
+    void startProcessHandler(wxEvtHandler *parent);
 
     // ChangePanelHandler
     void requestChangePanel(wxEvtHandler *parent, PanelID panelID);

@@ -31,7 +31,6 @@ class FeatureDetector {
     FeatureDetector(DetectorType type);
     FeatureDetector();
     void allign(cv::Mat &image1, cv::Mat &image2);
-    void allign(std::vector<ImageData> &imgData);
     cv::Mat GetMatchImage(cv::Mat &image1, cv::Mat &image2);
     cv::Mat GetHomographyMatrix();
     cv::Mat GetAllignedImage();

@@ -12,6 +12,7 @@
 #ifndef DATA_STRUCT_HPP
 #define DATA_STRUCT_HPP
 
+#include <Utils/Struct/D_Allign.hpp>
 #include <Utils/Struct/D_Hough.hpp>
 #include <Utils/Struct/D_OpticalFlow.hpp>
 #include <chrono>
@@ -24,33 +25,39 @@
 struct ImageData {
     cv::Mat image;
     std::chrono::high_resolution_clock::time_point time;
+
+    AllignData allign;
+
     Detection::HoughData hough;
+
     Detection::OpticalFlowData flow;
+
     Detection::DetectionData detection;
 
     ImageData() {}
 
     ImageData(cv::Mat image,
               std::chrono::high_resolution_clock::time_point time)
-        : image(image), time(time), hough(), flow(), detection() {}
+        : image(image), time(time), allign(), hough(), flow(), detection() {}
 
     ImageData(cv::Mat image)
         : image(image), time(std::chrono::high_resolution_clock::now()),
-          hough(), flow(), detection() {}
+          allign(), hough(), flow(), detection() {}
+
+    void SetAllign(AllignData allign) { this->allign = allign; }
 
     void SetHough(Detection::HoughData hough) { this->hough = hough; }
+
     void SetFlow(Detection::OpticalFlowData flow) { this->flow = flow; }
+
     void SetDetection(Detection::DetectionData detection) {
         this->detection = detection;
     }
+
     Detection::OpticalFlowData GetFlow() { return flow; }
-    double TimeDiff(ImageData &data) {
-        return std::chrono::duration_cast<std::chrono::microseconds>(time -
-                                                                     data.time)
-            .count();
-    }
 };
 
+//TODO: Remove this struct
 /**
  * @brief Struct for SpeedData
  * @deprecated

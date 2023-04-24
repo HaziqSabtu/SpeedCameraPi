@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Panel/RoiPanel/Panel.hpp"
 #include <Model/Model.hpp>
 
 #include <UI/Panel/Base/Panel_Image.hpp>
@@ -15,7 +16,7 @@ class CapturePanel : public wxPanel {
     CapturePanel(wxWindow *parent, wxWindowID id, Model *model);
     ~CapturePanel();
 
-    void setNextPanel(wxPanel *panel);
+    void setNextPanel(RoiPanel *panel);
 
   private:
     Model *model;
@@ -25,7 +26,7 @@ class CapturePanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
-    wxPanel *nextPanel;
+    RoiPanel *nextPanel;
 
     void OnLoadButton(ButtonWState *button);
     void OnCaptureButton(ButtonWState *button);

@@ -13,7 +13,6 @@
             ],
             "group": {
                 "kind": "build",
-                "isDefault": true
             },
             "dependsOn": [
                 "Configure with CMake"
@@ -28,6 +27,22 @@
                 "-S.",
                 "-Bbuild",
             ]
-        }
+        },
+        {
+            "label": "Build with CMake (Ubuntu)",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "build",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": [
+                "Configure with CMake"
+            ]
+        },
     ]
 }
