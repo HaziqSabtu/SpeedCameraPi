@@ -35,11 +35,14 @@ endif()
 if(CROSS_COMPILING)
     # allow pkg-config to find the libraries in sysroot
     set(ENV{PKG_CONFIG_DIR} "")
-    set(ENV{PKG_CONFIG_LIBDIR} "${CMAKE_SYSROOT}/usr/lib/pkgconfig:${CMAKE_SYSROOT}/usr/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig")
+    set(ENV{PKG_CONFIG_LIBDIR} "${CMAKE_SYSROOT}/usr/lib/arm-linux-gnueabihf/pkgconfig:${CMAKE_SYSROOT}/usr/lib/pkgconfig:${CMAKE_SYSROOT}/usr/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig")
     set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
 
     # set the include directory for libcamera
-    set(libcamIncludeDir ${CMAKE_SYSROOT}/usr/local/include/libcamera)
+    set(libcamIncludeDir ${CMAKE_SYSROOT}/usr/include/libcamera)
+
+    # set the prefix location for wxWidgets
+    set(wxWidgets_CONFIG_OPTIONS --prefix=${CMAKE_SYSROOT}/usr/local)
 
     # POST_BUILD command to copy executable to RPi0(target)
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
@@ -53,7 +56,7 @@ if(CROSS_COMPILING)
         COMMAND curl --location '192.168.178.20:8080/wav/succ'
     )
 else()
-    set(libcamIncludeDir /usr/local/include/libcamera)
+    set(libcamIncludeDir /usr/include/libcamera)
     
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
         COMMAND cp ${CMAKE_SOURCE_DIR}/Speed.ico $<TARGET_FILE_DIR:SpeedCameraPi>

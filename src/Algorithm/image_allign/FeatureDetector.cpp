@@ -51,21 +51,9 @@ void FeatureDetector::allign(cv::Mat image1, cv::Mat image2) {
     std::cout << "image1: " << image1.size() << std::endl;
     std::cout << "image2: " << image2.size() << std::endl;
     FeatureDetector::clearVector();
-    // convert to gray
-    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
-    std::cout << "detecting keypoints0" << std::endl;
-    keyPoints1 = std::vector<cv::KeyPoint>();
-    keyPoints2 = std::vector<cv::KeyPoint>();
-    descriptors1 = cv::Mat();
-    descriptors2 = cv::Mat();
-    try {
-        detector->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
-    } catch (const std::exception &e) {
-        std::cerr << e.what() << '\n';
-    }
-    std::cout << "detecting keypoints1" << std::endl;
+
+    detector->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
     detector->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
-    std::cout << "detecting keypoints2" << std::endl;
     std::cout << "keypoints1: " << keyPoints1.size() << std::endl;
     std::cout << "keypoints2: " << keyPoints2.size() << std::endl;
 
