@@ -21,6 +21,146 @@
             "request": "launch",
             "program": "${workspaceFolder}\\build\\subprojects\\Build\\wx_cmake_template_core\\Debug\\main.exe",
             "preLaunchTask": "Build with CMake"
-        }
+        },
+        {
+            "name": "(GDB Server) Linux",
+            "type": "gdb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Example_ImageAlignment",
+            "MIMode": "gdb",
+            "miDebuggerServerAddress": "localhost:9091",
+            // "preLaunchTask": "Build with CMake"
+        },
+        {
+            "name": "gdb (launch simavr)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/Example_ImageAlignment",
+            "cwd": "${workspaceRoot}",
+            "externalConsole": false,
+            "stopAtEntry": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/home/haziqsabtu/cxcmpl/tools/cross-pi-gcc-10.3.0-2/bin/arm-linux-gnueabihf-gdb",
+            "miDebuggerServerAddress": "localhost:2000",
+            // "debugServerPath": "/usr/bin/simavr",
+            // "debugServerArgs": "-v -v -v -g -m atmega644 -f 20000000 ${workspaceRoot}/SPOS.elf",
+            // "serverStarted": "avr_gdb_init listening on port 1234",
+            "serverLaunchTimeout": 2000,
+            // "preLaunchTask": "make clean then make all"
+        },
+        {
+            "name": "Remote GDB Launch (RPi3)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/haziqsabtu/SpeedCameraPi/example/ImageAlignment/build/Example_ImageAlignment",
+            // "program": "${command:cmake.launchTargetPath}",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            // "miDebuggerServerAddress": "localhost:2000",
+            // "miDebuggerServerAddress": "| ssh -X RPi0 gdbserver ~/Target/Example_ImageAlignment",
+            // "miDebuggerServerAddress": "| ssh -X RPi0 gdbserver localhost:2000 - '~/${command:cmake.launchTargetFilename}'",
+            "setupCommands": [
+                // {
+                //     "text": "set auto-load safe-path /var/lib/schroot/chroots/rpi3-impish-arm64/usr/share/gdb",
+                //     "description": "Allow loading scripts from the sysroot (which requires some further tweaking to get it to work)",
+                //     "ignoreFailures": false
+                // },
+                // {
+                //     "text": "set sysroot /var/lib/schroot/chroots/rpi3-impish-arm64",
+                //     "description": "Set the sysroot folder to load libraries",
+                //     "ignoreFailures": false
+                // },
+                // {
+                //     "text": "python sys.path.insert(0, '/var/lib/schroot/chroots/rpi3-impish-arm64/usr/share/gcc/python');",
+                //     "description": "Update Python path for GDB pretty printing",
+                //     "ignoreFailures": false
+                // },
+                {
+                    "text": "target remote 192.168.178.45:2000",
+                    "description": "Enable GDB pretty printing",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "-enable-pretty-printing",
+                    "description": "Enable GDB pretty printing",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "skip -rfu ^std::.*",
+                    "description": "Don't step into standard library functions",
+                    "ignoreFailures": false
+                },
+            ],
+            "stopAtEntry": true,
+            "targetArchitecture": "arm",
+            "miDebuggerPath": "/home/haziqsabtu/cxcmpl/tools/cross-pi-gcc-10.3.0-2/bin/arm-linux-gnueabihf-gdb",
+            // "miDebuggerArgs": "--data-directory /var/lib/schroot/chroots/rpi3-impish-arm64/usr/share/gdb",
+            // "miDebuggerPath": "gdb-multiarch",
+            "MIMode": "gdb",
+            "externalConsole": false,
+            // "preLaunchTask": "Start GDB remote debugger",
+        },
+        {
+            "name": "GDB Remote opc_ua_server",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Example_ImageAlignment",
+            "args": [],
+            "miDebuggerPath": "/home/haziqsabtu/cxcmpl/tools/cross-pi-gcc-10.3.0-2/bin/arm-linux-gnueabihf-gdb",
+            "miDebuggerServerAddress": "192.168.178.45:2000",
+            // "miDebuggerArgs": "-x ${workspaceFolder}/.gdbinit",
+            "preLaunchTask": "Start GDB remote debugger",
+            "postDebugTask": "Shutdown GDB remote debugger",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                } //,
+                // {
+                //     "description": "Ignore signal 40",
+                //     "text": "handle SIG40 nostop noprint pass",
+                //     "ignoreFailures": true
+                // }
+            ]
+        },
+        {
+            "name": "Remote GDB Launch Manual",
+            "type": "cppdbg",
+            "request": "launch",
+            // "program": "/home/haziqsabtu/SpeedCameraPi/build/SpeedCameraPi",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "setupCommands": [
+                {
+                    "text": "target remote 192.168.178.45:2000",
+                    "description": "Target",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "-enable-pretty-printing",
+                    "description": "Enable GDB pretty printing",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "skip -rfu ^std::.*",
+                    "description": "Don't step into standard library functions",
+                    "ignoreFailures": false
+                },
+            ],
+            "stopAtEntry": true,
+            "targetArchitecture": "arm",
+            "miDebuggerPath": "/home/haziqsabtu/cxcmpl/tools/cross-pi-gcc-10.3.0-2/bin/arm-linux-gnueabihf-gdb",
+            "MIMode": "gdb",
+            "externalConsole": false,
+        },
     ]
 }
