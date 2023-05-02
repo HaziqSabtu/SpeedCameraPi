@@ -76,6 +76,8 @@ void RoiPanel::OnMotion(wxMouseEvent &e) {
     Refresh();
 }
 
+void RoiPanel::Init() { model->endPoint(this, ModelEnum::MODEL_START_PROCESS); }
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(RoiPanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, RoiPanel::OnUpdatePreview)

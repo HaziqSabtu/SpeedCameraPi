@@ -17,9 +17,10 @@
 #include <Algorithm/image_allign/Enum.hpp>
 #include <Algorithm/image_allign/Homography.hpp>
 #include <Utils/DataStruct.hpp>
-#include <opencv2/core.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/xfeatures2d.hpp>
+// #include <opencv2/core.hpp>
+// #include <opencv2/highgui.hpp>
+// #include <opencv2/xfeatures2d.hpp>
+#include <opencv2/opencv.hpp>
 
 /**
  * @brief Helper Class for detecting and matching features between two images
@@ -30,8 +31,7 @@ class FeatureDetector {
   public:
     FeatureDetector(DetectorType type);
     FeatureDetector();
-    void allign(cv::Mat &image1, cv::Mat &image2);
-    void allign(std::vector<ImageData> &imgData);
+    void allign(cv::Mat image1, cv::Mat image2);
     cv::Mat GetMatchImage(cv::Mat &image1, cv::Mat &image2);
     cv::Mat GetHomographyMatrix();
     cv::Mat GetAllignedImage();

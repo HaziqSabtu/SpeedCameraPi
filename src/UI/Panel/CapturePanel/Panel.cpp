@@ -20,7 +20,7 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, Model *model)
 
 CapturePanel::~CapturePanel() {}
 
-void CapturePanel::setNextPanel(wxPanel *panel) { nextPanel = panel; }
+void CapturePanel::setNextPanel(RoiPanel *panel) { nextPanel = panel; }
 
 void CapturePanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
@@ -99,6 +99,7 @@ void CapturePanel::OnChangePanel(wxCommandEvent &e) {
 
         this->Hide();
         nextPanel->Show();
+        nextPanel->Init();
         e.Skip();
 
     } catch (std::exception &e) {

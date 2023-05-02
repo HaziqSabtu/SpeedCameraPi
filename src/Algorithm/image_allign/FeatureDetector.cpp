@@ -10,6 +10,7 @@
  */
 
 #include <Algorithm/image_allign/FeatureDetector.hpp>
+#include <opencv2/imgproc.hpp>
 
 /**
  * @brief FeatureDetector constructor
@@ -44,27 +45,30 @@ FeatureDetector::FeatureDetector() : FeatureDetector(DetectorType::SIFT) {}
  * @param image1 First input image, Source Image.
  * @param image2 Second input image, Image to allign.
  */
-void FeatureDetector::allign(cv::Mat &image1, cv::Mat &image2) {
+void FeatureDetector::allign(cv::Mat image1, cv::Mat image2) {
     // TODO: run first compute at constructor/init
+    std::cout << "clearing vector" << std::endl;
+    std::cout << "image1: " << image1.size() << std::endl;
+    std::cout << "image2: " << image2.size() << std::endl;
     FeatureDetector::clearVector();
-    std::chrono::steady_clock::time_point t0 = std::chrono::steady_clock::now();
     detector->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
 
     std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
     detector->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
+    std::cout << "keypoints1: " << keyPoints1.size() << std::endl;
+    std::cout << "keypoints2: " << keyPoints2.size() << std::endl;
 
-    std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
     DMatcher::FlannBasedMatcher(descriptors1, descriptors2, matchKP,
                                 detectorType);
-
-    std::chrono::steady_clock::time_point t3 = std::chrono::steady_clock::now();
     DMatcher::FilterKeyPoints(matchKP, filterKP, 0.3);
+    std::cout << "filtering keypoints" << std::endl;
 
     std::chrono::steady_clock::time_point t4 = std::chrono::steady_clock::now();
     homographyMatrix =
         Homography::FindHomography(keyPoints1, keyPoints2, filterKP);
 
     std::chrono::steady_clock::time_point t5 = std::chrono::steady_clock::now();
+    std::cout << "finding homography" << std::endl;
     transform = Homography::PerscpectiveTransform(image2, homographyMatrix);
     std::chrono::steady_clock::time_point t6 = std::chrono::steady_clock::now();
 

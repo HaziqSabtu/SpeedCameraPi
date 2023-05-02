@@ -9,6 +9,7 @@
  *
  */
 
+#include "Event/Event_UpdatePreview.hpp"
 #include <Thread/Thread_Process.hpp>
 
 /**
@@ -19,12 +20,11 @@
  * @param imgData pointer to ImageData vector
  * @param ofConfig OpticalFlowConfig
  */
-ProcessThread::ProcessThread(wxEvtHandler* parent,
-                             ThreadPool* threadPool,
-                             std::vector<ImageData>* imgData,
-                             OpticalFlowConfig ofConfig)
+ProcessThread::ProcessThread(wxEvtHandler *parent,
+                             std::shared_ptr<ThreadPool> threadPool,
+                             std::shared_ptr<std::vector<ImageData>> imgData)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
-      imgData(imgData), ofConfig(ofConfig) {}
+      imgData(imgData) {}
 
 /**
  * @brief Destroy the Process Thread:: Process Thread object
@@ -46,19 +46,28 @@ ProcessThread::~ProcessThread() {}
  * @return wxThread::ExitCode
  */
 wxThread::ExitCode ProcessThread::Entry() {
-    // std::vector<TaskProperty> taskProperties;
-    // for (int i = 1; i < imgData->size(); i++) {
-    //     SiftTask *task = new SiftTask(imgData, i);
-    //     taskProperties.push_back(task->GetProperty());
-    //     pool->AddTask(task);
-    //     task = NULL;
-    // }
+    std::vector<TaskProperty> taskProperties;
+
+    for (int i = 0; i < imgData->size(); i++) {
+        std::unique_ptr<Task> task = std::make_unique<SiftTask>(imgData, i);
+        taskProperties.push_back(task->GetProperty());
+        pool->AddTask(task);
+    }
 
     // // TODO: Update Waiting
-    // while (pool->isWorkerBusy(taskProperties) ||
-    //        pool->HasTasks(taskProperties)) {
-    //     wxMilliSleep(100);
-    // }
+    while (pool->isWorkerBusy(taskProperties) ||
+           pool->HasTasks(taskProperties)) {
+        wxMilliSleep(100);
+    }
+
+    for (int i = 0; i < imgData->size(); i++) {
+        cv::Mat frame = imgData->at(i).allign.image;
+        UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
+                                              UPDATE_PREVIEW);
+        updatePreviewEvent.SetImage(frame);
+        wxPostEvent(parent, updatePreviewEvent);
+        wxMilliSleep(200);
+    }
 
     // FlowTask *flowTask = new FlowTask(imgData, ofConfig);
     // TaskProperty flowProperty = flowTask->GetProperty();

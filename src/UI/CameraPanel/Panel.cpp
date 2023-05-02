@@ -1,17 +1,15 @@
 #include <UI/CameraPanel/Panel.hpp>
 
-CameraPanel::CameraPanel(wxWindow* parent,
-                         wxWindowID id,
-                         AppConfig* config)
+CameraPanel::CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config)
     : wxPanel(parent, id), imgData(nullptr),
       threadPool(config->GetPanelConfig().Thread_Pool_Size),
       circleRadius(config->GetRadius()) {
 
     button_panel = new CameraPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
     button_panel_hough =
-      new ButtonPanelHough(this, Enum::CP_BUTTON_PANEL_HOUGH_ID);
+        new ButtonPanelHough(this, Enum::CP_BUTTON_PANEL_HOUGH_ID);
     button_panel_result =
-      new PanelButtonResult(this, Enum::CP_BUTTON_PANEL_RESULT_ID);
+        new PanelButtonResult(this, Enum::CP_BUTTON_PANEL_RESULT_ID);
 
     img_bitmap = new ImagePanel(this, circleRadius);
 
@@ -36,9 +34,7 @@ CameraPanel::CameraPanel(wxWindow* parent,
     camera.setFPS(cameraConfig.Camera_FPS);
 
     if (!camera.start()) {
-        wxMessageBox("Could not open camera",
-                     "Error",
-                     wxOK | wxICON_ERROR);
+        wxMessageBox("Could not open camera", "Error", wxOK | wxICON_ERROR);
         Close();
     }
 
@@ -98,11 +94,11 @@ void CameraPanel::OnDecrement() {
     currentImageIndex > 0 ? currentImageIndex-- : currentImageIndex;
 }
 
-void CameraPanel::OnButton(wxCommandEvent& e) {
+void CameraPanel::OnButton(wxCommandEvent &e) {
     int id = e.GetId();
 
     if (id == Enum::CP_Capture_Button_ID) {
-        AppConfig* config = new AppConfig();
+        AppConfig *config = new AppConfig();
         CaptureConfig captureConfig = config->GetCaptureConfig();
         deleteThread(captureThread);
         captureThread = nullptr;
@@ -120,7 +116,7 @@ void CameraPanel::OnButton(wxCommandEvent& e) {
     }
 
     if (id == Enum::CP_Load_Button_ID) {
-        AppConfig* config = new AppConfig();
+        AppConfig *config = new AppConfig();
         LoadConfig loadConfig = config->GetLoadConfig();
         deleteThread(captureThread);
         captureThread = nullptr;
@@ -141,15 +137,13 @@ void CameraPanel::OnButton(wxCommandEvent& e) {
             img_bitmap->SetImageData(imgData->at(currentImageIndex));
             return;
         }
-        AppConfig* config = new AppConfig();
+        AppConfig *config = new AppConfig();
         HoughConfig houghConfig = config->GetHoughConfig();
         CannyConfig cannyConfig = config->GetCannyConfig();
         deleteThread(houghThread);
-        houghThread = new HoughThread(button_panel_hough,
-                                      &threadPool,
+        houghThread = new HoughThread(button_panel_hough, &threadPool,
                                       imgData->at(currentImageIndex),
-                                      cannyConfig,
-                                      houghConfig);
+                                      cannyConfig, houghConfig);
         houghThread->Run();
 
         delete config;
@@ -158,8 +152,8 @@ void CameraPanel::OnButton(wxCommandEvent& e) {
 
     if (id == Enum::CP_Canny_Button_ID) {
         button_panel_hough->GetCannyState()
-          ? img_bitmap->SetShowType(SHOW_TYPE_CANNY)
-          : img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
+            ? img_bitmap->SetShowType(SHOW_TYPE_CANNY)
+            : img_bitmap->SetShowType(SHOW_TYPE_IMAGE);
     }
 
     if (id == Enum::CP_Hough_Button_ID) {
@@ -190,8 +184,7 @@ void CameraPanel::OnButton(wxCommandEvent& e) {
     }
 
     if (id == Enum::CP_SelL_Button_ID) {
-        img_bitmap->SetShowSelectedLine(
-          button_panel_result->GetSelLState());
+        img_bitmap->SetShowSelectedLine(button_panel_result->GetSelLState());
     }
 
     if (id == Enum::CP_Reselect_Button_ID) {
@@ -249,7 +242,7 @@ void CameraPanel::OnButton(wxCommandEvent& e) {
     }
 }
 
-void CameraPanel::OnUpdateImage(UpdateImageEvent& e) {
+void CameraPanel::OnUpdateImage(UpdateImageEvent &e) {
     if (e.GetId() == UPDATE_IMAGE) {
         ImageData iData = e.GetImageData();
         img_bitmap->SetImageData(iData);
@@ -260,25 +253,22 @@ void CameraPanel::OnUpdateImage(UpdateImageEvent& e) {
     }
 }
 
-void CameraPanel::OnProcessImage(wxCommandEvent& e) {
+void CameraPanel::OnProcessImage(wxCommandEvent &e) {
     if (e.GetId() == PROCESS_BEGIN) {
-        AppConfig* config = new AppConfig();
-        OpticalFlowConfig opticalFlowConfig =
-          config->GetOpticalFlowConfig();
+        AppConfig *config = new AppConfig();
+        OpticalFlowConfig opticalFlowConfig = config->GetOpticalFlowConfig();
 
         waitThenDeleteThread(processThread);
-        processThread =
-          new ProcessThread(this, &threadPool, imgData, opticalFlowConfig);
+        // processThread =
+        //   new ProcessThread(this, &threadPool, imgData, opticalFlowConfig);
         processThread->Run();
 
         HoughConfig houghConfig = config->GetHoughConfig();
         CannyConfig cannyConfig = config->GetCannyConfig();
         deleteThread(houghThread);
-        houghThread = new HoughThread(button_panel_hough,
-                                      &threadPool,
+        houghThread = new HoughThread(button_panel_hough, &threadPool,
                                       imgData->at(currentImageIndex),
-                                      cannyConfig,
-                                      houghConfig);
+                                      cannyConfig, houghConfig);
         houghThread->Run();
 
         delete config;
@@ -294,15 +284,12 @@ void CameraPanel::OnProcessImage(wxCommandEvent& e) {
             button_panel_hough->Hide();
             GetSizer()->Layout();
 
-            AppConfig* config = new AppConfig();
+            AppConfig *config = new AppConfig();
             SensorConfig sensorConfig = config->GetSensorConfig();
 
             deleteThread(speedThread);
-            speedThread = new SpeedThread(button_panel_result,
-                                          &threadPool,
-                                          imgData,
-                                          selectedLine,
-                                          sensorConfig);
+            speedThread = new SpeedThread(button_panel_result, &threadPool,
+                                          imgData, selectedLine, sensorConfig);
             speedThread->Run();
 
             deleteThread(resultThread);
@@ -314,7 +301,7 @@ void CameraPanel::OnProcessImage(wxCommandEvent& e) {
             img_bitmap->SetIsOFPoint(button_panel_result->GetOFPntState());
             img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
             img_bitmap->SetShowSelectedLine(
-              button_panel_result->GetSelLState());
+                button_panel_result->GetSelLState());
 
             delete config;
             config = nullptr;
@@ -334,14 +321,14 @@ void CameraPanel::OnProcessImage(wxCommandEvent& e) {
 //     }
 // }
 
-void CameraPanel::OnHough(HoughEvent& e) {
+void CameraPanel::OnHough(HoughEvent &e) {
     if (e.GetId() == HOUGH_END) {
         imgData->at(currentImageIndex).SetHough(*e.GetHoughData());
         img_bitmap->SetImageData(imgData->at(currentImageIndex));
     }
 }
 
-void CameraPanel::OnLeftDown(wxMouseEvent& e) {
+void CameraPanel::OnLeftDown(wxMouseEvent &e) {
     wxPoint mousePos = e.GetPosition();
     cv::Point2f p = img_bitmap->calcMousePos(mousePos);
     selectedPoint.push_back(p);
@@ -354,15 +341,12 @@ void CameraPanel::OnLeftDown(wxMouseEvent& e) {
         button_panel_hough->Hide();
         GetSizer()->Layout();
 
-        AppConfig* config = new AppConfig();
+        AppConfig *config = new AppConfig();
         SensorConfig sensorConfig = config->GetSensorConfig();
 
         deleteThread(speedThread);
-        speedThread = new SpeedThread(button_panel_result,
-                                      &threadPool,
-                                      imgData,
-                                      selectedLine,
-                                      sensorConfig);
+        speedThread = new SpeedThread(button_panel_result, &threadPool, imgData,
+                                      selectedLine, sensorConfig);
         speedThread->Run();
 
         deleteThread(resultThread);
@@ -373,15 +357,14 @@ void CameraPanel::OnLeftDown(wxMouseEvent& e) {
         img_bitmap->SetIsRect(button_panel_result->GetBBoxState());
         img_bitmap->SetIsOFPoint(button_panel_result->GetOFPntState());
         img_bitmap->SetIsBotLine(button_panel_result->GetBotLState());
-        img_bitmap->SetShowSelectedLine(
-          button_panel_result->GetSelLState());
+        img_bitmap->SetShowSelectedLine(button_panel_result->GetSelLState());
 
         delete config;
         config = nullptr;
     }
 }
 
-void CameraPanel::OnSpeed(SpeedCalcEvent& e) {
+void CameraPanel::OnSpeed(SpeedCalcEvent &e) {
     if (e.GetId() == CALC_OK) {
         img_bitmap->SetSpeed(e.GetSpeed());
     }
@@ -394,7 +377,7 @@ void CameraPanel::searchLine(cv::Point2f realMousePos) {
 
     std::vector<Detection::Line> detLines;
     std::vector<Detection::Line> linesP =
-      imgData->at(currentImageIndex).hough.lines;
+        imgData->at(currentImageIndex).hough.lines;
 
     if (linesP.empty()) {
         return;
@@ -414,7 +397,7 @@ void CameraPanel::searchLine(cv::Point2f realMousePos) {
     addLine(avgLine.Extrapolate(imgData->at(currentImageIndex).image));
 }
 
-void CameraPanel::deleteThread(wxThread* thread) {
+void CameraPanel::deleteThread(wxThread *thread) {
     /**
      * Error assigning pointer to nullptr
      * need to pass reference instead of pointer
@@ -427,7 +410,7 @@ void CameraPanel::deleteThread(wxThread* thread) {
     }
 }
 
-void CameraPanel::waitThenDeleteThread(wxThread* thread) {
+void CameraPanel::waitThenDeleteThread(wxThread *thread) {
     if (thread != nullptr) {
         thread->Wait();
         delete thread;

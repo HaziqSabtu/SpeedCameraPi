@@ -15,6 +15,8 @@ class RoiPanel : public wxPanel {
     RoiPanel(wxWindow *parent, wxWindowID id, Model *model);
     ~RoiPanel();
 
+    void Init();
+
   private:
     Model *model;
 

@@ -1,4 +1,6 @@
-[{
-    "name": "Pi ToolChain",
-    "toolchainFile": "/home/haziqsabtu/cmake-test/PI.cmake"
-}]
+[
+    {
+        "name": "Pi ToolChain",
+        "toolchainFile": "~/cxcmpl/tools/PI.cmake"
+    }
+]

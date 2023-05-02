@@ -134,9 +134,10 @@
             "name": "Remote GDB Launch Manual",
             "type": "cppdbg",
             "request": "launch",
+            // "program": "/home/haziqsabtu/SpeedCameraPi/example/ImageAlignment/build/Example_ImageAlignment",
             "program": "${command:cmake.launchTargetPath}",
             "args": [],
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "setupCommands": [
                 {

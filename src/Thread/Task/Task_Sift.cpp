@@ -9,6 +9,7 @@
  *
  */
 
+#include "Utils/Struct/D_Allign.hpp"
 #include <Thread/Task/Task_Sift.hpp>
 
 /**
@@ -17,7 +18,7 @@
  * @param imgData pointer to vector of ImageData
  * @param id index of target image in vector
  */
-SiftTask::SiftTask(std::vector<ImageData> *imgData, int id)
+SiftTask::SiftTask(std::shared_ptr<std::vector<ImageData>> imgData, int id)
     : property(TaskType::TASK_SIFT), imgData(imgData), id(id) {}
 
 /**
@@ -32,11 +33,31 @@ SiftTask::SiftTask(std::vector<ImageData> *imgData, int id)
  *
  */
 void SiftTask::Execute() {
+    std::cout << "id: " << id << std::endl;
+
+    if (id == 0) {
+        imgData->at(id).allign.image = imgData->at(id).image.clone();
+        imgData->at(id).allign.status = DONE;
+        return;
+    }
+
     ImageData firstImage = (*imgData)[0];
     ImageData targetImage = (*imgData)[id];
+
+    std::cout << "firstImage: " << std::endl;
+
     FeatureDetector featureDetector = FeatureDetector(DetectorType::SIFT);
+
+    std::cout << "featureDetector created" << std::endl;
+
     featureDetector.allign(firstImage.image, targetImage.image);
-    imgData->at(id).image = featureDetector.GetAllignedImage().clone();
+
+    std::cout << "allign complete" << std::endl;
+
+    imgData->at(id).allign.image = featureDetector.GetAllignedImage().clone();
+    imgData->at(id).allign.homographyMatrix =
+        featureDetector.GetHomographyMatrix().clone();
+    imgData->at(id).allign.status = DONE;
 }
 
 /**
