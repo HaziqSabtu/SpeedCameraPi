@@ -134,10 +134,9 @@
             "name": "Remote GDB Launch Manual",
             "type": "cppdbg",
             "request": "launch",
-            // "program": "/home/haziqsabtu/SpeedCameraPi/build/SpeedCameraPi",
             "program": "${command:cmake.launchTargetPath}",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceRoot}",
             "environment": [],
             "setupCommands": [
                 {
