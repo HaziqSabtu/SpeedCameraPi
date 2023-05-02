@@ -20,7 +20,9 @@
 // #include <opencv2/core.hpp>
 // #include <opencv2/highgui.hpp>
 // #include <opencv2/xfeatures2d.hpp>
+#include <opencv2/core/types.hpp>
 #include <opencv2/opencv.hpp>
+#include <vector>
 
 /**
  * @brief Helper Class for detecting and matching features between two images
@@ -31,7 +33,12 @@ class FeatureDetector {
   public:
     FeatureDetector(DetectorType type);
     FeatureDetector();
-    void allign(cv::Mat image1, cv::Mat image2);
+
+    void init(cv::Mat &image1, cv::Mat &descriptors, std::vector<cv::KeyPoint> &keypoint);
+    
+    void allign(cv::Mat &image1, cv::Mat &image2);
+    void allign(cv::Mat &descriptors1, std::vector<cv::KeyPoint> &keyPoints1, cv::Mat &image2);
+
     cv::Mat GetMatchImage(cv::Mat &image1, cv::Mat &image2);
     cv::Mat GetHomographyMatrix();
     cv::Mat GetAllignedImage();

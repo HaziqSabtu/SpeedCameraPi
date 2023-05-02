@@ -52,9 +52,9 @@ if(CROSS_COMPILING)
     )
 
     # POST_BUILD command curl
-    # add_custom_command(TARGET SpeedCameraPi POST_BUILD
-    #     COMMAND curl --location '192.168.178.20:8080/wav/succ'
-    # )
+    add_custom_command(TARGET SpeedCameraPi POST_BUILD
+        COMMAND curl --location '192.168.178.20:8080/wav/succ'
+    )
 else()
     set(libcamIncludeDir /usr/include/libcamera)
     

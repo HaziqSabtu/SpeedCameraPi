@@ -10,7 +10,7 @@
  */
 
 #include <Algorithm/image_allign/FeatureDetector.hpp>
-#include <opencv2/imgproc.hpp>
+#include <opencv2/core/types.hpp>
 
 /**
  * @brief FeatureDetector constructor
@@ -30,6 +30,12 @@ FeatureDetector::FeatureDetector(DetectorType type) : detectorType(type) {
  */
 FeatureDetector::FeatureDetector() : FeatureDetector(DetectorType::SIFT) {}
 
+void FeatureDetector::init(cv::Mat &image1, cv::Mat &descriptors,
+                           std::vector<cv::KeyPoint> &keypoint) {
+    FeatureDetector::clearVector();
+    detector->detectAndCompute(image1, cv::Mat(), keypoint, descriptors);
+}
+
 /**
  * @brief Runs the feature detection and matching algorithm on two input images.
  *
@@ -45,30 +51,27 @@ FeatureDetector::FeatureDetector() : FeatureDetector(DetectorType::SIFT) {}
  * @param image1 First input image, Source Image.
  * @param image2 Second input image, Image to allign.
  */
-void FeatureDetector::allign(cv::Mat image1, cv::Mat image2) {
+void FeatureDetector::allign(cv::Mat &image1, cv::Mat &image2) {
     // TODO: run first compute at constructor/init
-    std::cout << "clearing vector" << std::endl;
-    std::cout << "image1: " << image1.size() << std::endl;
-    std::cout << "image2: " << image2.size() << std::endl;
     FeatureDetector::clearVector();
+    std::chrono::steady_clock::time_point t0 = std::chrono::steady_clock::now();
     detector->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
 
     std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
     detector->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
-    std::cout << "keypoints1: " << keyPoints1.size() << std::endl;
-    std::cout << "keypoints2: " << keyPoints2.size() << std::endl;
 
+    std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
     DMatcher::FlannBasedMatcher(descriptors1, descriptors2, matchKP,
                                 detectorType);
+
+    std::chrono::steady_clock::time_point t3 = std::chrono::steady_clock::now();
     DMatcher::FilterKeyPoints(matchKP, filterKP, 0.3);
-    std::cout << "filtering keypoints" << std::endl;
 
     std::chrono::steady_clock::time_point t4 = std::chrono::steady_clock::now();
     homographyMatrix =
         Homography::FindHomography(keyPoints1, keyPoints2, filterKP);
 
     std::chrono::steady_clock::time_point t5 = std::chrono::steady_clock::now();
-    std::cout << "finding homography" << std::endl;
     transform = Homography::PerscpectiveTransform(image2, homographyMatrix);
     std::chrono::steady_clock::time_point t6 = std::chrono::steady_clock::now();
 
@@ -107,19 +110,65 @@ void FeatureDetector::allign(cv::Mat image1, cv::Mat image2) {
               << " ms" << std::endl;
 }
 
-/**
- * @brief Run image allignment on a vector of ImageData objects.
- * Attention! The result will replace the original image in the ImageData
- * object.
- *
- * @param imgData result of Image Allignment.
- */
-void FeatureDetector::allign(std::vector<ImageData> &imgData) {
-    cv::Mat firstImg = imgData.front().image;
-    for (ImageData &img : imgData) {
-        allign(firstImg, img.image);
-        img.image = transform.clone();
-    }
+void FeatureDetector::allign(cv::Mat &descriptors1,
+                             std::vector<cv::KeyPoint> &keypoint1,
+                             cv::Mat &image2) {
+    FeatureDetector::clearVector();
+    std::chrono::steady_clock::time_point t0 = std::chrono::steady_clock::now();
+    this->descriptors1 = descriptors1;
+    this->keyPoints1 = keypoint1;
+
+    std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+    detector->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
+
+    std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+    DMatcher::FlannBasedMatcher(descriptors1, descriptors2, matchKP,
+                                detectorType);
+
+    std::chrono::steady_clock::time_point t3 = std::chrono::steady_clock::now();
+    DMatcher::FilterKeyPoints(matchKP, filterKP, 0.3);
+
+    std::chrono::steady_clock::time_point t4 = std::chrono::steady_clock::now();
+    homographyMatrix =
+        Homography::FindHomography(keyPoints1, keyPoints2, filterKP);
+
+    std::chrono::steady_clock::time_point t5 = std::chrono::steady_clock::now();
+    transform = Homography::PerscpectiveTransform(image2, homographyMatrix);
+    std::chrono::steady_clock::time_point t6 = std::chrono::steady_clock::now();
+
+    std::cout << "Init1: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Init2: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Flann MAtcher: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t3 - t2)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Filter KP: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3)
+                     .count()
+              << " ms" << std::endl;
+    std::cout << "Find Homography: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t5 - t4)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Transform: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t6 - t5)
+                     .count()
+              << " ms" << std::endl;
+
+    std::cout << "Total: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t6 - t0)
+                     .count()
+              << " ms" << std::endl;
 }
 
 /**
