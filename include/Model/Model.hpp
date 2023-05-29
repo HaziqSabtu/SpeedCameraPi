@@ -23,7 +23,7 @@
 #include <wx/gdicmn.h>
 #include <wx/wx.h>
 
-class Model : public wxPanel {
+class Model {
   public:
     Model(wxWindow *parent, wxWindowID id);
     ~Model();

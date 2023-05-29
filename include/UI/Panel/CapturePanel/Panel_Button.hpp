@@ -18,7 +18,7 @@ class CaptureButtonPanel : public wxPanel {
     ButtonWState *Capture_Button;
     ButtonWState *Load_Button;
     ButtonWState *ToggleCamera_Button;
-    wxButton *switchButton;
+    wxButton *switch_Button;
 
   private:
     wxPanel *button_panel;

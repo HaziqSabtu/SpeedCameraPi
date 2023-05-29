@@ -1,7 +1,7 @@
 #ifndef MAIN_FRAME_HPP
 #define MAIN_FRAME_HPP
 
-#include <Model/Model.hpp>
+#include <Model/ModelFactory.hpp>
 
 #include <UI/Panel/CapturePanel/Panel.hpp>
 #include <UI/Panel/RoiPanel/Panel.hpp>
@@ -17,9 +17,8 @@ class MainFrame : public wxFrame {
 
   private:
     CapturePanel *capture_panel;
-    RoiPanel *roi_panel;
+    // RoiPanel *roi_panel;
 
-    Model *model;
     wxBoxSizer *sizer;
 
     void OnPageChange(wxCommandEvent &e);

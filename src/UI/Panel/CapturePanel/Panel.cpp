@@ -4,8 +4,9 @@
 #include <UI/Panel/CapturePanel/Panel.hpp>
 #include <stdexcept>
 
-CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, Model *model)
-    : wxPanel(parent, id), model(model) {
+CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id,
+                           std::unique_ptr<CaptureModel> &model)
+    : wxPanel(parent, id), model(std::move(model)) {
     button_panel = new CaptureButtonPanel(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new BaseImagePanel(this);
@@ -16,6 +17,8 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, Model *model)
 
     SetSizer(main_sizer);
     Fit();
+
+    nextPanel = nullptr;
 }
 
 CapturePanel::~CapturePanel() {}
@@ -36,7 +39,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
-        model->endPoint(this, ModelEnum::MODEL_SWITCH_PANEL, PANEL_CAPTURE);
+        OnChangePanelButton(button_panel->switch_Button);
     }
     e.Skip();
 }
@@ -76,6 +79,10 @@ void CapturePanel::OnUpdatePreview(UpdatePreviewEvent &e) {
     if (e.GetId() == CLEAR_PREVIEW) {
         img_bitmap->setNoImage();
     }
+}
+
+void CapturePanel::OnChangePanelButton(wxButton *button) {
+    model->endPoint(button, ModelEnum::MODEL_SWITCH_PANEL);
 }
 
 void CapturePanel::OnLoadImage(wxCommandEvent &e) {

@@ -48,7 +48,7 @@ struct SessionData {
 
     std::string id;
 
-    PanelID panelID;
+    PanelID currentPanelID;
 
     std::shared_ptr<std::vector<ImageData>> imageData;
 
@@ -56,7 +56,7 @@ struct SessionData {
 
     void Init() {
         id = Utils::dateToString();
-        panelID = PANEL_CAPTURE;
+        currentPanelID = PANEL_CAPTURE;
         imageData = std::make_shared<std::vector<ImageData>>();
     }
 
@@ -83,8 +83,8 @@ struct SessionData {
 
     void updateRoiData(int x, int y, int width, int height) {
 
-        if (panelID != PANEL_ROI) {
-            throw std::runtime_error("panelID is not PANEL_ROI");
+        if (currentPanelID != PANEL_ROI) {
+            throw std::runtime_error("currentPanelID is not PANEL_ROI");
         }
 
         roiData.x = x;

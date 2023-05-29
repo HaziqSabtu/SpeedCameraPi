@@ -2,7 +2,7 @@
 #include <Model/Model.hpp>
 #include <wx/event.h>
 
-Model::Model(wxWindow *parent, wxWindowID id) : wxPanel(parent, id) {
+Model::Model(wxWindow *parent, wxWindowID id) {
     AppConfig *config = new AppConfig();
 
     CameraConfig cameraConfig = config->GetCameraConfig();
@@ -255,7 +255,7 @@ void Model::changeCapturePanel(wxEvtHandler *parent) {
         throw std::runtime_error("sessionData is empty");
     }
 
-    sessionData.panelID = PANEL_ROI;
+    sessionData.currentPanelID = PANEL_ROI;
 
     wxCommandEvent changePanelEvent(c_CHANGE_PANEL_EVENT, CHANGE_OK);
     wxPostEvent(parent, changePanelEvent);

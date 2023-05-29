@@ -1,4 +1,7 @@
+#include "Model/ModelFactory.hpp"
+#include "Model/SharedModel.hpp"
 #include <UI/MainFrame.hpp>
+#include <memory>
 
 MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
     : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size) {
@@ -6,17 +9,18 @@ MainFrame::MainFrame(const wxString &title, wxSize size, AppConfig *config)
     wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
     SetIcon(icon);
 
-    model = new Model(this, 0);
+    ModelFactory modelFactory(this);
 
-    capture_panel = new CapturePanel(this, Enum::CP_Panel_ID, model);
+    auto captureModel = modelFactory.createCaptureModel();
+    capture_panel = new CapturePanel(this, Enum::CP_Panel_ID, captureModel);
 
-    roi_panel = new RoiPanel(this, Enum::CP_Panel_ID, model);
-    roi_panel->Hide();
-    capture_panel->setNextPanel(roi_panel);
+    // roi_panel = new RoiPanel(this, Enum::CP_Panel_ID, model);
+    // roi_panel->Hide();
+    // capture_panel->setNextPanel(roi_panel);
 
     sizer = new wxBoxSizer(wxVERTICAL);
     sizer->Add(capture_panel, 1, wxEXPAND);
-    sizer->Add(roi_panel, 1, wxEXPAND);
+    // sizer->Add(roi_panel, 1, wxEXPAND);
     SetSizer(sizer);
 }
 
