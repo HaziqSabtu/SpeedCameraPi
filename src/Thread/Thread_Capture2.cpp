@@ -9,7 +9,7 @@
  *
  */
 
-#include <Thread/Thread_Capture.hpp>
+#include <Thread/Thread_Capture2.hpp>
 
 /**
  * @brief Construct a new Capture Thread:: Capture Thread object
@@ -17,17 +17,13 @@
  * @param parent parent wxPanel/wxEvtHandler
  * @param cap pointer to RaspiCam_Cv object
  */
-CaptureThread::CaptureThread(wxEvtHandler *parent,
-                             std::shared_ptr<CameraBase> camera)
-    : wxThread(wxTHREAD_JOINABLE), camera(camera) {
-    this->parent = parent;
-}
+CaptureThread2::CaptureThread2(wxEvtHandler *parent) { this->parent = parent; }
 
 /**
  * @brief Destroy the Capture Thread:: Capture Thread object
  *
  */
-CaptureThread::~CaptureThread() {}
+CaptureThread2::~CaptureThread2() {}
 
 /**
  * @brief Thread Entry Point
@@ -41,12 +37,10 @@ CaptureThread::~CaptureThread() {}
  *
  * @return wxThread::ExitCode
  */
-wxThread::ExitCode CaptureThread::Entry() {
+wxThread::ExitCode CaptureThread2::Entry() {
 
     wxCommandEvent startCaptureEvent(c_CAPTURE_EVENT, CAPTURE_START);
     wxPostEvent(parent, startCaptureEvent);
-
-    std::cerr << "CaptureThread::Entry()" << std::endl;
 
     while (!TestDestroy()) {
         cv::Mat frame;

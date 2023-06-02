@@ -92,4 +92,6 @@ struct SessionData {
         roiData.width = width;
         roiData.height = height;
     }
+
+    void setPanelID(PanelID id) { currentPanelID = id; }
 };

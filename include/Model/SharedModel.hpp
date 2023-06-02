@@ -23,12 +23,29 @@
 #include <wx/gdicmn.h>
 #include <wx/wx.h>
 
-class SharedModel {
+class ISharedModel {
   public:
-    SharedModel(wxWindow *parent);
+    virtual ~ISharedModel() = default;
+    virtual void setCamera(std::shared_ptr<CameraBase> camera) = 0;
+    virtual std::shared_ptr<CameraBase> getCamera() = 0;
+    virtual void setThreadPool(std::shared_ptr<ThreadPool> threadPool) = 0;
+    virtual std::shared_ptr<ThreadPool> getThreadPool() = 0;
+};
+
+class SharedModel : public ISharedModel {
+  public:
+    SharedModel();
     ~SharedModel();
 
+    void setCamera(std::shared_ptr<CameraBase> camera) override;
+    std::shared_ptr<CameraBase> getCamera() override;
+
+    void setThreadPool(std::shared_ptr<ThreadPool> threadPool) override;
+    std::shared_ptr<ThreadPool> getThreadPool() override;
+
     SessionData sessionData;
+
+  private:
     std::shared_ptr<CameraBase> camera;
     std::shared_ptr<ThreadPool> threadPool;
 };

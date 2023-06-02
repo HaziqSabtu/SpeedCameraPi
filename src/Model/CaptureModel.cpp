@@ -1,6 +1,14 @@
 #include "Model/CaptureModel.hpp"
+#include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Capture.hpp"
+#include "Thread/Thread_LoadFile.hpp"
+#include "Utils/Camera/CameraBase.hpp"
+#include "Utils/Config/AppConfig.hpp"
+#include "Utils/Config/ConfigStruct.hpp"
+#include "Utils/DataStruct.hpp"
 #include <Model/CaptureModel.hpp>
+#include <vector>
+#include <wx/event.h>
 
 CaptureModel::CaptureModel(std::shared_ptr<SharedModel> sharedModel)
     : shared(sharedModel) {
@@ -33,12 +41,10 @@ void CaptureModel::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id) {
 
 void CaptureModel::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id,
                             std::string path) {
-
     try {
-
         if (panelID != shared->sessionData.currentPanelID) {
             throw std::runtime_error(
-                "CaptureModel::endPoint() - Invalid PanelID");
+                "CaptureModel::endPoint() - PanelID mismatch");
         }
 
         if (id == ModelEnum::MODEL_START_CAPTURE) {
@@ -86,10 +92,14 @@ void CaptureModel::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id,
 }
 
 void CaptureModel::startCaptureHandler(wxEvtHandler *parent) {
+    if (shared->getCamera() == nullptr) {
+        throw std::runtime_error("Camera is not initialized");
+    }
     if (captureThread != nullptr) {
         throw std::runtime_error("captureThread is already running");
     }
-    captureThread = new CaptureThread(parent, shared->camera);
+
+    captureThread = initCaptureThread(parent, shared->getCamera());
     captureThread->Run();
 }
 
@@ -114,9 +124,7 @@ void CaptureModel::startLoadFileHandler(wxEvtHandler *parent,
 
     AppConfig config;
     LoadConfig loadConfig = config.GetLoadConfig();
-    loadFileThread = new LoadFileThread(parent, shared->threadPool,
-                                        shared->sessionData.imageData, path,
-                                        loadConfig.maxFrame);
+    loadFileThread = initLoadFileThread(parent, loadConfig.maxFrame, path);
     loadFileThread->Run();
 }
 
@@ -125,6 +133,10 @@ void CaptureModel::endLoadFileHandler() {
 }
 
 void CaptureModel::startLoadCaptureHandler(wxEvtHandler *parent) {
+
+    if (shared->getCamera() == nullptr) {
+        throw std::runtime_error("Camera is not initialized");
+    }
 
     if (captureThread != nullptr) {
         endCaptureHandler();
@@ -135,14 +147,15 @@ void CaptureModel::startLoadCaptureHandler(wxEvtHandler *parent) {
     }
 
     if (!shared->sessionData.isImageDataEmpty()) {
+        std::cerr << "ImageData is not empty" << std::endl;
         shared->sessionData.clearImageData();
     }
 
     AppConfig config;
     CaptureConfig captureConfig = config.GetCaptureConfig();
-    loadCaptureThread = new LoadCaptureThread(
-        parent, shared->camera, shared->sessionData.imageData,
-        captureConfig.maxFrame, false, false);
+    loadCaptureThread = initLoadCaptureThread(parent, shared->getCamera(),
+                                              shared->sessionData.imageData,
+                                              captureConfig.maxFrame);
     loadCaptureThread->Run();
 }
 
@@ -173,6 +186,7 @@ void CaptureModel::switchPanelHandler(wxEvtHandler *parent) {
 }
 
 bool CaptureModel::isRequirementFulfilled() {
+    std::cerr << "CaptureModel::isRequirementFulfilled()" << std::endl;
     if (captureThread != nullptr) {
         endCaptureHandler();
     }
@@ -189,4 +203,21 @@ bool CaptureModel::isRequirementFulfilled() {
         throw std::runtime_error("ImageData is empty");
     }
     return true;
+}
+
+wxThread *CaptureModel::initCaptureThread(wxEvtHandler *parent,
+                                          std::shared_ptr<CameraBase> camera) {
+    return new CaptureThread(parent, camera);
+}
+
+wxThread *CaptureModel::initLoadFileThread(wxEvtHandler *parent, int maxFrame,
+                                           std::string path) {
+    return new LoadFileThread(parent, shared->getThreadPool(),
+                              shared->sessionData.imageData, path, maxFrame);
+}
+
+wxThread *CaptureModel::initLoadCaptureThread(
+    wxEvtHandler *parent, std::shared_ptr<CameraBase> camera,
+    std::shared_ptr<std::vector<ImageData>> imgData, const int maxFrame) {
+    return new LoadCaptureThread(parent, camera, imgData, maxFrame);
 }

@@ -1,6 +1,7 @@
 #include <Utils/FileReader/fileWR.hpp>
 #include <gtest/gtest.h>
 
+// TODO: Add tests for the following functions:
 class FILEWRTest : public testing::Test {
   public:
     FILEWRTest() {}
@@ -20,7 +21,7 @@ TEST_F(FILEWRTest, TestReadFile) {
     std::string filename = Utils::dateToString() + ".bin";
     fileWR.WriteFile(filename, imgData);
     std::shared_ptr<std::vector<ImageData>> imgDataRead =
-      std::make_shared<std::vector<ImageData>>();
+        std::make_shared<std::vector<ImageData>>();
     fileWR.ReadFile(filename, imgDataRead);
     ASSERT_EQ(imgDataRead->size(), 1);
     ASSERT_EQ(imgDataRead->at(0).image.cols, 2);

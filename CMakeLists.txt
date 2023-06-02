@@ -4,7 +4,7 @@ project(SpeedCameraPi)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-add_compile_options(-Wno-psabi)
+add_compile_options(-Wno-psabi -D gtest_disable_pthreads=OFF)
 
 include_directories(include)
 file(GLOB_RECURSE SRCS ./src/*.cpp EXCLUDE ./src/main.cpp)
@@ -28,9 +28,9 @@ if(UNIX AND EXISTS "/etc/os-release")
   else()
     message(FATAL_ERROR "Unsupported Linux distribution")
   endif()
-else()
+else() 
   message(FATAL_ERROR "Not a Linux system")
-endif()
+endif() # UNIX AND EXISTS "/etc/os-release"
 
 if(CROSS_COMPILING)
     # allow pkg-config to find the libraries in sysroot
@@ -52,16 +52,16 @@ if(CROSS_COMPILING)
     )
 
     # POST_BUILD command curl
-    add_custom_command(TARGET SpeedCameraPi POST_BUILD
-        COMMAND curl --location '192.168.178.20:8080/wav/succ'
-    )
+    # add_custom_command(TARGET SpeedCameraPi POST_BUILD
+    #     COMMAND curl --location '192.168.178.20:8080/wav/succ'
+    # )
 else()
     set(libcamIncludeDir /usr/include/libcamera)
     
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
         COMMAND cp ${CMAKE_SOURCE_DIR}/Speed.ico $<TARGET_FILE_DIR:SpeedCameraPi>
     )
-endif()
+endif() # CROSS_COMPILING
 
 # Find OpenCV
 find_package(OpenCV REQUIRED)
@@ -73,7 +73,7 @@ if(OpenCV_FOUND)
   include_directories(${OpenCV_INCLUDE_DIRS})
 else()
     message(FATAL_ERROR "OpenCV not found!")
-endif()
+endif() # OpenCV_FOUND
 
 # Find wxWidgets
 find_package(wxWidgets REQUIRED)
@@ -85,7 +85,7 @@ if(wxWidgets_FOUND)
   include(${wxWidgets_USE_FILE})
 else()
     message(FATAL_ERROR "wxWIdgets not found!")
-endif()
+endif() # wxWidgets_FOUND
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBCAMERA REQUIRED libcamera)
@@ -104,7 +104,7 @@ if(Threads_FOUND AND LIBCAMERA_FOUND)
     target_include_directories(SpeedCameraPi PRIVATE ${libcamIncludeDir})
 else()
     message(FATAL_ERROR "Threads not found")
-endif()
+endif() # Threads_FOUND
 
 # set(CMAKE_MODULE_PATH "/usr/local/lib/cmake" ; ${CMAKE_MODULE_PATH})
 # find_package(raspicam REQUIRED)
@@ -116,26 +116,59 @@ endif()
 
 target_link_libraries(SpeedCameraPi PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
 
+# set boolean
+option(ENABLE_TESTING "Enable Test Builds" ON)
 
-# enable_testing()
-# find_package(GTest REQUIRED)
-# include_directories(${GTEST_INCLUDE_DIRS})
+if(ENABLE_TESTING)
+  message(STATUS "Testing enabled")
 
-# Add test directory and link with gtest
-# add_subdirectory(test)
-# target_link_libraries(SpeedCameraPi PRIVATE ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+  )
+  FetchContent_MakeAvailable(googletest)
 
-# Add test executable
-# file(GLOB_RECURSE UTILS ./src/Utils/*.cpp)
-# add_executable(SpeedCameraPiTest ./test/Test.cpp ${UTILS})
-# target_link_libraries(SpeedCameraPiTest PRIVATE ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
+  enable_testing()
 
-# if(Threads_FOUND AND LIBCAMERA_FOUND)
-#     message(STATUS "Threads found for test")
-#     target_link_libraries(SpeedCameraPiTest PRIVATE Threads::Threads ${LIBCAMERA_LINK_LIBRARIES})
-#     target_include_directories(SpeedCameraPiTest PRIVATE /usr/local/include/libcamera)
-# else()
-#     message(FATAL_ERROR "Threads not found")
-# endif()
-# # Add test to CTest
-# add_test(NAME SpeedCameraPiTest COMMAND SpeedCameraPiTest)
+  file(GLOB_RECURSE ALG    src/Algorithm/*.cpp)
+  file(GLOB_RECURSE EVENT  src/Event/*.cpp)
+  file(GLOB_RECURSE MODEL  src/Model/*.cpp)
+  file(GLOB_RECURSE THREAD src/Thread/*.cpp)
+  file(GLOB_RECURSE UTILS  src/Utils/*.cpp)
+
+  file(GLOB_RECURSE MODELTEST tests/Model/*.cpp)
+
+  add_executable(
+    Tests
+    tests/testableframe.cpp
+
+    ${THREAD} 
+    ${MODEL} 
+    ${EVENT} 
+    ${UTILS} 
+    ${ALG}
+
+    ${MODELTEST}
+  )
+
+  target_link_libraries(
+    Tests
+    GTest::gtest_main
+    GTest::gmock_main
+    ${OpenCV_LIBS} 
+    ${wxWidgets_LIBRARIES}
+    ${LIBCAMERA_LINK_LIBRARIES}
+    Threads::Threads 
+  )
+
+  target_include_directories(Tests PRIVATE ${libcamIncludeDir})
+
+  add_custom_command(TARGET Tests POST_BUILD
+          COMMAND ssh RPi0 "mkdir -p ~/Target"
+          COMMAND scp $<TARGET_FILE:Tests> RPi0:~/Target/
+      )
+  
+endif() # ENABLE_TESTING  
+
+

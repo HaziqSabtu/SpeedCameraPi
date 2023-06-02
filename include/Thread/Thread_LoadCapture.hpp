@@ -34,8 +34,9 @@ class LoadCaptureThread : public wxThread {
   public:
     LoadCaptureThread(wxEvtHandler *parent, std::shared_ptr<CameraBase> camera,
                       std::shared_ptr<std::vector<ImageData>> imgData,
-                      const int maxFrame, const bool debug_SaveImageData,
-                      const bool debug_ShowImagesWhenCapture);
+                      const int maxFrame,
+                      const bool debug_SaveImageData = false,
+                      const bool debug_ShowImagesWhenCapture = false);
     ~LoadCaptureThread();
 
   protected:

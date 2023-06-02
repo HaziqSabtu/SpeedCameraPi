@@ -2,30 +2,26 @@
 #include "Model/SessionData.hpp"
 #include <wx/event.h>
 
-SharedModel::SharedModel(wxWindow *parent) {
-    AppConfig config;
-
-    CameraConfig cameraConfig = config.GetCameraConfig();
-
-    camera = std::make_shared<LibCam>();
-    camera->setHeight(cameraConfig.Camera_Height);
-    camera->setWidth(cameraConfig.Camera_Width);
-    camera->setFPS(cameraConfig.Camera_FPS);
-
-    if (!camera->start()) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(" Camera not found! ");
-        wxPostEvent(parent, errorEvent);
-    }
-
-    threadPool = std::make_shared<ThreadPool>();
-    threadPool->setNumThreads(config.GetPanelConfig().Thread_Pool_Size);
-}
+SharedModel::SharedModel() : camera(nullptr), threadPool(nullptr) {}
 
 SharedModel::~SharedModel() {
     try {
-        camera->stop();
+        if (camera != nullptr) {
+            camera->stop();
+        }
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
 }
+
+void SharedModel::setCamera(std::shared_ptr<CameraBase> camera) {
+    this->camera = camera;
+}
+
+std::shared_ptr<CameraBase> SharedModel::getCamera() { return camera; }
+
+void SharedModel::setThreadPool(std::shared_ptr<ThreadPool> threadPool) {
+    this->threadPool = threadPool;
+}
+
+std::shared_ptr<ThreadPool> SharedModel::getThreadPool() { return threadPool; }

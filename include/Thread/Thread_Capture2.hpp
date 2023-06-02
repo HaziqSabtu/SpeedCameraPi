@@ -8,8 +8,7 @@
  * @copyright Copyright (c) 2023
  *
  */
-#ifndef CAPTURE_THREAD_HPP
-#define CAPTURE_THREAD_HPP
+#pragma once
 
 #include <Event/Event_Capture.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -24,24 +23,14 @@
 
 #include <wx/thread.h>
 
-template <class T>
-class CaptureThreadFactory {
-  public:
-    CaptureThreadFactory() {}
-
-    T *create(wxEvtHandler *parent, std::shared_ptr<CameraBase> camera) {
-        return new T(parent, camera);
-    }
-};
-
 /**
  * @brief Custom wxThread for capturing image from camera
  *
  */
-class CaptureThread : public wxThread {
+class CaptureThread2 : public wxThread {
   public:
-    CaptureThread(wxEvtHandler *parent, std::shared_ptr<CameraBase> camera);
-    ~CaptureThread();
+    CaptureThread2(wxEvtHandler *parent);
+    ~CaptureThread2();
 
   protected:
     virtual ExitCode Entry();
@@ -50,5 +39,3 @@ class CaptureThread : public wxThread {
     wxEvtHandler *parent;
     std::shared_ptr<CameraBase> camera;
 };
-
-#endif
