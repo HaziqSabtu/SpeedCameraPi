@@ -1,4 +1,5 @@
 #include "Model/CaptureModel.hpp"
+#include "Event/Event_ChangePanel.hpp"
 #include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Capture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
@@ -79,6 +80,11 @@ void CaptureModel::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id,
 
         if (id == ModelEnum::MODEL_SWITCH_PANEL) {
             switchPanelHandler(parent);
+            return;
+        }
+
+        if (id == ModelEnum::MODEL_SWITCH_TO_CALIB) {
+            switchToCalibHandler(parent);
             return;
         }
 
@@ -181,12 +187,24 @@ void CaptureModel::switchPanelHandler(wxEvtHandler *parent) {
         throw std::runtime_error("Requirement is not fulfilled");
     }
 
-    wxCommandEvent changePanelEvent(c_CHANGE_PANEL_EVENT, CHANGE_OK);
+    ChangePanelData data(this->panelID, this->nextPanelID);
+
+    ChangePanelEvent changePanelEvent(c_CHANGE_PANEL_EVENT, CHANGE_OK);
+    changePanelEvent.SetPanelData(data);
+    wxPostEvent(parent, changePanelEvent);
+}
+
+// TODO: REmove this temporary
+void CaptureModel::switchToCalibHandler(wxEvtHandler *parent) {
+
+    ChangePanelData data(this->panelID, PanelID::PANEL_CALIBRATION);
+
+    ChangePanelEvent changePanelEvent(c_CHANGE_PANEL_EVENT, CHANGE_OK);
+    changePanelEvent.SetPanelData(data);
     wxPostEvent(parent, changePanelEvent);
 }
 
 bool CaptureModel::isRequirementFulfilled() {
-    std::cerr << "CaptureModel::isRequirementFulfilled()" << std::endl;
     if (captureThread != nullptr) {
         endCaptureHandler();
     }

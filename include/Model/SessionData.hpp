@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-enum PanelID { PANEL_CAPTURE, PANEL_ROI };
+enum PanelID { PANEL_NONE, PANEL_CAPTURE, PANEL_ROI, PANEL_CALIBRATION };
 
 struct RoiData {
     int x;

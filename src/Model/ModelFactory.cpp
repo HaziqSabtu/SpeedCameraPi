@@ -33,3 +33,15 @@ ModelFactory::~ModelFactory() { sharedModel = nullptr; }
 std::unique_ptr<CaptureModel> ModelFactory::createCaptureModel() {
     return std::make_unique<CaptureModel>(sharedModel);
 }
+
+std::unique_ptr<RoiModel> ModelFactory::createRoiModel() {
+    return std::make_unique<RoiModel>(sharedModel);
+}
+
+std::shared_ptr<SharedModel> ModelFactory::getSharedModel() {
+    return sharedModel;
+}
+
+std::unique_ptr<CalibrationModel> ModelFactory::createCalibrationModel() {
+    return std::make_unique<CalibrationModel>(sharedModel);
+}

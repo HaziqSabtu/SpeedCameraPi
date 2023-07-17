@@ -9,6 +9,9 @@ enum ProjectIDs {
     // Notebook
     NOTEBOOK_ID = wxID_HIGHEST + 1,
 
+    //Global
+    G_Exit_Button_ID,
+
     // CameraPanel
     CP_Panel_ID,
     CP_IMG_PANEL_ID,
@@ -21,6 +24,10 @@ enum ProjectIDs {
     CP_Camera_Button2_ID,
     CP_Reset_Button_ID,
     CP_SWITCH_Button_ID,
+    CP_CALIBRATE_Button_ID,
+
+    // CalibrationPanel
+    CL_Start_Button_ID,
 
     // CameraPanel->Hough
     CP_BUTTON_PANEL_HOUGH_ID,

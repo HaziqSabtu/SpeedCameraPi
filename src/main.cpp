@@ -13,7 +13,7 @@ class MyApp : public wxApp {
         wxLog::SetActiveTarget(new AppLogger);
         wxLogMessage("Application Started");
 
-        MainFrame *frame = new MainFrame("Speed Gun", wxSize(800, 600), &conf);
+        MainFrame *frame = new MainFrame("Speed Gun");
 
         frame->Show(true);
         return true;

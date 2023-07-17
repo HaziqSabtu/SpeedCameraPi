@@ -49,6 +49,7 @@ if(CROSS_COMPILING)
         COMMAND ssh RPi0 "mkdir -p ~/Target"
         COMMAND scp $<TARGET_FILE:SpeedCameraPi> RPi0:~/Target/
         COMMAND scp ${CMAKE_SOURCE_DIR}/Speed.ico RPi0:~/Target/
+        COMMAND scp ${CMAKE_SOURCE_DIR}/exit.ico RPi0:~/Target/
     )
 
     # POST_BUILD command curl

@@ -8,12 +8,15 @@ CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     ToggleCamera_Button =
         new ButtonToggleCam(this, Enum::CP_ToggleCamera_Button_ID);
     switch_Button = new wxButton(this, Enum::CP_SWITCH_Button_ID, "Switch");
+    calibrate_Button =
+        new wxButton(this, Enum::CP_CALIBRATE_Button_ID, "Calibrate");
     Spacer = new wxStaticText(this, wxID_ANY, "");
 
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
     button_sizer->Add(Capture_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(ToggleCamera_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Spacer, 1, wxALL | wxCENTER, 5);
+    button_sizer->Add(calibrate_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(Load_Button, 0, wxALL | wxCENTER, 5);
     button_sizer->Add(switch_Button, 0, wxALL | wxCENTER, 5);
 

@@ -3,6 +3,7 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/Panel.hpp>
 #include <stdexcept>
+#include <wx/gdicmn.h>
 
 CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id,
                            std::unique_ptr<CaptureModel> &model)
@@ -11,19 +12,29 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id,
 
     img_bitmap = new BaseImagePanel(this);
 
+    staticText = new wxStaticText(this, wxID_ANY, wxT("Calibration Panel"));
+
+    exit_Button = new ButtonExit(this);
+
+    text_vsizer = new wxBoxSizer(wxVERTICAL);
+    text_vsizer->AddStretchSpacer();
+    text_vsizer->Add(staticText, 0, wxEXPAND);
+    text_vsizer->AddStretchSpacer();
+
+    text_sizer = new wxBoxSizer(wxHORIZONTAL);
+    text_sizer->Add(text_vsizer, 1, wxEXPAND);
+    text_sizer->Add(exit_Button, 0, wxEXPAND);
+
     main_sizer = new wxBoxSizer(wxVERTICAL);
-    main_sizer->Add(button_panel, 0, wxEXPAND);
-    main_sizer->Add(img_bitmap, 1, wxEXPAND);
+    main_sizer->Add(text_sizer, 0, wxEXPAND | wxALL, 10);
+    main_sizer->Add(button_panel, 0, wxEXPAND | wxALL, 10);
+    main_sizer->Add(img_bitmap, 1, wxEXPAND | wxALL, 10);
 
     SetSizer(main_sizer);
     Fit();
-
-    nextPanel = nullptr;
 }
 
 CapturePanel::~CapturePanel() {}
-
-void CapturePanel::setNextPanel(RoiPanel *panel) { nextPanel = panel; }
 
 void CapturePanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
@@ -41,6 +52,12 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
         OnChangePanelButton(button_panel->switch_Button);
     }
+
+    if (e.GetId() == Enum::CP_CALIBRATE_Button_ID) {
+        model->endPoint(button_panel->calibrate_Button,
+                        ModelEnum::MODEL_SWITCH_TO_CALIB);
+    }
+
     e.Skip();
 }
 
@@ -62,7 +79,7 @@ void CapturePanel::OnCaptureButton(ButtonWState *button) {
 }
 
 void CapturePanel::OnToggleCameraButton(ButtonWState *button) {
-    if (button->GetState()) {
+    if (!button->GetState()) {
         model->endPoint(button, ModelEnum::MODEL_START_CAPTURE);
         return;
     }
@@ -98,28 +115,9 @@ void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     e.Skip();
 }
 
-void CapturePanel::OnChangePanel(wxCommandEvent &e) {
-    try {
-        if (nextPanel == nullptr) {
-            throw std::runtime_error("Next panel is not set");
-        }
-
-        this->Hide();
-        nextPanel->Show();
-        nextPanel->Init();
-        e.Skip();
-
-    } catch (std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(this, errorEvent);
-    }
-}
-
 // clang-format off
 wxBEGIN_EVENT_TABLE(CapturePanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, CapturePanel::OnUpdatePreview)
     EVT_BUTTON(wxID_ANY,CapturePanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_LOAD_IMAGE_EVENT, CapturePanel::OnLoadImage)
-    EVT_COMMAND(wxID_ANY, c_CHANGE_PANEL_EVENT, CapturePanel::OnChangePanel)
 wxEND_EVENT_TABLE()

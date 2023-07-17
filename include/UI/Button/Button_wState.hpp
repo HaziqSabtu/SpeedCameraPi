@@ -1,5 +1,4 @@
-#ifndef BUTTON_WITH_STATE_CPP
-#define BUTTON_WITH_STATE_CPP
+#pragma once
 
 #include <wx/event.h>
 #include <wx/wx.h>
@@ -30,5 +29,3 @@ class ButtonWState : public wxButton {
     wxString activeText;
     wxString inactiveText;
 };
-
-#endif

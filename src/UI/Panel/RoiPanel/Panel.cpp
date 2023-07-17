@@ -1,8 +1,11 @@
+#include "Model/RoiModel.hpp"
 #include "Model/SessionData.hpp"
 #include <UI/Panel/RoiPanel/Panel.hpp>
+#include <memory>
 
-RoiPanel::RoiPanel(wxWindow *parent, wxWindowID id, Model *model)
-    : wxPanel(parent, id), model(model) {
+RoiPanel::RoiPanel(wxWindow *parent, wxWindowID id,
+                   std::unique_ptr<RoiModel> &model)
+    : wxPanel(parent, id), model(std::move(model)) {
     button_panel = new RoiButtonPanel(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new RoiImagePanel(this);
@@ -16,6 +19,8 @@ RoiPanel::RoiPanel(wxWindow *parent, wxWindowID id, Model *model)
 
     SetSizer(main_sizer);
     Fit();
+
+    Hide();
 
     Bind(wxEVT_LEFT_UP, &RoiPanel::OnLeftUp, this);
 }

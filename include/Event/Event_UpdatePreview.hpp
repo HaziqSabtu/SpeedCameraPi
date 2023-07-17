@@ -15,12 +15,12 @@ class UpdatePreviewEvent : public wxCommandEvent {
   public:
     UpdatePreviewEvent(wxEventType eventType = c_UPDATE_PREVIEW_EVENT,
                        int id = 1);
-    UpdatePreviewEvent(const UpdatePreviewEvent& e);
-    virtual wxEvent* Clone() const;
+    UpdatePreviewEvent(const UpdatePreviewEvent &e);
+    virtual wxEvent *Clone() const;
 
     // Define a method to set the image data
-    void SetImage(const wxBitmap& image);
-    void SetImage(const cv::Mat& cvImage);
+    void SetImage(const wxBitmap &image);
+    void SetImage(const cv::Mat &cvImage);
 
     // Define a method to get the image data
     wxBitmap GetImage() const;
@@ -29,10 +29,8 @@ class UpdatePreviewEvent : public wxCommandEvent {
     wxBitmap image;
 };
 
-typedef void (wxEvtHandler::*UpdatePreviewFunction)(UpdatePreviewEvent&);
-#define UpdatePreviewHandler(func)                                        \
+typedef void (wxEvtHandler::*UpdatePreviewFunction)(UpdatePreviewEvent &);
+#define UpdatePreviewHandler(func)                                             \
     wxEVENT_HANDLER_CAST(UpdatePreviewFunction, func)
-#define EVT_UPDATE_PREVIEW(id, func)                                      \
-    wx__DECLARE_EVT1(c_UPDATE_PREVIEW_EVENT,                              \
-                     id,                                                  \
-                     UpdatePreviewHandler(func))
+#define EVT_UPDATE_PREVIEW(id, func)                                           \
+    wx__DECLARE_EVT1(c_UPDATE_PREVIEW_EVENT, id, UpdatePreviewHandler(func))

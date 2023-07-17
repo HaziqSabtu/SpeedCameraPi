@@ -19,6 +19,7 @@ class CaptureModel {
 
   private:
     const PanelID panelID = PanelID::PANEL_CAPTURE;
+    const PanelID nextPanelID = PanelID::PANEL_ROI;
 
     std::shared_ptr<SharedModel> shared;
 
@@ -47,6 +48,8 @@ class CaptureModel {
     void endLoadCaptureHandler();
 
     void switchPanelHandler(wxEvtHandler *parent);
+
+    void switchToCalibHandler(wxEvtHandler *parent);
     virtual bool isRequirementFulfilled();
 
     template <typename T>

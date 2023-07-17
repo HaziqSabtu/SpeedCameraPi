@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Model/RoiModel.hpp"
 #include <Model/Model.hpp>
 
 #include <UI/Panel/RoiPanel/Panel_Button.hpp>
@@ -8,17 +9,18 @@
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Enum.hpp>
 
+#include <memory>
 #include <wx/wx.h>
 
 class RoiPanel : public wxPanel {
   public:
-    RoiPanel(wxWindow *parent, wxWindowID id, Model *model);
+    RoiPanel(wxWindow *parent, wxWindowID id, std::unique_ptr<RoiModel> &model);
     ~RoiPanel();
 
     void Init();
 
   private:
-    Model *model;
+    std::unique_ptr<RoiModel> model;
 
     RoiButtonPanel *button_panel;
     RoiImagePanel *img_bitmap;
