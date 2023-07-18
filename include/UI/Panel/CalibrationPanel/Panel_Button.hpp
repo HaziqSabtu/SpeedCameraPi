@@ -10,12 +10,18 @@
 class CalibrationPanelButton : public wxPanel {
   public:
     CalibrationPanelButton(wxWindow *parent, wxWindowID id);
-    wxButton *switch_Button;
-    ButtonWState *start_Button;
+    wxButton *start_Button;
+    wxButton *recalibrate_Button;
+    wxButton *manual_Button;
+    wxButton *cancel_Button;
+    wxButton *OK_Button;
+    ButtonWState *camera_Button;
 
   private:
     wxPanel *button_panel;
     wxStaticText *Spacer;
+    wxStaticText *left_Spacer;
+    wxStaticText *right_Spacer;
 
     wxBoxSizer *left_sizer;
     wxBoxSizer *right_sizer;

@@ -38,12 +38,12 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
 CalibrationPanel::~CalibrationPanel() {}
 
 void CalibrationPanel::OnButton(wxCommandEvent &e) {
-    if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
-        model->e_ChangePanel(button_panel->switch_Button);
+    if (e.GetId() == Enum::CL_Back_Button_ID) {
+        model->e_ChangePanel(button_panel->cancel_Button);
     }
 
-    if (e.GetId() == Enum::CL_Start_Button_ID) {
-        ButtonWState *button = button_panel->start_Button;
+    if (e.GetId() == Enum::CL_ToggleCamera_Button_ID) {
+        ButtonWState *button = button_panel->camera_Button;
         model->e_ToggleCamera(button, button->GetState());
     }
 
