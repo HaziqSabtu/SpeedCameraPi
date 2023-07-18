@@ -7,6 +7,7 @@
 #include <Utils/Enum.hpp>
 
 #include <wx/gtk/button.h>
+#include <wx/sizer.h>
 #include <wx/wx.h>
 
 class CaptureButtonPanel : public wxPanel {
@@ -23,6 +24,9 @@ class CaptureButtonPanel : public wxPanel {
 
   private:
     wxPanel *button_panel;
+
+    wxBoxSizer *left_sizer;
+    wxBoxSizer *right_sizer;
     wxBoxSizer *button_sizer;
 
     wxStaticText *Spacer;

@@ -15,9 +15,11 @@ class CalibrationPanelButton : public wxPanel {
 
   private:
     wxPanel *button_panel;
-    wxBoxSizer *button_sizer;
-
     wxStaticText *Spacer;
+
+    wxBoxSizer *left_sizer;
+    wxBoxSizer *right_sizer;
+    wxBoxSizer *button_sizer;
 
     DECLARE_EVENT_TABLE();
 };

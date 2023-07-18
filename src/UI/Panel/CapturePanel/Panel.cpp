@@ -1,5 +1,7 @@
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/ModelEnum.hpp"
+#include "UI/StaticText/Statustext.hpp"
+#include "UI/StaticText/Titletext.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/Panel.hpp>
 #include <stdexcept>
@@ -12,23 +14,21 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id,
 
     img_bitmap = new BaseImagePanel(this);
 
-    staticText = new wxStaticText(this, wxID_ANY, wxT("Calibration Panel"));
+    titleText = new TitleText(this, wxID_ANY, this->panel_id);
+
+    statusText = new StatusText(this, wxID_ANY, wxT("  IDLE"));
 
     exit_Button = new ButtonExit(this);
 
-    text_vsizer = new wxBoxSizer(wxVERTICAL);
-    text_vsizer->AddStretchSpacer();
-    text_vsizer->Add(staticText, 0, wxEXPAND);
-    text_vsizer->AddStretchSpacer();
-
-    text_sizer = new wxBoxSizer(wxHORIZONTAL);
-    text_sizer->Add(text_vsizer, 1, wxEXPAND);
-    text_sizer->Add(exit_Button, 0, wxEXPAND);
+    title_Sizer = new wxBoxSizer(wxHORIZONTAL);
+    title_Sizer->Add(titleText->sizer, 1, wxEXPAND);
+    title_Sizer->Add(exit_Button, 0, wxEXPAND);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
-    main_sizer->Add(text_sizer, 0, wxEXPAND | wxALL, 10);
+    main_sizer->Add(title_Sizer, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    main_sizer->Add(img_bitmap, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    main_sizer->Add(statusText, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
     main_sizer->Add(button_panel, 0, wxEXPAND | wxALL, 10);
-    main_sizer->Add(img_bitmap, 1, wxEXPAND | wxALL, 10);
 
     SetSizer(main_sizer);
     Fit();

@@ -118,7 +118,7 @@ endif() # Threads_FOUND
 target_link_libraries(SpeedCameraPi PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
 
 # set boolean
-option(ENABLE_TESTING "Enable Test Builds" ON)
+option(ENABLE_TESTING "Enable Test Builds" OFF)
 
 if(ENABLE_TESTING)
   message(STATUS "Testing enabled")

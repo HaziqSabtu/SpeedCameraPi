@@ -3,6 +3,8 @@
 #include "Model/SessionData.hpp"
 #include "UI/Button/Button_Exit.hpp"
 #include "UI/Panel/RoiPanel/Panel.hpp"
+#include "UI/StaticText/Statustext.hpp"
+#include "UI/StaticText/Titletext.hpp"
 // #include <Model/Model.hpp>
 #include <Model/CaptureModel.hpp>
 
@@ -14,6 +16,7 @@
 
 #include <memory>
 #include <wx/gtk/button.h>
+#include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
@@ -34,10 +37,10 @@ class CapturePanel : public wxPanel {
 
     ButtonExit *exit_Button;
 
-    wxStaticText *staticText;
+    TitleText *titleText;
+    StatusText *statusText;
 
-    wxBoxSizer *text_vsizer;
-    wxBoxSizer *text_sizer;
+    wxBoxSizer *title_Sizer;
     wxBoxSizer *main_sizer;
 
     void OnLoadButton(ButtonWState *button);
