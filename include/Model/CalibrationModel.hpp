@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
 #include "UI/Button/Button_ToggleCamera.hpp"
 #include "UI/Button/Button_wState.hpp"
@@ -19,12 +20,15 @@ class CalibrationModel {
 
     void e_ChangePanel(wxEvtHandler *parent);
 
+    void e_StartCalibration(wxEvtHandler *parent);
+
   private:
     static const PanelID panelID = PanelID::PANEL_CALIBRATION;
 
     std::shared_ptr<SharedModel> shared;
 
-    wxThread *captureThread;
+    CaptureThread *captureThread;
+    CalibrationThread *calibrationThread;
 
     void initThreads();
     void deleteThreads();
@@ -33,12 +37,19 @@ class CalibrationModel {
 
     void startCaptureHandler(wxEvtHandler *parent);
 
-    virtual wxThread *initCaptureThread(wxEvtHandler *parent,
-                                        std::shared_ptr<CameraBase> camera);
+    virtual CaptureThread *
+    initCaptureThread(wxEvtHandler *parent,
+                      std::unique_ptr<CameraBase> &camera);
     void endCaptureHandler();
 
     void switchPanelHandler(wxEvtHandler *parent);
     virtual bool isRequirementFulfilled();
+
+    void startCalibrationHandler(wxEvtHandler *parent);
+
+    virtual CalibrationThread *
+    initCalibrationThread(wxEvtHandler *parent,
+                          std::unique_ptr<CameraBase> &camera);
 
     template <typename T>
     T *stopAndDeleteThread(T *threadPtr);

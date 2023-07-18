@@ -16,7 +16,7 @@ CalibrationPanelButton::CalibrationPanelButton(wxWindow *parent, wxWindowID id)
     OK_Button = new wxButton(this, Enum::CL_OK_Button_ID, "OK");
 
     Spacer =
-        new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(20, 20));
+        new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(10, 10));
 
     left_Spacer = new wxStaticText(this, wxID_ANY, wxEmptyString);
     right_Spacer = new wxStaticText(this, wxID_ANY, wxEmptyString);

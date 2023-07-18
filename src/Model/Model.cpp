@@ -140,7 +140,8 @@ void Model::startCaptureHandler(wxEvtHandler *parent) {
     if (captureThread != nullptr) {
         throw std::runtime_error("captureThread is already running");
     }
-    captureThread = new CaptureThread(parent, camera);
+
+    // captureThread = new CaptureThread(parent, camera);
     captureThread->Run();
 }
 

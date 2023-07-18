@@ -14,11 +14,15 @@ SharedModel::~SharedModel() {
     }
 }
 
-void SharedModel::setCamera(std::shared_ptr<CameraBase> camera) {
-    this->camera = camera;
+void SharedModel::setCamera(std::unique_ptr<CameraBase> &camera) {
+    this->camera = std::move(camera);
 }
 
-std::shared_ptr<CameraBase> SharedModel::getCamera() { return camera; }
+std::unique_ptr<CameraBase> SharedModel::getCamera() {
+    return camera == nullptr ? nullptr : std::move(camera);
+}
+
+bool SharedModel::isCameraAvailable() { return camera != nullptr; }
 
 void SharedModel::setThreadPool(std::shared_ptr<ThreadPool> threadPool) {
     this->threadPool = threadPool;

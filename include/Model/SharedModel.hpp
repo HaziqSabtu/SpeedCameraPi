@@ -26,8 +26,10 @@
 class ISharedModel {
   public:
     virtual ~ISharedModel() = default;
-    virtual void setCamera(std::shared_ptr<CameraBase> camera) = 0;
-    virtual std::shared_ptr<CameraBase> getCamera() = 0;
+    virtual void setCamera(std::unique_ptr<CameraBase> &camera) = 0;
+    virtual std::unique_ptr<CameraBase> getCamera() = 0;
+    virtual bool isCameraAvailable() = 0;
+
     virtual void setThreadPool(std::shared_ptr<ThreadPool> threadPool) = 0;
     virtual std::shared_ptr<ThreadPool> getThreadPool() = 0;
 };
@@ -37,8 +39,9 @@ class SharedModel : public ISharedModel {
     SharedModel();
     ~SharedModel();
 
-    void setCamera(std::shared_ptr<CameraBase> camera) override;
-    std::shared_ptr<CameraBase> getCamera() override;
+    void setCamera(std::unique_ptr<CameraBase> &camera) override;
+    std::unique_ptr<CameraBase> getCamera() override;
+    bool isCameraAvailable() override;
 
     void setThreadPool(std::shared_ptr<ThreadPool> threadPool) override;
     std::shared_ptr<ThreadPool> getThreadPool() override;
@@ -46,6 +49,6 @@ class SharedModel : public ISharedModel {
     SessionData sessionData;
 
   private:
-    std::shared_ptr<CameraBase> camera;
+    std::unique_ptr<CameraBase> camera;
     std::shared_ptr<ThreadPool> threadPool;
 };

@@ -10,6 +10,7 @@
  */
 
 #include <Thread/Thread_Capture.hpp>
+#include <memory>
 
 /**
  * @brief Construct a new Capture Thread:: Capture Thread object
@@ -18,8 +19,8 @@
  * @param cap pointer to RaspiCam_Cv object
  */
 CaptureThread::CaptureThread(wxEvtHandler *parent,
-                             std::shared_ptr<CameraBase> camera)
-    : wxThread(wxTHREAD_JOINABLE), camera(camera) {
+                             std::unique_ptr<CameraBase> &camera)
+    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)) {
     this->parent = parent;
 }
 
@@ -46,8 +47,6 @@ wxThread::ExitCode CaptureThread::Entry() {
     wxCommandEvent startCaptureEvent(c_CAPTURE_EVENT, CAPTURE_START);
     wxPostEvent(parent, startCaptureEvent);
 
-    std::cerr << "CaptureThread::Entry()" << std::endl;
-
     while (!TestDestroy()) {
         cv::Mat frame;
         camera->getFrame(frame);
@@ -63,10 +62,22 @@ wxThread::ExitCode CaptureThread::Entry() {
         wxPostEvent(parent, updatePreviewEvent);
     }
 
+    std::cerr << "Capture thread exited" << std::endl;
+
     UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
     wxPostEvent(parent, clearPreviewEvent);
 
     wxCommandEvent endCaptureEvent(c_CAPTURE_EVENT, CAPTURE_END);
     wxPostEvent(parent, endCaptureEvent);
+
     return 0;
+}
+
+/**
+ * @brief Get the Camera object
+ *
+ * @return std::unique_ptr<CameraBase>
+ */
+std::unique_ptr<CameraBase> CaptureThread::getCamera() {
+    return std::move(camera);
 }

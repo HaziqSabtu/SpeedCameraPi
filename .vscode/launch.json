@@ -151,7 +151,7 @@
                 },
                 {
                     "text": "skip -rfu ^std::.*",
-                    "description": "Don't step into standard library functions",
+                    "description": "Don't step into standard library ",
                     "ignoreFailures": false
                 },
             ],

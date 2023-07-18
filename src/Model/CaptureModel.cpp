@@ -8,6 +8,7 @@
 #include "Utils/Config/ConfigStruct.hpp"
 #include "Utils/DataStruct.hpp"
 #include <Model/CaptureModel.hpp>
+#include <memory>
 #include <vector>
 #include <wx/event.h>
 
@@ -98,18 +99,21 @@ void CaptureModel::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id,
 }
 
 void CaptureModel::startCaptureHandler(wxEvtHandler *parent) {
-    if (shared->getCamera() == nullptr) {
+    if (!shared->isCameraAvailable()) {
         throw std::runtime_error("Camera is not initialized");
     }
     if (captureThread != nullptr) {
         throw std::runtime_error("captureThread is already running");
     }
 
-    captureThread = initCaptureThread(parent, shared->getCamera());
+    std::unique_ptr<CameraBase> camera = shared->getCamera();
+    captureThread = initCaptureThread(parent, camera);
     captureThread->Run();
 }
 
 void CaptureModel::endCaptureHandler() {
+    std::unique_ptr<CameraBase> camera = captureThread->getCamera();
+    shared->setCamera(camera);
     captureThread = stopAndDeleteThread(captureThread);
 }
 
@@ -140,7 +144,7 @@ void CaptureModel::endLoadFileHandler() {
 
 void CaptureModel::startLoadCaptureHandler(wxEvtHandler *parent) {
 
-    if (shared->getCamera() == nullptr) {
+    if (!shared->isCameraAvailable()) {
         throw std::runtime_error("Camera is not initialized");
     }
 
@@ -223,8 +227,9 @@ bool CaptureModel::isRequirementFulfilled() {
     return true;
 }
 
-wxThread *CaptureModel::initCaptureThread(wxEvtHandler *parent,
-                                          std::shared_ptr<CameraBase> camera) {
+CaptureThread *
+CaptureModel::initCaptureThread(wxEvtHandler *parent,
+                                std::unique_ptr<CameraBase> &camera) {
     return new CaptureThread(parent, camera);
 }
 

@@ -24,31 +24,23 @@
 
 #include <wx/thread.h>
 
-template <class T>
-class CaptureThreadFactory {
-  public:
-    CaptureThreadFactory() {}
-
-    T *create(wxEvtHandler *parent, std::shared_ptr<CameraBase> camera) {
-        return new T(parent, camera);
-    }
-};
-
 /**
  * @brief Custom wxThread for capturing image from camera
  *
  */
 class CaptureThread : public wxThread {
   public:
-    CaptureThread(wxEvtHandler *parent, std::shared_ptr<CameraBase> camera);
+    CaptureThread(wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera);
     ~CaptureThread();
+
+    std::unique_ptr<CameraBase> getCamera();
 
   protected:
     virtual ExitCode Entry();
 
   private:
     wxEvtHandler *parent;
-    std::shared_ptr<CameraBase> camera;
+    std::unique_ptr<CameraBase> camera;
 };
 
 #endif

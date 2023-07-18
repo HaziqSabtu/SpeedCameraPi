@@ -23,7 +23,7 @@ class CaptureModel {
 
     std::shared_ptr<SharedModel> shared;
 
-    wxThread *captureThread;
+    CaptureThread *captureThread;
     wxThread *loadFileThread;
     wxThread *loadCaptureThread;
 
@@ -32,8 +32,9 @@ class CaptureModel {
 
     void startCaptureHandler(wxEvtHandler *parent);
 
-    virtual wxThread *initCaptureThread(wxEvtHandler *parent,
-                                        std::shared_ptr<CameraBase> camera);
+    virtual CaptureThread *
+    initCaptureThread(wxEvtHandler *parent,
+                      std::unique_ptr<CameraBase> &camera);
     void endCaptureHandler();
 
     void startLoadFileHandler(wxEvtHandler *parent, std::string path);

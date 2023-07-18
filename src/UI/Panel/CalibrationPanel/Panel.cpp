@@ -47,6 +47,10 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
         model->e_ToggleCamera(button, button->GetState());
     }
 
+    if (e.GetId() == Enum::CL_Start_Button_ID) {
+        model->e_StartCalibration(button_panel->start_Button);
+    }
+
     e.Skip();
 }
 

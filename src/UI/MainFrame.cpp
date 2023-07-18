@@ -85,11 +85,12 @@ void MainFrame::OnChangePanel(ChangePanelEvent &e) {
 
 void MainFrame::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Exit_Button_ID) {
-        ConfirmationDialog dialog(
-            this, "Are you sure you want to exit the application?");
-        if (dialog.ShowModal() == wxID_YES) {
-            Close();
-        }
+        // ConfirmationDialog dialog(
+        //     this, "Are you sure you want to exit the application?");
+        // if (dialog.ShowModal() == wxID_YES) {
+        //     Close();
+        // }
+        Close();
     }
 }
 

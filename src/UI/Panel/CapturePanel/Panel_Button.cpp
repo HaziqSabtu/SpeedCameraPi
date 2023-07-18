@@ -13,7 +13,7 @@ CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     calibrate_Button =
         new wxButton(this, Enum::CP_CALIBRATE_Button_ID, "Calibrate");
     Spacer =
-        new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(20, 20));
+        new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(10, 10));
 
     left_sizer = new wxBoxSizer(wxVERTICAL);
     left_sizer->Add(ToggleCamera_Button, 0, wxEXPAND | wxBOTTOM, 10);
