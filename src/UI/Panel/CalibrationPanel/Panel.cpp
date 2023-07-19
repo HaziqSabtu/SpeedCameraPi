@@ -1,3 +1,4 @@
+#include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/ModelEnum.hpp"
 #include "UI/Button/Button_wState.hpp"
@@ -15,7 +16,7 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
 
     title_panel = new TitlePanel(this, panel_id);
 
-    status_panel = new StatusPanel(this, wxT(" Status"));
+    status_panel = new StatusPanel(this, calibText[IDLE]);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
@@ -59,8 +60,30 @@ void CalibrationPanel::OnUpdatePreview(UpdatePreviewEvent &e) {
     }
 }
 
+void CalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
+    if (e.GetId() == CALIBRATION_START) {
+        status_panel->SetText(calibText[START_CALIBRATION]);
+    }
+
+    if (e.GetId() == CALIBRATION_END) {
+        status_panel->SetText(calibText[CALIBRATION_SUCCESS]);
+    }
+}
+
+void CalibrationPanel::OnCapture(wxCommandEvent &e) {
+    if (e.GetId() == CAPTURE_START) {
+        status_panel->SetText(calibText[CAMERA_ON]);
+    }
+
+    if (e.GetId() == CAPTURE_END) {
+        status_panel->SetText(calibText[CAMERA_OFF]);
+    }
+}
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(CalibrationPanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, CalibrationPanel::OnUpdatePreview)
     EVT_BUTTON(wxID_ANY,CalibrationPanel::OnButton) 
+    EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, CalibrationPanel::OnCalibrationEvent)
+    EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, CalibrationPanel::OnCapture)
 wxEND_EVENT_TABLE()

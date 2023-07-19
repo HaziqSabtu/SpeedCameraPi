@@ -16,7 +16,7 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id,
 
     title_panel = new TitlePanel(this, panel_id);
 
-    status_panel = new StatusPanel(this, wxT(" Status"));
+    status_panel = new StatusPanel(this, wxT("Status"));
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);

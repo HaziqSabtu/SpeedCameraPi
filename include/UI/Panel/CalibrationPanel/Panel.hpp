@@ -15,9 +15,18 @@
 #include <Utils/Enum.hpp>
 
 #include <memory>
+#include <unordered_map>
 #include <wx/gtk/button.h>
 #include <wx/sizer.h>
 #include <wx/wx.h>
+
+enum CalibrationText {
+    IDLE,
+    START_CALIBRATION,
+    CALIBRATION_SUCCESS,
+    CAMERA_ON,
+    CAMERA_OFF
+};
 
 class CalibrationPanel : public wxPanel {
   public:
@@ -27,6 +36,13 @@ class CalibrationPanel : public wxPanel {
 
   private:
     const PanelID panel_id = PANEL_CALIBRATION;
+
+    std::unordered_map<CalibrationText, wxString> calibText {
+        {IDLE, wxT("Idle")},
+        {START_CALIBRATION, wxT("Start Calibration")},
+        {CALIBRATION_SUCCESS, wxT("Calibration Success")},
+        {CAMERA_ON, wxT("Camera On")},
+        {CAMERA_OFF, wxT("Camera Off")}};
 
     std::unique_ptr<CalibrationModel> model;
 
@@ -40,6 +56,8 @@ class CalibrationPanel : public wxPanel {
 
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);
+    void OnCalibrationEvent(wxCommandEvent &e);
+    void OnCapture(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

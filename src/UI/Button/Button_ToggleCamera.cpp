@@ -23,4 +23,6 @@ void ButtonToggleCam::OnCapture(wxCommandEvent &e) {
         state = false;
         render();
     }
+
+    e.Skip();
 }

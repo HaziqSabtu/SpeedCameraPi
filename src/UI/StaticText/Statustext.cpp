@@ -12,3 +12,7 @@ StatusText::StatusText(wxWindow *parent, wxWindowID id, wxString text)
     text_sizer->Add(this, 0, wxEXPAND);
     text_sizer->AddStretchSpacer();
 }
+
+StatusText::~StatusText() {}
+
+void StatusText::SetText(wxString text) { SetLabelText(text); }
