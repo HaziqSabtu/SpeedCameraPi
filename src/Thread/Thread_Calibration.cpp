@@ -24,6 +24,9 @@ wxThread::ExitCode CalibrationThread::Entry() {
             continue;
         }
 
+        cv::Size s(320, 240);
+        cv::resize(frame, frame, s);
+
         UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
                                               UPDATE_PREVIEW);
         updatePreviewEvent.SetImage(frame);
