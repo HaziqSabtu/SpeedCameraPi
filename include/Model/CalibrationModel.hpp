@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
@@ -22,6 +23,8 @@ class CalibrationModel {
 
     void e_StartCalibration(wxEvtHandler *parent);
 
+    void e_SetPoint(wxEvtHandler *parent, wxPoint point);
+
   private:
     static const PanelID panelID = PanelID::PANEL_CALIBRATION;
 
@@ -30,6 +33,7 @@ class CalibrationModel {
     CaptureThread *captureThread;
     CalibrationThread *calibrationThread;
 
+  private:
     void initThreads();
     void deleteThreads();
 
@@ -47,9 +51,12 @@ class CalibrationModel {
 
     void startCalibrationHandler(wxEvtHandler *parent);
 
+    void setPointHandler(wxEvtHandler *parent, cv::Point point);
+
     virtual CalibrationThread *
     initCalibrationThread(wxEvtHandler *parent,
-                          std::unique_ptr<CameraBase> &camera);
+                          std::unique_ptr<CameraBase> &camera,
+                          HSVFilter &hsvFilter, BFS &bfs);
 
     template <typename T>
     T *stopAndDeleteThread(T *threadPtr);

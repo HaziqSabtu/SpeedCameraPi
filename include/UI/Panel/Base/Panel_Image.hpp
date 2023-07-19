@@ -4,6 +4,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include <wx/gdicmn.h>
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
@@ -28,6 +29,8 @@ class BaseImagePanel : public wxPanel {
 
     void setImage(wxBitmap &image);
     void setNoImage();
+
+    wxSize getImageSize();
 
   protected:
     virtual void render(wxDC &dc);

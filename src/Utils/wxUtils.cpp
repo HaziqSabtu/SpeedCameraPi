@@ -7,13 +7,13 @@ std::string wxStringToString(wxString wxstr) {
     return str;
 }
 
-bool cvMatToWxBitmap(const cv::Mat& matBitmap, wxBitmap& bitmap) {
+bool cvMatToWxBitmap(const cv::Mat &matBitmap, wxBitmap &bitmap) {
     wxCHECK(!matBitmap.empty(), false);
     wxCHECK(matBitmap.type() == CV_8UC3, false);
     wxCHECK(matBitmap.dims == 2, false);
     wxCHECK(bitmap.IsOk(), false);
     wxCHECK(bitmap.GetWidth() == matBitmap.cols &&
-              bitmap.GetHeight() == matBitmap.rows,
+                bitmap.GetHeight() == matBitmap.rows,
             false);
     wxCHECK(bitmap.GetDepth() == 24, false);
 
@@ -21,7 +21,7 @@ bool cvMatToWxBitmap(const cv::Mat& matBitmap, wxBitmap& bitmap) {
     wxNativePixelData::Iterator pixelDataIt(pixelData);
 
     if (matBitmap.isContinuous()) {
-        const uchar* bgr = matBitmap.data;
+        const uchar *bgr = matBitmap.data;
 
         for (int row = 0; row < pixelData.GetHeight(); ++row) {
             pixelDataIt.MoveTo(pixelData, 0, row);
@@ -50,5 +50,9 @@ bool cvMatToWxBitmap(const cv::Mat& matBitmap, wxBitmap& bitmap) {
     }
 
     return bitmap.IsOk();
+}
+
+cv::Point wxPointToCvPoint(const wxPoint &point) {
+    return cv::Point(point.x, point.y);
 }
 } // namespace Utils

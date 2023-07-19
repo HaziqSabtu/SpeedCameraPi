@@ -1,14 +1,16 @@
 #include <Algorithm/hsv_filter/BFS.hpp>
+#include <iostream>
+#include <opencv2/core/hal/interface.h>
 
 BFS::BFS(cv::Point start) { this->start = start; }
 
-BFS::BFS() { BFS(cv::Point(-1, -1)); }
+BFS::BFS() : BFS(cv::Point(-1, -1)) {}
 
 cv::Mat BFS::run(cv::Mat &src) {
     cv::Mat returnMat = cv::Mat::zeros(src.size(), CV_8UC1);
 
     if (!isStartDefined()) {
-        return returnMat;
+        return src;
     }
 
     cv::Mat dst = cv::Mat::zeros(src.rows, src.cols, CV_8UC1);

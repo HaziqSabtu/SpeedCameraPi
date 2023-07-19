@@ -58,6 +58,7 @@ class CalibrationPanel : public wxPanel {
     void OnButton(wxCommandEvent &e);
     void OnCalibrationEvent(wxCommandEvent &e);
     void OnCapture(wxCommandEvent &e);
+    void OnLeftDown(wxMouseEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

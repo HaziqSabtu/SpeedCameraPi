@@ -20,6 +20,8 @@ void BaseImagePanel::setNoImage() {
     Refresh();
 }
 
+wxSize BaseImagePanel::getImageSize() { return image.GetSize(); }
+
 // TODO: Use wxMethods to create the bitmap
 const wxBitmap BaseImagePanel::createBitmap(std::string text) {
     cv::Mat image = cv::Mat(480, 640, CV_8UC3, cv::Scalar(0, 0, 0));

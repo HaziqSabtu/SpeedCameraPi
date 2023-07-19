@@ -28,6 +28,8 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
     Fit();
 
     Hide();
+
+    img_bitmap->Bind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
 }
 
 CalibrationPanel::~CalibrationPanel() {}
@@ -77,6 +79,20 @@ void CalibrationPanel::OnCapture(wxCommandEvent &e) {
 
     if (e.GetId() == CAPTURE_END) {
         status_panel->SetText(calibText[CAMERA_OFF]);
+    }
+}
+
+void CalibrationPanel::OnLeftDown(wxMouseEvent &e) {
+    wxPoint pos = e.GetPosition();
+    wxSize size = img_bitmap->GetSize();
+    wxSize img_size = img_bitmap->getImageSize();
+
+    if (pos.x > 0 && pos.x < size.x && pos.y > 0 && pos.y < size.y) {
+        if (img_size.x > 0 && img_size.y > 0) {
+            int x = pos.x * img_size.x / size.x;
+            int y = pos.y * img_size.y / size.y;
+            model->e_SetPoint(this, wxPoint(x, y));
+        }
     }
 }
 

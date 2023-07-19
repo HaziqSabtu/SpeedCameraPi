@@ -6,5 +6,6 @@
 
 namespace Utils {
 std::string wxStringToString(wxString wxstr);
-bool cvMatToWxBitmap(const cv::Mat& matBitmap, wxBitmap& bitmap);
+bool cvMatToWxBitmap(const cv::Mat &matBitmap, wxBitmap &bitmap);
+cv::Point wxPointToCvPoint(const wxPoint &point);
 } // namespace Utils

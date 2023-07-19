@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Algorithm/hsv_filter/BFS.hpp"
+#include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
 
@@ -15,11 +17,13 @@
 
 class CalibrationThread : public wxThread {
   public:
-    CalibrationThread(wxEvtHandler *parent,
-                      std::unique_ptr<CameraBase> &camera);
+    CalibrationThread(wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
+                      HSVFilter &hsvFilter, BFS &bfs);
     ~CalibrationThread();
 
     std::unique_ptr<CameraBase> getCamera();
+
+    void setPoint(cv::Point point);
 
   protected:
     virtual ExitCode Entry();
@@ -27,4 +31,7 @@ class CalibrationThread : public wxThread {
   private:
     wxEvtHandler *parent;
     std::unique_ptr<CameraBase> camera;
+
+    HSVFilter hsvFilter;
+    BFS bfs;
 };

@@ -1,4 +1,6 @@
 #include "Model/CalibrationModel.hpp"
+#include "Algorithm/hsv_filter/BFS.hpp"
+#include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
@@ -94,6 +96,20 @@ void CalibrationModel::e_StartCalibration(wxEvtHandler *parent) {
     }
 }
 
+void CalibrationModel::e_SetPoint(wxEvtHandler *parent, wxPoint point) {
+    try {
+
+        checkPreCondition();
+
+        setPointHandler(parent, Utils::wxPointToCvPoint(point));
+
+    } catch (std::exception &e) {
+        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
+        errorEvent.SetErrorData(e.what());
+        wxPostEvent(parent, errorEvent);
+    }
+}
+
 template <typename T>
 T *CalibrationModel::stopAndDeleteThread(T *threadPtr) {
     if (threadPtr == nullptr) {
@@ -131,7 +147,10 @@ void CalibrationModel::startCalibrationHandler(wxEvtHandler *parent) {
     }
 
     std::unique_ptr<CameraBase> camera = shared->getCamera();
-    calibrationThread = initCalibrationThread(parent, camera);
+
+    HSVFilter filter;
+    BFS bfs;
+    calibrationThread = initCalibrationThread(parent, camera, filter, bfs);
     calibrationThread->Run();
 }
 
@@ -157,6 +176,14 @@ void CalibrationModel::endCaptureHandler() {
     captureThread = stopAndDeleteThread(captureThread);
 }
 
+void CalibrationModel::setPointHandler(wxEvtHandler *parent, cv::Point point) {
+    if (calibrationThread == nullptr) {
+        throw std::runtime_error("calibrationThread is not running");
+    }
+
+    calibrationThread->setPoint(point);
+}
+
 CaptureThread *
 CalibrationModel::initCaptureThread(wxEvtHandler *parent,
                                     std::unique_ptr<CameraBase> &camera) {
@@ -165,6 +192,7 @@ CalibrationModel::initCaptureThread(wxEvtHandler *parent,
 
 CalibrationThread *
 CalibrationModel::initCalibrationThread(wxEvtHandler *parent,
-                                        std::unique_ptr<CameraBase> &camera) {
-    return new CalibrationThread(parent, camera);
+                                        std::unique_ptr<CameraBase> &camera,
+                                        HSVFilter &filter, BFS &bfs) {
+    return new CalibrationThread(parent, camera, filter, bfs);
 }

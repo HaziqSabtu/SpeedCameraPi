@@ -2,8 +2,10 @@
 #include <Thread/Thread_Calibration.hpp>
 
 CalibrationThread::CalibrationThread(wxEvtHandler *parent,
-                                     std::unique_ptr<CameraBase> &camera)
-    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)) {
+                                     std::unique_ptr<CameraBase> &camera,
+                                     HSVFilter &hsvFilter, BFS &bfs)
+    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)),
+      hsvFilter(hsvFilter), bfs(bfs) {
     this->parent = parent;
 }
 
@@ -27,9 +29,12 @@ wxThread::ExitCode CalibrationThread::Entry() {
         cv::Size s(320, 240);
         cv::resize(frame, frame, s);
 
+        cv::Mat filteredFrame = hsvFilter.toHSV(frame);
+        filteredFrame = bfs.run(filteredFrame);
+
         UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
                                               UPDATE_PREVIEW);
-        updatePreviewEvent.SetImage(frame);
+        updatePreviewEvent.SetImage(filteredFrame);
         wxPostEvent(parent, updatePreviewEvent);
     }
 
@@ -44,3 +49,5 @@ wxThread::ExitCode CalibrationThread::Entry() {
 std::unique_ptr<CameraBase> CalibrationThread::getCamera() {
     return std::move(camera);
 }
+
+void CalibrationThread::setPoint(cv::Point point) { bfs.setStart(point); }

@@ -28,6 +28,8 @@ std::string dateToString();
 FileExtension GetFileExtension(std::string &path);
 void RotateImage(std::vector<ImageData> &imgData, int angle);
 double TrimmedMean(const std::vector<double> &data, double percentage);
+cv::Point getRelativePoint(const cv::Mat &src, const cv::Mat &target,
+                           const cv::Point &point);
 } // namespace Utils
 
 #endif
