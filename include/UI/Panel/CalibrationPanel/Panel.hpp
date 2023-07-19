@@ -4,6 +4,8 @@
 #include "Model/CalibrationModel.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Button/Button_Exit.hpp"
+#include "UI/Layout/StatusPanel.hpp"
+#include "UI/Layout/TitlePanel.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include <UI/Panel/Base/Panel_Image.hpp>
@@ -31,12 +33,9 @@ class CalibrationPanel : public wxPanel {
     CalibrationPanelButton *button_panel;
     BaseImagePanel *img_bitmap;
 
-    ButtonExit *exit_Button;
+    TitlePanel *title_panel;
+    StatusPanel *status_panel;
 
-    TitleText *titleText;
-    StatusText *statusText;
-
-    wxBoxSizer *title_Sizer;
     wxBoxSizer *main_sizer;
 
     void OnUpdatePreview(UpdatePreviewEvent &e);

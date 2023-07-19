@@ -14,20 +14,14 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id,
 
     img_bitmap = new BaseImagePanel(this);
 
-    titleText = new TitleText(this, wxID_ANY, this->panel_id);
+    title_panel = new TitlePanel(this, panel_id);
 
-    statusText = new StatusText(this, wxID_ANY, wxT("  IDLE"));
-
-    exit_Button = new ButtonExit(this);
-
-    title_Sizer = new wxBoxSizer(wxHORIZONTAL);
-    title_Sizer->Add(titleText->sizer, 1, wxEXPAND);
-    title_Sizer->Add(exit_Button, 0, wxEXPAND);
+    status_panel = new StatusPanel(this, wxT(" Status"));
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
-    main_sizer->Add(title_Sizer, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
     main_sizer->Add(img_bitmap, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(statusText, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    main_sizer->Add(status_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
     main_sizer->Add(button_panel, 0, wxEXPAND | wxALL, 10);
 
     SetSizer(main_sizer);
