@@ -1,4 +1,4 @@
-#include <UI/MainFrame.hpp>
+#include <UI/Frame/MainFrame.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Logger/Logger.hpp>
 #include <wx/thread.h>

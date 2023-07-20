@@ -10,7 +10,7 @@ ButtonExit::ButtonExit(wxWindow *parent)
     SetBackgroundColour(colour);
 
     wxIcon icon;
-    icon.LoadFile("exit.ico", wxBITMAP_TYPE_ICO);
+    icon.LoadFile(filename, wxBITMAP_TYPE_ICO);
     SetBitmapLabel(icon);
     SetBitmapPosition(wxLEFT);
 }

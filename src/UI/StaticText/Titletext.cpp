@@ -2,6 +2,7 @@
 
 TitleText::TitleText(wxWindow *parent, wxWindowID id, PanelID panel_id)
     : wxStaticText(parent, id, panelID_to_string(panel_id)) {
+    SetFont(wxFontInfo(15).Bold());
 
     sizer = new wxBoxSizer(wxVERTICAL);
     sizer->AddStretchSpacer();

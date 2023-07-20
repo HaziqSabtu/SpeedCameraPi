@@ -2,8 +2,10 @@
 #include "Model/ModelFactory.hpp"
 #include "Model/SharedModel.hpp"
 #include "UI/Dialog/ConfirmationDialog.hpp"
+#include "UI/Frame/InfoFrame.hpp"
+#include "UI/Frame/SettingsFrame.hpp"
 #include "Utils/Enum.hpp"
-#include <UI/MainFrame.hpp>
+#include <UI/Frame/MainFrame.hpp>
 #include <memory>
 #include <wx/display.h>
 #include <wx/event.h>
@@ -91,6 +93,16 @@ void MainFrame::OnButton(wxCommandEvent &e) {
         //     Close();
         // }
         Close();
+    }
+
+    if (e.GetId() == Enum::G_Setting_Button_ID) {
+        SettingsFrame *settingsFrame = new SettingsFrame();
+        settingsFrame->Show();
+    }
+
+    if (e.GetId() == Enum::G_Info_Button_ID) {
+        InfoFrame *infoFrame = new InfoFrame();
+        infoFrame->Show();
     }
 }
 

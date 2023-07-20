@@ -48,8 +48,10 @@ if(CROSS_COMPILING)
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
         COMMAND ssh RPi0 "mkdir -p ~/Target"
         COMMAND scp $<TARGET_FILE:SpeedCameraPi> RPi0:~/Target/
-        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/Speed.ico RPi0:~/Target/
-        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/exit.ico RPi0:~/Target/
+        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/speed_64.ico RPi0:~/Target/
+        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/exit_24.ico RPi0:~/Target/
+        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/settings_24.ico RPi0:~/Target/
+        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/info_24.ico RPi0:~/Target/
     )
 
     # POST_BUILD command curl
@@ -60,8 +62,10 @@ else()
     set(libcamIncludeDir /usr/include/libcamera)
     
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
-        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/Speed.ico $<TARGET_FILE_DIR:SpeedCameraPi>
-        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/exit.ico $<TARGET_FILE_DIR:SpeedCameraPi>
+        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/speed_64.ico $<TARGET_FILE_DIR:SpeedCameraPi>
+        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/exit_24.ico $<TARGET_FILE_DIR:SpeedCameraPi>
+        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/settings_24.ico $<TARGET_FILE_DIR:SpeedCameraPi>
+        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/info_24.ico $<TARGET_FILE_DIR:SpeedCameraPi>
     )
 endif() # CROSS_COMPILING
 
