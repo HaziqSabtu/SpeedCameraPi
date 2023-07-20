@@ -6,9 +6,9 @@
 
 class RansacLine {
   private:
-    const int numIterations;
-    const int minPoints;
-    const double threshold;
+    int numIterations;
+    int minPoints;
+    double threshold;
 
     int bestInliers;
     double confidence;
@@ -21,4 +21,18 @@ class RansacLine {
     std::vector<cv::Point> maskToPoint(cv::Mat &mask);
 
     int countInliers(std::vector<cv::Point> &points, Detection::Line &line);
+
+    // accessors
+  public:
+    void setNumIterations(int numIterations);
+
+    void setMinPoints(int minPoints);
+
+    void setThreshold(double threshold);
+
+    int getNumIterations() const;
+
+    int getMinPoints() const;
+
+    double getThreshold() const;
 };

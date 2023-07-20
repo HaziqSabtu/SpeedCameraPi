@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Panel/CapturePanel/PanelStatusCalib.hpp"
 #include <UI/Button/Button_Capture.hpp>
 #include <UI/Button/Button_Load.hpp>
 #include <UI/Button/Button_ToggleCamera.hpp>
@@ -21,6 +22,8 @@ class CaptureButtonPanel : public wxPanel {
     ButtonWState *ToggleCamera_Button;
     wxButton *switch_Button;
     wxButton *calibrate_Button;
+
+    CalibrationStatusPanel *csPanel;
 
   private:
     wxPanel *button_panel;

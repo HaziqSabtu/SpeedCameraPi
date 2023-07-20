@@ -69,3 +69,17 @@ int RansacLine::countInliers(std::vector<cv::Point> &points,
     }
     return inliers;
 }
+
+void RansacLine::setNumIterations(int numIterations) {
+    this->numIterations = numIterations;
+}
+
+void RansacLine::setMinPoints(int minPoints) { this->minPoints = minPoints; }
+
+void RansacLine::setThreshold(double threshold) { this->threshold = threshold; }
+
+int RansacLine::getNumIterations() const { return numIterations; }
+
+int RansacLine::getMinPoints() const { return minPoints; }
+
+double RansacLine::getThreshold() const { return threshold; }

@@ -151,7 +151,7 @@ void CalibrationModel::startCalibrationHandler(wxEvtHandler *parent) {
 
     HSVFilter filter;
     BFS bfs;
-    RansacLine ransacLine(500, 50, 10);
+    RansacLine ransacLine(500, 50, 8);
     calibrationThread =
         initCalibrationThread(parent, camera, filter, bfs, ransacLine);
     calibrationThread->Run();

@@ -1,3 +1,5 @@
+#include "UI/Panel/Common/DividerPanel.hpp"
+#include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include <UI/Panel/CapturePanel/Panel_Button.hpp>
 #include <wx/gdicmn.h>
 #include <wx/layout.h>
@@ -15,10 +17,13 @@ CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     Spacer =
         new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(10, 10));
 
+    csPanel = new CalibrationStatusPanel(this);
+
     left_sizer = new wxBoxSizer(wxVERTICAL);
     left_sizer->Add(ToggleCamera_Button, 0, wxEXPAND | wxBOTTOM, 10);
     left_sizer->Add(Capture_Button, 0, wxEXPAND | wxBOTTOM, 10);
     left_sizer->Add(Load_Button, 0, wxEXPAND | wxBOTTOM, 10);
+    left_sizer->Add(csPanel, 0, wxEXPAND | wxBOTTOM, 10);
 
     right_sizer = new wxBoxSizer(wxVERTICAL);
     right_sizer->Add(switch_Button, 0, wxEXPAND | wxBOTTOM, 10);
