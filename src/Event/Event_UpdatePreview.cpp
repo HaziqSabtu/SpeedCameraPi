@@ -34,3 +34,22 @@ void UpdatePreviewEvent::SetImage(const cv::Mat &cvImage) {
 }
 
 wxBitmap UpdatePreviewEvent::GetImage() const { return image; }
+
+void UpdatePreviewEvent::Submit(wxEvtHandler *handler, const wxBitmap &image,
+                                int id) {
+    UpdatePreviewEvent event(c_UPDATE_PREVIEW_EVENT, id);
+    event.SetImage(image);
+    wxPostEvent(handler, event);
+}
+
+void UpdatePreviewEvent::Submit(wxEvtHandler *handler, const cv::Mat &cvImage,
+                                int id) {
+    UpdatePreviewEvent event(c_UPDATE_PREVIEW_EVENT, id);
+    event.SetImage(cvImage);
+    wxPostEvent(handler, event);
+}
+
+void UpdatePreviewEvent::Submit(wxEvtHandler *handler, int id) {
+    UpdatePreviewEvent event(c_UPDATE_PREVIEW_EVENT, id);
+    wxPostEvent(handler, event);
+}

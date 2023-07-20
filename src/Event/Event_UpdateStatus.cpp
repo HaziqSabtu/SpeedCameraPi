@@ -19,3 +19,10 @@ void UpdateStatusEvent::SetStatus(const wxString &status) {
 }
 
 wxString UpdateStatusEvent::GetStatus() const { return this->status; }
+
+void UpdateStatusEvent::Submit(wxEvtHandler *handler, const wxString &status,
+                               int id) {
+    UpdateStatusEvent event(c_UPDATE_STATUS_EVENT, UPDATE_STATUS);
+    event.SetStatus(status);
+    wxPostEvent(handler, event);
+}

@@ -1,5 +1,6 @@
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_Error.hpp"
+#include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include <Thread/Thread_Calibration.hpp>
@@ -30,8 +31,7 @@ wxThread::ExitCode CalibrationThread::Entry() {
             camera->getFrame(frame);
 
             if (frame.empty()) {
-                std::cout << "Failed to capture frame" << std::endl;
-                continue;
+                throw std::runtime_error("Failed to capture frame");
             }
 
             cv::Size s(320, 240);
@@ -68,34 +68,22 @@ wxThread::ExitCode CalibrationThread::Entry() {
                              cv::Scalar(255, 0, 0), 2);
                 }
 
-                UpdateStatusEvent updateStatusEvent(c_UPDATE_STATUS_EVENT,
-                                                    UPDATE_STATUS);
-                updateStatusEvent.SetStatus(
-                    StatusCollection::STATUS_LINE_DETECTED);
-                wxPostEvent(parent, updateStatusEvent);
+                UpdateStatusEvent::Submit(
+                    parent, StatusCollection::STATUS_LINE_DETECTED);
             } else {
-                UpdateStatusEvent updateStatusEvent(c_UPDATE_STATUS_EVENT,
-                                                    UPDATE_STATUS);
-                updateStatusEvent.SetStatus(
-                    StatusCollection::STATUS_LINE_NOT_DETECTED);
-                wxPostEvent(parent, updateStatusEvent);
+                UpdateStatusEvent::Submit(
+                    parent, StatusCollection::STATUS_LINE_NOT_DETECTED);
             }
 
-            UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
-                                                  UPDATE_PREVIEW);
-            updatePreviewEvent.SetImage(frame);
-            wxPostEvent(parent, updatePreviewEvent);
+            UpdatePreviewEvent::Submit(parent, frame);
 
             wxMilliSleep(100);
         }
     } catch (const std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(parent, errorEvent);
+        ErrorEvent::Submit(parent, e.what());
     }
 
-    UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
-    wxPostEvent(parent, clearPreviewEvent);
+    UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
 
     wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT, CALIBRATION_END);
     wxPostEvent(parent, endCalibrationEvent);

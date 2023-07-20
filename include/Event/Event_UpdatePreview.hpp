@@ -13,6 +13,13 @@ enum UPDATE_PREVIEW_TYPE { UPDATE_PREVIEW = 1, CLEAR_PREVIEW };
 
 class UpdatePreviewEvent : public wxCommandEvent {
   public:
+    static void Submit(wxEvtHandler *handler, const wxBitmap &image,
+                       int id = 1);
+    static void Submit(wxEvtHandler *handler, const cv::Mat &cvImage,
+                       int id = 1);
+    static void Submit(wxEvtHandler *handler, int id = 1);
+
+  public:
     UpdatePreviewEvent(wxEventType eventType = c_UPDATE_PREVIEW_EVENT,
                        int id = 1);
     UpdatePreviewEvent(const UpdatePreviewEvent &e);

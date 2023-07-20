@@ -10,6 +10,10 @@ enum UPDATE_STATUS_EVENT_TYPE { UPDATE_STATUS = 1 };
 
 class UpdateStatusEvent : public wxCommandEvent {
   public:
+    static void Submit(wxEvtHandler *handler, const wxString &status,
+                       int id = 1);
+
+  public:
     UpdateStatusEvent(wxEventType eventType = c_UPDATE_STATUS_EVENT,
                       int id = 1);
     UpdateStatusEvent(const UpdateStatusEvent &e);
