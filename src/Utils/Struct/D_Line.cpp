@@ -29,6 +29,8 @@ Line::Line(cv::Point2f p1, cv::Point2f p2) : p1(p1), p2(p2) {}
 Line::Line(cv::Vec4i line)
     : p1(cv::Point2f(line[0], line[1])), p2(cv::Point2f(line[2], line[3])) {}
 
+Line::Line() {}
+
 /**
  * @brief Get the Length of Line
  *
@@ -182,5 +184,13 @@ std::string Line::ToString() {
     ss << "Line: (" << p1.x << ", " << p1.y << ") -> (" << p2.x << ", " << p2.y
        << ")";
     return ss.str();
+}
+
+bool Line::isNull() {
+    if (p1.x == 0 && p1.y == 0 && p2.x == 0 && p2.y == 0) {
+        return true;
+    }
+
+    return false;
 }
 } // namespace Detection

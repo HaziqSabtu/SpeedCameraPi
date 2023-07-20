@@ -10,7 +10,7 @@ cv::Mat BFS::run(cv::Mat &src) {
     cv::Mat returnMat = cv::Mat::zeros(src.size(), CV_8UC1);
 
     if (!isStartDefined()) {
-        return src;
+        return returnMat;
     }
 
     cv::Mat dst = cv::Mat::zeros(src.rows, src.cols, CV_8UC1);

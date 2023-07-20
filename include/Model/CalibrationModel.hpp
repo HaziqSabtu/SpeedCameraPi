@@ -56,7 +56,7 @@ class CalibrationModel {
     virtual CalibrationThread *
     initCalibrationThread(wxEvtHandler *parent,
                           std::unique_ptr<CameraBase> &camera,
-                          HSVFilter &hsvFilter, BFS &bfs);
+                          HSVFilter &hsvFilter, BFS &bfs, RansacLine &ransac);
 
     template <typename T>
     T *stopAndDeleteThread(T *threadPtr);

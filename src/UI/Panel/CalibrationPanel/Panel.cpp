@@ -1,11 +1,15 @@
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
+#include "Event/Event_UpdateStatus.hpp"
 #include "Model/ModelEnum.hpp"
 #include "UI/Button/Button_wState.hpp"
+#include "UI/Layout/StatusPanel.hpp"
 #include "UI/Panel/CalibrationPanel/Panel_Button.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CalibrationPanel/Panel.hpp>
 #include <stdexcept>
+
+namespace SC = StatusCollection;
 
 CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
                                    std::unique_ptr<CalibrationModel> &model)
@@ -16,7 +20,7 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
 
     title_panel = new TitlePanel(this, panel_id);
 
-    status_panel = new StatusPanel(this, calibText[IDLE]);
+    status_panel = new StatusPanel(this, SC::STATUS_IDLE);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
@@ -64,21 +68,21 @@ void CalibrationPanel::OnUpdatePreview(UpdatePreviewEvent &e) {
 
 void CalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     if (e.GetId() == CALIBRATION_START) {
-        status_panel->SetText(calibText[START_CALIBRATION]);
+        status_panel->SetText(SC::STATUS_START_CALIBRATION);
     }
 
     if (e.GetId() == CALIBRATION_END) {
-        status_panel->SetText(calibText[CALIBRATION_SUCCESS]);
+        status_panel->SetText(SC::STATUS_CALIBRATION_SUCCESS);
     }
 }
 
 void CalibrationPanel::OnCapture(wxCommandEvent &e) {
     if (e.GetId() == CAPTURE_START) {
-        status_panel->SetText(calibText[CAMERA_ON]);
+        status_panel->SetText(SC::STATUS_CAMERA_ON);
     }
 
     if (e.GetId() == CAPTURE_END) {
-        status_panel->SetText(calibText[CAMERA_OFF]);
+        status_panel->SetText(SC::STATUS_CAMERA_OFF);
     }
 }
 
@@ -96,9 +100,17 @@ void CalibrationPanel::OnLeftDown(wxMouseEvent &e) {
     }
 }
 
+void CalibrationPanel::OnUpdateStatus(UpdateStatusEvent &e) {
+    if (e.GetId() == UPDATE_STATUS) {
+        wxString status = e.GetStatus();
+        status_panel->SetText(status);
+    }
+}
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(CalibrationPanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, CalibrationPanel::OnUpdatePreview)
+    EVT_UPDATE_STATUS(wxID_ANY, CalibrationPanel::OnUpdateStatus)
     EVT_BUTTON(wxID_ANY,CalibrationPanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, CalibrationPanel::OnCalibrationEvent)
     EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, CalibrationPanel::OnCapture)

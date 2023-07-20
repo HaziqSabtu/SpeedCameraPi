@@ -28,6 +28,8 @@ struct Line {
 
     Line(cv::Vec4i line);
 
+    Line();
+
     double Length();
 
     double Slope();
@@ -47,6 +49,8 @@ struct Line {
     static Line Average(std::vector<Detection::Line> lines);
 
     std::string ToString();
+
+    bool isNull();
 };
 } // namespace Detection
 

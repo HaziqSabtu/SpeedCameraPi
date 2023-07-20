@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Event/Event_UpdatePreview.hpp"
+#include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationModel.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Button/Button_Exit.hpp"
@@ -37,13 +38,6 @@ class CalibrationPanel : public wxPanel {
   private:
     const PanelID panel_id = PANEL_CALIBRATION;
 
-    std::unordered_map<CalibrationText, wxString> calibText {
-        {IDLE, wxT("Idle")},
-        {START_CALIBRATION, wxT("Start Calibration")},
-        {CALIBRATION_SUCCESS, wxT("Calibration Success")},
-        {CAMERA_ON, wxT("Camera On")},
-        {CAMERA_OFF, wxT("Camera Off")}};
-
     std::unique_ptr<CalibrationModel> model;
 
     CalibrationPanelButton *button_panel;
@@ -59,6 +53,7 @@ class CalibrationPanel : public wxPanel {
     void OnCalibrationEvent(wxCommandEvent &e);
     void OnCapture(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);
+    void OnUpdateStatus(UpdateStatusEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

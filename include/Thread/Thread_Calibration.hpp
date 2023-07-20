@@ -2,6 +2,7 @@
 
 #include "Algorithm/hsv_filter/BFS.hpp"
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
+#include "Algorithm/ransac_line/RansacLine.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
 
@@ -18,7 +19,7 @@
 class CalibrationThread : public wxThread {
   public:
     CalibrationThread(wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-                      HSVFilter &hsvFilter, BFS &bfs);
+                      HSVFilter &hsvFilter, BFS &bfs, RansacLine &ransac);
     ~CalibrationThread();
 
     std::unique_ptr<CameraBase> getCamera();
@@ -34,4 +35,5 @@ class CalibrationThread : public wxThread {
 
     HSVFilter hsvFilter;
     BFS bfs;
+    RansacLine ransac;
 };

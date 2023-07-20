@@ -1,6 +1,7 @@
 #include "Model/CalibrationModel.hpp"
 #include "Algorithm/hsv_filter/BFS.hpp"
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
+#include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
@@ -150,7 +151,9 @@ void CalibrationModel::startCalibrationHandler(wxEvtHandler *parent) {
 
     HSVFilter filter;
     BFS bfs;
-    calibrationThread = initCalibrationThread(parent, camera, filter, bfs);
+    RansacLine ransacLine(500, 50, 10);
+    calibrationThread =
+        initCalibrationThread(parent, camera, filter, bfs, ransacLine);
     calibrationThread->Run();
 }
 
@@ -190,9 +193,8 @@ CalibrationModel::initCaptureThread(wxEvtHandler *parent,
     return new CaptureThread(parent, camera);
 }
 
-CalibrationThread *
-CalibrationModel::initCalibrationThread(wxEvtHandler *parent,
-                                        std::unique_ptr<CameraBase> &camera,
-                                        HSVFilter &filter, BFS &bfs) {
-    return new CalibrationThread(parent, camera, filter, bfs);
+CalibrationThread *CalibrationModel::initCalibrationThread(
+    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
+    HSVFilter &filter, BFS &bfs, RansacLine &ransac) {
+    return new CalibrationThread(parent, camera, filter, bfs, ransac);
 }
