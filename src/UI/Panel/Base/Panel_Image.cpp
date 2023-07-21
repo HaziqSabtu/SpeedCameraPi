@@ -1,7 +1,7 @@
 #include <UI/Panel/Base/Panel_Image.hpp>
 
 BaseImagePanel::BaseImagePanel(wxPanel *parent) : wxPanel(parent) {
-    noImageBitmap = createBitmap("No Image");
+    noImageBitmap = createBitmapPNG(noImage);
     errorBitmap = createBitmap("Error");
 
     image = noImageBitmap;
@@ -31,6 +31,23 @@ const wxBitmap BaseImagePanel::createBitmap(std::string text) {
     wxImage returnImage(image.cols, image.rows, image.data, true);
 
     return wxBitmap(returnImage);
+}
+const wxBitmap BaseImagePanel::createBitmapPNG(wxString fileName) {
+    wxImage image(DEF_WIDTH, DEF_HEIGHT, true);
+
+    wxImage pngImage(fileName, wxBITMAP_TYPE_PNG);
+    if (!pngImage.IsOk()) {
+        wxMessageBox("Failed to load PNG image!", "Error", wxOK | wxICON_ERROR);
+        return wxBitmap(image);
+    }
+
+    int x = (DEF_WIDTH - pngImage.GetWidth()) / 2;
+    int y = (DEF_HEIGHT - pngImage.GetHeight()) / 2;
+
+    pngImage.ClearAlpha();
+    image.Paste(pngImage, x, y);
+
+    return wxBitmap(image);
 }
 
 void BaseImagePanel::calcRatio(wxDC &dc) {

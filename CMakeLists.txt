@@ -52,6 +52,7 @@ if(CROSS_COMPILING)
         COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/exit_24.ico RPi0:~/Target/
         COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/settings_24.ico RPi0:~/Target/
         COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/info_24.ico RPi0:~/Target/
+        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/noImage_100.png RPi0:~/Target/
     )
 
     # POST_BUILD command curl
@@ -66,6 +67,7 @@ else()
         COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/exit_24.ico $<TARGET_FILE_DIR:SpeedCameraPi>
         COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/settings_24.ico $<TARGET_FILE_DIR:SpeedCameraPi>
         COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/info_24.ico $<TARGET_FILE_DIR:SpeedCameraPi>
+        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/noImage_100.png $<TARGET_FILE_DIR:SpeedCameraPi>
     )
 endif() # CROSS_COMPILING
 
