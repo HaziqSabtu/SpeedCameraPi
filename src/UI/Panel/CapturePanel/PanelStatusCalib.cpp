@@ -4,7 +4,7 @@
 #include <UI/Panel/CapturePanel/PanelStatusCalib.hpp>
 
 CalibrationStatusPanel::CalibrationStatusPanel(wxWindow *parent)
-    : TextOutlinePanel(parent, "Calibration Status") {
+    : TextOutlinePanel(parent, RTC::CALIB_NONE) {
 
     calibrate_Button =
         new DefaultButton(this, Enum::CP_CALIBRATE_Button_ID, "Calibrate");

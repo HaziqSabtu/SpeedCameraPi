@@ -4,7 +4,7 @@
 #include "Utils/Enum.hpp"
 
 ROIStatusPanel::ROIStatusPanel(wxWindow *parent)
-    : TextOutlinePanel(parent, "ROI Status") {
+    : TextOutlinePanel(parent, RTC::ROI_NONE) {
 
     roi_Button = new DefaultButton(this, wxID_ANY, "Select ROI");
     reset_Button = new DefaultButton(this, wxID_ANY, "Reset ROI");

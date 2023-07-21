@@ -1,14 +1,17 @@
 #pragma once
 
+#include "UI/StaticText/RichText.hpp"
 #include "UI/Theme/Theme.hpp"
 #include <wx/wx.h>
 
+namespace RTC = RichTextCollection;
+
 class TextOutlinePanel : public wxPanel {
   public:
-    TextOutlinePanel(wxWindow *parent, wxString text);
+    TextOutlinePanel(wxWindow *parent, RTD textData);
     void SetOutlineColor(const wxColour &color);
     void SetOutlineWidth(int width);
-    void SetText(const wxString &text);
+    void SetTextData(const RTD &textData);
 
   protected:
     wxColour defaultBackgroundColor = Theme::Background;
@@ -29,7 +32,7 @@ class TextOutlinePanel : public wxPanel {
     wxStaticText *leftPadding;
     wxStaticText *rightPadding;
 
-    wxString text;
+    RTD textData = RTC::CALIB_NONE;
 
     void OnPaint(wxPaintEvent &event);
 

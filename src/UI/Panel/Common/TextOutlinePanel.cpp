@@ -1,14 +1,16 @@
 #include <UI/Panel/Common/TextOutlinePanel.hpp>
 #include <cmath>
 #include <iostream>
+#include <wx/colour.h>
+#include <wx/font.h>
 #include <wx/gdicmn.h>
 #include <wx/gtk/colour.h>
 #include <wx/gtk/stattext.h>
 #include <wx/settings.h>
 #include <wx/stringimpl.h>
 
-TextOutlinePanel::TextOutlinePanel(wxWindow *parent, wxString text)
-    : wxPanel(parent, wxID_ANY), text(text) {
+TextOutlinePanel::TextOutlinePanel(wxWindow *parent, RTD textData)
+    : wxPanel(parent, wxID_ANY), textData(textData) {
 
     offset = round(outlineWidth / 2);
 
@@ -38,8 +40,19 @@ void TextOutlinePanel::OnPaint(wxPaintEvent &event) {
     wxPen outlinePen(outlineColor, outlineWidth, wxPENSTYLE_SOLID);
     dc.SetPen(outlinePen);
 
-    wxSize textSize = dc.GetTextExtent(text);
+    wxFontInfo fontInfo;
+    fontInfo.Family(wxFONTFAMILY_DEFAULT).FaceName("Roboto").Bold();
+    wxFont font(fontInfo);
 
+    dc.SetFont(font);
+
+    wxSize textSize;
+    for (auto t : textData) {
+        textSize.IncBy(dc.GetTextExtent(t.text).GetWidth(),
+                       textSize.GetHeight() == 0
+                           ? dc.GetTextExtent(t.text).GetHeight()
+                           : 0);
+    }
     int textX = 0;
     int textY = 0;
 
@@ -65,7 +78,13 @@ void TextOutlinePanel::OnPaint(wxPaintEvent &event) {
                      textRectHeight);
 
     dc.SetTextForeground(textColor);
-    dc.DrawText(text, textX, textY);
+
+    for (auto t : textData) {
+
+        dc.SetTextForeground(t.colour);
+        dc.DrawText(t.text, textX, textY);
+        textX += dc.GetTextExtent(t.text).GetWidth();
+    }
 }
 
 void TextOutlinePanel::SetOutlineColor(const wxColour &color) {
@@ -78,8 +97,8 @@ void TextOutlinePanel::SetOutlineWidth(int width) {
     Refresh();
 }
 
-void TextOutlinePanel::SetText(const wxString &text) {
-    this->text = text;
+void TextOutlinePanel::SetTextData(const RTD &textData) {
+    this->textData = textData;
     Refresh();
 }
 

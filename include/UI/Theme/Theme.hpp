@@ -15,6 +15,7 @@ const wxColour ButtonText = CC::Twitter_Secondary;
 
 const wxColour StatusBackground = CC::Twitter_Secondary;
 const wxColour StatusText = CC::Twitter_ExtExtLightGray;
+
 // PanelTitle
 const wxColour ExitColor = CC::Red_Mandy;
 const wxString ExitFilename = wxT("exit_24.ico");
@@ -24,5 +25,9 @@ const wxString SettingsFilename = wxT("settings_24.ico");
 
 const wxColour InfoColor = CC::Twitter_Primary;
 const wxString InfoFilename = wxT("info_24.ico");
+
+// PanelStatus
+const wxColour StatusNone = CC::Red_Mandy;
+const wxColour StatusOk = CC::Green_Bice;
 
 }; // namespace Theme

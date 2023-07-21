@@ -2,12 +2,13 @@
 #include "UI/Button/Button_Default.hpp"
 #include "UI/Button/Button_Load.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
+#include "UI/StaticText/RichText.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/PanelStatusCapture.hpp>
 #include <wx/sizer.h>
 
 CaptureStatusPanel::CaptureStatusPanel(wxWindow *parent)
-    : TextOutlinePanel(parent, "Capture") {
+    : TextOutlinePanel(parent, RTC::CAPTURE_NONE) {
 
     Capture_Button = new ButtonCapture(this, Enum::CP_Capture_Button_ID);
     Load_Button = new ButtonLoad(this, Enum::CP_Load_Button_ID);
