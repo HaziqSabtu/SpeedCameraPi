@@ -10,7 +10,7 @@ class TextOutlinePanel : public wxPanel {
     void SetText(const wxString &text);
 
   protected:
-    wxColour defaultBackgroundColor = wxColour(240, 240, 240);
+    wxColour defaultBackgroundColor = wxColour(245, 248, 250);
 
     wxColour outlineColor;
     int outlineWidth;

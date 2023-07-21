@@ -1,3 +1,4 @@
+#include "UI/Panel/CapturePanel/PanelStatusDebug.hpp"
 #include "UI/Panel/Common/DividerPanel.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include <UI/Panel/CapturePanel/Panel_Button.hpp>
@@ -7,48 +8,53 @@
 CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id, wxDefaultPosition, wxSize(400, 400)) {
 
-    Capture_Button = new ButtonCapture(this, Enum::CP_Capture_Button_ID);
-    Load_Button = new ButtonLoad(this, Enum::CP_Load_Button_ID);
-    ToggleCamera_Button =
-        new ButtonToggleCam(this, Enum::CP_ToggleCamera_Button_ID);
-    switch_Button = new wxButton(this, Enum::CP_SWITCH_Button_ID, "Switch");
-    calibrate_Button =
-        new wxButton(this, Enum::CP_CALIBRATE_Button_ID, "Calibrate");
+    switch_Button = new wxButton(this, Enum::CP_SWITCH_Button_ID, "Measure");
+    switch_Button->SetBackgroundColour(wxColour(29, 161, 242));
+    switch_Button->SetForegroundColour(wxColour(245, 248, 250));
+    switch_Button->SetFont(wxFontInfo(20).Bold());
+
     Spacer =
         new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(10, 10));
 
+    cPanel = new CaptureStatusPanel(this);
     csPanel = new CalibrationStatusPanel(this);
+    rPanel = new ROIStatusPanel(this);
+    dPanel = new DebugStatusPanel(this);
+    dPanel->ToggleCamera_Button->SetBackgroundColour(wxColour(225, 232, 237));
+    // dPanel->ToggleCamera_Button->SetBackgroundColour(wxColour(245, 248, 250));
 
     left_sizer = new wxBoxSizer(wxVERTICAL);
-    left_sizer->Add(ToggleCamera_Button, 0, wxEXPAND | wxBOTTOM, 10);
-    left_sizer->Add(Capture_Button, 0, wxEXPAND | wxBOTTOM, 10);
-    left_sizer->Add(Load_Button, 0, wxEXPAND | wxBOTTOM, 10);
-    left_sizer->Add(csPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    left_sizer->Add(csPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
     right_sizer = new wxBoxSizer(wxVERTICAL);
-    right_sizer->Add(switch_Button, 0, wxEXPAND | wxBOTTOM, 10);
-    right_sizer->Add(calibrate_Button, 0, wxEXPAND | wxBOTTOM, 10);
+    right_sizer->Add(rPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
     button_sizer = new wxBoxSizer(wxHORIZONTAL);
     button_sizer->Add(left_sizer, 1, wxALL, 0);
     button_sizer->Add(Spacer, 0, wxALL, 0);
     button_sizer->Add(right_sizer, 1, wxALL, 0);
 
-    this->SetSizer(button_sizer);
+    main_sizer = new wxBoxSizer(wxVERTICAL);
+    main_sizer->Add(cPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(button_sizer, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(dPanel, 0, wxEXPAND | wxBOTTOM, 20);
+    main_sizer->Add(switch_Button, 1, wxEXPAND | wxBOTTOM, 10);
+
+    SetSizer(main_sizer);
 
     Bind(c_LOAD_IMAGE_EVENT, &CaptureButtonPanel::OnLoadImage, this);
 }
 
 void CaptureButtonPanel::DisableAllButtons() {
-    Capture_Button->Disable();
-    Load_Button->Disable();
-    ToggleCamera_Button->Disable();
+    // Capture_Button->Disable();
+    // Load_Button->Disable();
+    // ToggleCamera_Button->Disable();
 }
 
 void CaptureButtonPanel::EnableAllButtons() {
-    Capture_Button->Enable();
-    Load_Button->Enable();
-    ToggleCamera_Button->Enable();
+    // Capture_Button->Enable();
+    // Load_Button->Enable();
+    // ToggleCamera_Button->Enable();
 }
 
 void CaptureButtonPanel::OnLoadImage(wxCommandEvent &e) {

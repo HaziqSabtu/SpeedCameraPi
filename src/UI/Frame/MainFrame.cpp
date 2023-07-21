@@ -16,6 +16,9 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
     SetIcon(icon);
 
+    SetBackgroundColour(wxColour(245, 248, 250));
+    // SetBackgroundColour(wxColour(225, 232, 237));
+
     wxDisplay display;
     wxRect screenRect = display.GetClientArea();
 

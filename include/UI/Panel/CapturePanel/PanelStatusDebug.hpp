@@ -1,15 +1,15 @@
 #pragma once
 
+#include "UI/Button/Button_wState.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class CalibrationStatusPanel : public TextOutlinePanel {
+class DebugStatusPanel : public TextOutlinePanel {
   public:
-    CalibrationStatusPanel(wxWindow *parent);
+    DebugStatusPanel(wxWindow *parent);
 
-    wxButton *calibrate_Button;
-    wxButton *reset_Button;
+    ButtonWState *ToggleCamera_Button;
 
   private:
     void OnButtonClicked(wxCommandEvent &e);

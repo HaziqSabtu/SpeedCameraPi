@@ -32,23 +32,25 @@ CapturePanel::~CapturePanel() {}
 
 void CapturePanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
-        OnToggleCameraButton(button_panel->ToggleCamera_Button);
+        OnToggleCameraButton(button_panel->dPanel->ToggleCamera_Button);
     }
 
     if (e.GetId() == Enum::CP_Capture_Button_ID) {
-        OnCaptureButton(button_panel->Capture_Button);
+        OnCaptureButton(button_panel->cPanel->Capture_Button);
     }
 
     if (e.GetId() == Enum::CP_Load_Button_ID) {
-        OnLoadButton(button_panel->Load_Button);
+        OnLoadButton(button_panel->cPanel->Load_Button);
     }
 
+    //TODO: Change panel
     if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
-        OnChangePanelButton(button_panel->switch_Button);
+        // OnChangePanelButton(button_panel->switch_Button);
     }
 
+    //TODO: Calibrate panel
     if (e.GetId() == Enum::CP_CALIBRATE_Button_ID) {
-        model->endPoint(button_panel->calibrate_Button,
+        model->endPoint(button_panel->csPanel->calibrate_Button,
                         ModelEnum::MODEL_SWITCH_TO_CALIB);
     }
 
@@ -98,12 +100,12 @@ void CapturePanel::OnChangePanelButton(wxButton *button) {
 
 void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     if (e.GetId() == LOAD_END_FILE) {
-        model->endPoint(button_panel->Load_Button,
+        model->endPoint(button_panel->cPanel->Load_Button,
                         ModelEnum::MODEL_END_LOADFILE);
     }
 
     if (e.GetId() == LOAD_END_CAMERA) {
-        model->endPoint(button_panel->Capture_Button,
+        model->endPoint(button_panel->cPanel->Capture_Button,
                         ModelEnum::MODEL_END_LOADCAPTURE);
     }
     e.Skip();

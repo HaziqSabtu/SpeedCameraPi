@@ -4,11 +4,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class CalibrationStatusPanel : public TextOutlinePanel {
+class ROIStatusPanel : public TextOutlinePanel {
   public:
-    CalibrationStatusPanel(wxWindow *parent);
+    ROIStatusPanel(wxWindow *parent);
 
-    wxButton *calibrate_Button;
+    wxButton *roi_Button;
     wxButton *reset_Button;
 
   private:
