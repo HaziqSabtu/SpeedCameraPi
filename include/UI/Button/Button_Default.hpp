@@ -11,10 +11,16 @@ class DefaultButton : public wxButton {
                   const wxSize &size = wxDefaultSize, long style = 0,
                   const wxValidator &validator = wxDefaultValidator,
                   const wxString &name = wxButtonNameStr);
+    DefaultButton(wxWindow *parent, wxWindowID id, const wxString &label,
+                  const wxColour &background, const wxColour &foreground,
+                  const wxPoint &pos = wxDefaultPosition,
+                  const wxSize &size = wxDefaultSize, long style = 0,
+                  const wxValidator &validator = wxDefaultValidator,
+                  const wxString &name = wxButtonNameStr);
 
     ~DefaultButton();
 
   private:
-    const wxColour background = Theme::ButtonBackground;
-    const wxColour foreground = Theme::ButtonText;
+    wxColour background = Theme::ButtonBackground;
+    wxColour foreground = Theme::ButtonText;
 };

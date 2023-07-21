@@ -1,6 +1,8 @@
+#include "UI/Button/Button_Default.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusDebug.hpp"
 #include "UI/Panel/Common/DividerPanel.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
+#include "UI/Theme/Theme.hpp"
 #include <UI/Panel/CapturePanel/Panel_Button.hpp>
 #include <wx/gdicmn.h>
 #include <wx/layout.h>
@@ -8,10 +10,11 @@
 CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id, wxDefaultPosition, wxSize(400, 400)) {
 
-    switch_Button = new wxButton(this, Enum::CP_SWITCH_Button_ID, "Measure");
-    switch_Button->SetBackgroundColour(wxColour(29, 161, 242));
-    switch_Button->SetForegroundColour(wxColour(245, 248, 250));
-    switch_Button->SetFont(wxFontInfo(20).Bold());
+    switch_Button =
+        new DefaultButton(this, Enum::CP_SWITCH_Button_ID, "Measure",
+                          Theme::Primary, Theme::StatusText);
+    switch_Button->SetFont(
+        wxFontInfo(20).Family(wxFONTFAMILY_DEFAULT).FaceName("Roboto").Bold());
 
     Spacer =
         new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(10, 10));
