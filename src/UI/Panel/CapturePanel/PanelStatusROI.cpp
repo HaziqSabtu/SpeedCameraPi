@@ -1,12 +1,13 @@
 #include "UI/Panel/CapturePanel/PanelStatusROI.hpp"
+#include "UI/Button/Button_Default.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "Utils/Enum.hpp"
 
 ROIStatusPanel::ROIStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, "ROI Status") {
 
-    roi_Button = new wxButton(this, wxID_ANY, "Select ROI");
-    reset_Button = new wxButton(this, wxID_ANY, "Reset ROI");
+    roi_Button = new DefaultButton(this, wxID_ANY, "Select ROI");
+    reset_Button = new DefaultButton(this, wxID_ANY, "Reset ROI");
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);

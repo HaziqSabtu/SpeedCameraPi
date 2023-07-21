@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Theme/Theme.hpp"
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
@@ -12,4 +13,7 @@ class StatusText : public wxStaticText {
 
   private:
     wxBoxSizer *text_sizer;
+
+    wxColour backgroundColour = Theme::StatusBackground;
+    wxColour textColour = Theme::StatusText;
 };

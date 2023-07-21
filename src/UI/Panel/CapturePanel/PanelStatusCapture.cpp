@@ -1,4 +1,5 @@
 #include "UI/Button/Button_Capture.hpp"
+#include "UI/Button/Button_Default.hpp"
 #include "UI/Button/Button_Load.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "Utils/Enum.hpp"
@@ -11,7 +12,7 @@ CaptureStatusPanel::CaptureStatusPanel(wxWindow *parent)
     Capture_Button = new ButtonCapture(this, Enum::CP_Capture_Button_ID);
     Load_Button = new ButtonLoad(this, Enum::CP_Load_Button_ID);
 
-    reset_Button = new wxButton(this, wxID_ANY, "Reset Capture");
+    reset_Button = new DefaultButton(this, wxID_ANY, "Reset Capture");
 
     wxBoxSizer *clSizer = new wxBoxSizer(wxHORIZONTAL);
     clSizer->Add(Capture_Button, 1, wxEXPAND | wxRIGHT, 10);

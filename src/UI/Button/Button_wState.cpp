@@ -4,7 +4,7 @@ ButtonWState::ButtonWState(wxWindow *parent, wxWindowID id,
                            const wxString &label, bool initState,
                            const wxPoint &pos, const wxSize &size, long style,
                            const wxValidator &validator, const wxString &name)
-    : wxButton(parent, id, label, pos, size, style, validator, name),
+    : DefaultButton(parent, id, label, pos, size, style, validator, name),
       state(initState) {
     activeText = "Hide " + label;
     inactiveText = "Show " + label;
@@ -16,7 +16,7 @@ ButtonWState::ButtonWState(wxWindow *parent, wxWindowID id,
                            const wxString &inactiveText, bool initState,
                            const wxPoint &pos, const wxSize &size, long style,
                            const wxValidator &validator, const wxString &name)
-    : wxButton(parent, id, label, pos, size, style, validator, name),
+    : DefaultButton(parent, id, label, pos, size, style, validator, name),
       state(initState), activeText(activeText), inactiveText(inactiveText) {
     render();
 }

@@ -5,34 +5,28 @@
 #include <wx/gtk/colour.h>
 #include <wx/gtk/stattext.h>
 #include <wx/settings.h>
+#include <wx/stringimpl.h>
 
 TextOutlinePanel::TextOutlinePanel(wxWindow *parent, wxString text)
     : wxPanel(parent, wxID_ANY), text(text) {
-    outlineColor = wxColour(29, 161, 242); // Default outline color is red
-    outlineWidth = 3;
 
     offset = round(outlineWidth / 2);
-
-    // m_button = new wxButton(this, wxID_ANY, "Click me!");
-    // m_button2 = new wxButton(this, wxID_ANY, "Click me2!");
 
     int topPaddingSize =
         textSize + round(static_cast<double>(outlineWidth) / 2);
 
-    topPadding = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition,
-                                  wxSize(topPaddingSize, topPaddingSize));
-    // new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(17, 17));
-    // spacer->SetBackgroundColour(wxColour(255, 0, 255));
-    bottomPadding = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition,
-                                     wxSize(outlineWidth, outlineWidth));
-    // spacer2->SetBackgroundColour(wxColour(255, 0, 255));
-
-    leftPadding = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition,
-                                   wxSize(outlineWidth, outlineWidth));
-    // vspacer->SetBackgroundColour(wxColour(0, 255, 255));
-    rightPadding = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition,
-                                    wxSize(outlineWidth, outlineWidth));
-    // vspacer2->SetBackgroundColour(wxColour(0, 255, 255));
+    topPadding =
+        new wxStaticText(this, wxID_ANY, wxEmptyString, wxDefaultPosition,
+                         wxSize(topPaddingSize, topPaddingSize));
+    bottomPadding =
+        new wxStaticText(this, wxID_ANY, wxEmptyString, wxDefaultPosition,
+                         wxSize(outlineWidth, outlineWidth));
+    leftPadding =
+        new wxStaticText(this, wxID_ANY, wxEmptyString, wxDefaultPosition,
+                         wxSize(outlineWidth, outlineWidth));
+    rightPadding =
+        new wxStaticText(this, wxID_ANY, wxEmptyString, wxDefaultPosition,
+                         wxSize(outlineWidth, outlineWidth));
 
     Bind(wxEVT_PAINT, &TextOutlinePanel::OnPaint, this);
 }
@@ -70,6 +64,7 @@ void TextOutlinePanel::OnPaint(wxPaintEvent &event) {
     dc.DrawRectangle(startTextRectX, startTextRectY, textRectWidth,
                      textRectHeight);
 
+    dc.SetTextForeground(textColor);
     dc.DrawText(text, textX, textY);
 }
 

@@ -1,9 +1,10 @@
 #pragma once
 
+#include "UI/Button/Button_Default.hpp"
 #include <wx/event.h>
 #include <wx/wx.h>
 
-class ButtonWState : public wxButton {
+class ButtonWState : public DefaultButton {
 
   public:
     ButtonWState(wxWindow *parent, wxWindowID id, const wxString &label,

@@ -5,14 +5,14 @@ TitlePanel::TitlePanel(wxWindow *parent, PanelID panelID)
     : wxPanel(parent, wxID_ANY),
       titleText(new TitleText(this, wxID_ANY, panelID)),
       exit_Button(new ButtonExit(this)),
-      setting_Button(new ButtonSetting(this)),
+      setting_Button(new ButtonSettings(this)),
       info_Button(new ButtonInfo(this)) {
 
     addComponentsToSizer();
 }
 
 TitlePanel::TitlePanel(wxWindow *parent, PanelID panelID, TitleText *titleText,
-                       ButtonExit *exit_Button, ButtonSetting *setting_Button,
+                       ButtonExit *exit_Button, ButtonSettings *setting_Button,
                        ButtonInfo *info_Button)
     : wxPanel(parent, wxID_ANY), titleText(titleText), exit_Button(exit_Button),
       setting_Button(setting_Button), info_Button(new ButtonInfo(this)) {

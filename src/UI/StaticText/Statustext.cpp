@@ -3,8 +3,8 @@
 StatusText::StatusText(wxWindow *parent, wxWindowID id, wxString text)
     : wxStaticText(parent, id, text) {
 
-    SetBackgroundColour(wxColor(20, 23, 26));
-    SetForegroundColour(wxColor(255, 255, 255));
+    SetBackgroundColour(backgroundColour);
+    SetForegroundColour(textColour);
     SetFont(wxFontInfo(20).Bold());
 
     text_sizer = new wxBoxSizer(wxVERTICAL);

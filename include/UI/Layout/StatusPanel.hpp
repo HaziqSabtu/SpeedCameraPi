@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UI/StaticText/Statustext.hpp"
+#include "UI/Theme/Theme.hpp"
 #include <wx/gtk/stattext.h>
 #include <wx/string.h>
 #include <wx/wx.h>

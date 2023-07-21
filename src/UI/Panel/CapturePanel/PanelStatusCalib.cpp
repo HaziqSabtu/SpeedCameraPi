@@ -1,3 +1,4 @@
+#include "UI/Button/Button_Default.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/PanelStatusCalib.hpp>
@@ -6,8 +7,8 @@ CalibrationStatusPanel::CalibrationStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, "Calibration Status") {
 
     calibrate_Button =
-        new wxButton(this, Enum::CP_CALIBRATE_Button_ID, "Calibrate");
-    reset_Button = new wxButton(this, wxID_ANY, "Reset Calibration");
+        new DefaultButton(this, Enum::CP_CALIBRATE_Button_ID, "Calibrate");
+    reset_Button = new DefaultButton(this, wxID_ANY, "Reset Calibration");
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);

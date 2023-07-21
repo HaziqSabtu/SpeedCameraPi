@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Theme/Theme.hpp"
 #include <wx/wx.h>
 
 class ButtonInfo : public wxButton {
@@ -9,8 +10,8 @@ class ButtonInfo : public wxButton {
 
   private:
     const wxSize size = wxSize(40, 40);
-    const wxColour colour = wxColour(0, 121, 255);
-    const wxString filename = wxT("info_24.ico");
+    const wxColour colour = Theme::InfoColor;
+    const wxString filename = Theme::InfoFilename;
 
     void OnButton(wxCommandEvent &e);
     DECLARE_EVENT_TABLE()

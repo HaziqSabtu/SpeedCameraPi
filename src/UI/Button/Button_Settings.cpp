@@ -1,10 +1,10 @@
 #include "Utils/Enum.hpp"
-#include <UI/Button/Button_Setting.hpp>
+#include <UI/Button/Button_Settings.hpp>
 #include <wx/app.h>
 #include <wx/gdicmn.h>
 #include <wx/stringimpl.h>
 
-ButtonSetting::ButtonSetting(wxWindow *parent)
+ButtonSettings::ButtonSettings(wxWindow *parent)
     : wxButton(parent, Enum::G_Setting_Button_ID, wxEmptyString,
                wxDefaultPosition, wxSize(40, 40)) {
     SetBackgroundColour(colour);
@@ -15,10 +15,10 @@ ButtonSetting::ButtonSetting(wxWindow *parent)
     SetBitmapPosition(wxLEFT);
 }
 
-ButtonSetting::~ButtonSetting() {}
+ButtonSettings::~ButtonSettings() {}
 
-void ButtonSetting::OnButton(wxCommandEvent &e) { e.Skip(); }
+void ButtonSettings::OnButton(wxCommandEvent &e) { e.Skip(); }
 
-BEGIN_EVENT_TABLE(ButtonSetting, wxButton)
-EVT_BUTTON(Enum::G_Exit_Button_ID, ButtonSetting::OnButton)
+BEGIN_EVENT_TABLE(ButtonSettings, wxButton)
+EVT_BUTTON(Enum::G_Exit_Button_ID, ButtonSettings::OnButton)
 END_EVENT_TABLE()

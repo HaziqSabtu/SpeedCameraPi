@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Theme/Theme.hpp"
 #include <wx/wx.h>
 
 class TextOutlinePanel : public wxPanel {
@@ -10,19 +11,18 @@ class TextOutlinePanel : public wxPanel {
     void SetText(const wxString &text);
 
   protected:
-    wxColour defaultBackgroundColor = wxColour(245, 248, 250);
+    wxColour defaultBackgroundColor = Theme::Background;
 
-    wxColour outlineColor;
-    int outlineWidth;
+    wxColour outlineColor = Theme::Primary;
+    int outlineWidth = 3;
+
+    wxColour textColor = Theme::Text;
 
     const int textSize = 11;
     int offset;
     int rectRadius = 5;
     int textOffsetX = 5;
     int textOffsetY = 1;
-
-    // wxButton *m_button;
-    // wxButton *m_button2;
 
     wxStaticText *topPadding;
     wxStaticText *bottomPadding;

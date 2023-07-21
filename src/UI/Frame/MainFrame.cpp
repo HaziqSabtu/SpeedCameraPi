@@ -4,6 +4,7 @@
 #include "UI/Dialog/ConfirmationDialog.hpp"
 #include "UI/Frame/InfoFrame.hpp"
 #include "UI/Frame/SettingsFrame.hpp"
+#include "UI/Theme/Theme.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Frame/MainFrame.hpp>
 #include <memory>
@@ -16,8 +17,7 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
     SetIcon(icon);
 
-    SetBackgroundColour(wxColour(245, 248, 250));
-    // SetBackgroundColour(wxColour(225, 232, 237));
+    SetBackgroundColour(Theme::Background);
 
     wxDisplay display;
     wxRect screenRect = display.GetClientArea();
