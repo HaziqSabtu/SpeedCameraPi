@@ -1,20 +1,24 @@
+#include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/ModelEnum.hpp"
 #include "UI/Button/Button_wState.hpp"
 #include "UI/Layout/StatusPanel.hpp"
-#include "UI/Panel/CalibrationPanel/Panel_Button.hpp"
+#include "UI/Panel/ColorCalibrationPanel/Panel_Button.hpp"
 #include "Utils/Enum.hpp"
-#include <UI/Panel/CalibrationPanel/Panel.hpp>
+#include <UI/Panel/ColorCalibrationPanel/Panel.hpp>
 #include <stdexcept>
+#include <wx/gtk/stattext.h>
+#include <wx/sizer.h>
 
 namespace SC = StatusCollection;
 
-CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
-                                   std::unique_ptr<CalibrationModel> &model)
+ColorCalibrationPanel::ColorCalibrationPanel(
+    wxWindow *parent, wxWindowID id, std::unique_ptr<CalibrationModel> &model)
     : wxPanel(parent, id), model(std::move(model)) {
-    button_panel = new CalibrationPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
+    button_panel =
+        new ColorCalibrationPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new BaseImagePanel(this);
 
@@ -32,23 +36,13 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
     Fit();
 
     Hide();
-
-    img_bitmap->Bind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
 }
 
-CalibrationPanel::~CalibrationPanel() {}
+ColorCalibrationPanel::~ColorCalibrationPanel() {}
 
-void CalibrationPanel::OnButton(wxCommandEvent &e) {
+void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::CL_Back_Button_ID) {
         model->e_ChangeToCapturePanel(button_panel->cancel_Button);
-    }
-
-    if (e.GetId() == Enum::CL_ChangeManual_Button_ID) {
-        model->e_ChangeToManualPanel(button_panel->cancel_Button);
-    }
-
-    if (e.GetId() == Enum::CL_ChangeColor_Button_ID) {
-        model->e_ChangeToColorPanel(button_panel->cancel_Button);
     }
 
     if (e.GetId() == Enum::CL_ToggleCamera_Button_ID) {
@@ -57,13 +51,13 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CL_Start_Button_ID) {
-        model->e_StartCalibration(button_panel->start_Button);
+        // model->e_StartCalibration(button_panel->start_Button);
     }
 
     e.Skip();
 }
 
-void CalibrationPanel::OnUpdatePreview(UpdatePreviewEvent &e) {
+void ColorCalibrationPanel::OnUpdatePreview(UpdatePreviewEvent &e) {
     if (e.GetId() == UPDATE_PREVIEW) {
         wxBitmap image = e.GetImage();
         img_bitmap->setImage(image);
@@ -74,7 +68,7 @@ void CalibrationPanel::OnUpdatePreview(UpdatePreviewEvent &e) {
     }
 }
 
-void CalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
+void ColorCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     if (e.GetId() == CALIBRATION_START) {
         status_panel->SetText(SC::STATUS_START_CALIBRATION);
     }
@@ -84,7 +78,7 @@ void CalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     }
 }
 
-void CalibrationPanel::OnCapture(wxCommandEvent &e) {
+void ColorCalibrationPanel::OnCapture(wxCommandEvent &e) {
     if (e.GetId() == CAPTURE_START) {
         status_panel->SetText(SC::STATUS_CAMERA_ON);
     }
@@ -94,7 +88,7 @@ void CalibrationPanel::OnCapture(wxCommandEvent &e) {
     }
 }
 
-void CalibrationPanel::OnLeftDown(wxMouseEvent &e) {
+void ColorCalibrationPanel::OnLeftDown(wxMouseEvent &e) {
     wxPoint pos = e.GetPosition();
     wxSize size = img_bitmap->GetSize();
     wxSize img_size = img_bitmap->getImageSize();
@@ -108,7 +102,7 @@ void CalibrationPanel::OnLeftDown(wxMouseEvent &e) {
     }
 }
 
-void CalibrationPanel::OnUpdateStatus(UpdateStatusEvent &e) {
+void ColorCalibrationPanel::OnUpdateStatus(UpdateStatusEvent &e) {
     if (e.GetId() == UPDATE_STATUS) {
         wxString status = e.GetStatus();
         status_panel->SetText(status);
@@ -116,10 +110,10 @@ void CalibrationPanel::OnUpdateStatus(UpdateStatusEvent &e) {
 }
 
 // clang-format off
-wxBEGIN_EVENT_TABLE(CalibrationPanel, wxPanel)
-    EVT_UPDATE_PREVIEW(wxID_ANY, CalibrationPanel::OnUpdatePreview)
-    EVT_UPDATE_STATUS(wxID_ANY, CalibrationPanel::OnUpdateStatus)
-    EVT_BUTTON(wxID_ANY,CalibrationPanel::OnButton) 
-    EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, CalibrationPanel::OnCalibrationEvent)
-    EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, CalibrationPanel::OnCapture)
+wxBEGIN_EVENT_TABLE(ColorCalibrationPanel, wxPanel)
+    EVT_UPDATE_PREVIEW(wxID_ANY, ColorCalibrationPanel::OnUpdatePreview)
+    EVT_UPDATE_STATUS(wxID_ANY, ColorCalibrationPanel::OnUpdateStatus)
+    EVT_BUTTON(wxID_ANY,ColorCalibrationPanel::OnButton) 
+    EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, ColorCalibrationPanel::OnCalibrationEvent)
+    EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, ColorCalibrationPanel::OnCapture)
 wxEND_EVENT_TABLE()

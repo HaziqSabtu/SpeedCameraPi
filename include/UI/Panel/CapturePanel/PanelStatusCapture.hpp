@@ -12,10 +12,16 @@ class CaptureStatusPanel : public TextOutlinePanel {
     ButtonWState *Capture_Button;
     ButtonWState *Load_Button;
     wxButton *reset_Button;
+    wxButton *replay_Button;
 
   private:
     void OnButtonClicked(wxCommandEvent &e);
 
     wxBoxSizer *hSizer;
     wxBoxSizer *vSizer;
+
+    wxBoxSizer *leftSizer;
+    wxBoxSizer *rightSizer;
+
+    wxBoxSizer *buttonSizer;
 };

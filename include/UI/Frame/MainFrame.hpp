@@ -4,6 +4,8 @@
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Panel/CalibrationPanel/Panel.hpp"
+#include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
+#include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
 #include <Model/ModelFactory.hpp>
 
 #include <UI/Panel/CapturePanel/Panel.hpp>
@@ -26,6 +28,8 @@ class MainFrame : public wxFrame {
     CapturePanel *capture_panel;
     RoiPanel *roi_panel;
     CalibrationPanel *calibration_panel;
+    ManualCalibrationPanel *manual_calibration_panel;
+    ColorCalibrationPanel *color_calibration_panel;
 
     // TODO: Is there a better way to do this?
     std::unordered_map<PanelID, wxPanel *> panels;

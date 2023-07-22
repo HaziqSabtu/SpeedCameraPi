@@ -20,6 +20,10 @@ struct ChangePanelData {
 
 class ChangePanelEvent : public wxCommandEvent {
   public:
+    static void Submit(wxEvtHandler *parent, const ChangePanelData &data,
+                       int id = 1);
+
+  public:
     ChangePanelEvent(wxEventType eventType = c_CHANGE_PANEL_EVENT, int id = 1);
     ChangePanelEvent(const ChangePanelEvent &e);
     virtual wxEvent *Clone() const;

@@ -30,4 +30,16 @@ const RTD ROI_NONE = {{wxT("ROI: "), Theme::Text},
 const RTD ROI_OK = {{wxT("ROI: "), Theme::Text}, {wxT("SET"), Theme::StatusOk}};
 
 const RTD DEBUG = {{wxT("#DEBUG"), Theme::Text}};
+
+const RTD LEFT_NONE = {{wxT("Left: "), Theme::Text},
+                       {wxT("NONE"), Theme::StatusNone}};
+
+const RTD LEFT_OK = {{wxT("Left: "), Theme::Text},
+                     {wxT("SELECTED"), Theme::StatusOk}};
+
+const RTD RIGHT_NONE = {{wxT("Right: "), Theme::Text},
+                        {wxT("NONE"), Theme::StatusNone}};
+
+const RTD RIGHT_OK = {{wxT("Right: "), Theme::Text},
+                      {wxT("SELECTED"), Theme::StatusOk}};
 }; // namespace RichTextCollection

@@ -9,8 +9,10 @@ CalibrationPanelButton::CalibrationPanelButton(wxWindow *parent, wxWindowID id)
     camera_Button = new ButtonToggleCam(this, Enum::CL_ToggleCamera_Button_ID);
     start_Button = new wxButton(this, Enum::CL_Start_Button_ID, "Start");
 
-    recalibrate_Button = new wxButton(this, wxID_ANY, "Recalibrate");
-    manual_Button = new wxButton(this, wxID_ANY, "Manual");
+    recalibrate_Button =
+        new wxButton(this, Enum::CL_ChangeColor_Button_ID, "Recalibrate");
+    manual_Button =
+        new wxButton(this, Enum::CL_ChangeManual_Button_ID, "Manual");
 
     cancel_Button = new wxButton(this, Enum::CL_Back_Button_ID, "Cancel");
     OK_Button = new wxButton(this, Enum::CL_OK_Button_ID, "OK");

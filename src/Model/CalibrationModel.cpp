@@ -63,23 +63,43 @@ void CalibrationModel::e_ToggleCamera(wxEvtHandler *parent, bool state) {
         !state ? startCaptureHandler(parent) : endCaptureHandler();
 
     } catch (std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(parent, errorEvent);
+        ErrorEvent::Submit(parent, e.what());
     }
 }
 
-void CalibrationModel::e_ChangePanel(wxEvtHandler *parent) {
+void CalibrationModel::e_ChangeToCapturePanel(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
 
-        switchPanelHandler(parent);
+        switchPanelHandler(parent, PanelID::PANEL_CAPTURE);
 
     } catch (std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(parent, errorEvent);
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CalibrationModel::e_ChangeToManualPanel(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        switchPanelHandler(parent, PanelID::PANEL_MANUAL_CALIBRATION);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CalibrationModel::e_ChangeToColorPanel(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        switchPanelHandler(parent, PanelID::PANEL_COLOR_CALIBRATION);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
     }
 }
 
@@ -91,9 +111,7 @@ void CalibrationModel::e_StartCalibration(wxEvtHandler *parent) {
         startCalibrationHandler(parent);
 
     } catch (std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(parent, errorEvent);
+        ErrorEvent::Submit(parent, e.what());
     }
 }
 
@@ -105,9 +123,7 @@ void CalibrationModel::e_SetPoint(wxEvtHandler *parent, wxPoint point) {
         setPointHandler(parent, Utils::wxPointToCvPoint(point));
 
     } catch (std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(parent, errorEvent);
+        ErrorEvent::Submit(parent, e.what());
     }
 }
 
@@ -124,18 +140,16 @@ T *CalibrationModel::stopAndDeleteThread(T *threadPtr) {
     return threadPtr;
 }
 
-void CalibrationModel::switchPanelHandler(wxEvtHandler *parent) {
+void CalibrationModel::switchPanelHandler(wxEvtHandler *parent,
+                                          PanelID target) {
     if (!isRequirementFulfilled()) {
         throw std::runtime_error("Requirement is not fulfilled");
     }
 
     deleteThreads();
 
-    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-
-    ChangePanelEvent changePanelEvent(c_CHANGE_PANEL_EVENT, CHANGE_OK);
-    changePanelEvent.SetPanelData(data);
-    wxPostEvent(parent, changePanelEvent);
+    ChangePanelData data(this->panelID, target);
+    ChangePanelEvent::Submit(parent, data);
 }
 
 void CalibrationModel::startCalibrationHandler(wxEvtHandler *parent) {

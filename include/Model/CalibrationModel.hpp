@@ -19,7 +19,11 @@ class CalibrationModel {
 
     void e_ToggleCamera(wxEvtHandler *parent, bool state);
 
-    void e_ChangePanel(wxEvtHandler *parent);
+    void e_ChangeToCapturePanel(wxEvtHandler *parent);
+
+    void e_ChangeToManualPanel(wxEvtHandler *parent);
+
+    void e_ChangeToColorPanel(wxEvtHandler *parent);
 
     void e_StartCalibration(wxEvtHandler *parent);
 
@@ -46,7 +50,7 @@ class CalibrationModel {
                       std::unique_ptr<CameraBase> &camera);
     void endCaptureHandler();
 
-    void switchPanelHandler(wxEvtHandler *parent);
+    void switchPanelHandler(wxEvtHandler *parent, PanelID target);
     virtual bool isRequirementFulfilled();
 
     void startCalibrationHandler(wxEvtHandler *parent);

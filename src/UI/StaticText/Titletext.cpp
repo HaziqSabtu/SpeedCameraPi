@@ -19,14 +19,23 @@ TitleText::TitleText(wxWindow *parent, wxWindowID id, PanelID panel_id)
     sizer->AddStretchSpacer();
 }
 
+// TODO: Move to Data
 wxString TitleText::panelID_to_string(PanelID panel_id) {
 
     if (panel_id == PanelID::PANEL_CAPTURE) {
-        return "Capture Panel";
+        return "Capture";
     }
 
     if (panel_id == PanelID::PANEL_CALIBRATION) {
-        return "Calibration Panel";
+        return "Calibration";
+    }
+
+    if (panel_id == PanelID::PANEL_MANUAL_CALIBRATION) {
+        return "Manual Calibration";
+    }
+
+    if (panel_id == PanelID::PANEL_COLOR_CALIBRATION) {
+        return "Color Calibration";
     }
 
     return "Unknown Panel";

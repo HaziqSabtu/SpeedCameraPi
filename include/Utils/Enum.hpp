@@ -33,6 +33,8 @@ enum ProjectIDs {
     CL_ToggleCamera_Button_ID,
     CL_Back_Button_ID,
     CL_OK_Button_ID,
+    CL_ChangeManual_Button_ID,
+    CL_ChangeColor_Button_ID,
 
     // CameraPanel->Hough
     CP_BUTTON_PANEL_HOUGH_ID,

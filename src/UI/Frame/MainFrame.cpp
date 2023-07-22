@@ -1,9 +1,11 @@
 #include "Event/Event_ChangePanel.hpp"
+#include "Model/CalibrationModel.hpp"
 #include "Model/ModelFactory.hpp"
 #include "Model/SharedModel.hpp"
 #include "UI/Dialog/ConfirmationDialog.hpp"
 #include "UI/Frame/InfoFrame.hpp"
 #include "UI/Frame/SettingsFrame.hpp"
+#include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
 #include "UI/Theme/Theme.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Frame/MainFrame.hpp>
@@ -45,10 +47,21 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
         new CalibrationPanel(this, Enum::CP_Panel_ID, calibrationModel);
     panels[PANEL_CALIBRATION] = calibration_panel;
 
+    std::unique_ptr<CalibrationModel> manualCalibrationModel = nullptr;
+    manual_calibration_panel =
+        new ManualCalibrationPanel(this, wxID_ANY, manualCalibrationModel);
+    panels[PANEL_MANUAL_CALIBRATION] = manual_calibration_panel;
+
+    color_calibration_panel =
+        new ColorCalibrationPanel(this, wxID_ANY, manualCalibrationModel);
+    panels[PANEL_COLOR_CALIBRATION] = color_calibration_panel;
+
     sizer = new wxBoxSizer(wxVERTICAL);
     sizer->Add(capture_panel, 1, wxEXPAND);
     sizer->Add(roi_panel, 1, wxEXPAND);
     sizer->Add(calibration_panel, 1, wxEXPAND);
+    sizer->Add(manual_calibration_panel, 1, wxEXPAND);
+    sizer->Add(color_calibration_panel, 1, wxEXPAND);
     SetSizer(sizer);
 }
 

@@ -3,7 +3,7 @@
 #include <wx/gtk/bitmap.h>
 #include <wx/gtk/colour.h>
 
-BaseImagePanel::BaseImagePanel(wxPanel *parent) : wxPanel(parent) {
+BaseImagePanel::BaseImagePanel(wxPanel *parent) : wxPanel(parent, wxID_ANY) {
     noImageBitmap = createBitmapPNG(noImage);
     errorBitmap = createBitmapText("Error");
 
