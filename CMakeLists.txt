@@ -44,6 +44,13 @@ if(CROSS_COMPILING)
     # set the prefix location for wxWidgets
     set(wxWidgets_CONFIG_OPTIONS --prefix=${CMAKE_SYSROOT}/usr/local)
 
+    # Check Process Availability
+    add_custom_command(
+    TARGET SpeedCameraPi PRE_BUILD
+    COMMAND ssh RPi0 "killall SpeedCameraPi" || true
+    )
+
+
     # POST_BUILD command to copy executable to RPi0(target)
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
         COMMAND ssh RPi0 "mkdir -p ~/Target"
