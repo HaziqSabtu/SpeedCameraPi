@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Theme/Theme.hpp"
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
@@ -24,7 +25,7 @@ class BaseImagePanel : public wxPanel {
     wxPoint p1;
     bool isDown = false;
 
-    const wxString noImage = "noImage_100.png";
+    const wxString noImage = Theme::noImageIcon;
 
     const int DEF_WIDTH = 640;
     const int DEF_HEIGHT = 480;
@@ -40,7 +41,7 @@ class BaseImagePanel : public wxPanel {
   protected:
     virtual void render(wxDC &dc);
     void calcRatio(wxDC &dc);
-    const wxBitmap createBitmap(std::string text);
+    const wxBitmap createBitmapText(wxString text);
     const wxBitmap createBitmapPNG(wxString fileName);
     wxBitmap resize(wxBitmap &bitmap, const wxSize &size);
 

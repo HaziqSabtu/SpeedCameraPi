@@ -1,10 +1,11 @@
 #include "UI/Button/Button_Default.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
+#include "UI/StaticText/RichText.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/PanelStatusCalib.hpp>
 
 CalibrationStatusPanel::CalibrationStatusPanel(wxWindow *parent)
-    : TextOutlinePanel(parent, RTC::CALIB_NONE) {
+    : TextOutlinePanel(parent, RTC::CALIB_OK) {
 
     calibrate_Button =
         new DefaultButton(this, Enum::CP_CALIBRATE_Button_ID, "Calibrate");

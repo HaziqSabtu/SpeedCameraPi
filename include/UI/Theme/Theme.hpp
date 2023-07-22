@@ -16,6 +16,10 @@ const wxColour ButtonText = CC::Twitter_Secondary;
 const wxColour StatusBackground = CC::Twitter_Secondary;
 const wxColour StatusText = CC::Twitter_ExtExtLightGray;
 
+const wxColour ImageBackground = CC::Twitter_Secondary;
+const wxColour ImageText = CC::Twitter_ExtExtLightGray;
+const wxString noImageIcon = wxT("noImage_100.png");
+
 // PanelTitle
 const wxColour ExitColor = CC::Red_Mandy;
 const wxString ExitFilename = wxT("exit_24.ico");

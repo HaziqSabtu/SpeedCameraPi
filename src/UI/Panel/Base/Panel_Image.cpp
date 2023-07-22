@@ -1,8 +1,11 @@
+#include "UI/Theme/Theme.hpp"
 #include <UI/Panel/Base/Panel_Image.hpp>
+#include <wx/gtk/bitmap.h>
+#include <wx/gtk/colour.h>
 
 BaseImagePanel::BaseImagePanel(wxPanel *parent) : wxPanel(parent) {
     noImageBitmap = createBitmapPNG(noImage);
-    errorBitmap = createBitmap("Error");
+    errorBitmap = createBitmapText("Error");
 
     image = noImageBitmap;
 
@@ -22,23 +25,63 @@ void BaseImagePanel::setNoImage() {
 
 wxSize BaseImagePanel::getImageSize() { return image.GetSize(); }
 
-// TODO: Use wxMethods to create the bitmap
-const wxBitmap BaseImagePanel::createBitmap(std::string text) {
-    cv::Mat image = cv::Mat(480, 640, CV_8UC3, cv::Scalar(0, 0, 0));
-    cv::putText(image, text, cv::Point(200, 240), cv::FONT_HERSHEY_SIMPLEX, 1,
-                cv::Scalar(255, 255, 255), 2, cv::LINE_AA);
+const wxBitmap BaseImagePanel::createBitmapText(wxString text) {
+    wxImage image(DEF_WIDTH, DEF_HEIGHT, true);
 
-    wxImage returnImage(image.cols, image.rows, image.data, true);
+    for (int i = 0; i < DEF_WIDTH; i++) {
+        for (int j = 0; j < DEF_HEIGHT; j++) {
+            wxColour color = Theme::ImageBackground;
+            image.SetRGB(i, j, color.Red(), color.Green(), color.Blue());
+        }
+    }
 
-    return wxBitmap(returnImage);
+    wxFont font(25, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
+                wxFONTWEIGHT_NORMAL, false, "Roboto");
+
+    wxBitmap bitmap(image);
+
+    wxMemoryDC dc;
+    dc.SelectObject(bitmap);
+    dc.SetFont(font);
+    dc.SetTextForeground(Theme::ImageText);
+    dc.SetTextBackground(Theme::ImageBackground);
+
+    wxSize size = dc.GetTextExtent(text);
+
+    int x = (DEF_WIDTH - size.GetWidth()) / 2;
+    int y = (DEF_HEIGHT - size.GetHeight()) / 2;
+
+    dc.DrawText(text, x, y);
+
+    dc.SelectObject(wxNullBitmap);
+
+    return bitmap;
 }
 const wxBitmap BaseImagePanel::createBitmapPNG(wxString fileName) {
     wxImage image(DEF_WIDTH, DEF_HEIGHT, true);
 
+    for (int i = 0; i < DEF_WIDTH; i++) {
+        for (int j = 0; j < DEF_HEIGHT; j++) {
+            wxColour color = Theme::ImageBackground;
+            image.SetRGB(i, j, color.Red(), color.Green(), color.Blue());
+        }
+    }
+
     wxImage pngImage(fileName, wxBITMAP_TYPE_PNG);
     if (!pngImage.IsOk()) {
-        wxMessageBox("Failed to load PNG image!", "Error", wxOK | wxICON_ERROR);
-        return wxBitmap(image);
+        return createBitmapText("No Image");
+    }
+
+    for (int i = 0; i < pngImage.GetWidth(); i++) {
+        for (int j = 0; j < pngImage.GetHeight(); j++) {
+            wxColour color =
+                pngImage.GetRed(i, j) == 0 && pngImage.GetGreen(i, j) == 0 &&
+                        pngImage.GetBlue(i, j) == 0
+                    ? Theme::ImageBackground
+                    : wxColour(pngImage.GetRed(i, j), pngImage.GetGreen(i, j),
+                               pngImage.GetBlue(i, j));
+            pngImage.SetRGB(i, j, color.Red(), color.Green(), color.Blue());
+        }
     }
 
     int x = (DEF_WIDTH - pngImage.GetWidth()) / 2;

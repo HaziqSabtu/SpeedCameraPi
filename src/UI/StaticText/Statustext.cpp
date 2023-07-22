@@ -5,7 +5,12 @@ StatusText::StatusText(wxWindow *parent, wxWindowID id, wxString text)
 
     SetBackgroundColour(backgroundColour);
     SetForegroundColour(textColour);
-    SetFont(wxFontInfo(20).Bold());
+
+    wxFontInfo fontInfo(18);
+    fontInfo.Family(wxFONTFAMILY_DEFAULT).FaceName("Roboto");
+    wxFont font(fontInfo);
+
+    SetFont(font);
 
     text_sizer = new wxBoxSizer(wxVERTICAL);
     text_sizer->AddStretchSpacer();

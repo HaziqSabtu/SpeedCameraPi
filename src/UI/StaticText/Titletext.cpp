@@ -1,8 +1,15 @@
 #include <UI/StaticText/Titletext.hpp>
+#include <wx/font.h>
+#include <wx/gtk/font.h>
 
 TitleText::TitleText(wxWindow *parent, wxWindowID id, PanelID panel_id)
     : wxStaticText(parent, id, panelID_to_string(panel_id)) {
-    SetFont(wxFontInfo(15).Bold());
+
+    wxFontInfo fontInfo(14);
+    fontInfo.Family(wxFONTFAMILY_DEFAULT).FaceName("Roboto");
+    wxFont font(fontInfo);
+
+    SetFont(font);
 
     SetForegroundColour(textColor);
 
