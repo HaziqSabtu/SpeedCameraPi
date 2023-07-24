@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Event/Event_UpdateState.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Button/Button_Exit.hpp"
 #include "UI/Layout/StatusPanel.hpp"
@@ -43,13 +44,15 @@ class CapturePanel : public wxPanel {
     wxBoxSizer *main_sizer;
 
     void OnLoadButton(ButtonWState *button);
-    void OnCaptureButton(ButtonWState *button);
+    void OnCaptureButton(wxButton *button);
     void OnToggleCameraButton(ButtonWState *button);
     void OnChangePanelButton(wxButton *button);
 
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);
     void OnLoadImage(wxCommandEvent &e);
+    void OnUpdateState(UpdateStateEvent &e);
+    void OnCapture(wxCommandEvent &e);
     // void OnChangePanel(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()

@@ -10,9 +10,9 @@
 CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id, wxDefaultPosition, wxSize(400, 400)) {
 
-    switch_Button =
-        new DefaultButton(this, Enum::CP_SWITCH_Button_ID, "Measure",
-                          Theme::Primary, Theme::StatusText);
+    switch_Button = new DefaultButton(
+        this, Enum::CP_SWITCH_Button_ID, "Measure", Theme::Primary,
+        Theme::StatusText, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
     switch_Button->SetFont(
         wxFontInfo(20).Family(wxFONTFAMILY_DEFAULT).FaceName("Roboto").Bold());
 

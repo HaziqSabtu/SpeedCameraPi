@@ -56,13 +56,8 @@ wxThread::ExitCode CaptureThread::Entry() {
             continue;
         }
 
-        UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
-                                              UPDATE_PREVIEW);
-        updatePreviewEvent.SetImage(frame);
-        wxPostEvent(parent, updatePreviewEvent);
+        UpdatePreviewEvent::Submit(parent, frame);
     }
-
-    std::cerr << "Capture thread exited" << std::endl;
 
     UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
     wxPostEvent(parent, clearPreviewEvent);
@@ -81,3 +76,5 @@ wxThread::ExitCode CaptureThread::Entry() {
 std::unique_ptr<CameraBase> CaptureThread::getCamera() {
     return std::move(camera);
 }
+
+ThreadID CaptureThread::getID() const { return id; }

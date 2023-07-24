@@ -192,9 +192,9 @@ void Model::startLoadCaptureHandler(wxEvtHandler *parent) {
 
     AppConfig *config = new AppConfig();
     CaptureConfig captureConfig = config->GetCaptureConfig();
-    loadCaptureThread =
-        new LoadCaptureThread(parent, camera, sessionData.imageData,
-                              captureConfig.maxFrame, false, false);
+    // loadCaptureThread =
+    //     new LoadCaptureThread(parent, camera, sessionData.imageData,
+    //                           captureConfig.maxFrame, false, false);
     loadCaptureThread->Run();
     delete config;
     config = nullptr;

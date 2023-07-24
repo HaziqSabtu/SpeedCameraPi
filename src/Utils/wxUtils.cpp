@@ -55,4 +55,16 @@ bool cvMatToWxBitmap(const cv::Mat &matBitmap, wxBitmap &bitmap) {
 cv::Point wxPointToCvPoint(const wxPoint &point) {
     return cv::Point(point.x, point.y);
 }
+
+wxBitmap recolor(wxBitmap &b, const wxColour &c) {
+    wxImage img = b.ConvertToImage();
+    img.Replace(255, 255, 255, c.Red(), c.Green(), c.Blue());
+    return wxBitmap(img);
+}
+
+wxBitmap resize(const wxBitmap &b, const wxSize &s) {
+    wxImage img = b.ConvertToImage();
+    img.Rescale(s.GetWidth(), s.GetHeight());
+    return wxBitmap(img);
+}
 } // namespace Utils

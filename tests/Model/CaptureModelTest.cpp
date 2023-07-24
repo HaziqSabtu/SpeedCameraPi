@@ -145,15 +145,13 @@ class MockCaptureModel : public CaptureModel {
     }
 
     wxThread *initLoadFileThread(wxEvtHandler *parent, int maxFrame,
-                                 std::string path) override {
+                                 std::string path) {
         return new MockLoadFileThread(parent);
     }
 
-    wxThread *
-    initLoadCaptureThread(wxEvtHandler *parent,
-                          std::shared_ptr<CameraBase> camera,
-                          std::shared_ptr<std::vector<ImageData>> imgData,
-                          const int maxFrame) override {
+    wxThread *initLoadCaptureThread(
+        wxEvtHandler *parent, std::unique_ptr<CameraBase> camera,
+        std::shared_ptr<std::vector<ImageData>> imgData, const int maxFrame) {
         return new MockLoadCaptureThread(parent);
     }
 

@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Model/AppState.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Controller.hpp"
 #include "Thread/Thread_Process.hpp"
 #include <Model/ModelEnum.hpp>
 
@@ -26,12 +28,18 @@
 class ISharedModel {
   public:
     virtual ~ISharedModel() = default;
+
     virtual void setCamera(std::unique_ptr<CameraBase> &camera) = 0;
     virtual std::unique_ptr<CameraBase> getCamera() = 0;
     virtual bool isCameraAvailable() = 0;
 
     virtual void setThreadPool(std::shared_ptr<ThreadPool> threadPool) = 0;
     virtual std::shared_ptr<ThreadPool> getThreadPool() = 0;
+
+    virtual void
+    setThreadController(std::shared_ptr<ThreadController> threadController) = 0;
+    virtual std::shared_ptr<ThreadController> getThreadController() = 0;
+    virtual void killAllThreads() = 0;
 };
 
 class SharedModel : public ISharedModel {
@@ -46,9 +54,21 @@ class SharedModel : public ISharedModel {
     void setThreadPool(std::shared_ptr<ThreadPool> threadPool) override;
     std::shared_ptr<ThreadPool> getThreadPool() override;
 
+    void setThreadController(
+        std::shared_ptr<ThreadController> threadController) override;
+
+    std::shared_ptr<ThreadController> getThreadController() override;
+
+    void killAllThreads() override;
+
+    AppState getAppState();
     SessionData sessionData;
+
+  protected:
+    CameraPanelState getCameraPanelState();
 
   private:
     std::unique_ptr<CameraBase> camera;
     std::shared_ptr<ThreadPool> threadPool;
+    std::shared_ptr<ThreadController> threadController;
 };

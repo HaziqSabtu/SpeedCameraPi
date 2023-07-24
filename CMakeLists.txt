@@ -55,11 +55,12 @@ if(CROSS_COMPILING)
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
         COMMAND ssh RPi0 "mkdir -p ~/Target"
         COMMAND scp $<TARGET_FILE:SpeedCameraPi> RPi0:~/Target/
-        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/speed_64.ico RPi0:~/Target/
-        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/exit_24.ico RPi0:~/Target/
-        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/settings_24.ico RPi0:~/Target/
-        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/info_24.ico RPi0:~/Target/
-        COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/noImage_100.png RPi0:~/Target/
+        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/speed_64.ico RPi0:~/Target/
+        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/exit_24.ico RPi0:~/Target/
+        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/settings_24.ico RPi0:~/Target/
+        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/info_24.ico RPi0:~/Target/
+        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/noImage_100.png RPi0:~/Target/
+        COMMAND scp -r ${CMAKE_SOURCE_DIR}/Assets RPi0:~/Target
     )
 
     # POST_BUILD command curl

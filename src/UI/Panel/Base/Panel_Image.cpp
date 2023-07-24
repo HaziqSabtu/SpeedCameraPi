@@ -1,9 +1,11 @@
 #include "UI/Theme/Theme.hpp"
 #include <UI/Panel/Base/Panel_Image.hpp>
+#include <wx/gdicmn.h>
 #include <wx/gtk/bitmap.h>
 #include <wx/gtk/colour.h>
 
-BaseImagePanel::BaseImagePanel(wxPanel *parent) : wxPanel(parent, wxID_ANY) {
+BaseImagePanel::BaseImagePanel(wxPanel *parent)
+    : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(640, 480)) {
     noImageBitmap = createBitmapPNG(noImage);
     errorBitmap = createBitmapText("Error");
 

@@ -1,6 +1,9 @@
 #pragma once
 
+#include "Model/AppState.hpp"
+#include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Button/Button_wState.hpp"
+#include "UI/Panel/CapturePanel/t.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include <wx/sizer.h>
 #include <wx/wx.h>
@@ -9,10 +12,13 @@ class CaptureStatusPanel : public TextOutlinePanel {
   public:
     CaptureStatusPanel(wxWindow *parent);
 
-    ButtonWState *Capture_Button;
-    ButtonWState *Load_Button;
-    wxButton *reset_Button;
-    wxButton *replay_Button;
+    BitmapButton *Capture_Button;
+    BitmapButton *Load_Button;
+    BitmapButton *reset_Button;
+    BitmapButton *replay_Button;
+
+    void setPanelState(PanelState state);
+    void update(AppState state);
 
   private:
     void OnButtonClicked(wxCommandEvent &e);

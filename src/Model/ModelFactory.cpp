@@ -1,4 +1,5 @@
 #include "Thread/ThreadPool.hpp"
+#include "Thread/Thread_Controller.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include <Model/ModelFactory.hpp>
 #include <memory>
@@ -24,8 +25,12 @@ ModelFactory::ModelFactory(wxWindow *parent) {
     std::shared_ptr<ThreadPool> threadPool = std::make_shared<ThreadPool>();
     threadPool->setNumThreads(config.GetPanelConfig().Thread_Pool_Size);
 
+    std::shared_ptr<ThreadController> threadController =
+        std::make_shared<ThreadController>();
+
     sharedModel->setCamera(camera);
     sharedModel->setThreadPool(threadPool);
+    sharedModel->setThreadController(threadController);
 }
 
 ModelFactory::~ModelFactory() { sharedModel = nullptr; }

@@ -1,9 +1,13 @@
+#include "Event/Event_Capture.hpp"
 #include "Event/Event_ChangePanel.hpp"
+#include "Event/Event_UpdateState.hpp"
+#include "Model/AppState.hpp"
 #include "Model/ModelEnum.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/Panel.hpp>
+#include <iostream>
 #include <stdexcept>
 #include <wx/gdicmn.h>
 
@@ -20,9 +24,9 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id,
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(img_bitmap, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    main_sizer->Add(img_bitmap, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
     main_sizer->Add(status_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(button_panel, 0, wxEXPAND | wxALL, 10);
+    main_sizer->Add(button_panel, 1, wxEXPAND | wxALL, 10);
 
     SetSizer(main_sizer);
     Fit();
@@ -36,11 +40,11 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CP_Capture_Button_ID) {
-        OnCaptureButton(button_panel->cPanel->Capture_Button);
+        OnCaptureButton(button_panel->cPanel->Capture_Button->button);
     }
 
     if (e.GetId() == Enum::CP_Load_Button_ID) {
-        OnLoadButton(button_panel->cPanel->Load_Button);
+        //OnLoadButton(button_panel->cPanel->Load_Button->button);
     }
 
     //TODO: Change panel
@@ -70,7 +74,7 @@ void CapturePanel::OnLoadButton(ButtonWState *button) {
     model->endPoint(button, ModelEnum::MODEL_START_LOADFILE, path);
 }
 
-void CapturePanel::OnCaptureButton(ButtonWState *button) {
+void CapturePanel::OnCaptureButton(wxButton *button) {
     model->endPoint(button, ModelEnum::MODEL_START_LOADCAPTURE);
 }
 
@@ -99,16 +103,29 @@ void CapturePanel::OnChangePanelButton(wxButton *button) {
 }
 
 void CapturePanel::OnLoadImage(wxCommandEvent &e) {
+    std::cerr << "CapturePanel::OnLoadImage" << std::endl;
     if (e.GetId() == LOAD_END_FILE) {
         model->endPoint(button_panel->cPanel->Load_Button,
                         ModelEnum::MODEL_END_LOADFILE);
     }
 
     if (e.GetId() == LOAD_END_CAMERA) {
-        model->endPoint(button_panel->cPanel->Capture_Button,
-                        ModelEnum::MODEL_END_LOADCAPTURE);
+        model->endPoint(this, ModelEnum::MODEL_END_LOADCAPTURE);
     }
+
+    model->e_UpdateState(this);
     e.Skip();
+}
+
+void CapturePanel::OnUpdateState(UpdateStateEvent &e) {
+    std::cerr << "CapturePanel::OnUpdateState" << std::endl;
+    auto state = e.GetState();
+    button_panel->cPanel->update(state);
+    Refresh();
+}
+
+void CapturePanel::OnCapture(wxCommandEvent &e) {
+    std::cerr << "CapturePanel::OnCapture" << std::endl;
 }
 
 // clang-format off
@@ -116,4 +133,6 @@ wxBEGIN_EVENT_TABLE(CapturePanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, CapturePanel::OnUpdatePreview)
     EVT_BUTTON(wxID_ANY,CapturePanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_LOAD_IMAGE_EVENT, CapturePanel::OnLoadImage)
+    EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, CapturePanel::OnCapture)
+    EVT_UPDATE_STATE(wxID_ANY, CapturePanel::OnUpdateState)
 wxEND_EVENT_TABLE()

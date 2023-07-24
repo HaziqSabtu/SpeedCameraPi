@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include <wx/sizer.h>
 #include <wx/wx.h>
@@ -8,8 +9,8 @@ class ROIStatusPanel : public TextOutlinePanel {
   public:
     ROIStatusPanel(wxWindow *parent);
 
-    wxButton *roi_Button;
-    wxButton *reset_Button;
+    BitmapButton *roi_Button;
+    BitmapButton *reset_Button;
 
   private:
     void OnButtonClicked(wxCommandEvent &e);

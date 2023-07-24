@@ -17,42 +17,25 @@ class CaptureModel {
                   std::string path);
     void endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id);
 
+    void e_UpdateState(wxEvtHandler *parent);
+
   private:
     const PanelID panelID = PanelID::PANEL_CAPTURE;
     const PanelID nextPanelID = PanelID::PANEL_ROI;
 
     std::shared_ptr<SharedModel> shared;
 
-    CaptureThread *captureThread;
-    wxThread *loadFileThread;
-    wxThread *loadCaptureThread;
-
-    void initThreads();
-    void deleteThreads();
-
     void startCaptureHandler(wxEvtHandler *parent);
-
-    virtual CaptureThread *
-    initCaptureThread(wxEvtHandler *parent,
-                      std::unique_ptr<CameraBase> &camera);
     void endCaptureHandler();
 
     void startLoadFileHandler(wxEvtHandler *parent, std::string path);
-    virtual wxThread *initLoadFileThread(wxEvtHandler *parent, int maxFrame,
-                                         std::string path);
     void endLoadFileHandler();
 
     void startLoadCaptureHandler(wxEvtHandler *parent);
-    virtual wxThread *initLoadCaptureThread(
-        wxEvtHandler *parent, std::shared_ptr<CameraBase> camera,
-        std::shared_ptr<std::vector<ImageData>> imgData, const int maxFrame);
     void endLoadCaptureHandler();
 
     void switchPanelHandler(wxEvtHandler *parent);
 
     void switchToCalibHandler(wxEvtHandler *parent);
     virtual bool isRequirementFulfilled();
-
-    template <typename T>
-    T *stopAndDeleteThread(T *threadPtr);
 };

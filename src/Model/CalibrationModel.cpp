@@ -177,6 +177,7 @@ void CalibrationModel::startCaptureHandler(wxEvtHandler *parent) {
     if (!shared->isCameraAvailable()) {
         throw std::runtime_error("Camera is not available");
     }
+
     if (captureThread != nullptr || calibrationThread != nullptr) {
         throw std::runtime_error("captureThread is already running");
     }

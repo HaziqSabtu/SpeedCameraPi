@@ -9,7 +9,9 @@
  *
  */
 
+#include "Event/Event_Error.hpp"
 #include <Thread/Thread_LoadCapture.hpp>
+#include <memory>
 
 /**
  * @brief Construct a new Load Capture Thread:: Load Capture Thread object
@@ -20,10 +22,10 @@
  * @param debug debug mode
  */
 LoadCaptureThread::LoadCaptureThread(
-    wxEvtHandler *parent, std::shared_ptr<CameraBase> camera,
+    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
     std::shared_ptr<std::vector<ImageData>> imgData, const int maxFrame,
     const bool debug_SaveImageData, const bool debug_ShowImagesWhenCapture)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(camera),
+    : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(std::move(camera)),
       imgData(imgData), maxFrame(maxFrame),
       debug_SaveImageData(debug_SaveImageData),
       debug_ShowImagesWhenCapture(debug_ShowImagesWhenCapture) {}
@@ -103,12 +105,26 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
         }
 
     } catch (const std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(parent, errorEvent);
+        ErrorEvent::Submit(parent, e.what());
     }
 
     wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_CAMERA);
     wxPostEvent(parent, stopLoadEvent);
     return 0;
 }
+
+/**
+ * @brief Get the Camera object
+ *
+ * @return std::unique_ptr<CameraBase>
+ */
+std::unique_ptr<CameraBase> LoadCaptureThread::getCamera() {
+    return std::move(camera);
+}
+
+/**
+ * @brief Get the ID object
+ *
+ * @return ThreadID
+ */
+ThreadID LoadCaptureThread::getID() const { return id; }

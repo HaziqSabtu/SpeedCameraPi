@@ -11,6 +11,7 @@
 #ifndef CAPTURE_THREAD_HPP
 #define CAPTURE_THREAD_HPP
 
+#include "Thread/Thread_ID.hpp"
 #include <Event/Event_Capture.hpp>
 #include <Event/Event_UpdatePreview.hpp>
 
@@ -35,12 +36,16 @@ class CaptureThread : public wxThread {
 
     std::unique_ptr<CameraBase> getCamera();
 
+    ThreadID getID() const;
+
   protected:
     virtual ExitCode Entry();
 
   private:
     wxEvtHandler *parent;
     std::unique_ptr<CameraBase> camera;
+
+    const ThreadID id = THREAD_CAPTURE;
 };
 
 #endif

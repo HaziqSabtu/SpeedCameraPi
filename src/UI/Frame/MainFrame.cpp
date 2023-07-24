@@ -9,10 +9,12 @@
 #include "UI/Theme/Theme.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Frame/MainFrame.hpp>
+#include <iostream>
 #include <memory>
 #include <wx/display.h>
 #include <wx/event.h>
 #include <wx/generic/panelg.h>
+#include <wx/utils.h>
 
 MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
 
@@ -65,7 +67,11 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     SetSizer(sizer);
 }
 
-MainFrame::~MainFrame() {}
+MainFrame::~MainFrame() {
+    wxWakeUpIdle();
+    //wxMilliSleep(5000);
+    std::cerr << "Application Closed mF" << std::endl;
+}
 
 void MainFrame::OnError(ErrorEvent &e) {
     std::string msg = e.GetErrorData();
@@ -108,6 +114,8 @@ void MainFrame::OnButton(wxCommandEvent &e) {
         // if (dialog.ShowModal() == wxID_YES) {
         //     Close();
         // }
+        sharedModel->killAllThreads();
+
         Close();
     }
 

@@ -1,0 +1,9 @@
+#pragma once
+
+enum ThreadID {
+    THREAD_NONE,
+    THREAD_CAPTURE,
+    THREAD_LOAD_CAPTURE,
+    THREAD_LOAD_FILE,
+    THREAD_CALIBRATION
+};
