@@ -1,5 +1,6 @@
 #include <UI/Button/BitmapButton/BitmapButton.hpp>
 #include <Utils/wxUtils.hpp>
+#include <wx/gtk/colour.h>
 
 BitmapButton::BitmapButton(wxWindow *parent, wxWindowID id,
                            const BitmapData &data)
@@ -25,6 +26,9 @@ BitmapButton::BitmapButton(wxWindow *parent, wxWindowID id,
 
     button->SetBitmapPressed(active);
 
+    wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
+    hsizer->Add(button, 1, wxEXPAND);
+
     text = new wxStaticText(this, wxID_ANY, data.text);
 
     wxFontInfo fontInfo(10);
@@ -33,7 +37,7 @@ BitmapButton::BitmapButton(wxWindow *parent, wxWindowID id,
 
     text->SetFont(font);
 
-    sizer->Add(button, 0, wxALIGN_CENTER_HORIZONTAL);
+    sizer->Add(hsizer, 1, wxEXPAND);
     sizer->Add(text, 0, wxALIGN_CENTER_HORIZONTAL);
 
     SetSizer(sizer);
