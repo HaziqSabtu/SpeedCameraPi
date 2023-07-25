@@ -4,7 +4,6 @@
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Controller.hpp"
 #include "Thread/Thread_Process.hpp"
-#include <Model/ModelEnum.hpp>
 
 #include <Event/Event_ChangePanel.hpp>
 #include <Event/Event_Error.hpp>

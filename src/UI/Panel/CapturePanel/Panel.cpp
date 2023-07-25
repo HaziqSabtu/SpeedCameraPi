@@ -5,7 +5,7 @@
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/AppState.hpp"
-#include "Model/ModelEnum.hpp"
+
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include "Utils/Enum.hpp"

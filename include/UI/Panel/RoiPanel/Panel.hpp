@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Model/RoiModel.hpp"
-#include <Model/Model.hpp>
 
 #include <UI/Panel/RoiPanel/Panel_Button.hpp>
 #include <UI/Panel/RoiPanel/Panel_Image.hpp>

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Model/ModelEnum.hpp"
 #include <Utils/DataStruct.hpp>
 #include <Utils/ImageUtils.hpp>
 

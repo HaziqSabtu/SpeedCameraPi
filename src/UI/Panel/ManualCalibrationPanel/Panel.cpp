@@ -1,7 +1,7 @@
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_UpdateStatus.hpp"
-#include "Model/ModelEnum.hpp"
+
 #include "UI/Button/Button_wState.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/Panel_Button.hpp"

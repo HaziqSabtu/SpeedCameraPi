@@ -9,7 +9,7 @@ class RoiModel {
     ~RoiModel();
 
     void endPoint(wxEvtHandler *parent, PanelID panelID, wxRect rect);
-    void endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id);
+    // void endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id);
 
   private:
     const PanelID panelID = PanelID::PANEL_ROI;

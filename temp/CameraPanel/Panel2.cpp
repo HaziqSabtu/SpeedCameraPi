@@ -1,4 +1,4 @@
-#include "Model/ModelEnum.hpp"
+
 #include <UI/CameraPanel/Panel2.hpp>
 #include <wx/event.h>
 

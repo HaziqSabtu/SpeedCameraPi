@@ -43,26 +43,26 @@ void RoiModel::endPoint(wxEvtHandler *parent, PanelID panelID, wxRect rect) {
     }
 }
 
-void RoiModel::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id) {
-    try {
+// void RoiModel::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id) {
+//     try {
 
-        if (panelID != shared->sessionData.currentPanelID) {
-            throw std::runtime_error("RoiModel::endPoint() - PanelID mismatch");
-        }
+//         if (panelID != shared->sessionData.currentPanelID) {
+//             throw std::runtime_error("RoiModel::endPoint() - PanelID mismatch");
+//         }
 
-        if (id == ModelEnum::MODEL_START_PROCESS) {
-            startProcessHandler(parent);
-            return;
-        }
+//         if (id == ModelEnum::MODEL_START_PROCESS) {
+//             startProcessHandler(parent);
+//             return;
+//         }
 
-        throw std::runtime_error("Model::endPoint() - Invalid EndPoint");
+//         throw std::runtime_error("Model::endPoint() - Invalid EndPoint");
 
-    } catch (std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(parent, errorEvent);
-    }
-}
+//     } catch (std::exception &e) {
+//         ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
+//         errorEvent.SetErrorData(e.what());
+//         wxPostEvent(parent, errorEvent);
+//     }
+// }
 
 void RoiModel::startProcessHandler(wxEvtHandler *parent) {
     if (processThread != nullptr) {
