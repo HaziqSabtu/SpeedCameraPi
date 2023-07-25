@@ -9,6 +9,7 @@
  *
  */
 
+#include "Event/Event_LoadImage.hpp"
 #include <Thread/Thread_LoadFile.hpp>
 
 /**
@@ -50,7 +51,7 @@ LoadFileThread::~LoadFileThread() {
  */
 wxThread::ExitCode LoadFileThread::Entry() {
     try {
-        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START);
+        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START_FILE);
         wxPostEvent(parent, startLoadEvent);
 
         if (imgData == nullptr) {

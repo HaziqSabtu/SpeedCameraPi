@@ -1,6 +1,7 @@
 #include "Model/CaptureModel.hpp"
 #include "../testableframe.h"
 #include "Event/Event_Error.hpp"
+#include "Event/Event_LoadImage.hpp"
 #include "Model/SessionData.hpp"
 #include "Model/SharedModel.hpp"
 #include "Thread/Thread_Capture.hpp"
@@ -112,7 +113,7 @@ class MockLoadFileThread : public wxThread {
     wxEvtHandler *parent;
 
     virtual ExitCode Entry() override {
-        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START);
+        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START_FILE);
         wxPostEvent(parent, startLoadEvent);
         return 0;
     }
@@ -128,7 +129,7 @@ class MockLoadCaptureThread : public wxThread {
     wxEvtHandler *parent;
 
     virtual ExitCode Entry() override {
-        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START);
+        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START_CAMERA);
         wxPostEvent(parent, startLoadEvent);
         return 0;
     }

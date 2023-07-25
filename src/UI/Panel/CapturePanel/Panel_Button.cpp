@@ -62,9 +62,9 @@ void CaptureButtonPanel::EnableAllButtons() {
 
 void CaptureButtonPanel::OnLoadImage(wxCommandEvent &e) {
 
-    if (e.GetId() == LOAD_START) {
-        DisableAllButtons();
-    }
+    // if (e.GetId() == LOAD_START) {
+    //     DisableAllButtons();
+    // }
 
     if (e.GetId() == LOAD_END_CAMERA || e.GetId() == LOAD_END_FILE) {
         EnableAllButtons();

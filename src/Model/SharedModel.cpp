@@ -2,6 +2,7 @@
 #include "Model/AppState.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Controller.hpp"
+#include "Thread/Thread_ID.hpp"
 #include <memory>
 #include <wx/event.h>
 
@@ -76,12 +77,105 @@ AppState SharedModel::getAppState() {
 
 CameraPanelState SharedModel::getCameraPanelState() {
     CameraPanelState cameraPanelState;
-    cameraPanelState.state = sessionData.isImageDataEmpty()
-                                 ? PanelState::PANEL_NOT_OK
-                                 : PanelState::PANEL_OK;
-    cameraPanelState.captureButtonState = ButtonState::ACTIVE;
-    cameraPanelState.loadButtonState = ButtonState::NORMAL;
-    cameraPanelState.replayButtonState = ButtonState::DISABLED;
-    cameraPanelState.removeButtonState = ButtonState::DISABLED;
+
+    auto isImageEmpty = sessionData.isImageDataEmpty();
+    cameraPanelState.state =
+        isImageEmpty ? PanelState::PANEL_NOT_OK : PanelState::PANEL_OK;
+
+    cameraPanelState.captureButtonState = getCaptureButtonState();
+
+    cameraPanelState.loadButtonState = getLoadButtonState();
+    cameraPanelState.replayButtonState = getReplayButtonState();
+    cameraPanelState.removeButtonState = getRemoveButtonState();
     return cameraPanelState;
+}
+
+ButtonState SharedModel::getCaptureButtonState() {
+    auto tc = getThreadController();
+    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        return ButtonState::ACTIVE;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (sessionData.isImageDataEmpty()) {
+        return ButtonState::NORMAL;
+    }
+
+    return ButtonState::DISABLED;
+}
+
+ButtonState SharedModel::getLoadButtonState() {
+    auto tc = getThreadController();
+    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        return ButtonState::ACTIVE;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (sessionData.isImageDataEmpty()) {
+        return ButtonState::NORMAL;
+    }
+
+    return ButtonState::DISABLED;
+}
+
+ButtonState SharedModel::getReplayButtonState() {
+    auto tc = getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+        return ButtonState::ACTIVE;
+    }
+
+    if (!sessionData.isImageDataEmpty()) {
+        return ButtonState::NORMAL;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::DISABLED;
+}
+
+ButtonState SharedModel::getRemoveButtonState() {
+    auto tc = getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!sessionData.isImageDataEmpty()) {
+        return ButtonState::NORMAL;
+    }
+
+    return ButtonState::DISABLED;
 }

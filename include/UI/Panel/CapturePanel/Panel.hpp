@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Event/Event_UpdateState.hpp"
+#include "Event/Event_UpdateStatus.hpp"
+#include <Event/Event_Replay.hpp>
+
 #include "Model/SessionData.hpp"
 #include "UI/Button/Button_Exit.hpp"
 #include "UI/Layout/StatusPanel.hpp"
@@ -52,7 +55,8 @@ class CapturePanel : public wxPanel {
     void OnButton(wxCommandEvent &e);
     void OnLoadImage(wxCommandEvent &e);
     void OnUpdateState(UpdateStateEvent &e);
-    void OnCapture(wxCommandEvent &e);
+    void OnUpdateStatus(UpdateStatusEvent &e);
+    void OnReplay(wxCommandEvent &e);
     // void OnChangePanel(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()

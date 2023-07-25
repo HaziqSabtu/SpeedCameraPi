@@ -2,7 +2,6 @@
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
 #include "UI/Button/BitmapButton/Button_Roi.hpp"
 #include "UI/Button/Button_Default.hpp"
-#include "UI/Panel/CapturePanel/t.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "Utils/Enum.hpp"
 

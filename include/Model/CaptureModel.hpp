@@ -19,6 +19,12 @@ class CaptureModel {
 
     void e_UpdateState(wxEvtHandler *parent);
 
+    void e_ClearImageData(wxEvtHandler *parent);
+
+    void e_ReplayStart(wxEvtHandler *parent);
+
+    void e_ReplayEnd(wxEvtHandler *parent);
+
   private:
     const PanelID panelID = PanelID::PANEL_CAPTURE;
     const PanelID nextPanelID = PanelID::PANEL_ROI;

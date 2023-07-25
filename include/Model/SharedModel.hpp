@@ -71,4 +71,9 @@ class SharedModel : public ISharedModel {
     std::unique_ptr<CameraBase> camera;
     std::shared_ptr<ThreadPool> threadPool;
     std::shared_ptr<ThreadController> threadController;
+
+    ButtonState getCaptureButtonState();
+    ButtonState getLoadButtonState();
+    ButtonState getReplayButtonState();
+    ButtonState getRemoveButtonState();
 };

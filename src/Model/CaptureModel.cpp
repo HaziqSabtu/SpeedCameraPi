@@ -236,6 +236,65 @@ bool CaptureModel::isRequirementFulfilled() {
 }
 
 void CaptureModel::e_UpdateState(wxEvtHandler *parent) {
-    AppState state = shared->getAppState();
-    UpdateStateEvent::Submit(parent, state);
+    try {
+
+        AppState state = shared->getAppState();
+        UpdateStateEvent::Submit(parent, state);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_ClearImageData(wxEvtHandler *parent) {
+    try {
+        if (shared->sessionData.isImageDataEmpty()) {
+            throw std::runtime_error("ImageData is empty");
+        }
+        shared->sessionData.clearImageData();
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_ReplayStart(wxEvtHandler *parent) {
+    try {
+        auto tc = shared->getThreadController();
+
+        if (!tc->isThreadsWithCameraNullptr()) {
+            throw std::runtime_error("Thread with camera is already running");
+        }
+
+        if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+            throw std::runtime_error("ReplayThread is already running");
+        }
+
+        if (shared->sessionData.isImageDataEmpty()) {
+            throw std::runtime_error("ImageData is Empty");
+        }
+
+        tc->startReplayHandler(parent, shared->sessionData.imageData, panelID);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_ReplayEnd(wxEvtHandler *parent) {
+    try {
+
+        auto tc = shared->getThreadController();
+
+        if (tc->isThreadNullptr(THREAD_REPLAY)) {
+            throw std::runtime_error("replayThread is not running");
+        }
+
+        if (!tc->isThreadOwner(THREAD_REPLAY, panelID)) {
+            throw std::runtime_error("replayThread is not owned by this panel");
+        }
+
+        tc->endReplayHandler();
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
 }

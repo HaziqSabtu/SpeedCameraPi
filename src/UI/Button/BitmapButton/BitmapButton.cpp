@@ -22,7 +22,8 @@ BitmapButton::BitmapButton(wxWindow *parent, wxWindowID id,
 
     button = new wxBitmapButton(this, id, normal, wxDefaultPosition,
                                 wxDefaultSize, wxBORDER_NONE);
-    button->SetBitmapDisabled(disabled);
+
+    button->SetBitmapPressed(active);
 
     text = new wxStaticText(this, wxID_ANY, data.text);
 
@@ -41,17 +42,31 @@ BitmapButton::BitmapButton(wxWindow *parent, wxWindowID id,
 
 void BitmapButton::update(ButtonState state) {
     if (state == ButtonState::NORMAL) {
-        setNormal();
-    } else if (state == ButtonState::ACTIVE) {
-        setActive();
-    } else if (state == ButtonState::DISABLED) {
-        setDisabled();
-    } else
-        throw new std::runtime_error("Invalid ButtonState");
+        return setNormal();
+    }
+
+    if (state == ButtonState::ACTIVE) {
+        return setActive();
+    }
+
+    if (state == ButtonState::DISABLED) {
+        return setDisabled();
+    }
+
+    throw new std::runtime_error("Invalid ButtonState");
 }
 
-void BitmapButton::setNormal() { button->SetBitmap(normal); }
+void BitmapButton::setNormal() {
+    button->SetBitmap(normal);
+    button->Enable();
+}
 
-void BitmapButton::setActive() { button->SetBitmap(active); }
+void BitmapButton::setActive() {
+    button->SetBitmap(active);
+    button->Disable();
+}
 
-void BitmapButton::setDisabled() { button->Disable(); }
+void BitmapButton::setDisabled() {
+    button->SetBitmap(disabled);
+    button->Disable();
+}

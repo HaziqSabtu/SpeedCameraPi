@@ -23,7 +23,7 @@ const wxString noImageIcon = wxT("Assets/noImage_96.png");
 
 const wxColour BitmapNormal = CC::Twitter_Secondary;
 const wxColour BitmapActive = CC::Twitter_Primary;
-const wxColour BitmapDisabled = CC::Twitter_ExtExtLightGray;
+const wxColour BitmapDisabled = CC::Twitter_LightGray;
 const wxSize BitmapDefaultSize = wxSize(50, 50);
 
 // PanelTitle

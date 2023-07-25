@@ -4,6 +4,7 @@
 #include "Thread/Thread_Capture.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
+#include "Thread/Thread_Replay.hpp"
 #include <unordered_map>
 
 class ThreadController {
@@ -28,6 +29,13 @@ class ThreadController {
     virtual void startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
                                       std::string path, PanelID panelID);
 
+    virtual void
+    startReplayHandler(wxEvtHandler *parent,
+                       std::shared_ptr<std::vector<ImageData>> imgData,
+                       PanelID panelID);
+
+    void endReplayHandler();
+
     void endLoadFileHandler();
 
     bool isThreadNullptr(ThreadID threadID);
@@ -41,6 +49,8 @@ class ThreadController {
     LoadCaptureThread *getLoadCaptureThread();
 
     LoadFileThread *getLoadFileThread();
+
+    ReplayThread *getReplayThread();
 
     void killAllThreads();
 
@@ -59,4 +69,6 @@ class ThreadController {
     LoadCaptureThread *loadCaptureThread;
 
     LoadFileThread *loadFileThread;
+
+    ReplayThread *replayThread;
 };

@@ -1,6 +1,8 @@
 #include "Event/Event_Capture.hpp"
 #include "Event/Event_ChangePanel.hpp"
+#include "Event/Event_LoadImage.hpp"
 #include "Event/Event_UpdateState.hpp"
+#include "Event/Event_UpdateStatus.hpp"
 #include "Model/AppState.hpp"
 #include "Model/ModelEnum.hpp"
 #include "UI/StaticText/Statustext.hpp"
@@ -45,6 +47,16 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::CP_Load_Button_ID) {
         //OnLoadButton(button_panel->cPanel->Load_Button->button);
+    }
+
+    if (e.GetId() == Enum::CP_Reset_Button_ID) {
+        model->e_ClearImageData(this);
+        model->e_UpdateState(this);
+        UpdateStatusEvent::Submit(this, StatusCollection::STATUS_REMOVE_DATA);
+    }
+
+    if (e.GetId() == Enum::CP_Replay_Button_ID) {
+        model->e_ReplayStart(this);
     }
 
     //TODO: Change panel
@@ -103,7 +115,9 @@ void CapturePanel::OnChangePanelButton(wxButton *button) {
 }
 
 void CapturePanel::OnLoadImage(wxCommandEvent &e) {
-    std::cerr << "CapturePanel::OnLoadImage" << std::endl;
+    if (e.GetId() == LOAD_START_CAMERA) {
+        UpdateStatusEvent::Submit(this, StatusCollection::STATUS_CAPTURE_START);
+    }
     if (e.GetId() == LOAD_END_FILE) {
         model->endPoint(button_panel->cPanel->Load_Button,
                         ModelEnum::MODEL_END_LOADFILE);
@@ -111,21 +125,38 @@ void CapturePanel::OnLoadImage(wxCommandEvent &e) {
 
     if (e.GetId() == LOAD_END_CAMERA) {
         model->endPoint(this, ModelEnum::MODEL_END_LOADCAPTURE);
+        UpdateStatusEvent::Submit(this, StatusCollection::STATUS_CAPTURE_END);
     }
 
     model->e_UpdateState(this);
+
     e.Skip();
 }
 
 void CapturePanel::OnUpdateState(UpdateStateEvent &e) {
-    std::cerr << "CapturePanel::OnUpdateState" << std::endl;
     auto state = e.GetState();
     button_panel->cPanel->update(state);
     Refresh();
 }
 
-void CapturePanel::OnCapture(wxCommandEvent &e) {
-    std::cerr << "CapturePanel::OnCapture" << std::endl;
+void CapturePanel::OnUpdateStatus(UpdateStatusEvent &e) {
+    auto status = e.GetStatus();
+    status_panel->SetText(status);
+    Refresh();
+}
+
+void CapturePanel::OnReplay(wxCommandEvent &e) {
+    if (e.GetId() == REPLAY_START) {
+        UpdateStatusEvent::Submit(this, StatusCollection::STATUS_REPLAY_START);
+    }
+
+    if (e.GetId() == REPLAY_END) {
+        model->e_ReplayEnd(this);
+        UpdateStatusEvent::Submit(this, StatusCollection::STATUS_REPLAY_END);
+    }
+
+    model->e_UpdateState(this);
+    e.Skip();
 }
 
 // clang-format off
@@ -133,6 +164,7 @@ wxBEGIN_EVENT_TABLE(CapturePanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, CapturePanel::OnUpdatePreview)
     EVT_BUTTON(wxID_ANY,CapturePanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_LOAD_IMAGE_EVENT, CapturePanel::OnLoadImage)
-    EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, CapturePanel::OnCapture)
     EVT_UPDATE_STATE(wxID_ANY, CapturePanel::OnUpdateState)
+    EVT_UPDATE_STATUS(wxID_ANY, CapturePanel::OnUpdateStatus)
+    EVT_COMMAND(wxID_ANY, c_REPLAY_EVENT, CapturePanel::OnReplay)
 wxEND_EVENT_TABLE()

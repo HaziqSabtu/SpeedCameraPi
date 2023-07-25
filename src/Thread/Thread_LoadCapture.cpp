@@ -10,6 +10,7 @@
  */
 
 #include "Event/Event_Error.hpp"
+#include "Event/Event_LoadImage.hpp"
 #include <Thread/Thread_LoadCapture.hpp>
 #include <memory>
 
@@ -52,7 +53,7 @@ LoadCaptureThread::~LoadCaptureThread() {}
  */
 wxThread::ExitCode LoadCaptureThread::Entry() {
     try {
-        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START);
+        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START_CAMERA);
         wxPostEvent(parent, startLoadEvent);
 
         if (imgData == nullptr) {

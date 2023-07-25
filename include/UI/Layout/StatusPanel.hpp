@@ -17,6 +17,11 @@ const wxString STATUS_LINE_DETECTED = wxT("Line Detected");
 const wxString STATUS_LINE_NOT_DETECTED = wxT("Error Detecting Line");
 const wxString STATUS_CAMERA_ON = wxT("Camera On");
 const wxString STATUS_CAMERA_OFF = wxT("Camera Off");
+const wxString STATUS_CAPTURE_START = wxT("Capture Start");
+const wxString STATUS_CAPTURE_END = wxT("Capture Success");
+const wxString STATUS_REMOVE_DATA = wxT("Data Removed");
+const wxString STATUS_REPLAY_START = wxT("Replay Start");
+const wxString STATUS_REPLAY_END = wxT("Replay End");
 
 } // namespace StatusCollection
 

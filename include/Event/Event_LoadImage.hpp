@@ -38,6 +38,11 @@ wxDECLARE_EVENT(c_LOAD_IMAGE_EVENT, wxCommandEvent);
  * </table>
  *
  */
-enum LOAD_EVENT_TYPE { LOAD_START = 1, LOAD_END_FILE, LOAD_END_CAMERA };
+enum LOAD_EVENT_TYPE {
+    LOAD_START_FILE = 1,
+    LOAD_START_CAMERA,
+    LOAD_END_FILE,
+    LOAD_END_CAMERA
+};
 
 #endif

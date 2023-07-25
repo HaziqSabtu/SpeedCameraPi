@@ -8,10 +8,8 @@ ThreadController::ThreadController() { initThread(); }
 
 ThreadController::~ThreadController() {
     try {
-        std::cerr << "ThreadController::~ThreadController()" << std::endl;
         deleteThread();
     } catch (std::exception &e) {
-        std::cerr << "error" << std::endl;
         std::cerr << e.what() << std::endl;
     }
 }
@@ -20,22 +18,14 @@ void ThreadController::initThread() {
     captureThread = nullptr;
     loadCaptureThread = nullptr;
     loadFileThread = nullptr;
+    replayThread = nullptr;
 };
 
 void ThreadController::deleteThread() {
-    // if (captureThread != nullptr) {
-    //     std::cerr << "ThreadController::deleteThread() - captureThread"
-    //               << std::endl;
-    //     captureThread->Pause();
-    //     // captureThread->Delete();
-    //     auto camera = captureThread->getCamera();
-    //     camera->stop();
-    //     std::cerr << "ThreadController::deleteThread() - captureThread - done"
-    //               << std::endl;
-    // }
     stopAndDeleteThread(captureThread);
     stopAndDeleteThread(loadCaptureThread);
     stopAndDeleteThread(loadFileThread);
+    stopAndDeleteThread(replayThread);
 };
 
 bool ThreadController::isThreadNullptr(ThreadID threadID) {
@@ -45,6 +35,14 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
 
     if (threadID == ThreadID::THREAD_LOAD_CAPTURE) {
         return loadCaptureThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_LOAD_FILE) {
+        return loadFileThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_REPLAY) {
+        return replayThread == nullptr;
     }
 
     throw std::runtime_error(
@@ -92,11 +90,29 @@ void ThreadController::endLoadCaptureHandler() {
     loadCaptureThread = stopAndDeleteThread(loadCaptureThread);
 }
 
+void ThreadController::startReplayHandler(
+    wxEvtHandler *parent, std::shared_ptr<std::vector<ImageData>> imgData,
+    PanelID panelID) {
+
+    replayThread = new ReplayThread(parent, imgData);
+    replayThread->Run();
+
+    owner[replayThread->getID()] = panelID;
+}
+
+void ThreadController::endReplayHandler() {
+    replayThread = stopAndDeleteThread(replayThread);
+}
+
 CaptureThread *ThreadController::getCaptureThread() { return captureThread; }
 
 LoadCaptureThread *ThreadController::getLoadCaptureThread() {
     return loadCaptureThread;
 }
+
+LoadFileThread *ThreadController::getLoadFileThread() { return loadFileThread; }
+
+ReplayThread *ThreadController::getReplayThread() { return replayThread; }
 
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
                                             std::string path, PanelID panelID) {
@@ -111,8 +127,6 @@ void ThreadController::startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
 void ThreadController::endLoadFileHandler() {
     loadFileThread = stopAndDeleteThread(loadFileThread);
 }
-
-LoadFileThread *ThreadController::getLoadFileThread() { return loadFileThread; }
 
 template <typename T>
 T *ThreadController::stopAndDeleteThread(T *threadPtr) {
