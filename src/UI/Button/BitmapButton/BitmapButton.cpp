@@ -4,7 +4,7 @@
 
 BitmapButton::BitmapButton(wxWindow *parent, wxWindowID id,
                            const BitmapData &data)
-    : wxPanel(parent, id) {
+    : wxPanel(parent, wxID_ANY) {
     sizer = new wxBoxSizer(wxVERTICAL);
 
     wxBitmap bit = wxBitmap(data.filename);

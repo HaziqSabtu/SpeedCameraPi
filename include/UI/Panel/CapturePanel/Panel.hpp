@@ -5,6 +5,7 @@
 #include <Event/Event_Replay.hpp>
 
 #include "Model/SessionData.hpp"
+#include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
 #include "UI/Button/Button_Exit.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Layout/TitlePanel.hpp"
@@ -34,7 +35,6 @@ class CapturePanel : public wxPanel {
 
   private:
     const PanelID panel_id = PANEL_CAPTURE;
-    const PanelID next_panel_id = PANEL_ROI;
 
     std::unique_ptr<CaptureModel> model;
 
@@ -48,7 +48,7 @@ class CapturePanel : public wxPanel {
 
     void OnLoadButton(ButtonWState *button);
     void OnCaptureButton(wxButton *button);
-    void OnToggleCameraButton(ButtonWState *button);
+    void OnToggleCameraButton(BitmapButtonT2 *button);
     void OnChangePanelButton(wxButton *button);
 
     void OnUpdatePreview(UpdatePreviewEvent &e);
@@ -57,6 +57,7 @@ class CapturePanel : public wxPanel {
     void OnUpdateState(UpdateStateEvent &e);
     void OnUpdateStatus(UpdateStatusEvent &e);
     void OnReplay(wxCommandEvent &e);
+    void OnShow(wxShowEvent &e);
     // void OnChangePanel(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()

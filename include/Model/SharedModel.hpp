@@ -76,4 +76,5 @@ class SharedModel : public ISharedModel {
     ButtonState getLoadButtonState();
     ButtonState getReplayButtonState();
     ButtonState getRemoveButtonState();
+    ButtonState getCameraButtonState();
 };

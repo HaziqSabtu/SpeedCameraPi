@@ -13,7 +13,7 @@ enum ModelIDs {
     MODEL_CHANGE_PANEL,
     MODEL_SWITCH_PANEL,
     MODEL_START_PROCESS,
-    MODEL_SWITCH_TO_CALIB,
+    //MODEL_SWITCH_TO_CALIB,
 };
 
 } // namespace ModelEnum

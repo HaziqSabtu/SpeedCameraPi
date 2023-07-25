@@ -6,10 +6,12 @@
 #include "Thread/Thread_Capture.hpp"
 #include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_LoadFile.hpp"
+#include "UI/Layout/StatusPanel.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
 #include "Utils/DataStruct.hpp"
+#include <Event/Event_UpdateStatus.hpp>
 #include <Model/CaptureModel.hpp>
 #include <memory>
 #include <vector>
@@ -20,59 +22,153 @@ CaptureModel::CaptureModel(std::shared_ptr<SharedModel> sharedModel)
 
 CaptureModel::~CaptureModel() {}
 
-void CaptureModel::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id) {
-    endPoint(parent, id, "");
+void CaptureModel::e_ChangeToCalibPanel(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        ChangePanelData data(this->panelID, PanelID::PANEL_CALIBRATION);
+        ChangePanelEvent::Submit(parent, data);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
 }
 
-void CaptureModel::endPoint(wxEvtHandler *parent, ModelEnum::ModelIDs id,
-                            std::string path) {
+void CaptureModel::e_UpdateState(wxEvtHandler *parent) {
     try {
-        if (panelID != shared->sessionData.currentPanelID) {
-            throw std::runtime_error(
-                "CaptureModel::endPoint() - PanelID mismatch");
+
+        AppState state = shared->getAppState();
+        UpdateStateEvent::Submit(parent, state);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_ClearImageData(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        if (shared->sessionData.isImageDataEmpty()) {
+            throw std::runtime_error("ImageData is empty");
+        }
+        shared->sessionData.clearImageData();
+        UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_REMOVE_DATA);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_ReplayStart(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        auto tc = shared->getThreadController();
+
+        if (!tc->isThreadsWithCameraNullptr()) {
+            throw std::runtime_error("Thread with camera is already running");
         }
 
-        if (id == ModelEnum::MODEL_START_CAPTURE) {
-            startCaptureHandler(parent);
-            return;
+        if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+            throw std::runtime_error("ReplayThread is already running");
         }
 
-        if (id == ModelEnum::MODEL_END_CAPTURE) {
-            endCaptureHandler();
-            return;
+        if (shared->sessionData.isImageDataEmpty()) {
+            throw std::runtime_error("ImageData is Empty");
         }
 
-        if (id == ModelEnum::MODEL_START_LOADFILE) {
-            startLoadFileHandler(parent, path);
-            return;
+        tc->startReplayHandler(parent, shared->sessionData.imageData, panelID);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_ReplayEnd(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        auto tc = shared->getThreadController();
+
+        if (tc->isThreadNullptr(THREAD_REPLAY)) {
+            throw std::runtime_error("replayThread is not running");
         }
 
-        if (id == ModelEnum::MODEL_END_LOADFILE) {
-            endLoadFileHandler();
-            return;
+        if (!tc->isThreadOwner(THREAD_REPLAY, panelID)) {
+            throw std::runtime_error("replayThread is not owned by this panel");
         }
 
-        if (id == ModelEnum::MODEL_START_LOADCAPTURE) {
-            startLoadCaptureHandler(parent);
-            return;
-        }
+        tc->endReplayHandler();
 
-        if (id == ModelEnum::MODEL_END_LOADCAPTURE) {
-            endLoadCaptureHandler();
-            return;
-        }
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
 
-        if (id == ModelEnum::MODEL_SWITCH_PANEL) {
-            switchPanelHandler(parent);
-            return;
-        }
+void CaptureModel::e_CameraStart(wxEvtHandler *parent) {
+    try {
 
-        if (id == ModelEnum::MODEL_SWITCH_TO_CALIB) {
-            switchToCalibHandler(parent);
-            return;
-        }
+        checkPreCondition();
 
-        throw std::runtime_error("CaptureModel::endPoint() - Invalid Endpoint");
+        startCaptureHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_CameraEnd(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        endCaptureHandler();
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_LoadFileStart(wxEvtHandler *parent, std::string path) {
+    try {
+
+        checkPreCondition();
+
+        startLoadFileHandler(parent, path);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_LoadFileEnd(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        endLoadFileHandler();
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_LoadCaptureStart(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        startLoadCaptureHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureModel::e_LoadCaptureEnd(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        endLoadCaptureHandler();
+
+        UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_CAPTURE_END);
 
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -202,99 +298,11 @@ void CaptureModel::endLoadCaptureHandler() {
 }
 
 void CaptureModel::switchPanelHandler(wxEvtHandler *parent) {
-    if (!isRequirementFulfilled()) {
-        throw std::runtime_error("Requirement is not fulfilled");
-    }
-
-    ChangePanelData data(this->panelID, this->nextPanelID);
-    ChangePanelEvent::Submit(parent, data);
+    //
 }
 
-// TODO: Remove this temporary
-void CaptureModel::switchToCalibHandler(wxEvtHandler *parent) {
-    ChangePanelData data(this->panelID, PanelID::PANEL_CALIBRATION);
-    ChangePanelEvent::Submit(parent, data);
-}
-
-bool CaptureModel::isRequirementFulfilled() {
-    // if (captureThread != nullptr) {
-    //     endCaptureHandler();
-    // }
-
-    // if (loadFileThread != nullptr) {
-    //     endLoadFileHandler();
-    // }
-
-    // if (loadCaptureThread != nullptr) {
-    //     endLoadCaptureHandler();
-    // }
-
-    if (shared->sessionData.isImageDataEmpty()) {
-        throw std::runtime_error("ImageData is empty");
-    }
-    return true;
-}
-
-void CaptureModel::e_UpdateState(wxEvtHandler *parent) {
-    try {
-
-        AppState state = shared->getAppState();
-        UpdateStateEvent::Submit(parent, state);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CaptureModel::e_ClearImageData(wxEvtHandler *parent) {
-    try {
-        if (shared->sessionData.isImageDataEmpty()) {
-            throw std::runtime_error("ImageData is empty");
-        }
-        shared->sessionData.clearImageData();
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CaptureModel::e_ReplayStart(wxEvtHandler *parent) {
-    try {
-        auto tc = shared->getThreadController();
-
-        if (!tc->isThreadsWithCameraNullptr()) {
-            throw std::runtime_error("Thread with camera is already running");
-        }
-
-        if (!tc->isThreadNullptr(THREAD_REPLAY)) {
-            throw std::runtime_error("ReplayThread is already running");
-        }
-
-        if (shared->sessionData.isImageDataEmpty()) {
-            throw std::runtime_error("ImageData is Empty");
-        }
-
-        tc->startReplayHandler(parent, shared->sessionData.imageData, panelID);
-
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CaptureModel::e_ReplayEnd(wxEvtHandler *parent) {
-    try {
-
-        auto tc = shared->getThreadController();
-
-        if (tc->isThreadNullptr(THREAD_REPLAY)) {
-            throw std::runtime_error("replayThread is not running");
-        }
-
-        if (!tc->isThreadOwner(THREAD_REPLAY, panelID)) {
-            throw std::runtime_error("replayThread is not owned by this panel");
-        }
-
-        tc->endReplayHandler();
-
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
+void CaptureModel::checkPreCondition() {
+    if (panelID != shared->sessionData.currentPanelID) {
+        throw std::runtime_error("CaptureModel::endPoint() - PanelID mismatch");
     }
 }

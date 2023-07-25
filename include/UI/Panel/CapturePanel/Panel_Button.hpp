@@ -17,14 +17,8 @@
 class CaptureButtonPanel : public wxPanel {
   public:
     CaptureButtonPanel(wxWindow *parent, wxWindowID id);
-    void DisableAllButtons();
-    void EnableAllButtons();
 
-    // ButtonWState *Capture_Button;
-    // ButtonWState *Load_Button;
-    // ButtonWState *ToggleCamera_Button;
     wxButton *switch_Button;
-    // wxButton *calibrate_Button;
 
     CaptureStatusPanel *cPanel;
 
@@ -39,12 +33,10 @@ class CaptureButtonPanel : public wxPanel {
 
     wxBoxSizer *left_sizer;
     wxBoxSizer *right_sizer;
-    wxBoxSizer *button_sizer;
+    wxBoxSizer *lrSizer;
     wxBoxSizer *main_sizer;
 
     wxStaticText *Spacer;
-
-    void OnLoadImage(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE();
 };

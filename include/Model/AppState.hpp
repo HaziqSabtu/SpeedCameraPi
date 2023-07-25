@@ -1,6 +1,6 @@
 #pragma once
 
-enum ButtonState { NORMAL, ACTIVE, DISABLED };
+enum ButtonState { NORMAL, ACTIVE, DISABLED, ON, OFF };
 
 enum PanelState { PANEL_NOT_OK, PANEL_OK };
 
@@ -10,6 +10,7 @@ struct CameraPanelState {
     ButtonState loadButtonState;
     ButtonState replayButtonState;
     ButtonState removeButtonState;
+    ButtonState cameraButtonState;
 };
 
 struct AppState {

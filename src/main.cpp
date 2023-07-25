@@ -23,9 +23,6 @@ class MyApp : public wxApp {
     virtual int OnExit() {
         wxWakeUpIdle();
 
-        //wxMilliSleep(5000);
-
-        wxLogMessage("Application Closed");
         std::cerr << "Application Closed" << std::endl;
         return wxApp::OnExit();
     }

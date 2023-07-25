@@ -11,7 +11,6 @@ SharedModel::SharedModel() : camera(nullptr), threadPool(nullptr) {}
 SharedModel::~SharedModel() {
     try {
         if (camera != nullptr) {
-            std::cerr << "SharedModel::~SharedModel()" << std::endl;
             camera->stop();
         }
     } catch (std::exception &e) {
@@ -45,7 +44,6 @@ std::shared_ptr<ThreadController> SharedModel::getThreadController() {
 }
 
 void SharedModel::killAllThreads() {
-    // threadController->killAllThreads();
     auto tc = getThreadController();
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_CAPTURE)) {
@@ -83,10 +81,11 @@ CameraPanelState SharedModel::getCameraPanelState() {
         isImageEmpty ? PanelState::PANEL_NOT_OK : PanelState::PANEL_OK;
 
     cameraPanelState.captureButtonState = getCaptureButtonState();
-
     cameraPanelState.loadButtonState = getLoadButtonState();
     cameraPanelState.replayButtonState = getReplayButtonState();
     cameraPanelState.removeButtonState = getRemoveButtonState();
+    cameraPanelState.cameraButtonState = getCameraButtonState();
+
     return cameraPanelState;
 }
 
@@ -178,4 +177,26 @@ ButtonState SharedModel::getRemoveButtonState() {
     }
 
     return ButtonState::DISABLED;
+}
+
+ButtonState SharedModel::getCameraButtonState() {
+
+    auto tc = getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+        return ButtonState::ON;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!sessionData.isImageDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+    return ButtonState::OFF;
 }

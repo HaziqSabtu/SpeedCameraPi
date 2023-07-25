@@ -17,8 +17,6 @@ ROIStatusPanel::ROIStatusPanel(wxWindow *parent)
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
-    // vSizer->Add(roi_Button, 0, wxEXPAND | wxTOP | wxRIGHT | wxLEFT, 10);
-    // vSizer->Add(reset_Button, 0, wxEXPAND | wxALL, 10);
     vSizer->Add(hSizer, 0, wxEXPAND | wxALL, 10);
     vSizer->Add(bottomPadding, 0, wxEXPAND);
 
@@ -29,8 +27,6 @@ ROIStatusPanel::ROIStatusPanel(wxWindow *parent)
 
     SetSizer(hSizer);
     Fit();
-
-    // reset_Button->Bind(wxEVT_BUTTON, &ROIStatusPanel::OnButtonClicked, this);
 }
 
 void ROIStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }

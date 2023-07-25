@@ -65,13 +65,11 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     sizer->Add(manual_calibration_panel, 1, wxEXPAND);
     sizer->Add(color_calibration_panel, 1, wxEXPAND);
     SetSizer(sizer);
+
+    capture_panel->Show();
 }
 
-MainFrame::~MainFrame() {
-    wxWakeUpIdle();
-    //wxMilliSleep(5000);
-    std::cerr << "Application Closed mF" << std::endl;
-}
+MainFrame::~MainFrame() { wxWakeUpIdle(); }
 
 void MainFrame::OnError(ErrorEvent &e) {
     std::string msg = e.GetErrorData();
