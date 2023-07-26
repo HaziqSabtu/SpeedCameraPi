@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Controller/ManualCalibrationController.hpp"
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationModel.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Button/Button_Exit.hpp"
 #include "UI/Layout/StatusPanel.hpp"
@@ -25,14 +25,13 @@
 
 class ManualCalibrationPanel : public wxPanel {
   public:
-    ManualCalibrationPanel(wxWindow *parent, wxWindowID id,
-                           std::unique_ptr<CalibrationModel> &model);
+    ManualCalibrationPanel(wxWindow *parent, wxWindowID id, MCCPtr &controller);
     ~ManualCalibrationPanel();
 
   private:
     const PanelID panel_id = PANEL_MANUAL_CALIBRATION;
 
-    std::unique_ptr<CalibrationModel> model;
+    MCCPtr controller;
 
     BaseImagePanel *img_bitmap;
 

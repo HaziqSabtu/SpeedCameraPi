@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Controller/CalibrationController.hpp"
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationModel.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
 #include "UI/Button/Button_Exit.hpp"
@@ -34,14 +34,13 @@ enum CalibrationText {
 
 class CalibrationPanel : public wxPanel {
   public:
-    CalibrationPanel(wxWindow *parent, wxWindowID id,
-                     std::unique_ptr<CalibrationModel> &model);
+    CalibrationPanel(wxWindow *parent, wxWindowID id, CLCPtr &controller);
     ~CalibrationPanel();
 
   private:
     const PanelID panel_id = PANEL_CALIBRATION;
 
-    std::unique_ptr<CalibrationModel> model;
+    CLCPtr controller;
 
     CalibrationPanelButton *button_panel;
     BaseImagePanel *img_bitmap;

@@ -152,6 +152,8 @@ if(ENABLE_TESTING)
   file(GLOB_RECURSE MODEL  src/Model/*.cpp)
   file(GLOB_RECURSE THREAD src/Thread/*.cpp)
   file(GLOB_RECURSE UTILS  src/Utils/*.cpp)
+  file(GLOB_RECURSE CONTROLLER  src/Controller/*.cpp)
+
 
   file(GLOB_RECURSE MODELTEST tests/Model/*.cpp)
 
@@ -164,6 +166,7 @@ if(ENABLE_TESTING)
     ${EVENT} 
     ${UTILS} 
     ${ALG}
+    ${CONTROLLER}
 
     ${MODELTEST}
   )

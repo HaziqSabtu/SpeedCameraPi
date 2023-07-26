@@ -8,10 +8,12 @@
 #include <wx/event.h>
 #include <wx/thread.h>
 
-class CaptureModel {
+#define CPCPtr std::unique_ptr<CaptureController>
+
+class CaptureController {
   public:
-    CaptureModel(std::shared_ptr<SharedModel> sharedModel);
-    ~CaptureModel();
+    CaptureController(ModelPtr sharedModel);
+    ~CaptureController();
 
     void e_UpdateState(wxEvtHandler *parent);
 

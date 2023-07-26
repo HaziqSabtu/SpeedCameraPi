@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Controller/CaptureController.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include <Event/Event_Replay.hpp>
@@ -12,8 +13,6 @@
 #include "UI/Panel/RoiPanel/Panel.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
-// #include <Model/Model.hpp>
-#include <Model/CaptureModel.hpp>
 
 #include <UI/Panel/Base/Panel_Image.hpp>
 #include <UI/Panel/CapturePanel/Panel_Button.hpp>
@@ -29,14 +28,13 @@
 
 class CapturePanel : public wxPanel {
   public:
-    CapturePanel(wxWindow *parent, wxWindowID id,
-                 std::unique_ptr<CaptureModel> &model);
+    CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr &controller);
     ~CapturePanel();
 
   private:
     const PanelID panel_id = PANEL_CAPTURE;
 
-    std::unique_ptr<CaptureModel> model;
+    CPCPtr controller;
 
     CaptureButtonPanel *button_panel;
     BaseImagePanel *img_bitmap;

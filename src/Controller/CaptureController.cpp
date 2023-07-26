@@ -1,4 +1,3 @@
-#include "Model/CaptureModel.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Model/AppState.hpp"
@@ -11,18 +10,18 @@
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
 #include "Utils/DataStruct.hpp"
+#include <Controller/CaptureController.hpp>
 #include <Event/Event_UpdateStatus.hpp>
-#include <Model/CaptureModel.hpp>
 #include <memory>
 #include <vector>
 #include <wx/event.h>
 
-CaptureModel::CaptureModel(std::shared_ptr<SharedModel> sharedModel)
+CaptureController::CaptureController(ModelPtr sharedModel)
     : shared(sharedModel) {}
 
-CaptureModel::~CaptureModel() {}
+CaptureController::~CaptureController() {}
 
-void CaptureModel::e_ChangeToCalibPanel(wxEvtHandler *parent) {
+void CaptureController::e_ChangeToCalibPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         ChangePanelData data(this->panelID, PanelID::PANEL_CALIBRATION);
@@ -32,7 +31,7 @@ void CaptureModel::e_ChangeToCalibPanel(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::e_UpdateState(wxEvtHandler *parent) {
+void CaptureController::e_UpdateState(wxEvtHandler *parent) {
     try {
         AppState state(shared);
         UpdateStateEvent::Submit(parent, state);
@@ -41,7 +40,7 @@ void CaptureModel::e_UpdateState(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::e_ClearImageData(wxEvtHandler *parent) {
+void CaptureController::e_ClearImageData(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -57,7 +56,7 @@ void CaptureModel::e_ClearImageData(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::e_ReplayStart(wxEvtHandler *parent) {
+void CaptureController::e_ReplayStart(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -83,7 +82,7 @@ void CaptureModel::e_ReplayStart(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::e_ReplayEnd(wxEvtHandler *parent) {
+void CaptureController::e_ReplayEnd(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -105,7 +104,7 @@ void CaptureModel::e_ReplayEnd(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::e_CameraStart(wxEvtHandler *parent) {
+void CaptureController::e_CameraStart(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -116,7 +115,7 @@ void CaptureModel::e_CameraStart(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::e_CameraEnd(wxEvtHandler *parent) {
+void CaptureController::e_CameraEnd(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -127,7 +126,8 @@ void CaptureModel::e_CameraEnd(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::e_LoadFileStart(wxEvtHandler *parent, std::string path) {
+void CaptureController::e_LoadFileStart(wxEvtHandler *parent,
+                                        std::string path) {
     try {
 
         checkPreCondition();
@@ -138,7 +138,7 @@ void CaptureModel::e_LoadFileStart(wxEvtHandler *parent, std::string path) {
     }
 }
 
-void CaptureModel::e_LoadFileEnd(wxEvtHandler *parent) {
+void CaptureController::e_LoadFileEnd(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -149,7 +149,7 @@ void CaptureModel::e_LoadFileEnd(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::e_LoadCaptureStart(wxEvtHandler *parent) {
+void CaptureController::e_LoadCaptureStart(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -160,7 +160,7 @@ void CaptureModel::e_LoadCaptureStart(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::e_LoadCaptureEnd(wxEvtHandler *parent) {
+void CaptureController::e_LoadCaptureEnd(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -174,7 +174,7 @@ void CaptureModel::e_LoadCaptureEnd(wxEvtHandler *parent) {
     }
 }
 
-void CaptureModel::startCaptureHandler(wxEvtHandler *parent) {
+void CaptureController::startCaptureHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (!shared->isCameraAvailable()) {
@@ -189,7 +189,7 @@ void CaptureModel::startCaptureHandler(wxEvtHandler *parent) {
     tc->startCaptureHandler(parent, camera, panelID);
 }
 
-void CaptureModel::endCaptureHandler() {
+void CaptureController::endCaptureHandler() {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_CAPTURE)) {
@@ -209,8 +209,8 @@ void CaptureModel::endCaptureHandler() {
     tc->endCaptureHandler();
 }
 
-void CaptureModel::startLoadFileHandler(wxEvtHandler *parent,
-                                        std::string path) {
+void CaptureController::startLoadFileHandler(wxEvtHandler *parent,
+                                             std::string path) {
 
     auto tc = shared->getThreadController();
 
@@ -232,7 +232,7 @@ void CaptureModel::startLoadFileHandler(wxEvtHandler *parent,
     tc->startLoadFileHandler(parent, c.maxFrame, path, panelID);
 }
 
-void CaptureModel::endLoadFileHandler() {
+void CaptureController::endLoadFileHandler() {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_LOAD_FILE)) {
@@ -248,7 +248,7 @@ void CaptureModel::endLoadFileHandler() {
     tc->endLoadFileHandler();
 }
 
-void CaptureModel::startLoadCaptureHandler(wxEvtHandler *parent) {
+void CaptureController::startLoadCaptureHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (!shared->isCameraAvailable()) {
@@ -276,7 +276,7 @@ void CaptureModel::startLoadCaptureHandler(wxEvtHandler *parent) {
                                 captureConfig.maxFrame, panelID);
 }
 
-void CaptureModel::endLoadCaptureHandler() {
+void CaptureController::endLoadCaptureHandler() {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
@@ -296,12 +296,13 @@ void CaptureModel::endLoadCaptureHandler() {
     tc->endLoadCaptureHandler();
 }
 
-void CaptureModel::switchPanelHandler(wxEvtHandler *parent) {
+void CaptureController::switchPanelHandler(wxEvtHandler *parent) {
     //
 }
 
-void CaptureModel::checkPreCondition() {
+void CaptureController::checkPreCondition() {
     if (panelID != shared->sessionData.currentPanelID) {
-        throw std::runtime_error("CaptureModel::endPoint() - PanelID mismatch");
+        throw std::runtime_error(
+            "CaptureController::endPoint() - PanelID mismatch");
     }
 }

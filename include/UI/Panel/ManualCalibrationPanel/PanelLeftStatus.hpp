@@ -8,12 +8,13 @@ class LeftStatusPanel : public TextOutlinePanel {
   public:
     LeftStatusPanel(wxWindow *parent);
 
-    wxButton *accept_Button;
-    wxButton *clear_Button;
+    BitmapButton *left_Button;
+    BitmapButton *clear_Button;
 
   private:
     void OnButtonClicked(wxCommandEvent &e);
 
     wxBoxSizer *hSizer;
     wxBoxSizer *vSizer;
+    wxBoxSizer *buttonSizer;
 };

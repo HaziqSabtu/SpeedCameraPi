@@ -2,6 +2,7 @@
 
 #include "UI/Button/Button_ToggleCamera.hpp"
 #include "UI/Button/Button_wState.hpp"
+#include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelStatusCalib.hpp"
@@ -20,9 +21,7 @@ class ManualCalibrationPanelButton : public wxPanel {
     LeftStatusPanel *left_status_panel;
     RightStatusPanel *right_status_panel;
 
-    wxButton *cancel_Button;
-    wxButton *OK_Button;
-    ButtonWState *camera_Button;
+    OKCancelPanel *ok_cancel_panel;
 
   private:
     wxPanel *button_panel;

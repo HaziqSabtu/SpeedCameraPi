@@ -2,12 +2,12 @@
 
 AppState::AppState() {}
 
-AppState::AppState(modelPtr model) {
+AppState::AppState(ModelPtr model) {
     cameraPanel = getCameraPanelState(model);
     calibrationPanel = getCalibrationPanelState(model);
 }
 
-CameraPanelState AppState::getCameraPanelState(modelPtr model) {
+CameraPanelState AppState::getCameraPanelState(ModelPtr model) {
     CameraPanelState cameraPanelState;
 
     auto isImageEmpty = model->sessionData.isImageDataEmpty();
@@ -23,7 +23,7 @@ CameraPanelState AppState::getCameraPanelState(modelPtr model) {
     return cameraPanelState;
 }
 
-CalibrationPanelState AppState::getCalibrationPanelState(modelPtr model) {
+CalibrationPanelState AppState::getCalibrationPanelState(ModelPtr model) {
     CalibrationPanelState calibrationPanelState;
 
     auto isImageEmpty = model->sessionData.isImageDataEmpty();
@@ -36,7 +36,7 @@ CalibrationPanelState AppState::getCalibrationPanelState(modelPtr model) {
     return calibrationPanelState;
 }
 
-ButtonState AppState::getCaptureButtonState(modelPtr model) {
+ButtonState AppState::getCaptureButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
     if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
         return ButtonState::ACTIVE;
@@ -57,7 +57,7 @@ ButtonState AppState::getCaptureButtonState(modelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getLoadButtonState(modelPtr model) {
+ButtonState AppState::getLoadButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
     if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
         return ButtonState::DISABLED;
@@ -78,7 +78,7 @@ ButtonState AppState::getLoadButtonState(modelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getReplayButtonState(modelPtr model) {
+ButtonState AppState::getReplayButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_REPLAY)) {
@@ -104,7 +104,7 @@ ButtonState AppState::getReplayButtonState(modelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getRemoveButtonState(modelPtr model) {
+ButtonState AppState::getRemoveButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
@@ -126,7 +126,7 @@ ButtonState AppState::getRemoveButtonState(modelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getCameraButtonState(modelPtr model) {
+ButtonState AppState::getCameraButtonState(ModelPtr model) {
 
     auto tc = model->getThreadController();
 
@@ -150,7 +150,7 @@ ButtonState AppState::getCameraButtonState(modelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getCalibrationButtonState(modelPtr model) {
+ButtonState AppState::getCalibrationButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
@@ -177,6 +177,6 @@ ButtonState AppState::getCalibrationButtonState(modelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getRemoveButtonState2(modelPtr model) {
+ButtonState AppState::getRemoveButtonState2(ModelPtr model) {
     return ButtonState::DISABLED;
 }

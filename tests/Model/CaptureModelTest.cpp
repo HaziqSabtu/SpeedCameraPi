@@ -1,5 +1,5 @@
-#include "Model/CaptureModel.hpp"
 #include "../testableframe.h"
+#include "Controller/CaptureController.hpp"
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
 #include "Model/SessionData.hpp"
@@ -135,10 +135,10 @@ class MockLoadCaptureThread : public wxThread {
     }
 };
 
-class MockCaptureModel : public CaptureModel {
+class MockCaptureModel : public CaptureController {
   public:
     MockCaptureModel(std::shared_ptr<SharedModel> shared)
-        : CaptureModel(shared) {}
+        : CaptureController(shared) {}
 
     MockCaptureThread *initCaptureThread(wxEvtHandler *parent,
                                          std::shared_ptr<CameraBase> camera) {

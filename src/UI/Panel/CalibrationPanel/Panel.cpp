@@ -1,3 +1,5 @@
+#include "Controller/CalibrationController.hpp"
+#include "Controller/ColorCalibrationController.hpp"
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_UpdateStatus.hpp"
@@ -13,8 +15,8 @@
 namespace SC = StatusCollection;
 
 CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
-                                   std::unique_ptr<CalibrationModel> &model)
-    : wxPanel(parent, id), model(std::move(model)) {
+                                   CLCPtr &controller)
+    : wxPanel(parent, id), controller(std::move(controller)) {
     button_panel = new CalibrationPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new BaseImagePanel(this);
@@ -27,7 +29,8 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
     main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
     main_sizer->Add(img_bitmap, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
     main_sizer->Add(status_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(button_panel, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    main_sizer->Add(button_panel, 1,
+                    wxEXPAND | wxTOP | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
     SetSizer(main_sizer);
     Fit();
@@ -41,15 +44,15 @@ CalibrationPanel::~CalibrationPanel() {}
 
 void CalibrationPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Cancel_Button_ID) {
-        model->e_ChangeToCapturePanel(this);
+        controller->e_ChangeToCapturePanel(this);
     }
 
     if (e.GetId() == Enum::CL_ChangeManual_Button_ID) {
-        model->e_ChangeToManualPanel(this);
+        controller->e_ChangeToManualPanel(this);
     }
 
     if (e.GetId() == Enum::CL_ChangeColor_Button_ID) {
-        model->e_ChangeToColorPanel(this);
+        controller->e_ChangeToColorPanel(this);
     }
 
     if (e.GetId() == Enum::CL_ToggleCamera_Button_ID) {
@@ -58,22 +61,22 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CL_Start_Button_ID) {
-        model->e_CalibrationStart(this);
+        controller->e_CalibrationStart(this);
     }
 
-    model->e_UpdateState(this);
+    controller->e_UpdateState(this);
 
     e.Skip();
 }
 
 void CalibrationPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        model->e_CameraStart(button);
+        controller->e_CameraStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        model->e_CameraEnd(button);
+        controller->e_CameraEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
@@ -119,7 +122,7 @@ void CalibrationPanel::OnLeftDown(wxMouseEvent &e) {
         if (img_size.x > 0 && img_size.y > 0) {
             int x = pos.x * img_size.x / size.x;
             int y = pos.y * img_size.y / size.y;
-            model->e_SetPoint(this, wxPoint(x, y));
+            controller->e_SetPoint(this, wxPoint(x, y));
         }
     }
 }
@@ -138,7 +141,7 @@ void CalibrationPanel::OnUpdateStatus(UpdateStatusEvent &e) {
 
 void CalibrationPanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
-        model->e_UpdateState(this);
+        controller->e_UpdateState(this);
     }
 }
 

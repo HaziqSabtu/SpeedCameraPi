@@ -12,10 +12,12 @@
 #include <wx/event.h>
 #include <wx/thread.h>
 
-class CalibrationModel {
+#define CLCPtr std::unique_ptr<CalibrationController>
+
+class CalibrationController {
   public:
-    CalibrationModel(std::shared_ptr<SharedModel> sharedModel);
-    ~CalibrationModel();
+    CalibrationController(ModelPtr sharedModel);
+    ~CalibrationController();
 
     void e_UpdateState(wxEvtHandler *parent);
 
@@ -35,7 +37,7 @@ class CalibrationModel {
 
   private:
     static const PanelID panelID = PanelID::PANEL_CALIBRATION;
-    std::shared_ptr<SharedModel> shared;
+    ModelPtr shared;
 
   private:
     void checkPreCondition();

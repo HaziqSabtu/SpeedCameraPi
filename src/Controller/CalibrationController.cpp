@@ -1,8 +1,8 @@
-#include "Model/CalibrationModel.hpp"
 #include "Algorithm/hsv_filter/BFS.hpp"
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Event/Event_UpdateState.hpp"
+#include <Controller/CalibrationController.hpp>
 
 #include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Calibration.hpp"
@@ -13,18 +13,17 @@
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
 #include "Utils/DataStruct.hpp"
-#include <Model/CalibrationModel.hpp>
 #include <memory>
 #include <vector>
 #include <wx/event.h>
 #include <wx/object.h>
 
-CalibrationModel::CalibrationModel(std::shared_ptr<SharedModel> sharedModel)
+CalibrationController::CalibrationController(ModelPtr sharedModel)
     : shared(sharedModel) {}
 
-CalibrationModel::~CalibrationModel() {}
+CalibrationController::~CalibrationController() {}
 
-void CalibrationModel::e_UpdateState(wxEvtHandler *parent) {
+void CalibrationController::e_UpdateState(wxEvtHandler *parent) {
     try {
         AppState state(shared);
         UpdateStateEvent::Submit(parent, state);
@@ -33,14 +32,14 @@ void CalibrationModel::e_UpdateState(wxEvtHandler *parent) {
     }
 }
 
-void CalibrationModel::checkPreCondition() {
+void CalibrationController::checkPreCondition() {
     if (panelID != shared->sessionData.currentPanelID) {
         throw std::runtime_error(
-            "CalibrationModel::endPoint() - PanelID mismatch");
+            "CalibrationController::endPoint() - PanelID mismatch");
     }
 }
 
-void CalibrationModel::e_CameraStart(wxEvtHandler *parent) {
+void CalibrationController::e_CameraStart(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -51,7 +50,7 @@ void CalibrationModel::e_CameraStart(wxEvtHandler *parent) {
     }
 }
 
-void CalibrationModel::e_CameraEnd(wxEvtHandler *parent) {
+void CalibrationController::e_CameraEnd(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -62,7 +61,7 @@ void CalibrationModel::e_CameraEnd(wxEvtHandler *parent) {
     }
 }
 
-void CalibrationModel::e_ChangeToCapturePanel(wxEvtHandler *parent) {
+void CalibrationController::e_ChangeToCapturePanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
@@ -72,7 +71,7 @@ void CalibrationModel::e_ChangeToCapturePanel(wxEvtHandler *parent) {
     }
 }
 
-void CalibrationModel::e_ChangeToManualPanel(wxEvtHandler *parent) {
+void CalibrationController::e_ChangeToManualPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         ChangePanelData data(this->panelID, PanelID::PANEL_MANUAL_CALIBRATION);
@@ -82,7 +81,7 @@ void CalibrationModel::e_ChangeToManualPanel(wxEvtHandler *parent) {
     }
 }
 
-void CalibrationModel::e_ChangeToColorPanel(wxEvtHandler *parent) {
+void CalibrationController::e_ChangeToColorPanel(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -94,7 +93,7 @@ void CalibrationModel::e_ChangeToColorPanel(wxEvtHandler *parent) {
     }
 }
 
-void CalibrationModel::e_CalibrationStart(wxEvtHandler *parent) {
+void CalibrationController::e_CalibrationStart(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -106,7 +105,7 @@ void CalibrationModel::e_CalibrationStart(wxEvtHandler *parent) {
     }
 }
 
-void CalibrationModel::e_CalibrationEnd(wxEvtHandler *parent) {
+void CalibrationController::e_CalibrationEnd(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
@@ -118,7 +117,7 @@ void CalibrationModel::e_CalibrationEnd(wxEvtHandler *parent) {
     }
 }
 
-void CalibrationModel::e_SetPoint(wxEvtHandler *parent, wxPoint point) {
+void CalibrationController::e_SetPoint(wxEvtHandler *parent, wxPoint point) {
     try {
 
         checkPreCondition();
@@ -130,7 +129,7 @@ void CalibrationModel::e_SetPoint(wxEvtHandler *parent, wxPoint point) {
     }
 }
 
-void CalibrationModel::startCalibrationHandler(wxEvtHandler *parent) {
+void CalibrationController::startCalibrationHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (!shared->isCameraAvailable()) {
@@ -155,7 +154,7 @@ void CalibrationModel::startCalibrationHandler(wxEvtHandler *parent) {
                                 panelID);
 }
 
-void CalibrationModel::endCalibrationHandler() {
+void CalibrationController::endCalibrationHandler() {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_CALIBRATION)) {
@@ -176,7 +175,7 @@ void CalibrationModel::endCalibrationHandler() {
     tc->endCalibrationHandler();
 }
 
-void CalibrationModel::startCaptureHandler(wxEvtHandler *parent) {
+void CalibrationController::startCaptureHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (!shared->isCameraAvailable()) {
@@ -191,7 +190,7 @@ void CalibrationModel::startCaptureHandler(wxEvtHandler *parent) {
     tc->startCaptureHandler(parent, camera, panelID);
 }
 
-void CalibrationModel::endCaptureHandler() {
+void CalibrationController::endCaptureHandler() {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_CAPTURE)) {
@@ -211,7 +210,8 @@ void CalibrationModel::endCaptureHandler() {
     tc->endCaptureHandler();
 }
 
-void CalibrationModel::setPointHandler(wxEvtHandler *parent, cv::Point point) {
+void CalibrationController::setPointHandler(wxEvtHandler *parent,
+                                            cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_CALIBRATION)) {

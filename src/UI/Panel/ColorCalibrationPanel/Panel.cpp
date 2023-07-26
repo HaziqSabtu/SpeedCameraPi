@@ -1,4 +1,5 @@
 #include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
+#include "Controller/ColorCalibrationController.hpp"
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_UpdateStatus.hpp"
@@ -14,9 +15,10 @@
 
 namespace SC = StatusCollection;
 
-ColorCalibrationPanel::ColorCalibrationPanel(
-    wxWindow *parent, wxWindowID id, std::unique_ptr<CalibrationModel> &model)
-    : wxPanel(parent, id), model(std::move(model)) {
+ColorCalibrationPanel::ColorCalibrationPanel(wxWindow *parent, wxWindowID id,
+                                             CCCPtr &controller)
+    : wxPanel(parent, id), controller(std::move(controller)) {
+
     button_panel =
         new ColorCalibrationPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
 
@@ -28,9 +30,9 @@ ColorCalibrationPanel::ColorCalibrationPanel(
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(img_bitmap, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    main_sizer->Add(img_bitmap, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
     main_sizer->Add(status_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(button_panel, 0, wxEXPAND | wxALL, 10);
+    main_sizer->Add(button_panel, 1, wxEXPAND | wxALL, 10);
 
     SetSizer(main_sizer);
     Fit();
@@ -41,12 +43,12 @@ ColorCalibrationPanel::ColorCalibrationPanel(
 ColorCalibrationPanel::~ColorCalibrationPanel() {}
 
 void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
-    if (e.GetId() == Enum::CL_Back_Button_ID) {
-        model->e_ChangeToCapturePanel(button_panel->cancel_Button);
+    if (e.GetId() == Enum::G_Cancel_Button_ID) {
+        controller->e_ChangeToCalibrationPanel(this);
     }
 
     if (e.GetId() == Enum::CL_ToggleCamera_Button_ID) {
-        ButtonWState *button = button_panel->camera_Button;
+        // ButtonWState *button = button_panel->camera_Button;
         // model->e_ToggleCamera(button, button->GetState());
     }
 
@@ -97,7 +99,7 @@ void ColorCalibrationPanel::OnLeftDown(wxMouseEvent &e) {
         if (img_size.x > 0 && img_size.y > 0) {
             int x = pos.x * img_size.x / size.x;
             int y = pos.y * img_size.y / size.y;
-            model->e_SetPoint(this, wxPoint(x, y));
+            // model->e_SetPoint(this, wxPoint(x, y));
         }
     }
 }

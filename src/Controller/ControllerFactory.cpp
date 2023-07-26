@@ -1,10 +1,15 @@
+#include "Controller/CalibrationController.hpp"
+#include "Controller/CaptureController.hpp"
+#include "Controller/ManualCalibrationController.hpp"
+#include "Model/SharedModel.hpp"
 #include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Controller.hpp"
 #include "Utils/Camera/CameraBase.hpp"
-#include <Model/ModelFactory.hpp>
+#include <Controller/ControllerFactory.hpp>
 #include <memory>
 
-ModelFactory::ModelFactory(wxWindow *parent) {
+ControllerFactory::ControllerFactory(wxWindow *parent) {
+
     sharedModel = std::make_shared<SharedModel>();
 
     AppConfig config;
@@ -33,20 +38,26 @@ ModelFactory::ModelFactory(wxWindow *parent) {
     sharedModel->setThreadController(threadController);
 }
 
-ModelFactory::~ModelFactory() { sharedModel = nullptr; }
+ControllerFactory::~ControllerFactory() { sharedModel = nullptr; }
 
-std::unique_ptr<CaptureModel> ModelFactory::createCaptureModel() {
-    return std::make_unique<CaptureModel>(sharedModel);
+CPCPtr ControllerFactory::createCaptureModel() {
+    return std::make_unique<CaptureController>(sharedModel);
 }
 
-std::unique_ptr<RoiModel> ModelFactory::createRoiModel() {
+std::unique_ptr<RoiModel> ControllerFactory::createRoiModel() {
     return std::make_unique<RoiModel>(sharedModel);
 }
 
-std::shared_ptr<SharedModel> ModelFactory::getSharedModel() {
-    return sharedModel;
+ModelPtr ControllerFactory::getSharedModel() { return sharedModel; }
+
+CLCPtr ControllerFactory::createCalibrationModel() {
+    return std::make_unique<CalibrationController>(sharedModel);
 }
 
-std::unique_ptr<CalibrationModel> ModelFactory::createCalibrationModel() {
-    return std::make_unique<CalibrationModel>(sharedModel);
+MCCPtr ControllerFactory::createManualCalibrationController() {
+    return std::make_unique<ManualCalibrationController>(sharedModel);
+}
+
+CCCPtr ControllerFactory::createColorCalibrationController() {
+    return std::make_unique<ColorCalibrationController>(sharedModel);
 }

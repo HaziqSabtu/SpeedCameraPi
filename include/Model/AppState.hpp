@@ -6,8 +6,6 @@ enum ButtonState { NORMAL, ACTIVE, DISABLED, ON, OFF };
 
 enum PanelState { PANEL_NOT_OK, PANEL_OK };
 
-#define modelPtr std::shared_ptr<SharedModel>
-
 struct CameraPanelState {
     PanelState state;
     ButtonState captureButtonState;
@@ -28,21 +26,21 @@ struct CalibrationPanelState {
 class AppState {
   public:
     AppState();
-    AppState(modelPtr model);
+    AppState(ModelPtr model);
 
-    CameraPanelState getCameraPanelState(modelPtr model);
-    CalibrationPanelState getCalibrationPanelState(modelPtr model);
+    CameraPanelState getCameraPanelState(ModelPtr model);
+    CalibrationPanelState getCalibrationPanelState(ModelPtr model);
 
   public:
     CameraPanelState cameraPanel;
     CalibrationPanelState calibrationPanel;
 
   private:
-    ButtonState getCaptureButtonState(modelPtr model);
-    ButtonState getLoadButtonState(modelPtr model);
-    ButtonState getReplayButtonState(modelPtr model);
-    ButtonState getRemoveButtonState(modelPtr model);
-    ButtonState getRemoveButtonState2(modelPtr model);
-    ButtonState getCameraButtonState(modelPtr model);
-    ButtonState getCalibrationButtonState(modelPtr model);
+    ButtonState getCaptureButtonState(ModelPtr model);
+    ButtonState getLoadButtonState(ModelPtr model);
+    ButtonState getReplayButtonState(ModelPtr model);
+    ButtonState getRemoveButtonState(ModelPtr model);
+    ButtonState getRemoveButtonState2(ModelPtr model);
+    ButtonState getCameraButtonState(ModelPtr model);
+    ButtonState getCalibrationButtonState(ModelPtr model);
 };

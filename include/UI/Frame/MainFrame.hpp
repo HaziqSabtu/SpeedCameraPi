@@ -6,7 +6,7 @@
 #include "UI/Panel/CalibrationPanel/Panel.hpp"
 #include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
-#include <Model/ModelFactory.hpp>
+#include <Controller/ControllerFactory.hpp>
 
 #include <UI/Panel/CapturePanel/Panel.hpp>
 #include <UI/Panel/RoiPanel/Panel.hpp>

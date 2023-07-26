@@ -64,6 +64,33 @@ const BitmapData BitmapUser = {
     .text = wxT("Manual Calibration"),
 };
 
+const BitmapData BitmapL = {
+    .filename = wxT("Assets/l_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Select Left"),
+};
+
+const BitmapData BitmapR = {
+    .filename = wxT("Assets/r_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Select Right"),
+};
+
+const BitmapData BitmapPreview = {
+    .filename = wxT("Assets/preview_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Preview"),
+};
+
 // BitmapButtonT2 Data
 const BitmapDataT2 BitmapT2Camera = {
     .size = T::BitmapDefaultSize,

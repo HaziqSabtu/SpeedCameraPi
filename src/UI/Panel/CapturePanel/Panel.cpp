@@ -1,3 +1,4 @@
+#include "Controller/CaptureController.hpp"
 #include "Event/Event_Capture.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_Error.hpp"
@@ -15,9 +16,8 @@
 #include <wx/event.h>
 #include <wx/gdicmn.h>
 
-CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id,
-                           std::unique_ptr<CaptureModel> &model)
-    : wxPanel(parent, id), model(std::move(model)) {
+CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr &controller)
+    : wxPanel(parent, id), controller(std::move(controller)) {
     button_panel = new CaptureButtonPanel(this, Enum::CP_BUTTON_PANEL_ID);
 
     img_bitmap = new BaseImagePanel(this);
@@ -57,11 +57,11 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
         }
 
         if (e.GetId() == Enum::CP_Reset_Button_ID) {
-            model->e_ClearImageData(this);
+            controller->e_ClearImageData(this);
         }
 
         if (e.GetId() == Enum::CP_Replay_Button_ID) {
-            model->e_ReplayStart(this);
+            controller->e_ReplayStart(this);
         }
 
         // TODO: Change panel
@@ -70,10 +70,10 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
         }
 
         if (e.GetId() == Enum::CP_CALIBRATE_Button_ID) {
-            model->e_ChangeToCalibPanel(this);
+            controller->e_ChangeToCalibPanel(this);
         }
 
-        model->e_UpdateState(this);
+        controller->e_UpdateState(this);
 
         e.Skip();
     } catch (std::exception &e) {
@@ -91,21 +91,21 @@ void CapturePanel::OnLoadButton(ButtonWState *button) {
     }
 
     std::string path = Utils::wxStringToString(openFileDialog.GetPath());
-    model->e_LoadFileStart(this, path);
+    controller->e_LoadFileStart(this, path);
 }
 
 void CapturePanel::OnCaptureButton(wxButton *button) {
-    model->e_LoadCaptureStart(this);
+    controller->e_LoadCaptureStart(this);
 }
 
 void CapturePanel::OnToggleCameraButton(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        model->e_CameraStart(button);
+        controller->e_CameraStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        model->e_CameraEnd(button);
+        controller->e_CameraEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
@@ -129,14 +129,14 @@ void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     }
 
     if (e.GetId() == LOAD_END_FILE) {
-        model->e_LoadFileEnd(this);
+        controller->e_LoadFileEnd(this);
     }
 
     if (e.GetId() == LOAD_END_CAMERA) {
-        model->e_LoadCaptureEnd(this);
+        controller->e_LoadCaptureEnd(this);
     }
 
-    model->e_UpdateState(this);
+    controller->e_UpdateState(this);
 
     e.Skip();
 }
@@ -160,17 +160,17 @@ void CapturePanel::OnReplay(wxCommandEvent &e) {
     }
 
     if (e.GetId() == REPLAY_END) {
-        model->e_ReplayEnd(this);
+        controller->e_ReplayEnd(this);
         UpdateStatusEvent::Submit(this, StatusCollection::STATUS_REPLAY_END);
     }
 
-    model->e_UpdateState(this);
+    controller->e_UpdateState(this);
     e.Skip();
 }
 
 void CapturePanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
-        model->e_UpdateState(this);
+        controller->e_UpdateState(this);
     }
 }
 

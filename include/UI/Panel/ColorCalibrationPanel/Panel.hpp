@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Controller/ColorCalibrationController.hpp"
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationModel.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Button/Button_Exit.hpp"
 #include "UI/Layout/StatusPanel.hpp"
@@ -23,14 +23,13 @@
 
 class ColorCalibrationPanel : public wxPanel {
   public:
-    ColorCalibrationPanel(wxWindow *parent, wxWindowID id,
-                          std::unique_ptr<CalibrationModel> &model);
+    ColorCalibrationPanel(wxWindow *parent, wxWindowID id, CCCPtr &controller);
     ~ColorCalibrationPanel();
 
   private:
     const PanelID panel_id = PANEL_COLOR_CALIBRATION;
 
-    std::unique_ptr<CalibrationModel> model;
+    CCCPtr controller;
 
     BaseImagePanel *img_bitmap;
 

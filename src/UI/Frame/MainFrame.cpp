@@ -1,6 +1,5 @@
+#include "Controller/ControllerFactory.hpp"
 #include "Event/Event_ChangePanel.hpp"
-#include "Model/CalibrationModel.hpp"
-#include "Model/ModelFactory.hpp"
 #include "Model/SessionData.hpp"
 #include "Model/SharedModel.hpp"
 #include "UI/Dialog/ConfirmationDialog.hpp"
@@ -34,29 +33,28 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     // Show the frame
     ShowFullScreen(true);
 
-    ModelFactory modelFactory(this);
-    sharedModel = modelFactory.getSharedModel();
+    ControllerFactory factory(this);
+    sharedModel = factory.getSharedModel();
 
-    auto captureModel = modelFactory.createCaptureModel();
+    auto captureModel = factory.createCaptureModel();
     capture_panel = new CapturePanel(this, Enum::CP_Panel_ID, captureModel);
     panels[PANEL_CAPTURE] = capture_panel;
 
-    auto roiModel = modelFactory.createRoiModel();
+    auto roiModel = factory.createRoiModel();
     roi_panel = new RoiPanel(this, Enum::CP_Panel_ID, roiModel);
     panels[PANEL_ROI] = roi_panel;
 
-    auto calibrationModel = modelFactory.createCalibrationModel();
+    auto calibrationModel = factory.createCalibrationModel();
     calibration_panel =
         new CalibrationPanel(this, Enum::CP_Panel_ID, calibrationModel);
     panels[PANEL_CALIBRATION] = calibration_panel;
 
-    std::unique_ptr<CalibrationModel> manualCalibrationModel = nullptr;
-    manual_calibration_panel =
-        new ManualCalibrationPanel(this, wxID_ANY, manualCalibrationModel);
+    auto mcc = factory.createManualCalibrationController();
+    manual_calibration_panel = new ManualCalibrationPanel(this, wxID_ANY, mcc);
     panels[PANEL_MANUAL_CALIBRATION] = manual_calibration_panel;
 
-    color_calibration_panel =
-        new ColorCalibrationPanel(this, wxID_ANY, manualCalibrationModel);
+    auto ccc = factory.createColorCalibrationController();
+    color_calibration_panel = new ColorCalibrationPanel(this, wxID_ANY, ccc);
     panels[PANEL_COLOR_CALIBRATION] = color_calibration_panel;
 
     sizer = new wxBoxSizer(wxVERTICAL);

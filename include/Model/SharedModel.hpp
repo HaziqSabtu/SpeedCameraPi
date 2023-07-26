@@ -23,6 +23,8 @@
 #include <wx/gdicmn.h>
 #include <wx/wx.h>
 
+#define ModelPtr std::shared_ptr<SharedModel>
+
 class ISharedModel {
   public:
     virtual ~ISharedModel() = default;
