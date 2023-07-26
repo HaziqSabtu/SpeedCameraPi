@@ -8,6 +8,7 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CalibrationPanel/Panel.hpp>
 #include <stdexcept>
+#include <wx/event.h>
 
 namespace SC = StatusCollection;
 
@@ -52,15 +53,30 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CL_ToggleCamera_Button_ID) {
-        ButtonWState *button = button_panel->camera_Button;
-        model->e_ToggleCamera(button, button->GetState());
+        auto button = button_panel->cPanel->camera_Button;
+        OnToggleCameraButton(button);
     }
 
     if (e.GetId() == Enum::CL_Start_Button_ID) {
-        model->e_StartCalibration(button_panel->start_Button);
+        model->e_CalibrationStart(button_panel->start_Button);
     }
 
+    model->e_UpdateState(this);
+
     e.Skip();
+}
+
+void CalibrationPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        model->e_CameraStart(button);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        model->e_CameraEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
 }
 
 void CalibrationPanel::OnUpdatePreview(UpdatePreviewEvent &e) {
@@ -108,10 +124,21 @@ void CalibrationPanel::OnLeftDown(wxMouseEvent &e) {
     }
 }
 
+void CalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
+    auto state = e.GetState();
+    button_panel->cPanel->update(state);
+    Refresh();
+}
+
 void CalibrationPanel::OnUpdateStatus(UpdateStatusEvent &e) {
-    if (e.GetId() == UPDATE_STATUS) {
-        wxString status = e.GetStatus();
-        status_panel->SetText(status);
+    auto status = e.GetStatus();
+    status_panel->SetText(status);
+    Refresh();
+}
+
+void CalibrationPanel::OnShow(wxShowEvent &e) {
+    if (e.IsShown()) {
+        model->e_UpdateState(this);
     }
 }
 
@@ -119,7 +146,9 @@ void CalibrationPanel::OnUpdateStatus(UpdateStatusEvent &e) {
 wxBEGIN_EVENT_TABLE(CalibrationPanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, CalibrationPanel::OnUpdatePreview)
     EVT_UPDATE_STATUS(wxID_ANY, CalibrationPanel::OnUpdateStatus)
+    EVT_UPDATE_STATE(wxID_ANY, CalibrationPanel::OnUpdateState)
     EVT_BUTTON(wxID_ANY,CalibrationPanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, CalibrationPanel::OnCalibrationEvent)
     EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, CalibrationPanel::OnCapture)
+    EVT_SHOW(CalibrationPanel::OnShow)
 wxEND_EVENT_TABLE()

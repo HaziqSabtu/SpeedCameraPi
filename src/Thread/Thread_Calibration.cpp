@@ -95,3 +95,5 @@ std::unique_ptr<CameraBase> CalibrationThread::getCamera() {
 }
 
 void CalibrationThread::setPoint(cv::Point point) { bfs.setStart(point); }
+
+ThreadID CalibrationThread::getID() const { return threadID; }

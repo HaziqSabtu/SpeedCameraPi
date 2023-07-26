@@ -19,6 +19,7 @@ void ThreadController::initThread() {
     loadCaptureThread = nullptr;
     loadFileThread = nullptr;
     replayThread = nullptr;
+    calibrationThread = nullptr;
 };
 
 void ThreadController::deleteThread() {
@@ -26,6 +27,7 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(loadCaptureThread);
     stopAndDeleteThread(loadFileThread);
     stopAndDeleteThread(replayThread);
+    stopAndDeleteThread(calibrationThread);
 };
 
 bool ThreadController::isThreadNullptr(ThreadID threadID) {
@@ -45,6 +47,10 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return replayThread == nullptr;
     }
 
+    if (threadID == ThreadID::THREAD_CALIBRATION) {
+        return calibrationThread == nullptr;
+    }
+
     throw std::runtime_error(
         "ThreadController::isThreadNullptr() - Invalid ThreadID");
 }
@@ -57,7 +63,8 @@ bool ThreadController::isThreadOwner(ThreadID threadID, PanelID panelID) {
 }
 
 bool ThreadController::isThreadsWithCameraNullptr() {
-    return captureThread == nullptr && loadCaptureThread == nullptr;
+    return captureThread == nullptr && loadCaptureThread == nullptr &&
+           loadFileThread == nullptr && calibrationThread == nullptr;
 }
 
 void ThreadController::startCaptureHandler(wxEvtHandler *parent,
@@ -114,6 +121,10 @@ LoadFileThread *ThreadController::getLoadFileThread() { return loadFileThread; }
 
 ReplayThread *ThreadController::getReplayThread() { return replayThread; }
 
+CalibrationThread *ThreadController::getCalibrationThread() {
+    return calibrationThread;
+}
+
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
                                             std::string path, PanelID panelID) {
 
@@ -126,6 +137,21 @@ void ThreadController::startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
 
 void ThreadController::endLoadFileHandler() {
     loadFileThread = stopAndDeleteThread(loadFileThread);
+}
+
+void ThreadController::startCalibrationHandler(
+    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
+    HSVFilter &hsvFilter, BFS &bfs, RansacLine &ransac, PanelID panelID) {
+
+    calibrationThread =
+        new CalibrationThread(parent, camera, hsvFilter, bfs, ransac);
+    calibrationThread->Run();
+
+    owner[calibrationThread->getID()] = panelID;
+}
+
+void ThreadController::endCalibrationHandler() {
+    calibrationThread = stopAndDeleteThread(calibrationThread);
 }
 
 template <typename T>

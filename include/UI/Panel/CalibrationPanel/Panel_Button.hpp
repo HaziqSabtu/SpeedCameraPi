@@ -2,9 +2,11 @@
 
 #include "UI/Button/Button_ToggleCamera.hpp"
 #include "UI/Button/Button_wState.hpp"
+#include "UI/Panel/CalibrationPanel/PanelStatusCalib.hpp"
 #include <Utils/Enum.hpp>
 
 #include <wx/gtk/button.h>
+#include <wx/sizer.h>
 #include <wx/wx.h>
 
 class CalibrationPanelButton : public wxPanel {
@@ -17,6 +19,8 @@ class CalibrationPanelButton : public wxPanel {
     wxButton *OK_Button;
     ButtonWState *camera_Button;
 
+    CalibrationMainStatusPanel *cPanel;
+
   private:
     wxPanel *button_panel;
     wxStaticText *Spacer;
@@ -26,6 +30,8 @@ class CalibrationPanelButton : public wxPanel {
     wxBoxSizer *left_sizer;
     wxBoxSizer *right_sizer;
     wxBoxSizer *button_sizer;
+
+    wxBoxSizer *main_sizer;
 
     DECLARE_EVENT_TABLE();
 };

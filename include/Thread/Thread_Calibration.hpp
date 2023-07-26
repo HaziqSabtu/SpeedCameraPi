@@ -3,6 +3,7 @@
 #include "Algorithm/hsv_filter/BFS.hpp"
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Algorithm/ransac_line/RansacLine.hpp"
+#include "Thread/Thread_ID.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
 
@@ -26,12 +27,16 @@ class CalibrationThread : public wxThread {
 
     void setPoint(cv::Point point);
 
+    ThreadID getID() const;
+
   protected:
     virtual ExitCode Entry();
 
   private:
     wxEvtHandler *parent;
     std::unique_ptr<CameraBase> camera;
+
+    const ThreadID threadID = ThreadID::THREAD_CALIBRATION;
 
     HSVFilter hsvFilter;
     BFS bfs;

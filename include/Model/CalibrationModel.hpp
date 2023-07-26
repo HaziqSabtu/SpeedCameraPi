@@ -17,7 +17,15 @@ class CalibrationModel {
     CalibrationModel(std::shared_ptr<SharedModel> sharedModel);
     ~CalibrationModel();
 
-    void e_ToggleCamera(wxEvtHandler *parent, bool state);
+    void e_UpdateState(wxEvtHandler *parent);
+
+    void e_SetPoint(wxEvtHandler *parent, wxPoint point);
+
+    void e_CameraStart(wxEvtHandler *parent);
+    void e_CameraEnd(wxEvtHandler *parent);
+
+    void e_CalibrationStart(wxEvtHandler *parent);
+    void e_CalibrationEnd(wxEvtHandler *parent);
 
     void e_ChangeToCapturePanel(wxEvtHandler *parent);
 
@@ -25,43 +33,18 @@ class CalibrationModel {
 
     void e_ChangeToColorPanel(wxEvtHandler *parent);
 
-    void e_StartCalibration(wxEvtHandler *parent);
-
-    void e_SetPoint(wxEvtHandler *parent, wxPoint point);
-
   private:
     static const PanelID panelID = PanelID::PANEL_CALIBRATION;
-
     std::shared_ptr<SharedModel> shared;
 
-    CaptureThread *captureThread;
-    CalibrationThread *calibrationThread;
-
   private:
-    void initThreads();
-    void deleteThreads();
-
     void checkPreCondition();
 
     void startCaptureHandler(wxEvtHandler *parent);
-
-    virtual CaptureThread *
-    initCaptureThread(wxEvtHandler *parent,
-                      std::unique_ptr<CameraBase> &camera);
     void endCaptureHandler();
 
-    void switchPanelHandler(wxEvtHandler *parent, PanelID target);
-    virtual bool isRequirementFulfilled();
-
     void startCalibrationHandler(wxEvtHandler *parent);
+    void endCalibrationHandler();
 
     void setPointHandler(wxEvtHandler *parent, cv::Point point);
-
-    virtual CalibrationThread *
-    initCalibrationThread(wxEvtHandler *parent,
-                          std::unique_ptr<CameraBase> &camera,
-                          HSVFilter &hsvFilter, BFS &bfs, RansacLine &ransac);
-
-    template <typename T>
-    T *stopAndDeleteThread(T *threadPtr);
 };

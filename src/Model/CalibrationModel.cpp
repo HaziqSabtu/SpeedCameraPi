@@ -2,9 +2,12 @@
 #include "Algorithm/hsv_filter/BFS.hpp"
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Algorithm/ransac_line/RansacLine.hpp"
+#include "Event/Event_UpdateState.hpp"
+
 #include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
+#include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_LoadFile.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
@@ -17,35 +20,17 @@
 #include <wx/object.h>
 
 CalibrationModel::CalibrationModel(std::shared_ptr<SharedModel> sharedModel)
-    : shared(sharedModel) {
-    initThreads();
-}
+    : shared(sharedModel) {}
 
-CalibrationModel::~CalibrationModel() {
+CalibrationModel::~CalibrationModel() {}
+
+void CalibrationModel::e_UpdateState(wxEvtHandler *parent) {
     try {
-        deleteThreads();
+        AppState state = shared->getAppState();
+        UpdateStateEvent::Submit(parent, state);
     } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
+        ErrorEvent::Submit(parent, e.what());
     }
-}
-
-void CalibrationModel::initThreads() {
-    captureThread = nullptr;
-    calibrationThread = nullptr;
-}
-
-void CalibrationModel::deleteThreads() {
-    if (captureThread != nullptr) {
-        std::unique_ptr<CameraBase> camera = captureThread->getCamera();
-        shared->setCamera(camera);
-        captureThread = stopAndDeleteThread(captureThread);
-    }
-
-    if (calibrationThread != nullptr) {
-        std::unique_ptr<CameraBase> camera = calibrationThread->getCamera();
-        shared->setCamera(camera);
-    }
-    calibrationThread = stopAndDeleteThread(calibrationThread);
 }
 
 void CalibrationModel::checkPreCondition() {
@@ -55,13 +40,23 @@ void CalibrationModel::checkPreCondition() {
     }
 }
 
-void CalibrationModel::e_ToggleCamera(wxEvtHandler *parent, bool state) {
+void CalibrationModel::e_CameraStart(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
 
-        !state ? startCaptureHandler(parent) : endCaptureHandler();
+        startCaptureHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
 
+void CalibrationModel::e_CameraEnd(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        endCaptureHandler();
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -71,9 +66,8 @@ void CalibrationModel::e_ChangeToCapturePanel(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
-
-        switchPanelHandler(parent, PanelID::PANEL_CAPTURE);
-
+        ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
+        ChangePanelEvent::Submit(parent, data);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -83,9 +77,8 @@ void CalibrationModel::e_ChangeToManualPanel(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
-
-        switchPanelHandler(parent, PanelID::PANEL_MANUAL_CALIBRATION);
-
+        ChangePanelData data(this->panelID, PanelID::PANEL_MANUAL_CALIBRATION);
+        ChangePanelEvent::Submit(parent, data);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -96,19 +89,31 @@ void CalibrationModel::e_ChangeToColorPanel(wxEvtHandler *parent) {
 
         checkPreCondition();
 
-        switchPanelHandler(parent, PanelID::PANEL_COLOR_CALIBRATION);
+        ChangePanelData data(this->panelID, PanelID::PANEL_COLOR_CALIBRATION);
+        ChangePanelEvent::Submit(parent, data);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CalibrationModel::e_CalibrationStart(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        startCalibrationHandler(parent);
 
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
-void CalibrationModel::e_StartCalibration(wxEvtHandler *parent) {
+void CalibrationModel::e_CalibrationEnd(wxEvtHandler *parent) {
     try {
 
         checkPreCondition();
 
-        startCalibrationHandler(parent);
+        endCalibrationHandler();
 
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -127,89 +132,99 @@ void CalibrationModel::e_SetPoint(wxEvtHandler *parent, wxPoint point) {
     }
 }
 
-template <typename T>
-T *CalibrationModel::stopAndDeleteThread(T *threadPtr) {
-    if (threadPtr == nullptr) {
-        return nullptr;
-    }
-
-    threadPtr->Delete();
-    delete threadPtr;
-    threadPtr = nullptr;
-
-    return threadPtr;
-}
-
-void CalibrationModel::switchPanelHandler(wxEvtHandler *parent,
-                                          PanelID target) {
-    if (!isRequirementFulfilled()) {
-        throw std::runtime_error("Requirement is not fulfilled");
-    }
-
-    deleteThreads();
-
-    ChangePanelData data(this->panelID, target);
-    ChangePanelEvent::Submit(parent, data);
-}
-
 void CalibrationModel::startCalibrationHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
     if (!shared->isCameraAvailable()) {
         throw std::runtime_error("Camera is not available");
     }
 
-    if (calibrationThread != nullptr || captureThread != nullptr) {
-        throw std::runtime_error("calibrationThread is already running");
+    if (!tc->isThreadsWithCameraNullptr()) {
+        throw std::runtime_error("Thread with camera is already running");
     }
 
-    std::unique_ptr<CameraBase> camera = shared->getCamera();
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        throw std::runtime_error("CalibrationThread is already running");
+    }
+
+    auto camera = shared->getCamera();
 
     HSVFilter filter;
     BFS bfs;
     RansacLine ransacLine(500, 50, 8);
-    calibrationThread =
-        initCalibrationThread(parent, camera, filter, bfs, ransacLine);
-    calibrationThread->Run();
+
+    tc->startCalibrationHandler(parent, camera, filter, bfs, ransacLine,
+                                panelID);
 }
 
-bool CalibrationModel::isRequirementFulfilled() { return true; }
+void CalibrationModel::endCalibrationHandler() {
+    auto tc = shared->getThreadController();
 
-void CalibrationModel::startCaptureHandler(wxEvtHandler *parent) {
-    if (!shared->isCameraAvailable()) {
-        throw std::runtime_error("Camera is not available");
+    if (tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        throw std::runtime_error("CalibrationThread is not running");
     }
 
-    if (captureThread != nullptr || calibrationThread != nullptr) {
+    if (!tc->isThreadOwner(THREAD_CALIBRATION, panelID)) {
+        throw std::runtime_error(
+            "CalibrationThread is not owned by this panel");
+    }
+
+    auto loadCaptureThread = tc->getLoadCaptureThread();
+    loadCaptureThread->Pause();
+
+    auto camera = loadCaptureThread->getCamera();
+    shared->setCamera(camera);
+
+    tc->endCalibrationHandler();
+}
+
+void CalibrationModel::startCaptureHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!shared->isCameraAvailable()) {
+        throw std::runtime_error("Error acquiring camera");
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
         throw std::runtime_error("captureThread is already running");
     }
 
-    std::unique_ptr<CameraBase> camera = shared->getCamera();
-    captureThread = initCaptureThread(parent, camera);
-    captureThread->Run();
+    auto camera = shared->getCamera();
+    tc->startCaptureHandler(parent, camera, panelID);
 }
 
 void CalibrationModel::endCaptureHandler() {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_CAPTURE)) {
+        throw std::runtime_error("captureThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_CAPTURE, panelID)) {
+        throw std::runtime_error("captureThread is not owned by this panel");
+    }
+
+    auto captureThread = tc->getCaptureThread();
     captureThread->Pause();
-    std::unique_ptr<CameraBase> camera = captureThread->getCamera();
+
+    auto camera = captureThread->getCamera();
     shared->setCamera(camera);
-    captureThread = stopAndDeleteThread(captureThread);
+
+    tc->endCaptureHandler();
 }
 
 void CalibrationModel::setPointHandler(wxEvtHandler *parent, cv::Point point) {
-    if (calibrationThread == nullptr) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_CALIBRATION)) {
         throw std::runtime_error("calibrationThread is not running");
     }
 
+    if (!tc->isThreadOwner(THREAD_CALIBRATION, panelID)) {
+        throw std::runtime_error(
+            "calibrationThread is not owned by this panel");
+    }
+
+    auto calibrationThread = tc->getCalibrationThread();
     calibrationThread->setPoint(point);
-}
-
-CaptureThread *
-CalibrationModel::initCaptureThread(wxEvtHandler *parent,
-                                    std::unique_ptr<CameraBase> &camera) {
-    return new CaptureThread(parent, camera);
-}
-
-CalibrationThread *CalibrationModel::initCalibrationThread(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    HSVFilter &filter, BFS &bfs, RansacLine &ransac) {
-    return new CalibrationThread(parent, camera, filter, bfs, ransac);
 }

@@ -1,3 +1,8 @@
+#include "Model/AppState.hpp"
+#include "UI/Button/BitmapButton/Bitmap_Calibration.hpp"
+#include "UI/Button/BitmapButton/Button_Remove.hpp"
+#include "UI/Button/BitmapButton/Type2/Button_Calibration.hpp"
+#include "UI/Button/BitmapButton/Type2/Button_Camera.hpp"
 #include "UI/Button/Button_Default.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/StaticText/RichText.hpp"
@@ -8,13 +13,18 @@ CalibrationMainStatusPanel::CalibrationMainStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_NONE) {
 
     calibrate_Button =
-        new DefaultButton(this, Enum::CP_CALIBRATE_Button_ID, "Calibrate");
-    reset_Button = new DefaultButton(this, wxID_ANY, "Reset Calibration");
+        new BitmapCalibration(this, Enum::CP_CALIBRATE_Button_ID);
+    reset_Button = new BitmapRemove(this, wxID_ANY);
+    camera_Button = new BitmapT2Camera(this, Enum::CL_ToggleCamera_Button_ID);
+
+    buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+    buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
+    buttonSizer->Add(camera_Button, 1, wxEXPAND);
+    buttonSizer->Add(reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
-    vSizer->Add(calibrate_Button, 0, wxEXPAND | wxTOP | wxRIGHT | wxLEFT, 10);
-    vSizer->Add(reset_Button, 0, wxEXPAND | wxALL, 10);
+    vSizer->Add(buttonSizer, 0, wxEXPAND | wxALL, 10);
     vSizer->Add(bottomPadding, 0, wxEXPAND);
 
     hSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -24,11 +34,16 @@ CalibrationMainStatusPanel::CalibrationMainStatusPanel(wxWindow *parent)
 
     SetSizer(hSizer);
     Fit();
-
-    reset_Button->Bind(wxEVT_BUTTON,
-                       &CalibrationMainStatusPanel::OnButtonClicked, this);
 }
 
 void CalibrationMainStatusPanel::OnButtonClicked(wxCommandEvent &e) {
     e.Skip();
+}
+
+void CalibrationMainStatusPanel::update(const AppState &state) {
+    // set panel
+    CalibrationPanelState ps = state.calibrationPanel;
+    calibrate_Button->update(ps.calibrationButtonState);
+    camera_Button->update(ps.cameraButtonState);
+    reset_Button->update(ps.removeButtonState);
 }

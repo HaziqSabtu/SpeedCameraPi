@@ -65,11 +65,22 @@ void SharedModel::killAllThreads() {
 
         tc->endLoadCaptureHandler();
     }
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION)) {
+        auto calibrationThread = tc->getCalibrationThread();
+        calibrationThread->Pause();
+
+        auto camera = calibrationThread->getCamera();
+        setCamera(camera);
+
+        tc->endCalibrationHandler();
+    }
 }
 
 AppState SharedModel::getAppState() {
     AppState appState;
     appState.cameraPanel = getCameraPanelState();
+    appState.calibrationPanel = getCalibrationPanelState();
     return appState;
 }
 
@@ -87,6 +98,18 @@ CameraPanelState SharedModel::getCameraPanelState() {
     cameraPanelState.cameraButtonState = getCameraButtonState();
 
     return cameraPanelState;
+}
+
+CalibrationPanelState SharedModel::getCalibrationPanelState() {
+    CalibrationPanelState calibrationPanelState;
+
+    auto isImageEmpty = sessionData.isImageDataEmpty();
+    calibrationPanelState.state = PanelState::PANEL_NOT_OK;
+    calibrationPanelState.calibrationButtonState = getCalibrationButtonState();
+    calibrationPanelState.cameraButtonState = getCameraButtonState();
+    calibrationPanelState.removeButtonState = getRemoveButtonState2();
+
+    return calibrationPanelState;
 }
 
 ButtonState SharedModel::getCaptureButtonState() {
@@ -195,8 +218,41 @@ ButtonState SharedModel::getCameraButtonState() {
         return ButtonState::DISABLED;
     }
 
+    // !ERROR Might Cause issue
     if (!sessionData.isImageDataEmpty()) {
         return ButtonState::DISABLED;
     }
+
     return ButtonState::OFF;
+}
+
+ButtonState SharedModel::getCalibrationButtonState() {
+    auto tc = getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        return ButtonState::ACTIVE;
+    }
+
+    // TODO: Fix this
+    if (!sessionData.isImageDataEmpty()) {
+        return ButtonState::NORMAL;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::DISABLED;
+}
+
+ButtonState SharedModel::getRemoveButtonState2() {
+    return ButtonState::DISABLED;
 }

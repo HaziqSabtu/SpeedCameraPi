@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
@@ -15,7 +16,6 @@ class ThreadController {
     virtual void startCaptureHandler(wxEvtHandler *parent,
                                      std::unique_ptr<CameraBase> &camera,
                                      PanelID panelID);
-
     void endCaptureHandler();
 
     virtual void
@@ -23,20 +23,23 @@ class ThreadController {
                             std::unique_ptr<CameraBase> &camera,
                             std::shared_ptr<std::vector<ImageData>> imgData,
                             const int maxFrame, PanelID panelID);
-
     void endLoadCaptureHandler();
 
     virtual void startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
                                       std::string path, PanelID panelID);
+    void endLoadFileHandler();
 
     virtual void
     startReplayHandler(wxEvtHandler *parent,
                        std::shared_ptr<std::vector<ImageData>> imgData,
                        PanelID panelID);
-
     void endReplayHandler();
 
-    void endLoadFileHandler();
+    virtual void startCalibrationHandler(wxEvtHandler *parent,
+                                         std::unique_ptr<CameraBase> &camera,
+                                         HSVFilter &hsvFilter, BFS &bfs,
+                                         RansacLine &ransac, PanelID panelID);
+    void endCalibrationHandler();
 
     bool isThreadNullptr(ThreadID threadID);
 
@@ -51,6 +54,8 @@ class ThreadController {
     LoadFileThread *getLoadFileThread();
 
     ReplayThread *getReplayThread();
+
+    CalibrationThread *getCalibrationThread();
 
     void killAllThreads();
 
@@ -71,4 +76,6 @@ class ThreadController {
     LoadFileThread *loadFileThread;
 
     ReplayThread *replayThread;
+
+    CalibrationThread *calibrationThread;
 };

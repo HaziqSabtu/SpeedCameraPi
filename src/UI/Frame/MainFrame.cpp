@@ -66,7 +66,8 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     sizer->Add(color_calibration_panel, 1, wxEXPAND);
     SetSizer(sizer);
 
-    capture_panel->Show();
+    calibration_panel->Show();
+    sharedModel->sessionData.currentPanelID = PANEL_CALIBRATION;
 }
 
 MainFrame::~MainFrame() { wxWakeUpIdle(); }

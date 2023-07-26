@@ -32,7 +32,7 @@ BitmapButtonT2::BitmapButtonT2(wxWindow *parent, wxWindowID id,
 
     button = new wxBitmapButton(this, id, offBitmap, wxDefaultPosition,
                                 wxDefaultSize, wxBORDER_NONE);
-    button->SetBackgroundColour(wxTransparentColour);
+    // button->SetBackgroundColour(wxTransparentColour);
 
     wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
     hsizer->Add(button, 1, wxEXPAND);

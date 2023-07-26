@@ -57,7 +57,7 @@ void CaptureStatusPanel::setPanelState(PanelState state) {
     }
 }
 
-void CaptureStatusPanel::update(AppState state) {
+void CaptureStatusPanel::update(const AppState &state) {
     setPanelState(state.cameraPanel.state);
     Capture_Button->update(state.cameraPanel.captureButtonState);
     Load_Button->update(state.cameraPanel.loadButtonState);

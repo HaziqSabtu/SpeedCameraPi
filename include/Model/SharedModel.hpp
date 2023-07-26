@@ -65,6 +65,7 @@ class SharedModel : public ISharedModel {
 
   protected:
     CameraPanelState getCameraPanelState();
+    CalibrationPanelState getCalibrationPanelState();
 
   private:
     std::unique_ptr<CameraBase> camera;
@@ -75,5 +76,7 @@ class SharedModel : public ISharedModel {
     ButtonState getLoadButtonState();
     ButtonState getReplayButtonState();
     ButtonState getRemoveButtonState();
+    ButtonState getRemoveButtonState2();
     ButtonState getCameraButtonState();
+    ButtonState getCalibrationButtonState();
 };

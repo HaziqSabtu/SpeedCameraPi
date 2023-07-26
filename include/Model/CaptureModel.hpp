@@ -18,28 +18,24 @@ class CaptureModel {
     void e_ClearImageData(wxEvtHandler *parent);
 
     void e_CameraStart(wxEvtHandler *parent);
-
     void e_CameraEnd(wxEvtHandler *parent);
 
     void e_LoadFileStart(wxEvtHandler *parent, std::string path);
-
     void e_LoadFileEnd(wxEvtHandler *parent);
 
     void e_LoadCaptureStart(wxEvtHandler *parent);
-
     void e_LoadCaptureEnd(wxEvtHandler *parent);
 
     void e_ReplayStart(wxEvtHandler *parent);
-
     void e_ReplayEnd(wxEvtHandler *parent);
 
     void e_ChangeToCalibPanel(wxEvtHandler *parent);
 
   private:
     const PanelID panelID = PanelID::PANEL_CAPTURE;
-
     std::shared_ptr<SharedModel> shared;
 
+  private:
     void checkPreCondition();
 
     void startCaptureHandler(wxEvtHandler *parent);

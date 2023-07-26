@@ -13,6 +13,15 @@ struct CameraPanelState {
     ButtonState cameraButtonState;
 };
 
+struct CalibrationPanelState {
+    PanelState state;
+
+    ButtonState calibrationButtonState;
+    ButtonState removeButtonState;
+    ButtonState cameraButtonState;
+};
+
 struct AppState {
     CameraPanelState cameraPanel;
+    CalibrationPanelState calibrationPanel;
 };

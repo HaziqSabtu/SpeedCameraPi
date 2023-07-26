@@ -19,7 +19,7 @@ class CaptureStatusPanel : public TextOutlinePanel {
     BitmapButtonT2 *camera_Button;
 
     void setPanelState(PanelState state);
-    void update(AppState state);
+    void update(const AppState &state);
 
   private:
     void OnButtonClicked(wxCommandEvent &e);

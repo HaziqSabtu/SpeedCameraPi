@@ -43,7 +43,8 @@ CapturePanel::~CapturePanel() {}
 void CapturePanel::OnButton(wxCommandEvent &e) {
     try {
         if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
-            OnToggleCameraButton(button_panel->cPanel->camera_Button);
+            auto button = button_panel->cPanel->camera_Button;
+            OnToggleCameraButton(button);
         }
 
         if (e.GetId() == Enum::CP_Capture_Button_ID) {
