@@ -1,6 +1,7 @@
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/CalibrationModel.hpp"
 #include "Model/ModelFactory.hpp"
+#include "Model/SessionData.hpp"
 #include "Model/SharedModel.hpp"
 #include "UI/Dialog/ConfirmationDialog.hpp"
 #include "UI/Frame/InfoFrame.hpp"
@@ -66,8 +67,10 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     sizer->Add(color_calibration_panel, 1, wxEXPAND);
     SetSizer(sizer);
 
-    calibration_panel->Show();
-    sharedModel->sessionData.currentPanelID = PANEL_CALIBRATION;
+    capture_panel->Show();
+    sharedModel->sessionData.currentPanelID = PANEL_CAPTURE;
+    // calibration_panel->Show();
+    // sharedModel->sessionData.currentPanelID = PANEL_CALIBRATION;
 }
 
 MainFrame::~MainFrame() { wxWakeUpIdle(); }

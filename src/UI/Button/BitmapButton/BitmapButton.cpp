@@ -21,24 +21,23 @@ BitmapButton::BitmapButton(wxWindow *parent, wxWindowID id,
     wxColour activeColor = data.active;
     active = Utils::recolor(bitmapImage, activeColor);
 
-    button = new wxBitmapButton(this, id, normal, wxDefaultPosition,
-                                wxDefaultSize, wxBORDER_NONE);
+    button = new wxButton(this, id, data.text, wxDefaultPosition, wxDefaultSize,
+                          wxBORDER_NONE);
 
+    button->SetBitmap(normal);
     button->SetBitmapPressed(active);
+    button->SetBitmapPosition(wxTOP);
 
     wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
     hsizer->Add(button, 1, wxEXPAND);
-
-    text = new wxStaticText(this, wxID_ANY, data.text);
 
     wxFontInfo fontInfo(10);
     fontInfo.Family(wxFONTFAMILY_DEFAULT).FaceName("Roboto").Light();
     wxFont font(fontInfo);
 
-    text->SetFont(font);
+    button->SetFont(font);
 
     sizer->Add(hsizer, 1, wxEXPAND);
-    sizer->Add(text, 0, wxALIGN_CENTER_HORIZONTAL);
 
     SetSizer(sizer);
     Fit();
@@ -63,14 +62,17 @@ void BitmapButton::update(ButtonState state) {
 void BitmapButton::setNormal() {
     button->SetBitmap(normal);
     button->Enable();
+    button->SetBitmapPosition(wxTOP);
 }
 
 void BitmapButton::setActive() {
     button->SetBitmap(active);
     button->Disable();
+    button->SetBitmapPosition(wxTOP);
 }
 
 void BitmapButton::setDisabled() {
     button->SetBitmap(disabled);
     button->Disable();
+    button->SetBitmapPosition(wxTOP);
 }

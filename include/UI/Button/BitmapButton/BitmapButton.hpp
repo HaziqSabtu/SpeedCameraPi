@@ -21,8 +21,7 @@ class BitmapButton : public wxPanel {
 
     void update(ButtonState state);
 
-    wxBitmapButton *button;
-    wxStaticText *text;
+    wxButton *button;
 
   protected:
   private:

@@ -2,6 +2,7 @@
 
 #include "Model/AppState.hpp"
 #include "wx/wx.h"
+#include <wx/gtk/bitmap.h>
 
 struct BitmapDataT2 {
     wxSize size;
@@ -27,8 +28,7 @@ class BitmapButtonT2 : public wxPanel {
 
     ButtonState getState();
 
-    wxBitmapButton *button;
-    wxStaticText *text;
+    wxButton *button;
 
   protected:
   private:
