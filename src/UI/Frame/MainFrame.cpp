@@ -82,7 +82,6 @@ void MainFrame::OnError(ErrorEvent &e) {
 
 void MainFrame::OnChangePanel(ChangePanelEvent &e) {
     try {
-
         ChangePanelData data = e.GetPanelData();
         wxPanel *nextPanel = panels[data.nextPanelID];
         wxPanel *currentPanel = panels[data.currentPanelID];
@@ -103,9 +102,7 @@ void MainFrame::OnChangePanel(ChangePanelEvent &e) {
         GetSizer()->Layout();
 
     } catch (std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(this, errorEvent);
+        ErrorEvent::Submit(this, e.what());
     }
 }
 

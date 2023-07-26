@@ -23,6 +23,7 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+// TODO: Cleanup
 enum CalibrationText {
     IDLE,
     START_CALIBRATION,

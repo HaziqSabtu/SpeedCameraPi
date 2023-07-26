@@ -25,9 +25,9 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(img_bitmap, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    main_sizer->Add(img_bitmap, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
     main_sizer->Add(status_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(button_panel, 0, wxEXPAND | wxALL, 10);
+    main_sizer->Add(button_panel, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
 
     SetSizer(main_sizer);
     Fit();
@@ -40,16 +40,16 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
 CalibrationPanel::~CalibrationPanel() {}
 
 void CalibrationPanel::OnButton(wxCommandEvent &e) {
-    if (e.GetId() == Enum::CL_Back_Button_ID) {
-        model->e_ChangeToCapturePanel(button_panel->cancel_Button);
+    if (e.GetId() == Enum::G_Cancel_Button_ID) {
+        model->e_ChangeToCapturePanel(this);
     }
 
     if (e.GetId() == Enum::CL_ChangeManual_Button_ID) {
-        model->e_ChangeToManualPanel(button_panel->cancel_Button);
+        model->e_ChangeToManualPanel(this);
     }
 
     if (e.GetId() == Enum::CL_ChangeColor_Button_ID) {
-        model->e_ChangeToColorPanel(button_panel->cancel_Button);
+        model->e_ChangeToColorPanel(this);
     }
 
     if (e.GetId() == Enum::CL_ToggleCamera_Button_ID) {
@@ -58,7 +58,7 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CL_Start_Button_ID) {
-        model->e_CalibrationStart(button_panel->start_Button);
+        model->e_CalibrationStart(this);
     }
 
     model->e_UpdateState(this);

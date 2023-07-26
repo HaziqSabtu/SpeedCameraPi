@@ -13,6 +13,8 @@ enum ProjectIDs {
     G_Exit_Button_ID,
     G_Setting_Button_ID,
     G_Info_Button_ID,
+    G_OK_Button_ID,
+    G_Cancel_Button_ID,
 
     // CameraPanel
     CP_Panel_ID,

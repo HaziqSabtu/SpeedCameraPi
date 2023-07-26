@@ -64,7 +64,6 @@ void CalibrationModel::e_CameraEnd(wxEvtHandler *parent) {
 
 void CalibrationModel::e_ChangeToCapturePanel(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
         ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
         ChangePanelEvent::Submit(parent, data);
@@ -75,7 +74,6 @@ void CalibrationModel::e_ChangeToCapturePanel(wxEvtHandler *parent) {
 
 void CalibrationModel::e_ChangeToManualPanel(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
         ChangePanelData data(this->panelID, PanelID::PANEL_MANUAL_CALIBRATION);
         ChangePanelEvent::Submit(parent, data);
