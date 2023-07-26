@@ -20,7 +20,7 @@ ChangePanelData ChangePanelEvent::GetPanelData() const {
     return this->panelData;
 }
 
-void ChangePanelEvent::Submit(wxEvtHandler *parent, ChangePanelData data,
+void ChangePanelEvent::Submit(wxEvtHandler *parent, const ChangePanelData &data,
                               int id) {
     ChangePanelEvent event(c_CHANGE_PANEL_EVENT, id);
     event.SetPanelData(data);

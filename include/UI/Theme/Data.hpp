@@ -43,7 +43,7 @@ const BitmapData BitmapTarget = {
     .normal = T::BitmapNormal,
     .active = T::BitmapActive,
     .disabled = T::BitmapDisabled,
-    .text = wxT("Target"),
+    .text = wxT("Select Point"),
 };
 
 const BitmapData BitmapColorPicker = {

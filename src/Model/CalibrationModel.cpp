@@ -26,7 +26,7 @@ CalibrationModel::~CalibrationModel() {}
 
 void CalibrationModel::e_UpdateState(wxEvtHandler *parent) {
     try {
-        AppState state = shared->getAppState();
+        AppState state(shared);
         UpdateStateEvent::Submit(parent, state);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());

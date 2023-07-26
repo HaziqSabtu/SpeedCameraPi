@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Model/AppState.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Controller.hpp"
 #include "Thread/Thread_Process.hpp"
@@ -60,23 +59,11 @@ class SharedModel : public ISharedModel {
 
     void killAllThreads() override;
 
-    AppState getAppState();
     SessionData sessionData;
 
   protected:
-    CameraPanelState getCameraPanelState();
-    CalibrationPanelState getCalibrationPanelState();
-
   private:
     std::unique_ptr<CameraBase> camera;
     std::shared_ptr<ThreadPool> threadPool;
     std::shared_ptr<ThreadController> threadController;
-
-    ButtonState getCaptureButtonState();
-    ButtonState getLoadButtonState();
-    ButtonState getReplayButtonState();
-    ButtonState getRemoveButtonState();
-    ButtonState getRemoveButtonState2();
-    ButtonState getCameraButtonState();
-    ButtonState getCalibrationButtonState();
 };

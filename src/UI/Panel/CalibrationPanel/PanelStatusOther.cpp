@@ -1,12 +1,14 @@
 #include "UI/Button/BitmapButton/Button_ColorPicker.hpp"
 #include "UI/Button/BitmapButton/Button_User.hpp"
+#include "Utils/Enum.hpp"
 #include <UI/Panel/CalibrationPanel/PanelStatusOther.hpp>
 
 CalibrationOtherPanel::CalibrationOtherPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_OTHER) {
 
-    recalibrate_button = new BitmapColorPicker(this, wxID_ANY);
-    manual_button = new BitmapUser(this, wxID_ANY);
+    recalibrate_button =
+        new BitmapColorPicker(this, Enum::CL_ChangeColor_Button_ID);
+    manual_button = new BitmapUser(this, Enum::CL_ChangeManual_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(recalibrate_button, 1, wxEXPAND);
