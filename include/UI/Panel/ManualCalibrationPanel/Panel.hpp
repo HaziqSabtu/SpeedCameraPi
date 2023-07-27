@@ -5,6 +5,7 @@
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/SessionData.hpp"
+#include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
 #include "UI/Button/Button_Exit.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Layout/TitlePanel.hpp"
@@ -42,6 +43,8 @@ class ManualCalibrationPanel : public wxPanel {
     ManualCalibrationPanelButton *button_panel;
 
     wxBoxSizer *main_sizer;
+
+    void OnToggleCameraButton(BitmapButtonT2 *button);
 
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);

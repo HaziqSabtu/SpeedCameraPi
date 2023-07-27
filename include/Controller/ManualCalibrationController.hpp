@@ -25,6 +25,9 @@ class ManualCalibrationController {
     void e_ManualCalibStart(wxEvtHandler *parent);
     void e_ManualCalibEnd(wxEvtHandler *parent);
 
+    void e_CalibPrevStart(wxEvtHandler *parent);
+    void e_CalibPrevEnd(wxEvtHandler *parent);
+
     void e_RemoveLeft(wxEvtHandler *parent);
     void e_RemoveRight(wxEvtHandler *parent);
 
@@ -43,6 +46,9 @@ class ManualCalibrationController {
 
     void manualCalibStartHandler(wxEvtHandler *parent);
     void manualCalibEndHandler(wxEvtHandler *parent);
+
+    void calibPrevStartHandler(wxEvtHandler *parent);
+    void calibPrevEndHandler(wxEvtHandler *parent);
 
     void removeLeftHandler(wxEvtHandler *parent);
     void removeRightHandler(wxEvtHandler *parent);

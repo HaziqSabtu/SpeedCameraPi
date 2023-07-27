@@ -16,7 +16,7 @@ const BitmapData BitmapStart = {
     .normal = T::BitmapNormal,
     .active = T::BitmapActive,
     .disabled = T::BitmapDisabled,
-    .text = wxT("Capture"),
+    .text = wxT("Start"),
 };
 
 const BitmapData BitmapOK = {
@@ -35,6 +35,15 @@ const BitmapData BitmapCancel = {
     .active = T::BitmapActive,
     .disabled = T::BitmapDisabled,
     .text = wxT("Cancel"),
+};
+
+const BitmapData BitmapStop = {
+    .filename = wxT("Assets/stop_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Stop"),
 };
 
 const BitmapData BitmapTarget = {
@@ -116,6 +125,19 @@ const BitmapDataT2 BitmapT2Calibration = {
     .disabledName = "Assets/cancel_96.png",
     .disabledColour = T::BitmapDisabled,
     .disabledText = "Auto Calibration Off",
+};
+
+const BitmapDataT2 BitmapT2MagnifyGlass = {
+    .size = T::BitmapDefaultSize,
+    .onName = "Assets/preview_96.png",
+    .onColour = T::BitmapActive,
+    .onText = "Stop Preview",
+    .offName = "Assets/preview_96.png",
+    .offColour = T::BitmapNormal,
+    .offText = "Start Preview",
+    .disabledName = "Assets/preview_96.png",
+    .disabledColour = T::BitmapDisabled,
+    .disabledText = "Stop Preview",
 };
 
 // TextButton Data

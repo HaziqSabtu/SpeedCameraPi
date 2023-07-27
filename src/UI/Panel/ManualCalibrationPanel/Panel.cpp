@@ -52,6 +52,10 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
         controller->e_ManualCalibStart(this);
     }
 
+    if (e.GetId() == Enum::MC_Stop_Button_ID) {
+        controller->e_ManualCalibEnd(this);
+    }
+
     if (e.GetId() == Enum::MC_SelectLeft_Button_ID) {
         controller->e_ChangeToLeft(this);
     }
@@ -70,9 +74,27 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
         controller->e_RemoveRight(this);
     }
 
+    if (e.GetId() == Enum::MC_ToggleCamera_Button_ID) {
+        auto button = button_panel->main_status_panel->camera_Button;
+        OnToggleCameraButton(button);
+    }
+
     controller->e_UpdateState(this);
 
     e.Skip();
+}
+
+void ManualCalibrationPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_CalibPrevStart(button);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_CalibPrevEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
 }
 
 void ManualCalibrationPanel::OnUpdatePreview(UpdatePreviewEvent &e) {
@@ -187,8 +209,8 @@ void ManualCalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
         button_panel->left_status_panel->update(state);
         button_panel->right_status_panel->update(state);
 
-        auto okState = state.calibrationPanel.okButtonState;
-        auto cancelState = state.calibrationPanel.cancelButtonState;
+        auto okState = state.manualCalibrationPanel.okButtonState;
+        auto cancelState = state.manualCalibrationPanel.cancelButtonState;
         button_panel->ok_cancel_panel->update(okState, cancelState);
 
         Refresh();

@@ -1,6 +1,8 @@
 #include "Event/Event_UpdateState.hpp"
 #include "Model/AppState.hpp"
+#include "Model/SessionData.hpp"
 #include "Model/SharedModel.hpp"
+#include "Thread/Thread_ID.hpp"
 #include "Utils/Struct/D_Line.hpp"
 #include "Utils/wxUtils.hpp"
 
@@ -108,6 +110,28 @@ void ManualCalibrationController::e_ManualCalibEnd(wxEvtHandler *parent) {
         checkPreCondition();
 
         manualCalibEndHandler(parent);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ManualCalibrationController::e_CalibPrevStart(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        calibPrevStartHandler(parent);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ManualCalibrationController::e_CalibPrevEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        calibPrevEndHandler(parent);
 
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -254,6 +278,48 @@ void ManualCalibrationController::manualCalibEndHandler(wxEvtHandler *parent) {
     shared->setCamera(camera);
 
     tc->endManualCalibrationHandler();
+}
+
+void ManualCalibrationController::calibPrevStartHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        throw std::runtime_error("manualCalibThread is running");
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+        throw std::runtime_error("calibPrevThread is running");
+    }
+
+    auto camera = shared->getCamera();
+
+    if (camera == nullptr) {
+        throw std::runtime_error("camera is nullptr");
+    }
+
+    DataPtr data = shared->getSessionData();
+
+    tc->startCalibPreviewHandler(parent, camera, data, panelID);
+}
+
+void ManualCalibrationController::calibPrevEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+        throw std::runtime_error("calibPrevThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_CALIBRATION_PREVIEW, panelID)) {
+        throw std::runtime_error("calibPrevThread is not owned by this panel");
+    }
+
+    auto thread = tc->getCalibPreviewThread();
+    thread->Pause();
+
+    auto camera = thread->getCamera();
+    shared->setCamera(camera);
+
+    tc->endCalibPreviewHandler();
 }
 
 void ManualCalibrationController::removeLeftHandler(wxEvtHandler *parent) {

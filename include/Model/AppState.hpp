@@ -47,12 +47,15 @@ struct ManualCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
+    ButtonState stopButtonState;
     ButtonState cameraButtonState;
     ButtonState removeButtonState;
 
+    PanelState leftStatusState;
     ButtonState selectLeftButtonState;
     ButtonState removeLeftButtonState;
 
+    PanelState rightStatusState;
     ButtonState selectRightButtonState;
     ButtonState removeRightButtonState;
 
@@ -116,15 +119,18 @@ class AppState {
     ButtonState getCLCancelButtonState(ModelPtr model);
 
     // Manual Calibration Panel
-    ButtonState getMCRemoveButtonState(ModelPtr model);
     ButtonState getMCButtonState(ModelPtr model);
+    ButtonState getMCStopButtonState(ModelPtr model);
     ButtonState getMCCameraButtonState(ModelPtr model);
+    ButtonState getMCRemoveButtonState(ModelPtr model);
 
     // Manual Calibration Panel -> Left
+    PanelState getMCLeftStatusState(ModelPtr model);
     ButtonState getMCSelectLeftButtonState(ModelPtr model);
     ButtonState getMCRemoveLeftButtonState(ModelPtr model);
 
     // Manual Calibration Panel -> Right
+    PanelState getMCRightStatusState(ModelPtr model);
     ButtonState getMCSelectRightButtonState(ModelPtr model);
     ButtonState getMCRemoveRightButtonState(ModelPtr model);
 

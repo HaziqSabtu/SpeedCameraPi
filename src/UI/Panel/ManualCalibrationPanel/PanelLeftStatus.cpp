@@ -36,6 +36,17 @@ void LeftStatusPanel::update(const AppState &state) {
     // set panel
     ManualCalibrationPanelState ps = state.manualCalibrationPanel;
 
+    setPanelState(ps.leftStatusState);
     left_Button->update(ps.selectLeftButtonState);
     clear_Button->update(ps.removeLeftButtonState);
+}
+
+void LeftStatusPanel::setPanelState(PanelState state) {
+    if (state == PanelState::PANEL_OK) {
+        SetTextData(RTC::CALIB_OK);
+    }
+
+    if (state == PanelState::PANEL_NOT_OK) {
+        SetTextData(RTC::CALIB_NONE);
+    }
 }

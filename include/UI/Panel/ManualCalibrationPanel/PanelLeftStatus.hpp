@@ -14,6 +14,8 @@ class LeftStatusPanel : public TextOutlinePanel {
     BitmapButton *clear_Button;
 
   private:
+    void setPanelState(PanelState state);
+
     void OnButtonClicked(wxCommandEvent &e);
 
     wxBoxSizer *hSizer;

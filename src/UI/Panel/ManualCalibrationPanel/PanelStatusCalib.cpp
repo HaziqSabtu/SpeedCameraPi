@@ -3,7 +3,9 @@
 #include "UI/Button/BitmapButton/Bitmap_Calibration.hpp"
 #include "UI/Button/BitmapButton/Button_Preview.hpp"
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
+#include "UI/Button/BitmapButton/Button_Stop.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_Camera.hpp"
+#include "UI/Button/BitmapButton/Type2/Button_MagnifyGlass.hpp"
 #include "UI/Button/Button_Default.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/StaticText/RichText.hpp"
@@ -16,14 +18,15 @@ ManualCalibrationMainStatusPanel::ManualCalibrationMainStatusPanel(
     : TextOutlinePanel(parent, RTC::CALIB_NONE) {
 
     calibrate_Button = new BitmapCalibration(this, Enum::MC_Start_Button_ID);
-    camera_Button = new BitmapT2Camera(this, wxID_ANY);
-    preview_Button = new BitmapPreview(this, wxID_ANY);
-    reset_Button = new BitmapRemove(this, wxID_ANY);
+    stop_Button = new BitmapStop(this, Enum::MC_Stop_Button_ID);
+    camera_Button =
+        new BitmapT2MagnifyGlass(this, Enum::MC_ToggleCamera_Button_ID);
+    reset_Button = new BitmapRemove(this, Enum::MC_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
+    buttonSizer->Add(stop_Button, 1, wxEXPAND);
     buttonSizer->Add(camera_Button, 1, wxEXPAND);
-    buttonSizer->Add(preview_Button, 1, wxEXPAND);
     buttonSizer->Add(reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
@@ -53,6 +56,7 @@ void ManualCalibrationMainStatusPanel::update(const AppState &state) {
     setPanelState(ps.state);
 
     calibrate_Button->update(ps.calibrationButtonState);
+    stop_Button->update(ps.stopButtonState);
     camera_Button->update(ps.cameraButtonState);
     reset_Button->update(ps.removeButtonState);
 }

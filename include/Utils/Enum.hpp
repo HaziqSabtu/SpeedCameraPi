@@ -44,6 +44,9 @@ enum ProjectIDs {
 
     // ManualCalibrationPanel
     MC_Start_Button_ID,
+    MC_Stop_Button_ID,
+    MC_ToggleCamera_Button_ID,
+    MC_Remove_Button_ID,
     MC_SelectLeft_Button_ID,
     MC_RemoveLeft_Button_ID,
     MC_SelectRight_Button_ID,
