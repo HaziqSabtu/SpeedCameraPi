@@ -61,6 +61,7 @@ class SharedModel : public ISharedModel {
 
     void killAllThreads() override;
 
+    DataPtr getSessionData();
     SessionData sessionData;
 
   protected:

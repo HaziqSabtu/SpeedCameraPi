@@ -27,3 +27,11 @@ CalibrationOtherPanel::CalibrationOtherPanel(wxWindow *parent)
     SetSizer(hSizer);
     Fit();
 }
+
+void CalibrationOtherPanel::update(const AppState &state) {
+    // set panel
+    CalibrationPanelState ps = state.calibrationPanel;
+
+    recalibrate_button->update(ps.recalibrateColorButtonState);
+    manual_button->update(ps.manualCalibrationButtonState);
+}

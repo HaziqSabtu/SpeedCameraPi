@@ -12,6 +12,9 @@ class ROIStatusPanel : public TextOutlinePanel {
     BitmapButton *roi_Button;
     BitmapButton *reset_Button;
 
+    void setPanelState(PanelState state);
+    void update(const AppState &state);
+
   private:
     void OnButtonClicked(wxCommandEvent &e);
 

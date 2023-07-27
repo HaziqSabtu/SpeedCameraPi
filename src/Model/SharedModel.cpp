@@ -47,32 +47,56 @@ void SharedModel::killAllThreads() {
     auto tc = getThreadController();
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_CAPTURE)) {
-        auto captureThread = tc->getCaptureThread();
-        captureThread->Pause();
+        auto thread = tc->getCaptureThread();
+        thread->Pause();
 
-        auto camera = captureThread->getCamera();
+        auto camera = thread->getCamera();
         setCamera(camera);
 
         tc->endCaptureHandler();
     }
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_LOAD_CAPTURE)) {
-        auto loadCaptureThread = tc->getLoadCaptureThread();
-        loadCaptureThread->Pause();
+        auto thread = tc->getLoadCaptureThread();
+        thread->Pause();
 
-        auto camera = loadCaptureThread->getCamera();
+        auto camera = thread->getCamera();
         setCamera(camera);
 
         tc->endLoadCaptureHandler();
     }
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION)) {
-        auto calibrationThread = tc->getCalibrationThread();
-        calibrationThread->Pause();
+        auto thread = tc->getCalibrationThread();
+        thread->Pause();
 
-        auto camera = calibrationThread->getCamera();
+        auto camera = thread->getCamera();
         setCamera(camera);
 
         tc->endCalibrationHandler();
     }
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION_PREVIEW)) {
+        auto thread = tc->getCalibPreviewThread();
+        thread->Pause();
+
+        auto camera = thread->getCamera();
+        setCamera(camera);
+
+        tc->endCalibPreviewHandler();
+    }
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_MANUAL_CALIBRATION)) {
+        auto thread = tc->getManualCalibrationThread();
+        thread->Pause();
+
+        auto camera = thread->getCamera();
+        setCamera(camera);
+
+        tc->endManualCalibrationHandler();
+    }
+}
+
+DataPtr SharedModel::getSessionData() {
+    return std::make_shared<SessionData>(sessionData);
 }

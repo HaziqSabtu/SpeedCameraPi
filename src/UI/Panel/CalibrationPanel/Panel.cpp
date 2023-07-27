@@ -2,6 +2,7 @@
 #include "Controller/ColorCalibrationController.hpp"
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
+#include "Event/Event_Error.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 
 #include "UI/Button/Button_wState.hpp"
@@ -36,14 +37,16 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
     Fit();
 
     Hide();
-
-    img_bitmap->Bind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
 }
 
 CalibrationPanel::~CalibrationPanel() {}
 
 void CalibrationPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Cancel_Button_ID) {
+        controller->e_ChangeToCapturePanel(this);
+    }
+
+    if (e.GetId() == Enum::G_OK_Button_ID) {
         controller->e_ChangeToCapturePanel(this);
     }
 
@@ -62,6 +65,22 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::CL_Start_Button_ID) {
         controller->e_CalibrationStart(this);
+    }
+
+    if (e.GetId() == Enum::CL_SaveCalibration_Button_ID) {
+        controller->e_CalibrationSave(this);
+    }
+
+    if (e.GetId() == Enum::CL_CancelCalibration_Button_ID) {
+        controller->e_CalibrationEnd(this);
+    }
+
+    if (e.GetId() == Enum::CL_ClearCalibration_Button_ID) {
+        controller->e_RemoveCalibData(this);
+    }
+
+    if (e.GetId() == Enum::CL_SelectPoint_Button_ID) {
+        img_bitmap->Bind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
     }
 
     controller->e_UpdateState(this);
@@ -125,18 +144,34 @@ void CalibrationPanel::OnLeftDown(wxMouseEvent &e) {
             controller->e_SetPoint(this, wxPoint(x, y));
         }
     }
+    img_bitmap->Unbind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
 }
 
 void CalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
-    auto state = e.GetState();
-    button_panel->cPanel->update(state);
-    Refresh();
+    try {
+        auto state = e.GetState();
+        button_panel->cPanel->update(state);
+        button_panel->ctPanel->update(state);
+        button_panel->coPanel->update(state);
+
+        auto okState = state.calibrationPanel.okButtonState;
+        auto cancelState = state.calibrationPanel.cancelButtonState;
+        button_panel->okCancelPanel->update(okState, cancelState);
+
+        Refresh();
+    } catch (const std::exception &e) {
+        ErrorEvent::Submit(this, e.what());
+    }
 }
 
 void CalibrationPanel::OnUpdateStatus(UpdateStatusEvent &e) {
-    auto status = e.GetStatus();
-    status_panel->SetText(status);
-    Refresh();
+    try {
+        auto status = e.GetStatus();
+        status_panel->SetText(status);
+        Refresh();
+    } catch (const std::exception &e) {
+        ErrorEvent::Submit(this, e.what());
+    }
 }
 
 void CalibrationPanel::OnShow(wxShowEvent &e) {

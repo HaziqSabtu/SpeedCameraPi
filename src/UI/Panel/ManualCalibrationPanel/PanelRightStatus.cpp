@@ -9,8 +9,8 @@
 RightStatusPanel::RightStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::RIGHT_NONE) {
 
-    right_Button = new BitmapR(this, wxID_ANY);
-    clear_Button = new BitmapRemove(this, wxID_ANY);
+    right_Button = new BitmapR(this, Enum::MC_SelectRight_Button_ID);
+    clear_Button = new BitmapRemove(this, Enum::MC_RemoveRight_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(right_Button, 1, wxEXPAND);
@@ -31,3 +31,11 @@ RightStatusPanel::RightStatusPanel(wxWindow *parent)
 }
 
 void RightStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+
+void RightStatusPanel::update(const AppState &state) {
+    // set panel
+    ManualCalibrationPanelState ps = state.manualCalibrationPanel;
+
+    right_Button->update(ps.selectRightButtonState);
+    clear_Button->update(ps.removeRightButtonState);
+}

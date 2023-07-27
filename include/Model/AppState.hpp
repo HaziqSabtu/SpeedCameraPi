@@ -6,13 +6,23 @@ enum ButtonState { NORMAL, ACTIVE, DISABLED, ON, OFF };
 
 enum PanelState { PANEL_NOT_OK, PANEL_OK };
 
-struct CameraPanelState {
-    PanelState state;
+struct CapturePanelState {
+    PanelState captureStatusState;
     ButtonState captureButtonState;
     ButtonState loadButtonState;
     ButtonState replayButtonState;
     ButtonState removeButtonState;
     ButtonState cameraButtonState;
+
+    PanelState calibStatusState;
+    ButtonState calibButtonState;
+    ButtonState calibRemoveButtonState;
+
+    PanelState roiStatusState;
+    ButtonState roiButtonState;
+    ButtonState roiRemoveButtonState;
+
+    ButtonState measureButtonState;
 };
 
 struct CalibrationPanelState {
@@ -21,6 +31,33 @@ struct CalibrationPanelState {
     ButtonState calibrationButtonState;
     ButtonState removeButtonState;
     ButtonState cameraButtonState;
+
+    ButtonState selectPointButtonState;
+    ButtonState cancelCalibrationButtonState;
+    ButtonState acceptCalibrationButtonState;
+
+    ButtonState recalibrateColorButtonState;
+    ButtonState manualCalibrationButtonState;
+
+    ButtonState okButtonState;
+    ButtonState cancelButtonState;
+};
+
+struct ManualCalibrationPanelState {
+    PanelState state;
+
+    ButtonState calibrationButtonState;
+    ButtonState cameraButtonState;
+    ButtonState removeButtonState;
+
+    ButtonState selectLeftButtonState;
+    ButtonState removeLeftButtonState;
+
+    ButtonState selectRightButtonState;
+    ButtonState removeRightButtonState;
+
+    ButtonState okButtonState;
+    ButtonState cancelButtonState;
 };
 
 class AppState {
@@ -28,19 +65,70 @@ class AppState {
     AppState();
     AppState(ModelPtr model);
 
-    CameraPanelState getCameraPanelState(ModelPtr model);
+    CapturePanelState getCameraPanelState(ModelPtr model);
     CalibrationPanelState getCalibrationPanelState(ModelPtr model);
+    ManualCalibrationPanelState getManualCalibrationPanelState(ModelPtr model);
 
   public:
-    CameraPanelState cameraPanel;
+    CapturePanelState cameraPanel;
     CalibrationPanelState calibrationPanel;
+    ManualCalibrationPanelState manualCalibrationPanel;
 
   private:
+    PanelState getCameraStatusState(ModelPtr model);
+    PanelState getCalibrationStatusState(ModelPtr model);
+    PanelState getRoiStatusState(ModelPtr model);
+
+    // Capture Panel
     ButtonState getCaptureButtonState(ModelPtr model);
     ButtonState getLoadButtonState(ModelPtr model);
+    ButtonState getCameraButtonState(ModelPtr model);
     ButtonState getReplayButtonState(ModelPtr model);
     ButtonState getRemoveButtonState(ModelPtr model);
-    ButtonState getRemoveButtonState2(ModelPtr model);
-    ButtonState getCameraButtonState(ModelPtr model);
+
+    // Capture Panel -> Calibration
+    ButtonState getCPCalibrationButtonState(ModelPtr model);
+    ButtonState getCPCalibrationRemoveButtonState(ModelPtr model);
+
+    // Capture Panel -> ROI
+    ButtonState getCPROIButtonState(ModelPtr model);
+    ButtonState getCPROIRemoveButtonState(ModelPtr model);
+
+    // Capture Panel -> Measure
+    ButtonState getCPMeasureButtonState(ModelPtr model);
+
+    // Calibration Panel
+    ButtonState getCalibrationRemoveButtonState(ModelPtr model);
     ButtonState getCalibrationButtonState(ModelPtr model);
+    ButtonState getCLCameraButtonState(ModelPtr model);
+
+    // Calibration Panel -> Tools
+    ButtonState getSelectPointButtonState(ModelPtr model);
+    ButtonState getCancelCalibrationButtonState(ModelPtr model);
+    ButtonState getAcceptCalibrationButtonState(ModelPtr model);
+
+    // Calibration Panel -> Recalibrate / Others
+    ButtonState getRecalibrateColorButtonState(ModelPtr model);
+    ButtonState getManualCalibrationButtonState(ModelPtr model);
+
+    // Calibration Panel -> OK / Cancel
+    ButtonState getCLOKButtonState(ModelPtr model);
+    ButtonState getCLCancelButtonState(ModelPtr model);
+
+    // Manual Calibration Panel
+    ButtonState getMCRemoveButtonState(ModelPtr model);
+    ButtonState getMCButtonState(ModelPtr model);
+    ButtonState getMCCameraButtonState(ModelPtr model);
+
+    // Manual Calibration Panel -> Left
+    ButtonState getMCSelectLeftButtonState(ModelPtr model);
+    ButtonState getMCRemoveLeftButtonState(ModelPtr model);
+
+    // Manual Calibration Panel -> Right
+    ButtonState getMCSelectRightButtonState(ModelPtr model);
+    ButtonState getMCRemoveRightButtonState(ModelPtr model);
+
+    // Manual Calibration Panel -> OK / Cancel
+    ButtonState getMCOKButtonState(ModelPtr model);
+    ButtonState getMCCancelButtonState(ModelPtr model);
 };

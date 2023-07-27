@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_CalibPreview.hpp"
 #include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
+#include "Thread/Thread_ManualCalib.hpp"
 #include "Thread/Thread_Replay.hpp"
 #include <unordered_map>
 
@@ -41,6 +43,19 @@ class ThreadController {
                                          RansacLine &ransac, PanelID panelID);
     void endCalibrationHandler();
 
+    virtual void startCalibPreviewHandler(wxEvtHandler *parent,
+                                          std::unique_ptr<CameraBase> &camera,
+                                          DataPtr data, PanelID panelID);
+
+    void endCalibPreviewHandler();
+
+    virtual void
+    startManualCalibrationHandler(wxEvtHandler *parent,
+                                  std::unique_ptr<CameraBase> &camera,
+                                  PanelID panelID);
+
+    void endManualCalibrationHandler();
+
     bool isThreadNullptr(ThreadID threadID);
 
     bool isThreadOwner(ThreadID threadID, PanelID panelID);
@@ -56,6 +71,10 @@ class ThreadController {
     ReplayThread *getReplayThread();
 
     CalibrationThread *getCalibrationThread();
+
+    CalibPreviewThread *getCalibPreviewThread();
+
+    ManualCalibrationThread *getManualCalibrationThread();
 
     void killAllThreads();
 
@@ -78,4 +97,8 @@ class ThreadController {
     ReplayThread *replayThread;
 
     CalibrationThread *calibrationThread;
+
+    CalibPreviewThread *calibPreviewThread;
+
+    ManualCalibrationThread *manualCalibrationThread;
 };

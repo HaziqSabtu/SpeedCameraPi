@@ -16,3 +16,9 @@ OKCancelPanel::OKCancelPanel(wxWindow *parent) : wxPanel(parent, wxID_ANY) {
 }
 
 OKCancelPanel::~OKCancelPanel() {}
+
+void OKCancelPanel::update(ButtonState okButtonState,
+                           ButtonState cancelButtonState) {
+    OKButton->update(okButtonState);
+    CancelButton->update(cancelButtonState);
+}

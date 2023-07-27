@@ -37,6 +37,17 @@ enum ProjectIDs {
     CL_OK_Button_ID,
     CL_ChangeManual_Button_ID,
     CL_ChangeColor_Button_ID,
+    CL_SaveCalibration_Button_ID,
+    CL_CancelCalibration_Button_ID,
+    CL_ClearCalibration_Button_ID,
+    CL_SelectPoint_Button_ID,
+
+    // ManualCalibrationPanel
+    MC_Start_Button_ID,
+    MC_SelectLeft_Button_ID,
+    MC_RemoveLeft_Button_ID,
+    MC_SelectRight_Button_ID,
+    MC_RemoveRight_Button_ID,
 
     // CameraPanel->Hough
     CP_BUTTON_PANEL_HOUGH_ID,

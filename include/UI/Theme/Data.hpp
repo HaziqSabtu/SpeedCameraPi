@@ -121,16 +121,20 @@ const BitmapDataT2 BitmapT2Calibration = {
 // TextButton Data
 const TextButtonData AcceptTextButton = {
     .text = wxT("Accept"),
-    .bgColor = T::Primary,
-    .fgColor = CC::Twitter_ExtExtLightGray,
-    .size = wxSize(100, 50),
+    .normalBgColor = T::Primary,
+    .normalFgColor = CC::Twitter_ExtExtLightGray,
+    .disabledBgColor = CC::Twitter_LightGray,
+    .disabledFgColor = CC::Twitter_ExtExtLightGray,
+    .size = wxSize(100, 58),
 };
 
 const TextButtonData CancelTextButton = {
     .text = wxT("Cancel"),
-    .bgColor = CC::Twitter_ExtExtLightGray,
-    .fgColor = T::Text,
-    .size = wxSize(100, 50),
+    .normalBgColor = CC::Twitter_ExtExtLightGray,
+    .normalFgColor = T::Text,
+    .disabledBgColor = CC::Twitter_LightGray,
+    .disabledFgColor = CC::Twitter_ExtExtLightGray,
+    .size = wxSize(100, 58),
 };
 
 } // namespace Data

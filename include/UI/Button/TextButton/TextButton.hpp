@@ -1,12 +1,16 @@
 #pragma once
 
+#include "Model/AppState.hpp"
 #include "wx/wx.h"
 
 struct TextButtonData {
     wxString text;
 
-    wxColour bgColor;
-    wxColour fgColor;
+    wxColour normalBgColor;
+    wxColour normalFgColor;
+
+    wxColour disabledBgColor;
+    wxColour disabledFgColor;
 
     wxSize size;
 };
@@ -15,7 +19,7 @@ class TextButton : public wxPanel {
   public:
     TextButton(wxWindow *parent, wxWindowID id, const TextButtonData &data);
 
-    void update(bool state);
+    void update(const ButtonState &buttonState);
 
     wxButton *button;
 
@@ -23,6 +27,12 @@ class TextButton : public wxPanel {
   private:
     wxBoxSizer *sizer;
 
-    void setNormal();
+    wxColour normalBgColor;
+    wxColour normalFgColor;
+
+    wxColour disabledBgColor;
+    wxColour disabledFgColor;
+
     void setDisabled();
+    void setNormal();
 };

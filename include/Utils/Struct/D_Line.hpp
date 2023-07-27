@@ -51,6 +51,10 @@ struct Line {
     std::string ToString();
 
     bool isNull();
+
+    void setP1(cv::Point2f p1);
+
+    void setP2(cv::Point2f p2);
 };
 } // namespace Detection
 

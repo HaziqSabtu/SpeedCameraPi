@@ -1,5 +1,7 @@
 #include "Thread/Thread_LoadCapture.hpp"
 #include <Thread/Thread_Controller.hpp>
+#include <Thread/Thread_ManualCalib.hpp>
+
 #include <exception>
 #include <iostream>
 #include <memory>
@@ -20,6 +22,8 @@ void ThreadController::initThread() {
     loadFileThread = nullptr;
     replayThread = nullptr;
     calibrationThread = nullptr;
+    calibPreviewThread = nullptr;
+    manualCalibrationThread = nullptr;
 };
 
 void ThreadController::deleteThread() {
@@ -28,6 +32,8 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(loadFileThread);
     stopAndDeleteThread(replayThread);
     stopAndDeleteThread(calibrationThread);
+    stopAndDeleteThread(calibPreviewThread);
+    stopAndDeleteThread(manualCalibrationThread);
 };
 
 bool ThreadController::isThreadNullptr(ThreadID threadID) {
@@ -51,6 +57,14 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return calibrationThread == nullptr;
     }
 
+    if (threadID == ThreadID::THREAD_CALIBRATION_PREVIEW) {
+        return calibPreviewThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION) {
+        return manualCalibrationThread == nullptr;
+    }
+
     throw std::runtime_error(
         "ThreadController::isThreadNullptr() - Invalid ThreadID");
 }
@@ -64,7 +78,8 @@ bool ThreadController::isThreadOwner(ThreadID threadID, PanelID panelID) {
 
 bool ThreadController::isThreadsWithCameraNullptr() {
     return captureThread == nullptr && loadCaptureThread == nullptr &&
-           loadFileThread == nullptr && calibrationThread == nullptr;
+           loadFileThread == nullptr && calibrationThread == nullptr &&
+           calibPreviewThread == nullptr && manualCalibrationThread == nullptr;
 }
 
 void ThreadController::startCaptureHandler(wxEvtHandler *parent,
@@ -125,6 +140,14 @@ CalibrationThread *ThreadController::getCalibrationThread() {
     return calibrationThread;
 }
 
+CalibPreviewThread *ThreadController::getCalibPreviewThread() {
+    return calibPreviewThread;
+}
+
+ManualCalibrationThread *ThreadController::getManualCalibrationThread() {
+    return manualCalibrationThread;
+}
+
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
                                             std::string path, PanelID panelID) {
 
@@ -152,6 +175,33 @@ void ThreadController::startCalibrationHandler(
 
 void ThreadController::endCalibrationHandler() {
     calibrationThread = stopAndDeleteThread(calibrationThread);
+}
+
+void ThreadController::startCalibPreviewHandler(
+    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
+    std::shared_ptr<SessionData> data, PanelID panelID) {
+    calibPreviewThread = new CalibPreviewThread(parent, camera, data);
+    calibPreviewThread->Run();
+
+    owner[calibPreviewThread->getID()] = panelID;
+}
+
+void ThreadController::endCalibPreviewHandler() {
+    calibPreviewThread = stopAndDeleteThread(calibPreviewThread);
+}
+
+void ThreadController::startManualCalibrationHandler(
+    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
+    PanelID panelID) {
+
+    manualCalibrationThread = new ManualCalibrationThread(parent, camera);
+    manualCalibrationThread->Run();
+
+    owner[manualCalibrationThread->getID()] = panelID;
+}
+
+void ThreadController::endManualCalibrationHandler() {
+    manualCalibrationThread = stopAndDeleteThread(manualCalibrationThread);
 }
 
 template <typename T>

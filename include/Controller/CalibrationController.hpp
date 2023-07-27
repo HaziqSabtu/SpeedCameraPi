@@ -21,12 +21,15 @@ class CalibrationController {
 
     void e_UpdateState(wxEvtHandler *parent);
 
+    void e_RemoveCalibData(wxEvtHandler *parent);
+
     void e_SetPoint(wxEvtHandler *parent, wxPoint point);
 
     void e_CameraStart(wxEvtHandler *parent);
     void e_CameraEnd(wxEvtHandler *parent);
 
     void e_CalibrationStart(wxEvtHandler *parent);
+    void e_CalibrationSave(wxEvtHandler *parent);
     void e_CalibrationEnd(wxEvtHandler *parent);
 
     void e_ChangeToCapturePanel(wxEvtHandler *parent);
@@ -46,6 +49,7 @@ class CalibrationController {
     void endCaptureHandler();
 
     void startCalibrationHandler(wxEvtHandler *parent);
+    void saveCalibrationHandler(wxEvtHandler *parent);
     void endCalibrationHandler();
 
     void setPointHandler(wxEvtHandler *parent, cv::Point point);

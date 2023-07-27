@@ -109,10 +109,11 @@ void MainFrame::OnButton(wxCommandEvent &e) {
         // ConfirmationDialog dialog(
         //     this, "Are you sure you want to exit the application?");
         // if (dialog.ShowModal() == wxID_YES) {
+
         //     Close();
         // }
-        sharedModel->killAllThreads();
 
+        sharedModel->killAllThreads();
         Close();
     }
 

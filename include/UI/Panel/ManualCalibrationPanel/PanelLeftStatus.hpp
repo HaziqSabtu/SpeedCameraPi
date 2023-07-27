@@ -8,6 +8,8 @@ class LeftStatusPanel : public TextOutlinePanel {
   public:
     LeftStatusPanel(wxWindow *parent);
 
+    void update(const AppState &state);
+
     BitmapButton *left_Button;
     BitmapButton *clear_Button;
 

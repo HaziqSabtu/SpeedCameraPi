@@ -7,6 +7,7 @@
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/AppState.hpp"
 
+#include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include "Utils/Enum.hpp"
@@ -144,6 +145,14 @@ void CapturePanel::OnLoadImage(wxCommandEvent &e) {
 void CapturePanel::OnUpdateState(UpdateStateEvent &e) {
     auto state = e.GetState();
     button_panel->cPanel->update(state);
+    button_panel->csPanel->update(state);
+    button_panel->rPanel->update(state);
+
+    // TODO: Update status
+    auto ms = state.cameraPanel.measureButtonState;
+    auto b = button_panel->switch_Button;
+    ms == ButtonState::DISABLED ? b->Disable() : b->Disable();
+
     Refresh();
 }
 

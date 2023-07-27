@@ -3,6 +3,7 @@
 #include "UI/Button/BitmapButton/Button_Roi.hpp"
 #include "UI/Button/Button_Default.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
+#include "UI/StaticText/RichText.hpp"
 #include "Utils/Enum.hpp"
 
 ROIStatusPanel::ROIStatusPanel(wxWindow *parent)
@@ -30,3 +31,19 @@ ROIStatusPanel::ROIStatusPanel(wxWindow *parent)
 }
 
 void ROIStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+
+void ROIStatusPanel::setPanelState(PanelState state) {
+    if (state == PanelState::PANEL_OK) {
+        SetTextData(RTC::ROI_OK);
+    }
+
+    if (state == PanelState::PANEL_NOT_OK) {
+        SetTextData(RTC::ROI_NONE);
+    }
+}
+
+void ROIStatusPanel::update(const AppState &state) {
+    setPanelState(state.cameraPanel.roiStatusState);
+    roi_Button->update(state.cameraPanel.roiButtonState);
+    reset_Button->update(state.cameraPanel.roiRemoveButtonState);
+}

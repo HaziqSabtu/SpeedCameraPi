@@ -4,6 +4,7 @@
 #include "Event/Event_UpdateState.hpp"
 #include <Controller/CalibrationController.hpp>
 
+#include "Model/SessionData.hpp"
 #include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
@@ -32,10 +33,13 @@ void CalibrationController::e_UpdateState(wxEvtHandler *parent) {
     }
 }
 
-void CalibrationController::checkPreCondition() {
-    if (panelID != shared->sessionData.currentPanelID) {
-        throw std::runtime_error(
-            "CalibrationController::endPoint() - PanelID mismatch");
+void CalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        shared->sessionData.removeCalibData();
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
     }
 }
 
@@ -105,6 +109,18 @@ void CalibrationController::e_CalibrationStart(wxEvtHandler *parent) {
     }
 }
 
+void CalibrationController::e_CalibrationSave(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        saveCalibrationHandler(parent);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void CalibrationController::e_CalibrationEnd(wxEvtHandler *parent) {
     try {
 
@@ -148,10 +164,35 @@ void CalibrationController::startCalibrationHandler(wxEvtHandler *parent) {
 
     HSVFilter filter;
     BFS bfs;
-    RansacLine ransacLine(500, 50, 8);
+    RansacLine ransacLine(500, 50, 6);
 
     tc->startCalibrationHandler(parent, camera, filter, bfs, ransacLine,
                                 panelID);
+}
+
+void CalibrationController::saveCalibrationHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        throw std::runtime_error("CalibrationThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_CALIBRATION, panelID)) {
+        throw std::runtime_error(
+            "CalibrationThread is not owned by this panel");
+    }
+
+    auto calibrationThread = tc->getCalibrationThread();
+    calibrationThread->Pause();
+
+    auto calibData = calibrationThread->getCalibData();
+
+    shared->sessionData.calibData = calibData;
+
+    auto camera = calibrationThread->getCamera();
+    shared->setCamera(camera);
+
+    tc->endCalibrationHandler();
 }
 
 void CalibrationController::endCalibrationHandler() {
@@ -166,10 +207,10 @@ void CalibrationController::endCalibrationHandler() {
             "CalibrationThread is not owned by this panel");
     }
 
-    auto loadCaptureThread = tc->getLoadCaptureThread();
-    loadCaptureThread->Pause();
+    auto calibrationThread = tc->getCalibrationThread();
+    calibrationThread->Pause();
 
-    auto camera = loadCaptureThread->getCamera();
+    auto camera = calibrationThread->getCamera();
     shared->setCamera(camera);
 
     tc->endCalibrationHandler();
@@ -182,32 +223,34 @@ void CalibrationController::startCaptureHandler(wxEvtHandler *parent) {
         throw std::runtime_error("Error acquiring camera");
     }
 
-    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
-        throw std::runtime_error("captureThread is already running");
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+        throw std::runtime_error("calibrationPreview is already running");
     }
 
     auto camera = shared->getCamera();
-    tc->startCaptureHandler(parent, camera, panelID);
+    auto data = shared->getSessionData();
+    tc->startCalibPreviewHandler(parent, camera, data, panelID);
 }
 
 void CalibrationController::endCaptureHandler() {
     auto tc = shared->getThreadController();
 
-    if (tc->isThreadNullptr(THREAD_CAPTURE)) {
-        throw std::runtime_error("captureThread is not running");
+    if (tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+        throw std::runtime_error("calibrationPreview is not running");
     }
 
-    if (!tc->isThreadOwner(THREAD_CAPTURE, panelID)) {
-        throw std::runtime_error("captureThread is not owned by this panel");
+    if (!tc->isThreadOwner(THREAD_CALIBRATION_PREVIEW, panelID)) {
+        throw std::runtime_error(
+            "calibrationPreview is not owned by this panel");
     }
 
-    auto captureThread = tc->getCaptureThread();
-    captureThread->Pause();
+    auto calibPreviewThread = tc->getCalibPreviewThread();
+    calibPreviewThread->Pause();
 
-    auto camera = captureThread->getCamera();
+    auto camera = calibPreviewThread->getCamera();
     shared->setCamera(camera);
 
-    tc->endCaptureHandler();
+    tc->endCalibPreviewHandler();
 }
 
 void CalibrationController::setPointHandler(wxEvtHandler *parent,
@@ -225,4 +268,11 @@ void CalibrationController::setPointHandler(wxEvtHandler *parent,
 
     auto calibrationThread = tc->getCalibrationThread();
     calibrationThread->setPoint(point);
+}
+
+void CalibrationController::checkPreCondition() {
+    if (panelID != shared->sessionData.currentPanelID) {
+        throw std::runtime_error(
+            "CalibrationController::endPoint() - PanelID mismatch");
+    }
 }

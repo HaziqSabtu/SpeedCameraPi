@@ -1,3 +1,6 @@
+#include "Model/SharedModel.hpp"
+#include "Thread/Thread_ID.hpp"
+#include "Thread/Thread_ManualCalib.hpp"
 #include <Model/AppState.hpp>
 
 AppState::AppState() {}
@@ -5,35 +8,91 @@ AppState::AppState() {}
 AppState::AppState(ModelPtr model) {
     cameraPanel = getCameraPanelState(model);
     calibrationPanel = getCalibrationPanelState(model);
+    manualCalibrationPanel = getManualCalibrationPanelState(model);
 }
 
-CameraPanelState AppState::getCameraPanelState(ModelPtr model) {
-    CameraPanelState cameraPanelState;
+PanelState AppState::getCameraStatusState(ModelPtr model) {
+    return model->sessionData.isImageDataEmpty() ? PanelState::PANEL_NOT_OK
+                                                 : PanelState::PANEL_OK;
+}
 
-    auto isImageEmpty = model->sessionData.isImageDataEmpty();
-    cameraPanelState.state =
-        isImageEmpty ? PanelState::PANEL_NOT_OK : PanelState::PANEL_OK;
+PanelState AppState::getCalibrationStatusState(ModelPtr model) {
+    return model->sessionData.calibData.isNull() ? PanelState::PANEL_NOT_OK
+                                                 : PanelState::PANEL_OK;
+}
 
-    cameraPanelState.captureButtonState = getCaptureButtonState(model);
-    cameraPanelState.loadButtonState = getLoadButtonState(model);
-    cameraPanelState.replayButtonState = getReplayButtonState(model);
-    cameraPanelState.removeButtonState = getRemoveButtonState(model);
-    cameraPanelState.cameraButtonState = getCameraButtonState(model);
+PanelState AppState::getRoiStatusState(ModelPtr model) {
+    return PanelState::PANEL_NOT_OK;
+}
 
-    return cameraPanelState;
+CapturePanelState AppState::getCameraPanelState(ModelPtr model) {
+    CapturePanelState cpps;
+
+    cpps.captureStatusState = getCameraStatusState(model);
+    cpps.calibStatusState = getCalibrationStatusState(model);
+    cpps.roiStatusState = getRoiStatusState(model);
+
+    cpps.captureButtonState = getCaptureButtonState(model);
+    cpps.loadButtonState = getLoadButtonState(model);
+    cpps.replayButtonState = getReplayButtonState(model);
+    cpps.removeButtonState = getRemoveButtonState(model);
+    cpps.cameraButtonState = getCameraButtonState(model);
+
+    cpps.calibButtonState = getCPCalibrationButtonState(model);
+    cpps.calibRemoveButtonState = getCPCalibrationRemoveButtonState(model);
+
+    cpps.roiButtonState = getCPROIButtonState(model);
+    cpps.roiRemoveButtonState = getCPROIRemoveButtonState(model);
+
+    cpps.measureButtonState = getCPMeasureButtonState(model);
+
+    return cpps;
 }
 
 CalibrationPanelState AppState::getCalibrationPanelState(ModelPtr model) {
-    CalibrationPanelState calibrationPanelState;
+    CalibrationPanelState clps;
 
-    auto isImageEmpty = model->sessionData.isImageDataEmpty();
-    calibrationPanelState.state = PanelState::PANEL_NOT_OK;
-    calibrationPanelState.calibrationButtonState =
-        getCalibrationButtonState(model);
-    calibrationPanelState.cameraButtonState = getCameraButtonState(model);
-    calibrationPanelState.removeButtonState = getRemoveButtonState2(model);
+    bool isCalibrationDataNull = model->sessionData.calibData.isNull();
 
-    return calibrationPanelState;
+    clps.state = getCalibrationStatusState(model);
+
+    clps.calibrationButtonState = getCalibrationButtonState(model);
+    clps.cameraButtonState = getCLCameraButtonState(model);
+    clps.removeButtonState = getCalibrationRemoveButtonState(model);
+
+    clps.selectPointButtonState = getSelectPointButtonState(model);
+    clps.cancelCalibrationButtonState = getCancelCalibrationButtonState(model);
+    clps.acceptCalibrationButtonState = getAcceptCalibrationButtonState(model);
+
+    clps.recalibrateColorButtonState = getRecalibrateColorButtonState(model);
+    clps.manualCalibrationButtonState = getManualCalibrationButtonState(model);
+
+    clps.okButtonState = getCLOKButtonState(model);
+    clps.cancelButtonState = getCLCancelButtonState(model);
+
+    return clps;
+}
+
+ManualCalibrationPanelState
+AppState::getManualCalibrationPanelState(std::shared_ptr<SharedModel> model) {
+    ManualCalibrationPanelState mcps;
+
+    mcps.state = getCalibrationStatusState(model);
+
+    mcps.calibrationButtonState = getMCButtonState(model);
+    mcps.cameraButtonState = getMCCameraButtonState(model);
+    mcps.removeButtonState = getMCRemoveButtonState(model);
+
+    mcps.selectLeftButtonState = getMCSelectLeftButtonState(model);
+    mcps.removeLeftButtonState = getMCRemoveLeftButtonState(model);
+
+    mcps.selectRightButtonState = getMCSelectRightButtonState(model);
+    mcps.removeRightButtonState = getMCRemoveRightButtonState(model);
+
+    mcps.okButtonState = getMCOKButtonState(model);
+    mcps.cancelButtonState = getMCCancelButtonState(model);
+
+    return mcps;
 }
 
 ButtonState AppState::getCaptureButtonState(ModelPtr model) {
@@ -142,12 +201,47 @@ ButtonState AppState::getCameraButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    // !ERROR Might Cause issue
     if (!model->sessionData.isImageDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
     return ButtonState::OFF;
+}
+
+ButtonState AppState::getCPCalibrationButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadsWithCameraNullptr()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getCPCalibrationRemoveButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadsWithCameraNullptr()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->sessionData.calibData.isNull()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getCPROIButtonState(ModelPtr model) {
+    return ButtonState::DISABLED;
+}
+
+ButtonState AppState::getCPROIRemoveButtonState(ModelPtr model) {
+    return ButtonState::DISABLED;
+}
+
+ButtonState AppState::getCPMeasureButtonState(ModelPtr model) {
+    return ButtonState::DISABLED;
 }
 
 ButtonState AppState::getCalibrationButtonState(ModelPtr model) {
@@ -157,8 +251,7 @@ ButtonState AppState::getCalibrationButtonState(ModelPtr model) {
         return ButtonState::ACTIVE;
     }
 
-    // TODO: Fix this
-    if (!model->sessionData.isImageDataEmpty()) {
+    if (model->sessionData.calibData.isNull()) {
         return ButtonState::NORMAL;
     }
 
@@ -174,9 +267,184 @@ ButtonState AppState::getCalibrationButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    return ButtonState::DISABLED;
+    if (model->sessionData.calibData.isNull()) {
+        return ButtonState::NORMAL;
+    }
+
+    if (!model->sessionData.calibData.isNull()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getRemoveButtonState2(ModelPtr model) {
-    return ButtonState::DISABLED;
+ButtonState AppState::getCLCameraButtonState(ModelPtr model) {
+
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+        return ButtonState::ON;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::OFF;
+}
+
+ButtonState AppState::getCalibrationRemoveButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->sessionData.calibData.isNull()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!model->sessionData.calibData.isNull()) {
+        return ButtonState::NORMAL;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getSelectPointButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getCancelCalibrationButtonState(ModelPtr model) {
+    return getSelectPointButtonState(model);
+}
+
+ButtonState AppState::getAcceptCalibrationButtonState(ModelPtr model) {
+    return getSelectPointButtonState(model);
+}
+
+ButtonState AppState::getRecalibrateColorButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getManualCalibrationButtonState(ModelPtr model) {
+    return getRecalibrateColorButtonState(model);
+}
+
+ButtonState AppState::getCLOKButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->sessionData.calibData.isNull()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getCLCancelButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getMCRemoveButtonState(ModelPtr model) {
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getMCButtonState(ModelPtr model) {
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getMCCameraButtonState(ModelPtr model) {
+    return ButtonState::ON;
+}
+
+ButtonState AppState::getMCSelectLeftButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getManualCalibrationThread();
+    if (thread->getDirection() == ManualDirection::MANUAL_LEFT) {
+        return ButtonState::ACTIVE;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getMCRemoveLeftButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getMCSelectRightButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getManualCalibrationThread();
+    if (thread->getDirection() == ManualDirection::MANUAL_RIGHT) {
+        return ButtonState::ACTIVE;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getMCRemoveRightButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getMCOKButtonState(ModelPtr model) {
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getMCCancelButtonState(ModelPtr model) {
+    return ButtonState::NORMAL;
 }

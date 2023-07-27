@@ -9,6 +9,8 @@ class RightStatusPanel : public TextOutlinePanel {
   public:
     RightStatusPanel(wxWindow *parent);
 
+    void update(const AppState &state);
+
     BitmapButton *right_Button;
     BitmapButton *clear_Button;
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Model/CalibrationData.hpp"
 #include <Utils/DataStruct.hpp>
 #include <Utils/ImageUtils.hpp>
 
@@ -7,6 +8,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+
+#define DataPtr std::shared_ptr<SessionData>
 
 enum PanelID {
     PANEL_NONE,
@@ -57,6 +60,14 @@ struct SessionData {
     PanelID currentPanelID;
 
     std::shared_ptr<std::vector<ImageData>> imageData;
+
+    CalibData calibData;
+
+    void setCalibData(CalibData &data) { calibData = data; }
+
+    void removeCalibData() { calibData.clear(); }
+
+    CalibData getCalibData() { return calibData; }
 
     SessionData() { Init(); }
 

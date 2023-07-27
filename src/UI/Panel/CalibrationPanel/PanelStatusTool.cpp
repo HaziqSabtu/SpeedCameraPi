@@ -1,14 +1,16 @@
 #include "UI/Button/BitmapButton/Button_Cancel.hpp"
 #include "UI/Button/BitmapButton/Button_OK.hpp"
 #include "UI/Button/BitmapButton/Button_Target.hpp"
+#include "Utils/Enum.hpp"
 #include <UI/Panel/CalibrationPanel/PanelStatusTool.hpp>
 
 CalibrationToolPanel::CalibrationToolPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_TOOL) {
 
-    target_button = new BitmapTarget(this, wxID_ANY);
-    cancel_button = new BitmapCancel(this, wxID_ANY);
-    ok_button = new BitmapOK(this, wxID_ANY);
+    target_button = new BitmapTarget(this, Enum::CL_SelectPoint_Button_ID);
+    cancel_button =
+        new BitmapCancel(this, Enum::CL_CancelCalibration_Button_ID);
+    ok_button = new BitmapOK(this, Enum::CL_SaveCalibration_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(target_button, 1, wxEXPAND);
@@ -27,4 +29,13 @@ CalibrationToolPanel::CalibrationToolPanel(wxWindow *parent)
 
     SetSizer(hSizer);
     Fit();
+}
+
+void CalibrationToolPanel::update(const AppState &state) {
+    // set panel
+    CalibrationPanelState ps = state.calibrationPanel;
+
+    target_button->update(ps.selectPointButtonState);
+    cancel_button->update(ps.cancelCalibrationButtonState);
+    ok_button->update(ps.acceptCalibrationButtonState);
 }

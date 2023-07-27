@@ -9,8 +9,8 @@
 LeftStatusPanel::LeftStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::LEFT_NONE) {
 
-    left_Button = new BitmapL(this, wxID_ANY);
-    clear_Button = new BitmapRemove(this, wxID_ANY);
+    left_Button = new BitmapL(this, Enum::MC_SelectLeft_Button_ID);
+    clear_Button = new BitmapRemove(this, Enum::MC_RemoveLeft_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(left_Button, 1, wxEXPAND);
@@ -31,3 +31,11 @@ LeftStatusPanel::LeftStatusPanel(wxWindow *parent)
 }
 
 void LeftStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+
+void LeftStatusPanel::update(const AppState &state) {
+    // set panel
+    ManualCalibrationPanelState ps = state.manualCalibrationPanel;
+
+    left_Button->update(ps.selectLeftButtonState);
+    clear_Button->update(ps.removeLeftButtonState);
+}

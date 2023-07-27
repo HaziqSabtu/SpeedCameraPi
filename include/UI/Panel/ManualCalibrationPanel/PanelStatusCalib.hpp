@@ -10,12 +10,16 @@ class ManualCalibrationMainStatusPanel : public TextOutlinePanel {
   public:
     ManualCalibrationMainStatusPanel(wxWindow *parent);
 
+    void update(const AppState &state);
+
     BitmapButton *calibrate_Button;
     BitmapButtonT2 *camera_Button;
     BitmapButton *preview_Button;
     BitmapButton *reset_Button;
 
   private:
+    void setPanelState(PanelState state);
+
     void OnButtonClicked(wxCommandEvent &e);
 
     wxBoxSizer *hSizer;

@@ -18,6 +18,8 @@ class CalibrationMainStatusPanel : public TextOutlinePanel {
     void update(const AppState &state);
 
   private:
+    void setPanelState(PanelState state);
+
     void OnButtonClicked(wxCommandEvent &e);
 
     wxBoxSizer *hSizer;

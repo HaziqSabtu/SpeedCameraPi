@@ -2,6 +2,7 @@
 #include "Event/Event_Error.hpp"
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
+#include "Model/CalibrationData.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include <Thread/Thread_Calibration.hpp>
 #include <opencv2/imgproc.hpp>
@@ -34,7 +35,7 @@ wxThread::ExitCode CalibrationThread::Entry() {
                 throw std::runtime_error("Failed to capture frame");
             }
 
-            cv::Size s(320, 240);
+            cv::Size s(640, 480);
             cv::resize(frame, frame, s);
 
             cv::Mat hsvFrame = hsvFilter.toHSV(frame);
@@ -56,6 +57,7 @@ wxThread::ExitCode CalibrationThread::Entry() {
                 Detection::Line yellowLine =
                     ransac.run(mask_yellow).Extrapolate(mask_yellow);
                 if (!yellowLine.isNull()) {
+                    updateYellowLine(yellowLine);
                     cv::line(frame, yellowLine.p1, yellowLine.p2,
                              cv::Scalar(0, 255, 255), 2);
                 }
@@ -64,6 +66,7 @@ wxThread::ExitCode CalibrationThread::Entry() {
                 Detection::Line blueLine =
                     ransac.run(mask_blue).Extrapolate(mask_blue);
                 if (!blueLine.isNull()) {
+                    updateBlueLine(blueLine);
                     cv::line(frame, blueLine.p1, blueLine.p2,
                              cv::Scalar(255, 0, 0), 2);
                 }
@@ -73,6 +76,10 @@ wxThread::ExitCode CalibrationThread::Entry() {
             } else {
                 UpdateStatusEvent::Submit(
                     parent, StatusCollection::STATUS_LINE_NOT_DETECTED);
+            }
+
+            if (point != cv::Point(0, 0)) {
+                cv::circle(frame, point, 5, cv::Scalar(0, 0, 255), -1);
             }
 
             UpdatePreviewEvent::Submit(parent, frame);
@@ -94,6 +101,25 @@ std::unique_ptr<CameraBase> CalibrationThread::getCamera() {
     return std::move(camera);
 }
 
-void CalibrationThread::setPoint(cv::Point point) { bfs.setStart(point); }
+void CalibrationThread::setPoint(cv::Point point) {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    this->point = point;
+    bfs.setStart(point);
+}
 
 ThreadID CalibrationThread::getID() const { return threadID; }
+
+void CalibrationThread::updateYellowLine(Detection::Line line) {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    yellowLine = line;
+}
+
+void CalibrationThread::updateBlueLine(Detection::Line line) {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    blueLine = line;
+}
+
+CalibData CalibrationThread::getCalibData() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    return CalibData(yellowLine, blueLine);
+}

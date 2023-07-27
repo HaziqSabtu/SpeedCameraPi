@@ -2,6 +2,7 @@
 
 #include "Controller/ManualCalibrationController.hpp"
 #include "Event/Event_UpdatePreview.hpp"
+#include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Button/Button_Exit.hpp"
@@ -47,7 +48,11 @@ class ManualCalibrationPanel : public wxPanel {
     void OnCalibrationEvent(wxCommandEvent &e);
     void OnCapture(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);
+    void OnMotion(wxMouseEvent &e);
+    void OnLeftUp(wxMouseEvent &e);
     void OnUpdateStatus(UpdateStatusEvent &e);
+    void OnUpdateState(UpdateStateEvent &e);
+    void OnShow(wxShowEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

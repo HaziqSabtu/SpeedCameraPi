@@ -19,17 +19,29 @@
 
 #include <wx/thread.h>
 
-class CalibrationThread : public wxThread {
+enum ManualDirection { MANUAL_LEFT, MANUAL_RIGHT };
+
+class ManualCalibrationThread : public wxThread {
   public:
-    CalibrationThread(wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-                      HSVFilter &hsvFilter, BFS &bfs, RansacLine &ransac);
-    ~CalibrationThread();
+    ManualCalibrationThread(wxEvtHandler *parent,
+                            std::unique_ptr<CameraBase> &camera);
+    ~ManualCalibrationThread();
 
     std::unique_ptr<CameraBase> getCamera();
 
-    void setPoint(cv::Point point);
-
     CalibData getCalibData();
+
+    void setPoint1(cv::Point point);
+    void setPoint2(cv::Point point);
+
+    void setDirection(ManualDirection direction);
+    ManualDirection getDirection();
+
+    void setYellowLine(Detection::Line line);
+    Detection::Line getYellowLine();
+
+    void setBlueLine(Detection::Line line);
+    Detection::Line getBlueLine();
 
     ThreadID getID() const;
 
@@ -40,18 +52,17 @@ class CalibrationThread : public wxThread {
     wxEvtHandler *parent;
     std::unique_ptr<CameraBase> camera;
 
-    const ThreadID threadID = ThreadID::THREAD_CALIBRATION;
-
-    HSVFilter hsvFilter;
-    BFS bfs;
-    RansacLine ransac;
+    const ThreadID threadID = ThreadID::THREAD_MANUAL_CALIBRATION;
 
     std::mutex m_mutex;
-    cv::Point point;
     Detection::Line yellowLine;
     Detection::Line blueLine;
+
+    ManualDirection direction = MANUAL_LEFT;
 
   private:
     void updateYellowLine(Detection::Line line);
     void updateBlueLine(Detection::Line line);
+
+    bool isLineValid(Detection::Line &line);
 };

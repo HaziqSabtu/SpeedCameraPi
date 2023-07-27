@@ -10,6 +10,8 @@ class CalibrationToolPanel : public TextOutlinePanel {
   public:
     CalibrationToolPanel(wxWindow *parent);
 
+    void update(const AppState &state);
+
     BitmapButton *target_button;
     BitmapButton *cancel_button;
     BitmapButton *ok_button;

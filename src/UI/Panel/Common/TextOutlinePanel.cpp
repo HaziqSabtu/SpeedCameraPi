@@ -1,3 +1,4 @@
+#include "Model/AppState.hpp"
 #include <UI/Panel/Common/TextOutlinePanel.hpp>
 #include <cmath>
 #include <iostream>

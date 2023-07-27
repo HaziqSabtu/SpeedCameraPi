@@ -19,8 +19,6 @@ CalibrationStatusPanel::CalibrationStatusPanel(wxWindow *parent)
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
-    // vSizer->Add(calibrate_Button, 0, wxEXPAND | wxTOP | wxRIGHT | wxLEFT, 10);
-    // vSizer->Add(reset_Button, 0, wxEXPAND | wxALL, 10);
     vSizer->Add(hSizer, 0, wxEXPAND | wxALL, 10);
     vSizer->Add(bottomPadding, 0, wxEXPAND);
 
@@ -41,11 +39,15 @@ void CalibrationStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 void CalibrationStatusPanel::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         SetTextData(RTC::CALIB_OK);
-        // calibrate_Button->Enable(false);
-        // reset_Button->Enable(true);
-    } else if (state == PanelState::PANEL_NOT_OK) {
-        SetTextData(RTC::CALIB_NONE);
-        // calibrate_Button->Enable(true);
-        // reset_Button->Enable(false);
     }
+
+    if (state == PanelState::PANEL_NOT_OK) {
+        SetTextData(RTC::CALIB_NONE);
+    }
+}
+
+void CalibrationStatusPanel::update(const AppState &state) {
+    setPanelState(state.cameraPanel.calibStatusState);
+    calibrate_Button->update(state.cameraPanel.calibButtonState);
+    reset_Button->update(state.cameraPanel.calibRemoveButtonState);
 }

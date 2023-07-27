@@ -1,3 +1,4 @@
+#include "Model/AppState.hpp"
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Button/BitmapButton/Bitmap_Calibration.hpp"
 #include "UI/Button/BitmapButton/Button_Preview.hpp"
@@ -14,7 +15,7 @@ ManualCalibrationMainStatusPanel::ManualCalibrationMainStatusPanel(
     wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_NONE) {
 
-    calibrate_Button = new BitmapCalibration(this, wxID_ANY);
+    calibrate_Button = new BitmapCalibration(this, Enum::MC_Start_Button_ID);
     camera_Button = new BitmapT2Camera(this, wxID_ANY);
     preview_Button = new BitmapPreview(this, wxID_ANY);
     reset_Button = new BitmapRemove(this, wxID_ANY);
@@ -44,4 +45,24 @@ ManualCalibrationMainStatusPanel::ManualCalibrationMainStatusPanel(
 
 void ManualCalibrationMainStatusPanel::OnButtonClicked(wxCommandEvent &e) {
     e.Skip();
+}
+
+void ManualCalibrationMainStatusPanel::update(const AppState &state) {
+    // set panel
+    ManualCalibrationPanelState ps = state.manualCalibrationPanel;
+    setPanelState(ps.state);
+
+    calibrate_Button->update(ps.calibrationButtonState);
+    camera_Button->update(ps.cameraButtonState);
+    reset_Button->update(ps.removeButtonState);
+}
+
+void ManualCalibrationMainStatusPanel::setPanelState(PanelState state) {
+    if (state == PanelState::PANEL_OK) {
+        SetTextData(RTC::CALIB_OK);
+    }
+
+    if (state == PanelState::PANEL_NOT_OK) {
+        SetTextData(RTC::CALIB_NONE);
+    }
 }
