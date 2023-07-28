@@ -12,6 +12,10 @@ class ManualCalibrationController {
 
     void e_UpdateState(wxEvtHandler *parent);
 
+    void e_CreateTempSessionData(wxEvtHandler *parent);
+    void e_RestoreSessionData(wxEvtHandler *parent);
+    void e_SaveSessionData(wxEvtHandler *parent);
+
     void e_ChangeToCapturePanel(wxEvtHandler *parent);
 
     void e_ChangeToCalibrationPanel(wxEvtHandler *parent);
@@ -21,6 +25,7 @@ class ManualCalibrationController {
 
     void e_SetPoint1(wxEvtHandler *parent, wxPoint point);
     void e_SetPoint2(wxEvtHandler *parent, wxPoint point);
+    void e_SaveLine(wxEvtHandler *parent, wxPoint point);
 
     void e_ManualCalibStart(wxEvtHandler *parent);
     void e_ManualCalibEnd(wxEvtHandler *parent);
@@ -43,6 +48,7 @@ class ManualCalibrationController {
 
     void setPoint1Handler(wxEvtHandler *parent, cv::Point point);
     void setPoint2Handler(wxEvtHandler *parent, cv::Point point);
+    void saveLineHandler(wxEvtHandler *parent, cv::Point point);
 
     void manualCalibStartHandler(wxEvtHandler *parent);
     void manualCalibEndHandler(wxEvtHandler *parent);
@@ -52,4 +58,8 @@ class ManualCalibrationController {
 
     void removeLeftHandler(wxEvtHandler *parent);
     void removeRightHandler(wxEvtHandler *parent);
+
+    void createTempSessionDataHandler(wxEvtHandler *parent);
+    void restoreSessionDataHandler(wxEvtHandler *parent);
+    void saveSessionDataHandler(wxEvtHandler *parent);
 };

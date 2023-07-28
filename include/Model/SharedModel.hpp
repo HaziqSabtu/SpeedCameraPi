@@ -62,11 +62,17 @@ class SharedModel : public ISharedModel {
     void killAllThreads() override;
 
     DataPtr getSessionData();
+    void setSessionData(SessionData data);
     SessionData sessionData;
+
+    void setTempSessionData(SessionData data);
+    DataPtr getTempSessionData();
 
   protected:
   private:
     std::unique_ptr<CameraBase> camera;
     std::shared_ptr<ThreadPool> threadPool;
     std::shared_ptr<ThreadController> threadController;
+
+    SessionData tempSessionData;
 };

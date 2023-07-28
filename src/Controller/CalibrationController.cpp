@@ -33,6 +33,36 @@ void CalibrationController::e_UpdateState(wxEvtHandler *parent) {
     }
 }
 
+void CalibrationController::e_CreateTempSessionData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        createTempSessionDataHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CalibrationController::e_RestoreSessionData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        restoreSessionDataHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CalibrationController::e_SaveSessionData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        saveSessionDataHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void CalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -275,4 +305,47 @@ void CalibrationController::checkPreCondition() {
         throw std::runtime_error(
             "CalibrationController::endPoint() - PanelID mismatch");
     }
+}
+
+void CalibrationController::createTempSessionDataHandler(wxEvtHandler *parent) {
+    auto temp = shared->getTempSessionData();
+
+    if (temp == nullptr) {
+        throw std::runtime_error("TempSessionData is nullptr");
+    }
+
+    if (!temp->isNull()) {
+        throw std::runtime_error("TempSessionData is not null");
+    }
+
+    auto data = shared->getSessionData();
+    shared->setTempSessionData(*data);
+}
+
+void CalibrationController::saveSessionDataHandler(wxEvtHandler *parent) {
+    auto temp = shared->getTempSessionData();
+
+    if (temp == nullptr) {
+        throw std::runtime_error("TempSessionData is nullptr");
+    }
+
+    if (temp->isNull()) {
+        throw std::runtime_error("TempSessionData is null");
+    }
+
+    shared->setTempSessionData(SessionData());
+}
+
+void CalibrationController::restoreSessionDataHandler(wxEvtHandler *parent) {
+    auto temp = shared->getTempSessionData();
+
+    if (temp == nullptr) {
+        throw std::runtime_error("TempSessionData is nullptr");
+    }
+
+    if (temp->isNull()) {
+        throw std::runtime_error("TempSessionData is null");
+    }
+
+    shared->setSessionData(*temp);
 }

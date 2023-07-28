@@ -97,6 +97,21 @@ void SharedModel::killAllThreads() {
     }
 }
 
+// return a shared_ptr to the SessionData object WITHOUT copying it
+// e.g. is pointing to the same object as the one in SharedModel
+// if want to deep copy -> std::shared_ptr<SessionData>(sessionData)
 DataPtr SharedModel::getSessionData() {
-    return std::make_shared<SessionData>(sessionData);
+    return std::shared_ptr<SessionData>(&sessionData, [](SessionData *) {});
+}
+
+DataPtr SharedModel::getTempSessionData() {
+    return std::shared_ptr<SessionData>(&tempSessionData, [](SessionData *) {});
+}
+
+void SharedModel::setSessionData(SessionData data) {
+    sessionData = data.clone();
+}
+
+void SharedModel::setTempSessionData(SessionData data) {
+    tempSessionData = data.clone();
 }

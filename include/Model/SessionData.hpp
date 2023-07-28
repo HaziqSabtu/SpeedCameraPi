@@ -71,10 +71,41 @@ struct SessionData {
 
     SessionData() { Init(); }
 
+    SessionData(const SessionData &other) {
+        id = other.id;
+        currentPanelID = other.currentPanelID;
+        imageData = other.imageData;
+        calibData = other.calibData;
+        roiData = other.roiData;
+    }
+
+    SessionData clone() const { return SessionData(*this); }
+
+    // Copy assignment operator (deep copy)
+    SessionData &operator=(const SessionData &other) {
+        if (this == &other) // Handle self-assignment
+            return *this;
+
+        id = other.id;
+        currentPanelID = other.currentPanelID;
+        imageData = other.imageData;
+        calibData = other.calibData;
+        roiData = other.roiData;
+
+        return *this;
+    }
+
+    bool isNull() {
+        return (imageData->empty() && calibData.isNull() &&
+                roiData.isRoiEmpty());
+    }
+
     void Init() {
         id = Utils::dateToString();
         currentPanelID = PANEL_CAPTURE;
         imageData = std::make_shared<std::vector<ImageData>>();
+        calibData = CalibData();
+        roiData = RoiData();
     }
 
     void clearImageData() {

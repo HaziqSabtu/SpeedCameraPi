@@ -21,6 +21,10 @@ class CalibrationController {
 
     void e_UpdateState(wxEvtHandler *parent);
 
+    void e_CreateTempSessionData(wxEvtHandler *parent);
+    void e_RestoreSessionData(wxEvtHandler *parent);
+    void e_SaveSessionData(wxEvtHandler *parent);
+
     void e_RemoveCalibData(wxEvtHandler *parent);
 
     void e_SetPoint(wxEvtHandler *parent, wxPoint point);
@@ -53,4 +57,8 @@ class CalibrationController {
     void endCalibrationHandler();
 
     void setPointHandler(wxEvtHandler *parent, cv::Point point);
+
+    void createTempSessionDataHandler(wxEvtHandler *parent);
+    void restoreSessionDataHandler(wxEvtHandler *parent);
+    void saveSessionDataHandler(wxEvtHandler *parent);
 };

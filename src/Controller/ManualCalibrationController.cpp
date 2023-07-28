@@ -3,6 +3,7 @@
 #include "Model/SessionData.hpp"
 #include "Model/SharedModel.hpp"
 #include "Thread/Thread_ID.hpp"
+#include "Thread/Thread_ManualCalib.hpp"
 #include "Utils/Struct/D_Line.hpp"
 #include "Utils/wxUtils.hpp"
 
@@ -26,6 +27,37 @@ void ManualCalibrationController::checkPreCondition() {
     if (panelID != shared->sessionData.currentPanelID) {
         throw std::runtime_error(
             "ManualCalibrationController::endPoint() - PanelID mismatch");
+    }
+}
+
+void ManualCalibrationController::e_CreateTempSessionData(
+    wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        createTempSessionDataHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ManualCalibrationController::e_RestoreSessionData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        restoreSessionDataHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ManualCalibrationController::e_SaveSessionData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        saveSessionDataHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
     }
 }
 
@@ -88,6 +120,18 @@ void ManualCalibrationController::e_SetPoint2(wxEvtHandler *parent,
         checkPreCondition();
 
         setPoint2Handler(parent, Utils::wxPointToCvPoint(point));
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ManualCalibrationController::e_SaveLine(wxEvtHandler *parent,
+                                             wxPoint point) {
+    try {
+        checkPreCondition();
+
+        saveLineHandler(parent, Utils::wxPointToCvPoint(point));
 
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -238,6 +282,37 @@ void ManualCalibrationController::setPoint2Handler(wxEvtHandler *parent,
     thread->setPoint2(point);
 }
 
+void ManualCalibrationController::saveLineHandler(wxEvtHandler *parent,
+                                                  cv::Point point) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(ThreadID::THREAD_MANUAL_CALIBRATION)) {
+        throw std::runtime_error(
+            "ManualCalibrationController::setPoint2Handler() - "
+            "THREAD_MANUAL_CALIBRATION is nullptr");
+    }
+
+    if (!tc->isThreadOwner(ThreadID::THREAD_MANUAL_CALIBRATION, panelID)) {
+        throw std::runtime_error(
+            "ManualCalibrationController::setPoint2Handler() - "
+            "THREAD_MANUAL_CALIBRATION is not owned by this panel");
+    }
+
+    auto thread = tc->getManualCalibrationThread();
+    thread->setPoint2(point);
+
+    auto dir = thread->getDirection();
+    auto line =
+        dir == MANUAL_LEFT ? thread->getBlueLine() : thread->getYellowLine();
+
+    auto data = shared->getSessionData();
+    auto calibData = data->getCalibData();
+
+    dir == MANUAL_LEFT ? calibData.lineLeft = line : calibData.lineRight = line;
+
+    data->setCalibData(calibData);
+}
+
 void ManualCalibrationController::manualCalibStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -352,4 +427,42 @@ void ManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
 
     auto thread = tc->getManualCalibrationThread();
     thread->setYellowLine(Detection::Line());
+}
+
+void ManualCalibrationController::createTempSessionDataHandler(
+    wxEvtHandler *parent) {
+    auto temp = shared->getTempSessionData();
+
+    if (temp == nullptr) {
+        throw std::runtime_error("TempSessionData is nullptr");
+    }
+
+    if (!temp->isNull()) {
+        throw std::runtime_error("TempSessionData is not null");
+    }
+
+    auto data = shared->getSessionData();
+    shared->setTempSessionData(*data);
+}
+
+void ManualCalibrationController::saveSessionDataHandler(wxEvtHandler *parent) {
+    auto temp = shared->getTempSessionData();
+
+    //  will it ever null?
+    if (temp == nullptr) {
+        throw std::runtime_error("TempSessionData is nullptr");
+    }
+
+    shared->setTempSessionData(SessionData());
+}
+
+void ManualCalibrationController::restoreSessionDataHandler(
+    wxEvtHandler *parent) {
+    auto temp = shared->getTempSessionData();
+
+    if (temp == nullptr) {
+        throw std::runtime_error("TempSessionData is nullptr");
+    }
+
+    shared->setSessionData(*temp);
 }

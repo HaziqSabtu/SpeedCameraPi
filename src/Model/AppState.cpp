@@ -465,7 +465,8 @@ ButtonState AppState::getMCCameraButtonState(ModelPtr model) {
 PanelState AppState::getMCLeftStatusState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    auto calibData = model->sessionData.calibData;
+    auto data = model->getSessionData();
+    auto calibData = data->getCalibData();
 
     Detection::Line line = calibData.lineLeft;
 

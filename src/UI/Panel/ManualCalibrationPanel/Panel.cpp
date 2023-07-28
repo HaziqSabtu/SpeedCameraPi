@@ -11,6 +11,7 @@
 #include <UI/Panel/ManualCalibrationPanel/Panel.hpp>
 #include <stdexcept>
 #include <wx/event.h>
+#include <wx/gdicmn.h>
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
@@ -45,7 +46,13 @@ ManualCalibrationPanel::~ManualCalibrationPanel() {}
 
 void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Cancel_Button_ID) {
-        controller->e_ChangeToCalibrationPanel(this);
+        controller->e_RestoreSessionData(this);
+        controller->e_ChangeToCapturePanel(this);
+    }
+
+    if (e.GetId() == Enum::G_OK_Button_ID) {
+        controller->e_SaveSessionData(this);
+        controller->e_ChangeToCapturePanel(this);
     }
 
     if (e.GetId() == Enum::MC_Start_Button_ID) {
@@ -194,9 +201,13 @@ void ManualCalibrationPanel::OnLeftUp(wxMouseEvent &e) {
             img_bitmap->Unbind(wxEVT_LEFT_UP, &ManualCalibrationPanel::OnLeftUp,
                                this);
 
+            controller->e_SaveLine(this, wxPoint(x, y));
+
             // Bind Left Down Event
             img_bitmap->Bind(wxEVT_LEFT_DOWN,
                              &ManualCalibrationPanel::OnLeftDown, this);
+
+            controller->e_UpdateState(this);
         }
     }
 }
@@ -221,6 +232,7 @@ void ManualCalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
 
 void ManualCalibrationPanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
+        controller->e_CreateTempSessionData(this);
         controller->e_UpdateState(this);
     }
 }
