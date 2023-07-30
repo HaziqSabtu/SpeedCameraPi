@@ -9,6 +9,7 @@
  *
  */
 
+#include "Event/Event_Error.hpp"
 #include <Thread/Thread_Capture.hpp>
 #include <memory>
 
@@ -47,16 +48,21 @@ wxThread::ExitCode CaptureThread::Entry() {
     wxCommandEvent startCaptureEvent(c_CAPTURE_EVENT, CAPTURE_START);
     wxPostEvent(parent, startCaptureEvent);
 
-    while (!TestDestroy()) {
-        cv::Mat frame;
-        camera->getFrame(frame);
+    try {
 
-        if (frame.empty()) {
-            std::cout << "Failed to capture frame" << std::endl;
-            continue;
+        while (!TestDestroy()) {
+            cv::Mat frame;
+            camera->getFrame(frame);
+
+            if (frame.empty()) {
+                std::cout << "Failed to capture frame" << std::endl;
+                continue;
+            }
+
+            UpdatePreviewEvent::Submit(parent, frame);
         }
-
-        UpdatePreviewEvent::Submit(parent, frame);
+    } catch (const std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
     }
 
     UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
