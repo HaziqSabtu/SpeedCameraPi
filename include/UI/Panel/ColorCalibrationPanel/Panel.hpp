@@ -7,6 +7,8 @@
 #include "UI/Button/Button_Exit.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Layout/TitlePanel.hpp"
+#include "UI/Panel/ColorCalibrationPanel/PanelBlueStatus.hpp"
+#include "UI/Panel/ColorCalibrationPanel/PanelYellowStatus.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include <UI/Panel/Base/Panel_Image.hpp>

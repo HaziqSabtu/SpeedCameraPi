@@ -4,6 +4,7 @@
 #include "Thread/Thread_CalibPreview.hpp"
 #include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
+#include "Thread/Thread_ColorCalib.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
 #include "Thread/Thread_ManualCalib.hpp"
@@ -56,6 +57,12 @@ class ThreadController {
 
     void endManualCalibrationHandler();
 
+    virtual void startColorCalibrationHandler(
+        wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
+        HSVFilter &hsvFilter, BFS &bfs, PanelID panelID);
+
+    void endColorCalibrationHandler();
+
     bool isThreadNullptr(ThreadID threadID);
 
     bool isThreadOwner(ThreadID threadID, PanelID panelID);
@@ -75,6 +82,8 @@ class ThreadController {
     CalibPreviewThread *getCalibPreviewThread();
 
     ManualCalibrationThread *getManualCalibrationThread();
+
+    ColorCalibrationThread *getColorCalibrationThread();
 
     void killAllThreads();
 
@@ -101,4 +110,6 @@ class ThreadController {
     CalibPreviewThread *calibPreviewThread;
 
     ManualCalibrationThread *manualCalibrationThread;
+
+    ColorCalibrationThread *colorCalibrationThread;
 };

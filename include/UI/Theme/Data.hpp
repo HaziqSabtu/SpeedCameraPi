@@ -100,6 +100,33 @@ const BitmapData BitmapPreview = {
     .text = wxT("Preview"),
 };
 
+const BitmapData BitmapSave = {
+    .filename = wxT("Assets/floppy_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Save"),
+};
+
+const BitmapData BitmapSelectBlue = {
+    .filename = wxT("Assets/colorPicker_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Select Blue"),
+};
+
+const BitmapData BitmapSelectYellow = {
+    .filename = wxT("Assets/colorPicker_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Select Yellow"),
+};
+
 // BitmapButtonT2 Data
 const BitmapDataT2 BitmapT2Camera = {
     .size = T::BitmapDefaultSize,

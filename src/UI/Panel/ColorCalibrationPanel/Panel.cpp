@@ -47,13 +47,17 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
         controller->e_ChangeToCalibrationPanel(this);
     }
 
-    if (e.GetId() == Enum::CL_ToggleCamera_Button_ID) {
-        // ButtonWState *button = button_panel->camera_Button;
-        // model->e_ToggleCamera(button, button->GetState());
+    // TODO: Implement this, Add Saving
+    if (e.GetId() == Enum::G_OK_Button_ID) {
+        controller->e_ChangeToCalibrationPanel(this);
     }
 
-    if (e.GetId() == Enum::CL_Start_Button_ID) {
-        // model->e_StartCalibration(button_panel->start_Button);
+    if (e.GetId() == Enum::CC_Start_Button_ID) {
+        controller->e_ColorCalibrationStart(this);
+    }
+
+    if (e.GetId() == Enum::CC_Stop_Button_ID) {
+        controller->e_ColorCalibrationEnd(this);
     }
 
     e.Skip();

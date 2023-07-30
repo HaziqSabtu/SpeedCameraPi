@@ -73,4 +73,28 @@ const RTD CALIB_TOOL = {
 const RTD CALIB_OTHER = {
     {wxT("Others"), Theme::Text},
 };
+
+const RTD COLOR_CALIB = {
+    {wxT("Color Calibration"), Theme::Text},
+};
+
+const RTD COLOR_CALIB_BLUE_NONE = {
+    {wxT("Blue: "), Theme::Text},
+    {wxT("NONE"), Theme::StatusNone},
+};
+
+const RTD COLOR_CALIB_BLUE_OK = {
+    {wxT("Blue: "), Theme::Text},
+    {wxT("CALIBRATED"), Theme::StatusOk},
+};
+
+const RTD COLOR_CALIB_YELLOW_NONE = {
+    {wxT("Yellow: "), Theme::Text},
+    {wxT("NONE"), Theme::StatusNone},
+};
+
+const RTD COLOR_CALIB_YELLOW_OK = {
+    {wxT("Yellow: "), Theme::Text},
+    {wxT("CALIBRATED"), Theme::StatusOk},
+};
 }; // namespace RichTextCollection

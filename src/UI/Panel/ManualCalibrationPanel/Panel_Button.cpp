@@ -7,11 +7,6 @@ ManualCalibrationPanelButton::ManualCalibrationPanelButton(wxWindow *parent,
                                                            wxWindowID id)
     : wxPanel(parent, id, wxDefaultPosition, wxSize(400, 400)) {
 
-    // camera_Button = new ButtonToggleCam(this, Enum::CL_ToggleCamera_Button_ID);
-
-    // cancel_Button = new wxButton(this, Enum::CL_Back_Button_ID, "Cancel");
-    // OK_Button = new wxButton(this, Enum::CL_OK_Button_ID, "OK");
-
     Spacer =
         new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(10, 10));
 
@@ -31,11 +26,6 @@ ManualCalibrationPanelButton::ManualCalibrationPanelButton(wxWindow *parent,
     right_Spacer = new wxStaticText(this, wxID_ANY, wxEmptyString);
 
     ok_cancel_panel = new OKCancelPanel(this);
-
-    // okSizer = new wxBoxSizer(wxHORIZONTAL);
-    // okSizer->Add(OK_Button, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 10);
-    // okSizer->Add(cancel_Button, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 10);
-    // okSizer->Add(camera_Button, 1, wxEXPAND | wxBOTTOM, 10);
 
     button_sizer = new wxBoxSizer(wxVERTICAL);
     button_sizer->Add(main_status_panel, 0, wxEXPAND | wxBOTTOM, 10);

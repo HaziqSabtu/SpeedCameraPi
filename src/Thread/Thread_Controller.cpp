@@ -1,4 +1,7 @@
+#include "Algorithm/hsv_filter/BFS.hpp"
+#include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
+#include "Thread/Thread_Result.hpp"
 #include <Thread/Thread_Controller.hpp>
 #include <Thread/Thread_ManualCalib.hpp>
 
@@ -24,6 +27,7 @@ void ThreadController::initThread() {
     calibrationThread = nullptr;
     calibPreviewThread = nullptr;
     manualCalibrationThread = nullptr;
+    colorCalibrationThread = nullptr;
 };
 
 void ThreadController::deleteThread() {
@@ -34,6 +38,7 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(calibrationThread);
     stopAndDeleteThread(calibPreviewThread);
     stopAndDeleteThread(manualCalibrationThread);
+    stopAndDeleteThread(colorCalibrationThread);
 };
 
 bool ThreadController::isThreadNullptr(ThreadID threadID) {
@@ -65,6 +70,10 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return manualCalibrationThread == nullptr;
     }
 
+    if (threadID == ThreadID::THREAD_COLOR_CALIBRATION) {
+        return colorCalibrationThread == nullptr;
+    }
+
     throw std::runtime_error(
         "ThreadController::isThreadNullptr() - Invalid ThreadID");
 }
@@ -79,7 +88,9 @@ bool ThreadController::isThreadOwner(ThreadID threadID, PanelID panelID) {
 bool ThreadController::isThreadsWithCameraNullptr() {
     return captureThread == nullptr && loadCaptureThread == nullptr &&
            loadFileThread == nullptr && calibrationThread == nullptr &&
-           calibPreviewThread == nullptr && manualCalibrationThread == nullptr;
+           calibPreviewThread == nullptr &&
+           manualCalibrationThread == nullptr &&
+           colorCalibrationThread == nullptr;
 }
 
 void ThreadController::startCaptureHandler(wxEvtHandler *parent,
@@ -148,6 +159,10 @@ ManualCalibrationThread *ThreadController::getManualCalibrationThread() {
     return manualCalibrationThread;
 }
 
+ColorCalibrationThread *ThreadController::getColorCalibrationThread() {
+    return colorCalibrationThread;
+}
+
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
                                             std::string path, PanelID panelID) {
 
@@ -202,6 +217,21 @@ void ThreadController::startManualCalibrationHandler(
 
 void ThreadController::endManualCalibrationHandler() {
     manualCalibrationThread = stopAndDeleteThread(manualCalibrationThread);
+}
+
+void ThreadController::startColorCalibrationHandler(
+    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
+    HSVFilter &hsvFilter, BFS &bfs, PanelID panelID) {
+
+    colorCalibrationThread =
+        new ColorCalibrationThread(parent, camera, hsvFilter, bfs);
+    colorCalibrationThread->Run();
+
+    owner[colorCalibrationThread->getID()] = panelID;
+}
+
+void ThreadController::endColorCalibrationHandler() {
+    colorCalibrationThread = stopAndDeleteThread(colorCalibrationThread);
 }
 
 template <typename T>

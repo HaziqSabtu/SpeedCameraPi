@@ -14,10 +14,16 @@ class ColorCalibrationController {
 
     void e_ChangeToCalibrationPanel(wxEvtHandler *parent);
 
+    void e_ColorCalibrationStart(wxEvtHandler *parent);
+    void e_ColorCalibrationEnd(wxEvtHandler *parent);
+
   private:
     static const PanelID panelID = PanelID::PANEL_COLOR_CALIBRATION;
     ModelPtr shared;
 
   private:
     void checkPreCondition();
+
+    void colorCalibrationStartHandler(wxEvtHandler *parent);
+    void colorCalibrationEndHandler(wxEvtHandler *parent);
 };

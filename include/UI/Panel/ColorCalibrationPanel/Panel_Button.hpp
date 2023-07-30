@@ -2,7 +2,9 @@
 
 #include "UI/Button/Button_ToggleCamera.hpp"
 #include "UI/Button/Button_wState.hpp"
+#include "UI/Panel/ColorCalibrationPanel/PanelBlueStatus.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelStatusCalib.hpp"
+#include "UI/Panel/ColorCalibrationPanel/PanelYellowStatus.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelStatusCalib.hpp"
 #include <Utils/Enum.hpp>
@@ -16,6 +18,9 @@ class ColorCalibrationPanelButton : public wxPanel {
     ColorCalibrationPanelButton(wxWindow *parent, wxWindowID id);
 
     ColorCalibrationMainStatusPanel *main_status_panel;
+
+    BlueStatusPanel *blue_status_panel;
+    YellowStatusPanel *yellow_status_panel;
 
     OKCancelPanel *ok_cancel_panel;
 

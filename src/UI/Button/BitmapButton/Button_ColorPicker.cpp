@@ -2,5 +2,6 @@
 #include "UI/Theme/Data.hpp"
 #include "UI/Theme/Theme.hpp"
 
-BitmapColorPicker::BitmapColorPicker(wxWindow *parent, wxWindowID id)
-    : BitmapButton(parent, id, Data::BitmapColorPicker) {}
+BitmapColorPicker::BitmapColorPicker(wxWindow *parent, wxWindowID id,
+                                     const BitmapData &data)
+    : BitmapButton(parent, id, data) {}
