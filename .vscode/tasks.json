@@ -1,5 +1,12 @@
 {
     "version": "2.0.0",
+    "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+    },
     "tasks": [
         {
             "label": "Build with CMake",
@@ -45,24 +52,7 @@
             ]
         },
         {
-            "label": "Start GDB remote debugger",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceRoot}/"
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared",
-                "revealProblems": "onProblem"
-            },
-            "command": "clear; ssh RPi0 'cd ~/Target;(nohup gdbserver localhost:2000 Example_ImageAlignment &);sleep 1'",
-            // "command": "clear;./ssh.py 'cd /opt/bin/;(nohup gdbserver localhost:6666 myapp &);sleep 1'",
-            "problemMatcher": []
-        },
-        {
-            "label": "Shutdown GDB remote debugger",
+            "label": "killGDB",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceRoot}/"
@@ -76,6 +66,28 @@
             },
             "command": "clear; ssh RPi0 'pkill -9 gdbserver'",
             "problemMatcher": []
+        },
+        {
+            "label": "startGDB",
+            "isBackground": true,
+            "problemMatcher": {
+                "base": "$gcc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Deploying to target",
+                    "endsPattern": "Starting GDB Server on Target"
+                }
+            },
+            "type": "shell",
+            "command": "sh",
+            "args": [
+                "scripts/debug/debu.sh",
+                // "${config:VARISCITE.TARGET_IP}",
+                // "${config:VARISCITE.PROGRAM}"
+            ],
+            "dependsOn": [
+                "build"
+            ],
         },
     ]
 }
