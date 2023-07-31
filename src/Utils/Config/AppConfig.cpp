@@ -2,7 +2,7 @@
 
 AppConfig::AppConfig() {
     wxString ini_filename = wxStandardPaths::Get().GetUserConfigDir() +
-                            wxFileName::GetPathSeparator() + "config.ini";
+                            wxFileName::GetPathSeparator() + "SCPConfig.ini";
 
     if (!wxFile::Exists(ini_filename)) {
         config = new wxFileConfig("", "", ini_filename);
@@ -55,6 +55,22 @@ AppConfig::AppConfig() {
         config->Write("K", Default_K);
         config->Write("Min_Point_Distance", Default_Min_Point_Distance);
         config->Write("Threshold", Default_Threshold);
+
+        config->SetPath("/HSV_Blue_Range_Parameter");
+        config->Write("Hue_Min", Default_Hue_Blue_Low);
+        config->Write("Hue_Max", Default_Hue_Blue_High);
+        config->Write("Saturation_Min", Default_Sat_Blue_Low);
+        config->Write("Saturation_Max", Default_Sat_Blue_High);
+        config->Write("Value_Min", Default_Val_Blue_Low);
+        config->Write("Value_Max", Default_Val_Blue_High);
+
+        config->SetPath("/HSV_Yellow_Range_Parameter");
+        config->Write("Hue_Min", Default_Hue_Yellow_Low);
+        config->Write("Hue_Max", Default_Hue_Yellow_High);
+        config->Write("Saturation_Min", Default_Sat_Yellow_Low);
+        config->Write("Saturation_Max", Default_Sat_Yellow_High);
+        config->Write("Value_Min", Default_Val_Yellow_Low);
+        config->Write("Value_Max", Default_Val_Yellow_High);
 
         config->Flush();
     } else {
@@ -177,6 +193,134 @@ OpticalFlowConfig AppConfig::GetOpticalFlowConfig() {
                  Default_Min_Point_Distance);
     config->Read("Threshold", &opticalFlowConfig.threshold, Default_Threshold);
     return opticalFlowConfig;
+}
+
+std::pair<cv::Scalar, cv::Scalar> AppConfig::GetBlueRange() {
+    cv::Scalar lowerBound, upperBound;
+
+    int hueMin, hueMax, satMin, satMax, valMin, valMax;
+    config->SetPath("/HSV_Blue_Range_Parameter");
+    config->Read("Hue_Min", &hueMin, Default_Hue_Blue_Low);
+    config->Read("Hue_Max", &hueMax, Default_Hue_Blue_High);
+    config->Read("Saturation_Min", &satMin, Default_Sat_Blue_Low);
+    config->Read("Saturation_Max", &satMax, Default_Sat_Blue_High);
+    config->Read("Value_Min", &valMin, Default_Val_Blue_Low);
+    config->Read("Value_Max", &valMax, Default_Val_Blue_High);
+
+    if (hueMin < 0 || hueMin > 255 || hueMax < 0 || hueMax > 255 ||
+        satMin < 0 || satMin > 255 || satMax < 0 || satMax > 255 ||
+        valMin < 0 || valMin > 255 || valMax < 0 || valMax > 255) {
+        throw std::invalid_argument("HSV Blue out of range");
+    }
+
+    if (hueMin > hueMax) {
+        throw std::invalid_argument("Hue min (blue) is greater than hue max");
+    }
+
+    if (satMin > satMax) {
+        throw std::invalid_argument(
+            "Saturation min (blue) is greater than max");
+    }
+
+    if (valMin > valMax) {
+        throw std::invalid_argument("Value min (blue) is greater than max");
+    }
+
+    lowerBound = cv::Scalar(hueMin, satMin, valMin);
+    upperBound = cv::Scalar(hueMax, satMax, valMax);
+    return std::make_pair(lowerBound, upperBound);
+}
+
+void AppConfig::SetBlueRange(std::pair<cv::Scalar, cv::Scalar> range) {
+    cv::Scalar lowerBound = range.first;
+    cv::Scalar upperBound = range.second;
+
+    int hueMin = lowerBound[0];
+    int hueMax = upperBound[0];
+    int satMin = lowerBound[1];
+    int satMax = upperBound[1];
+    int valMin = lowerBound[2];
+    int valMax = upperBound[2];
+
+    config->SetPath("/HSV_Blue_Range_Parameter");
+    config->Write("Hue_Min", hueMin);
+    config->Write("Hue_Max", hueMax);
+    config->Write("Saturation_Min", satMin);
+    config->Write("Saturation_Max", satMax);
+    config->Write("Value_Min", valMin);
+    config->Write("Value_Max", valMax);
+}
+
+void AppConfig::ResetBlueRange() {
+    SetBlueRange(
+        std::make_pair(cv::Scalar(Default_Hue_Blue_Low, Default_Sat_Blue_Low,
+                                  Default_Val_Blue_Low),
+                       cv::Scalar(Default_Hue_Blue_High, Default_Sat_Blue_High,
+                                  Default_Val_Blue_High)));
+}
+
+std::pair<cv::Scalar, cv::Scalar> AppConfig::GetYellowRange() {
+    cv::Scalar lowerBound, upperBound;
+
+    int hueMin, hueMax, satMin, satMax, valMin, valMax;
+    config->SetPath("/HSV_Yellow_Range_Parameter");
+    config->Read("Hue_Min", &hueMin, Default_Hue_Yellow_Low);
+    config->Read("Hue_Max", &hueMax, Default_Hue_Yellow_High);
+    config->Read("Saturation_Min", &satMin, Default_Sat_Yellow_Low);
+    config->Read("Saturation_Max", &satMax, Default_Sat_Yellow_High);
+    config->Read("Value_Min", &valMin, Default_Val_Yellow_Low);
+    config->Read("Value_Max", &valMax, Default_Val_Yellow_High);
+
+    if (hueMin < 0 || hueMin > 255 || hueMax < 0 || hueMax > 255 ||
+        satMin < 0 || satMin > 255 || satMax < 0 || satMax > 255 ||
+        valMin < 0 || valMin > 255 || valMax < 0 || valMax > 255) {
+        throw std::invalid_argument("HSV Yellow out of range");
+    }
+
+    if (hueMin > hueMax) {
+        throw std::invalid_argument("Hue min (yellow) is greater than hue max");
+    }
+
+    if (satMin > satMax) {
+        throw std::invalid_argument(
+            "Saturation min (yellow) is greater than max");
+    }
+
+    if (valMin > valMax) {
+        throw std::invalid_argument("Value min (yellow) is greater than max");
+    }
+
+    lowerBound = cv::Scalar(hueMin, satMin, valMin);
+    upperBound = cv::Scalar(hueMax, satMax, valMax);
+    return std::make_pair(lowerBound, upperBound);
+}
+
+void AppConfig::SetYellowRange(std::pair<cv::Scalar, cv::Scalar> range) {
+    cv::Scalar lowerBound = range.first;
+    cv::Scalar upperBound = range.second;
+
+    int hueMin = lowerBound[0];
+    int hueMax = upperBound[0];
+    int satMin = lowerBound[1];
+    int satMax = upperBound[1];
+    int valMin = lowerBound[2];
+    int valMax = upperBound[2];
+
+    config->SetPath("/HSV_Yellow_Range_Parameter");
+    config->Write("Hue_Min", hueMin);
+    config->Write("Hue_Max", hueMax);
+    config->Write("Saturation_Min", satMin);
+    config->Write("Saturation_Max", satMax);
+    config->Write("Value_Min", valMin);
+    config->Write("Value_Max", valMax);
+}
+
+void AppConfig::ResetYellowRange() {
+    SetYellowRange(std::make_pair(
+        cv::Scalar(Default_Hue_Yellow_Low, Default_Sat_Yellow_Low,
+                   Default_Val_Yellow_Low),
+        cv::Scalar(Default_Hue_Yellow_High, Default_Sat_Yellow_High,
+                   Default_Val_Yellow_High)));
 }
 
 AppConfig::~AppConfig() { delete config; }

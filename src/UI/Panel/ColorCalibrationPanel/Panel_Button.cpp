@@ -23,6 +23,8 @@ ColorCalibrationPanelButton::ColorCalibrationPanelButton(wxWindow *parent,
     lrSizer->Add(lrSpacer, 0, wxEXPAND);
     lrSizer->Add(yellow_status_panel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 0);
 
+    other_status_panel = new ColorCalibrationOtherPanel(this);
+
     left_Spacer = new wxStaticText(this, wxID_ANY, wxEmptyString);
     right_Spacer = new wxStaticText(this, wxID_ANY, wxEmptyString);
 
@@ -31,6 +33,7 @@ ColorCalibrationPanelButton::ColorCalibrationPanelButton(wxWindow *parent,
     button_sizer = new wxBoxSizer(wxVERTICAL);
     button_sizer->Add(main_status_panel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
+    button_sizer->Add(other_status_panel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(Spacer, 1, wxEXPAND);
     button_sizer->Add(ok_cancel_panel, 0, wxEXPAND | wxBOTTOM, 0);
 

@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_CalibPreview.hpp"
 #include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
 #include "Thread/Thread_ColorCalib.hpp"
+#include "Thread/Thread_ColorCalibPreview.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
 #include "Thread/Thread_ManualCalib.hpp"
@@ -60,8 +62,14 @@ class ThreadController {
     virtual void startColorCalibrationHandler(
         wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
         HSVFilter &hsvFilter, BFS &bfs, PanelID panelID);
-
     void endColorCalibrationHandler();
+
+    virtual void
+    startColorCalibPreviewHandler(wxEvtHandler *parent,
+                                  std::unique_ptr<CameraBase> &camera,
+                                  CCModelPtr ccExtraModel, PanelID panelID);
+
+    void endColorCalibPreviewHandler();
 
     bool isThreadNullptr(ThreadID threadID);
 
@@ -84,6 +92,8 @@ class ThreadController {
     ManualCalibrationThread *getManualCalibrationThread();
 
     ColorCalibrationThread *getColorCalibrationThread();
+
+    ColorCalibPreviewThread *getColorCalibPreviewThread();
 
     void killAllThreads();
 
@@ -112,4 +122,6 @@ class ThreadController {
     ManualCalibrationThread *manualCalibrationThread;
 
     ColorCalibrationThread *colorCalibrationThread;
+
+    ColorCalibPreviewThread *colorCalibPreviewThread;
 };

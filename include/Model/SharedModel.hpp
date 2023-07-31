@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Controller.hpp"
 #include "Thread/Thread_Process.hpp"
@@ -68,6 +69,9 @@ class SharedModel : public ISharedModel {
     void setTempSessionData(SessionData data);
     DataPtr getTempSessionData();
 
+    void setCCExtraModel(ColorCalibExtraModel ccExtraModel);
+    CCModelPtr getCCExtraModel();
+
   protected:
   private:
     std::unique_ptr<CameraBase> camera;
@@ -75,4 +79,6 @@ class SharedModel : public ISharedModel {
     std::shared_ptr<ThreadController> threadController;
 
     SessionData tempSessionData;
+
+    ColorCalibExtraModel ccExtraModel;
 };

@@ -3,6 +3,7 @@
 
 #include <Utils/Config/ConfigStruct.hpp>
 #include <opencv2/core/cvdef.h>
+#include <opencv2/core/types.hpp>
 #include <wx/file.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
@@ -34,6 +35,14 @@ class AppConfig {
     int GetMaxLoadFrame();
 
     int GetRadius();
+
+    std::pair<cv::Scalar, cv::Scalar> GetBlueRange();
+    void SetBlueRange(std::pair<cv::Scalar, cv::Scalar> range);
+    void ResetBlueRange();
+
+    std::pair<cv::Scalar, cv::Scalar> GetYellowRange();
+    void SetYellowRange(std::pair<cv::Scalar, cv::Scalar> range);
+    void ResetYellowRange();
 
   private:
     wxFileConfig *config;
@@ -90,6 +99,26 @@ class AppConfig {
     double Default_K = 0.04;
     double Default_Min_Point_Distance = 0.2;
     double Default_Threshold = 2.0;
+
+    // HSV Blue Range Parameter
+    int Default_Hue_Blue_Low = 100;
+    int Default_Hue_Blue_High = 130;
+
+    int Default_Sat_Blue_Low = 100;
+    int Default_Sat_Blue_High = 255;
+
+    int Default_Val_Blue_Low = 100;
+    int Default_Val_Blue_High = 255;
+
+    // HSV Yellow Range Parameter
+    int Default_Hue_Yellow_Low = 20;
+    int Default_Hue_Yellow_High = 35;
+
+    int Default_Sat_Yellow_Low = 100;
+    int Default_Sat_Yellow_High = 255;
+
+    int Default_Val_Yellow_Low = 100;
+    int Default_Val_Yellow_High = 255;
 };
 
 #endif

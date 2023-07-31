@@ -1,5 +1,6 @@
 #include "Model/SharedModel.hpp"
 #include "Model/AppState.hpp"
+#include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Controller.hpp"
 #include "Thread/Thread_ID.hpp"
@@ -124,4 +125,13 @@ void SharedModel::setSessionData(SessionData data) {
 
 void SharedModel::setTempSessionData(SessionData data) {
     tempSessionData = data.clone();
+}
+
+void SharedModel::setCCExtraModel(ColorCalibExtraModel ccExtraModel) {
+    this->ccExtraModel = ccExtraModel.clone();
+}
+
+CCModelPtr SharedModel::getCCExtraModel() {
+    return std::shared_ptr<ColorCalibExtraModel>(&ccExtraModel,
+                                                 [](ColorCalibExtraModel *) {});
 }

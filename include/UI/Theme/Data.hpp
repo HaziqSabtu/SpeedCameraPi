@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
 #include "UI/Button/TextButton/TextButton.hpp"
 #include <UI/Theme/Theme.hpp>
@@ -106,7 +107,7 @@ const BitmapData BitmapSave = {
     .normal = T::BitmapNormal,
     .active = T::BitmapActive,
     .disabled = T::BitmapDisabled,
-    .text = wxT("Save"),
+    .text = wxT("Save To Config"),
 };
 
 const BitmapData BitmapSelectBlue = {
@@ -125,6 +126,23 @@ const BitmapData BitmapSelectYellow = {
     .active = T::BitmapActive,
     .disabled = T::BitmapDisabled,
     .text = wxT("Select Yellow"),
+};
+
+const BitmapData BitmapReset = {
+    .filename = wxT("Assets/reset_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Reset"),
+};
+const BitmapData BitmapRestore = {
+    .filename = wxT("Assets/reset_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Restore Default"),
 };
 
 // BitmapButtonT2 Data

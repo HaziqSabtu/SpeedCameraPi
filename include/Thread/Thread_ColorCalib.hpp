@@ -12,12 +12,16 @@
 #include <Utils/Camera/CameraBase.hpp>
 #include <Utils/DataStruct.hpp>
 
+#include <condition_variable>
 #include <memory>
+#include <opencv2/core/types.hpp>
 #include <string>
 
 #include <opencv2/opencv.hpp>
 
 #include <wx/thread.h>
+
+enum ColorCalibrationType { COLOR_CALIBRATION_BLUE, COLOR_CALIBRATION_YELLOW };
 
 class ColorCalibrationThread : public wxThread {
   public:
@@ -29,10 +33,18 @@ class ColorCalibrationThread : public wxThread {
     std::unique_ptr<CameraBase> getCamera();
 
     void setPoint(cv::Point point);
-
-    CalibData getCalibData();
+    cv::Point getPoint();
 
     ThreadID getID() const;
+
+    std::pair<cv::Scalar, cv::Scalar> getBlueRange();
+    std::pair<cv::Scalar, cv::Scalar> getYellowRange();
+
+    void setColorCalibrationType(ColorCalibrationType type);
+    ColorCalibrationType getColorCalibrationType();
+
+    void removeBlueRange();
+    void removeYellowRange();
 
   protected:
     virtual ExitCode Entry();
@@ -46,12 +58,21 @@ class ColorCalibrationThread : public wxThread {
     HSVFilter hsvFilter;
     BFS bfs;
 
-    std::mutex m_mutex;
-    cv::Point point;
-    Detection::Line yellowLine;
-    Detection::Line blueLine;
+    std::recursive_mutex m_mutex;
+    cv::Point point = cv::Point(-1, -1);
+    cv::Point processedPoint = cv::Point(-1, -1);
+
+    std::pair<cv::Scalar, cv::Scalar> blueRange;
+    std::pair<cv::Scalar, cv::Scalar> yellowRange;
+
+    ColorCalibrationType type = ColorCalibrationType::COLOR_CALIBRATION_BLUE;
+
+    cv::Scalar blue = cv::Scalar(255, 0, 0, 255);
+    cv::Scalar yellow = cv::Scalar(0, 255, 255, 255);
 
   private:
-    void updateYellowLine(Detection::Line line);
-    void updateBlueLine(Detection::Line line);
+    cv::Point grabPoint();
+
+    void updateBlueRange(std::pair<cv::Scalar, cv::Scalar> range);
+    void updateYellowRange(std::pair<cv::Scalar, cv::Scalar> range);
 };

@@ -63,6 +63,28 @@ struct ManualCalibrationPanelState {
     ButtonState cancelButtonState;
 };
 
+struct ColorCalibrationPanelState {
+
+    ButtonState calibrationButtonState;
+    ButtonState stopButtonState;
+    ButtonState removeButtonState;
+    ButtonState cameraButtonState;
+
+    PanelState blueStatusState;
+    ButtonState selectBlueButtonState;
+    ButtonState removeBlueButtonState;
+
+    PanelState yellowStatusState;
+    ButtonState selectYellowButtonState;
+    ButtonState removeYellowButtonState;
+
+    ButtonState saveButtonState;
+    ButtonState restoreButtonState;
+
+    ButtonState okButtonState;
+    ButtonState cancelButtonState;
+};
+
 class AppState {
   public:
     AppState();
@@ -71,11 +93,13 @@ class AppState {
     CapturePanelState getCameraPanelState(ModelPtr model);
     CalibrationPanelState getCalibrationPanelState(ModelPtr model);
     ManualCalibrationPanelState getManualCalibrationPanelState(ModelPtr model);
+    ColorCalibrationPanelState getColorCalibrationPanelState(ModelPtr model);
 
   public:
     CapturePanelState cameraPanel;
     CalibrationPanelState calibrationPanel;
     ManualCalibrationPanelState manualCalibrationPanel;
+    ColorCalibrationPanelState colorCalibrationPanel;
 
   private:
     PanelState getCameraStatusState(ModelPtr model);
@@ -137,4 +161,28 @@ class AppState {
     // Manual Calibration Panel -> OK / Cancel
     ButtonState getMCOKButtonState(ModelPtr model);
     ButtonState getMCCancelButtonState(ModelPtr model);
+
+    // Color Calibration Panel
+    ButtonState getCCButtonState(ModelPtr model);
+    ButtonState getCCStopButtonState(ModelPtr model);
+    ButtonState getCCCameraButtonState(ModelPtr model);
+    ButtonState getCCRemoveButtonState(ModelPtr model);
+
+    // Color Calibration Panel -> Blue
+    PanelState getCCBlueStatusState(ModelPtr model);
+    ButtonState getCCSelectBlueButtonState(ModelPtr model);
+    ButtonState getCCRemoveBlueButtonState(ModelPtr model);
+
+    // Color Calibration Panel -> Yellow
+    PanelState getCCYellowStatusState(ModelPtr model);
+    ButtonState getCCSelectYellowButtonState(ModelPtr model);
+    ButtonState getCCRemoveYellowButtonState(ModelPtr model);
+
+    // Color Calibration Panel -> Save / Restore
+    ButtonState getCCSaveButtonState(ModelPtr model);
+    ButtonState getCCRestoreButtonState(ModelPtr model);
+
+    // Color Calibration Panel -> OK / Cancel
+    ButtonState getCCOKButtonState(ModelPtr model);
+    ButtonState getCCCancelButtonState(ModelPtr model);
 };

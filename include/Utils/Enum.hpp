@@ -56,12 +56,13 @@ enum ProjectIDs {
     CC_Start_Button_ID,
     CC_Stop_Button_ID,
     CC_ToggleCamera_Button_ID,
-    CC_Save_Button_ID,
     CC_Remove_Button_ID,
     CC_SelectBlue_Button_ID,
     CC_RemoveBlue_Button_ID,
     CC_SelectYellow_Button_ID,
     CC_RemoveYellow_Button_ID,
+    CC_Save_Button_ID,
+    CC_Restore_Button_ID,
 
     // CameraPanel->Hough
     CP_BUTTON_PANEL_HOUGH_ID,

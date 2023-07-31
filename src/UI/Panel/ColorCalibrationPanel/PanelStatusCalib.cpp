@@ -22,14 +22,12 @@ ColorCalibrationMainStatusPanel::ColorCalibrationMainStatusPanel(
     stop_Button = new BitmapStop(this, Enum::CC_Stop_Button_ID);
     camera_Button =
         new BitmapT2MagnifyGlass(this, Enum::CC_ToggleCamera_Button_ID);
-    save_Button = new BitmapSave(this, Enum::CC_Save_Button_ID);
     reset_Button = new BitmapRemove(this, Enum::CC_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
     buttonSizer->Add(stop_Button, 1, wxEXPAND);
     buttonSizer->Add(camera_Button, 1, wxEXPAND);
-    buttonSizer->Add(save_Button, 1, wxEXPAND);
     buttonSizer->Add(reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
@@ -55,13 +53,12 @@ void ColorCalibrationMainStatusPanel::OnButtonClicked(wxCommandEvent &e) {
 
 void ColorCalibrationMainStatusPanel::update(const AppState &state) {
     // set panel
-    // ManualCalibrationPanelState ps = state.manualCalibrationPanel;
-    // setPanelState(ps.state);
+    ColorCalibrationPanelState ps = state.colorCalibrationPanel;
 
-    // calibrate_Button->update(ps.calibrationButtonState);
-    // stop_Button->update(ps.stopButtonState);
-    // camera_Button->update(ps.cameraButtonState);
-    // reset_Button->update(ps.removeButtonState);
+    calibrate_Button->update(ps.calibrationButtonState);
+    stop_Button->update(ps.stopButtonState);
+    camera_Button->update(ps.cameraButtonState);
+    reset_Button->update(ps.removeButtonState);
 }
 
 void ColorCalibrationMainStatusPanel::setPanelState(PanelState state) {

@@ -4,6 +4,7 @@
 #include "UI/Button/Button_wState.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelBlueStatus.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelStatusCalib.hpp"
+#include "UI/Panel/ColorCalibrationPanel/PanelStatusOther.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelYellowStatus.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelStatusCalib.hpp"
@@ -21,6 +22,8 @@ class ColorCalibrationPanelButton : public wxPanel {
 
     BlueStatusPanel *blue_status_panel;
     YellowStatusPanel *yellow_status_panel;
+
+    ColorCalibrationOtherPanel *other_status_panel;
 
     OKCancelPanel *ok_cancel_panel;
 

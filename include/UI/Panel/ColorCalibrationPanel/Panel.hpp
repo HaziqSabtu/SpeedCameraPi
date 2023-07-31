@@ -2,6 +2,7 @@
 
 #include "Controller/ColorCalibrationController.hpp"
 #include "Event/Event_UpdatePreview.hpp"
+#include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Button/Button_Exit.hpp"
@@ -42,12 +43,16 @@ class ColorCalibrationPanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
+    void OnToggleCameraButton(BitmapButtonT2 *button);
+
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);
     void OnCalibrationEvent(wxCommandEvent &e);
     void OnCapture(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);
     void OnUpdateStatus(UpdateStatusEvent &e);
+    void OnUpdateState(UpdateStateEvent &e);
+    void OnShow(wxShowEvent &e);
 
     DECLARE_EVENT_TABLE()
 };
