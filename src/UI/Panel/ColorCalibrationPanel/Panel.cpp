@@ -74,16 +74,16 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
         controller->e_SetTypeBlue(this);
     }
 
-    if (e.GetId() == Enum::CC_RemoveBlue_Button_ID) {
-        controller->e_RemoveBlue(this);
+    if (e.GetId() == Enum::CC_AcceptBlue_Button_ID) {
+        controller->e_SaveBlue(this);
     }
 
     if (e.GetId() == Enum::CC_SelectYellow_Button_ID) {
         controller->e_SetTypeYellow(this);
     }
 
-    if (e.GetId() == Enum::CC_RemoveYellow_Button_ID) {
-        controller->e_RemoveYellow(this);
+    if (e.GetId() == Enum::CC_AcceptYellow_Button_ID) {
+        controller->e_SaveYellow(this);
     }
 
     if (e.GetId() == Enum::CC_Save_Button_ID) {

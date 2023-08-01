@@ -1,5 +1,5 @@
 #include "UI/Theme/Theme.hpp"
-#include <UI/Panel/Base/Panel_Image.hpp>
+#include <UI/Panel/Common/Panel_Image.hpp>
 #include <wx/gdicmn.h>
 #include <wx/gtk/bitmap.h>
 #include <wx/gtk/colour.h>

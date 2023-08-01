@@ -13,7 +13,7 @@
 #include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
-#include <UI/Panel/Base/Panel_Image.hpp>
+#include <UI/Panel/Common/Panel_Image.hpp>
 #include <UI/Panel/ManualCalibrationPanel/Panel_Button.hpp>
 
 #include <Utils/Config/AppConfig.hpp>

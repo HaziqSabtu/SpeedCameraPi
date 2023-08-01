@@ -1,6 +1,6 @@
 #pragma once
 
-#include <UI/Panel/Base/Panel_Image.hpp>
+#include <UI/Panel/Common/Panel_Image.hpp>
 
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>

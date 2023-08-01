@@ -145,6 +145,15 @@ const BitmapData BitmapRestore = {
     .text = wxT("Restore Default"),
 };
 
+const BitmapData BitmapAccept = {
+    .filename = wxT("Assets/tick_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Accept"),
+};
+
 // BitmapButtonT2 Data
 const BitmapDataT2 BitmapT2Camera = {
     .size = T::BitmapDefaultSize,

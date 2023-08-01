@@ -38,5 +38,9 @@ wxString TitleText::panelID_to_string(PanelID panel_id) {
         return "Color Calibration";
     }
 
+    if (panel_id == PanelID::PANEL_ROI) {
+        return "ROI";
+    }
+
     return "Unknown Panel";
 }

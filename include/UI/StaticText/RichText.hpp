@@ -97,4 +97,8 @@ const RTD COLOR_CALIB_YELLOW_OK = {
     {wxT("Yellow: "), Theme::Text},
     {wxT("CALIBRATED"), Theme::StatusOk},
 };
+
+const RTD ROI_TOOLS = {
+    {wxT("ROI Tools"), Theme::Text},
+};
 }; // namespace RichTextCollection

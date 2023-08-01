@@ -173,6 +173,26 @@ void ColorCalibrationController::e_RemoveYellow(wxEvtHandler *parent) {
     }
 }
 
+void ColorCalibrationController::e_SaveBlue(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        saveBlueHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ColorCalibrationController::e_SaveYellow(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        saveYellowHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void ColorCalibrationController::e_SaveColorCalibration(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -329,18 +349,6 @@ void ColorCalibrationController::colorCalibrationEndHandler(
     auto calibrationThread = tc->getColorCalibrationThread();
     calibrationThread->Pause();
 
-    auto blueRange = calibrationThread->getBlueRange();
-    if (isRangeCalibrated(blueRange)) {
-        auto ccModel = shared->getCCExtraModel();
-        ccModel->setBlueRange(blueRange);
-    }
-
-    auto yellowRange = calibrationThread->getYellowRange();
-    if (isRangeCalibrated(yellowRange)) {
-        auto ccModel = shared->getCCExtraModel();
-        ccModel->setYellowRange(yellowRange);
-    }
-
     auto camera = calibrationThread->getCamera();
     shared->setCamera(camera);
 
@@ -424,6 +432,58 @@ void ColorCalibrationController::removeYellowHandler(wxEvtHandler *parent) {
 
     auto calibrationThread = tc->getColorCalibrationThread();
     calibrationThread->removeYellowRange();
+}
+
+void ColorCalibrationController::saveBlueHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        throw std::runtime_error("ColorCalibrationThread is NOT running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_COLOR_CALIBRATION, panelID)) {
+        throw std::runtime_error(
+            "ColorCalibrationThread is not owned by this panel");
+    }
+
+    auto colorCalibrationThread = tc->getColorCalibrationThread();
+
+    auto blueRange = colorCalibrationThread->getBlueRange();
+    if (!isRangeCalibrated(blueRange)) {
+        throw std::runtime_error("Blue range is not calibrated");
+    }
+    auto ccModel = shared->getCCExtraModel();
+    ccModel->setBlueRange(blueRange);
+
+    colorCalibrationThread->setPoint(cv::Point(-1, -1));
+
+    UpdateStatusEvent::Submit(parent, "Blue range saved");
+}
+
+void ColorCalibrationController::saveYellowHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        throw std::runtime_error("ColorCalibrationThread is NOT running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_COLOR_CALIBRATION, panelID)) {
+        throw std::runtime_error(
+            "ColorCalibrationThread is not owned by this panel");
+    }
+
+    auto colorCalibrationThread = tc->getColorCalibrationThread();
+
+    auto yellowRange = colorCalibrationThread->getYellowRange();
+    if (!isRangeCalibrated(yellowRange)) {
+        throw std::runtime_error("Yellow range is not calibrated");
+    }
+    auto ccModel = shared->getCCExtraModel();
+    ccModel->setYellowRange(yellowRange);
+
+    colorCalibrationThread->setPoint(cv::Point(-1, -1));
+
+    UpdateStatusEvent::Submit(parent, "Yellow range saved");
 }
 
 void ColorCalibrationController::saveColorCalibrationHandler(

@@ -1,4 +1,5 @@
 #include "Controller/ControllerFactory.hpp"
+#include "Controller/ManualCalibrationController.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/SessionData.hpp"
 #include "Model/SharedModel.hpp"
@@ -9,6 +10,7 @@
 #include "UI/Theme/Theme.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Frame/MainFrame.hpp>
+#include <cstddef>
 #include <iostream>
 #include <memory>
 #include <wx/display.h>
@@ -36,17 +38,16 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     ControllerFactory factory(this);
     sharedModel = factory.getSharedModel();
 
-    auto captureModel = factory.createCaptureModel();
-    capture_panel = new CapturePanel(this, Enum::CP_Panel_ID, captureModel);
+    auto cpc = factory.createCaptureController();
+    capture_panel = new CapturePanel(this, Enum::CP_Panel_ID, cpc);
     panels[PANEL_CAPTURE] = capture_panel;
 
-    auto roiModel = factory.createRoiModel();
-    roi_panel = new RoiPanel(this, Enum::CP_Panel_ID, roiModel);
+    auto roc = factory.createRoiController();
+    roi_panel = new RoiPanel(this, Enum::CP_Panel_ID, roc);
     panels[PANEL_ROI] = roi_panel;
 
-    auto calibrationModel = factory.createCalibrationModel();
-    calibration_panel =
-        new CalibrationPanel(this, Enum::CP_Panel_ID, calibrationModel);
+    auto clc = factory.createCalibrationController();
+    calibration_panel = new CalibrationPanel(this, Enum::CP_Panel_ID, clc);
     panels[PANEL_CALIBRATION] = calibration_panel;
 
     auto mcc = factory.createManualCalibrationController();
@@ -67,8 +68,6 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
 
     capture_panel->Show();
     sharedModel->sessionData.currentPanelID = PANEL_CAPTURE;
-    // calibration_panel->Show();
-    // sharedModel->sessionData.currentPanelID = PANEL_CALIBRATION;
 }
 
 MainFrame::~MainFrame() { wxWakeUpIdle(); }

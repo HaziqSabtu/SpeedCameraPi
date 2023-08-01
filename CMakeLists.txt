@@ -4,6 +4,9 @@ project(SpeedCameraPi)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
 add_compile_options(-Wno-psabi -D gtest_disable_pthreads=OFF)
 
 include_directories(include)
@@ -55,11 +58,6 @@ if(CROSS_COMPILING)
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
         COMMAND ssh RPi0 "mkdir -p ~/Target"
         COMMAND scp $<TARGET_FILE:SpeedCameraPi> RPi0:~/Target/
-        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/speed_64.ico RPi0:~/Target/
-        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/exit_24.ico RPi0:~/Target/
-        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/settings_24.ico RPi0:~/Target/
-        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/info_24.ico RPi0:~/Target/
-        # COMMAND scp ${CMAKE_SOURCE_DIR}/Assets/noImage_100.png RPi0:~/Target/
         COMMAND scp -r ${CMAKE_SOURCE_DIR}/Assets RPi0:~/Target
     )
 
@@ -71,11 +69,8 @@ else()
     set(libcamIncludeDir /usr/include/libcamera)
     
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
-        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/speed_64.ico $<TARGET_FILE_DIR:SpeedCameraPi>
-        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/exit_24.ico $<TARGET_FILE_DIR:SpeedCameraPi>
-        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/settings_24.ico $<TARGET_FILE_DIR:SpeedCameraPi>
-        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/info_24.ico $<TARGET_FILE_DIR:SpeedCameraPi>
-        COMMAND cp ${CMAKE_SOURCE_DIR}/Assets/noImage_100.png $<TARGET_FILE_DIR:SpeedCameraPi>
+    COMMAND cp -r ${CMAKE_SOURCE_DIR}/Assets RPi0:~/Target
+
     )
 endif() # CROSS_COMPILING
 

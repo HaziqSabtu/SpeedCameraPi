@@ -30,6 +30,8 @@ class ColorCalibPreviewThread : public wxThread {
   protected:
     virtual ExitCode Entry();
 
+    bool isCalibrationComplete();
+
   private:
     wxEvtHandler *parent;
     std::unique_ptr<CameraBase> camera;

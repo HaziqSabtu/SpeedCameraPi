@@ -1,6 +1,7 @@
 #include "Controller/CalibrationController.hpp"
 #include "Controller/CaptureController.hpp"
 #include "Controller/ManualCalibrationController.hpp"
+#include "Controller/RoiController.hpp"
 #include "Model/SharedModel.hpp"
 #include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Controller.hpp"
@@ -40,17 +41,13 @@ ControllerFactory::ControllerFactory(wxWindow *parent) {
 
 ControllerFactory::~ControllerFactory() { sharedModel = nullptr; }
 
-CPCPtr ControllerFactory::createCaptureModel() {
+ModelPtr ControllerFactory::getSharedModel() { return sharedModel; }
+
+CPCPtr ControllerFactory::createCaptureController() {
     return std::make_unique<CaptureController>(sharedModel);
 }
 
-std::unique_ptr<RoiModel> ControllerFactory::createRoiModel() {
-    return std::make_unique<RoiModel>(sharedModel);
-}
-
-ModelPtr ControllerFactory::getSharedModel() { return sharedModel; }
-
-CLCPtr ControllerFactory::createCalibrationModel() {
+CLCPtr ControllerFactory::createCalibrationController() {
     return std::make_unique<CalibrationController>(sharedModel);
 }
 
@@ -60,4 +57,8 @@ MCCPtr ControllerFactory::createManualCalibrationController() {
 
 CCCPtr ControllerFactory::createColorCalibrationController() {
     return std::make_unique<ColorCalibrationController>(sharedModel);
+}
+
+ROCPtr ControllerFactory::createRoiController() {
+    return std::make_unique<RoiController>(sharedModel);
 }

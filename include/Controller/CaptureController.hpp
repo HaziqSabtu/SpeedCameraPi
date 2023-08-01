@@ -32,6 +32,7 @@ class CaptureController {
     void e_ReplayEnd(wxEvtHandler *parent);
 
     void e_ChangeToCalibPanel(wxEvtHandler *parent);
+    void e_ChangeToRoiPanel(wxEvtHandler *parent);
 
   private:
     const PanelID panelID = PanelID::PANEL_CAPTURE;

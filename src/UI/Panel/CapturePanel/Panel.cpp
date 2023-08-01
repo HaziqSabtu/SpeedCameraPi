@@ -74,6 +74,10 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
             controller->e_ChangeToCalibPanel(this);
         }
 
+        if (e.GetId() == Enum::CP_ChangeRoi_Button_ID) {
+            controller->e_ChangeToRoiPanel(this);
+        }
+
         controller->e_UpdateState(this);
 
         e.Skip();

@@ -1,7 +1,10 @@
+#include "Model/AppState.hpp"
+#include "UI/Button/BitmapButton/Button_Accept.hpp"
 #include "UI/Button/BitmapButton/Button_ColorPicker.hpp"
 #include "UI/Button/BitmapButton/Button_Left.hpp"
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
 #include "UI/Button/Button_Default.hpp"
+#include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/StaticText/RichText.hpp"
 #include "Utils/Enum.hpp"
@@ -12,7 +15,7 @@ BlueStatusPanel::BlueStatusPanel(wxWindow *parent)
 
     color_Button = new BitmapColorPicker(this, Enum::CC_SelectBlue_Button_ID,
                                          Data::BitmapSelectBlue);
-    clear_Button = new BitmapRemove(this, Enum::CC_RemoveBlue_Button_ID);
+    clear_Button = new BitmapAccept(this, Enum::CC_AcceptBlue_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(color_Button, 1, wxEXPAND);
@@ -36,11 +39,11 @@ void BlueStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
 void BlueStatusPanel::update(const AppState &state) {
     // // set panel
-    // ManualCalibrationPanelState ps = state.manualCalibrationPanel;
+    ColorCalibrationPanelState ps = state.colorCalibrationPanel;
 
-    // setPanelState(ps.leftStatusState);
-    // color_Button->update(ps.selectLeftButtonState);
-    // clear_Button->update(ps.removeLeftButtonState);
+    setPanelState(ps.blueStatusState);
+    color_Button->update(ps.selectBlueButtonState);
+    clear_Button->update(ps.acceptBlueButtonState);
 }
 
 void BlueStatusPanel::setPanelState(PanelState state) {

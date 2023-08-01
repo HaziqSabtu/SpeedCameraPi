@@ -11,6 +11,8 @@
 #include "Thread/Thread_LoadFile.hpp"
 #include "Thread/Thread_ManualCalib.hpp"
 #include "Thread/Thread_Replay.hpp"
+#include "Thread/Thread_Roi.hpp"
+#include "Utils/DataStruct.hpp"
 #include <unordered_map>
 
 class ThreadController {
@@ -71,6 +73,11 @@ class ThreadController {
 
     void endColorCalibPreviewHandler();
 
+    virtual void startRoiHandler(wxEvtHandler *parent, ImageDataPtr imgData,
+                                 PanelID panelID);
+
+    void endRoiHandler();
+
     bool isThreadNullptr(ThreadID threadID);
 
     bool isThreadOwner(ThreadID threadID, PanelID panelID);
@@ -94,6 +101,8 @@ class ThreadController {
     ColorCalibrationThread *getColorCalibrationThread();
 
     ColorCalibPreviewThread *getColorCalibPreviewThread();
+
+    RoiThread *getRoiThread();
 
     void killAllThreads();
 
@@ -124,4 +133,6 @@ class ThreadController {
     ColorCalibrationThread *colorCalibrationThread;
 
     ColorCalibPreviewThread *colorCalibPreviewThread;
+
+    RoiThread *roiThread;
 };

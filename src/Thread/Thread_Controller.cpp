@@ -3,6 +3,8 @@
 #include "Thread/Thread_ColorCalibPreview.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_Result.hpp"
+#include "Thread/Thread_Roi.hpp"
+#include "Utils/DataStruct.hpp"
 #include <Thread/Thread_Controller.hpp>
 #include <Thread/Thread_ManualCalib.hpp>
 
@@ -30,6 +32,7 @@ void ThreadController::initThread() {
     manualCalibrationThread = nullptr;
     colorCalibrationThread = nullptr;
     colorCalibPreviewThread = nullptr;
+    roiThread = nullptr;
 };
 
 void ThreadController::deleteThread() {
@@ -42,6 +45,7 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(manualCalibrationThread);
     stopAndDeleteThread(colorCalibrationThread);
     stopAndDeleteThread(colorCalibPreviewThread);
+    stopAndDeleteThread(roiThread);
 };
 
 bool ThreadController::isThreadNullptr(ThreadID threadID) {
@@ -79,6 +83,10 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
 
     if (threadID == ThreadID::THREAD_COLOR_CALIBRATION_PREVIEW) {
         return colorCalibPreviewThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_ROI) {
+        return roiThread == nullptr;
     }
 
     throw std::runtime_error(
@@ -175,6 +183,8 @@ ColorCalibPreviewThread *ThreadController::getColorCalibPreviewThread() {
     return colorCalibPreviewThread;
 }
 
+RoiThread *ThreadController::getRoiThread() { return roiThread; }
+
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
                                             std::string path, PanelID panelID) {
 
@@ -258,6 +268,19 @@ void ThreadController::startColorCalibPreviewHandler(
 
 void ThreadController::endColorCalibPreviewHandler() {
     colorCalibPreviewThread = stopAndDeleteThread(colorCalibPreviewThread);
+}
+
+void ThreadController::startRoiHandler(wxEvtHandler *parent,
+                                       ImageDataPtr imageData,
+                                       PanelID panelID) {
+    roiThread = new RoiThread(parent, imageData);
+    roiThread->Run();
+
+    owner[roiThread->getID()] = panelID;
+}
+
+void ThreadController::endRoiHandler() {
+    roiThread = stopAndDeleteThread(roiThread);
 }
 
 template <typename T>

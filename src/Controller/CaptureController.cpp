@@ -31,6 +31,16 @@ void CaptureController::e_ChangeToCalibPanel(wxEvtHandler *parent) {
     }
 }
 
+void CaptureController::e_ChangeToRoiPanel(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        ChangePanelData data(this->panelID, PanelID::PANEL_ROI);
+        ChangePanelEvent::Submit(parent, data);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void CaptureController::e_UpdateState(wxEvtHandler *parent) {
     try {
         AppState state(shared);

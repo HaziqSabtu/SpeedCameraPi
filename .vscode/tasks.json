@@ -62,10 +62,10 @@
                 "reveal": "always",
                 "focus": false,
                 "panel": "shared",
-                "revealProblems": "onProblem"
+                "revealProblems": "onProblem",
             },
-            "command": "clear; ssh RPi0 'pkill -9 gdbserver'",
-            "problemMatcher": []
+            "command": "ssh RPi0 'killall gdbserver' || true",
+            "problemMatcher": [],
         },
         {
             "label": "startGDB",

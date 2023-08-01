@@ -106,6 +106,23 @@ void SharedModel::killAllThreads() {
 
         tc->endColorCalibrationHandler();
     }
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_COLOR_CALIBRATION_PREVIEW)) {
+        auto thread = tc->getColorCalibPreviewThread();
+        thread->Pause();
+
+        auto camera = thread->getCamera();
+        setCamera(camera);
+
+        tc->endColorCalibPreviewHandler();
+    }
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
+        auto thread = tc->getRoiThread();
+        thread->Pause();
+
+        tc->endRoiHandler();
+    }
 }
 
 // return a shared_ptr to the SessionData object WITHOUT copying it

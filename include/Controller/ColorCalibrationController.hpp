@@ -36,6 +36,9 @@ class ColorCalibrationController {
     void e_RemoveBlue(wxEvtHandler *parent);
     void e_RemoveYellow(wxEvtHandler *parent);
 
+    void e_SaveBlue(wxEvtHandler *parent);
+    void e_SaveYellow(wxEvtHandler *parent);
+
     void e_SaveColorCalibration(wxEvtHandler *parent);
 
   private:
@@ -66,6 +69,9 @@ class ColorCalibrationController {
 
     void removeBlueHandler(wxEvtHandler *parent);
     void removeYellowHandler(wxEvtHandler *parent);
+
+    void saveBlueHandler(wxEvtHandler *parent);
+    void saveYellowHandler(wxEvtHandler *parent);
 
     void saveColorCalibrationHandler(wxEvtHandler *parent);
 };

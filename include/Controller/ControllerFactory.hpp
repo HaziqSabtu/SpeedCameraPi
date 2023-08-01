@@ -4,7 +4,7 @@
 #include "Controller/CaptureController.hpp"
 #include "Controller/ColorCalibrationController.hpp"
 #include "Controller/ManualCalibrationController.hpp"
-#include "Model/RoiModel.hpp"
+#include "Controller/RoiController.hpp"
 #include <Model/SharedModel.hpp>
 #include <memory>
 
@@ -15,11 +15,11 @@ class ControllerFactory {
 
     ModelPtr getSharedModel();
 
-    std::unique_ptr<RoiModel> createRoiModel();
-    CPCPtr createCaptureModel();
-    CLCPtr createCalibrationModel();
+    CPCPtr createCaptureController();
+    CLCPtr createCalibrationController();
     MCCPtr createManualCalibrationController();
     CCCPtr createColorCalibrationController();
+    ROCPtr createRoiController();
 
   private:
     ModelPtr sharedModel;

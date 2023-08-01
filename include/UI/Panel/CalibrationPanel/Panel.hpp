@@ -11,8 +11,8 @@
 #include "UI/Layout/TitlePanel.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
-#include <UI/Panel/Base/Panel_Image.hpp>
 #include <UI/Panel/CalibrationPanel/Panel_Button.hpp>
+#include <UI/Panel/Common/Panel_Image.hpp>
 
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Enum.hpp>

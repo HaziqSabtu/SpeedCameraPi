@@ -18,6 +18,8 @@
 #include <chrono>
 #include <opencv2/opencv.hpp>
 
+#define ImageDataPtr std::shared_ptr<std::vector<ImageData>>
+
 /**
  * @brief Struct for ImageData
  *

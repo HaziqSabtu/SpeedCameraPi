@@ -1,3 +1,4 @@
+#include "UI/Button/BitmapButton/Button_Accept.hpp"
 #include "UI/Button/BitmapButton/Button_ColorPicker.hpp"
 #include "UI/Button/BitmapButton/Button_Left.hpp"
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
@@ -12,7 +13,7 @@ YellowStatusPanel::YellowStatusPanel(wxWindow *parent)
 
     color_Button = new BitmapColorPicker(this, Enum::CC_SelectYellow_Button_ID,
                                          Data::BitmapSelectYellow);
-    clear_Button = new BitmapRemove(this, Enum::CC_RemoveYellow_Button_ID);
+    clear_Button = new BitmapAccept(this, Enum::CC_AcceptYellow_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(color_Button, 1, wxEXPAND);
@@ -36,11 +37,11 @@ void YellowStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
 void YellowStatusPanel::update(const AppState &state) {
     // // set panel
-    // ManualCalibrationPanelState ps = state.manualCalibrationPanel;
+    ColorCalibrationPanelState ps = state.colorCalibrationPanel;
 
-    // setPanelState(ps.leftStatusState);
-    // color_Button->update(ps.selectLeftButtonState);
-    // clear_Button->update(ps.removeLeftButtonState);
+    setPanelState(ps.yellowStatusState);
+    color_Button->update(ps.selectYellowButtonState);
+    clear_Button->update(ps.acceptYellowButtonState);
 }
 
 void YellowStatusPanel::setPanelState(PanelState state) {

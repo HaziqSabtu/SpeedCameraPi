@@ -1,4 +1,5 @@
 #include "Model/SharedModel.hpp"
+#include "Thread/Thread_ColorCalib.hpp"
 #include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_ManualCalib.hpp"
 #include <Model/AppState.hpp>
@@ -110,11 +111,11 @@ AppState::getColorCalibrationPanelState(std::shared_ptr<SharedModel> model) {
 
     ccps.blueStatusState = getCCBlueStatusState(model);
     ccps.selectBlueButtonState = getCCSelectBlueButtonState(model);
-    ccps.removeBlueButtonState = getCCRemoveBlueButtonState(model);
+    ccps.acceptBlueButtonState = getCCAcceptBlueButtonState(model);
 
     ccps.yellowStatusState = getCCYellowStatusState(model);
     ccps.selectYellowButtonState = getCCSelectYellowButtonState(model);
-    ccps.removeYellowButtonState = getCCRemoveYellowButtonState(model);
+    ccps.acceptYellowButtonState = getCCAcceptYellowButtonState(model);
 
     ccps.saveButtonState = getCCSaveButtonState(model);
     ccps.restoreButtonState = getCCRestoreButtonState(model);
@@ -263,7 +264,7 @@ ButtonState AppState::getCPCalibrationRemoveButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getCPROIButtonState(ModelPtr model) {
-    return ButtonState::DISABLED;
+    return ButtonState::NORMAL;
 }
 
 ButtonState AppState::getCPROIRemoveButtonState(ModelPtr model) {
@@ -643,6 +644,16 @@ ButtonState AppState::getCCCameraButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getCCRemoveButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
     auto ccExtraModel = model->getCCExtraModel();
 
     if (ccExtraModel->isBlueCalibrated() ||
@@ -654,41 +665,99 @@ ButtonState AppState::getCCRemoveButtonState(ModelPtr model) {
 }
 
 PanelState AppState::getCCBlueStatusState(ModelPtr model) {
-    // auto tc = model->getThreadController();
+    auto ccExtraModel = model->getCCExtraModel();
+    if (ccExtraModel->isBlueCalibrated()) {
+        return PanelState::PANEL_OK;
+    }
 
-    // auto ccExtraModel = model->getCCExtraModel();
-    // if (ccExtraModel->isBlueCalibrated()) {
-    //     return PanelState::PANEL_OK;
-    // }
     return PanelState::PANEL_NOT_OK;
 }
 
 ButtonState AppState::getCCSelectBlueButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto colorCalibrationThread = tc->getColorCalibrationThread();
+    if (colorCalibrationThread->getColorCalibrationType() ==
+        ColorCalibrationType::COLOR_CALIBRATION_BLUE) {
+        return ButtonState::ACTIVE;
+    }
 
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCCRemoveBlueButtonState(ModelPtr model) {
+ButtonState AppState::getCCAcceptBlueButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto colorCalibrationThread = tc->getColorCalibrationThread();
+    if (colorCalibrationThread->getColorCalibrationType() !=
+        ColorCalibrationType::COLOR_CALIBRATION_BLUE) {
+        return ButtonState::DISABLED;
+    }
 
     return ButtonState::NORMAL;
 }
 
 PanelState AppState::getCCYellowStatusState(ModelPtr model) {
-    // auto tc = model->getThreadController();
+    auto ccExtraModel = model->getCCExtraModel();
+    if (ccExtraModel->isYellowCalibrated()) {
+        return PanelState::PANEL_OK;
+    }
 
-    // auto ccExtraModel = model->getCCExtraModel();
-    // if (ccExtraModel->isBlueCalibrated()) {
-    //     return PanelState::PANEL_OK;
-    // }
     return PanelState::PANEL_NOT_OK;
 }
 
 ButtonState AppState::getCCSelectYellowButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto colorCalibrationThread = tc->getColorCalibrationThread();
+    if (colorCalibrationThread->getColorCalibrationType() ==
+        ColorCalibrationType::COLOR_CALIBRATION_YELLOW) {
+        return ButtonState::ACTIVE;
+    }
 
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCCRemoveYellowButtonState(ModelPtr model) {
+ButtonState AppState::getCCAcceptYellowButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto colorCalibrationThread = tc->getColorCalibrationThread();
+    if (colorCalibrationThread->getColorCalibrationType() !=
+        ColorCalibrationType::COLOR_CALIBRATION_YELLOW) {
+        return ButtonState::DISABLED;
+    }
 
     return ButtonState::NORMAL;
 }
