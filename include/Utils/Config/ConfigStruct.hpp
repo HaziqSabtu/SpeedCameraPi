@@ -56,4 +56,8 @@ struct SensorConfig {
     double ObjectWidth;
 };
 
+struct PreviewConfig {
+    int width;
+    int height;
+};
 #endif

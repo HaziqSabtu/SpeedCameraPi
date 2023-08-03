@@ -36,6 +36,8 @@ class ManualCalibrationController {
     void e_RemoveLeft(wxEvtHandler *parent);
     void e_RemoveRight(wxEvtHandler *parent);
 
+    void e_RemoveCalibData(wxEvtHandler *parent);
+
   private:
     static const PanelID panelID = PanelID::PANEL_MANUAL_CALIBRATION;
     ModelPtr shared;
@@ -62,4 +64,6 @@ class ManualCalibrationController {
     void createTempSessionDataHandler(wxEvtHandler *parent);
     void restoreSessionDataHandler(wxEvtHandler *parent);
     void saveSessionDataHandler(wxEvtHandler *parent);
+
+    void removeCalibDataHandler(wxEvtHandler *parent);
 };

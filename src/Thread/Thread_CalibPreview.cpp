@@ -9,6 +9,17 @@ CalibPreviewThread::CalibPreviewThread(wxEvtHandler *parent,
                                        DataPtr data)
     : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)), data(data) {
     this->parent = parent;
+
+    auto config = AppConfig();
+    auto previewConfig = config.GetPreviewConfig();
+    int pWidth = previewConfig.width;
+    int pHeight = previewConfig.height;
+    this->pSize = cv::Size(pWidth, pHeight);
+
+    auto cameraConfig = config.GetCameraConfig();
+    int iWidth = cameraConfig.Camera_Width;
+    int iHeight = cameraConfig.Camera_Height;
+    this->imageSize = cv::Size(iWidth, iHeight);
 }
 
 CalibPreviewThread::~CalibPreviewThread() {}
@@ -28,6 +39,8 @@ wxThread::ExitCode CalibPreviewThread::Entry() {
                 continue;
             }
 
+            cv::resize(frame, frame, pSize);
+
             auto isLineNull = data->calibData.isNull();
             if (!isLineNull) {
                 auto calibData = data->calibData;
@@ -36,6 +49,9 @@ wxThread::ExitCode CalibPreviewThread::Entry() {
 
                 Detection::Line left = calibData.lineLeft;
                 Detection::Line right = calibData.lineRight;
+
+                left = left.Scale(imageSize, pSize);
+                right = right.Scale(imageSize, pSize);
 
                 cv::line(frame, left.p1, left.p2, yellow, 2);
                 cv::line(frame, right.p1, right.p2, blue, 2);

@@ -60,6 +60,8 @@ class ManualCalibrationThread : public wxThread {
 
     ManualDirection direction = MANUAL_LEFT;
 
+    cv::Size pSize;
+
   private:
     void updateYellowLine(Detection::Line line);
     void updateBlueLine(Detection::Line line);

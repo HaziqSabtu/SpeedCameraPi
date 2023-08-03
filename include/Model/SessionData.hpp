@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/CalibrationData.hpp"
+#include "Utils/Config/AppConfig.hpp"
 #include <Utils/DataStruct.hpp>
 #include <Utils/ImageUtils.hpp>
 
@@ -61,6 +62,16 @@ struct SessionData {
 
     std::shared_ptr<std::vector<ImageData>> imageData;
 
+    /////////////////////////////////////////////////////////
+    /**
+    *
+    *
+    * Calibration Data
+    *
+    *
+    */
+    /////////////////////////////////////////////////////////
+
     CalibData calibData;
 
     void setCalibData(CalibData &data) { calibData = data; }
@@ -68,6 +79,16 @@ struct SessionData {
     void removeCalibData() { calibData.clear(); }
 
     CalibData getCalibData() { return calibData; }
+
+    /////////////////////////////////////////////////////////
+    /**
+    *
+    *
+    * Session Data
+    *
+    *
+    */
+    /////////////////////////////////////////////////////////
 
     SessionData() { Init(); }
 

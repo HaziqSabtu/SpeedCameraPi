@@ -49,6 +49,8 @@ class CalibrationPanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
+    void unBindImagePanel();
+
     void OnToggleCameraButton(BitmapButtonT2 *button);
 
     void OnUpdatePreview(UpdatePreviewEvent &e);

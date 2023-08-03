@@ -215,12 +215,30 @@ void CalibrationController::saveCalibrationHandler(wxEvtHandler *parent) {
     auto calibrationThread = tc->getCalibrationThread();
     calibrationThread->Pause();
 
-    auto calibData = calibrationThread->getCalibData();
-
-    shared->sessionData.calibData = calibData;
-
     auto camera = calibrationThread->getCamera();
     shared->setCamera(camera);
+
+    auto calibData = calibrationThread->getCalibData();
+
+    AppConfig config;
+    auto pConfig = config.GetPreviewConfig();
+    int pWidth = pConfig.width;
+    int pHeight = pConfig.height;
+    cv::Size pSize(pWidth, pHeight);
+
+    auto cConfig = config.GetCameraConfig();
+    int cWidth = cConfig.Camera_Width;
+    int cHeight = cConfig.Camera_Height;
+    cv::Size cSize(cWidth, cHeight);
+
+    auto leftLine = calibData.lineLeft;
+    calibData.lineLeft = leftLine.Scale(pSize, cSize);
+
+    auto rightLine = calibData.lineRight;
+    calibData.lineRight = rightLine.Scale(pSize, cSize);
+
+    auto data = shared->getSessionData();
+    data->setCalibData(calibData);
 
     tc->endCalibrationHandler();
 }

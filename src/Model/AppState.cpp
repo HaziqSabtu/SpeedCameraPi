@@ -282,19 +282,7 @@ ButtonState AppState::getCalibrationButtonState(ModelPtr model) {
         return ButtonState::ACTIVE;
     }
 
-    if (model->sessionData.calibData.isNull()) {
-        return ButtonState::NORMAL;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
         return ButtonState::DISABLED;
     }
 

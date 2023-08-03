@@ -4,10 +4,12 @@
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
 #include "UI/Layout/StatusPanel.hpp"
+#include "Utils/Config/AppConfig.hpp"
 #include <Thread/Thread_Calibration.hpp>
 #include <opencv2/imgproc.hpp>
 #include <wx/utils.h>
 
+// TODO: Fix Status
 CalibrationThread::CalibrationThread(wxEvtHandler *parent,
                                      std::unique_ptr<CameraBase> &camera,
                                      HSVFilter &hsvFilter, BFS &bfs,
@@ -15,6 +17,12 @@ CalibrationThread::CalibrationThread(wxEvtHandler *parent,
     : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)),
       hsvFilter(hsvFilter), bfs(bfs), ransac(ransac) {
     this->parent = parent;
+
+    auto config = AppConfig();
+    auto previewConfig = config.GetPreviewConfig();
+    int pWidth = previewConfig.width;
+    int pHeight = previewConfig.height;
+    pSize = cv::Size(pWidth, pHeight);
 }
 
 CalibrationThread::~CalibrationThread() {}
@@ -35,8 +43,7 @@ wxThread::ExitCode CalibrationThread::Entry() {
                 throw std::runtime_error("Failed to capture frame");
             }
 
-            cv::Size s(640, 480);
-            cv::resize(frame, frame, s);
+            cv::resize(frame, frame, pSize);
 
             cv::Mat hsvFrame = hsvFilter.toHSV(frame);
             cv::Mat filteredFrame = bfs.run(hsvFrame);

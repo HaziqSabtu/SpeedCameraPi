@@ -60,6 +60,7 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::MC_Stop_Button_ID) {
         controller->e_ManualCalibEnd(this);
+        unBindImagePanel();
     }
 
     if (e.GetId() == Enum::MC_SelectLeft_Button_ID) {
@@ -85,9 +86,20 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
         OnToggleCameraButton(button);
     }
 
+    if (e.GetId() == Enum::MC_Remove_Button_ID) {
+        controller->e_RemoveCalibData(this);
+    }
+
     controller->e_UpdateState(this);
 
     e.Skip();
+}
+
+void ManualCalibrationPanel::unBindImagePanel() {
+    img_bitmap->Unbind(wxEVT_LEFT_DOWN, &ManualCalibrationPanel::OnLeftDown,
+                       this);
+    img_bitmap->Unbind(wxEVT_LEFT_UP, &ManualCalibrationPanel::OnLeftUp, this);
+    img_bitmap->Unbind(wxEVT_MOTION, &ManualCalibrationPanel::OnMotion, this);
 }
 
 void ManualCalibrationPanel::OnToggleCameraButton(BitmapButtonT2 *button) {

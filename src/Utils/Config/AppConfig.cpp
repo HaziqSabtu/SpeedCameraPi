@@ -1,3 +1,4 @@
+#include "Utils/Config/ConfigStruct.hpp"
 #include <Utils/Config/AppConfig.hpp>
 
 AppConfig::AppConfig() {
@@ -9,6 +10,10 @@ AppConfig::AppConfig() {
 
         config->SetPath("/Camera_Panel");
         config->Write("Thread_Pool_Size", Default_Thread_Pool_Size);
+
+        config->SetPath("/Preview_Config");
+        config->Write("Preview_Width", Default_Preview_Width);
+        config->Write("Preview_Height", Default_Preview_Height);
 
         config->SetPath("/Camera_Parameter");
         config->Write("Camera_ID", Default_Camera_ID);
@@ -84,6 +89,15 @@ PanelConfig AppConfig::GetPanelConfig() {
     config->Read("Thread_Pool_Size", &panelConfig.Thread_Pool_Size,
                  Default_Thread_Pool_Size);
     return panelConfig;
+}
+
+PreviewConfig AppConfig::GetPreviewConfig() {
+    PreviewConfig previewConfig;
+    config->SetPath("/Preview_Config");
+    config->Read("Preview_Width", &previewConfig.width, Default_Preview_Width);
+    config->Read("Preview_Height", &previewConfig.height,
+                 Default_Preview_Height);
+    return previewConfig;
 }
 
 CameraConfig AppConfig::GetCameraConfig() {

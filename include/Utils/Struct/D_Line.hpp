@@ -55,6 +55,8 @@ struct Line {
     void setP1(cv::Point2f p1);
 
     void setP2(cv::Point2f p2);
+
+    Line Scale(cv::Size src, cv::Size dst);
 };
 } // namespace Detection
 

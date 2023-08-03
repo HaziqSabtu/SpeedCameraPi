@@ -12,6 +12,12 @@ ManualCalibrationThread::ManualCalibrationThread(
     wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera)
     : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)) {
     this->parent = parent;
+
+    auto config = AppConfig();
+    auto previewConfig = config.GetPreviewConfig();
+    int pWidth = previewConfig.width;
+    int pHeight = previewConfig.height;
+    this->pSize = cv::Size(pWidth, pHeight);
 }
 
 ManualCalibrationThread::~ManualCalibrationThread() {}
@@ -32,8 +38,7 @@ wxThread::ExitCode ManualCalibrationThread::Entry() {
                 throw std::runtime_error("Failed to capture frame");
             }
 
-            cv::Size s(640, 480);
-            cv::resize(frame, frame, s);
+            cv::resize(frame, frame, pSize);
 
             if (isLineValid(yellowLine)) {
                 cv::line(frame, yellowLine.p1, yellowLine.p2,

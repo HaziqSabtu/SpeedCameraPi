@@ -70,10 +70,12 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::CL_SaveCalibration_Button_ID) {
         controller->e_CalibrationSave(this);
+        unBindImagePanel();
     }
 
     if (e.GetId() == Enum::CL_CancelCalibration_Button_ID) {
         controller->e_CalibrationEnd(this);
+        unBindImagePanel();
     }
 
     if (e.GetId() == Enum::CL_ClearCalibration_Button_ID) {
@@ -87,6 +89,10 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
     controller->e_UpdateState(this);
 
     e.Skip();
+}
+
+void CalibrationPanel::unBindImagePanel() {
+    img_bitmap->Unbind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
 }
 
 void CalibrationPanel::OnToggleCameraButton(BitmapButtonT2 *button) {

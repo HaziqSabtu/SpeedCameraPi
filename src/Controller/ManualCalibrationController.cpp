@@ -1,5 +1,6 @@
 #include "Event/Event_UpdateState.hpp"
 #include "Model/AppState.hpp"
+#include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
 #include "Model/SharedModel.hpp"
 #include "Thread/Thread_ID.hpp"
@@ -204,6 +205,17 @@ void ManualCalibrationController::e_RemoveRight(wxEvtHandler *parent) {
     }
 }
 
+void ManualCalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        removeCalibDataHandler(parent);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void ManualCalibrationController::changeToLeftHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -306,9 +318,27 @@ void ManualCalibrationController::saveLineHandler(wxEvtHandler *parent,
         dir == MANUAL_LEFT ? thread->getBlueLine() : thread->getYellowLine();
 
     auto data = shared->getSessionData();
+
+    auto commonData = data->getCommonData();
+
+    auto config = AppConfig();
+    auto previewConfig = config.GetPreviewConfig();
+    int pWidth = previewConfig.width;
+    int pHeight = previewConfig.height;
+    cv::Size src(pWidth, pHeight);
+
+    auto cameraConfig = config.GetCameraConfig();
+
+    int width = cameraConfig.Camera_Width;
+    int height = cameraConfig.Camera_Height;
+    cv::Size dst(width, height);
+
+    auto realLine = line.Scale(src, dst);
+
     auto calibData = data->getCalibData();
 
-    dir == MANUAL_LEFT ? calibData.lineLeft = line : calibData.lineRight = line;
+    dir == MANUAL_LEFT ? calibData.lineLeft = realLine
+                       : calibData.lineRight = realLine;
 
     data->setCalibData(calibData);
 }
@@ -465,4 +495,20 @@ void ManualCalibrationController::restoreSessionDataHandler(
     }
 
     shared->setSessionData(*temp);
+}
+
+void ManualCalibrationController::removeCalibDataHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        throw std::runtime_error("manualCalibThread is running");
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+        throw std::runtime_error("calibPreviewThread is running");
+    }
+
+    auto data = shared->getSessionData();
+
+    data->removeCalibData();
 }

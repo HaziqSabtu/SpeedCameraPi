@@ -41,6 +41,7 @@ class CalibrationThread : public wxThread {
     std::unique_ptr<CameraBase> camera;
 
     const ThreadID threadID = ThreadID::THREAD_CALIBRATION;
+    cv::Size pSize;
 
     HSVFilter hsvFilter;
     BFS bfs;

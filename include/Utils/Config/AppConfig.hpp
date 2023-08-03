@@ -18,6 +18,8 @@ class AppConfig {
 
     PanelConfig GetPanelConfig();
 
+    PreviewConfig GetPreviewConfig();
+
     CameraConfig GetCameraConfig();
 
     CaptureConfig GetCaptureConfig();
@@ -50,6 +52,10 @@ class AppConfig {
     // Default Values
     // Camera Panel
     int Default_Thread_Pool_Size = 2;
+
+    // Preview Config
+    int Default_Preview_Width = 640;
+    int Default_Preview_Height = 480;
 
     // Camera Parameter
     int Default_Camera_ID = 0;

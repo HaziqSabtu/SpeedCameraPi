@@ -34,4 +34,7 @@ class CalibPreviewThread : public wxThread {
     DataPtr data;
 
     const ThreadID id = THREAD_CALIBRATION_PREVIEW;
+
+    cv::Size pSize;
+    cv::Size imageSize;
 };
