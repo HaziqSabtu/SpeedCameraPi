@@ -4,8 +4,6 @@
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Calibration.hpp"
 #include "Thread/Thread_Capture.hpp"
-#include "UI/Button/Button_ToggleCamera.hpp"
-#include "UI/Button/Button_wState.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include <Model/SharedModel.hpp>
 #include <memory>

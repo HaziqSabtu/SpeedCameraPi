@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
-#include "UI/Button/Button_Exit.hpp"
-#include "UI/Button/Button_Info.hpp"
-#include "UI/Button/Button_Settings.hpp"
+#include "UI/Button/BitmapButton/Type3/Button_Exit.hpp"
+#include "UI/Button/BitmapButton/Type3/Button_Info.hpp"
+#include "UI/Button/BitmapButton/Type3/Button_Settings.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include <wx/wx.h>
 

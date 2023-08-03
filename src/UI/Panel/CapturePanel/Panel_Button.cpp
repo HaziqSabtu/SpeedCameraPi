@@ -1,4 +1,3 @@
-#include "UI/Button/Button_Default.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusDebug.hpp"
 #include "UI/Panel/Common/DividerPanel.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
@@ -10,11 +9,11 @@
 CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     : wxPanel(parent, id, wxDefaultPosition, wxSize(400, 400)) {
 
-    switch_Button = new DefaultButton(
-        this, Enum::CP_SWITCH_Button_ID, "Measure", Theme::Primary,
-        Theme::StatusText, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
-    switch_Button->SetFont(
-        wxFontInfo(20).Family(wxFONTFAMILY_DEFAULT).FaceName("Roboto").Bold());
+    // switch_Button = new DefaultButton(
+    //     this, Enum::CP_SWITCH_Button_ID, "Measure", Theme::Primary,
+    //     Theme::StatusText, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
+    // switch_Button->SetFont(
+    // wxFontInfo(20).Family(wxFONTFAMILY_DEFAULT).FaceName("Roboto").Bold());
 
     Spacer =
         new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxSize(10, 10));
@@ -37,7 +36,7 @@ CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(cPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(switch_Button, 1, wxEXPAND | wxBOTTOM, 10);
+    // main_sizer->Add(switch_Button, 1, wxEXPAND | wxBOTTOM, 10);
 
     SetSizer(main_sizer);
 }

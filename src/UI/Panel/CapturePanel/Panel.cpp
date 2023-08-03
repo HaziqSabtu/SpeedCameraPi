@@ -86,7 +86,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     }
 }
 
-void CapturePanel::OnLoadButton(ButtonWState *button) {
+void CapturePanel::OnLoadButton(wxButton *button) {
     wxFileDialog openFileDialog(this, _("Open .bin file"), "", "",
                                 "XYZ files (*.bin)|*.bin",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
@@ -155,7 +155,7 @@ void CapturePanel::OnUpdateState(UpdateStateEvent &e) {
     // TODO: Update status
     auto ms = state.cameraPanel.measureButtonState;
     auto b = button_panel->switch_Button;
-    ms == ButtonState::DISABLED ? b->Disable() : b->Disable();
+    // ms == ButtonState::DISABLED ? b->Disable() : b->Disable();
 
     Refresh();
 }

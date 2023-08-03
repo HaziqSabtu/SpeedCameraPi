@@ -1,7 +1,5 @@
 #pragma once
 
-#include "UI/Button/Button_ToggleCamera.hpp"
-#include "UI/Button/Button_wState.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"

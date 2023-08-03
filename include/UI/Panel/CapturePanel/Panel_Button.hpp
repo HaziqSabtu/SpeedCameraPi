@@ -4,9 +4,6 @@
 #include "UI/Panel/CapturePanel/PanelStatusCapture.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusDebug.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusROI.hpp"
-#include <UI/Button/Button_Capture.hpp>
-#include <UI/Button/Button_Load.hpp>
-#include <UI/Button/Button_ToggleCamera.hpp>
 
 #include <Utils/Enum.hpp>
 

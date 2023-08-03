@@ -5,7 +5,6 @@
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/SessionData.hpp"
-#include "UI/Button/Button_Exit.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Layout/TitlePanel.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelBlueStatus.hpp"

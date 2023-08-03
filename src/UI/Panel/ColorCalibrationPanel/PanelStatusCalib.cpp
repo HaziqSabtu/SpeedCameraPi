@@ -7,7 +7,6 @@
 #include "UI/Button/BitmapButton/Button_Stop.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_Camera.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_MagnifyGlass.hpp"
-#include "UI/Button/Button_Default.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/StaticText/RichText.hpp"
 #include "UI/Theme/Data.hpp"

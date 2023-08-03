@@ -1,5 +1,5 @@
 #include "UI/Panel/ColorCalibrationPanel/Panel_Button.hpp"
-#include "UI/Button/Button_ToggleCamera.hpp"
+
 #include "Utils/Enum.hpp"
 #include <wx/stringimpl.h>
 

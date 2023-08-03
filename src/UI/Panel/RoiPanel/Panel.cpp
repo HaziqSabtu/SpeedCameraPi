@@ -4,7 +4,6 @@
 #include "Event/Event_UpdateStatus.hpp"
 
 #include "Model/AppState.hpp"
-#include "UI/Button/Button_wState.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Panel/RoiPanel/Panel_Button.hpp"
 #include "Utils/Enum.hpp"

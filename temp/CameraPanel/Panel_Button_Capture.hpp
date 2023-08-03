@@ -1,9 +1,6 @@
 #ifndef PANEL_BUTTON_CAPTURE_HPP
 #define PANEL_BUTTON_CAPTURE_HPP
 
-#include <UI/Button/Button_Capture.hpp>
-#include <UI/Button/Button_Load.hpp>
-#include <UI/Button/Button_ToggleCamera.hpp>
 #include <Utils/Enum.hpp>
 #include <wx/gtk/button.h>
 #include <wx/wx.h>

@@ -3,7 +3,6 @@
 #include "Model/AppState.hpp"
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
-#include "UI/Button/Button_wState.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include <wx/sizer.h>
 #include <wx/wx.h>

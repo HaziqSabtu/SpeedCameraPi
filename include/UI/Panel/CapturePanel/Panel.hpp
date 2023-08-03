@@ -7,7 +7,6 @@
 
 #include "Model/SessionData.hpp"
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
-#include "UI/Button/Button_Exit.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Layout/TitlePanel.hpp"
 #include "UI/Panel/RoiPanel/Panel.hpp"
@@ -44,7 +43,7 @@ class CapturePanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
-    void OnLoadButton(ButtonWState *button);
+    void OnLoadButton(wxButton *button);
     void OnCaptureButton(wxButton *button);
     void OnToggleCameraButton(BitmapButtonT2 *button);
     void OnChangePanelButton(wxButton *button);

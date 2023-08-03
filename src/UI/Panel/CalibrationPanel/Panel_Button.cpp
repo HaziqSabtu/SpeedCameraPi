@@ -1,4 +1,4 @@
-#include "UI/Button/Button_ToggleCamera.hpp"
+
 #include "UI/Panel/CalibrationPanel/PanelStatusOther.hpp"
 #include "UI/Panel/CalibrationPanel/PanelStatusTool.hpp"
 #include "Utils/Enum.hpp"

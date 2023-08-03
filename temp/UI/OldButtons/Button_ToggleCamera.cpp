@@ -1,4 +1,3 @@
-#include <UI/Button/Button_ToggleCamera.hpp>
 
 ButtonToggleCam::ButtonToggleCam(wxWindow *parent, wxWindowID id)
     : ButtonWState(parent, id, "Capture", "Camera On", "Camera Off", false) {

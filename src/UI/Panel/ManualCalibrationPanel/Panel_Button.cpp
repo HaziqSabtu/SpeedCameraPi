@@ -1,4 +1,4 @@
-#include "UI/Button/Button_ToggleCamera.hpp"
+
 #include "Utils/Enum.hpp"
 #include <UI/Panel/ManualCalibrationPanel/Panel_Button.hpp>
 #include <wx/stringimpl.h>

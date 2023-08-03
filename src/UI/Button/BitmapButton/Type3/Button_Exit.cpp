@@ -1,7 +1,7 @@
 #include "UI/Theme/Theme.hpp"
 #include "Utils/Enum.hpp"
 #include "Utils/wxUtils.hpp"
-#include <UI/Button/Button_Exit.hpp>
+#include <UI/Button/BitmapButton/Type3/Button_Exit.hpp>
 #include <wx/app.h>
 #include <wx/gdicmn.h>
 #include <wx/stringimpl.h>

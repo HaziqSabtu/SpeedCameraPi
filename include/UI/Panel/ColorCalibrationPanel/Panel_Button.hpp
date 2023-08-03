@@ -1,7 +1,5 @@
 #pragma once
 
-#include "UI/Button/Button_ToggleCamera.hpp"
-#include "UI/Button/Button_wState.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelBlueStatus.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelStatusCalib.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelStatusOther.hpp"

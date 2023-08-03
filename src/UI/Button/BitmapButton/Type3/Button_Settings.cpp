@@ -1,5 +1,5 @@
 #include "Utils/Enum.hpp"
-#include <UI/Button/Button_Settings.hpp>
+#include <UI/Button/BitmapButton/Type3/Button_Settings.hpp>
 #include <wx/app.h>
 #include <wx/gdicmn.h>
 #include <wx/stringimpl.h>
