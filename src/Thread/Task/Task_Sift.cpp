@@ -7,21 +7,27 @@ SiftTask::SiftTask(DataPtr data, int id)
 
 void SiftTask::Execute() {
     if (id == 0) {
-        data->allignData.at(id).image = data->captureData.at(id).image.clone();
-        data->allignData.at(id).transformMatrix = cv::Mat();
+        auto captureData = data->getCaptureData();
+        auto firstFrame = captureData.at(0).image.clone();
+
+        AllignData2 aData(firstFrame, cv::Mat());
+        data->setAllignDataAt(0, aData);
         return;
     }
 
-    CaptureData firstImage = data->captureData.at(0);
-    CaptureData targetImage = data->captureData.at(id);
+    auto captureData = data->getCaptureData();
+    CaptureData firstImage = captureData.at(0);
+    CaptureData targetImage = captureData.at(id);
 
     FeatureDetector featureDetector = FeatureDetector(DetectorType::SIFT);
 
     featureDetector.allign(firstImage.image, targetImage.image);
 
-    data->allignData.at(id).image = featureDetector.GetAllignedImage().clone();
-    data->allignData.at(id).transformMatrix =
-        featureDetector.GetHomographyMatrix().clone();
+    auto allignImage = featureDetector.GetAllignedImage().clone();
+    auto homographyMatrix = featureDetector.GetHomographyMatrix().clone();
+
+    AllignData2 aData(allignImage, homographyMatrix);
+    data->setAllignDataAt(id, aData);
 }
 
 /**

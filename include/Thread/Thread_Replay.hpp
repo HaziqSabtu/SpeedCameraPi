@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Model/SessionData.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Error.hpp>
 #include <Event/Event_LoadImage.hpp>
@@ -18,8 +19,7 @@
 
 class ReplayThread : public wxThread {
   public:
-    ReplayThread(wxEvtHandler *parent,
-                 std::shared_ptr<std::vector<ImageData>> imgData);
+    ReplayThread(wxEvtHandler *parent, DataPtr data);
     ~ReplayThread();
 
     ThreadID getID() const;
@@ -29,7 +29,7 @@ class ReplayThread : public wxThread {
 
   private:
     wxEvtHandler *parent;
-    std::shared_ptr<std::vector<ImageData>> imgData;
+    DataPtr data;
 
     const ThreadID id = THREAD_REPLAY;
 };

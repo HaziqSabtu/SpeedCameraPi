@@ -19,7 +19,7 @@ PanelState AppState::getCameraStatusState(ModelPtr model) {
 }
 
 PanelState AppState::getCalibrationStatusState(ModelPtr model) {
-    return model->sessionData.calibData.isNull() ? PanelState::PANEL_NOT_OK
+    return model->sessionData.isCalibDataEmpty() ? PanelState::PANEL_NOT_OK
                                                  : PanelState::PANEL_OK;
 }
 
@@ -53,8 +53,6 @@ CapturePanelState AppState::getCameraPanelState(ModelPtr model) {
 
 CalibrationPanelState AppState::getCalibrationPanelState(ModelPtr model) {
     CalibrationPanelState clps;
-
-    bool isCalibrationDataNull = model->sessionData.calibData.isNull();
 
     clps.state = getCalibrationStatusState(model);
 
@@ -256,7 +254,7 @@ ButtonState AppState::getCPCalibrationRemoveButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.calibData.isNull()) {
+    if (model->sessionData.isCalibDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -286,11 +284,11 @@ ButtonState AppState::getCalibrationButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.calibData.isNull()) {
+    if (model->sessionData.isCalibDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
-    if (!model->sessionData.calibData.isNull()) {
+    if (!model->sessionData.isCalibDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -331,11 +329,11 @@ ButtonState AppState::getCalibrationRemoveButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.calibData.isNull()) {
+    if (model->sessionData.isCalibDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
-    if (!model->sessionData.calibData.isNull()) {
+    if (!model->sessionData.isCalibDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
@@ -385,7 +383,7 @@ ButtonState AppState::getCLOKButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.calibData.isNull()) {
+    if (model->sessionData.isCalibDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -417,11 +415,11 @@ ButtonState AppState::getMCRemoveButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.calibData.isNull()) {
+    if (model->sessionData.isCalibDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
-    if (!model->sessionData.calibData.isNull()) {
+    if (!model->sessionData.isCalibDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
@@ -439,11 +437,11 @@ ButtonState AppState::getMCButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.calibData.isNull()) {
+    if (model->sessionData.isCalibDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
-    if (!model->sessionData.calibData.isNull()) {
+    if (!model->sessionData.isCalibDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -520,7 +518,7 @@ ButtonState AppState::getMCRemoveLeftButtonState(ModelPtr model) {
 PanelState AppState::getMCRightStatusState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    auto calibData = model->sessionData.calibData;
+    auto calibData = model->sessionData.getCalibData();
 
     Detection::Line line = calibData.lineRight;
 
@@ -566,7 +564,7 @@ ButtonState AppState::getMCOKButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.calibData.isNull()) {
+    if (model->sessionData.isCalibDataEmpty()) {
         return ButtonState::DISABLED;
     }
 

@@ -35,6 +35,7 @@ void ThreadController::initThread() {
     colorCalibrationThread = nullptr;
     colorCalibPreviewThread = nullptr;
     roiThread = nullptr;
+    roiPreviewThread = nullptr;
     processThread = nullptr;
     resultPreviewThread = nullptr;
 };
@@ -50,6 +51,7 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(colorCalibrationThread);
     stopAndDeleteThread(colorCalibPreviewThread);
     stopAndDeleteThread(roiThread);
+    stopAndDeleteThread(roiPreviewThread);
     stopAndDeleteThread(processThread);
     stopAndDeleteThread(resultPreviewThread);
 };
@@ -93,6 +95,10 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
 
     if (threadID == ThreadID::THREAD_ROI) {
         return roiThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_ROI_PREVIEW) {
+        return roiPreviewThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_PROCESS) {
@@ -151,11 +157,10 @@ void ThreadController::endLoadCaptureHandler() {
     loadCaptureThread = stopAndDeleteThread(loadCaptureThread);
 }
 
-void ThreadController::startReplayHandler(
-    wxEvtHandler *parent, std::shared_ptr<std::vector<ImageData>> imgData,
-    PanelID panelID) {
+void ThreadController::startReplayHandler(wxEvtHandler *parent, DataPtr data,
+                                          PanelID panelID) {
 
-    replayThread = new ReplayThread(parent, imgData);
+    replayThread = new ReplayThread(parent, data);
     replayThread->Run();
 
     owner[replayThread->getID()] = panelID;
@@ -196,6 +201,12 @@ ColorCalibPreviewThread *ThreadController::getColorCalibPreviewThread() {
 }
 
 RoiThread *ThreadController::getRoiThread() { return roiThread; }
+
+RoiPreviewThread *ThreadController::getRoiPreviewThread() {
+    return roiPreviewThread;
+}
+
+ProcessThread *ThreadController::getProcessThread() { return processThread; }
 
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
                                             std::string path, PanelID panelID) {
@@ -280,10 +291,9 @@ void ThreadController::endColorCalibPreviewHandler() {
     colorCalibPreviewThread = stopAndDeleteThread(colorCalibPreviewThread);
 }
 
-void ThreadController::startRoiHandler(wxEvtHandler *parent,
-                                       ImageDataPtr imageData,
+void ThreadController::startRoiHandler(wxEvtHandler *parent, DataPtr data,
                                        PanelID panelID) {
-    roiThread = new RoiThread(parent, imageData);
+    roiThread = new RoiThread(parent, data);
     roiThread->Run();
 
     owner[roiThread->getID()] = panelID;
@@ -291,6 +301,18 @@ void ThreadController::startRoiHandler(wxEvtHandler *parent,
 
 void ThreadController::endRoiHandler() {
     roiThread = stopAndDeleteThread(roiThread);
+}
+
+void ThreadController::startRoiPreviewHandler(wxEvtHandler *parent,
+                                              DataPtr data, PanelID panelID) {
+    roiPreviewThread = new RoiPreviewThread(parent, data);
+    roiPreviewThread->Run();
+
+    owner[roiPreviewThread->getID()] = panelID;
+}
+
+void ThreadController::endRoiPreviewHandler() {
+    roiPreviewThread = stopAndDeleteThread(roiPreviewThread);
 }
 
 void ThreadController::startProcessHandler(wxEvtHandler *parent,

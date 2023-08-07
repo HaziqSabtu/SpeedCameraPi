@@ -4,6 +4,7 @@
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Model/CalibrationData.hpp"
+#include "Model/SessionData.hpp"
 #include "Thread/Thread_ID.hpp"
 #include "Utils/Struct/D_Line.hpp"
 #include <Event/Event_Calibration.hpp>
@@ -21,7 +22,7 @@
 
 class RoiThread : public wxThread {
   public:
-    RoiThread(wxEvtHandler *parent, ImageDataPtr imageData);
+    RoiThread(wxEvtHandler *parent, DataPtr data);
     ~RoiThread();
 
     void setPoint1(cv::Point point);
@@ -38,7 +39,7 @@ class RoiThread : public wxThread {
 
   private:
     wxEvtHandler *parent;
-    ImageDataPtr imageData;
+    DataPtr data;
 
     const ThreadID threadID = ThreadID::THREAD_ROI;
 
@@ -47,5 +48,5 @@ class RoiThread : public wxThread {
     cv::Point p1 = cv::Point(-1, -1);
     cv::Point p2 = cv::Point(-1, -1);
 
-  private:
+    cv::Size pSize;
 };

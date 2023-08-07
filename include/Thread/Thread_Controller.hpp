@@ -14,6 +14,7 @@
 #include "Thread/Thread_Replay.hpp"
 #include "Thread/Thread_ResultPreview.hpp"
 #include "Thread/Thread_Roi.hpp"
+#include "Thread/Thread_RoiPreview.hpp"
 #include "Utils/DataStruct.hpp"
 #include <unordered_map>
 
@@ -37,10 +38,8 @@ class ThreadController {
                                       std::string path, PanelID panelID);
     void endLoadFileHandler();
 
-    virtual void
-    startReplayHandler(wxEvtHandler *parent,
-                       std::shared_ptr<std::vector<ImageData>> imgData,
-                       PanelID panelID);
+    virtual void startReplayHandler(wxEvtHandler *parent, DataPtr data,
+                                    PanelID panelID);
     void endReplayHandler();
 
     virtual void startCalibrationHandler(wxEvtHandler *parent,
@@ -74,10 +73,15 @@ class ThreadController {
 
     void endColorCalibPreviewHandler();
 
-    virtual void startRoiHandler(wxEvtHandler *parent, ImageDataPtr imgData,
+    virtual void startRoiHandler(wxEvtHandler *parent, DataPtr data,
                                  PanelID panelID);
 
     void endRoiHandler();
+
+    virtual void startRoiPreviewHandler(wxEvtHandler *parent, DataPtr data,
+                                        PanelID panelID);
+
+    void endRoiPreviewHandler();
 
     virtual void startProcessHandler(wxEvtHandler *parent, POOLPtr threadPool,
                                      DataPtr data, PanelID panelID);
@@ -117,6 +121,8 @@ class ThreadController {
 
     RoiThread *getRoiThread();
 
+    RoiPreviewThread *getRoiPreviewThread();
+
     ProcessThread *getProcessThread();
 
     void killAllThreads();
@@ -150,6 +156,8 @@ class ThreadController {
     ColorCalibPreviewThread *colorCalibPreviewThread;
 
     RoiThread *roiThread;
+
+    RoiPreviewThread *roiPreviewThread;
 
     ProcessThread *processThread;
 

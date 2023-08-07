@@ -112,4 +112,16 @@ cv::Point getRelativePoint(const cv::Mat &src, const cv::Mat &target,
     // Return the relative point
     return cv::Point(relativeX, relativeY);
 }
+
+cv::Rect scaleRect(const cv::Rect &rect, cv::Size src, cv::Size dst) {
+    double scaleX = static_cast<double>(dst.width) / src.width;
+    double scaleY = static_cast<double>(dst.height) / src.height;
+
+    int relativeX = static_cast<int>(rect.x * scaleX);
+    int relativeY = static_cast<int>(rect.y * scaleY);
+    int relativeWidth = static_cast<int>(rect.width * scaleX);
+    int relativeHeight = static_cast<int>(rect.height * scaleY);
+
+    return cv::Rect(relativeX, relativeY, relativeWidth, relativeHeight);
+}
 } // namespace Utils

@@ -3,14 +3,22 @@
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
+#include "Model/SessionData.hpp"
 #include "UI/Layout/StatusPanel.hpp"
+#include "Utils/Config/AppConfig.hpp"
 #include <Thread/Thread_Roi.hpp>
 #include <opencv2/imgproc.hpp>
 #include <wx/utils.h>
 
-RoiThread::RoiThread(wxEvtHandler *parent, ImageDataPtr imageData)
-    : wxThread(wxTHREAD_JOINABLE), imageData(imageData) {
+RoiThread::RoiThread(wxEvtHandler *parent, DataPtr data)
+    : wxThread(wxTHREAD_JOINABLE), data(data) {
     this->parent = parent;
+
+    AppConfig config;
+    auto pConfig = config.GetPreviewConfig();
+    int width = pConfig.width;
+    int height = pConfig.height;
+    this->pSize = cv::Size(width, height);
 }
 
 RoiThread::~RoiThread() {}
@@ -23,18 +31,21 @@ wxThread::ExitCode RoiThread::Entry() {
 
     try {
 
-        if (imageData->size() == 0) {
-            throw std::runtime_error("No image data");
+        if (data->isCaptureDataEmpty()) {
+            throw std::runtime_error("capture data is empty");
         }
 
         while (!TestDestroy()) {
-            cv::Mat frame = imageData->at(0).image.clone();
+            auto firstData = data->getCaptureData().at(0);
+            cv::Mat firstFrame = firstData.image.clone();
+
+            cv::resize(firstFrame, firstFrame, pSize);
 
             if (isRectValid()) {
-                cv::rectangle(frame, getRect(), cv::Scalar(0, 255, 0), 2);
+                cv::rectangle(firstFrame, getRect(), cv::Scalar(0, 255, 0), 2);
             }
 
-            UpdatePreviewEvent::Submit(parent, frame);
+            UpdatePreviewEvent::Submit(parent, firstFrame);
 
             wxMilliSleep(50);
         }

@@ -27,7 +27,11 @@ class RoiController {
     void e_SetPoint2(wxEvtHandler *parent, wxPoint point);
 
     void e_RoiThreadStart(wxEvtHandler *parent);
-    void e_RoiThreadEnd(wxEvtHandler *parent);
+    void e_RoiThreadSave(wxEvtHandler *parent);
+    void e_RoiThreadCancel(wxEvtHandler *parent);
+
+    void e_RoiPreviewStart(wxEvtHandler *parent);
+    void e_RoiPreviewEnd(wxEvtHandler *parent);
 
   private:
     static const PanelID panelID = PanelID::PANEL_ROI;
@@ -42,5 +46,9 @@ class RoiController {
     void setPoint2Handler(wxEvtHandler *parent, cv::Point point);
 
     void roiThreadStartHandler(wxEvtHandler *parent);
-    void roiThreadEndHandler(wxEvtHandler *parent);
+    void roiThreadSaveHandler(wxEvtHandler *parent);
+    void roiThreadCancelHandler(wxEvtHandler *parent);
+
+    void roiPreviewStartHandler(wxEvtHandler *parent);
+    void roiPreviewEndHandler(wxEvtHandler *parent);
 };

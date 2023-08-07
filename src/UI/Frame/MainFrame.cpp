@@ -72,7 +72,7 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     SetSizer(sizer);
 
     capture_panel->Show();
-    sharedModel->sessionData.currentPanelID = PANEL_CAPTURE;
+    sharedModel->sessionData.setPanelID(PANEL_CAPTURE);
 }
 
 MainFrame::~MainFrame() { wxWakeUpIdle(); }
@@ -96,7 +96,7 @@ void MainFrame::OnChangePanel(ChangePanelEvent &e) {
             throw std::runtime_error("Error fetching next panel");
         }
 
-        sharedModel->sessionData.currentPanelID = data.nextPanelID;
+        sharedModel->sessionData.setPanelID(data.nextPanelID);
 
         currentPanel->Hide();
         nextPanel->Show();

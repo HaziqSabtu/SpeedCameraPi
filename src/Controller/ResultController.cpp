@@ -85,7 +85,8 @@ void ResultController::e_ResultPreviewEnd(wxEvtHandler *parent) {
 }
 
 void ResultController::checkPreCondition() {
-    if (panelID != shared->sessionData.currentPanelID) {
+    auto data = shared->getSessionData();
+    if (panelID != data->getPanelID()) {
         throw std::runtime_error(
             "ResultController::endPoint() - PanelID mismatch");
     }
@@ -101,8 +102,6 @@ void ResultController::processThreadStartHandler(wxEvtHandler *parent) {
     }
 
     auto sessionData = shared->getSessionData();
-
-    auto imageData = sessionData->imageData;
 
     auto pool = shared->getThreadPool();
 
@@ -137,8 +136,6 @@ void ResultController::resultPreviewStartHandler(wxEvtHandler *parent) {
     }
 
     auto sessionData = shared->getSessionData();
-
-    auto imageData = sessionData->imageData;
 
     auto pool = shared->getThreadPool();
 

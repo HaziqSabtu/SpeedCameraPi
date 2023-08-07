@@ -25,7 +25,8 @@ void ManualCalibrationController::e_UpdateState(wxEvtHandler *parent) {
 ManualCalibrationController::~ManualCalibrationController() {}
 
 void ManualCalibrationController::checkPreCondition() {
-    if (panelID != shared->sessionData.currentPanelID) {
+    auto data = shared->getSessionData();
+    if (panelID != data->getPanelID()) {
         throw std::runtime_error(
             "ManualCalibrationController::endPoint() - PanelID mismatch");
     }

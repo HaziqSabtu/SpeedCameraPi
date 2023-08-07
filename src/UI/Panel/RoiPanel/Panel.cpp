@@ -58,41 +58,22 @@ void RoiPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::RO_Stop_Button_ID) {
-        controller->e_RoiThreadEnd(this);
+        controller->e_RoiThreadCancel(this);
+    }
+
+    if (e.GetId() == Enum::RO_ToggleCamera_Button_ID) {
+        controller->e_RoiPreviewStart(this);
     }
 
     if (e.GetId() == Enum::RO_RemoveRect_Button_ID) {
         controller->e_ClearRect(this);
     }
 
-    // if (e.GetId() == Enum::MC_Stop_Button_ID) {
-    //     controller->e_ManualCalibEnd(this);
-    // }
+    if (e.GetId() == Enum::RO_AcceptRect_Button_ID) {
+        controller->e_RoiThreadSave(this);
+    }
 
-    // if (e.GetId() == Enum::MC_SelectLeft_Button_ID) {
-    //     controller->e_ChangeToLeft(this);
-    // }
-
-    // if (e.GetId() == Enum::MC_SelectRight_Button_ID) {
-    //     controller->e_ChangeToRight(this);
-    // }
-
-    // if (e.GetId() == Enum::MC_RemoveLeft_Button_ID) {
-    //     controller->e_ChangeToLeft(this);
-    //     controller->e_RemoveLeft(this);
-    // }
-
-    // if (e.GetId() == Enum::MC_RemoveRight_Button_ID) {
-    //     controller->e_ChangeToRight(this);
-    //     controller->e_RemoveRight(this);
-    // }
-
-    // if (e.GetId() == Enum::MC_ToggleCamera_Button_ID) {
-    //     auto button = button_panel->main_status_panel->camera_Button;
-    //     OnToggleCameraButton(button);
-    // }
-
-    // controller->e_UpdateState(this);
+    controller->e_UpdateState(this);
 
     e.Skip();
 }

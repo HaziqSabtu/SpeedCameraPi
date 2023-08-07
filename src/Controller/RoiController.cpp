@@ -14,6 +14,7 @@
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
 #include "Utils/DataStruct.hpp"
+#include "Utils/ImageUtils.hpp"
 #include "Utils/wxUtils.hpp"
 #include <memory>
 #include <vector>
@@ -83,18 +84,49 @@ void RoiController::e_RoiThreadStart(wxEvtHandler *parent) {
     }
 }
 
-void RoiController::e_RoiThreadEnd(wxEvtHandler *parent) {
+void RoiController::e_RoiThreadSave(wxEvtHandler *parent) {
     try {
         checkPreCondition();
 
-        roiThreadEndHandler(parent);
+        roiThreadSaveHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void RoiController::e_RoiThreadCancel(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        roiThreadCancelHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void RoiController::e_RoiPreviewStart(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        roiPreviewStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void RoiController::e_RoiPreviewEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        roiPreviewEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
 void RoiController::checkPreCondition() {
-    if (panelID != shared->sessionData.currentPanelID) {
+    auto data = shared->getSessionData();
+    if (panelID != data->getPanelID()) {
         throw std::runtime_error(
             "RoiController::endPoint() - PanelID mismatch");
     }
@@ -161,33 +193,125 @@ void RoiController::setPoint2Handler(wxEvtHandler *parent, cv::Point point) {
 void RoiController::roiThreadStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
+    auto data = shared->getSessionData();
+
+    if (data->isCaptureDataEmpty()) {
+        throw std::runtime_error(
+            "RoiController::roiThreadStartHandler() - Capture data is empty");
+    }
+
     if (!tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
         throw std::runtime_error(
             "RoiController::roiThreadStartHandler() - Thread is already "
             "running");
     }
 
-    auto sessionData = shared->getSessionData();
+    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI_PREVIEW)) {
+        throw std::runtime_error(
+            "RoiController::roiThreadStartHandler() - Roi Preview is already "
+            "running");
+    }
 
-    auto imageData = sessionData->imageData;
-
-    tc->startRoiHandler(parent, imageData, panelID);
+    tc->startRoiHandler(parent, data, panelID);
 }
 
-void RoiController::roiThreadEndHandler(wxEvtHandler *parent) {
+void RoiController::roiThreadSaveHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
         throw std::runtime_error(
-            "RoiController::roiThreadEndHandler() - Thread is already "
+            "RoiController::roiThreadSaveHandler() - Thread is already "
             "stopped");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_ROI, panelID)) {
         throw std::runtime_error(
-            "RoiController::roiThreadEndHandler() - Thread is not owned by "
+            "RoiController::roiThreadSaveHandler() - Thread is not owned by "
+            "this controller");
+    }
+
+    auto roiThread = tc->getRoiThread();
+    roiThread->Pause();
+
+    cv::Rect rect = roiThread->getRect();
+
+    if (rect.width <= 0 || rect.height <= 0) {
+        throw std::runtime_error(
+            "RoiController::roiThreadSaveHandler() - Invalid ROI");
+    }
+
+    AppConfig c;
+
+    auto pConfig = c.GetPreviewConfig();
+    int pWidth = pConfig.width;
+    int pHeight = pConfig.height;
+    cv::Size src(pWidth, pHeight);
+
+    auto cConfig = c.GetCameraConfig();
+    int width = cConfig.Camera_Width;
+    int height = cConfig.Camera_Height;
+    cv::Size dst(width, height);
+
+    auto realRect = Utils::scaleRect(rect, src, dst);
+
+    RoiData data;
+    data.initRoi = realRect;
+
+    auto sessionData = shared->getSessionData();
+    sessionData->setRoiData(data);
+
+    tc->endRoiHandler();
+}
+void RoiController::roiThreadCancelHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
+        throw std::runtime_error(
+            "RoiController::roiThreadCancelHandler() - Thread is already "
+            "stopped");
+    }
+
+    if (!tc->isThreadOwner(ThreadID::THREAD_ROI, panelID)) {
+        throw std::runtime_error(
+            "RoiController::roiThreadCancelHandler() - Thread is not owned by "
             "this controller");
     }
 
     tc->endRoiHandler();
+}
+
+void RoiController::roiPreviewStartHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
+        throw std::runtime_error("ROI Thread is running");
+    }
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI_PREVIEW)) {
+        throw std::runtime_error(
+            "RoiController::roiPreviewStartHandler() - Roi Preview is already "
+            "running");
+    }
+
+    auto data = shared->getSessionData();
+
+    tc->startRoiPreviewHandler(parent, data, panelID);
+}
+
+void RoiController::roiPreviewEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(ThreadID::THREAD_ROI_PREVIEW)) {
+        throw std::runtime_error(
+            "RoiController::roiPreviewEndHandler() - Roi Preview is already "
+            "stopped");
+    }
+
+    if (!tc->isThreadOwner(ThreadID::THREAD_ROI_PREVIEW, panelID)) {
+        throw std::runtime_error(
+            "RoiController::roiPreviewEndHandler() - Roi Preview is not owned "
+            "by this controller");
+    }
+
+    tc->endRoiPreviewHandler();
 }

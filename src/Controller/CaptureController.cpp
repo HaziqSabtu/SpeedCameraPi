@@ -68,7 +68,7 @@ void CaptureController::e_ClearImageData(wxEvtHandler *parent) {
         if (shared->sessionData.isCaptureDataEmpty()) {
             throw std::runtime_error("ImageData is empty");
         }
-        shared->sessionData.clearImageData();
+        shared->sessionData.removeCaptureData();
         UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_REMOVE_DATA);
 
     } catch (std::exception &e) {
@@ -95,7 +95,9 @@ void CaptureController::e_ReplayStart(wxEvtHandler *parent) {
             throw std::runtime_error("ImageData is Empty");
         }
 
-        tc->startReplayHandler(parent, shared->sessionData.imageData, panelID);
+        auto data = shared->getSessionData();
+
+        tc->startReplayHandler(parent, data, panelID);
 
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -323,7 +325,8 @@ void CaptureController::switchPanelHandler(wxEvtHandler *parent) {
 }
 
 void CaptureController::checkPreCondition() {
-    if (panelID != shared->sessionData.currentPanelID) {
+    auto data = shared->getSessionData();
+    if (panelID != data->getPanelID()) {
         throw std::runtime_error(
             "CaptureController::endPoint() - PanelID mismatch");
     }

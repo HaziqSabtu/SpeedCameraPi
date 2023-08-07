@@ -41,9 +41,9 @@ wxThread::ExitCode CalibPreviewThread::Entry() {
 
             cv::resize(frame, frame, pSize);
 
-            auto isLineNull = data->calibData.isNull();
+            auto isLineNull = data->isCalibDataEmpty();
             if (!isLineNull) {
-                auto calibData = data->calibData;
+                auto calibData = data->getCalibData();
                 cv::Scalar yellow(0, 255, 255);
                 cv::Scalar blue(255, 0, 0);
 

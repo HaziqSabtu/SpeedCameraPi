@@ -314,7 +314,8 @@ void CalibrationController::setPointHandler(wxEvtHandler *parent,
 }
 
 void CalibrationController::checkPreCondition() {
-    if (panelID != shared->sessionData.currentPanelID) {
+    auto data = shared->getSessionData();
+    if (panelID != data->getPanelID()) {
         throw std::runtime_error(
             "CalibrationController::endPoint() - PanelID mismatch");
     }

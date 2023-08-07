@@ -124,6 +124,13 @@ void SharedModel::killAllThreads() {
 
         tc->endRoiHandler();
     }
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI_PREVIEW)) {
+        auto thread = tc->getRoiPreviewThread();
+        thread->Pause();
+
+        tc->endRoiPreviewHandler();
+    }
 }
 
 // return a shared_ptr to the SessionData object WITHOUT copying it

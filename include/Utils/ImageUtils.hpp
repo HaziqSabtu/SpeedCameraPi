@@ -14,6 +14,7 @@
 
 #include <Utils/DataStruct.hpp>
 #include <ctime>
+#include <opencv2/core/types.hpp>
 #include <opencv2/opencv.hpp>
 
 /**
@@ -30,6 +31,7 @@ void RotateImage(std::vector<ImageData> &imgData, int angle);
 double TrimmedMean(const std::vector<double> &data, double percentage);
 cv::Point getRelativePoint(const cv::Mat &src, const cv::Mat &target,
                            const cv::Point &point);
+cv::Rect scaleRect(const cv::Rect &rect, cv::Size src, cv::Size dst);
 } // namespace Utils
 
 #endif

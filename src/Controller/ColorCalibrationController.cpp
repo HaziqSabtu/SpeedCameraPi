@@ -14,7 +14,8 @@ ColorCalibrationController::ColorCalibrationController(ModelPtr sharedModel)
 ColorCalibrationController::~ColorCalibrationController() {}
 
 void ColorCalibrationController::checkPreCondition() {
-    if (panelID != shared->sessionData.currentPanelID) {
+    auto data = shared->getSessionData();
+    if (panelID != data->getPanelID()) {
         throw std::runtime_error(
             "ColorCalibrationController::endPoint() - PanelID mismatch");
     }

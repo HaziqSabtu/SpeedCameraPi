@@ -6,9 +6,8 @@
 #include <Thread/Thread_LoadCapture.hpp>
 #include <memory>
 
-ReplayThread::ReplayThread(wxEvtHandler *parent,
-                           std::shared_ptr<std::vector<ImageData>> imgData)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), imgData(imgData) {}
+ReplayThread::ReplayThread(wxEvtHandler *parent, DataPtr data)
+    : wxThread(wxTHREAD_JOINABLE), parent(parent), data(data) {}
 
 ReplayThread::~ReplayThread() {}
 
@@ -18,13 +17,17 @@ wxThread::ExitCode ReplayThread::Entry() {
         wxCommandEvent startLoadEvent(c_REPLAY_EVENT, REPLAY_START);
         wxPostEvent(parent, startLoadEvent);
 
-        if (imgData == nullptr) {
-            throw std::runtime_error("imgData is null");
+        if (data->isCaptureDataEmpty()) {
+            throw std::runtime_error("capture data is empty");
         }
 
-        for (int i = 0; i < imgData->size(); i++) {
+        auto captureData = data->getCaptureData();
 
-            cv::Mat frame = imgData->at(i).image;
+        const int MAX_FRAME = captureData.size();
+
+        for (int i = 0; i < MAX_FRAME; i++) {
+
+            cv::Mat frame = captureData.at(i).image;
             UpdatePreviewEvent::Submit(parent, frame);
 
             wxMilliSleep(200);
