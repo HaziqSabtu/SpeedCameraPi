@@ -13,6 +13,7 @@ include_directories(include)
 file(GLOB_RECURSE SRCS ./src/*.cpp EXCLUDE ./src/main.cpp)
 add_executable(SpeedCameraPi ./src/main.cpp ${SRCS})
 
+target_compile_definitions(SpeedCameraPi PUBLIC "$<$<CONFIG:DEBUG>:DEBUG>")
 # Check which Linux distribution is being used
 # Currently only Ubuntu and Debian are supported
 # If Ubuntu is Detected, run Cross Compile

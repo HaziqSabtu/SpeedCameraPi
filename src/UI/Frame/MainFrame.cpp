@@ -110,15 +110,7 @@ void MainFrame::OnChangePanel(ChangePanelEvent &e) {
 
 void MainFrame::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Exit_Button_ID) {
-        // ConfirmationDialog dialog(
-        //     this, "Are you sure you want to exit the application?");
-        // if (dialog.ShowModal() == wxID_YES) {
-
-        //     Close();
-        // }
-
-        sharedModel->killAllThreads();
-        Close();
+        exitButtonHandler(e);
     }
 
     if (e.GetId() == Enum::G_Setting_Button_ID) {
@@ -131,6 +123,23 @@ void MainFrame::OnButton(wxCommandEvent &e) {
         infoFrame->Show();
     }
 }
+
+#ifdef DEBUG
+void MainFrame::exitButtonHandler(wxCommandEvent &e) {
+    sharedModel->killAllThreads();
+    Close();
+}
+
+#else
+void MainFrame::exitButtonHandler(wxCommandEvent &e) {
+    ConfirmationDialog dialog(this,
+                              "Are you sure you want to exit the application?");
+    if (dialog.ShowModal() == wxID_YES) {
+        sharedModel->killAllThreads();
+        Close();
+    }
+}
+#endif
 
 //clang-format off
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)

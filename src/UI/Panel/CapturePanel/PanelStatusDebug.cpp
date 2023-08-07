@@ -4,7 +4,7 @@
 #include <UI/Panel/CapturePanel/PanelStatusDebug.hpp>
 
 DebugStatusPanel::DebugStatusPanel(wxWindow *parent)
-    : TextOutlinePanel(parent, RTC::DEBUG) {
+    : TextOutlinePanel(parent, RTC::CALIB_NONE) {
     // ToggleCamera_Button =
     //     new ButtonToggleCam(this, Enum::CP_ToggleCamera_Button_ID);
 

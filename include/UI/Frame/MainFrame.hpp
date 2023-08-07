@@ -38,6 +38,8 @@ class MainFrame : public wxFrame {
 
     wxBoxSizer *sizer;
 
+    void exitButtonHandler(wxCommandEvent &e);
+
     void OnError(ErrorEvent &e);
     void OnChangePanel(ChangePanelEvent &e);
     void OnButton(wxCommandEvent &e);
