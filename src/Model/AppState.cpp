@@ -11,6 +11,7 @@ AppState::AppState(ModelPtr model) {
     calibrationPanel = getCalibrationPanelState(model);
     manualCalibrationPanel = getManualCalibrationPanelState(model);
     colorCalibrationPanel = getColorCalibrationPanelState(model);
+    roiPanel = getRoiPanelState(model);
 }
 
 PanelState AppState::getCameraStatusState(ModelPtr model) {
@@ -24,7 +25,8 @@ PanelState AppState::getCalibrationStatusState(ModelPtr model) {
 }
 
 PanelState AppState::getRoiStatusState(ModelPtr model) {
-    return PanelState::PANEL_NOT_OK;
+    return model->sessionData.isRoiDataEmpty() ? PanelState::PANEL_NOT_OK
+                                               : PanelState::PANEL_OK;
 }
 
 CapturePanelState AppState::getCameraPanelState(ModelPtr model) {
@@ -122,6 +124,25 @@ AppState::getColorCalibrationPanelState(std::shared_ptr<SharedModel> model) {
     ccps.cancelButtonState = getCCCancelButtonState(model);
 
     return ccps;
+}
+
+RoiPanelState AppState::getRoiPanelState(ModelPtr model) {
+    RoiPanelState rops;
+
+    rops.state = getRoiStatusState(model);
+
+    rops.roiButtonState = getROIButtonState(model);
+    rops.stopButtonState = getROIStopButtonState(model);
+    rops.cameraButtonState = getROICameraButtonState(model);
+    rops.removeButtonState = getROIRemoveButtonState(model);
+
+    rops.acceptRoiButtonState = getROIAcceptRoiButtonState(model);
+    rops.clearRoiButtonState = getROIClearRoiButtonState(model);
+
+    rops.okButtonState = getROIOKButtonState(model);
+    rops.cancelButtonState = getROICancelButtonState(model);
+
+    return rops;
 }
 
 ButtonState AppState::getCaptureButtonState(ModelPtr model) {
@@ -262,11 +283,36 @@ ButtonState AppState::getCPCalibrationRemoveButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getCPROIButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadsWithCameraNullptr()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->sessionData.isCaptureDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
     return ButtonState::NORMAL;
 }
 
 ButtonState AppState::getCPROIRemoveButtonState(ModelPtr model) {
-    return ButtonState::DISABLED;
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadsWithCameraNullptr()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->sessionData.isCaptureDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    auto data = model->getSessionData();
+    if (data->isRoiDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
 }
 
 ButtonState AppState::getCPMeasureButtonState(ModelPtr model) {
@@ -821,5 +867,115 @@ ButtonState AppState::getCCCancelButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getROIButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_ROI)) {
+        return ButtonState::ACTIVE;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getROIStopButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_ROI)) {
+        return ButtonState::NORMAL;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::DISABLED;
+}
+
+ButtonState AppState::getROICameraButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_ROI)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
+        return ButtonState::ON;
+    }
+
+    return ButtonState::OFF;
+}
+
+ButtonState AppState::getROIRemoveButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_ROI)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto data = model->getSessionData();
+    if (data->isRoiDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getROIAcceptRoiButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_ROI)) {
+        return ButtonState::NORMAL;
+    }
+    return ButtonState::DISABLED;
+}
+
+ButtonState AppState::getROIClearRoiButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_ROI)) {
+        return ButtonState::NORMAL;
+    }
+    return ButtonState::DISABLED;
+}
+ButtonState AppState::getROIOKButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_ROI)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto data = model->getSessionData();
+    if (data->isRoiDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+ButtonState AppState::getROICancelButtonState(ModelPtr model) {
+
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_ROI)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
     return ButtonState::NORMAL;
 }

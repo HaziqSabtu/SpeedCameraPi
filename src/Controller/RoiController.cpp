@@ -54,6 +54,16 @@ void RoiController::e_ClearRect(wxEvtHandler *parent) {
     }
 }
 
+void RoiController::e_RemoveRect(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        removeRectHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void RoiController::e_SetPoint1(wxEvtHandler *parent, wxPoint point) {
     try {
         checkPreCondition();
@@ -150,6 +160,24 @@ void RoiController::clearRectHandler(wxEvtHandler *parent) {
 
     roiThread->setPoint1(cv::Point(-1, -1));
     roiThread->setPoint2(cv::Point(-1, -1));
+}
+
+void RoiController::removeRectHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
+        throw std::runtime_error(
+            "RoiController::removeRectHandler() - Thread is  running");
+    }
+
+    auto data = shared->getSessionData();
+
+    if (data->isRoiDataEmpty()) {
+        throw std::runtime_error(
+            "RoiController::removeRectHandler() - RoiData is empty");
+    }
+
+    data->clearRoiData();
 }
 
 void RoiController::setPoint1Handler(wxEvtHandler *parent, cv::Point point) {

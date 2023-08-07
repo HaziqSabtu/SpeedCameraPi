@@ -48,10 +48,10 @@ void RoiMainStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
 void RoiMainStatusPanel::update(const AppState &state) {
     // set panel
-    ManualCalibrationPanelState ps = state.manualCalibrationPanel;
+    RoiPanelState ps = state.roiPanel;
     setPanelState(ps.state);
 
-    calibrate_Button->update(ps.calibrationButtonState);
+    calibrate_Button->update(ps.roiButtonState);
     stop_Button->update(ps.stopButtonState);
     camera_Button->update(ps.cameraButtonState);
     reset_Button->update(ps.removeButtonState);

@@ -85,6 +85,21 @@ struct ColorCalibrationPanelState {
     ButtonState cancelButtonState;
 };
 
+struct RoiPanelState {
+    PanelState state;
+
+    ButtonState roiButtonState;
+    ButtonState stopButtonState;
+    ButtonState cameraButtonState;
+    ButtonState removeButtonState;
+
+    ButtonState acceptRoiButtonState;
+    ButtonState clearRoiButtonState;
+
+    ButtonState okButtonState;
+    ButtonState cancelButtonState;
+};
+
 class AppState {
   public:
     AppState();
@@ -94,12 +109,14 @@ class AppState {
     CalibrationPanelState getCalibrationPanelState(ModelPtr model);
     ManualCalibrationPanelState getManualCalibrationPanelState(ModelPtr model);
     ColorCalibrationPanelState getColorCalibrationPanelState(ModelPtr model);
+    RoiPanelState getRoiPanelState(ModelPtr model);
 
   public:
     CapturePanelState cameraPanel;
     CalibrationPanelState calibrationPanel;
     ManualCalibrationPanelState manualCalibrationPanel;
     ColorCalibrationPanelState colorCalibrationPanel;
+    RoiPanelState roiPanel;
 
   private:
     PanelState getCameraStatusState(ModelPtr model);
@@ -185,4 +202,19 @@ class AppState {
     // Color Calibration Panel -> OK / Cancel
     ButtonState getCCOKButtonState(ModelPtr model);
     ButtonState getCCCancelButtonState(ModelPtr model);
+
+    // ROI Panel
+    PanelState getROIStatusState(ModelPtr model);
+    ButtonState getROIButtonState(ModelPtr model);
+    ButtonState getROIStopButtonState(ModelPtr model);
+    ButtonState getROICameraButtonState(ModelPtr model);
+    ButtonState getROIRemoveButtonState(ModelPtr model);
+
+    // ROI Panel -> Accept / Clear
+    ButtonState getROIAcceptRoiButtonState(ModelPtr model);
+    ButtonState getROIClearRoiButtonState(ModelPtr model);
+
+    // ROI Panel -> OK / Cancel
+    ButtonState getROIOKButtonState(ModelPtr model);
+    ButtonState getROICancelButtonState(ModelPtr model);
 };

@@ -62,7 +62,12 @@ void RoiPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::RO_ToggleCamera_Button_ID) {
-        controller->e_RoiPreviewStart(this);
+        auto button = button_panel->main_status_panel->camera_Button;
+        OnToggleCameraButton(button);
+    }
+
+    if (e.GetId() == Enum::RO_Remove_Button_ID) {
+        controller->e_RemoveRect(this);
     }
 
     if (e.GetId() == Enum::RO_RemoveRect_Button_ID) {
@@ -79,15 +84,16 @@ void RoiPanel::OnButton(wxCommandEvent &e) {
 }
 
 void RoiPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
-    // if (button->getState() == ButtonState::OFF) {
-    //     controller->e_CalibPrevStart(button);
-    //     return;
-    // }
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_RoiPreviewStart(button);
+        return;
+    }
 
-    // if (button->getState() == ButtonState::ON) {
-    //     controller->e_CalibPrevEnd(button);
-    //     return;
-    // }
+    if (button->getState() == ButtonState::ON) {
+        controller->e_RoiPreviewEnd(button);
+        return;
+    }
+
     throw std::runtime_error("Invalid button state");
 }
 
@@ -198,13 +204,12 @@ void RoiPanel::OnUpdateState(UpdateStateEvent &e) {
     try {
         auto state = e.GetState();
 
-        // button_panel->main_status_panel->update(state);
-        // button_panel->left_status_panel->update(state);
-        // button_panel->right_status_panel->update(state);
+        button_panel->main_status_panel->update(state);
+        button_panel->roi_tools_panel->update(state);
 
-        // auto okState = state.RoiPanel.okButtonState;
-        // auto cancelState = state.RoiPanel.cancelButtonState;
-        // button_panel->ok_cancel_panel->update(okState, cancelState);
+        auto okState = state.roiPanel.okButtonState;
+        auto cancelState = state.roiPanel.cancelButtonState;
+        button_panel->ok_cancel_panel->update(okState, cancelState);
 
         Refresh();
     } catch (const std::exception &e) {
@@ -215,7 +220,7 @@ void RoiPanel::OnUpdateState(UpdateStateEvent &e) {
 void RoiPanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
         // controller->e_CreateTempSessionData(this);
-        // controller->e_UpdateState(this);
+        controller->e_UpdateState(this);
     }
 }
 
@@ -223,7 +228,7 @@ void RoiPanel::OnShow(wxShowEvent &e) {
 wxBEGIN_EVENT_TABLE(RoiPanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, RoiPanel::OnUpdatePreview)
     EVT_UPDATE_STATUS(wxID_ANY, RoiPanel::OnUpdateStatus)
-    // EVT_UPDATE_STATE(wxID_ANY, RoiPanel::OnUpdateState)
+    EVT_UPDATE_STATE(wxID_ANY, RoiPanel::OnUpdateState)
     EVT_BUTTON(wxID_ANY,RoiPanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, RoiPanel::OnCalibrationEvent)
     EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, RoiPanel::OnCapture)
