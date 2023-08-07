@@ -12,18 +12,15 @@
 #ifndef SIFT_TASK_HPP
 #define SIFT_TASK_HPP
 
+#include "Model/SessionData.hpp"
 #include <Algorithm/image_allign/FeatureDetector.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/DataStruct.hpp>
 #include <memory>
 
-/**
- * @brief Task Implementation for Sift Feature Detection
- *
- */
 class SiftTask : public Task {
   public:
-    SiftTask(std::shared_ptr<std::vector<ImageData>> imgData, int id);
+    SiftTask(DataPtr data, int id);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;
@@ -31,7 +28,7 @@ class SiftTask : public Task {
   private:
     const TaskProperty property;
     int id;
-    std::shared_ptr<std::vector<ImageData>> imgData;
+    DataPtr data;
 };
 
 #endif

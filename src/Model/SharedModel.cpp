@@ -2,6 +2,7 @@
 #include "Model/AppState.hpp"
 #include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Controller.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <memory>
@@ -29,11 +30,11 @@ std::unique_ptr<CameraBase> SharedModel::getCamera() {
 
 bool SharedModel::isCameraAvailable() { return camera != nullptr; }
 
-void SharedModel::setThreadPool(std::shared_ptr<ThreadPool> threadPool) {
+void SharedModel::setThreadPool(POOLPtr threadPool) {
     this->threadPool = threadPool;
 }
 
-std::shared_ptr<ThreadPool> SharedModel::getThreadPool() { return threadPool; }
+POOLPtr SharedModel::getThreadPool() { return threadPool; }
 
 void SharedModel::setThreadController(
     std::shared_ptr<ThreadController> threadController) {

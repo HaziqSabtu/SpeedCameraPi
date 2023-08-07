@@ -11,10 +11,8 @@
 #include <wx/utils.h>
 
 ColorCalibrationThread::ColorCalibrationThread(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    HSVFilter &hsvFilter, BFS &bfs)
-    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)),
-      hsvFilter(hsvFilter), bfs(bfs) {
+    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera)
+    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)) {
     this->parent = parent;
 }
 

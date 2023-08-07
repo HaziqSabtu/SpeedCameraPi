@@ -65,9 +65,8 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
             controller->e_ReplayStart(this);
         }
 
-        // TODO: Change panel
         if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
-            // OnChangePanelButton(button_panel->switch_Button);
+            controller->e_ChangeToResultPanel(this);
         }
 
         if (e.GetId() == Enum::CP_CALIBRATE_Button_ID) {

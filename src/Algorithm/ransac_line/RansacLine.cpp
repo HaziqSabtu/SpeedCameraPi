@@ -4,6 +4,8 @@
 #include <opencv2/core/hal/interface.h>
 #include <opencv2/core/types.hpp>
 
+RansacLine::RansacLine() {}
+
 RansacLine::RansacLine(int numIterations, int minPoints, double threshold)
     : numIterations(numIterations), minPoints(minPoints), threshold(threshold) {
 }

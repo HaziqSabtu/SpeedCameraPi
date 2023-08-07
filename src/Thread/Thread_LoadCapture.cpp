@@ -11,29 +11,19 @@
 
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
+#include "Model/SessionData.hpp"
 #include <Thread/Thread_LoadCapture.hpp>
 #include <memory>
 
-/**
- * @brief Construct a new Load Capture Thread:: Load Capture Thread object
- *
- * @param parent parent wxEvtHandler
- * @param camera camera object
- * @param maxFrame maximum frame to capture
- * @param debug debug mode
- */
-LoadCaptureThread::LoadCaptureThread(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    std::shared_ptr<std::vector<ImageData>> imgData, const int maxFrame,
-    const bool debug_SaveImageData, const bool debug_ShowImagesWhenCapture)
+LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent,
+                                     std::unique_ptr<CameraBase> &camera,
+                                     DataPtr data, const int maxFrame,
+                                     const bool debug_SaveImageData,
+                                     const bool debug_ShowImagesWhenCapture)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(std::move(camera)),
-      imgData(imgData), maxFrame(maxFrame),
-      debug_SaveImageData(debug_SaveImageData),
+      data(data), maxFrame(maxFrame), debug_SaveImageData(debug_SaveImageData),
       debug_ShowImagesWhenCapture(debug_ShowImagesWhenCapture) {}
 
-/**
- * @brief Destroy the Load Capture Thread:: Load Capture Thread object
- */
 LoadCaptureThread::~LoadCaptureThread() {}
 
 /**
@@ -56,8 +46,14 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
         wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START_CAMERA);
         wxPostEvent(parent, startLoadEvent);
 
-        if (imgData == nullptr) {
-            throw std::runtime_error("imgData is null");
+        CDVector vec;
+
+        if (data == nullptr) {
+            throw std::runtime_error("data is null");
+        }
+
+        if (!data->isCaptureDataEmpty()) {
+            throw std::runtime_error("capture data is not empty");
         }
 
         cv::Mat frame;
@@ -77,7 +73,7 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
                 continue;
             }
 
-            imgData->push_back(ImageData(frame.clone()));
+            vec.push_back(CaptureData(frame.clone()));
 
             if (TestDestroy()) {
                 break;
@@ -91,9 +87,11 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
             }
         }
 
+        data->setCaptureData(vec);
+
         // showing captured frames
-        for (int i = 0; i < imgData->size(); i++) {
-            cv::Mat frame = imgData->at(i).image;
+        for (int i = 0; i < maxFrame; i++) {
+            cv::Mat frame = vec.at(i).image;
             UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
                                                   UPDATE_PREVIEW);
             updatePreviewEvent.SetImage(frame);
@@ -101,8 +99,9 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
             wxMilliSleep(200);
         }
 
+        // TODO: Handle Saving
         if (debug_SaveImageData) {
-            FILEWR::WriteFile(imgData);
+            // FILEWR::WriteFile(imgData);
         }
 
     } catch (const std::exception &e) {

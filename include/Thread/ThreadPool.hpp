@@ -23,6 +23,8 @@
 #include <unordered_map>
 #include <wx/log.h>
 
+#define POOLPtr std::shared_ptr<ThreadPool>
+
 /**
  * @brief Class Implementation for Background Thread Pool
  *
@@ -35,17 +37,19 @@ class ThreadPool {
 
     void setNumThreads(const int numThreads);
 
-    void AddTask(std::unique_ptr<Task>& task);
+    void AddTask(std::unique_ptr<Task> &task);
     void AddTaskFront(std::unique_ptr<Task> task);
 
     bool isBusy();
-    bool HasTasks(TaskProperty& property);
-    bool HasTasks(std::vector<TaskProperty>& properties);
+    bool HasTasks(TaskProperty &property);
+    bool HasTasks(std::vector<TaskProperty> &properties);
 
     bool isWorkerBusy();
-    bool isWorkerBusy(TaskProperty& property);
-    bool isWorkerBusy(std::vector<TaskProperty>& properties);
+    bool isWorkerBusy(TaskProperty &property);
+    bool isWorkerBusy(std::vector<TaskProperty> &properties);
     bool isQueueEmpty();
+
+    int countTasks(std::vector<TaskProperty> &properties);
 
   private:
     void WorkerThread(int threadId);

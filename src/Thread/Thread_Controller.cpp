@@ -1,7 +1,9 @@
 #include "Algorithm/hsv_filter/BFS.hpp"
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
+#include "Model/SessionData.hpp"
 #include "Thread/Thread_ColorCalibPreview.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
+#include "Thread/Thread_Process.hpp"
 #include "Thread/Thread_Result.hpp"
 #include "Thread/Thread_Roi.hpp"
 #include "Utils/DataStruct.hpp"
@@ -33,6 +35,8 @@ void ThreadController::initThread() {
     colorCalibrationThread = nullptr;
     colorCalibPreviewThread = nullptr;
     roiThread = nullptr;
+    processThread = nullptr;
+    resultPreviewThread = nullptr;
 };
 
 void ThreadController::deleteThread() {
@@ -46,6 +50,8 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(colorCalibrationThread);
     stopAndDeleteThread(colorCalibPreviewThread);
     stopAndDeleteThread(roiThread);
+    stopAndDeleteThread(processThread);
+    stopAndDeleteThread(resultPreviewThread);
 };
 
 bool ThreadController::isThreadNullptr(ThreadID threadID) {
@@ -89,6 +95,14 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return roiThread == nullptr;
     }
 
+    if (threadID == ThreadID::THREAD_PROCESS) {
+        return processThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_RESULT_PREVIEW) {
+        return resultPreviewThread == nullptr;
+    }
+
     throw std::runtime_error(
         "ThreadController::isThreadNullptr() - Invalid ThreadID");
 }
@@ -124,12 +138,10 @@ void ThreadController::endCaptureHandler() {
 }
 
 void ThreadController::startLoadCaptureHandler(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    std::shared_ptr<std::vector<ImageData>> imgData, const int maxFrame,
-    PanelID panelID) {
+    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera, DataPtr data,
+    const int maxFrame, PanelID panelID) {
 
-    loadCaptureThread =
-        new LoadCaptureThread(parent, camera, imgData, maxFrame);
+    loadCaptureThread = new LoadCaptureThread(parent, camera, data, maxFrame);
     loadCaptureThread->Run();
 
     owner[loadCaptureThread->getID()] = panelID;
@@ -201,10 +213,9 @@ void ThreadController::endLoadFileHandler() {
 
 void ThreadController::startCalibrationHandler(
     wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    HSVFilter &hsvFilter, BFS &bfs, RansacLine &ransac, PanelID panelID) {
+    PanelID panelID) {
 
-    calibrationThread =
-        new CalibrationThread(parent, camera, hsvFilter, bfs, ransac);
+    calibrationThread = new CalibrationThread(parent, camera);
     calibrationThread->Run();
 
     owner[calibrationThread->getID()] = panelID;
@@ -243,10 +254,9 @@ void ThreadController::endManualCalibrationHandler() {
 
 void ThreadController::startColorCalibrationHandler(
     wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    HSVFilter &hsvFilter, BFS &bfs, PanelID panelID) {
+    PanelID panelID) {
 
-    colorCalibrationThread =
-        new ColorCalibrationThread(parent, camera, hsvFilter, bfs);
+    colorCalibrationThread = new ColorCalibrationThread(parent, camera);
     colorCalibrationThread->Run();
 
     owner[colorCalibrationThread->getID()] = panelID;
@@ -281,6 +291,32 @@ void ThreadController::startRoiHandler(wxEvtHandler *parent,
 
 void ThreadController::endRoiHandler() {
     roiThread = stopAndDeleteThread(roiThread);
+}
+
+void ThreadController::startProcessHandler(wxEvtHandler *parent,
+                                           POOLPtr threadPool, DataPtr data,
+                                           PanelID panelID) {
+    processThread = new ProcessThread(parent, threadPool, data);
+    processThread->Run();
+
+    owner[processThread->getID()] = panelID;
+}
+
+void ThreadController::endProcessHandler() {
+    processThread = stopAndDeleteThread(processThread);
+}
+
+void ThreadController::startResultPreviewHandler(wxEvtHandler *parent,
+                                                 DataPtr data,
+                                                 PanelID panelID) {
+    resultPreviewThread = new ResultPreviewThread(parent, data);
+    resultPreviewThread->Run();
+
+    owner[resultPreviewThread->getID()] = panelID;
+}
+
+void ThreadController::endResultPreviewHandler() {
+    resultPreviewThread = stopAndDeleteThread(resultPreviewThread);
 }
 
 template <typename T>

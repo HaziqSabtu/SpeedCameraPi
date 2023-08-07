@@ -319,18 +319,16 @@ void ManualCalibrationController::saveLineHandler(wxEvtHandler *parent,
 
     auto data = shared->getSessionData();
 
-    auto commonData = data->getCommonData();
-
-    auto config = AppConfig();
-    auto previewConfig = config.GetPreviewConfig();
-    int pWidth = previewConfig.width;
-    int pHeight = previewConfig.height;
+    AppConfig config;
+    auto pConfig = config.GetPreviewConfig();
+    int pWidth = pConfig.width;
+    int pHeight = pConfig.height;
     cv::Size src(pWidth, pHeight);
 
-    auto cameraConfig = config.GetCameraConfig();
+    auto cConfig = config.GetCameraConfig();
 
-    int width = cameraConfig.Camera_Width;
-    int height = cameraConfig.Camera_Height;
+    int width = cConfig.Camera_Width;
+    int height = cConfig.Camera_Height;
     cv::Size dst(width, height);
 
     auto realLine = line.Scale(src, dst);

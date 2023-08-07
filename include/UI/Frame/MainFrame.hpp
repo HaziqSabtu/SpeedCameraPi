@@ -6,6 +6,7 @@
 #include "UI/Panel/CalibrationPanel/Panel.hpp"
 #include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
+#include "UI/Panel/ResultPanel/Panel.hpp"
 #include <Controller/ControllerFactory.hpp>
 
 #include <UI/Panel/CapturePanel/Panel.hpp>
@@ -30,6 +31,7 @@ class MainFrame : public wxFrame {
     CalibrationPanel *calibration_panel;
     ManualCalibrationPanel *manual_calibration_panel;
     ColorCalibrationPanel *color_calibration_panel;
+    ResultPanel *result_panel;
 
     // TODO: Is there a better way to do this?
     std::unordered_map<PanelID, wxPanel *> panels;

@@ -41,6 +41,16 @@ void CaptureController::e_ChangeToRoiPanel(wxEvtHandler *parent) {
     }
 }
 
+void CaptureController::e_ChangeToResultPanel(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        ChangePanelData data(this->panelID, PanelID::PANEL_RESULT);
+        ChangePanelEvent::Submit(parent, data);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void CaptureController::e_UpdateState(wxEvtHandler *parent) {
     try {
         AppState state(shared);
@@ -55,7 +65,7 @@ void CaptureController::e_ClearImageData(wxEvtHandler *parent) {
 
         checkPreCondition();
 
-        if (shared->sessionData.isImageDataEmpty()) {
+        if (shared->sessionData.isCaptureDataEmpty()) {
             throw std::runtime_error("ImageData is empty");
         }
         shared->sessionData.clearImageData();
@@ -81,7 +91,7 @@ void CaptureController::e_ReplayStart(wxEvtHandler *parent) {
             throw std::runtime_error("ReplayThread is already running");
         }
 
-        if (shared->sessionData.isImageDataEmpty()) {
+        if (shared->sessionData.isCaptureDataEmpty()) {
             throw std::runtime_error("ImageData is Empty");
         }
 
@@ -232,7 +242,7 @@ void CaptureController::startLoadFileHandler(wxEvtHandler *parent,
         throw std::runtime_error("LoadFileThread is already running");
     }
 
-    if (!shared->sessionData.isImageDataEmpty()) {
+    if (!shared->sessionData.isCaptureDataEmpty()) {
         throw std::runtime_error("ImageData is not empty");
     }
 
@@ -273,17 +283,19 @@ void CaptureController::startLoadCaptureHandler(wxEvtHandler *parent) {
         throw std::runtime_error("LoadCaptureThread is already running");
     }
 
-    if (!shared->sessionData.isImageDataEmpty()) {
+    if (!shared->sessionData.isCaptureDataEmpty()) {
         throw std::runtime_error("ImageData is not empty");
     }
 
     AppConfig config;
     auto captureConfig = config.GetCaptureConfig();
+    int maxFrame = captureConfig.maxFrame;
 
     auto camera = shared->getCamera();
 
-    tc->startLoadCaptureHandler(parent, camera, shared->sessionData.imageData,
-                                captureConfig.maxFrame, panelID);
+    auto data = shared->getSessionData();
+
+    tc->startLoadCaptureHandler(parent, camera, data, maxFrame, panelID);
 }
 
 void CaptureController::endLoadCaptureHandler() {

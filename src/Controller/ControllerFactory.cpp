@@ -62,3 +62,7 @@ CCCPtr ControllerFactory::createColorCalibrationController() {
 ROCPtr ControllerFactory::createRoiController() {
     return std::make_unique<RoiController>(sharedModel);
 }
+
+RSCPtr ControllerFactory::createResultController() {
+    return std::make_unique<ResultController>(sharedModel);
+}

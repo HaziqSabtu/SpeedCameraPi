@@ -1,9 +1,11 @@
 #pragma once
 
+#include "UI/Button/TextButton/TextButton.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusCalib.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusCapture.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusDebug.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusROI.hpp"
+#include <UI/Button/TextButton/Button_Measure.hpp>
 
 #include <Utils/Enum.hpp>
 
@@ -15,8 +17,6 @@ class CaptureButtonPanel : public wxPanel {
   public:
     CaptureButtonPanel(wxWindow *parent, wxWindowID id);
 
-    wxButton *switch_Button;
-
     CaptureStatusPanel *cPanel;
 
     CalibrationStatusPanel *csPanel;
@@ -24,6 +24,8 @@ class CaptureButtonPanel : public wxPanel {
     DebugStatusPanel *dPanel;
 
     ROIStatusPanel *rPanel;
+
+    TextButton *switch_Button;
 
   private:
     wxPanel *button_panel;

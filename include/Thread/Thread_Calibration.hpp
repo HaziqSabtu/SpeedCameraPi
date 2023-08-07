@@ -21,8 +21,8 @@
 
 class CalibrationThread : public wxThread {
   public:
-    CalibrationThread(wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-                      HSVFilter &hsvFilter, BFS &bfs, RansacLine &ransac);
+    CalibrationThread(wxEvtHandler *parent,
+                      std::unique_ptr<CameraBase> &camera);
     ~CalibrationThread();
 
     std::unique_ptr<CameraBase> getCamera();

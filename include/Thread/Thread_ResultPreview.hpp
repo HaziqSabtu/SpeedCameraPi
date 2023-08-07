@@ -1,16 +1,4 @@
-/**
- * @file Thread_Process.hpp
- * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
- * @brief Custom wxThread for processing ImageData
- * @version 1.0.0
- * @date 2023-03-18
- *
- * @copyright Copyright (c) 2023
- *
- */
-
-#ifndef PROCESS_THREAD_HPP
-#define PROCESS_THREAD_HPP
+#pragma once
 
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_ID.hpp"
@@ -26,14 +14,10 @@
 #include <wx/thread.h>
 #include <wx/wx.h>
 
-/**
- * @brief Custom wxThread for processing ImageData
- *
- */
-class ProcessThread : public wxThread {
+class ResultPreviewThread : public wxThread {
   public:
-    ProcessThread(wxEvtHandler *parent, POOLPtr threadPool, DataPtr data);
-    ~ProcessThread();
+    ResultPreviewThread(wxEvtHandler *parent, DataPtr data);
+    ~ResultPreviewThread();
 
     ThreadID getID() const;
 
@@ -42,10 +26,7 @@ class ProcessThread : public wxThread {
 
   private:
     wxEvtHandler *parent;
-    POOLPtr pool;
     DataPtr data;
 
-    const ThreadID threadID = ThreadID::THREAD_PROCESS;
+    const ThreadID threadID = ThreadID::THREAD_RESULT_PREVIEW;
 };
-
-#endif

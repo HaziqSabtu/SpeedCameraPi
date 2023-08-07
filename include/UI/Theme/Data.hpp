@@ -213,4 +213,13 @@ const TextButtonData CancelTextButton = {
     .size = wxSize(100, 58),
 };
 
+const TextButtonData MeasureTextButton = {
+    .text = wxT("Measure"),
+    .normalBgColor = T::Primary,
+    .normalFgColor = CC::Twitter_ExtExtLightGray,
+    .disabledBgColor = CC::Twitter_LightGray,
+    .disabledFgColor = CC::Twitter_ExtExtLightGray,
+    .size = wxSize(100, 58),
+};
+
 } // namespace Data

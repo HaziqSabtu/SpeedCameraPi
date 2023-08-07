@@ -192,12 +192,7 @@ void CalibrationController::startCalibrationHandler(wxEvtHandler *parent) {
 
     auto camera = shared->getCamera();
 
-    HSVFilter filter;
-    BFS bfs;
-    RansacLine ransacLine(500, 50, 6);
-
-    tc->startCalibrationHandler(parent, camera, filter, bfs, ransacLine,
-                                panelID);
+    tc->startCalibrationHandler(parent, camera, panelID);
 }
 
 void CalibrationController::saveCalibrationHandler(wxEvtHandler *parent) {

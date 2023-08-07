@@ -1,3 +1,4 @@
+#include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_Error.hpp"
 #include "Event/Event_UpdatePreview.hpp"
@@ -11,11 +12,8 @@
 
 // TODO: Fix Status
 CalibrationThread::CalibrationThread(wxEvtHandler *parent,
-                                     std::unique_ptr<CameraBase> &camera,
-                                     HSVFilter &hsvFilter, BFS &bfs,
-                                     RansacLine &ransac)
-    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)),
-      hsvFilter(hsvFilter), bfs(bfs), ransac(ransac) {
+                                     std::unique_ptr<CameraBase> &camera)
+    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)) {
     this->parent = parent;
 
     auto config = AppConfig();
@@ -23,6 +21,13 @@ CalibrationThread::CalibrationThread(wxEvtHandler *parent,
     int pWidth = previewConfig.width;
     int pHeight = previewConfig.height;
     pSize = cv::Size(pWidth, pHeight);
+
+    AppConfig c;
+    auto RansacConfig = c.GetRansacConfig();
+    int minPoints = RansacConfig.minPoints;
+    int maxIterations = RansacConfig.maxIterations;
+    double threshold = RansacConfig.threshold;
+    ransac = RansacLine(maxIterations, minPoints, threshold);
 }
 
 CalibrationThread::~CalibrationThread() {}

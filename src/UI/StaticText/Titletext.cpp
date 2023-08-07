@@ -42,5 +42,9 @@ wxString TitleText::panelID_to_string(PanelID panel_id) {
         return "ROI";
     }
 
+    if (panel_id == PanelID::PANEL_RESULT) {
+        return "Result";
+    }
+
     return "Unknown Panel";
 }

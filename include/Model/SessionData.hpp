@@ -2,6 +2,7 @@
 
 #include "Model/CalibrationData.hpp"
 #include "Utils/Config/AppConfig.hpp"
+#include "Utils/Struct/D_Allign.hpp"
 #include <Utils/DataStruct.hpp>
 #include <Utils/ImageUtils.hpp>
 
@@ -18,7 +19,8 @@ enum PanelID {
     PANEL_ROI,
     PANEL_CALIBRATION,
     PANEL_MANUAL_CALIBRATION,
-    PANEL_COLOR_CALIBRATION
+    PANEL_COLOR_CALIBRATION,
+    PANEL_RESULT,
 };
 
 struct RoiData {
@@ -54,6 +56,27 @@ struct RoiData {
     }
 };
 
+#define HPTime std::chrono::high_resolution_clock::time_point
+#define CDVector std::vector<CaptureData>
+#define CDVectorPtr std::shared_ptr<std::vector<CaptureData>>
+struct CaptureData {
+    cv::Mat image;
+    HPTime time;
+
+    CaptureData() {}
+
+    CaptureData(cv::Mat image)
+        : image(image), time(std::chrono::high_resolution_clock::now()) {}
+
+    CaptureData(cv::Mat image, HPTime time) : image(image), time(time) {}
+};
+
+#define ADVector std::vector<AllignData2>
+struct AllignData2 {
+    cv::Mat transformMatrix;
+    cv::Mat image;
+};
+
 struct SessionData {
 
     std::string id;
@@ -61,6 +84,54 @@ struct SessionData {
     PanelID currentPanelID;
 
     std::shared_ptr<std::vector<ImageData>> imageData;
+
+    /////////////////////////////////////////////////////////
+    /**
+    *
+    *
+    * Capture Data Vector
+    *
+    *
+    */
+    /////////////////////////////////////////////////////////
+    CDVector captureData;
+
+    void setCaptureData(CDVector &data) { captureData = data; }
+
+    void removeCaptureData() { captureData.clear(); }
+
+    CDVector getCaptureData() { return captureData; }
+
+    bool isCaptureDataEmpty() { return captureData.empty(); }
+
+    /////////////////////////////////////////////////////////
+    /**
+    *
+    *
+    * Allign Data Vector
+    *
+    *
+    */
+    /////////////////////////////////////////////////////////
+    ADVector allignData;
+
+    void setAllignData(ADVector &data) { allignData = data; }
+
+    void removeAllignData() { allignData.clear(); }
+
+    ADVector getAllignData() { return allignData; }
+
+    bool isAllignDataEmpty() { return allignData.empty(); }
+
+    void initAllignData() {
+        if (isCaptureDataEmpty()) {
+            throw std::runtime_error("Capture Data is empty");
+        }
+
+        if (isAllignDataEmpty()) {
+            allignData.resize(captureData.size());
+        }
+    }
 
     /////////////////////////////////////////////////////////
     /**

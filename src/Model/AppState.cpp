@@ -14,8 +14,8 @@ AppState::AppState(ModelPtr model) {
 }
 
 PanelState AppState::getCameraStatusState(ModelPtr model) {
-    return model->sessionData.isImageDataEmpty() ? PanelState::PANEL_NOT_OK
-                                                 : PanelState::PANEL_OK;
+    return model->sessionData.isCaptureDataEmpty() ? PanelState::PANEL_NOT_OK
+                                                   : PanelState::PANEL_OK;
 }
 
 PanelState AppState::getCalibrationStatusState(ModelPtr model) {
@@ -140,7 +140,7 @@ ButtonState AppState::getCaptureButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.isImageDataEmpty()) {
+    if (model->sessionData.isCaptureDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
@@ -161,7 +161,7 @@ ButtonState AppState::getLoadButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.isImageDataEmpty()) {
+    if (model->sessionData.isCaptureDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
@@ -175,7 +175,7 @@ ButtonState AppState::getReplayButtonState(ModelPtr model) {
         return ButtonState::ACTIVE;
     }
 
-    if (!model->sessionData.isImageDataEmpty()) {
+    if (!model->sessionData.isCaptureDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
@@ -209,7 +209,7 @@ ButtonState AppState::getRemoveButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (!model->sessionData.isImageDataEmpty()) {
+    if (!model->sessionData.isCaptureDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
@@ -232,7 +232,7 @@ ButtonState AppState::getCameraButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (!model->sessionData.isImageDataEmpty()) {
+    if (!model->sessionData.isCaptureDataEmpty()) {
         return ButtonState::DISABLED;
     }
 

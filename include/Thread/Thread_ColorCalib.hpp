@@ -26,8 +26,7 @@ enum ColorCalibrationType { COLOR_CALIBRATION_BLUE, COLOR_CALIBRATION_YELLOW };
 class ColorCalibrationThread : public wxThread {
   public:
     ColorCalibrationThread(wxEvtHandler *parent,
-                           std::unique_ptr<CameraBase> &camera,
-                           HSVFilter &hsvFilter, BFS &bfs);
+                           std::unique_ptr<CameraBase> &camera);
     ~ColorCalibrationThread();
 
     std::unique_ptr<CameraBase> getCamera();

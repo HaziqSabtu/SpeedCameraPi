@@ -52,8 +52,8 @@ class SharedModel : public ISharedModel {
     std::unique_ptr<CameraBase> getCamera() override;
     bool isCameraAvailable() override;
 
-    void setThreadPool(std::shared_ptr<ThreadPool> threadPool) override;
-    std::shared_ptr<ThreadPool> getThreadPool() override;
+    void setThreadPool(POOLPtr threadPool) override;
+    POOLPtr getThreadPool() override;
 
     void setThreadController(
         std::shared_ptr<ThreadController> threadController) override;

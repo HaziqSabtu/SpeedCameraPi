@@ -14,6 +14,7 @@ class RansacLine {
     double confidence;
 
   public:
+    RansacLine();
     RansacLine(int numIterations, int minPoints, double threshold);
 
     Detection::Line run(cv::Mat &src);

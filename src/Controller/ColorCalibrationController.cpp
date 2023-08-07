@@ -326,10 +326,7 @@ void ColorCalibrationController::colorCalibrationStartHandler(
 
     auto camera = shared->getCamera();
 
-    HSVFilter filter;
-    BFS bfs;
-
-    tc->startColorCalibrationHandler(parent, camera, filter, bfs, panelID);
+    tc->startColorCalibrationHandler(parent, camera, panelID);
 }
 
 void ColorCalibrationController::colorCalibrationEndHandler(

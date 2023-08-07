@@ -75,6 +75,14 @@ enum ProjectIDs {
     RO_AcceptRect_Button_ID,
     RO_RemoveRect_Button_ID,
 
+    // ResultPanel
+    RE_Panel_ID,
+    RE_IMG_PANEL_ID,
+    RE_BUTTON_PANEL_ID,
+    RE_Start_Button_ID,
+    RE_Stop_Button_ID,
+    RE_Preview_Button_ID,
+
     // CameraPanel->Hough
     CP_BUTTON_PANEL_HOUGH_ID,
     CP_Canny_Button_ID,

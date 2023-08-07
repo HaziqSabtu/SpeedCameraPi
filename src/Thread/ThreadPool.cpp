@@ -33,7 +33,7 @@ ThreadPool::~ThreadPool() {
         isStop = true;
     }
     cv.notify_all();
-    for (auto& thread : threadArray) {
+    for (auto &thread : threadArray) {
         thread.join();
     }
 }
@@ -43,8 +43,7 @@ void ThreadPool::setNumThreads(const int numThreads) {
     std::cout << "Creating " << numThreads << " threads for ThreadPool"
               << std::endl;
     for (int i = 0; i < numThreads; i++) {
-        threadArray.push_back(
-          std::thread(&ThreadPool::WorkerThread, this, i));
+        threadArray.push_back(std::thread(&ThreadPool::WorkerThread, this, i));
         taskMap[i] = TaskProperty(TASK_NONE);
     }
 }
@@ -54,7 +53,7 @@ void ThreadPool::setNumThreads(const int numThreads) {
  *
  * @param task pointer to Task object
  */
-void ThreadPool::AddTask(std::unique_ptr<Task>& task) {
+void ThreadPool::AddTask(std::unique_ptr<Task> &task) {
     std::unique_lock<std::mutex> lock(m_mutex);
     taskQueue.push_back(std::move(task));
     cv.notify_one();
@@ -125,7 +124,7 @@ bool ThreadPool::isBusy() {
  */
 bool ThreadPool::isWorkerBusy() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    for (auto& task : taskMap) {
+    for (auto &task : taskMap) {
         if (task.second.isTypeNone()) {
             continue;
         }
@@ -141,9 +140,9 @@ bool ThreadPool::isWorkerBusy() {
  * @return true if the worker is busy with the specified task
  * @return false if the worker is not busy with the specified task
  */
-bool ThreadPool::isWorkerBusy(TaskProperty& property) {
+bool ThreadPool::isWorkerBusy(TaskProperty &property) {
     std::unique_lock<std::mutex> lock(m_mutex);
-    for (auto& task : taskMap) {
+    for (auto &task : taskMap) {
 
         TaskProperty p = task.second;
 
@@ -165,7 +164,7 @@ bool ThreadPool::isWorkerBusy(TaskProperty& property) {
  * @return true if any worker is busy with a task in the list
  * @return false if all workers are idle
  */
-bool ThreadPool::isWorkerBusy(std::vector<TaskProperty>& properties) {
+bool ThreadPool::isWorkerBusy(std::vector<TaskProperty> &properties) {
     for (auto property : properties) {
         if (isWorkerBusy(property)) {
             return true;
@@ -185,6 +184,29 @@ bool ThreadPool::isQueueEmpty() {
     return taskQueue.empty();
 }
 
+int ThreadPool::countTasks(std::vector<TaskProperty> &properties) {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    int count = 0;
+
+    for (auto &task : taskQueue) {
+        for (auto property : properties) {
+            if (task->GetProperty() == property) {
+                count++;
+            }
+        }
+    }
+
+    for (auto &task : taskMap) {
+        for (auto property : properties) {
+            if (task.second == property) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
+
 /**
  * @brief Check if the task queue has a task of a specific type
  *
@@ -193,9 +215,9 @@ bool ThreadPool::isQueueEmpty() {
  * @return false if the task queue does not have a task of the specified
  * type
  */
-bool ThreadPool::HasTasks(TaskProperty& property) {
+bool ThreadPool::HasTasks(TaskProperty &property) {
     std::unique_lock<std::mutex> lock(m_mutex);
-    for (auto& task : taskQueue) {
+    for (auto &task : taskQueue) {
         if (task->GetProperty() == property) {
             return true;
         }
@@ -211,10 +233,10 @@ bool ThreadPool::HasTasks(TaskProperty& property) {
  * @return false if the task queue does not have a task of the specified
  * type
  */
-bool ThreadPool::HasTasks(std::vector<TaskProperty>& properties) {
+bool ThreadPool::HasTasks(std::vector<TaskProperty> &properties) {
     std::unique_lock<std::mutex> lock(m_mutex);
-    for (auto& task : taskQueue) {
-        for (auto& property : properties) {
+    for (auto &task : taskQueue) {
+        for (auto &property : properties) {
             if (task->GetProperty() == property) {
                 return true;
             }

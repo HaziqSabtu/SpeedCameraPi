@@ -1,73 +1,65 @@
-/**
- * @file Thread_Process.cpp
- * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
- * @brief Custom wxThread for processing ImageData
- * @version 1.0.0
- * @date 2023-03-18
- *
- * @copyright Copyright (c) 2023
- *
- */
-
+#include "Event/Event_Error.hpp"
 #include "Event/Event_UpdatePreview.hpp"
+#include "Event/Event_UpdateState.hpp"
+#include "Event/Event_UpdateStatus.hpp"
+#include "Model/CalibrationData.hpp"
+#include "Model/SessionData.hpp"
+#include "Thread/ThreadPool.hpp"
 #include <Thread/Thread_Process.hpp>
+#include <wx/utils.h>
 
-/**
- * @brief Construct a new Process Thread:: Process Thread object
- *
- * @param parent parent wxEvtHandler
- * @param threadPool pointer to ThreadPool
- * @param imgData pointer to ImageData vector
- * @param ofConfig OpticalFlowConfig
- */
-ProcessThread::ProcessThread(wxEvtHandler *parent,
-                             std::shared_ptr<ThreadPool> threadPool,
-                             std::shared_ptr<std::vector<ImageData>> imgData)
+ProcessThread::ProcessThread(wxEvtHandler *parent, POOLPtr threadPool,
+                             DataPtr data)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
-      imgData(imgData) {}
+      data(data) {}
 
-/**
- * @brief Destroy the Process Thread:: Process Thread object
- *
- */
 ProcessThread::~ProcessThread() {}
 
-/**
- * @brief Entry point of the thread
- * @details This function will be called when the thread is started
- * <ul>
- * <li>For each ImageData in the vector, SiftTask is created and added to
- * the thread pool</li> <li>Wait for the thread pool to finish processing
- * the ImageData</li> <li>FlowTask is created and added to the thread
- * pool</li> <li>Wait for the thread pool to finish processing the
- * ImageData</li>
- * </ul>
- *
- * @return wxThread::ExitCode
- */
 wxThread::ExitCode ProcessThread::Entry() {
-    std::vector<TaskProperty> taskProperties;
+    UpdateStatusEvent::Submit(parent, "Starting Process Thread");
+    try {
 
-    for (int i = 0; i < imgData->size(); i++) {
-        std::unique_ptr<Task> task = std::make_unique<SiftTask>(imgData, i);
-        taskProperties.push_back(task->GetProperty());
-        pool->AddTask(task);
+        if (data->isCaptureDataEmpty()) {
+            throw std::runtime_error("Capture Data is empty");
+        }
+
+        if (!data->isAllignDataEmpty()) {
+            throw std::runtime_error("Allign Data already exists");
+        }
+
+        data->initAllignData();
+
+        std::vector<TaskProperty> taskProperties;
+
+        const int MAX_FRAME = data->getCaptureData().size();
+
+        for (int i = 0; i < MAX_FRAME; i++) {
+            std::unique_ptr<Task> task = std::make_unique<SiftTask>(data, i);
+            taskProperties.push_back(task->GetProperty());
+            pool->AddTask(task);
+        }
+
+        int count;
+        while ((count = pool->countTasks(taskProperties)) > 0) {
+            UpdateStatusEvent::Submit(
+                parent, "Waiting for " + std::to_string(count) + " tasks");
+            wxMilliSleep(500);
+        }
+
+    } catch (const std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
     }
 
-    // // TODO: Update Waiting
-    while (pool->isWorkerBusy(taskProperties) ||
-           pool->HasTasks(taskProperties)) {
-        wxMilliSleep(100);
-    }
+    UpdateStatusEvent::Submit(parent, "Stop Process Thread");
 
-    for (int i = 0; i < imgData->size(); i++) {
-        cv::Mat frame = imgData->at(i).allign.image;
-        UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
-                                              UPDATE_PREVIEW);
-        updatePreviewEvent.SetImage(frame);
-        wxPostEvent(parent, updatePreviewEvent);
-        wxMilliSleep(200);
-    }
+    // for (int i = 0; i < imgData->size(); i++) {
+    //     cv::Mat frame = imgData->at(i).allign.image;
+    //     UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
+    //                                           UPDATE_PREVIEW);
+    //     updatePreviewEvent.SetImage(frame);
+    //     wxPostEvent(parent, updatePreviewEvent);
+    //     wxMilliSleep(200);
+    // }
 
     // FlowTask *flowTask = new FlowTask(imgData, ofConfig);
     // TaskProperty flowProperty = flowTask->GetProperty();
@@ -82,3 +74,5 @@ wxThread::ExitCode ProcessThread::Entry() {
 
     return 0;
 }
+
+ThreadID ProcessThread::getID() const { return threadID; }

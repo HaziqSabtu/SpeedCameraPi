@@ -60,4 +60,10 @@ struct PreviewConfig {
     int width;
     int height;
 };
+
+struct RansacConfig {
+    double threshold;
+    int minPoints;
+    int maxIterations;
+};
 #endif

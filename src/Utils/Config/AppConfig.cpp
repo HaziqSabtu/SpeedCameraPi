@@ -77,6 +77,11 @@ AppConfig::AppConfig() {
         config->Write("Value_Min", Default_Val_Yellow_Low);
         config->Write("Value_Max", Default_Val_Yellow_High);
 
+        config->SetPath("/Ransac_Parameter");
+        config->Write("Distance_Threshold", Default_RANSAC_Threshold);
+        config->Write("Max_Iterations", Default_RANSAC_Max_Iterations);
+        config->Write("Min Points", Default_RANSAC_Min_Points);
+
         config->Flush();
     } else {
         config = new wxFileConfig("", "", ini_filename);
@@ -335,6 +340,19 @@ void AppConfig::ResetYellowRange() {
                    Default_Val_Yellow_Low),
         cv::Scalar(Default_Hue_Yellow_High, Default_Sat_Yellow_High,
                    Default_Val_Yellow_High)));
+}
+
+RansacConfig AppConfig::GetRansacConfig() {
+    RansacConfig ransacConfig;
+    config->SetPath("/Ransac_Parameter");
+    config->Read("Ransac_Threshold", &ransacConfig.threshold,
+                 Default_RANSAC_Threshold);
+    config->Read("Ransac_Iteration", &ransacConfig.maxIterations,
+                 Default_RANSAC_Max_Iterations);
+    config->Read("Ransac_Min_Points", &ransacConfig.minPoints,
+                 Default_RANSAC_Min_Points);
+
+    return ransacConfig;
 }
 
 AppConfig::~AppConfig() { delete config; }

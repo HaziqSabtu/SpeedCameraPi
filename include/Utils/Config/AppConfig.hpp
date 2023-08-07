@@ -46,6 +46,8 @@ class AppConfig {
     void SetYellowRange(std::pair<cv::Scalar, cv::Scalar> range);
     void ResetYellowRange();
 
+    RansacConfig GetRansacConfig();
+
   private:
     wxFileConfig *config;
 
@@ -125,6 +127,11 @@ class AppConfig {
 
     int Default_Val_Yellow_Low = 100;
     int Default_Val_Yellow_High = 255;
+
+    // RANSAC Parameter
+    double Default_RANSAC_Threshold = 6;
+    int Default_RANSAC_Min_Points = 50;
+    int Default_RANSAC_Max_Iterations = 500;
 };
 
 #endif

@@ -58,12 +58,17 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     color_calibration_panel = new ColorCalibrationPanel(this, wxID_ANY, ccc);
     panels[PANEL_COLOR_CALIBRATION] = color_calibration_panel;
 
+    auto rsc = factory.createResultController();
+    result_panel = new ResultPanel(this, wxID_ANY, rsc);
+    panels[PANEL_RESULT] = result_panel;
+
     sizer = new wxBoxSizer(wxVERTICAL);
     sizer->Add(capture_panel, 1, wxEXPAND);
     sizer->Add(roi_panel, 1, wxEXPAND);
     sizer->Add(calibration_panel, 1, wxEXPAND);
     sizer->Add(manual_calibration_panel, 1, wxEXPAND);
     sizer->Add(color_calibration_panel, 1, wxEXPAND);
+    sizer->Add(result_panel, 1, wxEXPAND);
     SetSizer(sizer);
 
     capture_panel->Show();
