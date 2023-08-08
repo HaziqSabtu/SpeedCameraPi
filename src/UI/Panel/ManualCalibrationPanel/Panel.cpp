@@ -55,12 +55,8 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::MC_Start_Button_ID) {
-        controller->e_ManualCalibStart(this);
-    }
-
-    if (e.GetId() == Enum::MC_Stop_Button_ID) {
-        controller->e_ManualCalibEnd(this);
-        unBindImagePanel();
+        auto button = button_panel->main_status_panel->calibrate_Button;
+        ToggleCalibrationButtonHandler(button);
     }
 
     if (e.GetId() == Enum::MC_SelectLeft_Button_ID) {
@@ -83,7 +79,7 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::MC_ToggleCamera_Button_ID) {
         auto button = button_panel->main_status_panel->camera_Button;
-        OnToggleCameraButton(button);
+        TogglePreviewButtonHandler(button);
     }
 
     if (e.GetId() == Enum::MC_Remove_Button_ID) {
@@ -102,7 +98,8 @@ void ManualCalibrationPanel::unBindImagePanel() {
     img_bitmap->Unbind(wxEVT_MOTION, &ManualCalibrationPanel::OnMotion, this);
 }
 
-void ManualCalibrationPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
+void ManualCalibrationPanel::TogglePreviewButtonHandler(
+    BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_CalibPrevStart(button);
         return;
@@ -110,6 +107,20 @@ void ManualCalibrationPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
 
     if (button->getState() == ButtonState::ON) {
         controller->e_CalibPrevEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
+void ManualCalibrationPanel::ToggleCalibrationButtonHandler(
+    BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_ManualCalibStart(button);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_ManualCalibEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
@@ -230,6 +241,7 @@ void ManualCalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
         button_panel->main_status_panel->update(state);
         button_panel->left_status_panel->update(state);
         button_panel->right_status_panel->update(state);
+        button_panel->preview_panel->update(state);
 
         auto okState = state.manualCalibrationPanel.okButtonState;
         auto cancelState = state.manualCalibrationPanel.cancelButtonState;

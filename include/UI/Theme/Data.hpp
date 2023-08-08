@@ -170,15 +170,15 @@ const BitmapDataT2 BitmapT2Camera = {
 
 const BitmapDataT2 BitmapT2Calibration = {
     .size = T::BitmapDefaultSize,
-    .onName = "Assets/start_96.png",
+    .onName = "Assets/stop_96.png",
     .onColour = T::BitmapActive,
-    .onText = "Start Calibration",
-    .offName = "Assets/cancel_96.png",
+    .onText = "Stop Calibration",
+    .offName = "Assets/start_96.png",
     .offColour = T::BitmapNormal,
-    .offText = "Cancel Calibration",
-    .disabledName = "Assets/cancel_96.png",
+    .offText = "Start Calibration",
+    .disabledName = "Assets/start_96.png",
     .disabledColour = T::BitmapDisabled,
-    .disabledText = "Auto Calibration Off",
+    .disabledText = "Start Calibration",
 };
 
 const BitmapDataT2 BitmapT2MagnifyGlass = {

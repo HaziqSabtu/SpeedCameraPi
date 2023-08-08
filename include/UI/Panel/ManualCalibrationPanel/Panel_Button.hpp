@@ -4,6 +4,7 @@
 #include "UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelStatusCalib.hpp"
+#include "UI/Panel/ManualCalibrationPanel/PanelStatusPreview.hpp"
 #include <Utils/Enum.hpp>
 
 #include <wx/gtk/button.h>
@@ -19,19 +20,15 @@ class ManualCalibrationPanelButton : public wxPanel {
     LeftStatusPanel *left_status_panel;
     RightStatusPanel *right_status_panel;
 
+    ManualCalibrationPreviewPanel *preview_panel;
+
     OKCancelPanel *ok_cancel_panel;
 
   private:
-    wxPanel *button_panel;
     wxStaticText *Spacer;
-    wxStaticText *left_Spacer;
-    wxStaticText *right_Spacer;
 
-    wxBoxSizer *left_sizer;
-    wxBoxSizer *right_sizer;
+    wxBoxSizer *lrSizer;
     wxBoxSizer *button_sizer;
-
-    wxBoxSizer *okSizer;
 
     DECLARE_EVENT_TABLE();
 };

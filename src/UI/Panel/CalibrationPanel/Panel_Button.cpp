@@ -11,6 +11,7 @@ CalibrationPanelButton::CalibrationPanelButton(wxWindow *parent, wxWindowID id)
 
     cPanel = new CalibrationMainStatusPanel(this);
     ctPanel = new CalibrationToolPanel(this);
+    cpPanel = new CalibrationPreviewPanel(this);
     coPanel = new CalibrationOtherPanel(this);
     okCancelPanel = new OKCancelPanel(this);
 
@@ -20,6 +21,7 @@ CalibrationPanelButton::CalibrationPanelButton(wxWindow *parent, wxWindowID id)
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(cPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(ctPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(cpPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(coPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(Spacer, 1, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(okCancelPanel, 0, wxEXPAND | wxBOTTOM, 0);

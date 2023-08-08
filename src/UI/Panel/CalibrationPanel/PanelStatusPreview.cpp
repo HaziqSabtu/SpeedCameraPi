@@ -1,21 +1,19 @@
 #include "UI/Button/BitmapButton/Button_Cancel.hpp"
 #include "UI/Button/BitmapButton/Button_OK.hpp"
 #include "UI/Button/BitmapButton/Button_Target.hpp"
+#include "UI/Button/BitmapButton/Type2/Button_Camera.hpp"
 #include "Utils/Enum.hpp"
-#include <UI/Panel/CalibrationPanel/PanelStatusTool.hpp>
+#include <UI/Panel/CalibrationPanel/PanelStatusPreview.hpp>
 
-CalibrationToolPanel::CalibrationToolPanel(wxWindow *parent)
-    : TextOutlinePanel(parent, RTC::CALIB_TOOL) {
+CalibrationPreviewPanel::CalibrationPreviewPanel(wxWindow *parent)
+    : TextOutlinePanel(parent, RTC::PREVIEW) {
 
-    target_button = new BitmapTarget(this, Enum::CL_SelectPoint_Button_ID);
-    cancel_button =
-        new BitmapCancel(this, Enum::CL_CancelCalibration_Button_ID);
-    ok_button = new BitmapOK(this, Enum::CL_SaveCalibration_Button_ID);
+    pCamera_button = new BitmapT2Camera(this, Enum::CL_ToggleCamera_Button_ID);
+    pCapture_button = new BitmapT2Camera(this, Enum::CL_ToggleCamera_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(target_button, 1, wxEXPAND);
-    buttonSizer->Add(cancel_button, 1, wxEXPAND);
-    buttonSizer->Add(ok_button, 1, wxEXPAND);
+    buttonSizer->Add(pCamera_button, 1, wxEXPAND);
+    buttonSizer->Add(pCapture_button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -31,18 +29,17 @@ CalibrationToolPanel::CalibrationToolPanel(wxWindow *parent)
     Fit();
 }
 
-void CalibrationToolPanel::update(const AppState &state) {
+void CalibrationPreviewPanel::update(const AppState &state) {
     // set panel
     CalibrationPanelState ps = state.calibrationPanel;
 
-    setPanelState(ps.toolStatusState);
+    setPanelState(ps.previewStatusState);
 
-    target_button->update(ps.selectPointButtonState);
-    cancel_button->update(ps.cancelCalibrationButtonState);
-    ok_button->update(ps.acceptCalibrationButtonState);
+    pCamera_button->update(ps.prevCameraButtonState);
+    pCapture_button->update(ps.prevCaptureButtonState);
 }
 
-void CalibrationToolPanel::setPanelState(PanelState state) {
+void CalibrationPreviewPanel::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_HIDDEN) {
         this->Hide();
         return;

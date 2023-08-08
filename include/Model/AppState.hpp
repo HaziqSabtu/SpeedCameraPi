@@ -4,7 +4,7 @@
 #include <memory>
 enum ButtonState { NORMAL, ACTIVE, DISABLED, ON, OFF };
 
-enum PanelState { PANEL_NOT_OK, PANEL_OK };
+enum PanelState { PANEL_NOT_OK, PANEL_OK, PANEL_HIDDEN };
 
 struct CapturePanelState {
     PanelState captureStatusState;
@@ -32,9 +32,14 @@ struct CalibrationPanelState {
     ButtonState removeButtonState;
     ButtonState cameraButtonState;
 
+    PanelState toolStatusState;
     ButtonState selectPointButtonState;
     ButtonState cancelCalibrationButtonState;
     ButtonState acceptCalibrationButtonState;
+
+    PanelState previewStatusState;
+    ButtonState prevCameraButtonState;
+    ButtonState prevCaptureButtonState;
 
     ButtonState recalibrateColorButtonState;
     ButtonState manualCalibrationButtonState;
@@ -58,6 +63,10 @@ struct ManualCalibrationPanelState {
     PanelState rightStatusState;
     ButtonState selectRightButtonState;
     ButtonState removeRightButtonState;
+
+    PanelState previewStatusState;
+    ButtonState prevCameraButtonState;
+    ButtonState prevCaptureButtonState;
 
     ButtonState okButtonState;
     ButtonState cancelButtonState;
@@ -147,9 +156,15 @@ class AppState {
     ButtonState getCLCameraButtonState(ModelPtr model);
 
     // Calibration Panel -> Tools
+    PanelState getCLToolStatusState(ModelPtr model);
     ButtonState getSelectPointButtonState(ModelPtr model);
     ButtonState getCancelCalibrationButtonState(ModelPtr model);
     ButtonState getAcceptCalibrationButtonState(ModelPtr model);
+
+    // Calibration Panel -> Preview
+    PanelState getCLPreviewStatusState(ModelPtr model);
+    ButtonState getCLPrevCameraButtonState(ModelPtr model);
+    ButtonState getCLPrevCaptureButtonState(ModelPtr model);
 
     // Calibration Panel -> Recalibrate / Others
     ButtonState getRecalibrateColorButtonState(ModelPtr model);
@@ -174,6 +189,11 @@ class AppState {
     PanelState getMCRightStatusState(ModelPtr model);
     ButtonState getMCSelectRightButtonState(ModelPtr model);
     ButtonState getMCRemoveRightButtonState(ModelPtr model);
+
+    // Manual Calibration Panel -> Preview
+    PanelState getMCPreviewStatusState(ModelPtr model);
+    ButtonState getMCPrevCameraButtonState(ModelPtr model);
+    ButtonState getMCPrevCaptureButtonState(ModelPtr model);
 
     // Manual Calibration Panel -> OK / Cancel
     ButtonState getMCOKButtonState(ModelPtr model);

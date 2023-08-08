@@ -46,6 +46,10 @@ const RTD ROI_OK = {
 //     {wxT("#DEBUG"), Theme::Text},
 // };
 
+const RTD PREVIEW = {
+    {wxT("Preview"), Theme::Text},
+};
+
 const RTD LEFT_NONE = {
     {wxT("Left: "), Theme::Text},
     {wxT("NONE"), Theme::StatusNone},

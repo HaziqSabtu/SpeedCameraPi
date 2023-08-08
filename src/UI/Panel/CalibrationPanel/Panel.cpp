@@ -159,6 +159,7 @@ void CalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
         auto state = e.GetState();
         button_panel->cPanel->update(state);
         button_panel->ctPanel->update(state);
+        button_panel->cpPanel->update(state);
         button_panel->coPanel->update(state);
 
         auto okState = state.calibrationPanel.okButtonState;
@@ -166,6 +167,7 @@ void CalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
         button_panel->okCancelPanel->update(okState, cancelState);
 
         Refresh();
+        Layout();
     } catch (const std::exception &e) {
         ErrorEvent::Submit(this, e.what());
     }

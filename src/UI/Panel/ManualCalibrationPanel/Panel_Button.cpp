@@ -14,22 +14,19 @@ ManualCalibrationPanelButton::ManualCalibrationPanelButton(wxWindow *parent,
 
     left_status_panel = new LeftStatusPanel(this);
     right_status_panel = new RightStatusPanel(this);
-    wxStaticText *lrSpacer = new wxStaticText(
-        this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(10, 10));
 
-    wxBoxSizer *lrSizer = new wxBoxSizer(wxHORIZONTAL);
-    lrSizer->Add(left_status_panel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 0);
-    lrSizer->Add(lrSpacer, 0, wxEXPAND);
-    lrSizer->Add(right_status_panel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 0);
+    lrSizer = new wxBoxSizer(wxHORIZONTAL);
+    lrSizer->Add(left_status_panel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 10);
+    lrSizer->Add(right_status_panel, 1, wxEXPAND | wxBOTTOM, 10);
 
-    left_Spacer = new wxStaticText(this, wxID_ANY, wxEmptyString);
-    right_Spacer = new wxStaticText(this, wxID_ANY, wxEmptyString);
+    preview_panel = new ManualCalibrationPreviewPanel(this);
 
     ok_cancel_panel = new OKCancelPanel(this);
 
     button_sizer = new wxBoxSizer(wxVERTICAL);
     button_sizer->Add(main_status_panel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
+    button_sizer->Add(preview_panel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(Spacer, 1, wxEXPAND);
     button_sizer->Add(ok_cancel_panel, 0, wxEXPAND | wxBOTTOM, 0);
 

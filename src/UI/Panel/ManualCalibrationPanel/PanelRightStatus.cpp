@@ -42,10 +42,21 @@ void RightStatusPanel::update(const AppState &state) {
 
 void RightStatusPanel::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
-        SetTextData(RTC::CALIB_OK);
+        this->Show();
+        SetTextData(RTC::RIGHT_OK);
+        return;
     }
 
     if (state == PanelState::PANEL_NOT_OK) {
-        SetTextData(RTC::CALIB_NONE);
+        this->Show();
+        SetTextData(RTC::RIGHT_NONE);
+        return;
     }
+
+    if (state == PanelState::PANEL_HIDDEN) {
+        this->Hide();
+        return;
+    }
+
+    throw std::runtime_error("Invalid panel state");
 }

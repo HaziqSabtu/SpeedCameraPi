@@ -2,6 +2,7 @@
 
 #include "UI/Panel/CalibrationPanel/PanelStatusCalib.hpp"
 #include "UI/Panel/CalibrationPanel/PanelStatusOther.hpp"
+#include "UI/Panel/CalibrationPanel/PanelStatusPreview.hpp"
 #include "UI/Panel/CalibrationPanel/PanelStatusTool.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include <Utils/Enum.hpp>
@@ -16,6 +17,7 @@ class CalibrationPanelButton : public wxPanel {
 
     CalibrationMainStatusPanel *cPanel;
     CalibrationToolPanel *ctPanel;
+    CalibrationPreviewPanel *cpPanel;
     CalibrationOtherPanel *coPanel;
     OKCancelPanel *okCancelPanel;
 
