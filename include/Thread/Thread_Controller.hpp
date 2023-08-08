@@ -34,8 +34,9 @@ class ThreadController {
                                          PanelID panelID);
     void endLoadCaptureHandler();
 
-    virtual void startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
-                                      std::string path, PanelID panelID);
+    virtual void startLoadFileHandler(wxEvtHandler *parent, DataPtr data,
+                                      int maxFrame, std::string path,
+                                      PanelID panelID);
     void endLoadFileHandler();
 
     virtual void startReplayHandler(wxEvtHandler *parent, DataPtr data,

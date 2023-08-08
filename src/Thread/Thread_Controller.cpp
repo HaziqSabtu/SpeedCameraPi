@@ -208,14 +208,14 @@ RoiPreviewThread *ThreadController::getRoiPreviewThread() {
 
 ProcessThread *ThreadController::getProcessThread() { return processThread; }
 
-void ThreadController::startLoadFileHandler(wxEvtHandler *parent, int maxFrame,
-                                            std::string path, PanelID panelID) {
+void ThreadController::startLoadFileHandler(wxEvtHandler *parent, DataPtr data,
+                                            int maxFrame, std::string path,
+                                            PanelID panelID) {
 
-    // loadFileThread = new LoadFileThread(parent, maxFrame, path);
-    // loadFileThread->Run();
+    loadFileThread = new LoadFileThread(parent, data, path, maxFrame);
+    loadFileThread->Run();
 
-    // owner[loadFileThread->getID()] = panelID;
-    throw std::runtime_error("Not Implemented");
+    owner[loadFileThread->getID()] = panelID;
 }
 
 void ThreadController::endLoadFileHandler() {

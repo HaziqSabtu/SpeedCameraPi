@@ -12,6 +12,8 @@
 #ifndef LOAD_FILE_THREAD_HPP
 #define LOAD_FILE_THREAD_HPP
 
+#include "Model/SessionData.hpp"
+#include "Thread/Thread_ID.hpp"
 #include <Event/Event_Error.hpp>
 #include <Event/Event_LoadImage.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -34,20 +36,22 @@
  */
 class LoadFileThread : public wxThread {
   public:
-    LoadFileThread(wxEvtHandler *parent, std::shared_ptr<ThreadPool> pool,
-                   std::shared_ptr<std::vector<ImageData>> imgData,
-                   std::string path, const int maxFrame);
+    LoadFileThread(wxEvtHandler *parent, DataPtr data, std::string path,
+                   const int maxFrame);
     ~LoadFileThread();
+
+    ThreadID getID() const;
 
   protected:
     ExitCode Entry();
 
   private:
     wxEvtHandler *parent;
-    std::shared_ptr<std::vector<ImageData>> imgData;
-    std::shared_ptr<ThreadPool> pool;
+    DataPtr data;
     std::string path;
     const int maxFrame;
+
+    const ThreadID id = THREAD_LOAD_FILE;
 };
 
 #endif

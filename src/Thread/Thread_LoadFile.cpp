@@ -10,6 +10,8 @@
  */
 
 #include "Event/Event_LoadImage.hpp"
+#include "Event/Event_UpdateStatus.hpp"
+#include "Model/SessionData.hpp"
 #include <Thread/Thread_LoadFile.hpp>
 
 /**
@@ -21,12 +23,10 @@
  * @param path path to file
  * @param maxFrame maximum number of frame to load
  */
-LoadFileThread::LoadFileThread(wxEvtHandler *parent,
-                               std::shared_ptr<ThreadPool> threadPool,
-                               std::shared_ptr<std::vector<ImageData>> imgData,
+LoadFileThread::LoadFileThread(wxEvtHandler *parent, DataPtr data,
                                std::string path, const int maxFrame)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
-      imgData(imgData), path(path), maxFrame(maxFrame) {}
+    : wxThread(wxTHREAD_JOINABLE), parent(parent), data(data), path(path),
+      maxFrame(maxFrame) {}
 
 /**
  * @brief Destroy the Load File Thread:: Load File Thread object
@@ -54,41 +54,39 @@ wxThread::ExitCode LoadFileThread::Entry() {
         wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START_FILE);
         wxPostEvent(parent, startLoadEvent);
 
-        if (imgData == nullptr) {
-            throw std::runtime_error("imgData is null");
+        if (!data->isCaptureDataEmpty()) {
+            throw std::runtime_error("Capture data is not empty");
         }
 
-        std::unique_ptr<Task> task = std::make_unique<LoadTask>(imgData, path);
+        UpdateStatusEvent::Submit(parent, "Loading file...");
 
-        TaskProperty property = task->GetProperty();
-        pool->AddTask(task);
+        auto captureData = FILEWR::ReadFile(path);
 
-        while (pool->isWorkerBusy(property) || pool->HasTasks(property)) {
-            wxMilliSleep(30);
-        }
+        UpdateStatusEvent::Submit(parent, "File loaded");
 
-        if (maxFrame < imgData->size() && maxFrame != -1) {
-            imgData->erase(imgData->begin() + maxFrame, imgData->end());
-        }
-
-        for (int i = 0; i < imgData->size(); i++) {
-            cv::Mat frame = imgData->at(i).image;
-            UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
-                                                  UPDATE_PREVIEW);
-            updatePreviewEvent.SetImage(frame);
-            wxPostEvent(parent, updatePreviewEvent);
+        for (int i = 0; i < captureData.size(); i++) {
+            cv::Mat frame = captureData.at(i).image;
+            UpdatePreviewEvent::Submit(parent, frame);
             wxMilliSleep(200);
         }
+
+        data->setCaptureData(captureData);
+
     } catch (const std::exception &e) {
-        ErrorEvent errorEvent(c_ERROR_EVENT, wxID_ANY);
-        errorEvent.SetErrorData(e.what());
-        wxPostEvent(parent, errorEvent);
+        ErrorEvent::Submit(parent, e.what());
     }
 
     wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_FILE);
     wxPostEvent(parent, stopLoadEvent);
     return 0;
 }
+
+/**
+ * @brief Get the Thread Id object
+ *
+ * @return ThreadID
+ */
+ThreadID LoadFileThread::getID() const { return id; }
 
 // unique_ptr is a smart pointer that guarantees deletion of the object it
 // points to, either on destruction of the unique_ptr or via an explicit

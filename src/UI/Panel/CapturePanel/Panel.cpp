@@ -54,7 +54,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
 
         // TODO: Load button
         if (e.GetId() == Enum::CP_Load_Button_ID) {
-            //OnLoadButton(button_panel->cPanel->Load_Button->button);
+            OnLoadButton(button_panel->cPanel->Load_Button->button);
         }
 
         if (e.GetId() == Enum::CP_Reset_Button_ID) {

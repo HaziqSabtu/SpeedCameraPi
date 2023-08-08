@@ -251,7 +251,9 @@ void CaptureController::startLoadFileHandler(wxEvtHandler *parent,
     AppConfig config;
     auto c = config.GetLoadConfig();
 
-    tc->startLoadFileHandler(parent, c.maxFrame, path, panelID);
+    auto data = shared->getSessionData();
+
+    tc->startLoadFileHandler(parent, data, c.maxFrame, path, panelID);
 }
 
 void CaptureController::endLoadFileHandler() {
