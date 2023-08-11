@@ -11,13 +11,13 @@
 CalibrationMainStatusPanel::CalibrationMainStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_NONE) {
 
-    calibrate_Button = new BitmapCalibration(this, Enum::CL_Start_Button_ID);
+    calibrate_Button = new BitmapT2Calibration(this, Enum::CL_Start_Button_ID);
+    cCapture_Button = new BitmapT2Calibration(this, Enum::CL_StartC_Button_ID);
     reset_Button = new BitmapRemove(this, Enum::CL_ClearCalibration_Button_ID);
-    camera_Button = new BitmapT2Camera(this, Enum::CL_ToggleCamera_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
-    buttonSizer->Add(camera_Button, 1, wxEXPAND);
+    buttonSizer->Add(cCapture_Button, 1, wxEXPAND);
     buttonSizer->Add(reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
@@ -44,7 +44,7 @@ void CalibrationMainStatusPanel::update(const AppState &state) {
     setPanelState(ps.state);
 
     calibrate_Button->update(ps.calibrationButtonState);
-    camera_Button->update(ps.cameraButtonState);
+    cCapture_Button->update(ps.calibrationCaptureButtonState);
     reset_Button->update(ps.removeButtonState);
 }
 

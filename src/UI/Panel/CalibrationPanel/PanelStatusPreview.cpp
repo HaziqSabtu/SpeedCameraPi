@@ -2,6 +2,7 @@
 #include "UI/Button/BitmapButton/Button_OK.hpp"
 #include "UI/Button/BitmapButton/Button_Target.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_Camera.hpp"
+#include "UI/Button/BitmapButton/Type2/Button_MagnifyGlass.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CalibrationPanel/PanelStatusPreview.hpp>
 
@@ -9,7 +10,8 @@ CalibrationPreviewPanel::CalibrationPreviewPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::PREVIEW) {
 
     pCamera_button = new BitmapT2Camera(this, Enum::CL_ToggleCamera_Button_ID);
-    pCapture_button = new BitmapT2Camera(this, Enum::CL_ToggleCamera_Button_ID);
+    pCapture_button =
+        new BitmapT2MagnifyGlass(this, Enum::CL_ToggleCapture_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(pCamera_button, 1, wxEXPAND);

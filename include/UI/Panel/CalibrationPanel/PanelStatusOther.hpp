@@ -16,6 +16,8 @@ class CalibrationOtherPanel : public TextOutlinePanel {
     BitmapButton *manual_button;
 
   private:
+    void setPanelState(PanelState state);
+
     wxBoxSizer *buttonSizer;
     wxBoxSizer *vSizer;
     wxBoxSizer *hSizer;

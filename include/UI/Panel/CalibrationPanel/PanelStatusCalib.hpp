@@ -11,8 +11,8 @@ class CalibrationMainStatusPanel : public TextOutlinePanel {
   public:
     CalibrationMainStatusPanel(wxWindow *parent);
 
-    BitmapButton *calibrate_Button;
-    BitmapButtonT2 *camera_Button;
+    BitmapButtonT2 *calibrate_Button;
+    BitmapButtonT2 *cCapture_Button;
     BitmapButton *reset_Button;
 
     void update(const AppState &state);

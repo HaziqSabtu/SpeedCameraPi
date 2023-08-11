@@ -51,8 +51,8 @@ void ResultMainStatusPanel::update(const AppState &state) {
     setPanelState(ps.state);
 
     calibrate_Button->update(ps.calibrationButtonState);
-    stop_Button->update(ps.stopButtonState);
-    camera_Button->update(ps.cameraButtonState);
+    // stop_Button->update(ps.stopButtonState);
+    // camera_Button->update(ps.cameraButtonState);
     reset_Button->update(ps.removeButtonState);
 }
 

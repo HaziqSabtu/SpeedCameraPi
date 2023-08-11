@@ -1,8 +1,11 @@
 #include "Algorithm/hsv_filter/BFS.hpp"
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_CalibPreviewCapture.hpp"
+#include "Thread/Thread_CalibrationCapture.hpp"
 #include "Thread/Thread_ColorCalibPreview.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
+#include "Thread/Thread_ManualCalibCapture.hpp"
 #include "Thread/Thread_Process.hpp"
 #include "Thread/Thread_Result.hpp"
 #include "Thread/Thread_Roi.hpp"
@@ -30,8 +33,11 @@ void ThreadController::initThread() {
     loadFileThread = nullptr;
     replayThread = nullptr;
     calibrationThread = nullptr;
+    captureCalibrationThread = nullptr;
     calibPreviewThread = nullptr;
+    calibCapturePreviewThread = nullptr;
     manualCalibrationThread = nullptr;
+    manualCalibrationCaptureThread = nullptr;
     colorCalibrationThread = nullptr;
     colorCalibPreviewThread = nullptr;
     roiThread = nullptr;
@@ -46,8 +52,11 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(loadFileThread);
     stopAndDeleteThread(replayThread);
     stopAndDeleteThread(calibrationThread);
+    stopAndDeleteThread(captureCalibrationThread);
     stopAndDeleteThread(calibPreviewThread);
+    stopAndDeleteThread(calibCapturePreviewThread);
     stopAndDeleteThread(manualCalibrationThread);
+    stopAndDeleteThread(manualCalibrationCaptureThread);
     stopAndDeleteThread(colorCalibrationThread);
     stopAndDeleteThread(colorCalibPreviewThread);
     stopAndDeleteThread(roiThread);
@@ -77,12 +86,24 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return calibrationThread == nullptr;
     }
 
+    if (threadID == ThreadID::THREAD_CALIBRATION_CAPTURE) {
+        return captureCalibrationThread == nullptr;
+    }
+
     if (threadID == ThreadID::THREAD_CALIBRATION_PREVIEW) {
         return calibPreviewThread == nullptr;
     }
 
+    if (threadID == ThreadID::THREAD_CALIBRATION_PREVIEW_CAPTURE) {
+        return calibCapturePreviewThread == nullptr;
+    }
+
     if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION) {
         return manualCalibrationThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION_CAPTURE) {
+        return manualCalibrationCaptureThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_COLOR_CALIBRATION) {
@@ -127,6 +148,98 @@ bool ThreadController::isThreadsWithCameraNullptr() {
            manualCalibrationThread == nullptr &&
            colorCalibrationThread == nullptr &&
            colorCalibPreviewThread == nullptr;
+}
+
+bool ThreadController::isCalibrationThreadRunning() {
+
+    if (!isThreadNullptr(THREAD_CALIBRATION)) {
+        return true;
+    }
+
+    if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
+        return true;
+    }
+
+    return false;
+}
+
+bool ThreadController::isCalibrationThreadOwner(PanelID panelID) {
+
+    if (!isThreadNullptr(THREAD_CALIBRATION)) {
+        return isThreadOwner(THREAD_CALIBRATION, panelID);
+    }
+
+    if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
+        return isThreadOwner(THREAD_CALIBRATION_CAPTURE, panelID);
+    }
+
+    return false;
+}
+
+BaseCalibrationThread *ThreadController::getRunningCalibrationThread() {
+
+    if (!isThreadNullptr(THREAD_CALIBRATION)) {
+        return getCalibrationThread();
+    }
+
+    if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
+        return getCaptureCalibrationThread();
+    }
+
+    return nullptr;
+}
+
+bool ThreadController::isManualCalibrationThreadRunning() {
+
+    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        return true;
+    }
+
+    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
+        return true;
+    }
+
+    return false;
+}
+
+bool ThreadController::isManualCalibrationThreadOwner(PanelID panelID) {
+
+    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        return isThreadOwner(THREAD_MANUAL_CALIBRATION, panelID);
+    }
+
+    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
+        return isThreadOwner(THREAD_MANUAL_CALIBRATION_CAPTURE, panelID);
+    }
+
+    return false;
+}
+
+BaseManualCalibrationThread *
+ThreadController::getRunningManualCalibrationThread() {
+
+    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        return getManualCalibrationThread();
+    }
+
+    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
+        return getManualCalibrationCaptureThread();
+    }
+
+    return nullptr;
+}
+
+bool ThreadController::isCalibPreviewThreadRunning() {
+
+    if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+        return true;
+    }
+
+    if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAPTURE)) {
+        return true;
+    }
+
+    return false;
 }
 
 void ThreadController::startCaptureHandler(wxEvtHandler *parent,
@@ -184,12 +297,25 @@ CalibrationThread *ThreadController::getCalibrationThread() {
     return calibrationThread;
 }
 
+CaptureCalibrationThread *ThreadController::getCaptureCalibrationThread() {
+    return captureCalibrationThread;
+}
+
 CalibPreviewThread *ThreadController::getCalibPreviewThread() {
     return calibPreviewThread;
 }
 
+CalibCapturePreviewThread *ThreadController::getCalibCapturePreviewThread() {
+    return calibCapturePreviewThread;
+}
+
 ManualCalibrationThread *ThreadController::getManualCalibrationThread() {
     return manualCalibrationThread;
+}
+
+ManualCalibrationCaptureThread *
+ThreadController::getManualCalibrationCaptureThread() {
+    return manualCalibrationCaptureThread;
 }
 
 ColorCalibrationThread *ThreadController::getColorCalibrationThread() {
@@ -236,6 +362,20 @@ void ThreadController::endCalibrationHandler() {
     calibrationThread = stopAndDeleteThread(calibrationThread);
 }
 
+void ThreadController::startCaptureCalibrationHandler(wxEvtHandler *parent,
+                                                      DataPtr data,
+                                                      PanelID panelID) {
+
+    captureCalibrationThread = new CaptureCalibrationThread(parent, data);
+    captureCalibrationThread->Run();
+
+    owner[captureCalibrationThread->getID()] = panelID;
+}
+
+void ThreadController::endCaptureCalibrationHandler() {
+    captureCalibrationThread = stopAndDeleteThread(captureCalibrationThread);
+}
+
 void ThreadController::startCalibPreviewHandler(
     wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
     std::shared_ptr<SessionData> data, PanelID panelID) {
@@ -247,6 +387,19 @@ void ThreadController::startCalibPreviewHandler(
 
 void ThreadController::endCalibPreviewHandler() {
     calibPreviewThread = stopAndDeleteThread(calibPreviewThread);
+}
+
+void ThreadController::startCalibCapturePreviewHandler(wxEvtHandler *parent,
+                                                       DataPtr data,
+                                                       PanelID panelID) {
+    calibCapturePreviewThread = new CalibCapturePreviewThread(parent, data);
+    calibCapturePreviewThread->Run();
+
+    owner[calibCapturePreviewThread->getID()] = panelID;
+}
+
+void ThreadController::endCalibCapturePreviewHandler() {
+    calibCapturePreviewThread = stopAndDeleteThread(calibCapturePreviewThread);
 }
 
 void ThreadController::startManualCalibrationHandler(
@@ -261,6 +414,21 @@ void ThreadController::startManualCalibrationHandler(
 
 void ThreadController::endManualCalibrationHandler() {
     manualCalibrationThread = stopAndDeleteThread(manualCalibrationThread);
+}
+
+void ThreadController::startManualCalibrationCaptureHandler(
+    wxEvtHandler *parent, DataPtr data, PanelID panelID) {
+
+    manualCalibrationCaptureThread =
+        new ManualCalibrationCaptureThread(parent, data);
+    manualCalibrationCaptureThread->Run();
+
+    owner[manualCalibrationCaptureThread->getID()] = panelID;
+}
+
+void ThreadController::endManualCalibrationCaptureHandler() {
+    manualCalibrationCaptureThread =
+        stopAndDeleteThread(manualCalibrationCaptureThread);
 }
 
 void ThreadController::startColorCalibrationHandler(

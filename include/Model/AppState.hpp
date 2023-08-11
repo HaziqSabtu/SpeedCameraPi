@@ -29,8 +29,8 @@ struct CalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
+    ButtonState calibrationCaptureButtonState;
     ButtonState removeButtonState;
-    ButtonState cameraButtonState;
 
     PanelState toolStatusState;
     ButtonState selectPointButtonState;
@@ -41,6 +41,7 @@ struct CalibrationPanelState {
     ButtonState prevCameraButtonState;
     ButtonState prevCaptureButtonState;
 
+    PanelState otherStatusState;
     ButtonState recalibrateColorButtonState;
     ButtonState manualCalibrationButtonState;
 
@@ -52,8 +53,7 @@ struct ManualCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
-    ButtonState stopButtonState;
-    ButtonState cameraButtonState;
+    ButtonState calibrationCaptureButtonState;
     ButtonState removeButtonState;
 
     PanelState leftStatusState;
@@ -151,9 +151,9 @@ class AppState {
     ButtonState getCPMeasureButtonState(ModelPtr model);
 
     // Calibration Panel
-    ButtonState getCalibrationRemoveButtonState(ModelPtr model);
     ButtonState getCalibrationButtonState(ModelPtr model);
-    ButtonState getCLCameraButtonState(ModelPtr model);
+    ButtonState getCalibrationCaptureButtonState(ModelPtr model);
+    ButtonState getCalibrationRemoveButtonState(ModelPtr model);
 
     // Calibration Panel -> Tools
     PanelState getCLToolStatusState(ModelPtr model);
@@ -167,6 +167,7 @@ class AppState {
     ButtonState getCLPrevCaptureButtonState(ModelPtr model);
 
     // Calibration Panel -> Recalibrate / Others
+    PanelState getCLOtherStatusState(ModelPtr model);
     ButtonState getRecalibrateColorButtonState(ModelPtr model);
     ButtonState getManualCalibrationButtonState(ModelPtr model);
 
@@ -176,8 +177,7 @@ class AppState {
 
     // Manual Calibration Panel
     ButtonState getMCButtonState(ModelPtr model);
-    ButtonState getMCStopButtonState(ModelPtr model);
-    ButtonState getMCCameraButtonState(ModelPtr model);
+    ButtonState getMCCaptureButtonState(ModelPtr model);
     ButtonState getMCRemoveButtonState(ModelPtr model);
 
     // Manual Calibration Panel -> Left

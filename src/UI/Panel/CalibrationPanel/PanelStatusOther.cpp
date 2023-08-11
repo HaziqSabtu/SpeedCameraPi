@@ -32,6 +32,22 @@ void CalibrationOtherPanel::update(const AppState &state) {
     // set panel
     CalibrationPanelState ps = state.calibrationPanel;
 
+    setPanelState(ps.otherStatusState);
+
     recalibrate_button->update(ps.recalibrateColorButtonState);
     manual_button->update(ps.manualCalibrationButtonState);
+}
+
+void CalibrationOtherPanel::setPanelState(PanelState state) {
+    if (state == PanelState::PANEL_HIDDEN) {
+        this->Hide();
+        return;
+    }
+
+    if (state == PanelState::PANEL_OK) {
+        this->Show();
+        return;
+    }
+
+    throw std::runtime_error("Invalid panel state");
 }

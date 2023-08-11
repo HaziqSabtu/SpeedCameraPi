@@ -14,7 +14,7 @@ class CalibrationToolPanel : public TextOutlinePanel {
 
     BitmapButton *target_button;
     BitmapButton *cancel_button;
-    BitmapButton *ok_button;
+    // BitmapButton *ok_button;
 
   private:
     void setPanelState(PanelState state);

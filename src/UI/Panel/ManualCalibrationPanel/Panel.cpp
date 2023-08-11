@@ -45,7 +45,7 @@ ManualCalibrationPanel::~ManualCalibrationPanel() {}
 
 void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Cancel_Button_ID) {
-        controller->e_RestoreSessionData(this);
+        // controller->e_RestoreSessionData(this);
         controller->e_ChangeToCapturePanel(this);
     }
 
@@ -57,6 +57,10 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::MC_Start_Button_ID) {
         auto button = button_panel->main_status_panel->calibrate_Button;
         ToggleCalibrationButtonHandler(button);
+    }
+    if (e.GetId() == Enum::MC_StartCapture_Button_ID) {
+        auto button = button_panel->main_status_panel->cCapture_Button;
+        ToggleCalibrationCaptureButtonHandler(button);
     }
 
     if (e.GetId() == Enum::MC_SelectLeft_Button_ID) {
@@ -78,8 +82,13 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::MC_ToggleCamera_Button_ID) {
-        auto button = button_panel->main_status_panel->camera_Button;
+        auto button = button_panel->preview_panel->pCamera_button;
         TogglePreviewButtonHandler(button);
+    }
+
+    if (e.GetId() == Enum::MC_ToggleCapture_Button_ID) {
+        auto button = button_panel->preview_panel->pCapture_button;
+        TogglePreviewCaptureButtonHandler(button);
     }
 
     if (e.GetId() == Enum::MC_Remove_Button_ID) {
@@ -112,6 +121,20 @@ void ManualCalibrationPanel::TogglePreviewButtonHandler(
     throw std::runtime_error("Invalid button state");
 }
 
+void ManualCalibrationPanel::TogglePreviewCaptureButtonHandler(
+    BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_CalibCapturePrevStart(button);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_CalibCapturePrevEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
 void ManualCalibrationPanel::ToggleCalibrationButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
@@ -121,6 +144,20 @@ void ManualCalibrationPanel::ToggleCalibrationButtonHandler(
 
     if (button->getState() == ButtonState::ON) {
         controller->e_ManualCalibEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
+void ManualCalibrationPanel::ToggleCalibrationCaptureButtonHandler(
+    BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_ManualCalibCaptureStart(button);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_ManualCalibCaptureEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
@@ -255,7 +292,7 @@ void ManualCalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
 
 void ManualCalibrationPanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
-        controller->e_CreateTempSessionData(this);
+        // controller->e_CreateTempSessionData(this);
         controller->e_UpdateState(this);
     }
 }

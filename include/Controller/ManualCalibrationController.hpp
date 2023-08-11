@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_ManualCalib.hpp"
 #include <Model/SharedModel.hpp>
 
 #define MCCPtr std::unique_ptr<ManualCalibrationController>
@@ -30,8 +31,14 @@ class ManualCalibrationController {
     void e_ManualCalibStart(wxEvtHandler *parent);
     void e_ManualCalibEnd(wxEvtHandler *parent);
 
+    void e_ManualCalibCaptureStart(wxEvtHandler *parent);
+    void e_ManualCalibCaptureEnd(wxEvtHandler *parent);
+
     void e_CalibPrevStart(wxEvtHandler *parent);
     void e_CalibPrevEnd(wxEvtHandler *parent);
+
+    void e_CalibCapturePrevStart(wxEvtHandler *parent);
+    void e_CalibCapturePrevEnd(wxEvtHandler *parent);
 
     void e_RemoveLeft(wxEvtHandler *parent);
     void e_RemoveRight(wxEvtHandler *parent);
@@ -45,6 +52,8 @@ class ManualCalibrationController {
   private:
     void checkPreCondition();
 
+    void throwIfAnyThreadIsRunning();
+
     void changeToLeftHandler(wxEvtHandler *parent);
     void changeToRightHandler(wxEvtHandler *parent);
 
@@ -55,8 +64,14 @@ class ManualCalibrationController {
     void manualCalibStartHandler(wxEvtHandler *parent);
     void manualCalibEndHandler(wxEvtHandler *parent);
 
+    void manualCalibCaptureStartHandler(wxEvtHandler *parent);
+    void manualCalibCaptureEndHandler(wxEvtHandler *parent);
+
     void calibPrevStartHandler(wxEvtHandler *parent);
     void calibPrevEndHandler(wxEvtHandler *parent);
+
+    void calibCapturePrevStartHandler(wxEvtHandler *parent);
+    void calibCapturePrevEndHandler(wxEvtHandler *parent);
 
     void removeLeftHandler(wxEvtHandler *parent);
     void removeRightHandler(wxEvtHandler *parent);

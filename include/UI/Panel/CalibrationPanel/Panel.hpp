@@ -51,7 +51,10 @@ class CalibrationPanel : public wxPanel {
 
     void unBindImagePanel();
 
-    void OnToggleCameraButton(BitmapButtonT2 *button);
+    void TogglePreviewButtonHandler(BitmapButtonT2 *button);
+    void TogglePreviewCaptureButtonHandler(BitmapButtonT2 *button);
+    void ToggleCalibrationButtonHandler(BitmapButtonT2 *button);
+    void ToggleCalibrationCaptureButtonHandler(BitmapButtonT2 *button);
 
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);

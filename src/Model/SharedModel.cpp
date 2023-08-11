@@ -88,6 +88,13 @@ void SharedModel::killAllThreads() {
         tc->endCalibPreviewHandler();
     }
 
+    if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION_PREVIEW_CAPTURE)) {
+        auto thread = tc->getCalibCapturePreviewThread();
+        thread->Pause();
+
+        tc->endCalibCapturePreviewHandler();
+    }
+
     if (!tc->isThreadNullptr(ThreadID::THREAD_MANUAL_CALIBRATION)) {
         auto thread = tc->getManualCalibrationThread();
         thread->Pause();
@@ -96,6 +103,13 @@ void SharedModel::killAllThreads() {
         setCamera(camera);
 
         tc->endManualCalibrationHandler();
+    }
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_MANUAL_CALIBRATION_CAPTURE)) {
+        auto thread = tc->getManualCalibrationCaptureThread();
+        thread->Pause();
+
+        tc->endManualCalibrationCaptureHandler();
     }
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_COLOR_CALIBRATION)) {

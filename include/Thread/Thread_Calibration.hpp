@@ -19,28 +19,21 @@
 
 #include <wx/thread.h>
 
-class CalibrationThread : public wxThread {
+class BaseCalibrationThread : public wxThread {
   public:
-    CalibrationThread(wxEvtHandler *parent,
-                      std::unique_ptr<CameraBase> &camera);
-    ~CalibrationThread();
-
-    std::unique_ptr<CameraBase> getCamera();
+    BaseCalibrationThread(wxEvtHandler *parent);
+    ~BaseCalibrationThread();
 
     void setPoint(cv::Point point);
+    void clearPoint();
 
     CalibData getCalibData();
 
-    ThreadID getID() const;
+    virtual ThreadID getID() const = 0;
 
   protected:
-    virtual ExitCode Entry();
-
-  private:
     wxEvtHandler *parent;
-    std::unique_ptr<CameraBase> camera;
 
-    const ThreadID threadID = ThreadID::THREAD_CALIBRATION;
     cv::Size pSize;
 
     HSVFilter hsvFilter;
@@ -52,7 +45,26 @@ class CalibrationThread : public wxThread {
     Detection::Line yellowLine;
     Detection::Line blueLine;
 
-  private:
+  protected:
     void updateYellowLine(Detection::Line line);
     void updateBlueLine(Detection::Line line);
+};
+
+class CalibrationThread : public BaseCalibrationThread {
+  public:
+    CalibrationThread(wxEvtHandler *parent,
+                      std::unique_ptr<CameraBase> &camera);
+    ~CalibrationThread();
+
+    std::unique_ptr<CameraBase> getCamera();
+
+    ThreadID getID() const override;
+
+  protected:
+    virtual ExitCode Entry() override;
+
+  private:
+    std::unique_ptr<CameraBase> camera;
+
+    const ThreadID threadID = ThreadID::THREAD_CALIBRATION;
 };

@@ -8,14 +8,13 @@ CalibrationToolPanel::CalibrationToolPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_TOOL) {
 
     target_button = new BitmapTarget(this, Enum::CL_SelectPoint_Button_ID);
-    cancel_button =
-        new BitmapCancel(this, Enum::CL_CancelCalibration_Button_ID);
-    ok_button = new BitmapOK(this, Enum::CL_SaveCalibration_Button_ID);
+    cancel_button = new BitmapCancel(this, Enum::CL_ClearPoint_Button_ID);
+    // ok_button = new BitmapOK(this, Enum::CL_SaveCalibration_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(target_button, 1, wxEXPAND);
     buttonSizer->Add(cancel_button, 1, wxEXPAND);
-    buttonSizer->Add(ok_button, 1, wxEXPAND);
+    // buttonSizer->Add(ok_button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -39,7 +38,7 @@ void CalibrationToolPanel::update(const AppState &state) {
 
     target_button->update(ps.selectPointButtonState);
     cancel_button->update(ps.cancelCalibrationButtonState);
-    ok_button->update(ps.acceptCalibrationButtonState);
+    // ok_button->update(ps.acceptCalibrationButtonState);
 }
 
 void CalibrationToolPanel::setPanelState(PanelState state) {

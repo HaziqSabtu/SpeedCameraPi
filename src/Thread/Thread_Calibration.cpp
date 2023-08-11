@@ -11,16 +11,15 @@
 #include <wx/utils.h>
 
 // TODO: Fix Status
-CalibrationThread::CalibrationThread(wxEvtHandler *parent,
-                                     std::unique_ptr<CameraBase> &camera)
-    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)) {
+BaseCalibrationThread::BaseCalibrationThread(wxEvtHandler *parent)
+    : wxThread(wxTHREAD_JOINABLE) {
     this->parent = parent;
 
     auto config = AppConfig();
     auto previewConfig = config.GetPreviewConfig();
     int pWidth = previewConfig.width;
     int pHeight = previewConfig.height;
-    pSize = cv::Size(pWidth, pHeight);
+    this->pSize = cv::Size(pWidth, pHeight);
 
     AppConfig c;
     auto RansacConfig = c.GetRansacConfig();
@@ -29,6 +28,12 @@ CalibrationThread::CalibrationThread(wxEvtHandler *parent,
     double threshold = RansacConfig.threshold;
     ransac = RansacLine(maxIterations, minPoints, threshold);
 }
+
+BaseCalibrationThread::~BaseCalibrationThread() {}
+
+CalibrationThread::CalibrationThread(wxEvtHandler *parent,
+                                     std::unique_ptr<CameraBase> &camera)
+    : BaseCalibrationThread(parent), camera(std::move(camera)) {}
 
 CalibrationThread::~CalibrationThread() {}
 
@@ -47,6 +52,8 @@ wxThread::ExitCode CalibrationThread::Entry() {
             if (frame.empty()) {
                 throw std::runtime_error("Failed to capture frame");
             }
+
+            // std::cerr << "Frame size: " << frame.size() << std::endl;
 
             cv::resize(frame, frame, pSize);
 
@@ -113,25 +120,31 @@ std::unique_ptr<CameraBase> CalibrationThread::getCamera() {
     return std::move(camera);
 }
 
-void CalibrationThread::setPoint(cv::Point point) {
+void BaseCalibrationThread::setPoint(cv::Point point) {
     std::unique_lock<std::mutex> lock(m_mutex);
     this->point = point;
     bfs.setStart(point);
 }
 
+void BaseCalibrationThread::clearPoint() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    this->point = cv::Point(-1, -1);
+    bfs.setStart(point);
+}
+
 ThreadID CalibrationThread::getID() const { return threadID; }
 
-void CalibrationThread::updateYellowLine(Detection::Line line) {
+void BaseCalibrationThread::updateYellowLine(Detection::Line line) {
     std::unique_lock<std::mutex> lock(m_mutex);
     yellowLine = line;
 }
 
-void CalibrationThread::updateBlueLine(Detection::Line line) {
+void BaseCalibrationThread::updateBlueLine(Detection::Line line) {
     std::unique_lock<std::mutex> lock(m_mutex);
     blueLine = line;
 }
 
-CalibData CalibrationThread::getCalibData() {
+CalibData BaseCalibrationThread::getCalibData() {
     std::unique_lock<std::mutex> lock(m_mutex);
     return CalibData(yellowLine, blueLine);
 }

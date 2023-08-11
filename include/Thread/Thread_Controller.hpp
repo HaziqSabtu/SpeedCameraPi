@@ -3,13 +3,16 @@
 #include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_CalibPreview.hpp"
+#include "Thread/Thread_CalibPreviewCapture.hpp"
 #include "Thread/Thread_Calibration.hpp"
+#include "Thread/Thread_CalibrationCapture.hpp"
 #include "Thread/Thread_Capture.hpp"
 #include "Thread/Thread_ColorCalib.hpp"
 #include "Thread/Thread_ColorCalibPreview.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
 #include "Thread/Thread_ManualCalib.hpp"
+#include "Thread/Thread_ManualCalibCapture.hpp"
 #include "Thread/Thread_Process.hpp"
 #include "Thread/Thread_Replay.hpp"
 #include "Thread/Thread_ResultPreview.hpp"
@@ -48,11 +51,21 @@ class ThreadController {
                                          PanelID panelID);
     void endCalibrationHandler();
 
+    virtual void startCaptureCalibrationHandler(wxEvtHandler *parent,
+                                                DataPtr data, PanelID panelID);
+
+    void endCaptureCalibrationHandler();
+
     virtual void startCalibPreviewHandler(wxEvtHandler *parent,
                                           std::unique_ptr<CameraBase> &camera,
                                           DataPtr data, PanelID panelID);
 
     void endCalibPreviewHandler();
+
+    virtual void startCalibCapturePreviewHandler(wxEvtHandler *parent,
+                                                 DataPtr data, PanelID panelID);
+
+    void endCalibCapturePreviewHandler();
 
     virtual void
     startManualCalibrationHandler(wxEvtHandler *parent,
@@ -60,6 +73,12 @@ class ThreadController {
                                   PanelID panelID);
 
     void endManualCalibrationHandler();
+
+    virtual void startManualCalibrationCaptureHandler(wxEvtHandler *parent,
+                                                      DataPtr data,
+                                                      PanelID panelID);
+
+    void endManualCalibrationCaptureHandler();
 
     virtual void
     startColorCalibrationHandler(wxEvtHandler *parent,
@@ -94,11 +113,34 @@ class ThreadController {
 
     void endResultPreviewHandler();
 
+    ////////////////////////////////
+    ////////////////////////////////
+    ////////////////////////////////
+    ////////////////////////////////
+
     bool isThreadNullptr(ThreadID threadID);
 
     bool isThreadOwner(ThreadID threadID, PanelID panelID);
 
     bool isThreadsWithCameraNullptr();
+
+    // Calibration Helper Methods
+    bool isCalibrationThreadRunning();
+    bool isCalibrationThreadOwner(PanelID panelID);
+    BaseCalibrationThread *getRunningCalibrationThread();
+
+    // Manual Calibration Helper Methods
+    bool isManualCalibrationThreadRunning();
+    bool isManualCalibrationThreadOwner(PanelID panelID);
+    BaseManualCalibrationThread *getRunningManualCalibrationThread();
+
+    // Calibration Preview Helper Methods
+    bool isCalibPreviewThreadRunning();
+
+    ////////////////////////////////
+    ////////////////////////////////
+    ////////////////////////////////
+    ////////////////////////////////
 
     CaptureThread *getCaptureThread();
 
@@ -110,9 +152,15 @@ class ThreadController {
 
     CalibrationThread *getCalibrationThread();
 
+    CaptureCalibrationThread *getCaptureCalibrationThread();
+
     CalibPreviewThread *getCalibPreviewThread();
 
+    CalibCapturePreviewThread *getCalibCapturePreviewThread();
+
     ManualCalibrationThread *getManualCalibrationThread();
+
+    ManualCalibrationCaptureThread *getManualCalibrationCaptureThread();
 
     ColorCalibrationThread *getColorCalibrationThread();
 
@@ -148,9 +196,15 @@ class ThreadController {
 
     CalibrationThread *calibrationThread;
 
+    CaptureCalibrationThread *captureCalibrationThread;
+
     CalibPreviewThread *calibPreviewThread;
 
+    CalibCapturePreviewThread *calibCapturePreviewThread;
+
     ManualCalibrationThread *manualCalibrationThread;
+
+    ManualCalibrationCaptureThread *manualCalibrationCaptureThread;
 
     ColorCalibrationThread *colorCalibrationThread;
 

@@ -13,8 +13,9 @@ class ManualCalibrationMainStatusPanel : public TextOutlinePanel {
     void update(const AppState &state);
 
     BitmapButtonT2 *calibrate_Button;
+    BitmapButtonT2 *cCapture_Button;
     // BitmapButton *stop_Button;
-    BitmapButtonT2 *camera_Button;
+    // BitmapButtonT2 *camera_Button;
     BitmapButton *reset_Button;
 
   private:

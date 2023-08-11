@@ -60,30 +60,39 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CL_ToggleCamera_Button_ID) {
-        auto button = button_panel->cPanel->camera_Button;
-        OnToggleCameraButton(button);
+        auto button = button_panel->cpPanel->pCamera_button;
+        TogglePreviewButtonHandler(button);
+    }
+
+    if (e.GetId() == Enum::CL_ToggleCapture_Button_ID) {
+        auto button = button_panel->cpPanel->pCapture_button;
+        TogglePreviewCaptureButtonHandler(button);
     }
 
     if (e.GetId() == Enum::CL_Start_Button_ID) {
-        controller->e_CalibrationStart(this);
+        auto button = button_panel->cPanel->calibrate_Button;
+        ToggleCalibrationButtonHandler(button);
     }
 
-    if (e.GetId() == Enum::CL_SaveCalibration_Button_ID) {
-        controller->e_CalibrationSave(this);
-        unBindImagePanel();
-    }
-
-    if (e.GetId() == Enum::CL_CancelCalibration_Button_ID) {
-        controller->e_CalibrationEnd(this);
-        unBindImagePanel();
+    if (e.GetId() == Enum::CL_StartC_Button_ID) {
+        auto button = button_panel->cPanel->cCapture_Button;
+        ToggleCalibrationCaptureButtonHandler(button);
     }
 
     if (e.GetId() == Enum::CL_ClearCalibration_Button_ID) {
         controller->e_RemoveCalibData(this);
     }
 
+    // if (e.GetId() == Enum::CL_CancelCalibration_Button_ID) {
+    //     controller->e_CalibrationEnd(this);
+    // }
+
     if (e.GetId() == Enum::CL_SelectPoint_Button_ID) {
         img_bitmap->Bind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
+    }
+
+    if (e.GetId() == Enum::CL_ClearPoint_Button_ID) {
+        controller->e_ClearPoint(this);
     }
 
     controller->e_UpdateState(this);
@@ -95,14 +104,55 @@ void CalibrationPanel::unBindImagePanel() {
     img_bitmap->Unbind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
 }
 
-void CalibrationPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
+void CalibrationPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        controller->e_CameraStart(button);
+        controller->e_CalibrationPreviewStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        controller->e_CameraEnd(button);
+        controller->e_CalibrationPreviewEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
+void CalibrationPanel::TogglePreviewCaptureButtonHandler(
+    BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_CalibrationCapturePreviewStart(button);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_CalibrationCapturePreviewEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
+void CalibrationPanel::ToggleCalibrationButtonHandler(BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_CalibrationStart(button);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_CalibrationEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
+void CalibrationPanel::ToggleCalibrationCaptureButtonHandler(
+    BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_CalibrationCaptureStart(button);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_CalibrationCaptureEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
