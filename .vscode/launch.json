@@ -84,6 +84,11 @@
                     "description": "Don't step into standard library ",
                     "ignoreFailures": false
                 },
+                {
+                    "text": "skip -rfu ^cv::.*",
+                    "description": "Don't step into cv library ",
+                    "ignoreFailures": false
+                },
             ],
             "stopAtEntry": true,
             "targetArchitecture": "arm",

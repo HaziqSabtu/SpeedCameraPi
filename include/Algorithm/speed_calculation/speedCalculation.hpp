@@ -19,52 +19,48 @@
 #include <opencv2/core.hpp>
 
 /**
- * @brief Class for Calculating Speed of Object from Image using Optical Flow
+ * @brief Class for Calculating Speed of Tracked Objects
  *
  */
 class SpeedCalculation {
   public:
-    SpeedCalculation(const double sensorWidth, const double sensorFocalLength,
-                     const double objectWidth);
+    SpeedCalculation();
 
-    void runCalculation(std::vector<SpeedData> speedData);
-    void runCalculation2(std::vector<cv::Mat> &images,
-                         std::vector<HPTime> &times,
-                         std::vector<cv::Rect> trackedRoi,
-                         std::vector<Detection::Line> &lines);
-    void runCalculation(std::vector<ImageData> *imgData,
+    void runCalculation(std::vector<cv::Mat> &images,
+                        std::vector<HPTime> &times,
+                        std::vector<cv::Rect> trackedRoi,
                         std::vector<Detection::Line> &lines);
 
-    static std::vector<SpeedData>
-    toSpeedData(std::vector<ImageData> &imgData,
-                std::vector<std::vector<cv::Point2f>> &points);
-    void SetImageWidth(int w);
-    void SetLine(std::vector<cv::Vec4i> l);
-    double distanceFromCamera(float pixelWidth);
-    double GetAvgSpeed();
-    double rawAvgSpeed(std::vector<double> &speeds);
+    double GetTrimmedAverageSpeed(int percentage);
+    double GetRawAverageSpeed();
+    std::vector<double> GetRawSpeed() const;
 
-    static cv::Point2f intersection(float y, cv::Vec4i b);
-    static cv::Point2f intersection(cv::Vec4f a, cv::Vec4f b);
-    static double
-    calcSpeed(double prevDist, double curDist,
-              std::chrono::high_resolution_clock::time_point prevTime,
-              std::chrono::high_resolution_clock::time_point curTime);
+    double GetSensorWidth() const;
+    void SetSensorWidth(double width);
+
+    double GetFocalLength() const;
+    void SetFocalLength(double length);
+
+    double GetLaneWidth() const;
+    void SetLaneWidth(double width);
 
   private:
-    std::vector<cv::Vec4i> line;
-    std::vector<double> speeds;
-    double avgSpeed = -1;
+    double distanceFromCameraInMilli(float pixelWidth);
+
+    double calculateSpeed(double prevDist, double curDist, HPTime prevTime,
+                          HPTime curTime);
 
   private:
     int imageWidth;
-    const double LANE_WIDTH;  // in mm
-    const double SensorWidth; // in mm
-    const double FocalLength; // in mm
+    double sensorWidth = 3.68; // in mm
+    double focalLength = 3.04; // in mm
+    double laneWidth = 3500;   // in mm
 
     // set default values for prevTime -1
     double prevDistFromCamera = -1;
-    std::chrono::high_resolution_clock::time_point prevTime;
+    HPTime prevTime;
+
+    std::vector<double> speeds;
 };
 
 #endif

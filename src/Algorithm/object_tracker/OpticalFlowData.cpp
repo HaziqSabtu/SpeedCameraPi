@@ -8,9 +8,7 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include <Utils/Struct/D_OpticalFlow.hpp>
-
-namespace Detection {
+#include <Algorithm/object_tracker/OpticalFlowData.hpp>
 
 /**
  * @brief Construct a new OFPoint::OFPoint object
@@ -35,6 +33,56 @@ float OFPoint::distance(OFPoint &p1, OFPoint &p2) {
 }
 
 /**
+ * @brief Construct a new Detection Data:: Detection Data object
+ *
+ */
+DetectionData::DetectionData() : points(std::vector<OFPoint>()) {}
+
+/**
+ * @brief Construct a new Detection Data:: Detection Data object
+ *
+ * @param points vector of Optical Flow Point
+ */
+DetectionData::DetectionData(std::vector<OFPoint> points) : points(points) {}
+
+/**
+ * @brief Get Optical Flow Point from Detection Data
+ *
+ * @return std::vector<cv::Point2f>
+ */
+std::vector<cv::Point2f> DetectionData::GetPoints() {
+    std::vector<cv::Point2f> p;
+    for (int i = 0; i < points.size(); i++) {
+        p.push_back(points[i].point);
+    }
+    return p;
+}
+
+/**
+ * @brief Get Bounding Box from Detection Data
+ *
+ * @return cv::Rect
+ */
+cv::Rect DetectionData::GetRect() { return cv::boundingRect(GetPoints()); }
+
+/**
+ * @brief Get Line of the Point that located at the bottom of the Bounding Box
+ *
+ * @return Detection::Line
+ */
+Detection::Line DetectionData::GetLine() {
+    std::cout << "GetLine" << std::endl;
+    std::vector<cv::Point2f> p = GetPoints();
+    std::cout << "GetPoints: p size" << p.size() << std::endl;
+    std::sort(p.begin(), p.end(),
+              [](cv::Point2f &a, cv::Point2f &b) { return a.y > b.y; });
+    std::cout << "Sort" << std::endl;
+    cv::Point2f selected = p.front();
+    std::cout << "Selected: " << selected << std::endl;
+    return Detection::Line(selected, cv::Point2f(selected.x + 1, selected.y));
+}
+
+/**
  * @brief Construct a new Optical Flow Data:: Optical Flow Data object
  *
  */
@@ -45,7 +93,7 @@ OpticalFlowData::OpticalFlowData() {}
  * @param gray gray image
  */
 OpticalFlowData::OpticalFlowData(cv::Mat gray)
-    : gray(gray), data(std::unordered_map<int, Detection::OFPoint>()) {}
+    : gray(gray), data(std::unordered_map<int, OFPoint>()) {}
 
 /**
  * @brief Construct a new Optical Flow Data:: Optical Flow Data object
@@ -55,7 +103,7 @@ OpticalFlowData::OpticalFlowData(cv::Mat gray)
  */
 OpticalFlowData::OpticalFlowData(cv::Mat gray, std::vector<cv::Point2f> points)
     : gray(gray) {
-    data = std::unordered_map<int, Detection::OFPoint>();
+    data = std::unordered_map<int, OFPoint>();
     push(points);
 }
 
@@ -77,7 +125,7 @@ void OpticalFlowData::push(std::vector<cv::Point2f> points) {
     }
 
     for (int i = 0; i < points.size(); i++) {
-        data.insert({i, Detection::OFPoint(i, points[i], 0, 1)});
+        data.insert({i, OFPoint(i, points[i], 0, 1)});
     }
 }
 
@@ -113,8 +161,7 @@ void OpticalFlowData::push(OpticalFlowData &OFData,
     }
 
     for (int i = 0; i < points.size(); i++) {
-        data.insert(
-            {i, Detection::OFPoint(i, points[i], errors[i], status[i])});
+        data.insert({i, OFPoint(i, points[i], errors[i], status[i])});
     }
 }
 
@@ -132,8 +179,8 @@ std::vector<cv::Point2f> OpticalFlowData::GetPoints() {
  *
  * @return std::vector<cv::Point2f>
  */
-std::vector<cv::Point2f> OpticalFlowData::GetPoints(
-    std::unordered_map<int, Detection::OFPoint> &points) {
+std::vector<cv::Point2f>
+OpticalFlowData::GetPoints(std::unordered_map<int, OFPoint> &points) {
     std::vector<cv::Point2f> p;
     for (int i = 0; i < points.size(); i++) {
         p.push_back(points.find(i)->second.point);
@@ -181,15 +228,15 @@ void OpticalFlowData::update(OpticalFlowData OFData) {
  *
  * @param previous previous OpticalFlowData
  * @param threshold threshold
- * @return std::vector<Detection::OFPoint> vector of Optical Flow Point that
+ * @return std::vector<OFPoint> vector of Optical Flow Point that
  * pass threshold
  */
-std::vector<Detection::OFPoint>
-OpticalFlowData::threshold(OpticalFlowData &previous, float threshold) {
-    std::vector<Detection::OFPoint> points;
+std::vector<OFPoint> OpticalFlowData::threshold(OpticalFlowData &previous,
+                                                float threshold) {
+    std::vector<OFPoint> points;
     for (auto it = data.begin(); it != data.end(); it++) {
-        Detection::OFPoint currP = it->second;
-        Detection::OFPoint prevP = previous.GetPointById(it->first);
+        OFPoint currP = it->second;
+        OFPoint prevP = previous.GetPointById(it->first);
         if (currP.status == 1 && prevP.status == 1 &&
             OFPoint::distance(currP, prevP) > threshold) {
             points.push_back(currP);
@@ -202,8 +249,8 @@ void OpticalFlowData::thresholdPointsId(std::vector<int> &ids,
                                         OpticalFlowData &previous,
                                         float threshold) {
     for (int id : ids) {
-        Detection::OFPoint currP = GetPointById(id);
-        Detection::OFPoint prevP = previous.GetPointById(id);
+        OFPoint currP = GetPointById(id);
+        OFPoint prevP = previous.GetPointById(id);
         if (currP.status != 1 || prevP.status != 1 ||
             OFPoint::distance(currP, prevP) < threshold) {
             ids.erase(std::remove(ids.begin(), ids.end(), id), ids.end());
@@ -215,20 +262,18 @@ void OpticalFlowData::thresholdPointsId(std::vector<int> &ids,
  * @brief Get Optical Flow Point by ids
  *
  * @param ids vector of id
- * @return std::vector<Detection::OFPoint>
+ * @return std::vector<OFPoint>
  */
-std::vector<Detection::OFPoint>
-OpticalFlowData::GetPointsById(std::vector<int> &ids) {
-    std::vector<Detection::OFPoint> points;
+std::vector<OFPoint> OpticalFlowData::GetPointsById(std::vector<int> &ids) {
+    std::vector<OFPoint> points;
     for (int id : ids) {
         points.push_back(GetPointById(id));
     }
     return points;
 }
 
-std::vector<Detection::OFPoint>
-OpticalFlowData::update2(std::vector<Detection::OFPoint> &refData) {
-    std::vector<Detection::OFPoint> points;
+std::vector<OFPoint> OpticalFlowData::update2(std::vector<OFPoint> &refData) {
+    std::vector<OFPoint> points;
     for (auto data : refData) {
         if (data.status == 1) {
             points.push_back(GetPointById(data.id));
@@ -241,61 +286,6 @@ OpticalFlowData::update2(std::vector<Detection::OFPoint> &refData) {
  * @brief Get Optical Flow Point by id
  *
  * @param id id
- * @return Detection::OFPoint
+ * @return OFPoint
  */
-Detection::OFPoint OpticalFlowData::GetPointById(int id) {
-    return data.find(id)->second;
-}
-
-/**
- * @brief Construct a new Detection Data:: Detection Data object
- *
- */
-DetectionData::DetectionData() : points(std::vector<Detection::OFPoint>()) {}
-
-/**
- * @brief Construct a new Detection Data:: Detection Data object
- *
- * @param points vector of Optical Flow Point
- */
-DetectionData::DetectionData(std::vector<Detection::OFPoint> points)
-    : points(points) {}
-
-/**
- * @brief Get Optical Flow Point from Detection Data
- *
- * @return std::vector<cv::Point2f>
- */
-std::vector<cv::Point2f> DetectionData::GetPoints() {
-    std::vector<cv::Point2f> p;
-    for (int i = 0; i < points.size(); i++) {
-        p.push_back(points[i].point);
-    }
-    return p;
-}
-
-/**
- * @brief Get Bounding Box from Detection Data
- *
- * @return cv::Rect
- */
-cv::Rect DetectionData::GetRect() { return cv::boundingRect(GetPoints()); }
-
-/**
- * @brief Get Line of the Point that located at the bottom of the Bounding Box
- *
- * @return Detection::Line
- */
-Detection::Line DetectionData::GetLine() {
-    std::cout << "GetLine" << std::endl;
-    std::vector<cv::Point2f> p = GetPoints();
-    std::cout << "GetPoints: p size" << p.size() << std::endl;
-    std::sort(p.begin(), p.end(),
-              [](cv::Point2f &a, cv::Point2f &b) { return a.y > b.y; });
-    std::cout << "Sort" << std::endl;
-    cv::Point2f selected = p.front();
-    std::cout << "Selected: " << selected << std::endl;
-    return Detection::Line(selected, cv::Point2f(selected.x + 1, selected.y));
-}
-
-} // namespace Detection
+OFPoint OpticalFlowData::GetPointById(int id) { return data.find(id)->second; }

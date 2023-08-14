@@ -71,8 +71,8 @@ threshold value.
 
 ## Useful Links
 
-Detection::ObjectDetection
+ObjectDetection
 
-Detection::ObjectDetection::updateFlow
+ObjectDetection::updateFlow
 
 [OpenCV Optical Flow](https://docs.opencv.org/3.4/d4/dee/tutorial_optical_flow.html)

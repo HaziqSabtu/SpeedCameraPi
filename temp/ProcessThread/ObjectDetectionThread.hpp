@@ -1,7 +1,7 @@
 #ifndef OBJECT_DETECTION_THREAD
 #define OBJECT_DETECTION_THREAD
 
-#include <Algorithm/object_detection/ObjectDetection.hpp>
+#include <Algorithm/object_tracker/OpticalFlowTracker.hpp>
 #include <Utils/DataStruct.hpp>
 #include <wx/thread.h>
 #include <wx/wx.h>

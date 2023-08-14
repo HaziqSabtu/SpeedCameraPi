@@ -13,11 +13,11 @@
 #define OPTICAL_FLOW_TASK_HPP
 
 #include "Model/SessionData.hpp"
-#include <Algorithm/object_detection/ObjectDetection.hpp>
+#include <Algorithm/object_tracker/OpticalFlowData.hpp>
+#include <Algorithm/object_tracker/OpticalFlowTracker.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/DataStruct.hpp>
-#include <Utils/Struct/D_OpticalFlow.hpp>
 
 /**
  * @brief Task Implementation for Optical Flow Detection

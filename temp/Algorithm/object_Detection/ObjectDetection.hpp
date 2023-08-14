@@ -1,5 +1,5 @@
 /**
- * @file ObjectDetection.hpp
+ * @file OpticalFlowTracker.hpp
  * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
  * @brief Class for Detecting Objects from Image using Optical Flow
  * @version 1.0.0
@@ -12,8 +12,8 @@
 #ifndef OBJECT_DETECTION_HPP
 #define OBJECT_DETECTION_HPP
 
+#include <Algorithm/object_tracker/OpticalFlowData.hpp>
 #include <Utils/DataStruct.hpp>
-#include <Utils/Struct/D_OpticalFlow.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>

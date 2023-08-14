@@ -15,61 +15,30 @@ FlowTask::FlowTask(DataPtr data, OpticalFlowConfig config)
     : property(TaskType::TASK_FLOW), data(data), config(config) {}
 
 void FlowTask::Execute() {
-    Detection::ObjectDetection objectDetection(config.maxCorners);
-    objectDetection.SetDetectionParams(config.maxCorners, config.qualityLevel,
-                                       config.minDistance, config.blockSize,
-                                       config.useHarrisDetector, config.k,
-                                       config.minPointDistance);
+    OFTracker ofTracker;
+    ofTracker.SetMaxCorners(config.maxCorners);
+    ofTracker.SetQualityLevel(config.qualityLevel);
+    ofTracker.SetMinDistance(config.minDistance);
+    ofTracker.SetBlockSize(config.blockSize);
+    ofTracker.SetUseHarrisDetector(config.useHarrisDetector);
+    ofTracker.SetK(config.k);
+    ofTracker.SetMinPointDistance(config.minPointDistance);
+    ofTracker.SetThreshold(config.threshold);
 
-    std::vector<Detection::OpticalFlowData> flowData;
+    std::vector<cv::Mat> allignImages;
+    for (auto aD : data->getAllignData()) {
+        allignImages.push_back(aD.image);
+    }
 
-    auto aDVector = data->getAllignData();
+    //TODO: Add Redundant Tracker
 
     auto roiData = data->getRoiData();
+    auto roi = roiData.roi;
 
-    cv::Rect roi = roiData.roi;
+    auto obj = ofTracker.track(allignImages, roi);
 
-    // create mask for ROI
-    cv::Mat mask = cv::Mat::zeros(aDVector.at(0).image.size(), CV_8UC1);
-    mask(roi).setTo(255);
-
-    flowData.push_back(objectDetection.init(aDVector.at(0).image, mask));
-
-    // imgData->at(0).SetFlow(objectDetection.init(imgData->at(0).image));
-    for (int i = 1; i < aDVector.size(); i++) {
-        flowData.push_back(objectDetection.updateFlow(aDVector.at(i).image,
-                                                      flowData.at(i - 1)));
-    }
-
-    // * IDEA: Imagine Point moving in 3D space
-    // * The moving points can be seen clearly ?
-    // * Seperate with KNN CLustering
-    std::vector<int> ids;
-    for (int i = 0; i < flowData.at(0).GetPoints().size(); i++) {
-        ids.push_back(i);
-    }
-
-    for (int i = 1; i < aDVector.size(); i++) {
-        flowData.at(i).thresholdPointsId(ids, flowData.at(i - 1),
-                                         config.threshold);
-    }
-
-    for (int i = 0; i < aDVector.size(); i++) {
-        auto points = flowData.at(i).GetPointsById(ids);
-
-        //fit rectangle
-        std::vector<cv::Point2f> ps;
-
-        for (auto p : points) {
-            ps.push_back(p.point);
-        }
-
-        cv::Rect rect = cv::boundingRect(ps);
-        roiData.trackedRoi.push_back(rect);
-
-        data->setRoiData(roiData);
-        //flowData.at(i).SetDetection(imgData->at(i).flow.GetPointsById(ids));
-    }
+    roiData.trackedRoi = obj;
+    data->setRoiData(roiData);
 }
 
 /**

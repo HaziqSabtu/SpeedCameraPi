@@ -1,4 +1,4 @@
-#include <Algorithm/Object_Detection/ObjectDetection.hpp>
+#include <Algorithm/Object_Detection/OpticalFlowTracker.hpp>
 #include <Utils/DataStruct.hpp>
 #include <iostream>
 #include <memory>
@@ -43,7 +43,7 @@ int main() {
     // ...
 
     // Create ObjectDetector object
-    Detection::ObjectDetection objectDetection(maxCorners);
+    ObjectDetection objectDetection(maxCorners);
 
     // Compute the flow for the first frame and then update the flow for the
     // rest of the frames

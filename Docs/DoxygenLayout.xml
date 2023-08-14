@@ -7,7 +7,7 @@
     <tab type="user" visible="yes" title="Compiling Application" url="md__docs_markdown__compiling_programm.html"/>
     <tab type="user" visible="yes" title="Using the App" url="md__docs_markdown__using_the_app.html">
     <tab type="user" visible="yes" title="Image Allignment" url="md__docs_markdown__image_allignment.html"/>
-    <tab type="user" visible="yes" title="Object Detection" url="md__docs_markdown__object_detection.html"/>
+    <tab type="user" visible="yes" title="Object Detection" url="md__docs_markdown__object_tracker.html"/>
     <tab type="user" visible="yes" title="Line Detection" url="md__docs_markdown__line_detection.html"/>
     <tab type="user" visible="yes" title="Speed Calculation" url="md__docs_markdown__speed_calculation.html"/>
     <!-- </tab> -->

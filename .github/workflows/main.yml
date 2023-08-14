@@ -47,7 +47,7 @@ jobs:
       - name: Find and Replace
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: 'md__docs_markdown__object_detection'
+          find: 'md__docs_markdown__object_tracker'
           replace: 'md_Docs_markdown_ObjectDetection'
           include: '**DoxygenLayout.xml'
           regex: false

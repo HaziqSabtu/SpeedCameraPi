@@ -49,6 +49,7 @@ wxThread::ExitCode ProcessThread::Entry() {
             wxMilliSleep(500);
         }
 
+        // Speed Calculation
         auto roi = data->getRoiData().roi;
         if (roi.area() <= 0) {
             throw std::runtime_error("ROI is not set");
@@ -68,23 +69,17 @@ wxThread::ExitCode ProcessThread::Entry() {
             wxMilliSleep(100);
         }
 
+        // Speed Calculation
         auto roiData = data->getRoiData().trackedRoi;
-        // for every rect, cerr the position
-        for (int i = 0; i < roiData.size(); i++) {
-            if (roiData.at(i).area() <= 0) {
-                std::cerr << "ROI " << i << " is empty" << std::endl;
-                continue;
-            }
-            std::cerr << roiData.at(i) << std::endl;
-        }
 
         auto sensorConfig = c.GetSensorConfig();
-        SpeedCalculation speedCalc(sensorConfig.SensorWidth,
-                                   sensorConfig.SensorFocalLength,
-                                   sensorConfig.ObjectWidth);
+
+        SpeedCalculation speedCalc;
+        speedCalc.SetSensorWidth(sensorConfig.SensorWidth);
+        speedCalc.SetFocalLength(sensorConfig.SensorFocalLength);
+        speedCalc.SetLaneWidth(sensorConfig.ObjectWidth);
 
         auto allignData = data->getAllignData();
-        speedCalc.SetImageWidth(allignData.at(0).image.cols);
 
         std::vector<cv::Mat> allignImages;
         for (auto d : allignData) {
@@ -105,40 +100,16 @@ wxThread::ExitCode ProcessThread::Entry() {
         lines.push_back(calibData.lineLeft);
         lines.push_back(calibData.lineRight);
 
-        speedCalc.runCalculation2(allignImages, times, roiData, lines);
+        speedCalc.runCalculation(allignImages, times, roiData, lines);
 
-        auto speed = speedCalc.GetAvgSpeed();
+        auto speed = speedCalc.GetTrimmedAverageSpeed(20) * 3.6;
 
-        std::cerr << "Speed: " << speed << " m/s" << std::endl;
-
-        std::string resultString = "Speed: " + std::to_string(speed) + " m/s, ";
+        std::string resultString = "Speed: " + std::to_string(speed) + " km/h";
         UpdateStatusEvent::Submit(parent, resultString);
 
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
-
-    // UpdateStatusEvent::Submit(parent, "Stop Process Thread");
-
-    // for (int i = 0; i < imgData->size(); i++) {
-    //     cv::Mat frame = imgData->at(i).allign.image;
-    //     UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
-    //                                           UPDATE_PREVIEW);
-    //     updatePreviewEvent.SetImage(frame);
-    //     wxPostEvent(parent, updatePreviewEvent);
-    //     wxMilliSleep(200);
-    // }
-
-    // FlowTask *flowTask = new FlowTask(imgData, ofConfig);
-    // TaskProperty flowProperty = flowTask->GetProperty();
-    // pool->AddTask(flowTask);
-    // while (pool->isWorkerBusy(flowProperty) ||
-    // pool->HasTasks(flowProperty)) {
-    //     wxMilliSleep(100);
-    // }
-
-    // wxCommandEvent processImageEvent(c_PROCESS_IMAGE_EVENT,
-    // PROCESS_END); wxPostEvent(parent, processImageEvent);
 
     return 0;
 }

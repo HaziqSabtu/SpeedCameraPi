@@ -37,12 +37,12 @@ SpeedTask::SpeedTask(std::vector<ImageData> *imgData,
  *
  */
 void SpeedTask::Execute() {
-    SpeedCalculation speedCalc(sensorConfig.SensorWidth,
-                               sensorConfig.SensorFocalLength,
-                               sensorConfig.ObjectWidth);
-    speedCalc.SetImageWidth(imgData->at(0).image.cols);
-    speedCalc.runCalculation(imgData, selectedLine);
-    result.reset(new float(speedCalc.GetAvgSpeed()));
+    // SpeedCalculation speedCalc(sensorConfig.SensorWidth,
+    //                            sensorConfig.SensorFocalLength,
+    //                            sensorConfig.ObjectWidth);
+    // speedCalc.SetImageWidth(imgData->at(0).image.cols);
+    // speedCalc.runCalculation(imgData, selectedLine);
+    // result.reset(new float(speedCalc.GetAvgSpeed()));
 }
 
 /**

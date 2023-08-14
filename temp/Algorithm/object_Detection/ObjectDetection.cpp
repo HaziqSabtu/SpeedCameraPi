@@ -9,7 +9,7 @@
  *
  */
 
-#include <Algorithm/object_detection/ObjectDetection.hpp>
+#include <Algorithm/object_tracker/OpticalFlowTracker.hpp>
 
 /**
  * @brief Construct a new Object Detection:: Object Detection object
@@ -17,7 +17,7 @@
  * @param rng random number generator
  * @param maxCorners maximum number of corners to be detected
  */
-ObjectDetection::ObjectDetection(cv::RNG rng, int maxCorners) : rng(rng) {
+ObjectObjectDetection(cv::RNG rng, int maxCorners) : rng(rng) {
     this->maxCorners = maxCorners;
     for (int i = 0; i < maxCorners; i++) {
         colors.push_back(cv::Scalar(rng.uniform(0, 255), rng.uniform(0, 255),
@@ -26,9 +26,9 @@ ObjectDetection::ObjectDetection(cv::RNG rng, int maxCorners) : rng(rng) {
 }
 
 /**
- * @overload ObjectDetection::ObjectDetection(rng, 1000)
+ * @overload ObjectObjectDetection(rng, 1000)
  */
-ObjectDetection::ObjectDetection(cv::RNG rng) : ObjectDetection(rng, 1000) {}
+ObjectObjectDetection(cv::RNG rng) : ObjectDetection(rng, 1000) {}
 
 /**
  * @brief Initialize Optical Flow

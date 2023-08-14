@@ -12,9 +12,9 @@
 #ifndef DATA_STRUCT_HPP
 #define DATA_STRUCT_HPP
 
+#include <Algorithm/object_tracker/OpticalFlowData.hpp>
 #include <Utils/Struct/D_Allign.hpp>
 #include <Utils/Struct/D_Hough.hpp>
-#include <Utils/Struct/D_OpticalFlow.hpp>
 #include <chrono>
 #include <opencv2/opencv.hpp>
 
@@ -32,9 +32,9 @@ struct ImageData {
 
     Detection::HoughData hough;
 
-    Detection::OpticalFlowData flow;
+    OpticalFlowData flow;
 
-    Detection::DetectionData detection;
+    DetectionData detection;
 
     ImageData() {}
 
@@ -50,13 +50,11 @@ struct ImageData {
 
     void SetHough(Detection::HoughData hough) { this->hough = hough; }
 
-    void SetFlow(Detection::OpticalFlowData flow) { this->flow = flow; }
+    void SetFlow(OpticalFlowData flow) { this->flow = flow; }
 
-    void SetDetection(Detection::DetectionData detection) {
-        this->detection = detection;
-    }
+    void SetDetection(DetectionData detection) { this->detection = detection; }
 
-    Detection::OpticalFlowData GetFlow() { return flow; }
+    OpticalFlowData GetFlow() { return flow; }
 };
 
 //TODO: Remove this struct
