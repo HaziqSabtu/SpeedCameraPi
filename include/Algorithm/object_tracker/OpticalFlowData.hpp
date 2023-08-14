@@ -41,7 +41,7 @@ struct DetectionData {
 
     std::vector<cv::Point2f> GetPoints();
     cv::Rect GetRect();
-    Detection::Line GetLine();
+    Line GetLine();
 };
 
 /**

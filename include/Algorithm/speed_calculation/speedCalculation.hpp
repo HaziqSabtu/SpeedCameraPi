@@ -29,7 +29,7 @@ class SpeedCalculation {
     void runCalculation(std::vector<cv::Mat> &images,
                         std::vector<HPTime> &times,
                         std::vector<cv::Rect> trackedRoi,
-                        std::vector<Detection::Line> &lines);
+                        std::vector<Line> &lines);
 
     double GetTrimmedAverageSpeed(int percentage);
     double GetRawAverageSpeed();

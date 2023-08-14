@@ -22,8 +22,8 @@ HoughData::HoughData() {}
  * @brief Construct a new Hough Data:: Hough Data object
  *
  * @param canny cv::Mat image of canny edge detection
- * @param lines std::vector<Detection::Line> lines detected
+ * @param lines std::vector<Line> lines detected
  */
-HoughData::HoughData(cv::Mat canny, std::vector<Detection::Line> lines)
+HoughData::HoughData(cv::Mat canny, std::vector<Line> lines)
     : canny(canny), lines(lines) {}
 } // namespace Detection

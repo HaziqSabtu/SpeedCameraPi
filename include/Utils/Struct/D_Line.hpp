@@ -9,13 +9,11 @@
  *
  */
 
-#ifndef D_LINE_HPP
-#define D_LINE_HPP
+#pragma once
 
 #include <opencv2/core.hpp>
 #include <string>
 
-namespace Detection {
 /**
  * @brief Custom Implementation of Line Struct with Standard Methods
  *
@@ -46,7 +44,7 @@ struct Line {
 
     bool isIntersect(cv::Point2f p, int radius);
 
-    static Line Average(std::vector<Detection::Line> lines);
+    static Line Average(std::vector<Line> lines);
 
     std::string ToString();
 
@@ -62,6 +60,3 @@ struct Line {
 
     bool isHorizontal();
 };
-} // namespace Detection
-
-#endif

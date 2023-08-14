@@ -29,51 +29,51 @@
 
 class CameraPanel : public wxPanel {
   public:
-    CameraPanel(wxWindow* parent, wxWindowID id, AppConfig* config);
+    CameraPanel(wxWindow *parent, wxWindowID id, AppConfig *config);
     ~CameraPanel();
 
   private:
     LibCam camera;
     ThreadPool threadPool;
 
-    ProcessThread* processThread;
-    HoughThread* houghThread;
-    ResultThread* resultThread;
-    SpeedThread* speedThread;
-    LoadFileThread* loadFileThread;
-    LoadCaptureThread* loadCaptureThread;
-    CaptureThread* captureThread;
+    ProcessThread *processThread;
+    HoughThread *houghThread;
+    ResultThread *resultThread;
+    SpeedThread *speedThread;
+    LoadFileThread *loadFileThread;
+    LoadCaptureThread *loadCaptureThread;
+    CaptureThread *captureThread;
 
-    CameraPanelButton* button_panel;
-    ButtonPanelHough* button_panel_hough;
-    PanelButtonResult* button_panel_result;
-    ImagePanel* img_bitmap;
+    CameraPanelButton *button_panel;
+    ButtonPanelHough *button_panel_hough;
+    PanelButtonResult *button_panel_result;
+    ImagePanel *img_bitmap;
 
-    wxBoxSizer* main_sizer;
+    wxBoxSizer *main_sizer;
 
     const int circleRadius;
-    std::vector<ImageData>* imgData;
-    std::vector<Detection::Line> selectedLine;
+    std::vector<ImageData> *imgData;
+    std::vector<Line> selectedLine;
     std::vector<cv::Point2f> selectedPoint;
 
-    void addLine(Detection::Line line);
+    void addLine(Line line);
     void searchLine(cv::Point2f realMousePos);
 
     int currentImageIndex = 0;
     void OnIncrement();
     void OnDecrement();
 
-    void deleteThread(wxThread* thread);
-    void waitThenDeleteThread(wxThread* thread);
+    void deleteThread(wxThread *thread);
+    void waitThenDeleteThread(wxThread *thread);
 
-    void OnButton(wxCommandEvent& e);
-    void OnLeftDown(wxMouseEvent& e);
-    void OnSize(wxSizeEvent& e);
-    void OnUpdateImage(UpdateImageEvent& e);
-    void OnProcessImage(wxCommandEvent& e);
-    void OnCaptureImage(wxCommandEvent& e);
-    void OnHough(HoughEvent& e);
-    void OnSpeed(SpeedCalcEvent& e);
+    void OnButton(wxCommandEvent &e);
+    void OnLeftDown(wxMouseEvent &e);
+    void OnSize(wxSizeEvent &e);
+    void OnUpdateImage(UpdateImageEvent &e);
+    void OnProcessImage(wxCommandEvent &e);
+    void OnCaptureImage(wxCommandEvent &e);
+    void OnHough(HoughEvent &e);
+    void OnSpeed(SpeedCalcEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

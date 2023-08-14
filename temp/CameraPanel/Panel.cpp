@@ -375,9 +375,8 @@ void CameraPanel::searchLine(cv::Point2f realMousePos) {
         return;
     }
 
-    std::vector<Detection::Line> detLines;
-    std::vector<Detection::Line> linesP =
-        imgData->at(currentImageIndex).hough.lines;
+    std::vector<Line> detLines;
+    std::vector<Line> linesP = imgData->at(currentImageIndex).hough.lines;
 
     if (linesP.empty()) {
         return;
@@ -393,7 +392,7 @@ void CameraPanel::searchLine(cv::Point2f realMousePos) {
         return;
     }
 
-    Detection::Line avgLine = Detection::Line::Average(detLines);
+    Line avgLine = Line::Average(detLines);
     addLine(avgLine.Extrapolate(imgData->at(currentImageIndex).image));
 }
 
@@ -418,7 +417,7 @@ void CameraPanel::waitThenDeleteThread(wxThread *thread) {
     }
 }
 
-void CameraPanel::addLine(Detection::Line line) {
+void CameraPanel::addLine(Line line) {
     if (selectedLine.size() <= 1) {
         selectedLine.push_back(line);
     } else {

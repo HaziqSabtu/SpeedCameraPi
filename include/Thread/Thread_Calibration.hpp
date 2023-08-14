@@ -42,12 +42,12 @@ class BaseCalibrationThread : public wxThread {
 
     std::mutex m_mutex;
     cv::Point point;
-    Detection::Line yellowLine;
-    Detection::Line blueLine;
+    Line yellowLine;
+    Line blueLine;
 
   protected:
-    void updateYellowLine(Detection::Line line);
-    void updateBlueLine(Detection::Line line);
+    void updateYellowLine(Line line);
+    void updateBlueLine(Line line);
 };
 
 class CalibrationThread : public BaseCalibrationThread {

@@ -3,22 +3,22 @@
 #include "Utils/Struct/D_Line.hpp"
 
 struct CalibData {
-    Detection::Line lineLeft;
-    Detection::Line lineRight;
+    Line lineLeft;
+    Line lineRight;
 
     CalibData() {
-        lineLeft = Detection::Line();
-        lineRight = Detection::Line();
+        lineLeft = Line();
+        lineRight = Line();
     }
 
-    CalibData(Detection::Line lineLeft, Detection::Line lineRight) {
+    CalibData(Line lineLeft, Line lineRight) {
         this->lineLeft = lineLeft;
         this->lineRight = lineRight;
     }
 
     void clear() {
-        lineLeft = Detection::Line();
-        lineRight = Detection::Line();
+        lineLeft = Line();
+        lineRight = Line();
     }
 
     bool isNull() { return lineLeft.isNull() || lineRight.isNull(); }

@@ -17,11 +17,11 @@ class RansacLine {
     RansacLine();
     RansacLine(int numIterations, int minPoints, double threshold);
 
-    Detection::Line run(cv::Mat &src);
+    Line run(cv::Mat &src);
 
     std::vector<cv::Point> maskToPoint(cv::Mat &mask);
 
-    int countInliers(std::vector<cv::Point> &points, Detection::Line &line);
+    int countInliers(std::vector<cv::Point> &points, Line &line);
 
     // accessors
   public:

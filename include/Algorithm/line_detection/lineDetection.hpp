@@ -30,7 +30,7 @@ class LineDetection {
                                   double minLineLength, double maxLineGap);
     cv::Mat GetCanny();
     std::vector<cv::Vec4i> &GetLinesP();
-    std::vector<Detection::Line> GetLines();
+    std::vector<Line> GetLines();
     Detection::HoughData GetHoughData();
     void ProcessImage();
 

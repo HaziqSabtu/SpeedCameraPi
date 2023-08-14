@@ -59,7 +59,7 @@ wxThread::ExitCode CaptureCalibrationThread::Entry() {
                 cv::bitwise_and(hsvFrame, hsvFrame, combined, mask);
 
                 cv::Mat mask_yellow = hsvFilter.yellowMask(combined);
-                Detection::Line yellowLine =
+                Line yellowLine =
                     ransac.run(mask_yellow).Extrapolate(mask_yellow);
                 if (!yellowLine.isNull()) {
                     updateYellowLine(yellowLine);
@@ -68,8 +68,7 @@ wxThread::ExitCode CaptureCalibrationThread::Entry() {
                 }
 
                 cv::Mat mask_blue = hsvFilter.blueMask(combined);
-                Detection::Line blueLine =
-                    ransac.run(mask_blue).Extrapolate(mask_blue);
+                Line blueLine = ransac.run(mask_blue).Extrapolate(mask_blue);
                 if (!blueLine.isNull()) {
                     updateBlueLine(blueLine);
                     cv::line(previewImage, blueLine.p1, blueLine.p2,

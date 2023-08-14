@@ -31,14 +31,12 @@
 class CameraPanel2 : public wxPanel {
   public:
     // CameraPanel2(wxWindow* parent, wxWindowID id, AppConfig* config);
-    CameraPanel2(wxWindow* parent,
-                 wxWindowID id,
-                 AppConfig* config,
-                 Model* model);
+    CameraPanel2(wxWindow *parent, wxWindowID id, AppConfig *config,
+                 Model *model);
     ~CameraPanel2();
 
   private:
-    Model* model;
+    Model *model;
     // LibCam camera;
     // ThreadPool threadPool;
 
@@ -50,20 +48,20 @@ class CameraPanel2 : public wxPanel {
     // LoadCaptureThread *loadCaptureThread;
     // CaptureThread *captureThread;
 
-    CameraPanelButton* button_panel;
+    CameraPanelButton *button_panel;
     // ButtonPanelHough *button_panel_hough;
     // PanelButtonResult *button_panel_result;
     // ImagePanel* img_bitmap;
-    ImagePanelBitmap* img_bitmap;
+    ImagePanelBitmap *img_bitmap;
 
-    wxBoxSizer* main_sizer;
+    wxBoxSizer *main_sizer;
 
     // const int circleRadius;
     // std::vector<ImageData> *imgData;
-    // std::vector<Detection::Line> selectedLine;
+    // std::vector<Line> selectedLine;
     // std::vector<cv::Point2f> selectedPoint;
 
-    // void addLine(Detection::Line line);
+    // void addLine(Line line);
     // void searchLine(cv::Point2f realMousePos);
 
     // int currentImageIndex = 0;
@@ -72,18 +70,18 @@ class CameraPanel2 : public wxPanel {
 
     // void deleteThread(wxThread *thread);
     // void waitThenDeleteThread(wxThread *thread);
-    void OnLoadButton(ButtonWState* button);
-    void OnCaptureButton(ButtonWState* button);
-    void OnToggleCameraButton(ButtonWState* button);
+    void OnLoadButton(ButtonWState *button);
+    void OnCaptureButton(ButtonWState *button);
+    void OnToggleCameraButton(ButtonWState *button);
 
-    void OnButton(wxCommandEvent& e);
+    void OnButton(wxCommandEvent &e);
     // void OnLeftDown(wxMouseEvent &e);
     // void OnSize(wxSizeEvent &e);
-    void OnUpdatePreview(UpdatePreviewEvent& e);
+    void OnUpdatePreview(UpdatePreviewEvent &e);
     // void OnProcessImage(wxCommandEvent &e);
     // void OnCaptureImage(CaptureImageEvent &e);
-    void onLoadImage(wxCommandEvent& e);
-    void OnError(ErrorEvent& e);
+    void onLoadImage(wxCommandEvent &e);
+    void OnError(ErrorEvent &e);
     // void OnHough(HoughEvent &e);
     // void OnSpeed(SpeedCalcEvent &e);
 

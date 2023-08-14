@@ -21,9 +21,9 @@ namespace Detection {
  */
 struct HoughData {
     cv::Mat canny;
-    std::vector<Detection::Line> lines;
+    std::vector<Line> lines;
 
-    HoughData(cv::Mat canny, std::vector<Detection::Line> lines);
+    HoughData(cv::Mat canny, std::vector<Line> lines);
 
     HoughData();
 };

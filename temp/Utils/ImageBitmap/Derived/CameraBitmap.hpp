@@ -16,15 +16,15 @@ class CameraBitmap : public ImageBitmap {
     void SetIsCapturing(bool *isCapturing);
     void SetIsProcessing(bool *isProcessing);
     void SetPoints(std::vector<cv::Point2f> *ptns);
-    void SetHoughLines(std::vector<Detection::Line> houghLines);
-    void setSelectedLines(std::vector<Detection::Line> *selectedLines);
+    void SetHoughLines(std::vector<Line> houghLines);
+    void setSelectedLines(std::vector<Line> *selectedLines);
     virtual void drawBitMap() override;
     void SetImg(cv::Mat *img);
 
   private:
     std::vector<cv::Point2f> *ptns;
-    std::vector<Detection::Line> houghLines;
-    std::vector<Detection::Line> *selectedLines;
+    std::vector<Line> houghLines;
+    std::vector<Line> *selectedLines;
 
     bool *isCapturing;
     bool *isProcessing;

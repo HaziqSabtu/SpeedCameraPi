@@ -96,7 +96,7 @@ wxThread::ExitCode ProcessThread::Entry() {
         }
 
         auto calibData = data->getCalibData();
-        std::vector<Detection::Line> lines;
+        std::vector<Line> lines;
         lines.push_back(calibData.lineLeft);
         lines.push_back(calibData.lineRight);
 

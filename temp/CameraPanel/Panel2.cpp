@@ -428,8 +428,8 @@ void CameraPanel2::OnUpdatePreview(UpdatePreviewEvent &e) {
 //         return;
 //     }
 
-//     std::vector<Detection::Line> detLines;
-//     std::vector<Detection::Line> linesP =
+//     std::vector<Line> detLines;
+//     std::vector<Line> linesP =
 //         imgData->at(currentImageIndex).hough.lines;
 
 //     if (linesP.empty()) {
@@ -446,7 +446,7 @@ void CameraPanel2::OnUpdatePreview(UpdatePreviewEvent &e) {
 //         return;
 //     }
 
-//     Detection::Line avgLine = Detection::Line::Average(detLines);
+//     Line avgLine = Line::Average(detLines);
 //     addLine(avgLine.Extrapolate(imgData->at(currentImageIndex).image));
 // }
 
@@ -471,7 +471,7 @@ void CameraPanel2::OnUpdatePreview(UpdatePreviewEvent &e) {
 //     }
 // }
 
-// void CameraPanel2::addLine(Detection::Line line) {
+// void CameraPanel2::addLine(Line line) {
 //     if (selectedLine.size() <= 1) {
 //         selectedLine.push_back(line);
 //     } else {

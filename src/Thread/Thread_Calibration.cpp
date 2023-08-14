@@ -73,7 +73,7 @@ wxThread::ExitCode CalibrationThread::Entry() {
                 cv::bitwise_and(hsvFrame, hsvFrame, combined, mask);
 
                 cv::Mat mask_yellow = hsvFilter.yellowMask(combined);
-                Detection::Line yellowLine =
+                Line yellowLine =
                     ransac.run(mask_yellow).Extrapolate(mask_yellow);
                 if (!yellowLine.isNull()) {
                     updateYellowLine(yellowLine);
@@ -82,8 +82,7 @@ wxThread::ExitCode CalibrationThread::Entry() {
                 }
 
                 cv::Mat mask_blue = hsvFilter.blueMask(combined);
-                Detection::Line blueLine =
-                    ransac.run(mask_blue).Extrapolate(mask_blue);
+                Line blueLine = ransac.run(mask_blue).Extrapolate(mask_blue);
                 if (!blueLine.isNull()) {
                     updateBlueLine(blueLine);
                     cv::line(frame, blueLine.p1, blueLine.p2,
@@ -134,12 +133,12 @@ void BaseCalibrationThread::clearPoint() {
 
 ThreadID CalibrationThread::getID() const { return threadID; }
 
-void BaseCalibrationThread::updateYellowLine(Detection::Line line) {
+void BaseCalibrationThread::updateYellowLine(Line line) {
     std::unique_lock<std::mutex> lock(m_mutex);
     yellowLine = line;
 }
 
-void BaseCalibrationThread::updateBlueLine(Detection::Line line) {
+void BaseCalibrationThread::updateBlueLine(Line line) {
     std::unique_lock<std::mutex> lock(m_mutex);
     blueLine = line;
 }

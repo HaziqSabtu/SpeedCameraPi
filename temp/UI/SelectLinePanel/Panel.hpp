@@ -16,7 +16,7 @@ class SelectLinePanel : public wxPanel {
     SelectLinePanel(wxWindow *parent, wxWindowID id);
     ~SelectLinePanel();
 
-    std::vector<Detection::Line> GetSelectedLines();
+    std::vector<Line> GetSelectedLines();
     std::vector<ImageData> GetImgData();
     void OnPageChange();
 
@@ -27,7 +27,7 @@ class SelectLinePanel : public wxPanel {
     std::vector<ImageData> imgData;
     std::vector<cv::Point2f> *ptns;
     std::vector<cv::Vec4i> *houghLines;
-    std::vector<Detection::Line> *selectedLines;
+    std::vector<Line> *selectedLines;
 
     LineDetection lineDetection;
 
@@ -45,7 +45,7 @@ class SelectLinePanel : public wxPanel {
     void OnDecrement();
 
     void checkForLine(wxPoint realMousePos);
-    void addLine(Detection::Line line);
+    void addLine(Line line);
     void addPoints(wxPoint realMousePos);
 
     DECLARE_EVENT_TABLE()

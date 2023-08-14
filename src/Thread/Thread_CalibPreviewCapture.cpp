@@ -56,8 +56,8 @@ wxThread::ExitCode CalibCapturePreviewThread::Entry() {
                 cv::Scalar yellow(0, 255, 255);
                 cv::Scalar blue(255, 0, 0);
 
-                Detection::Line left = calibData.lineLeft;
-                Detection::Line right = calibData.lineRight;
+                Line left = calibData.lineLeft;
+                Line right = calibData.lineRight;
 
                 left = left.Scale(imageSize, pSize);
                 right = right.Scale(imageSize, pSize);

@@ -68,9 +68,9 @@ cv::Rect DetectionData::GetRect() { return cv::boundingRect(GetPoints()); }
 /**
  * @brief Get Line of the Point that located at the bottom of the Bounding Box
  *
- * @return Detection::Line
+ * @return Line
  */
-Detection::Line DetectionData::GetLine() {
+Line DetectionData::GetLine() {
     std::cout << "GetLine" << std::endl;
     std::vector<cv::Point2f> p = GetPoints();
     std::cout << "GetPoints: p size" << p.size() << std::endl;
@@ -79,7 +79,7 @@ Detection::Line DetectionData::GetLine() {
     std::cout << "Sort" << std::endl;
     cv::Point2f selected = p.front();
     std::cout << "Selected: " << selected << std::endl;
-    return Detection::Line(selected, cv::Point2f(selected.x + 1, selected.y));
+    return Line(selected, cv::Point2f(selected.x + 1, selected.y));
 }
 
 /**

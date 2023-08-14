@@ -549,7 +549,7 @@ void ManualCalibrationController::removeLeftHandler(wxEvtHandler *parent) {
 
     auto thread = tc->getRunningManualCalibrationThread();
 
-    thread->setBlueLine(Detection::Line());
+    thread->setBlueLine(Line());
 }
 
 void ManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
@@ -566,7 +566,7 @@ void ManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
 
     auto thread = tc->getRunningManualCalibrationThread();
 
-    thread->setYellowLine(Detection::Line());
+    thread->setYellowLine(Line());
 }
 
 void ManualCalibrationController::createTempSessionDataHandler(

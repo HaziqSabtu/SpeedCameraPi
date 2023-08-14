@@ -33,11 +33,11 @@ class BaseManualCalibrationThread : public wxThread {
     void setDirection(ManualDirection direction);
     ManualDirection getDirection();
 
-    void setYellowLine(Detection::Line line);
-    Detection::Line getYellowLine();
+    void setYellowLine(Line line);
+    Line getYellowLine();
 
-    void setBlueLine(Detection::Line line);
-    Detection::Line getBlueLine();
+    void setBlueLine(Line line);
+    Line getBlueLine();
 
     virtual ThreadID getID() const = 0;
 
@@ -45,18 +45,18 @@ class BaseManualCalibrationThread : public wxThread {
     wxEvtHandler *parent;
 
     std::mutex m_mutex;
-    Detection::Line yellowLine;
-    Detection::Line blueLine;
+    Line yellowLine;
+    Line blueLine;
 
     ManualDirection direction = MANUAL_LEFT;
 
     cv::Size pSize;
 
   protected:
-    void updateYellowLine(Detection::Line line);
-    void updateBlueLine(Detection::Line line);
+    void updateYellowLine(Line line);
+    void updateBlueLine(Line line);
 
-    bool isLineValid(Detection::Line &line);
+    bool isLineValid(Line &line);
 };
 
 class ManualCalibrationThread : public BaseManualCalibrationThread {

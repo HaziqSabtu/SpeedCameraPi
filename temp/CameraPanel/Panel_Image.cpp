@@ -80,7 +80,7 @@ void ImagePanel::SetShowSelectedLine(bool isl) {
     paintNow();
 }
 
-void ImagePanel::SetSelectedLine(std::vector<Detection::Line> &selectedLine) {
+void ImagePanel::SetSelectedLine(std::vector<Line> &selectedLine) {
     this->selectedLine = selectedLine;
     paintNow();
 }
@@ -115,15 +115,9 @@ void ImagePanel::render(wxDC &dc) {
     calcRatio(dc);
 
     switch (showType) {
-    case SHOW_TYPE_NONE:
-        image = noImage.clone();
-        break;
-    case SHOW_TYPE_IMAGE:
-        image = imgData.image.clone();
-        break;
-    case SHOW_TYPE_CANNY:
-        image = imgData.hough.canny.clone();
-        break;
+        case SHOW_TYPE_NONE: image = noImage.clone(); break;
+        case SHOW_TYPE_IMAGE: image = imgData.image.clone(); break;
+        case SHOW_TYPE_CANNY: image = imgData.hough.canny.clone(); break;
     }
 
     if (isShowHoughLine && !imgData.hough.lines.empty()) {
@@ -161,10 +155,10 @@ void ImagePanel::render(wxDC &dc) {
         }
 
         if (isBotLine && !selectedLine.empty()) {
-            Detection::Line l = imgData.detection.GetLine();
+            Line l = imgData.detection.GetLine();
             cv::Point2f int1 = l.Intersection(selectedLine[0]);
             cv::Point2f int2 = l.Intersection(selectedLine[1]);
-            Detection::Line botLine(int1, int2);
+            Line botLine(int1, int2);
             cv::line(image, botLine.p1, botLine.p2, cv::Scalar(0, 255, 0), 2,
                      cv::LINE_AA);
         }

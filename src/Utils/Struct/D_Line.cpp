@@ -12,8 +12,6 @@
 #include <Utils/Struct/D_Line.hpp>
 #include <stdexcept>
 
-namespace Detection {
-
 /**
  * @brief Construct a new Line:: Line object
  *
@@ -63,7 +61,7 @@ double Line::Distance(cv::Point2f p) {
     double a = p1.y - p2.y;
     double b = p2.x - p1.x;
     double c = p1.x * p2.y - p2.x * p1.y;
-    return abs(a * p.x + b * p.y + c) / sqrt(a * a + b * b);
+    return std::abs(a * p.x + b * p.y + c) / sqrt(a * a + b * b);
 }
 
 /**
@@ -172,7 +170,7 @@ bool Line::isIntersect(cv::Point2f p, int radius) {
  * @param lines lines vector to be averaged
  * @return Line averaged line
  */
-Line Line::Average(std::vector<Detection::Line> lines) {
+Line Line::Average(std::vector<Line> lines) {
     cv::Point2f p1;
     cv::Point2f p2;
 
@@ -238,5 +236,3 @@ bool Line::isHorizontal() {
 
     return false;
 }
-
-} // namespace Detection

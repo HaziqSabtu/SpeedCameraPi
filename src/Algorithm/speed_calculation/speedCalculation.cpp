@@ -18,7 +18,7 @@ SpeedCalculation::SpeedCalculation() {}
 void SpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
                                       std::vector<HPTime> &times,
                                       std::vector<cv::Rect> trackedRoi,
-                                      std::vector<Detection::Line> &lines) {
+                                      std::vector<Line> &lines) {
     if (lines.size() != 2) {
         throw std::invalid_argument("Lines size must be 2");
         return;
@@ -37,7 +37,7 @@ void SpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
         cv::Point br = roi.br();
         cv::Point bl = roi.br() - cv::Point(roi.width, 0);
 
-        auto botL = Detection::Line(br, bl).Extrapolate(images.at(i));
+        auto botL = Line(br, bl).Extrapolate(images.at(i));
 
         cv::Point2f intersection1 = botL.Intersection(lines[0]);
         cv::Point2f intersection2 = botL.Intersection(lines[1]);

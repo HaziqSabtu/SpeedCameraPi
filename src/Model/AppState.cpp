@@ -597,7 +597,7 @@ PanelState AppState::getMCLeftStatusState(ModelPtr model) {
     auto data = model->getSessionData();
     auto calibData = data->getCalibData();
 
-    Detection::Line line = calibData.lineLeft;
+    Line line = calibData.lineLeft;
 
     if (line.isNull()) {
         return PanelState::PANEL_NOT_OK;
@@ -639,7 +639,7 @@ PanelState AppState::getMCRightStatusState(ModelPtr model) {
 
     auto calibData = model->sessionData.getCalibData();
 
-    Detection::Line line = calibData.lineRight;
+    Line line = calibData.lineRight;
 
     if (line.isNull()) {
         return PanelState::PANEL_NOT_OK;

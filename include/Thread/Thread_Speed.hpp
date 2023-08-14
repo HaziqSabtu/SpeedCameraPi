@@ -30,8 +30,7 @@ class SpeedThread : public wxThread {
   public:
     SpeedThread(wxEvtHandler *parent, ThreadPool *pool,
                 std::vector<ImageData> *imgData,
-                std::vector<Detection::Line> &selectedLine,
-                SensorConfig sensorConfig);
+                std::vector<Line> &selectedLine, SensorConfig sensorConfig);
     ~SpeedThread();
 
   protected:
@@ -41,7 +40,7 @@ class SpeedThread : public wxThread {
     wxEvtHandler *m_parent;
     std::vector<ImageData> *imgData;
     ThreadPool *pool;
-    std::vector<Detection::Line> selectedLine;
+    std::vector<Line> selectedLine;
     SensorConfig sensorConfig;
 };
 

@@ -20,10 +20,9 @@
  * @param selectedLine vector of selected line
  * @param sensorConfig SensorConfig
  */
-SpeedThread::SpeedThread(wxEvtHandler* parent,
-                         ThreadPool* pool,
-                         std::vector<ImageData>* imgData,
-                         std::vector<Detection::Line>& selectedLine,
+SpeedThread::SpeedThread(wxEvtHandler *parent, ThreadPool *pool,
+                         std::vector<ImageData> *imgData,
+                         std::vector<Line> &selectedLine,
                          SensorConfig sensorConfig)
     : wxThread(wxTHREAD_JOINABLE), imgData(imgData), pool(pool),
       selectedLine(selectedLine), sensorConfig(sensorConfig) {

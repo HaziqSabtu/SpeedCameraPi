@@ -10,20 +10,20 @@ RansacLine::RansacLine(int numIterations, int minPoints, double threshold)
     : numIterations(numIterations), minPoints(minPoints), threshold(threshold) {
 }
 
-Detection::Line RansacLine::run(cv::Mat &src) {
+Line RansacLine::run(cv::Mat &src) {
     std::vector<cv::Point> points = maskToPoint(src);
 
     if (points.size() < minPoints) {
-        return Detection::Line();
+        return Line();
     }
 
-    Detection::Line bestLine;
+    Line bestLine;
     bestInliers = 0;
     confidence = 0;
 
     for (int i = 0; i < numIterations; i++) {
-        Detection::Line line(points[rand() % points.size()],
-                             points[rand() % points.size()]);
+        Line line(points[rand() % points.size()],
+                  points[rand() % points.size()]);
 
         int inliers = countInliers(points, line);
 
@@ -61,8 +61,7 @@ std::vector<cv::Point> RansacLine::maskToPoint(cv::Mat &mask) {
     return points;
 }
 
-int RansacLine::countInliers(std::vector<cv::Point> &points,
-                             Detection::Line &line) {
+int RansacLine::countInliers(std::vector<cv::Point> &points, Line &line) {
     int inliers = 0;
     for (cv::Point &p : points) {
         if (line.Distance(p) < threshold) {

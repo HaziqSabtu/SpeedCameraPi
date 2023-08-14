@@ -23,8 +23,7 @@
  */
 class SpeedTask : public Task {
   public:
-    SpeedTask(std::vector<ImageData> *imgData,
-              std::vector<Detection::Line> &selectedLine,
+    SpeedTask(std::vector<ImageData> *imgData, std::vector<Line> &selectedLine,
               std::unique_ptr<float> &result, SensorConfig sensorConfig);
     void Execute() override;
     TaskProperty GetProperty() const override;
@@ -34,7 +33,7 @@ class SpeedTask : public Task {
     const TaskProperty property;
 
     std::vector<ImageData> *imgData;
-    std::vector<Detection::Line> selectedLine;
+    std::vector<Line> selectedLine;
     std::unique_ptr<float> &result;
     SensorConfig sensorConfig;
 };

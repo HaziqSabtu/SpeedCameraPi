@@ -19,7 +19,7 @@
  * @param sensorConfig Sensor Configuration ... SensorConfig
  */
 SpeedTask::SpeedTask(std::vector<ImageData> *imgData,
-                     std::vector<Detection::Line> &selectedLine,
+                     std::vector<Line> &selectedLine,
                      std::unique_ptr<float> &result, SensorConfig sensorConfig)
     : property(TaskType::TASK_SPEED), imgData(imgData), result(result),
       selectedLine(selectedLine), sensorConfig(sensorConfig) {}

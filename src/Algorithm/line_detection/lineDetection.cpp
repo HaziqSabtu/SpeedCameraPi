@@ -108,16 +108,16 @@ cv::Mat LineDetection::GetCanny() {
 std::vector<cv::Vec4i> &LineDetection::GetLinesP() { return linesP; }
 
 /**
- * @brief Return the lines detected by Hough Line Transform in Detection::Line
+ * @brief Return the lines detected by Hough Line Transform in Line
  * format
  * @details return the lines detected by Hough Line Transform. The result will
  * be an array of Line object indicating detected Lines on the images.
- * @return std::vector<Detection::Line>
+ * @return std::vector<Line>
  */
-std::vector<Detection::Line> LineDetection::GetLines() {
-    std::vector<Detection::Line> lines;
+std::vector<Line> LineDetection::GetLines() {
+    std::vector<Line> lines;
     for (auto line : linesP) {
-        lines.push_back(Detection::Line(line));
+        lines.push_back(Line(line));
     }
     return lines;
 }
