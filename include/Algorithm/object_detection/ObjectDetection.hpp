@@ -41,9 +41,9 @@ class ObjectDetection {
                             double minDistance, int blockSize,
                             bool useHarrisDetector, double k,
                             double minPointDistance);
-    Detection::OpticalFlowData init(cv::Mat &frame);
-    Detection::OpticalFlowData updateFlow(ImageData &current,
-                                          ImageData &previous);
+    Detection::OpticalFlowData init(cv::Mat &frame, cv::Mat &mask);
+    Detection::OpticalFlowData
+    updateFlow(cv::Mat &currentFrame, Detection::OpticalFlowData &prevFlowData);
 
   private:
 };

@@ -10,6 +10,7 @@
  */
 
 #include <Utils/Struct/D_Line.hpp>
+#include <stdexcept>
 
 namespace Detection {
 
@@ -81,6 +82,11 @@ cv::Point2f Line::Intersection(Line line) {
     double x4 = line.p2.x;
     double y4 = line.p2.y;
 
+    //TODO: Handle Horizontal Line
+    // if (isHorizontal()) {
+    //     throw std::runtime_error("Line is Horizontal");
+    // }
+
     double x =
         ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) /
         ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
@@ -101,6 +107,13 @@ cv::Point2f Line::Intersection(Line line) {
 Line Line::Extrapolate(int height, int width) {
     cv::Point2f p1;
     cv::Point2f p2;
+
+    if (isHorizontal()) {
+        p1 = Intersection(Line(cv::Point2f(0, 0), cv::Point2f(0, height)));
+        p2 = Intersection(
+            Line(cv::Point2f(width, 0), cv::Point2f(width, height)));
+        return Line(p1, p2);
+    }
 
     p1 = Intersection(Line(cv::Point2f(0, 0), cv::Point2f(width, 0)));
     p2 = Intersection(Line(cv::Point2f(0, height), cv::Point2f(width, height)));
@@ -208,6 +221,22 @@ Line Line::Scale(cv::Size src, cv::Size dst) {
     p2.y = (this->p2.y / src.height) * dst.height;
 
     return Line(p1, p2);
+}
+
+bool Line::isVertical() {
+    if (p1.x == p2.x) {
+        return true;
+    }
+
+    return false;
+}
+
+bool Line::isHorizontal() {
+    if (p1.y == p2.y) {
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace Detection

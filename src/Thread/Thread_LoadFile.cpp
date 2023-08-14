@@ -64,6 +64,12 @@ wxThread::ExitCode LoadFileThread::Entry() {
 
         UpdateStatusEvent::Submit(parent, "File loaded");
 
+        // trim capture data
+        if (maxFrame > 0 && maxFrame < captureData.size()) {
+            captureData.erase(captureData.begin() + maxFrame,
+                              captureData.end());
+        }
+
         for (int i = 0; i < captureData.size(); i++) {
             cv::Mat frame = captureData.at(i).image;
             UpdatePreviewEvent::Submit(parent, frame);

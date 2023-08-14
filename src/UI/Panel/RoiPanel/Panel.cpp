@@ -83,6 +83,12 @@ void RoiPanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+void RoiPanel::UnbindImagePanel() {
+    img_bitmap->Unbind(wxEVT_LEFT_DOWN, &RoiPanel::OnLeftDown, this);
+    img_bitmap->Unbind(wxEVT_MOTION, &RoiPanel::OnMotion, this);
+    img_bitmap->Unbind(wxEVT_LEFT_UP, &RoiPanel::OnLeftUp, this);
+}
+
 void RoiPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_RoiPreviewStart(button);
@@ -118,6 +124,7 @@ void RoiPanel::OnCalibrationEvent(wxCommandEvent &e) {
 
     if (e.GetId() == CALIBRATION_END) {
         status_panel->SetText(SC::STATUS_CALIBRATION_SUCCESS);
+        UnbindImagePanel();
     }
 }
 

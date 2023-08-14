@@ -16,6 +16,8 @@ class RoiToolsPanel : public TextOutlinePanel {
     BitmapButton *remove_button;
 
   private:
+    void setPanelState(PanelState state);
+
     void OnButtonClicked(wxCommandEvent &e);
 
     wxBoxSizer *hSizer;

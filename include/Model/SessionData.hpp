@@ -24,15 +24,15 @@ enum PanelID {
 };
 
 struct RoiData {
-    cv::Rect initRoi;
+    cv::Rect roi;
     std::vector<cv::Rect> trackedRoi;
 
     void clear() {
-        initRoi = cv::Rect();
+        roi = cv::Rect();
         trackedRoi.clear();
     }
 
-    bool isInit() { return initRoi.area() > 0; }
+    bool isInit() { return roi.area() > 0; }
 };
 
 #define HPTime std::chrono::high_resolution_clock::time_point

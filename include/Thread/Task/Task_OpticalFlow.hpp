@@ -12,6 +12,7 @@
 #ifndef OPTICAL_FLOW_TASK_HPP
 #define OPTICAL_FLOW_TASK_HPP
 
+#include "Model/SessionData.hpp"
 #include <Algorithm/object_detection/ObjectDetection.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/Config/AppConfig.hpp>
@@ -24,14 +25,14 @@
  */
 class FlowTask : public Task {
   public:
-    FlowTask(std::vector<ImageData> *imgData, OpticalFlowConfig config);
+    FlowTask(DataPtr data, OpticalFlowConfig config);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;
 
   private:
     const TaskProperty property;
-    std::vector<ImageData> *imgData;
+    DataPtr data;
 
     OpticalFlowConfig config;
 };

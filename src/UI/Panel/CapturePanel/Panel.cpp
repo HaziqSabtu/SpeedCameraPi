@@ -49,12 +49,13 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
         }
 
         if (e.GetId() == Enum::CP_Capture_Button_ID) {
-            OnCaptureButton(button_panel->cPanel->Capture_Button->button);
+            auto button = button_panel->cPanel->Capture_Button->button;
+            OnCaptureButton(button);
         }
 
-        // TODO: Load button
         if (e.GetId() == Enum::CP_Load_Button_ID) {
-            OnLoadButton(button_panel->cPanel->Load_Button->button);
+            auto button = button_panel->cPanel->Load_Button->button;
+            OnLoadButton(button);
         }
 
         if (e.GetId() == Enum::CP_Reset_Button_ID) {
@@ -80,12 +81,17 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
         controller->e_UpdateState(this);
 
         e.Skip();
+
     } catch (std::exception &e) {
         ErrorEvent::Submit(this, e.what());
     }
 }
 
 void CapturePanel::OnLoadButton(wxButton *button) {
+#if DEBUG
+    std::string path = "./example.bin";
+    controller->e_LoadFileStart(this, path);
+#else
     wxFileDialog openFileDialog(this, _("Open .bin file"), "", "",
                                 "XYZ files (*.bin)|*.bin",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
@@ -96,6 +102,7 @@ void CapturePanel::OnLoadButton(wxButton *button) {
 
     std::string path = Utils::wxStringToString(openFileDialog.GetPath());
     controller->e_LoadFileStart(this, path);
+#endif
 }
 
 void CapturePanel::OnCaptureButton(wxButton *button) {
@@ -151,10 +158,8 @@ void CapturePanel::OnUpdateState(UpdateStateEvent &e) {
     button_panel->csPanel->update(state);
     button_panel->rPanel->update(state);
 
-    // TODO: Update status
     auto ms = state.cameraPanel.measureButtonState;
-    auto b = button_panel->switch_Button;
-    // ms == ButtonState::DISABLED ? b->Disable() : b->Disable();
+    button_panel->switch_Button->update(ms);
 
     Refresh();
 }

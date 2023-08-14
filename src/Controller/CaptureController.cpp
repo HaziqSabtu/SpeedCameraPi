@@ -1,4 +1,5 @@
 #include "Event/Event_ChangePanel.hpp"
+#include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Model/AppState.hpp"
 #include "Thread/ThreadPool.hpp"
@@ -65,11 +66,7 @@ void CaptureController::e_ClearImageData(wxEvtHandler *parent) {
 
         checkPreCondition();
 
-        if (shared->sessionData.isCaptureDataEmpty()) {
-            throw std::runtime_error("ImageData is empty");
-        }
-        shared->sessionData.removeCaptureData();
-        UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_REMOVE_DATA);
+        clearImageDataHandler(parent);
 
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -332,4 +329,24 @@ void CaptureController::checkPreCondition() {
         throw std::runtime_error(
             "CaptureController::endPoint() - PanelID mismatch");
     }
+}
+
+void CaptureController::clearImageDataHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isCapturePanelThreadRunning()) {
+        throw std::runtime_error("Thread of Capture Panel is running");
+    }
+
+    if (shared->sessionData.isCaptureDataEmpty()) {
+        throw std::runtime_error("ImageData is empty");
+    }
+
+    shared->sessionData.removeCaptureData();
+
+    shared->sessionData.clearRoiData();
+
+    UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_REMOVE_DATA);
+
+    UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
 }

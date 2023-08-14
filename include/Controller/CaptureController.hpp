@@ -42,6 +42,8 @@ class CaptureController {
   private:
     void checkPreCondition();
 
+    void clearImageDataHandler(wxEvtHandler *parent);
+
     void startCaptureHandler(wxEvtHandler *parent);
     void endCaptureHandler();
 

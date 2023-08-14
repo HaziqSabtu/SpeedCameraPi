@@ -102,6 +102,7 @@ struct RoiPanelState {
     ButtonState cameraButtonState;
     ButtonState removeButtonState;
 
+    PanelState roiToolsStatusState;
     ButtonState acceptRoiButtonState;
     ButtonState clearRoiButtonState;
 
@@ -114,7 +115,7 @@ class AppState {
     AppState();
     AppState(ModelPtr model);
 
-    CapturePanelState getCameraPanelState(ModelPtr model);
+    CapturePanelState getCapturePanelState(ModelPtr model);
     CalibrationPanelState getCalibrationPanelState(ModelPtr model);
     ManualCalibrationPanelState getManualCalibrationPanelState(ModelPtr model);
     ColorCalibrationPanelState getColorCalibrationPanelState(ModelPtr model);
@@ -231,6 +232,7 @@ class AppState {
     ButtonState getROIRemoveButtonState(ModelPtr model);
 
     // ROI Panel -> Accept / Clear
+    PanelState getROIToolsStatusState(ModelPtr model);
     ButtonState getROIAcceptRoiButtonState(ModelPtr model);
     ButtonState getROIClearRoiButtonState(ModelPtr model);
 

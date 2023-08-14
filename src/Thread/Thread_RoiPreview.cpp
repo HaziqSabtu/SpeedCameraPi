@@ -40,7 +40,7 @@ wxThread::ExitCode RoiPreviewThread::Entry() {
             cv::Mat frame = firstData.image.clone();
 
             auto roiData = data->getRoiData();
-            cv::Rect initRoi = roiData.initRoi;
+            cv::Rect initRoi = roiData.roi;
 
             cv::resize(frame, frame, pSize);
 

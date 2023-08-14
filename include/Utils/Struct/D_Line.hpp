@@ -57,6 +57,10 @@ struct Line {
     void setP2(cv::Point2f p2);
 
     Line Scale(cv::Size src, cv::Size dst);
+
+    bool isVertical();
+
+    bool isHorizontal();
 };
 } // namespace Detection
 

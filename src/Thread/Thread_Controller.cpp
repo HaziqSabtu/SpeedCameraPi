@@ -4,6 +4,7 @@
 #include "Thread/Thread_CalibPreviewCapture.hpp"
 #include "Thread/Thread_CalibrationCapture.hpp"
 #include "Thread/Thread_ColorCalibPreview.hpp"
+#include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_ManualCalibCapture.hpp"
 #include "Thread/Thread_Process.hpp"
@@ -134,6 +135,10 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         "ThreadController::isThreadNullptr() - Invalid ThreadID");
 }
 
+bool ThreadController::isThreadRunning(ThreadID threadID) {
+    return !isThreadNullptr(threadID);
+}
+
 bool ThreadController::isThreadOwner(ThreadID threadID, PanelID panelID) {
     if (owner.find(threadID) == owner.end()) {
         return false;
@@ -236,6 +241,27 @@ bool ThreadController::isCalibPreviewThreadRunning() {
     }
 
     if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAPTURE)) {
+        return true;
+    }
+
+    return false;
+}
+
+bool ThreadController::isCapturePanelThreadRunning() {
+
+    if (!isThreadNullptr(THREAD_CAPTURE)) {
+        return true;
+    }
+
+    if (!isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        return true;
+    }
+
+    if (!isThreadNullptr(THREAD_LOAD_FILE)) {
+        return true;
+    }
+
+    if (!isThreadNullptr(THREAD_REPLAY)) {
         return true;
     }
 

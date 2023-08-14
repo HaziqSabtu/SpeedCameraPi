@@ -8,7 +8,7 @@
 AppState::AppState() {}
 
 AppState::AppState(ModelPtr model) {
-    cameraPanel = getCameraPanelState(model);
+    cameraPanel = getCapturePanelState(model);
     calibrationPanel = getCalibrationPanelState(model);
     manualCalibrationPanel = getManualCalibrationPanelState(model);
     colorCalibrationPanel = getColorCalibrationPanelState(model);
@@ -30,7 +30,7 @@ PanelState AppState::getRoiStatusState(ModelPtr model) {
                                                : PanelState::PANEL_OK;
 }
 
-CapturePanelState AppState::getCameraPanelState(ModelPtr model) {
+CapturePanelState AppState::getCapturePanelState(ModelPtr model) {
     CapturePanelState cpps;
 
     cpps.captureStatusState = getCameraStatusState(model);
@@ -147,6 +147,7 @@ RoiPanelState AppState::getRoiPanelState(ModelPtr model) {
     rops.cameraButtonState = getROICameraButtonState(model);
     rops.removeButtonState = getROIRemoveButtonState(model);
 
+    rops.roiToolsStatusState = getROIToolsStatusState(model);
     rops.acceptRoiButtonState = getROIAcceptRoiButtonState(model);
     rops.clearRoiButtonState = getROIClearRoiButtonState(model);
 
@@ -162,11 +163,7 @@ ButtonState AppState::getCaptureButtonState(ModelPtr model) {
         return ButtonState::ACTIVE;
     }
 
-    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+    if (tc->isCapturePanelThreadRunning()) {
         return ButtonState::DISABLED;
     }
 
@@ -179,15 +176,11 @@ ButtonState AppState::getCaptureButtonState(ModelPtr model) {
 
 ButtonState AppState::getLoadButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
-    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
-        return ButtonState::DISABLED;
-    }
-
     if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
         return ButtonState::ACTIVE;
     }
 
-    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+    if (tc->isCapturePanelThreadRunning()) {
         return ButtonState::DISABLED;
     }
 
@@ -205,20 +198,12 @@ ButtonState AppState::getReplayButtonState(ModelPtr model) {
         return ButtonState::ACTIVE;
     }
 
+    if (tc->isCapturePanelThreadRunning()) {
+        return ButtonState::DISABLED;
+    }
+
     if (!model->sessionData.isCaptureDataEmpty()) {
         return ButtonState::NORMAL;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
-        return ButtonState::DISABLED;
     }
 
     return ButtonState::DISABLED;
@@ -227,15 +212,7 @@ ButtonState AppState::getReplayButtonState(ModelPtr model) {
 ButtonState AppState::getRemoveButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+    if (tc->isCapturePanelThreadRunning()) {
         return ButtonState::DISABLED;
     }
 
@@ -254,11 +231,7 @@ ButtonState AppState::getCameraButtonState(ModelPtr model) {
         return ButtonState::ON;
     }
 
-    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+    if (tc->isCapturePanelThreadRunning()) {
         return ButtonState::DISABLED;
     }
 
@@ -272,7 +245,7 @@ ButtonState AppState::getCameraButtonState(ModelPtr model) {
 ButtonState AppState::getCPCalibrationButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadsWithCameraNullptr()) {
+    if (tc->isCapturePanelThreadRunning()) {
         return ButtonState::DISABLED;
     }
 
@@ -282,7 +255,7 @@ ButtonState AppState::getCPCalibrationButtonState(ModelPtr model) {
 ButtonState AppState::getCPCalibrationRemoveButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadsWithCameraNullptr()) {
+    if (tc->isCapturePanelThreadRunning()) {
         return ButtonState::DISABLED;
     }
 
@@ -296,7 +269,7 @@ ButtonState AppState::getCPCalibrationRemoveButtonState(ModelPtr model) {
 ButtonState AppState::getCPROIButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadsWithCameraNullptr()) {
+    if (tc->isCapturePanelThreadRunning()) {
         return ButtonState::DISABLED;
     }
 
@@ -310,7 +283,7 @@ ButtonState AppState::getCPROIButtonState(ModelPtr model) {
 ButtonState AppState::getCPROIRemoveButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadsWithCameraNullptr()) {
+    if (tc->isCapturePanelThreadRunning()) {
         return ButtonState::DISABLED;
     }
 
@@ -327,7 +300,25 @@ ButtonState AppState::getCPROIRemoveButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getCPMeasureButtonState(ModelPtr model) {
-    return ButtonState::DISABLED;
+    auto tc = model->getThreadController();
+
+    if (tc->isCapturePanelThreadRunning()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->sessionData.isCaptureDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->sessionData.isCalibDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->sessionData.isRoiDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
 }
 
 ButtonState AppState::getCalibrationButtonState(ModelPtr model) {
@@ -1065,23 +1056,36 @@ ButtonState AppState::getROIRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
+PanelState AppState::getROIToolsStatusState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_ROI)) {
+        return PanelState::PANEL_OK;
+    }
+
+    return PanelState::PANEL_HIDDEN;
+}
+
 ButtonState AppState::getROIAcceptRoiButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadNullptr(THREAD_ROI)) {
-        return ButtonState::NORMAL;
+    if (getROIToolsStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
     }
-    return ButtonState::DISABLED;
+
+    auto thread = tc->getRoiThread();
+
+    if (!thread->isRectValid()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
 }
 
 ButtonState AppState::getROIClearRoiButtonState(ModelPtr model) {
-    auto tc = model->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_ROI)) {
-        return ButtonState::NORMAL;
-    }
-    return ButtonState::DISABLED;
+    return getROIAcceptRoiButtonState(model);
 }
+
 ButtonState AppState::getROIOKButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 

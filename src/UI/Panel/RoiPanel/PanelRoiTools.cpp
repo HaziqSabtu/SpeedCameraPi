@@ -43,6 +43,22 @@ void RoiToolsPanel::update(const AppState &state) {
     // set panel
     RoiPanelState ps = state.roiPanel;
 
+    setPanelState(ps.roiToolsStatusState);
+
     ok_button->update(ps.acceptRoiButtonState);
     remove_button->update(ps.clearRoiButtonState);
+}
+
+void RoiToolsPanel::setPanelState(PanelState state) {
+    if (state == PanelState::PANEL_HIDDEN) {
+        this->Hide();
+        return;
+    }
+
+    if (state == PanelState::PANEL_OK) {
+        this->Show();
+        return;
+    }
+
+    throw std::runtime_error("Invalid panel state");
 }

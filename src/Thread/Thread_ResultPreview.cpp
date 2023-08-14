@@ -26,9 +26,23 @@ wxThread::ExitCode ResultPreviewThread::Entry() {
 
         auto allignData = data->getAllignData();
 
-        for (auto &frame : allignData) {
-            UpdatePreviewEvent::Submit(parent, frame.image);
-            wxMilliSleep(300);
+        auto roi = data->getRoiData().trackedRoi;
+
+        if (roi.size() != allignData.size()) {
+            int roiSize = roi.size();
+            int allignDataSize = allignData.size();
+            throw std::runtime_error("Size of roi and allign data not match: " +
+                                     std::to_string(roiSize) + " vs " +
+                                     std::to_string(allignDataSize));
+        }
+
+        for (int i = 0; i < allignData.size(); i++) {
+            cv::Mat image = allignData.at(i).image;
+            cv::Rect rect = roi.at(i);
+
+            cv::rectangle(image, rect, cv::Scalar(0, 255, 0), 2);
+
+            UpdatePreviewEvent::Submit(parent, image);
         }
 
     } catch (const std::exception &e) {

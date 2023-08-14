@@ -8,7 +8,10 @@
  * @copyright Copyright (c) 2023
  *
  */
+#include "Model/SessionData.hpp"
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
+#include <iostream>
+#include <vector>
 
 /**
  * @brief Construct a new Speed Calculation:: Speed Calculation object
@@ -92,20 +95,99 @@ void SpeedCalculation::runCalculation(std::vector<SpeedData> speedData) {
  */
 void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
                                       std::vector<Detection::Line> &lines) {
+    throw std::runtime_error("Not implemented");
+    // if (lines.size() != 2) {
+    //     std::cout << "Line Size Error" << std::endl;
+    //     return;
+    // }
+
+    // if (images.size() == 0) {
+    //     std::cout << "No data" << std::endl;
+    //     return;
+    // }
+    // std::cout << "images.size(): " << images.size() << std::endl;
+    // for (int i = 1; i < images.size(); i++) {
+
+    //     std::cout << "i: " << i << std::endl;
+    //     Detection::Line botL = imgData->at(i).detection.GetLine();
+
+    //     std::cout << "botL: " << botL.ToString() << std::endl;
+    //     cv::Point2f intersection1 = botL.Intersection(lines[0]);
+    //     cv::Point2f intersection2 = botL.Intersection(lines[1]);
+
+    //     std::cout << "intersection1: " << intersection1 << std::endl;
+    //     std::cout << "intersection2: " << intersection2 << std::endl;
+
+    //     double pixelDist = fabs(intersection1.x - intersection2.x);
+
+    //     std::cout << "pixelDist: " << pixelDist << std::endl;
+    //     double dist1 = distanceFromCamera(pixelDist);
+
+    //     std::cout << "####################" << std::endl;
+    //     std::cout << i << ": Distance: " << dist1 << std::endl;
+
+    //     std::chrono::high_resolution_clock::time_point currTime =
+    //         imgData->at(i).time;
+
+    //     if (prevDistFromCamera != -1) {
+
+    //         double speed =
+    //             calcSpeed(prevDistFromCamera, dist1, prevTime, currTime);
+
+    //         std::cout << "Speed: " << speed << std::endl;
+    //         speeds.push_back(speed);
+    //     }
+
+    //     prevDistFromCamera = dist1;
+    //     prevTime = currTime;
+    // }
+
+    // double rawSpeed = rawAvgSpeed(speeds);
+    // avgSpeed = Utils::TrimmedMean(speeds, 20);
+
+    // // this section is for testing only
+    // // will be removed in the future
+    // // TODO: remove this section
+
+    // double measuredSpeed = 0.3 / 1.2;
+
+    // std::cout << "Measured Speed: " << measuredSpeed << std::endl;
+    // std::cout << "average Speed: " << avgSpeed << std::endl;
+
+    // double error = fabs(avgSpeed - measuredSpeed) * 100 / measuredSpeed;
+
+    // std::cout << "Error: " << error << std::endl;
+
+    // std::cout << "Raw Speed: " << rawSpeed << std::endl;
+}
+
+void SpeedCalculation::runCalculation2(std::vector<cv::Mat> &images,
+                                       std::vector<HPTime> &times,
+                                       std::vector<cv::Rect> trackedRoi,
+                                       std::vector<Detection::Line> &lines) {
     if (lines.size() != 2) {
         std::cout << "Line Size Error" << std::endl;
         return;
     }
 
-    if (imgData->size() == 0) {
+    if (images.size() == 0) {
         std::cout << "No data" << std::endl;
         return;
     }
-    std::cout << "imgData->size(): " << imgData->size() << std::endl;
-    for (int i = 1; i < imgData->size(); i++) {
+    std::cout << "images.size(): " << images.size() << std::endl;
+    for (int i = 1; i < images.size(); i++) {
 
         std::cout << "i: " << i << std::endl;
-        Detection::Line botL = imgData->at(i).detection.GetLine();
+        cv::Rect roi = trackedRoi.at(i);
+        cv::Point botPoint = roi.br();
+        cv::Point botPoint2 = roi.br() - cv::Point(roi.width, 0);
+
+        std::cerr << "botPoint: " << botPoint << std::endl;
+        std::cerr << "botPoint2: " << botPoint2 << std::endl;
+
+        auto botL =
+            Detection::Line(botPoint, botPoint2).Extrapolate(images.at(i));
+        // Detection::Line botL = imgData->at(i).detection.GetLine();
 
         std::cout << "botL: " << botL.ToString() << std::endl;
         cv::Point2f intersection1 = botL.Intersection(lines[0]);
@@ -122,15 +204,14 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
         std::cout << "####################" << std::endl;
         std::cout << i << ": Distance: " << dist1 << std::endl;
 
-        std::chrono::high_resolution_clock::time_point currTime =
-            imgData->at(i).time;
+        std::chrono::high_resolution_clock::time_point currTime = times.at(i);
 
         if (prevDistFromCamera != -1) {
 
             double speed =
                 calcSpeed(prevDistFromCamera, dist1, prevTime, currTime);
 
-            std::cout << "Speed: " << speed << std::endl;
+            std::cerr << "Speed: " << speed << std::endl;
             speeds.push_back(speed);
         }
 
@@ -141,20 +222,20 @@ void SpeedCalculation::runCalculation(std::vector<ImageData> *imgData,
     double rawSpeed = rawAvgSpeed(speeds);
     avgSpeed = Utils::TrimmedMean(speeds, 20);
 
-    // this section is for testing only
-    // will be removed in the future
-    // TODO: remove this section
+    // // this section is for testing only
+    // // will be removed in the future
+    // // TODO: remove this section
 
-    double measuredSpeed = 0.3 / 1.2;
+    // double measuredSpeed = 0.3 / 1.2;
 
-    std::cout << "Measured Speed: " << measuredSpeed << std::endl;
-    std::cout << "average Speed: " << avgSpeed << std::endl;
+    // std::cout << "Measured Speed: " << measuredSpeed << std::endl;
+    // std::cout << "average Speed: " << avgSpeed << std::endl;
 
-    double error = fabs(avgSpeed - measuredSpeed) * 100 / measuredSpeed;
+    // double error = fabs(avgSpeed - measuredSpeed) * 100 / measuredSpeed;
 
-    std::cout << "Error: " << error << std::endl;
+    // std::cout << "Error: " << error << std::endl;
 
-    std::cout << "Raw Speed: " << rawSpeed << std::endl;
+    // std::cout << "Raw Speed: " << rawSpeed << std::endl;
 }
 
 /**

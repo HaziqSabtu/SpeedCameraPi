@@ -11,6 +11,7 @@
 
 #include <Algorithm/object_detection/ObjectDetection.hpp>
 
+// TODO: Setters and Getters for params
 namespace Detection {
 
 /**
@@ -51,44 +52,32 @@ void ObjectDetection::SetDetectionParams(int maxCorners, double qualityLevel,
     this->minPointDistance = minPointDistance;
 }
 
-/**
- * @brief Initialize the Optical Flow
- * @details 1) Convert the image to grayscale
- *          2) Apply goodFeaturesToTrack
- * @param frame the first frame to initialize the Optical Flow
- * @return Detection::OpticalFlowData
- */
-Detection::OpticalFlowData ObjectDetection::init(cv::Mat &frame) {
+Detection::OpticalFlowData ObjectDetection::init(cv::Mat &frame,
+                                                 cv::Mat &mask) {
     cv::Mat gray;
     std::vector<cv::Point2f> points;
     cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
     cv::goodFeaturesToTrack(gray, points, maxCorners, qualityLevel, minDistance,
-                            cv::Mat(), blockSize, useHarrisDetector, k);
+                            mask, blockSize, useHarrisDetector, k);
     return Detection::OpticalFlowData(gray, points);
 }
 
-/**
- * @brief Update the Optical Flow with the current frame
- *
- * @param current current ImageData with the current frame
- * @param previous previous ImageData with the previous frame
- * @return Detection::OpticalFlowData
- */
-Detection::OpticalFlowData ObjectDetection::updateFlow(ImageData &current,
-                                                       ImageData &previous) {
+Detection::OpticalFlowData
+ObjectDetection::updateFlow(cv::Mat &currentFrame,
+                            Detection::OpticalFlowData &prevFlowData) {
     cv::Mat gray;
     std::vector<cv::Point2f> points;
     std::vector<uchar> status;
     std::vector<float> err;
 
-    cv::Mat prevGray = previous.flow.gray;
-    std::vector<cv::Point2f> prevPoints = previous.flow.GetPoints();
+    cv::Mat prevGray = prevFlowData.gray;
+    std::vector<cv::Point2f> prevPoints = prevFlowData.GetPoints();
 
-    cv::cvtColor(current.image, gray, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(currentFrame, gray, cv::COLOR_BGR2GRAY);
     cv::calcOpticalFlowPyrLK(prevGray, gray, prevPoints, points, status, err);
 
     Detection::OpticalFlowData flow(gray);
-    flow.push(previous.flow, points, err, status);
+    flow.push(prevFlowData, points, err, status);
     return flow;
 }
 

@@ -120,6 +120,8 @@ class ThreadController {
 
     bool isThreadNullptr(ThreadID threadID);
 
+    bool isThreadRunning(ThreadID threadID);
+
     bool isThreadOwner(ThreadID threadID, PanelID panelID);
 
     bool isThreadsWithCameraNullptr();
@@ -136,6 +138,9 @@ class ThreadController {
 
     // Calibration Preview Helper Methods
     bool isCalibPreviewThreadRunning();
+
+    // Capture Helper Methods
+    bool isCapturePanelThreadRunning();
 
     ////////////////////////////////
     ////////////////////////////////

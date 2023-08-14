@@ -11,6 +11,7 @@
 #ifndef SPEED_CALCULATION_HPP
 #define SPEED_CALCULATION_HPP
 
+#include "Model/SessionData.hpp"
 #include <Utils/DataStruct.hpp>
 #include <Utils/ImageUtils.hpp>
 #include <Utils/Struct/D_Line.hpp>
@@ -27,6 +28,10 @@ class SpeedCalculation {
                      const double objectWidth);
 
     void runCalculation(std::vector<SpeedData> speedData);
+    void runCalculation2(std::vector<cv::Mat> &images,
+                         std::vector<HPTime> &times,
+                         std::vector<cv::Rect> trackedRoi,
+                         std::vector<Detection::Line> &lines);
     void runCalculation(std::vector<ImageData> *imgData,
                         std::vector<Detection::Line> &lines);
 

@@ -283,7 +283,7 @@ void RoiController::roiThreadSaveHandler(wxEvtHandler *parent) {
     auto realRect = Utils::scaleRect(rect, src, dst);
 
     RoiData data;
-    data.initRoi = realRect;
+    data.roi = realRect;
 
     auto sessionData = shared->getSessionData();
     sessionData->setRoiData(data);
