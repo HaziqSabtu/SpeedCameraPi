@@ -1,5 +1,4 @@
 #include "Model/SessionData.hpp"
-#include "Utils/Struct/D_Allign.hpp"
 #include <Thread/Task/Task_Sift.hpp>
 
 SiftTask::SiftTask(DataPtr data, int id)
@@ -10,7 +9,7 @@ void SiftTask::Execute() {
         auto captureData = data->getCaptureData();
         auto firstFrame = captureData.at(0).image.clone();
 
-        AllignData2 aData(firstFrame, cv::Mat());
+        AllignData aData(firstFrame, cv::Mat());
         data->setAllignDataAt(0, aData);
         return;
     }
@@ -26,7 +25,7 @@ void SiftTask::Execute() {
     auto allignImage = featureDetector.GetAllignedImage().clone();
     auto homographyMatrix = featureDetector.GetHomographyMatrix().clone();
 
-    AllignData2 aData(allignImage, homographyMatrix);
+    AllignData aData(allignImage, homographyMatrix);
     data->setAllignDataAt(id, aData);
 }
 

@@ -4,8 +4,7 @@
 // #include <Event/Event_CaptureImage.hpp>
 // #include <Event/Event_Hough.hpp>
 // #include <Event/Event_ProcessImage.hpp>
-// #include <Event/Event_UpdateImage.hpp>
-// #include <Thread/ThreadPool.hpp>
+// // #include <Thread/ThreadPool.hpp>
 // #include <Thread/Thread_Capture.hpp>
 // #include <Thread/Thread_Hough.hpp>
 // #include <Thread/Thread_LoadCapture.hpp>
@@ -22,9 +21,8 @@
 // #include <Utils/Camera/libcam.hpp>
 #include <Model/Model.hpp>
 #include <Utils/Config/AppConfig.hpp>
-// #include <Utils/DataStruct.hpp>
-#include <Utils/Enum.hpp>
-// #include <Utils/Struct/D_Line.hpp>
+// #include <Utils/Enum.hpp>
+// #include <Algorithm/Struct/D_Line.hpp>
 // #include <opencv2/opencv.hpp>
 #include <wx/wx.h>
 

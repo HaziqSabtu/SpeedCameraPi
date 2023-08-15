@@ -11,7 +11,7 @@
 #ifndef TASK_HPP
 #define TASK_HPP
 
-#include <Utils/IDGenerator/IDGenerator.hpp>
+#include <Utils/CommonUtils.hpp>
 #include <string>
 
 /**
@@ -71,7 +71,7 @@ struct TaskProperty {
      */
     TaskProperty(TaskType type) {
         this->type = type;
-        this->id = Utils::IDGenerator::GenerateID();
+        this->id = Utils::generateRandomID();
     }
 
     /**
@@ -82,7 +82,7 @@ struct TaskProperty {
      * @return false false if both TaskProperty are not equal in either
      * TaskType or ID
      */
-    bool operator==(const TaskProperty& other) const {
+    bool operator==(const TaskProperty &other) const {
         return (this->type == other.type && this->id == other.id);
     }
 

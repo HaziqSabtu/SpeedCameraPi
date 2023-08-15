@@ -12,7 +12,6 @@
 #ifndef HOUGH_EVENT_HPP
 #define HOUGH_EVENT_HPP
 
-#include <Utils/Struct/D_Hough.hpp>
 #include <wx/event.h>
 
 class HoughEvent;

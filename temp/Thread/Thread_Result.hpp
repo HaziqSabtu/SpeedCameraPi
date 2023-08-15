@@ -11,8 +11,6 @@
 #ifndef RESULT_THREAD_HPP
 #define RESULT_THREAD_HPP
 
-#include <Event/Event_UpdateImage.hpp>
-#include <Utils/DataStruct.hpp>
 #include <wx/thread.h>
 #include <wx/wx.h>
 

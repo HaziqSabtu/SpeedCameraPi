@@ -18,7 +18,6 @@
 #include "Thread/Thread_ResultPreview.hpp"
 #include "Thread/Thread_Roi.hpp"
 #include "Thread/Thread_RoiPreview.hpp"
-#include "Utils/DataStruct.hpp"
 #include <unordered_map>
 
 class ThreadController {

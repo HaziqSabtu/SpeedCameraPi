@@ -1,9 +1,9 @@
 #ifndef CAMERA_BITMAP_HPP
 #define CAMERA_BITMAP_HPP
 
-#include <Utils/ImageBitmap/ImageBitmap.hpp>
-#include <Utils/Struct/D_Line.hpp>
+#include <Algorithm/Struct/D_Line.hpp>
 
+#include <Utils/ImageBitmap/ImageBitmap.hpp>
 class CameraBitmap : public ImageBitmap {
   public:
     CameraBitmap(wxWindow *parent, wxWindowID id,

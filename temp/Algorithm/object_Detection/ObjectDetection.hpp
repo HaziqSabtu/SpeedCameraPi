@@ -13,7 +13,6 @@
 #define OBJECT_DETECTION_HPP
 
 #include <Algorithm/object_tracker/OpticalFlowData.hpp>
-#include <Utils/DataStruct.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>

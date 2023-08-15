@@ -1,8 +1,7 @@
 #ifndef PANEL_IMAGE_HPP
 #define PANEL_IMAGE_HPP
 
-#include <Utils/DataStruct.hpp>
-#include <Utils/Struct/D_Line.hpp>
+#include <Algorithm/Struct/D_Line.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>

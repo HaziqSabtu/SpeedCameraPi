@@ -3,7 +3,6 @@
 
 #include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
-#include <Utils/DataStruct.hpp>
 #include <opencv2/core.hpp>
 #include <wx/thread.h>
 #include <wx/wx.h>

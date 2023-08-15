@@ -1,7 +1,7 @@
 #ifndef BB_LANE_HPP
 #define BB_LANE_HPP
 
-#include <Algorithm/line_detection/lineDetection.hpp>
+#include <>
 #include <Utils/BufferedBitmap/BufferedBitmap.hpp>
 #include <opencv2/core.hpp>
 

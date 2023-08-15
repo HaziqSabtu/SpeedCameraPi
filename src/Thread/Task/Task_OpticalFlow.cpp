@@ -32,13 +32,13 @@ void FlowTask::Execute() {
 
     //TODO: Add Redundant Tracker
 
-    auto roiData = data->getRoiData();
+    auto roiData = data->getTrackingData();
     auto roi = roiData.roi;
 
     auto obj = ofTracker.track(allignImages, roi);
 
     roiData.trackedRoi = obj;
-    data->setRoiData(roiData);
+    data->setTrackingData(roiData);
 }
 
 /**

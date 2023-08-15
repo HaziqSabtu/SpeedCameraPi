@@ -1,14 +1,13 @@
 #ifndef SELECT_LINE_PANEL
 #define SELECT_LINE_PANEL
 
-#include <Algorithm/line_detection/lineDetection.hpp>
+#include <>
+#include <Algorithm/Struct/D_Line.hpp>
 #include <UI/CameraPanel/Panel.hpp>
 #include <UI/SelectLinePanel/ButtonPanel.hpp>
-#include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageBitmap/Derived/SelectLineBitmap.hpp>
-#include <Utils/Struct/D_Line.hpp>
 #include <wx/wx.h>
 
 class SelectLinePanel : public wxPanel {

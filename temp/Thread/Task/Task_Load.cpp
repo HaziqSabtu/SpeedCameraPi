@@ -9,8 +9,6 @@
  *
  */
 
-#include <Thread/Task/Task_Load.hpp>
-
 /**
  * @brief Construct a new Load Task:: Load Task object
  *
@@ -37,11 +35,8 @@ void LoadTask::Execute() {
         case Utils::FileExtension::H264:
             FILEH264::ReadFile(path, imgData);
             break;
-        case Utils::FileExtension::BIN:
-            FILEWR::ReadFile(path, imgData);
-            break;
-        default:
-            throw std::runtime_error("File extension not supported");
+        case Utils::FileExtension::BIN: FILEWR::ReadFile(path, imgData); break;
+        default: throw std::runtime_error("File extension not supported");
     }
 }
 

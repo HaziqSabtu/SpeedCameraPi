@@ -16,7 +16,6 @@
 #include <Algorithm/image_allign/DescriptorMatcher.hpp>
 #include <Algorithm/image_allign/Enum.hpp>
 #include <Algorithm/image_allign/Homography.hpp>
-#include <Utils/DataStruct.hpp>
 // #include <opencv2/core.hpp>
 // #include <opencv2/highgui.hpp>
 // #include <opencv2/xfeatures2d.hpp>
@@ -34,10 +33,12 @@ class FeatureDetector {
     FeatureDetector(DetectorType type);
     FeatureDetector();
 
-    void init(cv::Mat &image1, cv::Mat &descriptors, std::vector<cv::KeyPoint> &keypoint);
-    
+    void init(cv::Mat &image1, cv::Mat &descriptors,
+              std::vector<cv::KeyPoint> &keypoint);
+
     void allign(cv::Mat &image1, cv::Mat &image2);
-    void allign(cv::Mat &descriptors1, std::vector<cv::KeyPoint> &keyPoints1, cv::Mat &image2);
+    void allign(cv::Mat &descriptors1, std::vector<cv::KeyPoint> &keyPoints1,
+                cv::Mat &image2);
 
     cv::Mat GetMatchImage(cv::Mat &image1, cv::Mat &image2);
     cv::Mat GetHomographyMatrix();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utils/Struct/D_Line.hpp"
+#include "Algorithm/Struct/D_Line.hpp"
 #include <opencv2/core/core.hpp>
 #include <vector>
 

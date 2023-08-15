@@ -10,7 +10,6 @@
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
-#include "Utils/DataStruct.hpp"
 #include <Controller/CaptureController.hpp>
 #include <Event/Event_UpdateStatus.hpp>
 #include <memory>
@@ -344,7 +343,7 @@ void CaptureController::clearImageDataHandler(wxEvtHandler *parent) {
 
     shared->sessionData.removeCaptureData();
 
-    shared->sessionData.clearRoiData();
+    shared->sessionData.clearTrackingData();
 
     shared->sessionData.clearResultData();
 

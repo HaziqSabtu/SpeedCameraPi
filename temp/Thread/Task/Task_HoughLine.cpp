@@ -9,8 +9,6 @@
  *
  */
 
-#include <Thread/Task/Task_HoughLine.hpp>
-
 /**
  * @brief Construct a new Hough Task:: Hough Task object
  *

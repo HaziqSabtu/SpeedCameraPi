@@ -17,7 +17,6 @@
 #include <Utils/Camera/CameraBase.hpp>
 #include <Utils/Camera/libcam.hpp>
 #include <Utils/Config/AppConfig.hpp>
-#include <Utils/DataStruct.hpp>
 
 #include <memory>
 

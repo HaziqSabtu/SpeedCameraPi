@@ -13,8 +13,7 @@
 #define FILEWR_HPP
 
 #include "Model/SessionData.hpp"
-#include <Utils/DataStruct.hpp>
-#include <Utils/ImageUtils.hpp>
+#include <Utils/CommonUtils.hpp>
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -30,12 +29,12 @@ class FILEWR {
   public:
     FILEWR(/* args */);
     ~FILEWR();
-    static void ReadFile(std::string path,
-                         std::shared_ptr<std::vector<ImageData>> imgData);
     static CDVector ReadFile(std::string path);
-    static void WriteFile(std::shared_ptr<std::vector<ImageData>> imgData);
-    static void WriteFile(std::string path,
-                          std::shared_ptr<std::vector<ImageData>> imgData);
+    // static void ReadFile(std::string path,
+    //                      std::shared_ptr<std::vector<ImageData>> imgData);
+    // static void WriteFile(std::shared_ptr<std::vector<ImageData>> imgData);
+    // static void WriteFile(std::string path,
+    //                       std::shared_ptr<std::vector<ImageData>> imgData);
 };
 
 #endif

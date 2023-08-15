@@ -9,7 +9,7 @@
  *
  */
 
-#include <Utils/ImageUtils.hpp>
+#include <Utils/CommonUtils.hpp>
 
 namespace Utils {
 /**
@@ -64,14 +64,14 @@ FileExtension GetFileExtension(std::string &path) {
  * @param imgData image data
  * @param angle angle to rotate in degrees
  */
-void RotateImage(std::vector<ImageData> &imgData, int angle) {
+void RotateImage(std::vector<cv::Mat> &imgData, int angle) {
     for (int i = 0; i < imgData.size(); i++) {
-        cv::Mat img = imgData[i].image;
+        cv::Mat img = imgData[i];
         cv::Mat rotatedImg;
         cv::Point2f center(img.cols / 2.0, img.rows / 2.0);
         cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1.0);
         cv::warpAffine(img, rotatedImg, rot, img.size());
-        imgData[i].image = rotatedImg;
+        imgData[i] = rotatedImg;
     }
 }
 
@@ -122,5 +122,10 @@ cv::Rect scaleRect(const cv::Rect &rect, cv::Size src, cv::Size dst) {
     int relativeHeight = static_cast<int>(rect.height * scaleY);
 
     return cv::Rect(relativeX, relativeY, relativeWidth, relativeHeight);
+}
+
+int generateRandomID() {
+    int id = rand() % 90000 + 10000;
+    return id;
 }
 } // namespace Utils

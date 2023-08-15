@@ -50,9 +50,9 @@ wxThread::ExitCode CalibCapturePreviewThread::Entry() {
 
             cv::Mat prevFrame = firstFrame.clone();
 
-            auto isLineNull = data->isCalibDataEmpty();
+            auto isLineNull = data->isCalibrationDataEmpty();
             if (!isLineNull) {
-                auto calibData = data->getCalibData();
+                auto calibData = data->getCalibrationData();
                 cv::Scalar yellow(0, 255, 255);
                 cv::Scalar blue(255, 0, 0);
 

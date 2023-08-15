@@ -12,7 +12,6 @@
 #define CAPTURE_TASK_HPP
 
 #include <Thread/Task/Task.hpp>
-#include <Utils/DataStruct.hpp>
 #include <chrono>
 #include <thread>
 

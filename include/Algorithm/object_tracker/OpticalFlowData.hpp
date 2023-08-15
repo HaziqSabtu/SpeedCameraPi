@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <Utils/Struct/D_Line.hpp>
+#include <Algorithm/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
 #include <unordered_map>
 

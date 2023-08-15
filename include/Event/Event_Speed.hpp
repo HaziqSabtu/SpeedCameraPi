@@ -11,7 +11,6 @@
 #ifndef SPEED_CALCULATION_EVENT_HPP
 #define SPEED_CALCULATION_EVENT_HPP
 
-#include <Utils/DataStruct.hpp>
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <wx/event.h>

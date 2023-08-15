@@ -22,15 +22,6 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-// TODO: Cleanup
-enum CalibrationText {
-    IDLE,
-    START_CALIBRATION,
-    CALIBRATION_SUCCESS,
-    CAMERA_ON,
-    CAMERA_OFF
-};
-
 class CalibrationPanel : public wxPanel {
   public:
     CalibrationPanel(wxWindow *parent, wxWindowID id, CLCPtr &controller);

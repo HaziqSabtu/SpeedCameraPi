@@ -1,11 +1,11 @@
 #ifndef CAMERA_PANEL_HPP
 #define CAMERA_PANEL_HPP
 
+#include <Algorithm/Struct/D_Line.hpp>
 #include <Event/Event_Hough.hpp>
 #include <Event/Event_LoadImage.hpp>
 #include <Event/Event_ProcessImage.hpp>
 #include <Event/Event_Speed.hpp>
-#include <Event/Event_UpdateImage.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <Thread/Thread_Capture.hpp>
 #include <Thread/Thread_Hough.hpp>
@@ -21,9 +21,7 @@
 #include <Utils/Camera/CameraBase.hpp>
 #include <Utils/Camera/libcam.hpp>
 #include <Utils/Config/AppConfig.hpp>
-#include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
-#include <Utils/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
 #include <wx/wx.h>
 

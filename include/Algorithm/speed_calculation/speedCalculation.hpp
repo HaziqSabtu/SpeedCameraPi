@@ -12,9 +12,8 @@
 #define SPEED_CALCULATION_HPP
 
 #include "Model/SessionData.hpp"
-#include <Utils/DataStruct.hpp>
-#include <Utils/ImageUtils.hpp>
-#include <Utils/Struct/D_Line.hpp>
+#include <Algorithm/Struct/D_Line.hpp>
+#include <Utils/CommonUtils.hpp>
 #include <chrono>
 #include <opencv2/core.hpp>
 

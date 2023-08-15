@@ -143,7 +143,7 @@ void BaseCalibrationThread::updateBlueLine(Line line) {
     blueLine = line;
 }
 
-CalibData BaseCalibrationThread::getCalibData() {
+CalibrationData BaseCalibrationThread::getCalibData() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    return CalibData(yellowLine, blueLine);
+    return CalibrationData(yellowLine, blueLine);
 }

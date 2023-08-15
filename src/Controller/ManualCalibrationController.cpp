@@ -1,3 +1,4 @@
+#include "Algorithm/Struct/D_Line.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Model/AppState.hpp"
 #include "Model/CalibrationData.hpp"
@@ -5,7 +6,6 @@
 #include "Model/SharedModel.hpp"
 #include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_ManualCalib.hpp"
-#include "Utils/Struct/D_Line.hpp"
 #include "Utils/wxUtils.hpp"
 
 #include <Controller/ManualCalibrationController.hpp>
@@ -391,12 +391,12 @@ void ManualCalibrationController::saveLineHandler(wxEvtHandler *parent,
 
     auto realLine = line.Scale(src, dst);
 
-    auto calibData = data->getCalibData();
+    auto calibData = data->getCalibrationData();
 
     dir == MANUAL_LEFT ? calibData.lineLeft = realLine
                        : calibData.lineRight = realLine;
 
-    data->setCalibData(calibData);
+    data->setCalibrationData(calibData);
 }
 
 void ManualCalibrationController::manualCalibStartHandler(
@@ -614,5 +614,5 @@ void ManualCalibrationController::removeCalibDataHandler(wxEvtHandler *parent) {
 
     auto data = shared->getSessionData();
 
-    data->removeCalibData();
+    data->removeCalibrationData();
 }

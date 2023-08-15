@@ -8,10 +8,8 @@
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_ManualCalibCapture.hpp"
 #include "Thread/Thread_Process.hpp"
-#include "Thread/Thread_Result.hpp"
 #include "Thread/Thread_ResultPreview.hpp"
 #include "Thread/Thread_Roi.hpp"
-#include "Utils/DataStruct.hpp"
 #include <Thread/Thread_Controller.hpp>
 #include <Thread/Thread_ManualCalib.hpp>
 

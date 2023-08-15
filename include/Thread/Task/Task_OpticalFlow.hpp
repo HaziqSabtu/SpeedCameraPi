@@ -17,7 +17,6 @@
 #include <Algorithm/object_tracker/OpticalFlowTracker.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/Config/AppConfig.hpp>
-#include <Utils/DataStruct.hpp>
 
 /**
  * @brief Task Implementation for Optical Flow Detection

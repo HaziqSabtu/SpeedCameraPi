@@ -7,6 +7,7 @@
 #include "UI/Frame/InfoFrame.hpp"
 #include "UI/Frame/SettingsFrame.hpp"
 #include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
+#include "UI/Theme/Data.hpp"
 #include "UI/Theme/Theme.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Frame/MainFrame.hpp>
@@ -18,9 +19,8 @@
 #include <wx/generic/panelg.h>
 #include <wx/utils.h>
 
-MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
-    // TODO: Data set title, icon
-    wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
+MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
+    wxIcon icon(Data::AppIcon, wxBITMAP_TYPE_ICO);
     SetIcon(icon);
 
     SetBackgroundColour(Theme::Background);

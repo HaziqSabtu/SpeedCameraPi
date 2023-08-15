@@ -12,12 +12,11 @@
 #ifndef SPEED_CALCULATION_THREAD_HPP
 #define SPEED_CALCULATION_THREAD_HPP
 
+#include <Algorithm/Struct/D_Line.hpp>
 #include <Event/Event_Speed.hpp>
 #include <Thread/Task/Task_Speed.hpp>
 #include <Thread/ThreadPool.hpp>
 #include <Utils/Config/AppConfig.hpp>
-#include <Utils/DataStruct.hpp>
-#include <Utils/Struct/D_Line.hpp>
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <wx/thread.h>

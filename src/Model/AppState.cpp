@@ -22,13 +22,14 @@ PanelState AppState::getCameraStatusState(ModelPtr model) {
 }
 
 PanelState AppState::getCalibrationStatusState(ModelPtr model) {
-    return model->sessionData.isCalibDataEmpty() ? PanelState::PANEL_NOT_OK
-                                                 : PanelState::PANEL_OK;
+    return model->sessionData.isCalibrationDataEmpty()
+               ? PanelState::PANEL_NOT_OK
+               : PanelState::PANEL_OK;
 }
 
 PanelState AppState::getRoiStatusState(ModelPtr model) {
-    return model->sessionData.isRoiDataEmpty() ? PanelState::PANEL_NOT_OK
-                                               : PanelState::PANEL_OK;
+    return model->sessionData.isTrackingDataEmpty() ? PanelState::PANEL_NOT_OK
+                                                    : PanelState::PANEL_OK;
 }
 
 CapturePanelState AppState::getCapturePanelState(ModelPtr model) {
@@ -276,7 +277,7 @@ ButtonState AppState::getCPCalibrationRemoveButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.isCalibDataEmpty()) {
+    if (model->sessionData.isCalibrationDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -309,7 +310,7 @@ ButtonState AppState::getCPROIRemoveButtonState(ModelPtr model) {
     }
 
     auto data = model->getSessionData();
-    if (data->isRoiDataEmpty()) {
+    if (data->isTrackingDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -327,11 +328,11 @@ ButtonState AppState::getCPMeasureButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.isCalibDataEmpty()) {
+    if (model->sessionData.isCalibrationDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.isRoiDataEmpty()) {
+    if (model->sessionData.isTrackingDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -399,11 +400,11 @@ ButtonState AppState::getCalibrationRemoveButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.isCalibDataEmpty()) {
+    if (model->sessionData.isCalibrationDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
-    if (!model->sessionData.isCalibDataEmpty()) {
+    if (!model->sessionData.isCalibrationDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
@@ -523,7 +524,7 @@ ButtonState AppState::getCLOKButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.isCalibDataEmpty()) {
+    if (model->sessionData.isCalibrationDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -597,7 +598,7 @@ ButtonState AppState::getMCRemoveButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (!model->sessionData.isCalibDataEmpty()) {
+    if (!model->sessionData.isCalibrationDataEmpty()) {
         return ButtonState::NORMAL;
     }
 
@@ -612,7 +613,7 @@ PanelState AppState::getMCLeftStatusState(ModelPtr model) {
     }
 
     auto data = model->getSessionData();
-    auto calibData = data->getCalibData();
+    auto calibData = data->getCalibrationData();
 
     Line line = calibData.lineLeft;
 
@@ -654,7 +655,7 @@ PanelState AppState::getMCRightStatusState(ModelPtr model) {
         return PanelState::PANEL_HIDDEN;
     }
 
-    auto calibData = model->sessionData.getCalibData();
+    auto calibData = model->sessionData.getCalibrationData();
 
     Line line = calibData.lineRight;
 
@@ -752,7 +753,7 @@ ButtonState AppState::getMCOKButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (model->sessionData.isCalibDataEmpty()) {
+    if (model->sessionData.isCalibrationDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -1066,7 +1067,7 @@ ButtonState AppState::getROIRemoveButtonState(ModelPtr model) {
     }
 
     auto data = model->getSessionData();
-    if (data->isRoiDataEmpty()) {
+    if (data->isTrackingDataEmpty()) {
         return ButtonState::DISABLED;
     }
 
@@ -1115,7 +1116,7 @@ ButtonState AppState::getROIOKButtonState(ModelPtr model) {
     }
 
     auto data = model->getSessionData();
-    if (data->isRoiDataEmpty()) {
+    if (data->isTrackingDataEmpty()) {
         return ButtonState::DISABLED;
     }
 

@@ -7,7 +7,6 @@
 #include <Event/Event_UpdatePreview.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>
-#include <Utils/DataStruct.hpp>
 
 #include <memory>
 #include <string>

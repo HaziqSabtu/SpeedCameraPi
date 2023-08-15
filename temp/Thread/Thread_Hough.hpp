@@ -13,10 +13,9 @@
 #define HOUGH_THREAD_HPP
 
 #include <Event/Event_Hough.hpp>
-#include <Thread/Task/Task_HoughLine.hpp>
+
 #include <Thread/ThreadPool.hpp>
 #include <Utils/Config/AppConfig.hpp>
-#include <Utils/Struct/D_Hough.hpp>
 #include <memory>
 #include <opencv2/opencv.hpp>
 #include <string>

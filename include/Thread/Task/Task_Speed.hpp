@@ -11,31 +11,30 @@
 #ifndef SPEED_TASK_HPP
 #define SPEED_TASK_HPP
 
+#include <Algorithm/Struct/D_Line.hpp>
+
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/Config/AppConfig.hpp>
-#include <Utils/DataStruct.hpp>
-#include <Utils/Struct/D_Line.hpp>
-
 /**
  * @brief Task Implementation for Speed Calculation
  *
  */
-class SpeedTask : public Task {
-  public:
-    SpeedTask(std::vector<ImageData> *imgData, std::vector<Line> &selectedLine,
-              std::unique_ptr<float> &result, SensorConfig sensorConfig);
-    void Execute() override;
-    TaskProperty GetProperty() const override;
-    std::string GetName() const override;
+// class SpeedTask : public Task {
+//   public:
+//     SpeedTask(std::vector<ImageData> *imgData, std::vector<Line> &selectedLine,
+//               std::unique_ptr<float> &result, SensorConfig sensorConfig);
+//     void Execute() override;
+//     TaskProperty GetProperty() const override;
+//     std::string GetName() const override;
 
-  private:
-    const TaskProperty property;
+//   private:
+//     const TaskProperty property;
 
-    std::vector<ImageData> *imgData;
-    std::vector<Line> selectedLine;
-    std::unique_ptr<float> &result;
-    SensorConfig sensorConfig;
-};
+//     std::vector<ImageData> *imgData;
+//     std::vector<Line> selectedLine;
+//     std::unique_ptr<float> &result;
+//     SensorConfig sensorConfig;
+// };
 
 #endif

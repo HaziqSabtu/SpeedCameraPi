@@ -87,9 +87,9 @@ void BaseManualCalibrationThread::updateBlueLine(Line line) {
     blueLine = line;
 }
 
-CalibData ManualCalibrationThread::getCalibData() {
+CalibrationData ManualCalibrationThread::getCalibData() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    return CalibData(yellowLine, blueLine);
+    return CalibrationData(yellowLine, blueLine);
 }
 
 void BaseManualCalibrationThread::setPoint1(cv::Point point) {

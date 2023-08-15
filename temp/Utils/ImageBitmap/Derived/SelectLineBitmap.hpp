@@ -1,9 +1,9 @@
 #ifndef SELECT_LINE_BITMAP_HPP
 #define SELECT_LINE_BITMAP_HPP
 
-#include <Utils/ImageBitmap/ImageBitmap.hpp>
-#include <Utils/Struct/D_Line.hpp>
+#include <Algorithm/Struct/D_Line.hpp>
 
+#include <Utils/ImageBitmap/ImageBitmap.hpp>
 class SelectLineBitmap : public ImageBitmap {
   public:
     SelectLineBitmap(wxWindow *parent, wxWindowID id,

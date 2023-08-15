@@ -1,4 +1,3 @@
-#include <Event/Event_UpdateImage.hpp>
 
 wxDEFINE_EVENT(c_UPDATE_IMAGE_EVENT, UpdateImageEvent);
 

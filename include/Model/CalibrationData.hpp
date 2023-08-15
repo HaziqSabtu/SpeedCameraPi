@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Utils/Struct/D_Line.hpp"
+#include "Algorithm/Struct/D_Line.hpp"
 
-struct CalibData {
+struct CalibrationData {
     Line lineLeft;
     Line lineRight;
 
-    CalibData() {
+    CalibrationData() {
         lineLeft = Line();
         lineRight = Line();
     }
 
-    CalibData(Line lineLeft, Line lineRight) {
+    CalibrationData(Line lineLeft, Line lineRight) {
         this->lineLeft = lineLeft;
         this->lineRight = lineRight;
     }

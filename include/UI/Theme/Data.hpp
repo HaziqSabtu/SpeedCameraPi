@@ -10,7 +10,65 @@ namespace T = Theme;
 
 namespace Data {
 
+// App General Data
+const wxString AppName = wxT("SpeedCameraPi");
+const wxString AppIcon = wxT("Assets/speed_64.ico");
+
 // BitmapButton Data
+const BitmapData BitmapCapture = {
+    .filename = wxT("Assets/cam_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Capture"),
+};
+
+const BitmapData BitmapLoad = {
+    .filename = wxT("Assets/doc_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Load"),
+};
+
+const BitmapData BitmapReplay = {
+    .filename = wxT("Assets/repeat_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Replay"),
+};
+
+const BitmapData BitmapRemove = {
+    .filename = wxT("Assets/remove_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Remove"),
+};
+
+const BitmapData BitmapRoad = {
+    .filename = wxT("Assets/road_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Calibrate"),
+};
+
+const BitmapData BitmapROI = {
+    .filename = wxT("Assets/roi_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Select ROI"),
+};
+
 const BitmapData BitmapStart = {
     .filename = wxT("Assets/start_96.png"),
     .size = T::BitmapDefaultSize,

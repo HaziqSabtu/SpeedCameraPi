@@ -18,9 +18,9 @@
 #include <Event/Event_LoadImage.hpp>
 #include <Event/Event_UpdatePreview.hpp>
 
-#include <Thread/Task/Task_Load.hpp>
 #include <Thread/ThreadPool.hpp>
 
+#include <Utils/FileReader/fileWR.hpp>
 #include <Utils/wxUtils.hpp>
 
 #include <memory>

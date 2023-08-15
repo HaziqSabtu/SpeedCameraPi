@@ -12,10 +12,9 @@
 #define LOAD_TASK_HPP
 
 #include <Thread/Task/Task.hpp>
-#include <Utils/DataStruct.hpp>
+#include <Utils/CommonUtils.hpp>
 #include <Utils/FileReader/fileH264.hpp>
 #include <Utils/FileReader/fileWR.hpp>
-#include <Utils/ImageUtils.hpp>
 #include <memory>
 #include <wx/string.h>
 
@@ -25,8 +24,7 @@
  */
 class LoadTask : public Task {
   public:
-    LoadTask(std::shared_ptr<std::vector<ImageData>> imgData,
-             std::string path);
+    LoadTask(std::shared_ptr<std::vector<ImageData>> imgData, std::string path);
     void Execute() override;
     TaskProperty GetProperty() const override;
     std::string GetName() const override;

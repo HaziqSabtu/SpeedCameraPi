@@ -13,7 +13,6 @@
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
-#include "Utils/DataStruct.hpp"
 #include <memory>
 #include <vector>
 #include <wx/event.h>
@@ -67,7 +66,7 @@ void CalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
 
-        shared->sessionData.removeCalibData();
+        shared->sessionData.removeCalibrationData();
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -378,7 +377,7 @@ void CalibrationController::saveCalibrationData(wxEvtHandler *parent,
     calibData.lineRight = rightLine.Scale(pSize, cSize);
 
     auto data = shared->getSessionData();
-    data->setCalibData(calibData);
+    data->setCalibrationData(calibData);
 }
 
 void CalibrationController::setPointHandler(wxEvtHandler *parent,

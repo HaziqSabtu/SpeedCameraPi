@@ -1,7 +1,7 @@
 
 #include "Thread/Thread_RoiPreview.hpp"
 #include "Event/Event_Error.hpp"
-#include "Utils/ImageUtils.hpp"
+#include "Utils/CommonUtils.hpp"
 #include <Thread/Thread_RoiPreview.hpp>
 #include <memory>
 #include <opencv2/core/types.hpp>
@@ -39,7 +39,7 @@ wxThread::ExitCode RoiPreviewThread::Entry() {
             auto firstData = data->getCaptureData().at(0);
             cv::Mat frame = firstData.image.clone();
 
-            auto roiData = data->getRoiData();
+            auto roiData = data->getTrackingData();
             cv::Rect initRoi = roiData.roi;
 
             cv::resize(frame, frame, pSize);

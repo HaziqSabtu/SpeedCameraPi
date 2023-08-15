@@ -70,7 +70,7 @@ wxThread::ExitCode ManualCalibrationCaptureThread::Entry() {
 
 ThreadID ManualCalibrationCaptureThread::getID() const { return threadID; }
 
-CalibData ManualCalibrationCaptureThread::getCalibData() {
+CalibrationData ManualCalibrationCaptureThread::getCalibData() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    return CalibData(yellowLine, blueLine);
+    return CalibrationData(yellowLine, blueLine);
 }

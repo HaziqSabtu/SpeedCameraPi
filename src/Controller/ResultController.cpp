@@ -14,7 +14,6 @@
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
-#include "Utils/DataStruct.hpp"
 #include "Utils/wxUtils.hpp"
 #include <memory>
 #include <vector>

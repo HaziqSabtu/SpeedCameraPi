@@ -55,7 +55,7 @@ wxThread::ExitCode ProcessThread::Entry() {
         }
 
         // Speed Calculation
-        auto roi = data->getRoiData().roi;
+        auto roi = data->getTrackingData().roi;
         if (roi.area() <= 0) {
             throw std::runtime_error("ROI is not set");
         }
@@ -75,7 +75,7 @@ wxThread::ExitCode ProcessThread::Entry() {
         }
 
         // Speed Calculation
-        auto roiData = data->getRoiData().trackedRoi;
+        auto roiData = data->getTrackingData().trackedRoi;
 
         auto sensorConfig = c.GetSensorConfig();
 
@@ -96,11 +96,11 @@ wxThread::ExitCode ProcessThread::Entry() {
             times.push_back(t.time);
         }
 
-        if (data->isCalibDataEmpty()) {
+        if (data->isCalibrationDataEmpty()) {
             throw std::runtime_error("Calibration Data is empty");
         }
 
-        auto calibData = data->getCalibData();
+        auto calibData = data->getCalibrationData();
         std::vector<Line> lines;
         lines.push_back(calibData.lineLeft);
         lines.push_back(calibData.lineRight);

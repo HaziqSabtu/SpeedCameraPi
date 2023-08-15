@@ -12,11 +12,8 @@
 #ifndef HOUGH_TASK_HPP
 #define HOUGH_TASK_HPP
 
-#include <Algorithm/line_detection/lineDetection.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/Config/AppConfig.hpp>
-#include <Utils/DataStruct.hpp>
-#include <Utils/Struct/D_Hough.hpp>
 
 /**
  * @brief Task Implementation for Hough Line Detection

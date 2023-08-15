@@ -15,7 +15,7 @@ class MyApp : public wxApp {
         wxLogMessage("Application Started");
 #endif
 
-        MainFrame *frame = new MainFrame("Speed Gun");
+        MainFrame *frame = new MainFrame();
 
         frame->Show(true);
         return true;

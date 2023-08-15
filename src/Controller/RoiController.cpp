@@ -11,10 +11,9 @@
 #include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_LoadFile.hpp"
 #include "Utils/Camera/CameraBase.hpp"
+#include "Utils/CommonUtils.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
-#include "Utils/DataStruct.hpp"
-#include "Utils/ImageUtils.hpp"
 #include "Utils/wxUtils.hpp"
 #include <memory>
 #include <vector>
@@ -172,12 +171,12 @@ void RoiController::removeRectHandler(wxEvtHandler *parent) {
 
     auto data = shared->getSessionData();
 
-    if (data->isRoiDataEmpty()) {
+    if (data->isTrackingDataEmpty()) {
         throw std::runtime_error(
             "RoiController::removeRectHandler() - RoiData is empty");
     }
 
-    data->clearRoiData();
+    data->clearTrackingData();
 }
 
 void RoiController::setPoint1Handler(wxEvtHandler *parent, cv::Point point) {
@@ -282,11 +281,11 @@ void RoiController::roiThreadSaveHandler(wxEvtHandler *parent) {
 
     auto realRect = Utils::scaleRect(rect, src, dst);
 
-    RoiData data;
+    TrackingData data;
     data.roi = realRect;
 
     auto sessionData = shared->getSessionData();
-    sessionData->setRoiData(data);
+    sessionData->setTrackingData(data);
 
     tc->endRoiHandler();
 }

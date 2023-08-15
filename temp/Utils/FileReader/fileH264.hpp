@@ -13,7 +13,6 @@
 #ifndef FILE_H264_HPP
 #define FILE_H264_HPP
 
-#include <Utils/DataStruct.hpp>
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -32,8 +31,8 @@ class FILEH264 {
   public:
     FILEH264(/* args */);
     ~FILEH264();
-    static void ReadFile(std::string path,
-                         std::shared_ptr<std::vector<ImageData>> imgData);
+    // static void ReadFile(std::string path,
+    //                      std::shared_ptr<std::vector<ImageData>> imgData);
 };
 
 #endif

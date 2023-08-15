@@ -15,7 +15,6 @@
 #include "Model/SessionData.hpp"
 #include <Algorithm/image_allign/FeatureDetector.hpp>
 #include <Thread/Task/Task.hpp>
-#include <Utils/DataStruct.hpp>
 #include <memory>
 
 class SiftTask : public Task {

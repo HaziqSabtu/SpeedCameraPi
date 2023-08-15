@@ -5,8 +5,8 @@
 #include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/ThreadPool.hpp"
+#include "Utils/CommonUtils.hpp"
 #include "Utils/Config/AppConfig.hpp"
-#include "Utils/ImageUtils.hpp"
 #include <Thread/Thread_ResultPreview.hpp>
 #include <opencv2/imgproc.hpp>
 #include <wx/utils.h>
@@ -44,7 +44,7 @@ wxThread::ExitCode ResultPreviewThread::Entry() {
 
         auto allignData = data->getAllignData();
 
-        auto roi = data->getRoiData().trackedRoi;
+        auto roi = data->getTrackingData().trackedRoi;
 
         if (roi.size() != allignData.size()) {
             int roiSize = roi.size();
@@ -54,11 +54,11 @@ wxThread::ExitCode ResultPreviewThread::Entry() {
                                      std::to_string(allignDataSize));
         }
 
-        if (data->isCalibDataEmpty()) {
+        if (data->isCalibrationDataEmpty()) {
             throw std::runtime_error("Calibration Data is empty");
         }
 
-        auto calibData = data->getCalibData();
+        auto calibData = data->getCalibrationData();
 
         if (data->isResultDataEmpty()) {
             throw std::runtime_error("Result Data is empty");
