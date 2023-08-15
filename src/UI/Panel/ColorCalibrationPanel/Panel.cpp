@@ -54,7 +54,7 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::CC_ToggleCamera_Button_ID) {
         auto button = button_panel->main_status_panel->camera_Button;
-        OnToggleCameraButton(button);
+        ToggleCameraButtonHandler(button);
     }
 
     if (e.GetId() == Enum::CC_Start_Button_ID) {
@@ -98,7 +98,7 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
-void ColorCalibrationPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
+void ColorCalibrationPanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_ColorCalibrationPreviewStart(button);
         return;

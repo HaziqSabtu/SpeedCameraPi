@@ -155,95 +155,10 @@ void ResultPanel::OnUpdatePreview(UpdatePreviewEvent &e) {
     }
 }
 
-void ResultPanel::OnCalibrationEvent(wxCommandEvent &e) {
-    if (e.GetId() == CALIBRATION_START) {
-        status_panel->SetText(SC::STATUS_START_CALIBRATION);
-
-        // Bind Left Down Event
-        img_bitmap->Bind(wxEVT_LEFT_DOWN, &ResultPanel::OnLeftDown, this);
-    }
-
-    if (e.GetId() == CALIBRATION_END) {
-        status_panel->SetText(SC::STATUS_CALIBRATION_SUCCESS);
-    }
-}
-
-void ResultPanel::OnCapture(wxCommandEvent &e) {
-    if (e.GetId() == CAPTURE_START) {
-        status_panel->SetText(SC::STATUS_CAMERA_ON);
-        img_bitmap->Bind(wxEVT_LEFT_DOWN, &ResultPanel::OnLeftDown, this);
-    }
-
-    if (e.GetId() == CAPTURE_END) {
-        status_panel->SetText(SC::STATUS_CAMERA_OFF);
-    }
-}
-
-void ResultPanel::OnLeftDown(wxMouseEvent &e) {
-    wxPoint pos = e.GetPosition();
-    wxSize size = img_bitmap->GetSize();
-    wxSize img_size = img_bitmap->getImageSize();
-
-    if (pos.x > 0 && pos.x < size.x && pos.y > 0 && pos.y < size.y) {
-        if (img_size.x > 0 && img_size.y > 0) {
-            int x = pos.x * img_size.x / size.x;
-            int y = pos.y * img_size.y / size.y;
-            // controller->e_SetPoint2(this, wxPoint(-1, -1));
-            // controller->e_SetPoint1(this, wxPoint(x, y));
-
-            // Unbind Left Down Event
-            img_bitmap->Unbind(wxEVT_LEFT_DOWN, &ResultPanel::OnLeftDown, this);
-
-            // Bind Cursor Move Event and Left Up Event
-            img_bitmap->Bind(wxEVT_MOTION, &ResultPanel::OnMotion, this);
-            img_bitmap->Bind(wxEVT_LEFT_UP, &ResultPanel::OnLeftUp, this);
-        }
-    }
-}
-
 void ResultPanel::OnUpdateStatus(UpdateStatusEvent &e) {
     if (e.GetId() == UPDATE_STATUS) {
         wxString status = e.GetStatus();
         status_panel->SetText(status);
-    }
-}
-
-void ResultPanel::OnMotion(wxMouseEvent &e) {
-    wxPoint pos = e.GetPosition();
-    wxSize size = img_bitmap->GetSize();
-    wxSize img_size = img_bitmap->getImageSize();
-
-    if (pos.x > 0 && pos.x < size.x && pos.y > 0 && pos.y < size.y) {
-        if (img_size.x > 0 && img_size.y > 0) {
-            int x = pos.x * img_size.x / size.x;
-            int y = pos.y * img_size.y / size.y;
-            // controller->e_SetPoint2(this, wxPoint(x, y));
-        }
-    }
-}
-
-void ResultPanel::OnLeftUp(wxMouseEvent &e) {
-    wxPoint pos = e.GetPosition();
-    wxSize size = img_bitmap->GetSize();
-    wxSize img_size = img_bitmap->getImageSize();
-
-    if (pos.x > 0 && pos.x < size.x && pos.y > 0 && pos.y < size.y) {
-        if (img_size.x > 0 && img_size.y > 0) {
-            int x = pos.x * img_size.x / size.x;
-            int y = pos.y * img_size.y / size.y;
-            // controller->e_SetPoint2(this, wxPoint(x, y));
-
-            // Unbind Cursor Move Event and Left Up Event
-            img_bitmap->Unbind(wxEVT_MOTION, &ResultPanel::OnMotion, this);
-            img_bitmap->Unbind(wxEVT_LEFT_UP, &ResultPanel::OnLeftUp, this);
-
-            // controller->e_SaveLine(this, wxPoint(x, y));
-
-            // Bind Left Down Event
-            img_bitmap->Bind(wxEVT_LEFT_DOWN, &ResultPanel::OnLeftDown, this);
-
-            controller->e_UpdateState(this);
-        }
     }
 }
 
@@ -253,11 +168,6 @@ void ResultPanel::OnUpdateState(UpdateStateEvent &e) {
 
         button_panel->main_status_panel->update(state);
         button_panel->preview_status_panel->update(state);
-        // button_panel->right_status_panel->update(state);
-
-        // auto okState = state.ResultPanel.okButtonState;
-        // auto cancelState = state.ResultPanel.cancelButtonState;
-        // button_panel->ok_cancel_panel->update(okState, cancelState);
 
         Refresh();
     } catch (const std::exception &e) {
@@ -286,8 +196,6 @@ wxBEGIN_EVENT_TABLE(ResultPanel, wxPanel)
     EVT_UPDATE_STATUS(wxID_ANY, ResultPanel::OnUpdateStatus)
     EVT_UPDATE_STATE(wxID_ANY, ResultPanel::OnUpdateState)
     EVT_BUTTON(wxID_ANY,ResultPanel::OnButton) 
-    EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, ResultPanel::OnCalibrationEvent)
-    EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, ResultPanel::OnCapture)
     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT, ResultPanel::OnProcessImage)
     EVT_SHOW(ResultPanel::OnShow)
 wxEND_EVENT_TABLE()

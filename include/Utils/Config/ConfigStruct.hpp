@@ -3,6 +3,9 @@
 
 #include <wx/wx.h>
 
+struct ModelConfig {
+    int Pool_Size;
+};
 struct CameraConfig {
     int Camera_ID;
     int Camera_Width;
@@ -16,27 +19,7 @@ struct CaptureConfig {
 };
 
 struct LoadConfig {
-    wxString path;
     int maxFrame;
-};
-
-struct PanelConfig {
-    int Thread_Pool_Size;
-};
-
-struct CannyConfig {
-    double threshold1;
-    double threshold2;
-    int apertureSize;
-    bool L2gradient;
-};
-
-struct HoughConfig {
-    double rho;
-    double theta;
-    int threshold;
-    double minLineLength;
-    double maxLineGap;
 };
 
 struct OpticalFlowConfig {
@@ -66,4 +49,5 @@ struct RansacConfig {
     int minPoints;
     int maxIterations;
 };
+
 #endif

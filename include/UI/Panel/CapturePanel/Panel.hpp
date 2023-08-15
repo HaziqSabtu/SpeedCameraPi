@@ -43,9 +43,9 @@ class CapturePanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
-    void OnLoadButton(wxButton *button);
-    void OnCaptureButton(wxButton *button);
-    void OnToggleCameraButton(BitmapButtonT2 *button);
+    void LoadButtonHandler(wxButton *button);
+    void CaptureButtonHandler(wxButton *button);
+    void ToggleCameraButtonHandler(BitmapButtonT2 *button);
     void OnChangePanelButton(wxButton *button);
 
     void OnUpdatePreview(UpdatePreviewEvent &e);

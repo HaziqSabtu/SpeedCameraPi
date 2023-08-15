@@ -42,7 +42,7 @@ class ColorCalibrationPanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
-    void OnToggleCameraButton(BitmapButtonT2 *button);
+    void ToggleCameraButtonHandler(BitmapButtonT2 *button);
 
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);

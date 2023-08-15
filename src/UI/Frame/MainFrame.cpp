@@ -20,6 +20,7 @@
 #include <wx/utils.h>
 
 MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
+
     wxIcon icon(Data::AppIcon, wxBITMAP_TYPE_ICO);
     SetIcon(icon);
 
@@ -28,18 +29,15 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
     wxDisplay display;
     wxRect screenRect = display.GetClientArea();
 
-    // Set the frame size and position
     SetSize(screenRect.GetSize());
     SetPosition(screenRect.GetPosition());
 
-    // Show the frame
     ShowFullScreen(true);
 
     ControllerFactory factory(this);
     sharedModel = factory.getSharedModel();
 
-    // TODO: Is there a better way to do this?
-    // Cleanup
+    // * IDEA : Is there a better way to do this?
     auto cpc = factory.createCaptureController();
     capture_panel = new CapturePanel(this, Enum::CP_Panel_ID, cpc);
     panels[PANEL_CAPTURE] = capture_panel;
@@ -112,7 +110,7 @@ void MainFrame::OnChangePanel(ChangePanelEvent &e) {
 
 void MainFrame::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Exit_Button_ID) {
-        exitButtonHandler(e);
+        ExitButtonHandler(e);
     }
 
     if (e.GetId() == Enum::G_Setting_Button_ID) {
@@ -127,7 +125,7 @@ void MainFrame::OnButton(wxCommandEvent &e) {
 }
 
 #ifdef DEBUG
-void MainFrame::exitButtonHandler(wxCommandEvent &e) {
+void MainFrame::ExitButtonHandler(wxCommandEvent &e) {
     sharedModel->killAllThreads();
     Close();
 }

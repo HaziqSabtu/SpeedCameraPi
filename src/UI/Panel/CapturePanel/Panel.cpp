@@ -45,17 +45,17 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     try {
         if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
             auto button = button_panel->cPanel->camera_Button;
-            OnToggleCameraButton(button);
+            ToggleCameraButtonHandler(button);
         }
 
         if (e.GetId() == Enum::CP_Capture_Button_ID) {
             auto button = button_panel->cPanel->Capture_Button->button;
-            OnCaptureButton(button);
+            CaptureButtonHandler(button);
         }
 
         if (e.GetId() == Enum::CP_Load_Button_ID) {
             auto button = button_panel->cPanel->Load_Button->button;
-            OnLoadButton(button);
+            LoadButtonHandler(button);
         }
 
         if (e.GetId() == Enum::CP_Reset_Button_ID) {
@@ -87,7 +87,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     }
 }
 
-void CapturePanel::OnLoadButton(wxButton *button) {
+void CapturePanel::LoadButtonHandler(wxButton *button) {
 #if DEBUG
     std::string path = "./example.bin";
     controller->e_LoadFileStart(this, path);
@@ -105,11 +105,11 @@ void CapturePanel::OnLoadButton(wxButton *button) {
 #endif
 }
 
-void CapturePanel::OnCaptureButton(wxButton *button) {
+void CapturePanel::CaptureButtonHandler(wxButton *button) {
     controller->e_LoadCaptureStart(this);
 }
 
-void CapturePanel::OnToggleCameraButton(BitmapButtonT2 *button) {
+void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_CameraStart(button);
         return;
@@ -134,7 +134,6 @@ void CapturePanel::OnUpdatePreview(UpdatePreviewEvent &e) {
 }
 
 void CapturePanel::OnLoadImage(wxCommandEvent &e) {
-
     if (e.GetId() == LOAD_START_CAMERA) {
         UpdateStatusEvent::Submit(this, StatusCollection::STATUS_CAPTURE_START);
     }
@@ -171,7 +170,6 @@ void CapturePanel::OnUpdateStatus(UpdateStatusEvent &e) {
 }
 
 void CapturePanel::OnReplay(wxCommandEvent &e) {
-
     if (e.GetId() == REPLAY_START) {
         UpdateStatusEvent::Submit(this, StatusCollection::STATUS_REPLAY_START);
     }

@@ -33,12 +33,11 @@ class MainFrame : public wxFrame {
     ColorCalibrationPanel *color_calibration_panel;
     ResultPanel *result_panel;
 
-    // TODO: Is there a better way to do this?
     std::unordered_map<PanelID, wxPanel *> panels;
 
     wxBoxSizer *sizer;
 
-    void exitButtonHandler(wxCommandEvent &e);
+    void ExitButtonHandler(wxCommandEvent &e);
 
     void OnError(ErrorEvent &e);
     void OnChangePanel(ChangePanelEvent &e);

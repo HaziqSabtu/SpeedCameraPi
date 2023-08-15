@@ -11,13 +11,14 @@ class MyApp : public wxApp {
         wxInitAllImageHandlers();
 
 #if DEBUG
+        // Show Log Messages in Debug Mode
         wxLog::SetActiveTarget(new AppLogger);
         wxLogMessage("Application Started");
 #endif
 
         MainFrame *frame = new MainFrame();
-
         frame->Show(true);
+
         return true;
     }
 

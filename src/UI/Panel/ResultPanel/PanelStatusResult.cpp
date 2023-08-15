@@ -49,10 +49,10 @@ void ResultMainStatusPanel::update(const AppState &state) {
 
 void ResultMainStatusPanel::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
-        SetTextData(RTC::ROI_OK);
+        SetTextData(RTC::RESULT_OK);
     }
 
     if (state == PanelState::PANEL_NOT_OK) {
-        SetTextData(RTC::ROI_NONE);
+        SetTextData(RTC::RESULT_NONE);
     }
 }

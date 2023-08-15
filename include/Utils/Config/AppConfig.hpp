@@ -14,9 +14,7 @@ class AppConfig {
     AppConfig();
     ~AppConfig();
 
-    wxString GetLoadFileName();
-
-    PanelConfig GetPanelConfig();
+    ModelConfig GetModelConfig();
 
     PreviewConfig GetPreviewConfig();
 
@@ -26,17 +24,9 @@ class AppConfig {
 
     LoadConfig GetLoadConfig();
 
-    CannyConfig GetCannyConfig();
-
-    HoughConfig GetHoughConfig();
-
     OpticalFlowConfig GetOpticalFlowConfig();
 
     SensorConfig GetSensorConfig();
-
-    int GetMaxLoadFrame();
-
-    int GetRadius();
 
     std::pair<cv::Scalar, cv::Scalar> GetBlueRange();
     void SetBlueRange(std::pair<cv::Scalar, cv::Scalar> range);
@@ -52,7 +42,8 @@ class AppConfig {
     wxFileConfig *config;
 
     // Default Values
-    // Camera Panel
+
+    // Model Config
     int Default_Thread_Pool_Size = 2;
 
     // Preview Config
@@ -68,15 +59,13 @@ class AppConfig {
     // Sensor Parameter
     double Default_Sensor_Width = 3.68;
     double Default_Sensor_Focal_Length = 3.04;
-    double Default_Object_Width = 360.0;
+    double Default_Object_Width = 3500.0;
 
     // Capture Parameter
     int Default_Max_Frame_Count = 10;
     bool Default_Debug = false;
 
     // Load Parameter
-    wxString Default_Load_File_Name = "default";
-    wxString Default_Load_Dir_Location = "default";
     int Default_Max_Frame = 10;
 
     // Detection Parameter
@@ -84,19 +73,6 @@ class AppConfig {
 
     // Line Selection Parameter
     int Default_Radius = 10;
-
-    // Canny Parameter
-    double Default_Threshold1 = 50.0;
-    double Default_Threshold2 = 150.0;
-    int Default_Aperture_Size = 3;
-    bool Default_L2_Gradient = false;
-
-    // HoughLine Parameter
-    double Default_Rho = 1.0;
-    double Default_Theta = CV_PI / 180;
-    int Default_Hough_Threshold = 50;
-    double Default_Min_Line_Length = 25;
-    double Default_Max_Line_Gap = 10;
 
     // Optical Flow Parameter
     int Default_Max_Corners = 1000;

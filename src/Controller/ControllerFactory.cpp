@@ -29,7 +29,7 @@ ControllerFactory::ControllerFactory(wxWindow *parent) {
     }
 
     std::shared_ptr<ThreadPool> threadPool = std::make_shared<ThreadPool>();
-    threadPool->setNumThreads(config.GetPanelConfig().Thread_Pool_Size);
+    threadPool->setNumThreads(config.GetModelConfig().Pool_Size);
 
     std::shared_ptr<ThreadController> threadController =
         std::make_shared<ThreadController>();

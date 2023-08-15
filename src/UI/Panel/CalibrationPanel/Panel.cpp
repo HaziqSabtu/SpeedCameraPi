@@ -83,10 +83,6 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
         controller->e_RemoveCalibData(this);
     }
 
-    // if (e.GetId() == Enum::CL_CancelCalibration_Button_ID) {
-    //     controller->e_CalibrationEnd(this);
-    // }
-
     if (e.GetId() == Enum::CL_SelectPoint_Button_ID) {
         img_bitmap->Bind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
     }
