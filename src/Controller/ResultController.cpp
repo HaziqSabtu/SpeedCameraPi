@@ -10,6 +10,7 @@
 #include "Thread/Thread_Capture.hpp"
 #include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_LoadFile.hpp"
+#include "Thread/Thread_ResultPreview.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
@@ -79,6 +80,46 @@ void ResultController::e_ResultPreviewEnd(wxEvtHandler *parent) {
         checkPreCondition();
 
         resultPreviewEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ToggleShowBox(wxEvtHandler *parent, bool show) {
+    try {
+        checkPreCondition();
+
+        toggleShowBoxHandler(parent, show);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ToggleShowLines(wxEvtHandler *parent, bool show) {
+    try {
+        checkPreCondition();
+
+        toggleShowLinesHandler(parent, show);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ToggleShowLanes(wxEvtHandler *parent, bool show) {
+    try {
+        checkPreCondition();
+
+        toggleShowLanesHandler(parent, show);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_SetIndexToZero(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        setIndexToZeroHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -158,4 +199,64 @@ void ResultController::resultPreviewEndHandler(wxEvtHandler *parent) {
     }
 
     tc->endResultPreviewHandler();
+}
+
+void ResultController::toggleShowBoxHandler(wxEvtHandler *parent, bool show) {
+    auto tc = shared->getThreadController();
+    if (tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        throw std::runtime_error("ResultPreviewThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_RESULT_PREVIEW, panelID)) {
+        throw std::runtime_error(
+            "ResultPreviewThread is not owned by this controller");
+    }
+
+    auto thread = tc->getResultPreviewThread();
+    thread->SetShowBox(show);
+}
+
+void ResultController::toggleShowLinesHandler(wxEvtHandler *parent, bool show) {
+    auto tc = shared->getThreadController();
+    if (tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        throw std::runtime_error("ResultPreviewThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_RESULT_PREVIEW, panelID)) {
+        throw std::runtime_error(
+            "ResultPreviewThread is not owned by this controller");
+    }
+
+    auto thread = tc->getResultPreviewThread();
+    thread->SetShowIntersection(show);
+}
+
+void ResultController::toggleShowLanesHandler(wxEvtHandler *parent, bool show) {
+    auto tc = shared->getThreadController();
+    if (tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        throw std::runtime_error("ResultPreviewThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_RESULT_PREVIEW, panelID)) {
+        throw std::runtime_error(
+            "ResultPreviewThread is not owned by this controller");
+    }
+
+    auto thread = tc->getResultPreviewThread();
+    thread->SetShowLanes(show);
+}
+
+void ResultController::setIndexToZeroHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+    if (tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        throw std::runtime_error("ResultPreviewThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_RESULT_PREVIEW, panelID)) {
+        throw std::runtime_error(
+            "ResultPreviewThread is not owned by this controller");
+    }
+
+    auto thread = tc->getResultPreviewThread();
+    thread->SetImageIndex(0);
 }

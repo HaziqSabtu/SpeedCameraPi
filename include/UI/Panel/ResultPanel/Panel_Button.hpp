@@ -4,7 +4,8 @@
 #include "UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelStatusCalib.hpp"
-#include "UI/Panel/ResultPanel/PanelStatusRoi.hpp"
+#include "UI/Panel/ResultPanel/PanelResultPreview.hpp"
+#include "UI/Panel/ResultPanel/PanelStatusResult.hpp"
 #include <Utils/Enum.hpp>
 
 #include <wx/gtk/button.h>
@@ -16,6 +17,7 @@ class ResultPanelButton : public wxPanel {
     ResultPanelButton(wxWindow *parent, wxWindowID id);
 
     ResultMainStatusPanel *main_status_panel;
+    ResultPreviewStatusPanel *preview_status_panel;
 
     OKCancelPanel *ok_cancel_panel;
 

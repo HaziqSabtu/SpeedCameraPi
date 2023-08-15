@@ -84,6 +84,10 @@ enum ProjectIDs {
     RE_Start_Button_ID,
     RE_Stop_Button_ID,
     RE_Preview_Button_ID,
+    RE_Box_Button_ID,
+    RE_Lines_Button_ID,
+    RE_Lanes_Button_ID,
+    RE_Replay_Button_ID,
 
     // CameraPanel->Hough
     CP_BUTTON_PANEL_HOUGH_ID,

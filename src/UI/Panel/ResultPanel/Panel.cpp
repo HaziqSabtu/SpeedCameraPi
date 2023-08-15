@@ -2,6 +2,7 @@
 #include "Controller/ResultController.hpp"
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
+#include "Event/Event_ProcessImage.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 
 #include "Model/AppState.hpp"
@@ -63,58 +64,83 @@ void ResultPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::RE_Preview_Button_ID) {
-        controller->e_ResultPreviewStart(this);
+        auto button = button_panel->main_status_panel->camera_Button;
+        ToggleReplayButtonHandler(button);
     }
-    // if (e.GetId() == Enum::RO_Stop_Button_ID) {
-    //     controller->e_RoiThreadEnd(this);
-    // }
 
-    // if (e.GetId() == Enum::RO_RemoveRect_Button_ID) {
-    //     controller->e_ClearRect(this);
-    // }
+    if (e.GetId() == Enum::RE_Box_Button_ID) {
+        auto button = button_panel->preview_status_panel->box_Button;
+        ToggleBoxButtonHandler(button);
+    }
 
-    // if (e.GetId() == Enum::MC_Stop_Button_ID) {
-    //     controller->e_ManualCalibEnd(this);
-    // }
+    if (e.GetId() == Enum::RE_Lines_Button_ID) {
+        auto button = button_panel->preview_status_panel->intersection_Button;
+        ToggleLinesButtonHandler(button);
+    }
 
-    // if (e.GetId() == Enum::MC_SelectLeft_Button_ID) {
-    //     controller->e_ChangeToLeft(this);
-    // }
+    if (e.GetId() == Enum::RE_Lanes_Button_ID) {
+        auto button = button_panel->preview_status_panel->lanes_Button;
+        ToggleLanesButtonHandler(button);
+    }
 
-    // if (e.GetId() == Enum::MC_SelectRight_Button_ID) {
-    //     controller->e_ChangeToRight(this);
-    // }
+    if (e.GetId() == Enum::RE_Replay_Button_ID) {
+        controller->e_SetIndexToZero(this);
+    }
 
-    // if (e.GetId() == Enum::MC_RemoveLeft_Button_ID) {
-    //     controller->e_ChangeToLeft(this);
-    //     controller->e_RemoveLeft(this);
-    // }
-
-    // if (e.GetId() == Enum::MC_RemoveRight_Button_ID) {
-    //     controller->e_ChangeToRight(this);
-    //     controller->e_RemoveRight(this);
-    // }
-
-    // if (e.GetId() == Enum::MC_ToggleCamera_Button_ID) {
-    //     auto button = button_panel->main_status_panel->camera_Button;
-    //     OnToggleCameraButton(button);
-    // }
-
-    // controller->e_UpdateState(this);
+    controller->e_UpdateState(this);
 
     e.Skip();
 }
 
-void ResultPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
-    // if (button->getState() == ButtonState::OFF) {
-    //     controller->e_CalibPrevStart(button);
-    //     return;
-    // }
+void ResultPanel::ToggleReplayButtonHandler(BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_ResultPreviewStart(button);
+        return;
+    }
 
-    // if (button->getState() == ButtonState::ON) {
-    //     controller->e_CalibPrevEnd(button);
-    //     return;
-    // }
+    if (button->getState() == ButtonState::ON) {
+        controller->e_ResultPreviewEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
+void ResultPanel::ToggleBoxButtonHandler(BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_ToggleShowBox(button, true);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_ToggleShowBox(button, false);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
+void ResultPanel::ToggleLinesButtonHandler(BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_ToggleShowLines(button, true);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_ToggleShowLines(button, false);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
+void ResultPanel::ToggleLanesButtonHandler(BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_ToggleShowLanes(button, true);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_ToggleShowLanes(button, false);
+        return;
+    }
     throw std::runtime_error("Invalid button state");
 }
 
@@ -225,8 +251,8 @@ void ResultPanel::OnUpdateState(UpdateStateEvent &e) {
     try {
         auto state = e.GetState();
 
-        // button_panel->main_status_panel->update(state);
-        // button_panel->left_status_panel->update(state);
+        button_panel->main_status_panel->update(state);
+        button_panel->preview_status_panel->update(state);
         // button_panel->right_status_panel->update(state);
 
         // auto okState = state.ResultPanel.okButtonState;
@@ -242,17 +268,26 @@ void ResultPanel::OnUpdateState(UpdateStateEvent &e) {
 void ResultPanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
         // controller->e_CreateTempSessionData(this);
-        // controller->e_UpdateState(this);
+        controller->e_UpdateState(this);
     }
+}
+
+void ResultPanel::OnProcessImage(wxCommandEvent &e) {
+    if (e.GetId() == PROCESS_END) {
+        controller->e_ProcessThreadEnd(this);
+    }
+
+    controller->e_UpdateState(this);
 }
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(ResultPanel, wxPanel)
     EVT_UPDATE_PREVIEW(wxID_ANY, ResultPanel::OnUpdatePreview)
     EVT_UPDATE_STATUS(wxID_ANY, ResultPanel::OnUpdateStatus)
-    // EVT_UPDATE_STATE(wxID_ANY, ResultPanel::OnUpdateState)
+    EVT_UPDATE_STATE(wxID_ANY, ResultPanel::OnUpdateState)
     EVT_BUTTON(wxID_ANY,ResultPanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, ResultPanel::OnCalibrationEvent)
     EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, ResultPanel::OnCapture)
+    EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT, ResultPanel::OnProcessImage)
     EVT_SHOW(ResultPanel::OnShow)
 wxEND_EVENT_TABLE()

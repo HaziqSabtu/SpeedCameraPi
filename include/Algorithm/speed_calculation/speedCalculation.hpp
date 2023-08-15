@@ -44,6 +44,9 @@ class SpeedCalculation {
     double GetLaneWidth() const;
     void SetLaneWidth(double width);
 
+    std::vector<double> GetDistanceFromCamera() const;
+    std::vector<Line> GetIntersectingLines() const;
+
   private:
     double distanceFromCameraInMilli(float pixelWidth);
 
@@ -61,6 +64,10 @@ class SpeedCalculation {
     HPTime prevTime;
 
     std::vector<double> speeds;
+
+    // debugging data
+    std::vector<double> distFromCamera;
+    std::vector<Line> intersectingLines;
 };
 
 #endif

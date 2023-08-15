@@ -19,7 +19,7 @@
 #include <wx/utils.h>
 
 MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
-
+    // TODO: Data set title, icon
     wxIcon icon("Speed.ico", wxBITMAP_TYPE_ICO);
     SetIcon(icon);
 
@@ -38,6 +38,8 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title) {
     ControllerFactory factory(this);
     sharedModel = factory.getSharedModel();
 
+    // TODO: Is there a better way to do this?
+    // Cleanup
     auto cpc = factory.createCaptureController();
     capture_panel = new CapturePanel(this, Enum::CP_Panel_ID, cpc);
     panels[PANEL_CAPTURE] = capture_panel;

@@ -10,21 +10,17 @@
 #include "UI/StaticText/RichText.hpp"
 #include "UI/Theme/Data.hpp"
 #include "Utils/Enum.hpp"
-#include <UI/Panel/ResultPanel/PanelStatusRoi.hpp>
+#include <UI/Panel/ResultPanel/PanelStatusResult.hpp>
 
 ResultMainStatusPanel::ResultMainStatusPanel(wxWindow *parent)
-    : TextOutlinePanel(parent, RTC::ROI_NONE) {
+    : TextOutlinePanel(parent, RTC::RESULT_NONE) {
 
     calibrate_Button = new BitmapCalibration(this, Enum::RE_Start_Button_ID);
-    stop_Button = new BitmapStop(this, Enum::RE_Stop_Button_ID);
     camera_Button = new BitmapT2MagnifyGlass(this, Enum::RE_Preview_Button_ID);
-    reset_Button = new BitmapRemove(this, Enum::RO_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
-    buttonSizer->Add(stop_Button, 1, wxEXPAND);
     buttonSizer->Add(camera_Button, 1, wxEXPAND);
-    buttonSizer->Add(reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -38,22 +34,17 @@ ResultMainStatusPanel::ResultMainStatusPanel(wxWindow *parent)
 
     SetSizer(hSizer);
     Fit();
-
-    reset_Button->Bind(wxEVT_BUTTON, &ResultMainStatusPanel::OnButtonClicked,
-                       this);
 }
 
 void ResultMainStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
 void ResultMainStatusPanel::update(const AppState &state) {
     // set panel
-    ManualCalibrationPanelState ps = state.manualCalibrationPanel;
+    ResultPanelState ps = state.resultPanel;
     setPanelState(ps.state);
 
-    calibrate_Button->update(ps.calibrationButtonState);
-    // stop_Button->update(ps.stopButtonState);
-    // camera_Button->update(ps.cameraButtonState);
-    reset_Button->update(ps.removeButtonState);
+    calibrate_Button->update(ps.resultButtonState);
+    camera_Button->update(ps.previewButtonState);
 }
 
 void ResultMainStatusPanel::setPanelState(PanelState state) {

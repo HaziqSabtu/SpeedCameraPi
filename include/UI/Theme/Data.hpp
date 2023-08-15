@@ -194,6 +194,45 @@ const BitmapDataT2 BitmapT2MagnifyGlass = {
     .disabledText = "Stop Preview",
 };
 
+const BitmapDataT2 BitmapT2Box = {
+    .size = T::BitmapDefaultSize,
+    .onName = "Assets/roi_96.png",
+    .onColour = T::BitmapActive,
+    .onText = "Hide Box",
+    .offName = "Assets/roi_96.png",
+    .offColour = T::BitmapNormal,
+    .offText = "Show Box",
+    .disabledName = "Assets/roi_96.png",
+    .disabledColour = T::BitmapDisabled,
+    .disabledText = "Show Box",
+};
+
+const BitmapDataT2 BitmapT2Line = {
+    .size = T::BitmapDefaultSize,
+    .onName = "Assets/ruler_96.png",
+    .onColour = T::BitmapActive,
+    .onText = "Hide Line",
+    .offName = "Assets/ruler_96.png",
+    .offColour = T::BitmapNormal,
+    .offText = "Show Line",
+    .disabledName = "Assets/ruler_96.png",
+    .disabledColour = T::BitmapDisabled,
+    .disabledText = "Show Line",
+};
+
+const BitmapDataT2 BitmapT2Lanes = {
+    .size = T::BitmapDefaultSize,
+    .onName = "Assets/road_96.png",
+    .onColour = T::BitmapActive,
+    .onText = "Hide Lanes",
+    .offName = "Assets/road_96.png",
+    .offColour = T::BitmapNormal,
+    .offText = "Show Lanes",
+    .disabledName = "Assets/road_96.png",
+    .disabledColour = T::BitmapDisabled,
+    .disabledText = "Show Lanes",
+};
+
 // TextButton Data
 const TextButtonData AcceptTextButton = {
     .text = wxT("Accept"),

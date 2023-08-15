@@ -8,11 +8,12 @@
 class MyApp : public wxApp {
   public:
     bool OnInit() {
-        AppConfig conf;
         wxInitAllImageHandlers();
 
+#if DEBUG
         wxLog::SetActiveTarget(new AppLogger);
         wxLogMessage("Application Started");
+#endif
 
         MainFrame *frame = new MainFrame("Speed Gun");
 
@@ -22,8 +23,6 @@ class MyApp : public wxApp {
 
     virtual int OnExit() {
         wxWakeUpIdle();
-
-        std::cerr << "Application Closed" << std::endl;
         return wxApp::OnExit();
     }
 };

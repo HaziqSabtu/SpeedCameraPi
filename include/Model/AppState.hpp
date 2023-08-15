@@ -110,6 +110,18 @@ struct RoiPanelState {
     ButtonState cancelButtonState;
 };
 
+struct ResultPanelState {
+    PanelState state;
+    ButtonState resultButtonState;
+    ButtonState previewButtonState;
+
+    PanelState previewStatusState;
+    ButtonState boxButtonState;
+    ButtonState linesButtonState;
+    ButtonState lanesButtonState;
+    ButtonState replayButtonState;
+};
+
 class AppState {
   public:
     AppState();
@@ -120,6 +132,7 @@ class AppState {
     ManualCalibrationPanelState getManualCalibrationPanelState(ModelPtr model);
     ColorCalibrationPanelState getColorCalibrationPanelState(ModelPtr model);
     RoiPanelState getRoiPanelState(ModelPtr model);
+    ResultPanelState getResultPanelState(ModelPtr model);
 
   public:
     CapturePanelState cameraPanel;
@@ -127,6 +140,7 @@ class AppState {
     ManualCalibrationPanelState manualCalibrationPanel;
     ColorCalibrationPanelState colorCalibrationPanel;
     RoiPanelState roiPanel;
+    ResultPanelState resultPanel;
 
   private:
     PanelState getCameraStatusState(ModelPtr model);
@@ -239,4 +253,16 @@ class AppState {
     // ROI Panel -> OK / Cancel
     ButtonState getROIOKButtonState(ModelPtr model);
     ButtonState getROICancelButtonState(ModelPtr model);
+
+    // Result Panel
+    PanelState getRPResultStatusState(ModelPtr model);
+    ButtonState getRPResultButtonState(ModelPtr model);
+    ButtonState getRPPreviewButtonState(ModelPtr model);
+
+    // Result Panel -> Preview
+    PanelState getRPPreviewStatusState(ModelPtr model);
+    ButtonState getRPBoxButtonState(ModelPtr model);
+    ButtonState getRPLinesButtonState(ModelPtr model);
+    ButtonState getRPLanesButtonState(ModelPtr model);
+    ButtonState getRPReplayButtonState(ModelPtr model);
 };

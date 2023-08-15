@@ -1,5 +1,6 @@
 #include "Algorithm/speed_calculation/speedCalculation.hpp"
 #include "Event/Event_Error.hpp"
+#include "Event/Event_ProcessImage.hpp"
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
@@ -9,6 +10,7 @@
 #include "Utils/Config/AppConfig.hpp"
 #include <Thread/Thread_Process.hpp>
 #include <vector>
+#include <wx/event.h>
 #include <wx/utils.h>
 
 ProcessThread::ProcessThread(wxEvtHandler *parent, POOLPtr threadPool,
@@ -19,6 +21,9 @@ ProcessThread::ProcessThread(wxEvtHandler *parent, POOLPtr threadPool,
 ProcessThread::~ProcessThread() {}
 
 wxThread::ExitCode ProcessThread::Entry() {
+    wxCommandEvent startProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_BEGIN);
+    wxPostEvent(parent, startProcessEvent);
+
     UpdateStatusEvent::Submit(parent, "Starting Process Thread");
     try {
 
@@ -104,12 +109,30 @@ wxThread::ExitCode ProcessThread::Entry() {
 
         auto speed = speedCalc.GetTrimmedAverageSpeed(20) * 3.6;
 
+        auto speedList = speedCalc.GetRawSpeed();
+        auto distanceFromCamera = speedCalc.GetDistanceFromCamera();
+        auto intersectingLines = speedCalc.GetIntersectingLines();
+
+        ResultData resultData;
+        resultData.speed = speed;
+        resultData.speedList = speedList;
+        resultData.distanceFromCamera = distanceFromCamera;
+        resultData.intersectingLines = intersectingLines;
+
+        data->setResultData(resultData);
+
         std::string resultString = "Speed: " + std::to_string(speed) + " km/h";
         UpdateStatusEvent::Submit(parent, resultString);
 
     } catch (const std::exception &e) {
+        wxCommandEvent errorProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_ERROR);
+        wxPostEvent(parent, errorProcessEvent);
+
         ErrorEvent::Submit(parent, e.what());
     }
+
+    wxCommandEvent endProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_END);
+    wxPostEvent(parent, endProcessEvent);
 
     return 0;
 }

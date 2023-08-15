@@ -27,6 +27,11 @@ class ResultController {
     void e_ResultPreviewStart(wxEvtHandler *parent);
     void e_ResultPreviewEnd(wxEvtHandler *parent);
 
+    void e_ToggleShowBox(wxEvtHandler *parent, bool show);
+    void e_ToggleShowLanes(wxEvtHandler *parent, bool show);
+    void e_ToggleShowLines(wxEvtHandler *parent, bool show);
+    void e_SetIndexToZero(wxEvtHandler *parent);
+
   private:
     static const PanelID panelID = PanelID::PANEL_RESULT;
     ModelPtr shared;
@@ -39,4 +44,9 @@ class ResultController {
 
     void resultPreviewStartHandler(wxEvtHandler *parent);
     void resultPreviewEndHandler(wxEvtHandler *parent);
+
+    void toggleShowBoxHandler(wxEvtHandler *parent, bool show);
+    void toggleShowLanesHandler(wxEvtHandler *parent, bool show);
+    void toggleShowLinesHandler(wxEvtHandler *parent, bool show);
+    void setIndexToZeroHandler(wxEvtHandler *parent);
 };

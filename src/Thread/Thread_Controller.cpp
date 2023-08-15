@@ -9,6 +9,7 @@
 #include "Thread/Thread_ManualCalibCapture.hpp"
 #include "Thread/Thread_Process.hpp"
 #include "Thread/Thread_Result.hpp"
+#include "Thread/Thread_ResultPreview.hpp"
 #include "Thread/Thread_Roi.hpp"
 #include "Utils/DataStruct.hpp"
 #include <Thread/Thread_Controller.hpp>
@@ -359,6 +360,10 @@ RoiPreviewThread *ThreadController::getRoiPreviewThread() {
 }
 
 ProcessThread *ThreadController::getProcessThread() { return processThread; }
+
+ResultPreviewThread *ThreadController::getResultPreviewThread() {
+    return resultPreviewThread;
+}
 
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, DataPtr data,
                                             int maxFrame, std::string path,

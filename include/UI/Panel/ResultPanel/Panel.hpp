@@ -43,7 +43,10 @@ class ResultPanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
-    void OnToggleCameraButton(BitmapButtonT2 *button);
+    void ToggleReplayButtonHandler(BitmapButtonT2 *button);
+    void ToggleBoxButtonHandler(BitmapButtonT2 *button);
+    void ToggleLinesButtonHandler(BitmapButtonT2 *button);
+    void ToggleLanesButtonHandler(BitmapButtonT2 *button);
 
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);
@@ -54,6 +57,7 @@ class ResultPanel : public wxPanel {
     void OnLeftUp(wxMouseEvent &e);
     void OnUpdateStatus(UpdateStatusEvent &e);
     void OnUpdateState(UpdateStateEvent &e);
+    void OnProcessImage(wxCommandEvent &e);
     void OnShow(wxShowEvent &e);
 
     DECLARE_EVENT_TABLE()

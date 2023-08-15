@@ -13,6 +13,7 @@ AppState::AppState(ModelPtr model) {
     manualCalibrationPanel = getManualCalibrationPanelState(model);
     colorCalibrationPanel = getColorCalibrationPanelState(model);
     roiPanel = getRoiPanelState(model);
+    resultPanel = getResultPanelState(model);
 }
 
 PanelState AppState::getCameraStatusState(ModelPtr model) {
@@ -31,130 +32,146 @@ PanelState AppState::getRoiStatusState(ModelPtr model) {
 }
 
 CapturePanelState AppState::getCapturePanelState(ModelPtr model) {
-    CapturePanelState cpps;
+    CapturePanelState ps;
 
-    cpps.captureStatusState = getCameraStatusState(model);
-    cpps.calibStatusState = getCalibrationStatusState(model);
-    cpps.roiStatusState = getRoiStatusState(model);
+    ps.captureStatusState = getCameraStatusState(model);
+    ps.calibStatusState = getCalibrationStatusState(model);
+    ps.roiStatusState = getRoiStatusState(model);
 
-    cpps.captureButtonState = getCaptureButtonState(model);
-    cpps.loadButtonState = getLoadButtonState(model);
-    cpps.replayButtonState = getReplayButtonState(model);
-    cpps.removeButtonState = getRemoveButtonState(model);
-    cpps.cameraButtonState = getCameraButtonState(model);
+    ps.captureButtonState = getCaptureButtonState(model);
+    ps.loadButtonState = getLoadButtonState(model);
+    ps.replayButtonState = getReplayButtonState(model);
+    ps.removeButtonState = getRemoveButtonState(model);
+    ps.cameraButtonState = getCameraButtonState(model);
 
-    cpps.calibButtonState = getCPCalibrationButtonState(model);
-    cpps.calibRemoveButtonState = getCPCalibrationRemoveButtonState(model);
+    ps.calibButtonState = getCPCalibrationButtonState(model);
+    ps.calibRemoveButtonState = getCPCalibrationRemoveButtonState(model);
 
-    cpps.roiButtonState = getCPROIButtonState(model);
-    cpps.roiRemoveButtonState = getCPROIRemoveButtonState(model);
+    ps.roiButtonState = getCPROIButtonState(model);
+    ps.roiRemoveButtonState = getCPROIRemoveButtonState(model);
 
-    cpps.measureButtonState = getCPMeasureButtonState(model);
+    ps.measureButtonState = getCPMeasureButtonState(model);
 
-    return cpps;
+    return ps;
 }
 
 CalibrationPanelState AppState::getCalibrationPanelState(ModelPtr model) {
-    CalibrationPanelState clps;
+    CalibrationPanelState ps;
 
-    clps.state = getCalibrationStatusState(model);
+    ps.state = getCalibrationStatusState(model);
 
-    clps.calibrationButtonState = getCalibrationButtonState(model);
-    clps.calibrationCaptureButtonState =
-        getCalibrationCaptureButtonState(model);
-    clps.removeButtonState = getCalibrationRemoveButtonState(model);
+    ps.calibrationButtonState = getCalibrationButtonState(model);
+    ps.calibrationCaptureButtonState = getCalibrationCaptureButtonState(model);
+    ps.removeButtonState = getCalibrationRemoveButtonState(model);
 
-    clps.toolStatusState = getCLToolStatusState(model);
-    clps.selectPointButtonState = getSelectPointButtonState(model);
-    clps.cancelCalibrationButtonState = getCancelCalibrationButtonState(model);
-    clps.acceptCalibrationButtonState = getAcceptCalibrationButtonState(model);
+    ps.toolStatusState = getCLToolStatusState(model);
+    ps.selectPointButtonState = getSelectPointButtonState(model);
+    ps.cancelCalibrationButtonState = getCancelCalibrationButtonState(model);
+    ps.acceptCalibrationButtonState = getAcceptCalibrationButtonState(model);
 
-    clps.previewStatusState = getCLPreviewStatusState(model);
-    clps.prevCameraButtonState = getCLPrevCameraButtonState(model);
-    clps.prevCaptureButtonState = getCLPrevCaptureButtonState(model);
+    ps.previewStatusState = getCLPreviewStatusState(model);
+    ps.prevCameraButtonState = getCLPrevCameraButtonState(model);
+    ps.prevCaptureButtonState = getCLPrevCaptureButtonState(model);
 
-    clps.otherStatusState = getCLOtherStatusState(model);
-    clps.recalibrateColorButtonState = getRecalibrateColorButtonState(model);
-    clps.manualCalibrationButtonState = getManualCalibrationButtonState(model);
+    ps.otherStatusState = getCLOtherStatusState(model);
+    ps.recalibrateColorButtonState = getRecalibrateColorButtonState(model);
+    ps.manualCalibrationButtonState = getManualCalibrationButtonState(model);
 
-    clps.okButtonState = getCLOKButtonState(model);
-    clps.cancelButtonState = getCLCancelButtonState(model);
+    ps.okButtonState = getCLOKButtonState(model);
+    ps.cancelButtonState = getCLCancelButtonState(model);
 
-    return clps;
+    return ps;
 }
 
 ManualCalibrationPanelState
 AppState::getManualCalibrationPanelState(std::shared_ptr<SharedModel> model) {
-    ManualCalibrationPanelState mcps;
+    ManualCalibrationPanelState ps;
 
-    mcps.state = getCalibrationStatusState(model);
+    ps.state = getCalibrationStatusState(model);
 
-    mcps.calibrationButtonState = getMCButtonState(model);
-    mcps.calibrationCaptureButtonState = getMCCaptureButtonState(model);
-    mcps.removeButtonState = getMCRemoveButtonState(model);
+    ps.calibrationButtonState = getMCButtonState(model);
+    ps.calibrationCaptureButtonState = getMCCaptureButtonState(model);
+    ps.removeButtonState = getMCRemoveButtonState(model);
 
-    mcps.leftStatusState = getMCLeftStatusState(model);
-    mcps.selectLeftButtonState = getMCSelectLeftButtonState(model);
-    mcps.removeLeftButtonState = getMCRemoveLeftButtonState(model);
+    ps.leftStatusState = getMCLeftStatusState(model);
+    ps.selectLeftButtonState = getMCSelectLeftButtonState(model);
+    ps.removeLeftButtonState = getMCRemoveLeftButtonState(model);
 
-    mcps.rightStatusState = getMCRightStatusState(model);
-    mcps.selectRightButtonState = getMCSelectRightButtonState(model);
-    mcps.removeRightButtonState = getMCRemoveRightButtonState(model);
+    ps.rightStatusState = getMCRightStatusState(model);
+    ps.selectRightButtonState = getMCSelectRightButtonState(model);
+    ps.removeRightButtonState = getMCRemoveRightButtonState(model);
 
-    mcps.previewStatusState = getMCPreviewStatusState(model);
-    mcps.prevCameraButtonState = getMCPrevCameraButtonState(model);
-    mcps.prevCaptureButtonState = getMCPrevCaptureButtonState(model);
+    ps.previewStatusState = getMCPreviewStatusState(model);
+    ps.prevCameraButtonState = getMCPrevCameraButtonState(model);
+    ps.prevCaptureButtonState = getMCPrevCaptureButtonState(model);
 
-    mcps.okButtonState = getMCOKButtonState(model);
-    mcps.cancelButtonState = getMCCancelButtonState(model);
+    ps.okButtonState = getMCOKButtonState(model);
+    ps.cancelButtonState = getMCCancelButtonState(model);
 
-    return mcps;
+    return ps;
 }
 
 ColorCalibrationPanelState
 AppState::getColorCalibrationPanelState(std::shared_ptr<SharedModel> model) {
-    ColorCalibrationPanelState ccps;
+    ColorCalibrationPanelState ps;
 
-    ccps.calibrationButtonState = getCCButtonState(model);
-    ccps.stopButtonState = getCCStopButtonState(model);
-    ccps.cameraButtonState = getCCCameraButtonState(model);
-    ccps.removeButtonState = getCCRemoveButtonState(model);
+    ps.calibrationButtonState = getCCButtonState(model);
+    ps.stopButtonState = getCCStopButtonState(model);
+    ps.cameraButtonState = getCCCameraButtonState(model);
+    ps.removeButtonState = getCCRemoveButtonState(model);
 
-    ccps.blueStatusState = getCCBlueStatusState(model);
-    ccps.selectBlueButtonState = getCCSelectBlueButtonState(model);
-    ccps.acceptBlueButtonState = getCCAcceptBlueButtonState(model);
+    ps.blueStatusState = getCCBlueStatusState(model);
+    ps.selectBlueButtonState = getCCSelectBlueButtonState(model);
+    ps.acceptBlueButtonState = getCCAcceptBlueButtonState(model);
 
-    ccps.yellowStatusState = getCCYellowStatusState(model);
-    ccps.selectYellowButtonState = getCCSelectYellowButtonState(model);
-    ccps.acceptYellowButtonState = getCCAcceptYellowButtonState(model);
+    ps.yellowStatusState = getCCYellowStatusState(model);
+    ps.selectYellowButtonState = getCCSelectYellowButtonState(model);
+    ps.acceptYellowButtonState = getCCAcceptYellowButtonState(model);
 
-    ccps.saveButtonState = getCCSaveButtonState(model);
-    ccps.restoreButtonState = getCCRestoreButtonState(model);
+    ps.saveButtonState = getCCSaveButtonState(model);
+    ps.restoreButtonState = getCCRestoreButtonState(model);
 
-    ccps.okButtonState = getCCOKButtonState(model);
-    ccps.cancelButtonState = getCCCancelButtonState(model);
+    ps.okButtonState = getCCOKButtonState(model);
+    ps.cancelButtonState = getCCCancelButtonState(model);
 
-    return ccps;
+    return ps;
 }
 
 RoiPanelState AppState::getRoiPanelState(ModelPtr model) {
-    RoiPanelState rops;
+    RoiPanelState ps;
 
-    rops.state = getRoiStatusState(model);
+    ps.state = getRoiStatusState(model);
 
-    rops.roiButtonState = getROIButtonState(model);
-    rops.stopButtonState = getROIStopButtonState(model);
-    rops.cameraButtonState = getROICameraButtonState(model);
-    rops.removeButtonState = getROIRemoveButtonState(model);
+    ps.roiButtonState = getROIButtonState(model);
+    ps.stopButtonState = getROIStopButtonState(model);
+    ps.cameraButtonState = getROICameraButtonState(model);
+    ps.removeButtonState = getROIRemoveButtonState(model);
 
-    rops.roiToolsStatusState = getROIToolsStatusState(model);
-    rops.acceptRoiButtonState = getROIAcceptRoiButtonState(model);
-    rops.clearRoiButtonState = getROIClearRoiButtonState(model);
+    ps.roiToolsStatusState = getROIToolsStatusState(model);
+    ps.acceptRoiButtonState = getROIAcceptRoiButtonState(model);
+    ps.clearRoiButtonState = getROIClearRoiButtonState(model);
 
-    rops.okButtonState = getROIOKButtonState(model);
-    rops.cancelButtonState = getROICancelButtonState(model);
+    ps.okButtonState = getROIOKButtonState(model);
+    ps.cancelButtonState = getROICancelButtonState(model);
 
-    return rops;
+    return ps;
+}
+
+ResultPanelState AppState::getResultPanelState(ModelPtr model) {
+    ResultPanelState ps;
+
+    ps.state = getRPResultStatusState(model);
+
+    ps.resultButtonState = getRPResultButtonState(model);
+    ps.previewButtonState = getRPPreviewButtonState(model);
+
+    ps.previewStatusState = getRPPreviewStatusState(model);
+    ps.boxButtonState = getRPBoxButtonState(model);
+    ps.linesButtonState = getRPLinesButtonState(model);
+    ps.lanesButtonState = getRPLanesButtonState(model);
+    ps.replayButtonState = getRPReplayButtonState(model);
+
+    return ps;
 }
 
 ButtonState AppState::getCaptureButtonState(ModelPtr model) {
@@ -1115,5 +1132,101 @@ ButtonState AppState::getROICancelButtonState(ModelPtr model) {
     if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
         return ButtonState::DISABLED;
     }
+    return ButtonState::NORMAL;
+}
+
+PanelState AppState::getRPResultStatusState(ModelPtr model) { return PANEL_OK; }
+
+ButtonState AppState::getRPResultButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_PROCESS)) {
+        return ButtonState::ACTIVE;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getRPPreviewButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_PROCESS)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        return ButtonState::ON;
+    }
+
+    return ButtonState::OFF;
+}
+
+PanelState AppState::getRPPreviewStatusState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        return PanelState::PANEL_OK;
+    }
+
+    return PanelState::PANEL_HIDDEN;
+}
+
+ButtonState AppState::getRPBoxButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getRPPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getResultPreviewThread();
+
+    if (thread->GetShowBox() == true) {
+        return ButtonState::ON;
+    }
+
+    return ButtonState::OFF;
+}
+ButtonState AppState::getRPLinesButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getRPPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getResultPreviewThread();
+
+    if (thread->GetShowIntersection() == true) {
+        return ButtonState::ON;
+    }
+
+    return ButtonState::OFF;
+}
+ButtonState AppState::getRPLanesButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getRPPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getResultPreviewThread();
+
+    if (thread->GetShowLanes() == true) {
+        return ButtonState::ON;
+    }
+
+    return ButtonState::OFF;
+}
+
+ButtonState AppState::getRPReplayButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getRPPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
     return ButtonState::NORMAL;
 }

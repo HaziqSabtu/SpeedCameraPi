@@ -105,4 +105,19 @@ const RTD COLOR_CALIB_YELLOW_OK = {
 const RTD ROI_TOOLS = {
     {wxT("ROI Tools"), Theme::Text},
 };
+
+const RTD RESULT_NONE = {
+    {wxT("Result: "), Theme::Text},
+    {wxT("NONE"), Theme::StatusNone},
+};
+
+const RTD RESULT_PROCESSING = {
+    {wxT("Result: "), Theme::Text},
+    {wxT("PROCESSING"), Theme::StatusNone},
+};
+
+const RTD RESULT_OK = {
+    {wxT("Result: "), Theme::Text},
+    {wxT("OK"), Theme::StatusOk},
+};
 }; // namespace RichTextCollection

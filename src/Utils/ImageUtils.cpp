@@ -65,8 +65,6 @@ FileExtension GetFileExtension(std::string &path) {
  * @param angle angle to rotate in degrees
  */
 void RotateImage(std::vector<ImageData> &imgData, int angle) {
-    std::cout << "Rotating: " << imgData.size() << " images on angle " << angle
-              << std::endl;
     for (int i = 0; i < imgData.size(); i++) {
         cv::Mat img = imgData[i].image;
         cv::Mat rotatedImg;
@@ -77,6 +75,7 @@ void RotateImage(std::vector<ImageData> &imgData, int angle) {
     }
 }
 
+// TODO: Utils->algorithm
 /**
  * @brief Calculate trimmed mean
  *

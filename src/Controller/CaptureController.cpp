@@ -346,6 +346,8 @@ void CaptureController::clearImageDataHandler(wxEvtHandler *parent) {
 
     shared->sessionData.clearRoiData();
 
+    shared->sessionData.clearResultData();
+
     UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_REMOVE_DATA);
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);

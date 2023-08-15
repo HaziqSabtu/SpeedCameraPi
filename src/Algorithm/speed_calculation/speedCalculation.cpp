@@ -31,7 +31,7 @@ void SpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
 
     imageWidth = images.at(0).cols;
 
-    for (int i = 1; i < images.size(); i++) {
+    for (int i = 0; i < images.size(); i++) {
 
         cv::Rect roi = trackedRoi.at(i);
         cv::Point br = roi.br();
@@ -46,7 +46,7 @@ void SpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
 
         double dist1 = distanceFromCameraInMilli(pixelDist);
 
-        std::chrono::high_resolution_clock::time_point currTime = times.at(i);
+        HPTime currTime = times.at(i);
 
         if (prevDistFromCamera != -1) {
             double speed =
@@ -56,6 +56,9 @@ void SpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
 
         prevDistFromCamera = dist1;
         prevTime = currTime;
+
+        distFromCamera.push_back(dist1);
+        intersectingLines.push_back(Line(intersection1, intersection2));
     }
 }
 
@@ -127,5 +130,13 @@ void SpeedCalculation::SetFocalLength(double length) {
 double SpeedCalculation::GetLaneWidth() const { return this->laneWidth; }
 
 void SpeedCalculation::SetLaneWidth(double width) { this->laneWidth = width; }
+
+std::vector<double> SpeedCalculation::GetDistanceFromCamera() const {
+    return distFromCamera;
+}
+
+std::vector<Line> SpeedCalculation::GetIntersectingLines() const {
+    return intersectingLines;
+}
 
 std::vector<double> SpeedCalculation::GetRawSpeed() const { return speeds; }

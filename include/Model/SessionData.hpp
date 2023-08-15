@@ -60,6 +60,47 @@ struct AllignData2 {
         : transformMatrix(transformMatrix), image(image) {}
 };
 
+struct ResultData {
+    double speed;
+    std::vector<double> speedList;
+    std::vector<double> distanceFromCamera;
+    std::vector<Line> intersectingLines;
+
+    ResultData() {}
+
+    ResultData(double speed, std::vector<double> speedList,
+               std::vector<double> distanceFromCamera,
+               std::vector<Line> intersectingLines)
+        : speed(speed), speedList(speedList),
+          distanceFromCamera(distanceFromCamera),
+          intersectingLines(intersectingLines) {}
+
+    bool isDefined() {
+        if (speed == -1) {
+            return false;
+        }
+
+        if (speedList.empty() || distanceFromCamera.empty() ||
+            intersectingLines.empty()) {
+            return false;
+        }
+
+        if (speedList.size() + 1 != distanceFromCamera.size() ||
+            speedList.size() + 1 != intersectingLines.size()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    void clear() {
+        speed = -1;
+        speedList.clear();
+        distanceFromCamera.clear();
+        intersectingLines.clear();
+    }
+};
+
 class SessionData {
 
     /////////////////////////////////////////////////////////
@@ -188,6 +229,24 @@ class SessionData {
     /**
     *
     *
+    * Result Data
+    *
+    *
+    */
+    /////////////////////////////////////////////////////////
+  private:
+    ResultData resultData;
+
+  public:
+    void setResultData(ResultData &data) { resultData = data; }
+    ResultData getResultData() { return resultData; }
+    bool isResultDataEmpty() { return !resultData.isDefined(); }
+    void clearResultData() { resultData.clear(); }
+
+    /////////////////////////////////////////////////////////
+    /**
+    *
+    *
     * Session Data
     *
     *
@@ -222,17 +281,12 @@ class SessionData {
     }
 
     bool isNull() {
-        return (
-            isCaptureDataEmpty() && isCalibDataEmpty() && isRoiDataEmpty() // &&
-                                                                           // &&
-            // roiData.isRoiEmpty()
-        );
+        return (isCaptureDataEmpty() && isCalibDataEmpty() && isRoiDataEmpty());
     }
 
     void Init() {
         id = Utils::dateToString();
         currentPanelID = PANEL_CAPTURE;
-        // imageData = std::make_shared<std::vector<ImageData>>();
         calibData = CalibData();
         roiData = RoiData();
     }
