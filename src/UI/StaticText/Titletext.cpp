@@ -46,5 +46,13 @@ wxString TitleText::panelID_to_string(PanelID panel_id) {
         return "Result";
     }
 
+    if (panel_id == PanelID::PANEL_SETTINGS) {
+        return "Settings";
+    }
+
+    if (panel_id == PanelID::PANEL_INFO) {
+        return "Info";
+    }
+
     return "Unknown Panel";
 }

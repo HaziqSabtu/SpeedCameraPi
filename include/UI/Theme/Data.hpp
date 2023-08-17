@@ -2,6 +2,7 @@
 
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
+#include "UI/Button/BitmapButton/Type3/BitmapButtonT3.hpp"
 #include "UI/Button/TextButton/TextButton.hpp"
 #include <UI/Theme/Theme.hpp>
 #include <wx/gdicmn.h>
@@ -289,6 +290,34 @@ const BitmapDataT2 BitmapT2Lanes = {
     .disabledName = "Assets/road_96.png",
     .disabledColour = T::BitmapDisabled,
     .disabledText = "Show Lanes",
+};
+
+// BitmapButtonT3 Data
+const BitmapDataT3 BitmapT3Exit = {
+    .size = wxSize(40, 40),
+    .onName = "Assets/exit_24.ico",
+    .bitmapActiveColour = T::TitleActiveBitmap,
+    .backgroundActiveColour = T::ExitColor,
+    .bitmapDisabledColour = T::TitleDisabledBitmap,
+    .backgroundDisabledColour = T::TitleDisabledBg,
+};
+
+const BitmapDataT3 BitmapT3Settings = {
+    .size = wxSize(40, 40),
+    .onName = "Assets/settings_24.ico",
+    .bitmapActiveColour = T::TitleActiveBitmap,
+    .backgroundActiveColour = T::SettingsColor,
+    .bitmapDisabledColour = T::TitleDisabledBitmap,
+    .backgroundDisabledColour = T::TitleDisabledBg,
+};
+
+const BitmapDataT3 BitmapT3Info = {
+    .size = wxSize(40, 40),
+    .onName = "Assets/info_24.ico",
+    .bitmapActiveColour = T::TitleActiveBitmap,
+    .backgroundActiveColour = T::InfoColor,
+    .bitmapDisabledColour = T::TitleDisabledBitmap,
+    .backgroundDisabledColour = T::TitleDisabledBg,
 };
 
 // TextButton Data

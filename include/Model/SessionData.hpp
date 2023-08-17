@@ -19,6 +19,8 @@ enum PanelID {
     PANEL_MANUAL_CALIBRATION,
     PANEL_COLOR_CALIBRATION,
     PANEL_RESULT,
+    PANEL_SETTINGS,
+    PANEL_INFO
 };
 
 struct TrackingData {

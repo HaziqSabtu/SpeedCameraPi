@@ -27,14 +27,14 @@ const wxColour BitmapDisabled = CC::Twitter_LightGray;
 const wxSize BitmapDefaultSize = wxSize(50, 50);
 
 // PanelTitle
+const wxColour TitleActiveBitmap = CC::Twitter_ExtExtLightGray;
+
 const wxColour ExitColor = CC::Red_Mandy;
-const wxString ExitFilename = wxT("Assets/exit_24.ico");
-
 const wxColour SettingsColor = CC::Yellow_Gamboge;
-const wxString SettingsFilename = wxT("Assets/settings_24.ico");
-
 const wxColour InfoColor = CC::Twitter_Primary;
-const wxString InfoFilename = wxT("Assets/info_24.ico");
+
+const wxColour TitleDisabledBitmap = CC::Twitter_LightGray;
+const wxColour TitleDisabledBg = CC::Twitter_ExtExtLightGray;
 
 // PanelStatus
 const wxColour StatusNone = CC::Red_Mandy;

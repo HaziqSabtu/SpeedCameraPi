@@ -1,18 +1,15 @@
 #pragma once
 
+#include "UI/Theme/Data.hpp"
 #include "UI/Theme/Theme.hpp"
 #include <wx/wx.h>
 
-class ButtonSettings : public wxButton {
+class ButtonSettings : public BitmapButtonT3 {
   public:
-    ButtonSettings(wxWindow *parent);
+    ButtonSettings(wxWindow *parent,
+                   const BitmapDataT3 &data = Data::BitmapT3Settings);
     ~ButtonSettings();
 
   private:
-    const wxSize size = wxSize(40, 40);
-    const wxColour colour = Theme::SettingsColor;
-    const wxString filename = Theme::SettingsFilename;
-
-    void OnButton(wxCommandEvent &e);
     DECLARE_EVENT_TABLE()
 };
