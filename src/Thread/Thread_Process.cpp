@@ -82,7 +82,9 @@ wxThread::ExitCode ProcessThread::Entry() {
         SpeedCalculation speedCalc;
         speedCalc.SetSensorWidth(sensorConfig.SensorWidth);
         speedCalc.SetFocalLength(sensorConfig.SensorFocalLength);
-        speedCalc.SetLaneWidth(sensorConfig.ObjectWidth);
+
+        auto measurementConfig = c.GetMeasurementConfig();
+        speedCalc.SetLaneWidth(measurementConfig.ObjectWidth);
 
         auto allignData = data->getAllignData();
 

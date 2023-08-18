@@ -67,4 +67,20 @@ wxBitmap resize(const wxBitmap &b, const wxSize &s) {
     img.Rescale(s.GetWidth(), s.GetHeight());
     return wxBitmap(img);
 }
+
+std::pair<cv::Scalar, cv::Scalar>
+HSVRangeConfigToScalar(const HSVRangeConfig &range) {
+    return std::make_pair(
+        cv::Scalar(range.hueLower, range.saturationLower, range.valueLower),
+        cv::Scalar(range.hueUpper, range.saturationUpper, range.valueUpper));
+}
+
+HSVRangeConfig
+ScalarToHSVRangeConfig(const std::pair<cv::Scalar, cv::Scalar> &range) {
+    return HSVRangeConfig {
+        static_cast<int>(range.first[0]), static_cast<int>(range.second[0]),
+        static_cast<int>(range.first[1]), static_cast<int>(range.second[1]),
+        static_cast<int>(range.first[2]), static_cast<int>(range.second[2])};
+}
+
 } // namespace Utils

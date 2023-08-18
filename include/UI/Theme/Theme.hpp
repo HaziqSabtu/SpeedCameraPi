@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
+#include "UI/Font/Font.hpp"
 #include <UI/Theme/ColorCollection.hpp>
 #include <wx/gtk/colour.h>
 
@@ -35,6 +36,18 @@ const wxColour InfoColor = CC::Twitter_Primary;
 
 const wxColour TitleDisabledBitmap = CC::Twitter_LightGray;
 const wxColour TitleDisabledBg = CC::Twitter_ExtExtLightGray;
+
+// Settings
+const wxSize SettingsTextDefaultSize = wxSize(200, 20);
+const wxColour SettingsTextBackground = CC::Twitter_ExtExtLightGray;
+
+const wxColour SettingsButtonBackground = CC::Twitter_ExtExtLightGray;
+const wxColour SettingsButtonNormal = CC::Twitter_Secondary;
+const wxColour SettingsButtonDisabled = CC::Twitter_LightGray;
+
+const FontData TitleFontData = {"Roboto", 20, FontStyle::FONT_BOLD};
+const FontData TitleChildFontData = {"Roboto", 13, FontStyle::FONT_BOLD};
+const FontData descriptionFontData = {"Roboto", 10, FontStyle::FONT_LIGHT};
 
 // PanelStatus
 const wxColour StatusNone = CC::Red_Mandy;

@@ -15,6 +15,10 @@ enum ProjectIDs {
     G_Info_Button_ID,
     G_OK_Button_ID,
     G_Cancel_Button_ID,
+    G_Reset_Button_ID,
+    G_Plus_Button_ID,
+    G_Minus_Button_ID,
+    G_Toggle_Button_ID,
 
     // CameraPanel
     CP_Panel_ID,
@@ -88,6 +92,10 @@ enum ProjectIDs {
     RE_Lines_Button_ID,
     RE_Lanes_Button_ID,
     RE_Replay_Button_ID,
+
+    // SettingsPanel
+    SE_Upper_HSV_ID,
+    SE_Lower_HSV_ID,
 
     // CameraPanel->Hough
     CP_BUTTON_PANEL_HOUGH_ID,

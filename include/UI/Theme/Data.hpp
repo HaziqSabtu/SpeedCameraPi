@@ -4,6 +4,7 @@
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
 #include "UI/Button/BitmapButton/Type3/BitmapButtonT3.hpp"
 #include "UI/Button/TextButton/TextButton.hpp"
+#include "UI/Button/TextButton/Type2/TextButtonT2.hpp"
 #include <UI/Theme/Theme.hpp>
 #include <wx/gdicmn.h>
 
@@ -320,6 +321,24 @@ const BitmapDataT3 BitmapT3Info = {
     .backgroundDisabledColour = T::TitleDisabledBg,
 };
 
+const BitmapDataT3 BitmapT3Plus = {
+    .size = wxSize(40, 40),
+    .onName = "Assets/plus_24.png",
+    .bitmapActiveColour = T::SettingsButtonNormal,
+    .backgroundActiveColour = T::SettingsButtonBackground,
+    .bitmapDisabledColour = T::SettingsButtonDisabled,
+    .backgroundDisabledColour = T::SettingsButtonBackground,
+};
+
+const BitmapDataT3 BitmapT3Minus = {
+    .size = wxSize(40, 40),
+    .onName = "Assets/minus_24.png",
+    .bitmapActiveColour = T::SettingsButtonNormal,
+    .backgroundActiveColour = T::SettingsButtonBackground,
+    .bitmapDisabledColour = T::SettingsButtonDisabled,
+    .backgroundDisabledColour = T::SettingsButtonBackground,
+};
+
 // TextButton Data
 const TextButtonData AcceptTextButton = {
     .text = wxT("Accept"),
@@ -339,6 +358,15 @@ const TextButtonData CancelTextButton = {
     .size = wxSize(100, 58),
 };
 
+const TextButtonData ResetTextButton = {
+    .text = wxT("Reset"),
+    .normalBgColor = CC::Twitter_ExtExtLightGray,
+    .normalFgColor = T::Text,
+    .disabledBgColor = CC::Twitter_LightGray,
+    .disabledFgColor = CC::Twitter_ExtExtLightGray,
+    .size = wxSize(100, 58),
+};
+
 const TextButtonData MeasureTextButton = {
     .text = wxT("Measure"),
     .normalBgColor = T::Primary,
@@ -346,6 +374,17 @@ const TextButtonData MeasureTextButton = {
     .disabledBgColor = CC::Twitter_LightGray,
     .disabledFgColor = CC::Twitter_ExtExtLightGray,
     .size = wxSize(100, 58),
+};
+
+const TextButtonDataT2 OnOffT2TextButton = {
+    .onText = wxT("Enable"),
+    .offText = wxT("Disable"),
+    .onBgColor = T::Primary,
+    .onFgColor = CC::Twitter_ExtExtLightGray,
+    .offBgColor = CC::Twitter_LightGray,
+    .offFgColor = CC::Twitter_ExtExtLightGray,
+
+    .size = wxSize(100, 40),
 };
 
 } // namespace Data

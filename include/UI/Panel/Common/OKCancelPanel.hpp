@@ -14,6 +14,20 @@ class OKCancelPanel : public wxPanel {
     TextButton *OKButton;
     TextButton *CancelButton;
 
-  private:
+  protected:
+    wxBoxSizer *main_sizer;
+};
+
+class OKCancelResetPanel : public OKCancelPanel {
+  public:
+    OKCancelResetPanel(wxWindow *parent);
+    ~OKCancelResetPanel();
+
+    void update(ButtonState okButtonState, ButtonState cancelButtonState,
+                ButtonState resetButtonState);
+
+    TextButton *ResetButton;
+
+  protected:
     wxBoxSizer *main_sizer;
 };

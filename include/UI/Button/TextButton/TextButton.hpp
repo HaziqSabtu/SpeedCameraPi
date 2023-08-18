@@ -23,8 +23,8 @@ class TextButton : public wxPanel {
 
     wxButton *button;
 
-  protected:
   private:
+  protected:
     wxBoxSizer *sizer;
 
     wxColour normalBgColor;
@@ -33,6 +33,6 @@ class TextButton : public wxPanel {
     wxColour disabledBgColor;
     wxColour disabledFgColor;
 
-    void setDisabled();
-    void setNormal();
+    virtual void setDisabled();
+    virtual void setNormal();
 };

@@ -14,29 +14,54 @@ class AppConfig {
     AppConfig();
     ~AppConfig();
 
+    void ResetConfig();
+    void SaveConfig(const SettingsModel &model);
+
     ModelConfig GetModelConfig();
+    void SetModelConfig(ModelConfig config);
+    void ResetModelConfig();
 
     PreviewConfig GetPreviewConfig();
+    void SetPreviewConfig(PreviewConfig config);
+    void ResetPreviewConfig();
 
     CameraConfig GetCameraConfig();
+    void SetCameraConfig(CameraConfig config);
+    void ResetCameraConfig();
 
     CaptureConfig GetCaptureConfig();
+    void SetCaptureConfig(CaptureConfig config);
+    void ResetCaptureConfig();
 
     LoadConfig GetLoadConfig();
+    void SetLoadConfig(LoadConfig config);
+    void ResetLoadConfig();
 
     OpticalFlowConfig GetOpticalFlowConfig();
+    void SetOpticalFlowConfig(OpticalFlowConfig config);
+    void ResetOpticalFlowConfig();
 
     SensorConfig GetSensorConfig();
+    void SetSensorConfig(SensorConfig config);
+    void ResetSensorConfig();
 
-    std::pair<cv::Scalar, cv::Scalar> GetBlueRange();
-    void SetBlueRange(std::pair<cv::Scalar, cv::Scalar> range);
+    MeasurementConfig GetMeasurementConfig();
+    void SetMeasurementConfig(MeasurementConfig config);
+    void ResetMeasurementConfig();
+
+    HSVRangeConfig GetBlueRange();
+    void SetBlueRange(HSVRangeConfig range);
     void ResetBlueRange();
 
-    std::pair<cv::Scalar, cv::Scalar> GetYellowRange();
-    void SetYellowRange(std::pair<cv::Scalar, cv::Scalar> range);
+    HSVRangeConfig GetYellowRange();
+    void SetYellowRange(HSVRangeConfig range);
     void ResetYellowRange();
 
     RansacConfig GetRansacConfig();
+    void SetRansacConfig(RansacConfig config);
+    void ResetRansacConfig();
+
+    SettingsModel GetSettingsModel();
 
   private:
     wxFileConfig *config;
@@ -59,6 +84,8 @@ class AppConfig {
     // Sensor Parameter
     double Default_Sensor_Width = 3.68;
     double Default_Sensor_Focal_Length = 3.04;
+
+    // Measurement Parameter
     double Default_Object_Width = 3500.0;
 
     // Capture Parameter

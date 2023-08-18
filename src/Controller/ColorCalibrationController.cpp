@@ -241,8 +241,8 @@ void ColorCalibrationController::saveToConfigHandler(wxEvtHandler *parent) {
     }
 
     auto config = AppConfig();
-    config.SetBlueRange(blueRange);
-    config.SetYellowRange(yellowRange);
+    config.SetBlueRange(Utils::ScalarToHSVRangeConfig(blueRange));
+    config.SetYellowRange(Utils::ScalarToHSVRangeConfig(yellowRange));
 
     UpdateStatusEvent::Submit(parent, "Saved to config");
 }
