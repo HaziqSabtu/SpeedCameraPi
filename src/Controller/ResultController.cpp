@@ -34,11 +34,11 @@ void ResultController::e_UpdateState(wxEvtHandler *parent) {
     }
 }
 
-void ResultController::e_ChangeToCapturePanel(wxEvtHandler *parent) {
+void ResultController::e_CancelButtonHandler(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-        ChangePanelEvent::Submit(parent, data);
+
+        cancelButtonHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -130,6 +130,32 @@ void ResultController::checkPreCondition() {
         throw std::runtime_error(
             "ResultController::endPoint() - PanelID mismatch");
     }
+}
+
+void ResultController::throwIfAnyThreadIsRunning() {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_PROCESS)) {
+        throw std::runtime_error("ProcessThread is still running");
+    }
+
+    if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        throw std::runtime_error("ResultPreviewThread is still running");
+    }
+}
+
+void ResultController::killAllThreads(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_PROCESS)) {
+        processThreadEndHandler(parent);
+    }
+
+    if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        resultPreviewEndHandler(parent);
+    }
+
+    throwIfAnyThreadIsRunning();
 }
 
 void ResultController::processThreadStartHandler(wxEvtHandler *parent) {
@@ -258,4 +284,23 @@ void ResultController::setIndexToZeroHandler(wxEvtHandler *parent) {
 
     auto thread = tc->getResultPreviewThread();
     thread->SetImageIndex(0);
+}
+
+void ResultController::cancelButtonHandler(wxEvtHandler *parent) {
+    killAllThreads(parent);
+
+    // remove all data from session
+    auto sessionData = shared->getSessionData();
+    sessionData->removeAllignData();
+
+    auto tracking = sessionData->getTrackingData();
+    tracking.trackedRoi.clear();
+    sessionData->setTrackingData(tracking);
+
+    sessionData->clearResultData();
+
+    shared->setSessionData(*sessionData);
+
+    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
+    ChangePanelEvent::Submit(parent, data);
 }

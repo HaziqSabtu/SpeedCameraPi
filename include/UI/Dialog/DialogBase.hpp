@@ -1,14 +1,16 @@
 #pragma once
 
+#include "UI/Theme/DialogData.hpp"
 #include <wx/wx.h>
 
-class ConfirmationDialog : public wxDialog {
+class DialogBaseYesNo : public wxDialog {
   public:
-    ConfirmationDialog(wxWindow *parent, const wxString &message);
+    DialogBaseYesNo(wxWindow *parent, const wxString &title,
+                    const wxString &text);
 
     bool GetConfirmationResult() const;
 
-  private:
+  protected:
     void OnYesButton(wxCommandEvent &event);
     void OnNoButton(wxCommandEvent &event);
 

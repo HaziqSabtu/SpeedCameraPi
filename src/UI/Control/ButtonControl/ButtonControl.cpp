@@ -22,12 +22,14 @@ ButtonControl::ButtonControl(wxWindow *parent, wxWindowID id)
     SetSizer(mainSizer);
     Layout();
 
-    // Bind(wxEVT_BUTTON, &ButtonControl::onToggle, this, wxID_ANY);
     Bind(wxEVT_BUTTON, &ButtonControl::onToggle, this,
          Enum::G_Toggle_Button_ID);
 }
 
-void ButtonControl::setValue(bool value) { this->value = value; }
+void ButtonControl::setValue(bool value) {
+    this->value = value;
+    update();
+}
 
 bool ButtonControl::getValue() { return value; }
 

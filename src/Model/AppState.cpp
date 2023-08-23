@@ -144,7 +144,6 @@ RoiPanelState AppState::getRoiPanelState(ModelPtr model) {
     ps.state = getRoiStatusState(model);
 
     ps.roiButtonState = getROIButtonState(model);
-    ps.stopButtonState = getROIStopButtonState(model);
     ps.cameraButtonState = getROICameraButtonState(model);
     ps.removeButtonState = getROIRemoveButtonState(model);
 
@@ -488,7 +487,8 @@ ButtonState AppState::getCLPrevCaptureButtonState(ModelPtr model) {
 }
 
 PanelState AppState::getCLOtherStatusState(ModelPtr model) {
-    return getCLPreviewStatusState(model);
+    return PanelState::PANEL_OK;
+    // return getCLPreviewStatusState(model);
 }
 
 ButtonState AppState::getRecalibrateColorButtonState(ModelPtr model) {
@@ -498,13 +498,13 @@ ButtonState AppState::getRecalibrateColorButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (tc->isCalibPreviewThreadRunning()) {
-        return ButtonState::DISABLED;
-    }
+    // if (tc->isCalibPreviewThreadRunning()) {
+    //     return ButtonState::DISABLED;
+    // }
 
-    if (tc->isCalibrationThreadRunning()) {
-        return ButtonState::DISABLED;
-    }
+    // if (tc->isCalibrationThreadRunning()) {
+    //     return ButtonState::DISABLED;
+    // }
 
     return ButtonState::NORMAL;
 }
@@ -514,34 +514,14 @@ ButtonState AppState::getManualCalibrationButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getCLOKButtonState(ModelPtr model) {
-    auto tc = model->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
-        return ButtonState::DISABLED;
+    if (model->isSessionDataChanged()) {
+        return ButtonState::NORMAL;
     }
 
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (model->sessionData.isCalibrationDataEmpty()) {
-        return ButtonState::DISABLED;
-    }
-
-    return ButtonState::NORMAL;
+    return ButtonState::DISABLED;
 }
 
 ButtonState AppState::getCLCancelButtonState(ModelPtr model) {
-    auto tc = model->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
-        return ButtonState::DISABLED;
-    }
-
     return ButtonState::NORMAL;
 }
 
@@ -743,34 +723,14 @@ ButtonState AppState::getMCPrevCaptureButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getMCOKButtonState(ModelPtr model) {
-    auto tc = model->getThreadController();
-
-    if (tc->isManualCalibrationThreadRunning()) {
-        return ButtonState::DISABLED;
+    if (model->isSessionDataChanged()) {
+        return ButtonState::NORMAL;
     }
 
-    if (tc->isCalibPreviewThreadRunning()) {
-        return ButtonState::DISABLED;
-    }
-
-    if (model->sessionData.isCalibrationDataEmpty()) {
-        return ButtonState::DISABLED;
-    }
-
-    return ButtonState::NORMAL;
+    return ButtonState::DISABLED;
 }
 
 ButtonState AppState::getMCCancelButtonState(ModelPtr model) {
-    auto tc = model->getThreadController();
-
-    if (tc->isManualCalibrationThreadRunning()) {
-        return ButtonState::DISABLED;
-    }
-
-    if (tc->isCalibPreviewThreadRunning()) {
-        return ButtonState::DISABLED;
-    }
-
     return ButtonState::NORMAL;
 }
 
@@ -1014,31 +974,23 @@ ButtonState AppState::getCCCancelButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getROIButtonState(ModelPtr model) {
-    auto tc = model->getThreadController();
+    auto data = model->getSessionData();
 
-    if (!tc->isThreadNullptr(THREAD_ROI)) {
-        return ButtonState::ACTIVE;
+    if (!data->isTrackingDataEmpty()) {
+        return ButtonState::DISABLED;
     }
+
+    auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
         return ButtonState::DISABLED;
     }
 
-    return ButtonState::NORMAL;
-}
-
-ButtonState AppState::getROIStopButtonState(ModelPtr model) {
-    auto tc = model->getThreadController();
-
     if (!tc->isThreadNullptr(THREAD_ROI)) {
-        return ButtonState::NORMAL;
+        return ButtonState::ON;
     }
 
-    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
-        return ButtonState::DISABLED;
-    }
-
-    return ButtonState::DISABLED;
+    return ButtonState::OFF;
 }
 
 ButtonState AppState::getROICameraButtonState(ModelPtr model) {
@@ -1105,34 +1057,13 @@ ButtonState AppState::getROIClearRoiButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getROIOKButtonState(ModelPtr model) {
-    auto tc = model->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_ROI)) {
-        return ButtonState::DISABLED;
+    if (model->isSessionDataChanged()) {
+        return ButtonState::NORMAL;
     }
 
-    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
-        return ButtonState::DISABLED;
-    }
-
-    auto data = model->getSessionData();
-    if (data->isTrackingDataEmpty()) {
-        return ButtonState::DISABLED;
-    }
-
-    return ButtonState::NORMAL;
+    return ButtonState::DISABLED;
 }
 ButtonState AppState::getROICancelButtonState(ModelPtr model) {
-
-    auto tc = model->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_ROI)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
-        return ButtonState::DISABLED;
-    }
     return ButtonState::NORMAL;
 }
 

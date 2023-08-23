@@ -121,6 +121,18 @@ struct HSVRangeConfig {
     }
 };
 
+struct ThreadsConfig {
+    bool autoManualCalibration;
+    bool autoRoi;
+    bool autoCalibration;
+
+    bool operator==(const ThreadsConfig &other) const {
+        return autoManualCalibration == other.autoManualCalibration &&
+               autoRoi == other.autoRoi &&
+               autoCalibration == other.autoCalibration;
+    }
+};
+
 struct SettingsModel {
     ModelConfig modelConfig;
     CameraConfig cameraConfig;
@@ -133,6 +145,7 @@ struct SettingsModel {
     RansacConfig ransacConfig;
     HSVRangeConfig blueRange;
     HSVRangeConfig yellowRange;
+    ThreadsConfig threadsConfig;
 
     bool operator==(const SettingsModel &other) const {
         return modelConfig == other.modelConfig &&
@@ -144,7 +157,9 @@ struct SettingsModel {
                measurementConfig == other.measurementConfig &&
                previewConfig == other.previewConfig &&
                ransacConfig == other.ransacConfig &&
-               blueRange == other.blueRange && yellowRange == other.yellowRange;
+               blueRange == other.blueRange &&
+               yellowRange == other.yellowRange &&
+               threadsConfig == other.threadsConfig;
     }
 
     bool operator!=(const SettingsModel &other) const {

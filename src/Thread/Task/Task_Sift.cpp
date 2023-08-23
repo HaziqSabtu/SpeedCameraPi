@@ -5,12 +5,33 @@ SiftTask::SiftTask(DataPtr data, int id)
     : property(TaskType::TASK_SIFT), data(data), id(id) {}
 
 void SiftTask::Execute() {
+    // if (id == 0) {
+    //     auto captureData = data->getCaptureData();
+    //     auto firstFrame = captureData.at(0).image.clone();
+
+    //     //empty homography matrix
+    //     cv::Mat emptyhomo = cv::Mat::eye(3, 3, CV_64F);
+
+    //     cv::Mat empty = cv::Mat(firstFrame.size(), CV_8UC1, cv::Scalar(0));
+
+    //     AllignData aData(firstFrame, emptyhomo);
+    //     data->setAllignDataAt(0, aData);
+    //     return;
+    // }
     if (id == 0) {
         auto captureData = data->getCaptureData();
-        auto firstFrame = captureData.at(0).image.clone();
+        CaptureData firstImage = captureData.at(0);
+        CaptureData targetImage = captureData.at(0);
 
-        AllignData aData(firstFrame, cv::Mat());
-        data->setAllignDataAt(0, aData);
+        FeatureDetector featureDetector = FeatureDetector(DetectorType::SIFT);
+
+        featureDetector.allign(firstImage.image, targetImage.image);
+
+        auto allignImage = featureDetector.GetAllignedImage().clone();
+        auto homographyMatrix = featureDetector.GetHomographyMatrix().clone();
+
+        AllignData aData(allignImage, homographyMatrix);
+        data->setAllignDataAt(id, aData);
         return;
     }
 

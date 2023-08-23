@@ -128,4 +128,50 @@ int generateRandomID() {
     int id = rand() % 90000 + 10000;
     return id;
 }
+
+bool isCvMatSame(const cv::Mat &img1, const cv::Mat &img2) {
+    if (img1.size() != img2.size()) {
+        return false;
+    }
+    cv::Mat diff;
+    cv::absdiff(img1, img2, diff);
+    cv::Mat mask = cv::Mat::zeros(diff.rows, diff.cols, CV_8UC1);
+    cv::Mat diff_gray;
+    cv::cvtColor(diff, diff_gray, cv::COLOR_BGR2GRAY);
+    cv::threshold(diff_gray, mask, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
+    int nz = cv::countNonZero(mask);
+    if (nz == 0) {
+        return true;
+    }
+    return false;
+}
+
+bool isCvMatSameRandom(const cv::Mat &img1, const cv::Mat &img2, int points) {
+    if (img1.size() != img2.size()) {
+        return false;
+    }
+
+    int width = img1.cols;
+    int height = img1.rows;
+
+    std::vector<cv::Point> randomPoints;
+
+    for (int i = 0; i < points; i++) {
+        int x = rand() % width;
+        int y = rand() % height;
+        randomPoints.push_back(cv::Point(x, y));
+    }
+
+    for (int i = 0; i < randomPoints.size(); i++) {
+        cv::Point point = randomPoints[i];
+        cv::Vec3b pixel1 = img1.at<cv::Vec3b>(point.y, point.x);
+        cv::Vec3b pixel2 = img2.at<cv::Vec3b>(point.y, point.x);
+        if (pixel1 != pixel2) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 } // namespace Utils

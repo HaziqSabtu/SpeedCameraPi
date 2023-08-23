@@ -46,13 +46,7 @@ ResultPanel::~ResultPanel() {}
 
 void ResultPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Cancel_Button_ID) {
-        // controller->e_RestoreSessionData(this);
-        controller->e_ChangeToCapturePanel(this);
-    }
-
-    if (e.GetId() == Enum::G_OK_Button_ID) {
-        // controller->e_SaveSessionData(this);
-        controller->e_ChangeToCapturePanel(this);
+        controller->e_CancelButtonHandler(this);
     }
 
     if (e.GetId() == Enum::RE_Start_Button_ID) {

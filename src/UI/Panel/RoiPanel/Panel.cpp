@@ -44,26 +44,21 @@ RoiPanel::~RoiPanel() {}
 
 void RoiPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Cancel_Button_ID) {
-        // controller->e_RestoreSessionData(this);
-        controller->e_ChangeToCapturePanel(this);
+        controller->e_CancelButtonHandler(this);
     }
 
     if (e.GetId() == Enum::G_OK_Button_ID) {
-        // controller->e_SaveSessionData(this);
-        controller->e_ChangeToCapturePanel(this);
+        controller->e_OKButtonHandler(this);
     }
 
-    if (e.GetId() == Enum::RO_Start_Button_ID) {
-        controller->e_RoiThreadStart(this);
-    }
-
-    if (e.GetId() == Enum::RO_Stop_Button_ID) {
-        controller->e_RoiThreadCancel(this);
+    if (e.GetId() == Enum::RO_Calibration_Button_ID) {
+        auto button = button_panel->main_status_panel->calibrate_Button;
+        ToggleRoiButtonHandler(button);
     }
 
     if (e.GetId() == Enum::RO_ToggleCamera_Button_ID) {
         auto button = button_panel->main_status_panel->camera_Button;
-        OnToggleCameraButton(button);
+        TogglePreviewButtonHandler(button);
     }
 
     if (e.GetId() == Enum::RO_Remove_Button_ID) {
@@ -89,7 +84,21 @@ void RoiPanel::UnbindImagePanel() {
     img_bitmap->Unbind(wxEVT_LEFT_UP, &RoiPanel::OnLeftUp, this);
 }
 
-void RoiPanel::OnToggleCameraButton(BitmapButtonT2 *button) {
+void RoiPanel::ToggleRoiButtonHandler(BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_RoiThreadStart(this);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_RoiThreadCancel(this);
+        return;
+    }
+
+    throw std::runtime_error("Invalid button state");
+}
+
+void RoiPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_RoiPreviewStart(button);
         return;
@@ -191,13 +200,11 @@ void RoiPanel::OnLeftUp(wxMouseEvent &e) {
         if (img_size.x > 0 && img_size.y > 0) {
             int x = pos.x * img_size.x / size.x;
             int y = pos.y * img_size.y / size.y;
-            controller->e_SetPoint2(this, wxPoint(x, y));
+            controller->e_SaveRect(this, wxPoint(x, y));
 
             // Unbind Cursor Move Event and Left Up Event
             img_bitmap->Unbind(wxEVT_MOTION, &RoiPanel::OnMotion, this);
             img_bitmap->Unbind(wxEVT_LEFT_UP, &RoiPanel::OnLeftUp, this);
-
-            // controller->e_SaveLine(this, wxPoint(x, y));
 
             // Bind Left Down Event
             img_bitmap->Bind(wxEVT_LEFT_DOWN, &RoiPanel::OnLeftDown, this);
@@ -226,8 +233,7 @@ void RoiPanel::OnUpdateState(UpdateStateEvent &e) {
 
 void RoiPanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
-        // controller->e_CreateTempSessionData(this);
-        controller->e_UpdateState(this);
+        controller->e_PanelShow(this);
     }
 }
 

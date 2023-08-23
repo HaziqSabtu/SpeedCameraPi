@@ -31,6 +31,25 @@ Line::Line(cv::Vec4i line)
 Line::Line() {}
 
 /**
+ * @brief Clone Line
+ *
+ * @return Line cloned line
+ */
+Line Line::clone() const { return Line(*this); }
+
+/**
+ * @brief Copy Assignment Operator
+ *
+ * @param other line to be copied
+ * @return Line& copied line
+ */
+Line &Line::operator=(const Line &other) {
+    p1 = other.p1;
+    p2 = other.p2;
+    return *this;
+}
+
+/**
  * @brief Get the Length of Line
  *
  * @return double length of line
@@ -231,6 +250,14 @@ bool Line::isVertical() {
 
 bool Line::isHorizontal() {
     if (p1.y == p2.y) {
+        return true;
+    }
+
+    return false;
+}
+
+bool Line::operator==(const Line &other) const {
+    if (p1 == other.p1 && p2 == other.p2) {
         return true;
     }
 

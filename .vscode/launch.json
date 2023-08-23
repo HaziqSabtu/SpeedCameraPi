@@ -53,12 +53,26 @@
                     "description": "Don't step into standard library ",
                     "ignoreFailures": false
                 },
+                {
+                    "text": "skip -rfu ^cv::.*",
+                    "description": "Don't step into cv library ",
+                    "ignoreFailures": false
+                },
             ],
             "stopAtEntry": true,
             "targetArchitecture": "arm",
             "miDebuggerPath": "/home/haziqsabtu/cxcmpl/tools/cross-pi-gcc-10.3.0-2/bin/arm-linux-gnueabihf-gdb",
             "MIMode": "gdb",
             "externalConsole": false,
+            "sourceFileMap": {
+                "${workspaceFolder}": {
+                    "editorPath": "${workspaceFolder}",
+                    "useForBreakpoints": "true"
+                }
+            },
+            "logging": {
+                "engineLogging": true
+            }
         },
         {
             "name": "(GDB-Manual) Remote GDB Launch",
@@ -95,6 +109,15 @@
             "miDebuggerPath": "/home/haziqsabtu/cxcmpl/tools/cross-pi-gcc-10.3.0-2/bin/arm-linux-gnueabihf-gdb",
             "MIMode": "gdb",
             "externalConsole": false,
+            "sourceFileMap": {
+                "${workspaceFolder}": {
+                    "editorPath": "${workspaceFolder}",
+                    "useForBreakpoints": "true"
+                }
+            },
+            "logging": {
+                "engineLogging": true
+            }
         },
     ]
 }

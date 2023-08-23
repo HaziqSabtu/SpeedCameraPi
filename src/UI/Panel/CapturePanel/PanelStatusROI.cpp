@@ -8,8 +8,8 @@
 ROIStatusPanel::ROIStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::ROI_NONE) {
 
-    roi_Button = new BitmapRoi(this, Enum::CP_ChangeRoi_Button_ID);
-    reset_Button = new BitmapRemove(this, wxID_ANY);
+    roi_Button = new BitmapRoi(this, Enum::CP_Roi_Button_ID);
+    reset_Button = new BitmapRemove(this, Enum::CP_RemoveRoi_Button_ID);
 
     wxBoxSizer *hSizer = new wxBoxSizer(wxHORIZONTAL);
     hSizer->Add(roi_Button, 1, wxEXPAND);

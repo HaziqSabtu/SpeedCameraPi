@@ -27,12 +27,33 @@ struct TrackingData {
     cv::Rect roi;
     std::vector<cv::Rect> trackedRoi;
 
+    TrackingData() {}
+
+    TrackingData(cv::Rect roi, std::vector<cv::Rect> trackedRoi)
+        : roi(roi), trackedRoi(trackedRoi) {}
+
     void clear() {
         roi = cv::Rect();
         trackedRoi.clear();
     }
 
     bool isInit() { return roi.area() > 0; }
+
+    bool operator==(const TrackingData &other) const {
+        return roi == other.roi && trackedRoi == other.trackedRoi;
+    }
+
+    bool operator!=(const TrackingData &other) const {
+        return !(*this == other);
+    }
+
+    TrackingData clone() const { return TrackingData(*this); }
+
+    TrackingData &operator=(const TrackingData &other) {
+        roi = other.roi;
+        trackedRoi = other.trackedRoi;
+        return *this;
+    }
 };
 
 #define HPTime std::chrono::high_resolution_clock::time_point
@@ -47,6 +68,23 @@ struct CaptureData {
         : image(image), time(std::chrono::high_resolution_clock::now()) {}
 
     CaptureData(cv::Mat image, HPTime time) : image(image), time(time) {}
+
+    bool operator==(const CaptureData &other) const {
+        return Utils::isCvMatSameRandom(image, other.image, 50) &&
+               time == other.time;
+    }
+
+    CaptureData clone() const { return CaptureData(*this); }
+
+    // Copy assignment operator (deep copy)
+    CaptureData &operator=(const CaptureData &other) {
+        if (this == &other) // Handle self-assignment
+            return *this;
+
+        image = other.image.clone();
+        time = other.time;
+        return *this;
+    }
 };
 
 #define ADVector std::vector<AllignData>
@@ -58,6 +96,23 @@ struct AllignData {
 
     AllignData(cv::Mat image, cv::Mat transformMatrix)
         : transformMatrix(transformMatrix), image(image) {}
+
+    bool operator==(const AllignData &other) const {
+        return Utils::isCvMatSame(image, other.image) &&
+               Utils::isCvMatSame(transformMatrix, other.transformMatrix);
+    }
+
+    AllignData clone() const { return AllignData(*this); }
+
+    // Copy assignment operator (deep copy)
+    AllignData &operator=(const AllignData &other) {
+        if (this == &other) // Handle self-assignment
+            return *this;
+
+        image = other.image.clone();
+        transformMatrix = other.transformMatrix.clone();
+        return *this;
+    }
 };
 
 struct ResultData {
@@ -98,6 +153,24 @@ struct ResultData {
         speedList.clear();
         distanceFromCamera.clear();
         intersectingLines.clear();
+    }
+
+    bool operator==(const ResultData &other) const {
+        return speed == other.speed && speedList == other.speedList &&
+               distanceFromCamera == other.distanceFromCamera &&
+               intersectingLines == other.intersectingLines;
+    }
+
+    bool operator!=(const ResultData &other) const { return !(*this == other); }
+
+    ResultData clone() const { return ResultData(*this); }
+
+    ResultData &operator=(const ResultData &other) {
+        speed = other.speed;
+        speedList = other.speedList;
+        distanceFromCamera = other.distanceFromCamera;
+        intersectingLines = other.intersectingLines;
+        return *this;
     }
 };
 
@@ -259,9 +332,11 @@ class SessionData {
     SessionData(const SessionData &other) {
         id = other.id;
         currentPanelID = other.currentPanelID;
-        // imageData = other.imageData;
+        captureData = other.captureData;
+        allignData = other.allignData;
         calibrationData = other.calibrationData;
-        // roiData = other.roiData;
+        trackingData = other.trackingData;
+        resultData = other.resultData;
     }
 
     SessionData clone() const { return SessionData(*this); }
@@ -273,11 +348,25 @@ class SessionData {
 
         id = other.id;
         currentPanelID = other.currentPanelID;
-        // imageData = other.imageData;
+        captureData = other.captureData;
+        allignData = other.allignData;
         calibrationData = other.calibrationData;
-        // roiData = other.roiData;
-
+        trackingData = other.trackingData;
+        resultData = other.resultData;
         return *this;
+    }
+
+    bool operator==(const SessionData &other) const {
+        return (id == other.id && currentPanelID == other.currentPanelID &&
+                captureData == other.captureData &&
+                allignData == other.allignData &&
+                calibrationData == other.calibrationData &&
+                trackingData == other.trackingData &&
+                resultData == other.resultData);
+    }
+
+    bool operator!=(const SessionData &other) const {
+        return !(*this == other);
     }
 
     bool isNull() {
@@ -288,7 +377,10 @@ class SessionData {
     void Init() {
         id = Utils::dateToString();
         currentPanelID = PANEL_CAPTURE;
+        captureData = CDVector();
+        allignData = ADVector();
         calibrationData = CalibrationData();
         trackingData = TrackingData();
+        resultData = ResultData();
     }
 };

@@ -27,7 +27,7 @@ class BaseManualCalibrationThread : public wxThread {
 
     void setPoint1(cv::Point point);
     void setPoint2(cv::Point point);
-    void setPoint2f(cv::Point point);
+    void setPoint2AndExtend(cv::Point point);
 
     void setDirection(ManualDirection direction);
     ManualDirection getDirection();

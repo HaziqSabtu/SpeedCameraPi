@@ -19,6 +19,10 @@ class CaptureController {
 
     void e_ClearImageData(wxEvtHandler *parent);
 
+    void e_RemoveCalibration(wxEvtHandler *parent);
+
+    void e_RemoveRoi(wxEvtHandler *parent);
+
     void e_CameraStart(wxEvtHandler *parent);
     void e_CameraEnd(wxEvtHandler *parent);
 
@@ -37,12 +41,17 @@ class CaptureController {
 
   private:
     const PanelID panelID = PanelID::PANEL_CAPTURE;
-    std::shared_ptr<SharedModel> shared;
+    ModelPtr shared;
 
   private:
+    //TODO: Add throwifanythreadrunning()
     void checkPreCondition();
 
     void clearImageDataHandler(wxEvtHandler *parent);
+
+    void removeCalibrationHandler(wxEvtHandler *parent);
+
+    void removeRoiHandler(wxEvtHandler *parent);
 
     void startCaptureHandler(wxEvtHandler *parent);
     void endCaptureHandler();

@@ -4,6 +4,7 @@
 #include "UI/Button/BitmapButton/Button_Preview.hpp"
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
 #include "UI/Button/BitmapButton/Button_Stop.hpp"
+#include "UI/Button/BitmapButton/Type2/Button_Calibration.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_Camera.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_MagnifyGlass.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
@@ -15,15 +16,14 @@
 RoiMainStatusPanel::RoiMainStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::ROI_NONE) {
 
-    calibrate_Button = new BitmapCalibration(this, Enum::RO_Start_Button_ID);
-    stop_Button = new BitmapStop(this, Enum::RO_Stop_Button_ID);
+    calibrate_Button =
+        new BitmapT2Calibration(this, Enum::RO_Calibration_Button_ID);
     camera_Button =
         new BitmapT2MagnifyGlass(this, Enum::RO_ToggleCamera_Button_ID);
     reset_Button = new BitmapRemove(this, Enum::RO_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
-    buttonSizer->Add(stop_Button, 1, wxEXPAND);
     buttonSizer->Add(camera_Button, 1, wxEXPAND);
     buttonSizer->Add(reset_Button, 1, wxEXPAND);
 
@@ -52,7 +52,6 @@ void RoiMainStatusPanel::update(const AppState &state) {
     setPanelState(ps.state);
 
     calibrate_Button->update(ps.roiButtonState);
-    stop_Button->update(ps.stopButtonState);
     camera_Button->update(ps.cameraButtonState);
     reset_Button->update(ps.removeButtonState);
 }

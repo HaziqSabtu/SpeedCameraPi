@@ -44,7 +44,8 @@ class RoiPanel : public wxPanel {
 
     void UnbindImagePanel();
 
-    void OnToggleCameraButton(BitmapButtonT2 *button);
+    void ToggleRoiButtonHandler(BitmapButtonT2 *button);
+    void TogglePreviewButtonHandler(BitmapButtonT2 *button);
 
     void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);

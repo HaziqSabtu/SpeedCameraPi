@@ -19,7 +19,7 @@ class ResultController {
 
     void e_UpdateState(wxEvtHandler *parent);
 
-    void e_ChangeToCapturePanel(wxEvtHandler *parent);
+    void e_CancelButtonHandler(wxEvtHandler *parent);
 
     void e_ProcessThreadStart(wxEvtHandler *parent);
     void e_ProcessThreadEnd(wxEvtHandler *parent);
@@ -38,6 +38,12 @@ class ResultController {
 
   private:
     void checkPreCondition();
+
+    void throwIfAnyThreadIsRunning();
+
+    void killAllThreads(wxEvtHandler *parent);
+
+    void cancelButtonHandler(wxEvtHandler *parent);
 
     void processThreadStartHandler(wxEvtHandler *parent);
     void processThreadEndHandler(wxEvtHandler *parent);

@@ -72,6 +72,30 @@ void CaptureController::e_ClearImageData(wxEvtHandler *parent) {
     }
 }
 
+void CaptureController::e_RemoveCalibration(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        removeCalibrationHandler(parent);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureController::e_RemoveRoi(wxEvtHandler *parent) {
+    try {
+
+        checkPreCondition();
+
+        removeRoiHandler(parent);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void CaptureController::e_ReplayStart(wxEvtHandler *parent) {
     try {
 
@@ -350,4 +374,39 @@ void CaptureController::clearImageDataHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_REMOVE_DATA);
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
+}
+
+void CaptureController::removeCalibrationHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isCapturePanelThreadRunning()) {
+        throw std::runtime_error("Thread of Capture Panel is running");
+    }
+
+    if (shared->sessionData.isCalibrationDataEmpty()) {
+        throw std::runtime_error("CalibrationData is empty");
+    }
+
+    shared->sessionData.removeCalibrationData();
+
+    // TODO: Add this to StatusCollection
+    wxString msg = "Calibration data is removed";
+    UpdateStatusEvent::Submit(parent, msg);
+}
+
+void CaptureController::removeRoiHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isCapturePanelThreadRunning()) {
+        throw std::runtime_error("Thread of Capture Panel is running");
+    }
+
+    if (shared->sessionData.isTrackingDataEmpty()) {
+        throw std::runtime_error("RoiData is empty");
+    }
+
+    shared->sessionData.clearTrackingData();
+
+    wxString msg = "Roi data is removed";
+    UpdateStatusEvent::Submit(parent, msg);
 }

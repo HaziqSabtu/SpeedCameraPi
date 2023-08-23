@@ -19,6 +19,8 @@ class CalibrationController {
 
     void e_UpdateState(wxEvtHandler *parent);
 
+    void e_PanelShow(wxEvtHandler *parent);
+
     void e_CreateTempSessionData(wxEvtHandler *parent);
     void e_RestoreSessionData(wxEvtHandler *parent);
     void e_SaveSessionData(wxEvtHandler *parent);
@@ -40,10 +42,10 @@ class CalibrationController {
     void e_CalibrationCapturePreviewStart(wxEvtHandler *parent);
     void e_CalibrationCapturePreviewEnd(wxEvtHandler *parent);
 
-    void e_ChangeToCapturePanel(wxEvtHandler *parent);
+    void e_OKButtonHandler(wxEvtHandler *parent);
+    void e_CancelButtonHandler(wxEvtHandler *parent);
 
     void e_ChangeToManualPanel(wxEvtHandler *parent);
-
     void e_ChangeToColorPanel(wxEvtHandler *parent);
 
   private:
@@ -54,6 +56,8 @@ class CalibrationController {
     void checkPreCondition();
 
     void throwIfAnyThreadIsRunning();
+
+    void killAllThreads(wxEvtHandler *parent);
 
     void saveCalibrationData(wxEvtHandler *parent,
                              BaseCalibrationThread *thread);
@@ -76,4 +80,12 @@ class CalibrationController {
     void createTempSessionDataHandler(wxEvtHandler *parent);
     void restoreSessionDataHandler(wxEvtHandler *parent);
     void saveSessionDataHandler(wxEvtHandler *parent);
+
+    void okButtonHandler(wxEvtHandler *parent);
+    void cancelButtonHandler(wxEvtHandler *parent);
+
+    void changeToManualPanelHandler(wxEvtHandler *parent);
+    void changeToColorPanelHandler(wxEvtHandler *parent);
+
+    void panelShowHandler(wxEvtHandler *parent);
 };

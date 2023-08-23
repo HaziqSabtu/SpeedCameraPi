@@ -98,7 +98,6 @@ struct RoiPanelState {
     PanelState state;
 
     ButtonState roiButtonState;
-    ButtonState stopButtonState;
     ButtonState cameraButtonState;
     ButtonState removeButtonState;
 
@@ -241,7 +240,6 @@ class AppState {
     // ROI Panel
     PanelState getROIStatusState(ModelPtr model);
     ButtonState getROIButtonState(ModelPtr model);
-    ButtonState getROIStopButtonState(ModelPtr model);
     ButtonState getROICameraButtonState(ModelPtr model);
     ButtonState getROIRemoveButtonState(ModelPtr model);
 

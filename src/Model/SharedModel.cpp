@@ -164,6 +164,11 @@ void SharedModel::setSessionData(SessionData data) {
 
 void SharedModel::setTempSessionData(SessionData data) {
     tempSessionData = data.clone();
+    // tempSessionData = data;
+}
+
+bool SharedModel::isSessionDataChanged() {
+    return sessionData != tempSessionData;
 }
 
 void SharedModel::setCCExtraModel(ColorCalibExtraModel ccExtraModel) {

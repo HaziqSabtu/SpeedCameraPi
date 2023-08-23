@@ -68,6 +68,8 @@ class SharedModel : public ISharedModel {
     void setTempSessionData(SessionData data);
     DataPtr getTempSessionData();
 
+    bool isSessionDataChanged();
+
     void setCCExtraModel(ColorCalibExtraModel ccExtraModel);
     CCModelPtr getCCExtraModel();
 

@@ -70,12 +70,20 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
             controller->e_ChangeToResultPanel(this);
         }
 
-        if (e.GetId() == Enum::CP_CALIBRATE_Button_ID) {
+        if (e.GetId() == Enum::CP_Calibration_Button_ID) {
             controller->e_ChangeToCalibPanel(this);
         }
 
-        if (e.GetId() == Enum::CP_ChangeRoi_Button_ID) {
+        if (e.GetId() == Enum::CP_RemoveCalibration_Button_ID) {
+            controller->e_RemoveCalibration(this);
+        }
+
+        if (e.GetId() == Enum::CP_Roi_Button_ID) {
             controller->e_ChangeToRoiPanel(this);
+        }
+
+        if (e.GetId() == Enum::CP_RemoveRoi_Button_ID) {
+            controller->e_RemoveRoi(this);
         }
 
         controller->e_UpdateState(this);

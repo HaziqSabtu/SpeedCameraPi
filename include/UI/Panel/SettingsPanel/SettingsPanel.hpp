@@ -12,6 +12,7 @@
 #include "UI/Panel/SettingsPanel/SettingsPreview.hpp"
 #include "UI/Panel/SettingsPanel/SettingsRansac.hpp"
 #include "UI/Panel/SettingsPanel/SettingsSensor.hpp"
+#include "UI/Panel/SettingsPanel/SettingsThreads.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
 
@@ -33,4 +34,5 @@ class SettingsScrollPanel : public wxScrolledWindow {
     SettingsRansacComponent *settingsRansacComponent;
     SettingsBlueHSVComponent *settingsBlueHSVComponent;
     SettingsYellowHSVComponent *settingsYellowHSVComponent;
+    SettingsThreadsComponent *settingsThreadsComponent;
 };

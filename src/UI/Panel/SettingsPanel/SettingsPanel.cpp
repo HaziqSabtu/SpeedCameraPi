@@ -67,6 +67,12 @@ SettingsScrollPanel::SettingsScrollPanel(wxWindow *parent)
     mainSizer->Add(settingsYellowHSVComponent, 0, wxEXPAND | wxALL, 5);
     mainSizer->AddSpacer(20);
 
+    settingsThreadsComponent = new SettingsThreadsComponent(this);
+    settingsThreadsComponent->setValue(c.GetThreadsConfig());
+
+    mainSizer->Add(settingsThreadsComponent, 0, wxEXPAND | wxALL, 5);
+    mainSizer->AddSpacer(20);
+
     SetSizer(mainSizer);
     FitInside();
 
@@ -86,6 +92,7 @@ SettingsModel SettingsScrollPanel::getSettingsModel() {
     s.ransacConfig = settingsRansacComponent->getValue();
     s.blueRange = settingsBlueHSVComponent->getValue();
     s.yellowRange = settingsYellowHSVComponent->getValue();
+    s.threadsConfig = settingsThreadsComponent->getValue();
 
     return s;
 }
@@ -101,4 +108,5 @@ void SettingsScrollPanel::setSettingsModel(const SettingsModel &s) {
     settingsRansacComponent->setValue(s.ransacConfig);
     settingsBlueHSVComponent->setValue(s.blueRange);
     settingsYellowHSVComponent->setValue(s.yellowRange);
+    settingsThreadsComponent->setValue(s.threadsConfig);
 }

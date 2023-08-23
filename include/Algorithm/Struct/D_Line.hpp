@@ -28,6 +28,10 @@ struct Line {
 
     Line();
 
+    Line clone() const;
+
+    Line &operator=(const Line &other);
+
     double Length();
 
     double Slope();
@@ -59,4 +63,6 @@ struct Line {
     bool isVertical();
 
     bool isHorizontal();
+
+    bool operator==(const Line &other) const;
 };

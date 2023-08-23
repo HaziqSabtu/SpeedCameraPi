@@ -61,6 +61,10 @@ class AppConfig {
     void SetRansacConfig(RansacConfig config);
     void ResetRansacConfig();
 
+    ThreadsConfig GetThreadsConfig();
+    void SetThreadsConfig(ThreadsConfig config);
+    void ResetThreadsConfig();
+
     SettingsModel GetSettingsModel();
 
   private:
@@ -135,6 +139,11 @@ class AppConfig {
     double Default_RANSAC_Threshold = 6;
     int Default_RANSAC_Min_Points = 50;
     int Default_RANSAC_Max_Iterations = 500;
+
+    // Threads Parameter
+    bool Default_AutoManualCalibration = false;
+    bool Default_AutoCalibration = false;
+    bool Default_AutoRoi = false;
 };
 
 #endif

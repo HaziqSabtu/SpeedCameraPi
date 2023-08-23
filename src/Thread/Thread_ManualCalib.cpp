@@ -106,7 +106,7 @@ void BaseManualCalibrationThread::setPoint2(cv::Point point) {
     direction == MANUAL_LEFT ? updateBlueLine(line) : updateYellowLine(line);
 }
 
-void BaseManualCalibrationThread::setPoint2f(cv::Point point) {
+void BaseManualCalibrationThread::setPoint2AndExtend(cv::Point point) {
     Line line = direction == MANUAL_LEFT ? blueLine : yellowLine;
     line.setP2(point);
 

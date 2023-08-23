@@ -657,6 +657,61 @@ const SCDI ValueCtrlData = {
 const wxStringPair ValueLabels = {"Upper Value", "Lower Value"};
 
 } // namespace HSV
+
+namespace Threads {
+const STD Title = {.textColor = T::Text,
+                   .backgroundColor = T::Background,
+                   .text = "Threads",
+                   .fontData = T::TitleFontData};
+
+const STDV Description = {
+    {.textColor = T::Text,
+     .backgroundColor = T::Background,
+     .text = "The thread settings.",
+     .fontData = T::descriptionFontData},
+    {.textColor = T::Text,
+     .backgroundColor = T::Background,
+     .text = "Enable / Disable automatic thread initialization",
+     .fontData = T::descriptionFontData},
+};
+
+const STD AutoManualCalibrationTD = {.textColor = T::Text,
+                                     .backgroundColor = T::Background,
+                                     .text = "Auto Manual Calibration",
+                                     .fontData = T::TitleChildFontData};
+
+const STDV AutoManualCalibrationDD = {
+    {.textColor = T::Text,
+     .backgroundColor = T::Background,
+     .text = "Enable / Disable automatic manual calibration.",
+     .fontData = T::descriptionFontData},
+};
+
+const STD AutoCalibrationTD = {.textColor = T::Text,
+                               .backgroundColor = T::Background,
+                               .text = "Auto Calibration",
+                               .fontData = T::TitleChildFontData};
+
+const STDV AutoCalibrationDD = {
+    {.textColor = T::Text,
+     .backgroundColor = T::Background,
+     .text = "Enable / Disable automatic calibration.",
+     .fontData = T::descriptionFontData},
+};
+
+const STD AutoRoiTD = {.textColor = T::Text,
+                       .backgroundColor = T::Background,
+                       .text = "Auto ROI",
+                       .fontData = T::TitleChildFontData};
+
+const STDV AutoRoiDD = {
+    {.textColor = T::Text,
+     .backgroundColor = T::Background,
+     .text = "Enable / Disable automatic ROI.",
+     .fontData = T::descriptionFontData},
+};
+
+} // namespace Threads
 } // namespace Panel
 } // namespace Settings
 }; // namespace Data

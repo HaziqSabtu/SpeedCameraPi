@@ -40,4 +40,8 @@ cv::Rect scaleRect(const cv::Rect &rect, cv::Size src, cv::Size dst);
 
 int generateRandomID();
 
+bool isCvMatSame(const cv::Mat &img1, const cv::Mat &img2);
+
+bool isCvMatSameRandom(const cv::Mat &img1, const cv::Mat &img2, int points);
+
 } // namespace Utils

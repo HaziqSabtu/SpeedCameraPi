@@ -4,7 +4,7 @@ ConfirmationDialog::ConfirmationDialog(wxWindow *parent,
                                        const wxString &message)
     : wxDialog(parent, wxID_ANY, "Confirmation", wxDefaultPosition,
                wxDefaultSize) {
-    m_confirmationResult = false;
+    result = false;
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
@@ -27,16 +27,14 @@ ConfirmationDialog::ConfirmationDialog(wxWindow *parent,
     noButton->Bind(wxEVT_BUTTON, &ConfirmationDialog::OnNoButton, this);
 }
 
-bool ConfirmationDialog::GetConfirmationResult() const {
-    return m_confirmationResult;
-}
+bool ConfirmationDialog::GetConfirmationResult() const { return result; }
 
 void ConfirmationDialog::OnYesButton(wxCommandEvent &event) {
-    m_confirmationResult = true;
+    result = true;
     EndModal(wxID_YES);
 }
 
 void ConfirmationDialog::OnNoButton(wxCommandEvent &event) {
-    m_confirmationResult = false;
+    result = false;
     EndModal(wxID_NO);
 }

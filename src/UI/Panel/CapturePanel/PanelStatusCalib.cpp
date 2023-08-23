@@ -9,8 +9,8 @@
 CalibrationStatusPanel::CalibrationStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_OK) {
 
-    calibrate_Button = new BitmapRoad(this, Enum::CP_CALIBRATE_Button_ID);
-    reset_Button = new BitmapRemove(this, Enum::CP_Reset_Button_ID);
+    calibrate_Button = new BitmapRoad(this, Enum::CP_Calibration_Button_ID);
+    reset_Button = new BitmapRemove(this, Enum::CP_RemoveCalibration_Button_ID);
 
     wxBoxSizer *hSizer = new wxBoxSizer(wxHORIZONTAL);
     hSizer->Add(calibrate_Button, 1, wxEXPAND);

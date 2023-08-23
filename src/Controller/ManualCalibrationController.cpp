@@ -6,9 +6,11 @@
 #include "Model/SharedModel.hpp"
 #include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_ManualCalib.hpp"
+#include "UI/Dialog/CancelDialog.hpp"
 #include "Utils/wxUtils.hpp"
 
 #include <Controller/ManualCalibrationController.hpp>
+#include <wx/event.h>
 
 ManualCalibrationController::ManualCalibrationController(ModelPtr sharedModel)
     : shared(sharedModel) {}
@@ -32,6 +34,19 @@ void ManualCalibrationController::checkPreCondition() {
     }
 }
 
+void ManualCalibrationController::e_PanelShow(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+
+        panelShowHandler(parent);
+
+        e_UpdateState(parent);
+
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void ManualCalibrationController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -50,6 +65,28 @@ void ManualCalibrationController::throwIfAnyThreadIsRunning() {
     if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
         throw std::runtime_error("calibPrevThread is running");
     }
+}
+
+void ManualCalibrationController::killAllThreads(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+        manualCalibEndHandler(parent);
+    }
+
+    if (!tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
+        manualCalibCaptureEndHandler(parent);
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAPTURE)) {
+        calibCapturePrevEndHandler(parent);
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+        calibPrevEndHandler(parent);
+    }
+
+    throwIfAnyThreadIsRunning();
 }
 
 void ManualCalibrationController::e_CreateTempSessionData(
@@ -83,22 +120,21 @@ void ManualCalibrationController::e_SaveSessionData(wxEvtHandler *parent) {
     }
 }
 
-void ManualCalibrationController::e_ChangeToCapturePanel(wxEvtHandler *parent) {
+void ManualCalibrationController::e_OKButtonHandler(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-        ChangePanelEvent::Submit(parent, data);
+
+        okButtonHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
-void ManualCalibrationController::e_ChangeToCalibrationPanel(
-    wxEvtHandler *parent) {
+void ManualCalibrationController::e_CancelButtonHandler(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        ChangePanelData data(this->panelID, PanelID::PANEL_CALIBRATION);
-        ChangePanelEvent::Submit(parent, data);
+
+        cancelButtonHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -369,7 +405,7 @@ void ManualCalibrationController::saveLineHandler(wxEvtHandler *parent,
 
     auto thread = tc->getRunningManualCalibrationThread();
 
-    thread->setPoint2f(point);
+    thread->setPoint2AndExtend(point);
 
     auto dir = thread->getDirection();
     auto line =
@@ -377,6 +413,7 @@ void ManualCalibrationController::saveLineHandler(wxEvtHandler *parent,
 
     auto data = shared->getSessionData();
 
+    // TODO: Do this inside thread
     AppConfig config;
     auto pConfig = config.GetPreviewConfig();
     int pWidth = pConfig.width;
@@ -550,6 +587,14 @@ void ManualCalibrationController::removeLeftHandler(wxEvtHandler *parent) {
     auto thread = tc->getRunningManualCalibrationThread();
 
     thread->setBlueLine(Line());
+
+    auto data = shared->getSessionData();
+
+    auto calibData = data->getCalibrationData();
+
+    calibData.lineLeft = Line();
+
+    data->setCalibrationData(calibData);
 }
 
 void ManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
@@ -567,6 +612,14 @@ void ManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
     auto thread = tc->getRunningManualCalibrationThread();
 
     thread->setYellowLine(Line());
+
+    auto data = shared->getSessionData();
+
+    auto calibData = data->getCalibrationData();
+
+    calibData.lineRight = Line();
+
+    data->setCalibrationData(calibData);
 }
 
 void ManualCalibrationController::createTempSessionDataHandler(
@@ -575,10 +628,6 @@ void ManualCalibrationController::createTempSessionDataHandler(
 
     if (temp == nullptr) {
         throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    if (!temp->isNull()) {
-        throw std::runtime_error("TempSessionData is not null");
     }
 
     auto data = shared->getSessionData();
@@ -615,4 +664,54 @@ void ManualCalibrationController::removeCalibDataHandler(wxEvtHandler *parent) {
     auto data = shared->getSessionData();
 
     data->removeCalibrationData();
+}
+
+void ManualCalibrationController::okButtonHandler(wxEvtHandler *parent) {
+
+    killAllThreads(parent);
+
+    saveSessionDataHandler(parent);
+
+    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
+    ChangePanelEvent::Submit(parent, data);
+}
+
+void ManualCalibrationController::cancelButtonHandler(wxEvtHandler *parent) {
+
+    if (shared->isSessionDataChanged()) {
+        auto dialog = CancelDialog(nullptr);
+        if (dialog.ShowModal() == wxID_NO) {
+            return;
+        }
+    }
+
+    killAllThreads(parent);
+
+    restoreSessionDataHandler(parent);
+
+    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
+    ChangePanelEvent::Submit(parent, data);
+}
+
+void ManualCalibrationController::panelShowHandler(wxEvtHandler *parent) {
+    createTempSessionDataHandler(parent);
+
+    auto data = shared->getSessionData();
+
+    if (!data->isCalibrationDataEmpty()) {
+        return;
+    }
+
+    AppConfig c;
+    auto config = c.GetThreadsConfig();
+    auto startThread = config.autoManualCalibration;
+
+    if (!startThread) {
+        return;
+    }
+
+    if (data->isCaptureDataEmpty())
+        return manualCalibStartHandler(parent);
+
+    manualCalibCaptureStartHandler(parent);
 }

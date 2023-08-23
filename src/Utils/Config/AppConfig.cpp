@@ -69,6 +69,11 @@ AppConfig::AppConfig() {
         config->Write("Max_Iterations", Default_RANSAC_Max_Iterations);
         config->Write("Min Points", Default_RANSAC_Min_Points);
 
+        config->SetPath("/Threads_Parameter");
+        config->Write("Auto_Manual_Calibration", Default_AutoManualCalibration);
+        config->Write("Auto_Calibration", Default_AutoCalibration);
+        config->Write("Auto_Roi", Default_AutoRoi);
+
         config->Flush();
     } else {
         config = new wxFileConfig("", "", ini_filename);
@@ -464,6 +469,39 @@ void AppConfig::ResetRansacConfig() {
     SetRansacConfig(ransacConfig);
 }
 
+ThreadsConfig AppConfig::GetThreadsConfig() {
+    ThreadsConfig threadsConfig;
+    config->SetPath("/Threads_Parameter");
+    config->Read("Auto_Manual_Calibration",
+                 &threadsConfig.autoManualCalibration,
+                 Default_AutoManualCalibration);
+    config->Read("Auto_Calibration", &threadsConfig.autoCalibration,
+                 Default_AutoCalibration);
+    config->Read("Auto_Roi", &threadsConfig.autoRoi, Default_AutoRoi);
+
+    return threadsConfig;
+}
+
+void AppConfig::SetThreadsConfig(ThreadsConfig threadsConfig) {
+    bool autoManualCalibration = threadsConfig.autoManualCalibration;
+    bool autoCalibration = threadsConfig.autoCalibration;
+    bool autoRoi = threadsConfig.autoRoi;
+
+    config->SetPath("/Threads_Parameter");
+    config->Write("Auto_Manual_Calibration", autoManualCalibration);
+    config->Write("Auto_Calibration", autoCalibration);
+    config->Write("Auto_Roi", autoRoi);
+}
+
+void AppConfig::ResetThreadsConfig() {
+    ThreadsConfig threadsConfig;
+    threadsConfig.autoManualCalibration = Default_AutoManualCalibration;
+    threadsConfig.autoCalibration = Default_AutoCalibration;
+    threadsConfig.autoRoi = Default_AutoRoi;
+
+    SetThreadsConfig(threadsConfig);
+}
+
 SettingsModel AppConfig::GetSettingsModel() {
     SettingsModel settingsModel;
     settingsModel.modelConfig = GetModelConfig();
@@ -472,11 +510,11 @@ SettingsModel AppConfig::GetSettingsModel() {
     settingsModel.sensorConfig = GetSensorConfig();
     settingsModel.captureConfig = GetCaptureConfig();
     settingsModel.measurementConfig = GetMeasurementConfig();
-    //settingsModel.loadConfig = GetLoadConfig();
     settingsModel.opticalFlowConfig = GetOpticalFlowConfig();
     settingsModel.ransacConfig = GetRansacConfig();
     settingsModel.blueRange = GetBlueRange();
     settingsModel.yellowRange = GetYellowRange();
+    settingsModel.threadsConfig = GetThreadsConfig();
     return settingsModel;
 }
 
@@ -487,11 +525,11 @@ void AppConfig::ResetConfig() {
     ResetSensorConfig();
     ResetMeasurementConfig();
     ResetCaptureConfig();
-    //ResetLoadConfig();
     ResetOpticalFlowConfig();
     ResetRansacConfig();
     ResetBlueRange();
     ResetYellowRange();
+    ResetThreadsConfig();
 }
 
 void AppConfig::SaveConfig(const SettingsModel &model) {
@@ -502,10 +540,10 @@ void AppConfig::SaveConfig(const SettingsModel &model) {
     SetSensorConfig(model.sensorConfig);
     SetMeasurementConfig(model.measurementConfig);
     SetPreviewConfig(model.previewConfig);
-    //SetLoadConfig(model.loadConfig);
     SetRansacConfig(model.ransacConfig);
     SetBlueRange(model.blueRange);
     SetYellowRange(model.yellowRange);
+    SetThreadsConfig(model.threadsConfig);
 }
 
 AppConfig::~AppConfig() { delete config; }

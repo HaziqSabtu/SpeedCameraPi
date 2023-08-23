@@ -12,8 +12,7 @@ class RoiMainStatusPanel : public TextOutlinePanel {
 
     void update(const AppState &state);
 
-    BitmapButton *calibrate_Button;
-    BitmapButton *stop_Button;
+    BitmapButtonT2 *calibrate_Button;
     BitmapButtonT2 *camera_Button;
     BitmapButton *reset_Button;
 

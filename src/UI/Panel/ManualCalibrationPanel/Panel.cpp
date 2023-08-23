@@ -45,13 +45,11 @@ ManualCalibrationPanel::~ManualCalibrationPanel() {}
 
 void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
     if (e.GetId() == Enum::G_Cancel_Button_ID) {
-        // controller->e_RestoreSessionData(this);
-        controller->e_ChangeToCapturePanel(this);
+        controller->e_CancelButtonHandler(this);
     }
 
     if (e.GetId() == Enum::G_OK_Button_ID) {
-        controller->e_SaveSessionData(this);
-        controller->e_ChangeToCapturePanel(this);
+        controller->e_OKButtonHandler(this);
     }
 
     if (e.GetId() == Enum::MC_Start_Button_ID) {
@@ -292,8 +290,7 @@ void ManualCalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
 
 void ManualCalibrationPanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
-        // controller->e_CreateTempSessionData(this);
-        controller->e_UpdateState(this);
+        controller->e_PanelShow(this);
     }
 }
 
