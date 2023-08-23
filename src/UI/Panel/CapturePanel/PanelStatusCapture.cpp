@@ -18,7 +18,7 @@ CaptureStatusPanel::CaptureStatusPanel(wxWindow *parent)
     Capture_Button = new BitmapCapture(this, Enum::CP_Capture_Button_ID);
     Load_Button = new BitmapLoad(this, Enum::CP_Load_Button_ID);
     replay_Button = new BitmapReplay(this, Enum::CP_Replay_Button_ID);
-    reset_Button = new BitmapRemove(this, Enum::CP_Reset_Button_ID);
+    reset_Button = new BitmapRemove(this, Enum::CP_ClearCapture_Button_ID);
     camera_Button = new BitmapT2Camera(this, Enum::CP_ToggleCamera_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);

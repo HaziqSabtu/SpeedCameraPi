@@ -3,8 +3,8 @@
 #include "UI/Button/TextButton/TextButton.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusCalib.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusCapture.hpp"
-#include "UI/Panel/CapturePanel/PanelStatusDebug.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusROI.hpp"
+#include "UI/Panel/CapturePanel/PanelStatusTools.hpp"
 #include <UI/Button/TextButton/Button_Measure.hpp>
 
 #include <Utils/Enum.hpp>
@@ -21,9 +21,9 @@ class CaptureButtonPanel : public wxPanel {
 
     CalibrationStatusPanel *csPanel;
 
-    DebugStatusPanel *dPanel;
-
     ROIStatusPanel *rPanel;
+
+    CaptureToolsPanel *tPanel;
 
     TextButton *switch_Button;
 

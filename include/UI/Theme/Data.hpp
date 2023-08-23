@@ -161,13 +161,21 @@ const BitmapData BitmapPreview = {
     .text = wxT("Preview"),
 };
 
-const BitmapData BitmapSave = {
+const BitmapData BitmapSaveConfig = {
     .filename = wxT("Assets/floppy_96.png"),
     .size = T::BitmapDefaultSize,
     .normal = T::BitmapNormal,
     .active = T::BitmapActive,
     .disabled = T::BitmapDisabled,
     .text = wxT("Save To Config"),
+};
+const BitmapData BitmapSaveData = {
+    .filename = wxT("Assets/floppy_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Save Data"),
 };
 
 const BitmapData BitmapSelectBlue = {
@@ -196,6 +204,7 @@ const BitmapData BitmapReset = {
     .disabled = T::BitmapDisabled,
     .text = wxT("Reset"),
 };
+
 const BitmapData BitmapRestore = {
     .filename = wxT("Assets/reset_96.png"),
     .size = T::BitmapDefaultSize,
@@ -212,6 +221,15 @@ const BitmapData BitmapAccept = {
     .active = T::BitmapActive,
     .disabled = T::BitmapDisabled,
     .text = wxT("Accept"),
+};
+
+const BitmapData BitmapTrimData = {
+    .filename = wxT("Assets/trim_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = "Trim Data",
 };
 
 // BitmapButtonT2 Data

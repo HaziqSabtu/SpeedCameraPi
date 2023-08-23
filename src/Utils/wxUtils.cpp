@@ -83,4 +83,9 @@ ScalarToHSVRangeConfig(const std::pair<cv::Scalar, cv::Scalar> &range) {
         static_cast<int>(range.first[2]), static_cast<int>(range.second[2])};
 }
 
+wxString idToFileName(std::string id) {
+    const std::string extension = ".scpdata";
+    return wxString::Format(wxT("%s%s"), id, extension);
+}
+
 } // namespace Utils

@@ -61,9 +61,10 @@ class SharedModel : public ISharedModel {
 
     void killAllThreads() override;
 
+    SessionData sessionData;
     DataPtr getSessionData();
     void setSessionData(SessionData data);
-    SessionData sessionData;
+    void resetSessionData();
 
     void setTempSessionData(SessionData data);
     DataPtr getTempSessionData();

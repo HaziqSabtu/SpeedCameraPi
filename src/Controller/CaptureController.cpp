@@ -6,10 +6,14 @@
 #include "Thread/Thread_Capture.hpp"
 #include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_LoadFile.hpp"
+#include "UI/Dialog/ResetDataDialog.hpp"
+#include "UI/Dialog/SaveDataDialog.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
+#include "Utils/FileReader/fileWR.hpp"
+#include "Utils/wxUtils.hpp"
 #include <Controller/CaptureController.hpp>
 #include <Event/Event_UpdateStatus.hpp>
 #include <memory>
@@ -41,11 +45,30 @@ void CaptureController::e_ChangeToRoiPanel(wxEvtHandler *parent) {
     }
 }
 
+// TODO: Addhandler
 void CaptureController::e_ChangeToResultPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         ChangePanelData data(this->panelID, PanelID::PANEL_RESULT);
         ChangePanelEvent::Submit(parent, data);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureController::e_SaveSessionData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        saveSessionDataHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureController::e_ResetSessionData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        resetSessionDataHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -342,15 +365,31 @@ void CaptureController::endLoadCaptureHandler() {
     tc->endLoadCaptureHandler();
 }
 
-void CaptureController::switchPanelHandler(wxEvtHandler *parent) {
-    //
-}
-
 void CaptureController::checkPreCondition() {
     auto data = shared->getSessionData();
     if (panelID != data->getPanelID()) {
         throw std::runtime_error(
             "CaptureController::endPoint() - PanelID mismatch");
+    }
+}
+
+void CaptureController::throwIfAnyThreadIsRunning() {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+        throw std::runtime_error("captureThread is already running");
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        throw std::runtime_error("loadFileThread is already running");
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        throw std::runtime_error("loadCaptureThread is already running");
+    }
+
+    if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+        throw std::runtime_error("replayThread is already running");
     }
 }
 
@@ -408,5 +447,49 @@ void CaptureController::removeRoiHandler(wxEvtHandler *parent) {
     shared->sessionData.clearTrackingData();
 
     wxString msg = "Roi data is removed";
+    UpdateStatusEvent::Submit(parent, msg);
+}
+
+void CaptureController::saveSessionDataHandler(wxEvtHandler *parent) {
+    throwIfAnyThreadIsRunning();
+
+    if (shared->sessionData.isCaptureDataEmpty()) {
+        throw std::runtime_error("Capture Data is empty");
+    }
+
+    auto id = shared->getSessionData()->getID();
+    auto filename = Utils::idToFileName(id);
+
+    auto dialog = new SaveDataDialog(nullptr, filename);
+    if (dialog->ShowModal() == wxID_NO) {
+        // TODO: Add this to StatusCollection
+        wxString msg = "Save Cancelled";
+        UpdateStatusEvent::Submit(parent, msg);
+        return;
+    }
+
+    auto data = shared->getSessionData();
+
+    Utils::FileReadWrite().WriteFile(data);
+
+    // TODO: Add this to StatusCollection
+    wxString msg = "Data is saved";
+    UpdateStatusEvent::Submit(parent, msg);
+}
+
+void CaptureController::resetSessionDataHandler(wxEvtHandler *parent) {
+    throwIfAnyThreadIsRunning();
+
+    auto dialog = new ResetDataDialog(nullptr);
+    if (dialog->ShowModal() == wxID_NO) {
+        wxString msg = "Session Reset Cancelled";
+        UpdateStatusEvent::Submit(parent, msg);
+
+        return;
+    }
+
+    shared->resetSessionData();
+
+    wxString msg = "Session Reset Complete";
     UpdateStatusEvent::Submit(parent, msg);
 }

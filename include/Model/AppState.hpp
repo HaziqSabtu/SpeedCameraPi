@@ -22,6 +22,10 @@ struct CapturePanelState {
     ButtonState roiButtonState;
     ButtonState roiRemoveButtonState;
 
+    ButtonState saveButtonState;
+    ButtonState trimButtonState;
+    ButtonState resetButtonState;
+
     ButtonState measureButtonState;
 };
 
@@ -160,6 +164,11 @@ class AppState {
     // Capture Panel -> ROI
     ButtonState getCPROIButtonState(ModelPtr model);
     ButtonState getCPROIRemoveButtonState(ModelPtr model);
+
+    // Capture Panel -> Save / Trim / Reset
+    ButtonState getCPSaveButtonState(ModelPtr model);
+    ButtonState getCPTrimButtonState(ModelPtr model);
+    ButtonState getCPResetButtonState(ModelPtr model);
 
     // Capture Panel -> Measure
     ButtonState getCPMeasureButtonState(ModelPtr model);

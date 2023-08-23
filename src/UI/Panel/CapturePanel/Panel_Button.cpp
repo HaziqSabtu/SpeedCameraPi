@@ -1,4 +1,3 @@
-#include "UI/Panel/CapturePanel/PanelStatusDebug.hpp"
 #include "UI/Panel/Common/DividerPanel.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/Theme/Theme.hpp"
@@ -29,10 +28,13 @@ CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     lrSizer->Add(Spacer, 0, wxALL, 0);
     lrSizer->Add(right_sizer, 1, wxALL, 0);
 
+    tPanel = new CaptureToolsPanel(this);
+
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(cPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(switch_Button, 1, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(tPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(switch_Button, 1, wxEXPAND | wxBOTTOM, 0);
 
     SetSizer(main_sizer);
 }

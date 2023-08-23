@@ -30,12 +30,15 @@ enum ProjectIDs {
     CP_Load_Button_ID,
     CP_Camera_Button_ID,
     CP_Camera_Button2_ID,
-    CP_Reset_Button_ID,
+    CP_ClearCapture_Button_ID,
     CP_SWITCH_Button_ID,
     CP_Calibration_Button_ID,
     CP_RemoveCalibration_Button_ID,
     CP_Roi_Button_ID,
     CP_RemoveRoi_Button_ID,
+    CP_Save_Button_ID,
+    CP_Trim_Button_ID,
+    CP_Reset_Button_ID,
 
     // CalibrationPanel
     CL_Start_Button_ID,

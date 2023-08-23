@@ -42,6 +42,10 @@ const RTD ROI_OK = {
     {wxT("SET"), Theme::StatusOk},
 };
 
+const RTD CAPTURE_TOOLS = {
+    {wxT("Tools"), Theme::Text},
+};
+
 // const RTD DEBUG = {
 //     {wxT("#DEBUG"), Theme::Text},
 // };

@@ -162,6 +162,8 @@ void SharedModel::setSessionData(SessionData data) {
     sessionData = data.clone();
 }
 
+void SharedModel::resetSessionData() { sessionData = SessionData(); }
+
 void SharedModel::setTempSessionData(SessionData data) {
     tempSessionData = data.clone();
     // tempSessionData = data;

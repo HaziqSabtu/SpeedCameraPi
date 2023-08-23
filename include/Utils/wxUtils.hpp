@@ -15,4 +15,5 @@ std::pair<cv::Scalar, cv::Scalar>
 HSVRangeConfigToScalar(const HSVRangeConfig &range);
 HSVRangeConfig
 ScalarToHSVRangeConfig(const std::pair<cv::Scalar, cv::Scalar> &range);
+wxString idToFileName(std::string id);
 } // namespace Utils

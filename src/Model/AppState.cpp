@@ -51,6 +51,10 @@ CapturePanelState AppState::getCapturePanelState(ModelPtr model) {
     ps.roiButtonState = getCPROIButtonState(model);
     ps.roiRemoveButtonState = getCPROIRemoveButtonState(model);
 
+    ps.saveButtonState = getCPSaveButtonState(model);
+    ps.trimButtonState = getCPTrimButtonState(model);
+    ps.resetButtonState = getCPResetButtonState(model);
+
     ps.measureButtonState = getCPMeasureButtonState(model);
 
     return ps;
@@ -314,6 +318,28 @@ ButtonState AppState::getCPROIRemoveButtonState(ModelPtr model) {
     }
 
     return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getCPSaveButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isCapturePanelThreadRunning()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->sessionData.isCaptureDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getCPTrimButtonState(ModelPtr model) {
+    return getCPSaveButtonState(model);
+}
+
+ButtonState AppState::getCPResetButtonState(ModelPtr model) {
+    return getCPSaveButtonState(model);
 }
 
 ButtonState AppState::getCPMeasureButtonState(ModelPtr model) {

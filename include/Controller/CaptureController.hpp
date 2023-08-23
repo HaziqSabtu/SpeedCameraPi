@@ -16,12 +16,7 @@ class CaptureController {
     ~CaptureController();
 
     void e_UpdateState(wxEvtHandler *parent);
-
     void e_ClearImageData(wxEvtHandler *parent);
-
-    void e_RemoveCalibration(wxEvtHandler *parent);
-
-    void e_RemoveRoi(wxEvtHandler *parent);
 
     void e_CameraStart(wxEvtHandler *parent);
     void e_CameraEnd(wxEvtHandler *parent);
@@ -36,16 +31,24 @@ class CaptureController {
     void e_ReplayEnd(wxEvtHandler *parent);
 
     void e_ChangeToCalibPanel(wxEvtHandler *parent);
+    void e_RemoveCalibration(wxEvtHandler *parent);
+
     void e_ChangeToRoiPanel(wxEvtHandler *parent);
+    void e_RemoveRoi(wxEvtHandler *parent);
+
     void e_ChangeToResultPanel(wxEvtHandler *parent);
+
+    void e_SaveSessionData(wxEvtHandler *parent);
+    void e_ResetSessionData(wxEvtHandler *parent);
 
   private:
     const PanelID panelID = PanelID::PANEL_CAPTURE;
     ModelPtr shared;
 
   private:
-    //TODO: Add throwifanythreadrunning()
     void checkPreCondition();
+
+    void throwIfAnyThreadIsRunning();
 
     void clearImageDataHandler(wxEvtHandler *parent);
 
@@ -62,5 +65,6 @@ class CaptureController {
     void startLoadCaptureHandler(wxEvtHandler *parent);
     void endLoadCaptureHandler();
 
-    void switchPanelHandler(wxEvtHandler *parent);
+    void saveSessionDataHandler(wxEvtHandler *parent);
+    void resetSessionDataHandler(wxEvtHandler *parent);
 };

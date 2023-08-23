@@ -58,7 +58,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
             LoadButtonHandler(button);
         }
 
-        if (e.GetId() == Enum::CP_Reset_Button_ID) {
+        if (e.GetId() == Enum::CP_ClearCapture_Button_ID) {
             controller->e_ClearImageData(this);
         }
 
@@ -84,6 +84,14 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
 
         if (e.GetId() == Enum::CP_RemoveRoi_Button_ID) {
             controller->e_RemoveRoi(this);
+        }
+
+        if (e.GetId() == Enum::CP_Save_Button_ID) {
+            controller->e_SaveSessionData(this);
+        }
+
+        if (e.GetId() == Enum::CP_Reset_Button_ID) {
+            controller->e_ResetSessionData(this);
         }
 
         controller->e_UpdateState(this);
@@ -165,6 +173,7 @@ void CapturePanel::OnUpdateState(UpdateStateEvent &e) {
     button_panel->cPanel->update(state);
     button_panel->csPanel->update(state);
     button_panel->rPanel->update(state);
+    button_panel->tPanel->update(state);
 
     auto ms = state.cameraPanel.measureButtonState;
     button_panel->switch_Button->update(ms);
