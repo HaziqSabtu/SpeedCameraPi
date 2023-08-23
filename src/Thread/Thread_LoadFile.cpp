@@ -12,6 +12,7 @@
 #include "Event/Event_LoadImage.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/SessionData.hpp"
+#include "Utils/FileReader/fileWR.hpp"
 #include <Thread/Thread_LoadFile.hpp>
 
 /**
@@ -60,7 +61,14 @@ wxThread::ExitCode LoadFileThread::Entry() {
 
         UpdateStatusEvent::Submit(parent, "Loading file...");
 
-        auto captureData = FILEWR::ReadFile(path);
+        // auto captureData = FILEWR::ReadFileOld(path);
+        auto loadedData = FileWR2().ReadFile(path);
+        auto loadedCaptureData = loadedData->getCaptureData();
+        auto loadedCalibrationData = loadedData->getCalibrationData();
+
+        data->setCaptureData(loadedCaptureData);
+        data->setCalibrationData(loadedCalibrationData);
+        auto captureData = data->getCaptureData();
 
         UpdateStatusEvent::Submit(parent, "File loaded");
 
@@ -75,8 +83,6 @@ wxThread::ExitCode LoadFileThread::Entry() {
             UpdatePreviewEvent::Submit(parent, frame);
             wxMilliSleep(200);
         }
-
-        data->setCaptureData(captureData);
 
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());

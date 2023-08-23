@@ -194,6 +194,8 @@ class SessionData {
   public:
     void setPanelID(PanelID id) { currentPanelID = id; }
     PanelID getPanelID() { return currentPanelID; }
+    void setID(std::string id) { this->id = id; }
+    std::string getID() { return id; }
 
     /////////////////////////////////////////////////////////
     /**

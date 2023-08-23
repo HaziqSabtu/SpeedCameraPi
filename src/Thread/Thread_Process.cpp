@@ -126,6 +126,10 @@ wxThread::ExitCode ProcessThread::Entry() {
         std::string resultString = "Speed: " + std::to_string(speed) + " km/h";
         UpdateStatusEvent::Submit(parent, resultString);
 
+        // TODO: temp
+        FileWR2 f;
+        f.WriteFile(data);
+
     } catch (const std::exception &e) {
         wxCommandEvent errorProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_ERROR);
         wxPostEvent(parent, errorProcessEvent);

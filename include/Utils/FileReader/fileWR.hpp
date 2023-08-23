@@ -18,6 +18,7 @@
 #include <fstream>
 #include <iostream>
 #include <opencv2/core.hpp>
+#include <string> // Include the necessary header for strings
 
 /**
  * @brief Utils Class for reading and writing binary file
@@ -29,12 +30,30 @@ class FILEWR {
   public:
     FILEWR(/* args */);
     ~FILEWR();
-    static CDVector ReadFile(std::string path);
-    // static void ReadFile(std::string path,
-    //                      std::shared_ptr<std::vector<ImageData>> imgData);
-    // static void WriteFile(std::shared_ptr<std::vector<ImageData>> imgData);
-    // static void WriteFile(std::string path,
-    //                       std::shared_ptr<std::vector<ImageData>> imgData);
+    static CDVector ReadFileOld(std::string path);
+};
+
+struct FileMetaData {
+    int vectorSize;
+    int imgWidth;
+    int imgHeight;
+
+    bool isCalibrated;
+};
+class FileWR2 {
+  public:
+    FileWR2();
+    ~FileWR2();
+    //CDVector ReadFile(std::string path);
+    void WriteFile(DataPtr data, std::string filename = "");
+    DataPtr ReadFile(std::string filename);
+
+  private:
+    const std::string FILE_IDENTIFIER = "SPEEDCAMERAPI";
+    const std::string DATA_DIVIDER = "DIVDIVDIV";
+    const std::string FILE_EXTENSION = ".scpdata";
+
+  private:
 };
 
 #endif
