@@ -59,7 +59,7 @@ void ResultPanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::RE_Preview_Button_ID) {
         auto button = button_panel->main_status_panel->camera_Button;
-        ToggleReplayButtonHandler(button);
+        TogglePreviewButtonHandler(button);
     }
 
     if (e.GetId() == Enum::RE_Box_Button_ID) {
@@ -86,7 +86,7 @@ void ResultPanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
-void ResultPanel::ToggleReplayButtonHandler(BitmapButtonT2 *button) {
+void ResultPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_ResultPreviewStart(button);
         return;

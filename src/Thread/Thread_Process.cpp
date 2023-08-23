@@ -31,11 +31,12 @@ wxThread::ExitCode ProcessThread::Entry() {
             throw std::runtime_error("Capture Data is empty");
         }
 
-        if (!data->isAllignDataEmpty()) {
-            throw std::runtime_error("Allign Data already exists");
+        if (!data->isResultDataEmpty()) {
+            throw std::runtime_error("Result Data already exists");
         }
 
-        data->initAllignData();
+        auto captureSize = data->getCaptureData().size();
+        data->initAllignData(captureSize);
 
         std::vector<TaskProperty> taskProperties;
 
@@ -75,7 +76,8 @@ wxThread::ExitCode ProcessThread::Entry() {
         }
 
         // Speed Calculation
-        auto roiData = data->getTrackingData().trackedRoi;
+        auto resultData = data->getResultData();
+        auto roiData = resultData.trackedRoi;
 
         auto sensorConfig = c.GetSensorConfig();
 
@@ -86,7 +88,7 @@ wxThread::ExitCode ProcessThread::Entry() {
         auto measurementConfig = c.GetMeasurementConfig();
         speedCalc.SetLaneWidth(measurementConfig.ObjectWidth);
 
-        auto allignData = data->getAllignData();
+        auto allignData = resultData.allignData;
 
         std::vector<cv::Mat> allignImages;
         for (auto d : allignData) {
@@ -115,7 +117,6 @@ wxThread::ExitCode ProcessThread::Entry() {
         auto distanceFromCamera = speedCalc.GetDistanceFromCamera();
         auto intersectingLines = speedCalc.GetIntersectingLines();
 
-        ResultData resultData;
         resultData.speed = speed;
         resultData.speedList = speedList;
         resultData.distanceFromCamera = distanceFromCamera;

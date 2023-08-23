@@ -25,23 +25,28 @@ enum PanelID {
 
 struct TrackingData {
     cv::Rect roi;
-    std::vector<cv::Rect> trackedRoi;
+    // std::vector<cv::Rect> trackedRoi;
 
     TrackingData() {}
 
-    TrackingData(cv::Rect roi, std::vector<cv::Rect> trackedRoi)
-        : roi(roi), trackedRoi(trackedRoi) {}
+    TrackingData(cv::Rect roi) : roi(roi) {}
+
+    // TrackingData(cv::Rect roi, std::vector<cv::Rect> trackedRoi)
+    //     : roi(roi), trackedRoi(trackedRoi) {}
 
     void clear() {
         roi = cv::Rect();
-        trackedRoi.clear();
+        // trackedRoi.clear();
     }
 
     bool isInit() { return roi.area() > 0; }
 
     bool operator==(const TrackingData &other) const {
-        return roi == other.roi && trackedRoi == other.trackedRoi;
+        return roi == other.roi;
     }
+    // bool operator==(const TrackingData &other) const {
+    //     return roi == other.roi && trackedRoi == other.trackedRoi;
+    // }
 
     bool operator!=(const TrackingData &other) const {
         return !(*this == other);
@@ -51,7 +56,7 @@ struct TrackingData {
 
     TrackingData &operator=(const TrackingData &other) {
         roi = other.roi;
-        trackedRoi = other.trackedRoi;
+        // trackedRoi = other.trackedRoi;
         return *this;
     }
 };
@@ -116,22 +121,32 @@ struct AllignData {
 };
 
 struct ResultData {
-    double speed;
+    ADVector allignData;
+    std::vector<cv::Rect> trackedRoi;
+
     std::vector<double> speedList;
     std::vector<double> distanceFromCamera;
     std::vector<Line> intersectingLines;
+    double speed = -1;
 
     ResultData() {}
 
-    ResultData(double speed, std::vector<double> speedList,
+    ResultData(std::vector<double> speedList,
                std::vector<double> distanceFromCamera,
-               std::vector<Line> intersectingLines)
-        : speed(speed), speedList(speedList),
-          distanceFromCamera(distanceFromCamera),
-          intersectingLines(intersectingLines) {}
+               std::vector<Line> intersectingLines, double speed)
+        : speedList(speedList), distanceFromCamera(distanceFromCamera),
+          intersectingLines(intersectingLines), speed(speed) {}
 
     bool isDefined() {
         if (speed == -1) {
+            return false;
+        }
+
+        if (allignData.empty() || trackedRoi.empty()) {
+            return false;
+        }
+
+        if (allignData.size() != trackedRoi.size()) {
             return false;
         }
 
@@ -153,10 +168,14 @@ struct ResultData {
         speedList.clear();
         distanceFromCamera.clear();
         intersectingLines.clear();
+        allignData.clear();
+        trackedRoi.clear();
     }
 
     bool operator==(const ResultData &other) const {
         return speed == other.speed && speedList == other.speedList &&
+               allignData == other.allignData &&
+               trackedRoi == other.trackedRoi &&
                distanceFromCamera == other.distanceFromCamera &&
                intersectingLines == other.intersectingLines;
     }
@@ -167,10 +186,20 @@ struct ResultData {
 
     ResultData &operator=(const ResultData &other) {
         speed = other.speed;
+        allignData = other.allignData;
+        trackedRoi = other.trackedRoi;
         speedList = other.speedList;
         distanceFromCamera = other.distanceFromCamera;
         intersectingLines = other.intersectingLines;
         return *this;
+    }
+
+    void initAllignData(int size) {
+        if (size <= 0) {
+            throw std::runtime_error("Size must be greater than 0");
+        }
+
+        allignData.resize(size);
     }
 };
 
@@ -227,39 +256,39 @@ class SessionData {
     *
     */
     /////////////////////////////////////////////////////////
-  private:
-    ADVector allignData;
+    //   private:
+    //     ADVector allignData;
 
-  public:
-    void setAllignData(ADVector &data) { allignData = data; }
+    //   public:
+    //     void setAllignData(ADVector &data) { allignData = data; }
 
-    void setAllignDataAt(int index, AllignData &data) {
-        if (isAllignDataEmpty()) {
-            throw std::runtime_error("Allign Data is empty");
-        }
+    //     void setAllignDataAt(int index, AllignData &data) {
+    //         if (isAllignDataEmpty()) {
+    //             throw std::runtime_error("Allign Data is empty");
+    //         }
 
-        if (index < 0 || index >= captureData.size()) {
-            throw std::runtime_error("Index out of range");
-        }
+    //         if (index < 0 || index >= captureData.size()) {
+    //             throw std::runtime_error("Index out of range");
+    //         }
 
-        allignData[index] = data;
-    }
+    //         allignData[index] = data;
+    //     }
 
-    void removeAllignData() { allignData.clear(); }
+    //     void removeAllignData() { allignData.clear(); }
 
-    ADVector getAllignData() { return allignData; }
+    //     ADVector getAllignData() { return allignData; }
 
-    bool isAllignDataEmpty() { return allignData.empty(); }
+    //     bool isAllignDataEmpty() { return allignData.empty(); }
 
-    void initAllignData() {
-        if (isCaptureDataEmpty()) {
-            throw std::runtime_error("Capture Data is empty");
-        }
+    //     void initAllignData() {
+    //         if (isCaptureDataEmpty()) {
+    //             throw std::runtime_error("Capture Data is empty");
+    //         }
 
-        if (isAllignDataEmpty()) {
-            allignData.resize(captureData.size());
-        }
-    }
+    //         if (isAllignDataEmpty()) {
+    //             allignData.resize(captureData.size());
+    //         }
+    //     }
 
     /////////////////////////////////////////////////////////
     /**
@@ -318,6 +347,8 @@ class SessionData {
     bool isResultDataEmpty() { return !resultData.isDefined(); }
     void clearResultData() { resultData.clear(); }
 
+    void initAllignData(int size) { resultData.initAllignData(size); }
+
     /////////////////////////////////////////////////////////
     /**
     *
@@ -335,7 +366,7 @@ class SessionData {
         id = other.id;
         currentPanelID = other.currentPanelID;
         captureData = other.captureData;
-        allignData = other.allignData;
+        // allignData = other.allignData;
         calibrationData = other.calibrationData;
         trackingData = other.trackingData;
         resultData = other.resultData;
@@ -351,7 +382,7 @@ class SessionData {
         id = other.id;
         currentPanelID = other.currentPanelID;
         captureData = other.captureData;
-        allignData = other.allignData;
+        // allignData = other.allignData;
         calibrationData = other.calibrationData;
         trackingData = other.trackingData;
         resultData = other.resultData;
@@ -361,7 +392,7 @@ class SessionData {
     bool operator==(const SessionData &other) const {
         return (id == other.id && currentPanelID == other.currentPanelID &&
                 captureData == other.captureData &&
-                allignData == other.allignData &&
+                // allignData == other.allignData &&
                 calibrationData == other.calibrationData &&
                 trackingData == other.trackingData &&
                 resultData == other.resultData);
@@ -380,7 +411,7 @@ class SessionData {
         id = Utils::dateToString();
         currentPanelID = PANEL_CAPTURE;
         captureData = CDVector();
-        allignData = ADVector();
+        // allignData = ADVector();
         calibrationData = CalibrationData();
         trackingData = TrackingData();
         resultData = ResultData();

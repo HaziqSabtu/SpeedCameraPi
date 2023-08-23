@@ -48,6 +48,12 @@
                     "description": "Enable GDB pretty printing",
                     "ignoreFailures": false
                 },
+                // TODO: Add to docs
+                {
+                    "description": "Set sysroot directory",
+                    "text": "set sysroot /home/haziqsabtu/cxcmpl/sysroot",
+                    "ignoreFailures": true
+                },
                 {
                     "text": "skip -rfu ^std::.*",
                     "description": "Don't step into standard library ",

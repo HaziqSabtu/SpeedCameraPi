@@ -34,17 +34,14 @@ ResultPreviewThread::~ResultPreviewThread() {}
 wxThread::ExitCode ResultPreviewThread::Entry() {
     try {
 
-        if (data->isCaptureDataEmpty()) {
-            throw std::runtime_error("Capture Data is empty");
+        if (data->isResultDataEmpty()) {
+            throw std::runtime_error("ResultData is empty");
         }
 
-        if (data->isAllignDataEmpty()) {
-            throw std::runtime_error("Allign Data is empty");
-        }
+        auto resultData = data->getResultData();
 
-        auto allignData = data->getAllignData();
-
-        auto roi = data->getTrackingData().trackedRoi;
+        auto allignData = resultData.allignData;
+        auto roi = resultData.trackedRoi;
 
         if (roi.size() != allignData.size()) {
             int roiSize = roi.size();
@@ -59,12 +56,6 @@ wxThread::ExitCode ResultPreviewThread::Entry() {
         }
 
         auto calibData = data->getCalibrationData();
-
-        if (data->isResultDataEmpty()) {
-            throw std::runtime_error("Result Data is empty");
-        }
-
-        auto resultData = data->getResultData();
 
         maxImageIndex = allignData.size();
 

@@ -291,11 +291,11 @@ void ResultController::cancelButtonHandler(wxEvtHandler *parent) {
 
     // remove all data from session
     auto sessionData = shared->getSessionData();
-    sessionData->removeAllignData();
+    // sessionData->removeAllignData();
 
-    auto tracking = sessionData->getTrackingData();
-    tracking.trackedRoi.clear();
-    sessionData->setTrackingData(tracking);
+    // auto tracking = sessionData->getTrackingData();
+    // tracking.trackedRoi.clear();
+    // sessionData->setTrackingData(tracking);
 
     sessionData->clearResultData();
 

@@ -43,7 +43,7 @@ class ResultPanel : public wxPanel {
 
     wxBoxSizer *main_sizer;
 
-    void ToggleReplayButtonHandler(BitmapButtonT2 *button);
+    void TogglePreviewButtonHandler(BitmapButtonT2 *button);
     void ToggleBoxButtonHandler(BitmapButtonT2 *button);
     void ToggleLinesButtonHandler(BitmapButtonT2 *button);
     void ToggleLanesButtonHandler(BitmapButtonT2 *button);

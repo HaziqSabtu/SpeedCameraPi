@@ -25,8 +25,16 @@ void FlowTask::Execute() {
     ofTracker.SetMinPointDistance(config.minPointDistance);
     ofTracker.SetThreshold(config.threshold);
 
+    auto resultData = data->getResultData();
+
     std::vector<cv::Mat> allignImages;
-    for (auto aD : data->getAllignData()) {
+    auto allignData = resultData.allignData;
+    if (allignData.size() == 0) {
+        throw std::runtime_error("No Allign Data"
+                                 " available");
+    }
+
+    for (auto aD : allignData) {
         allignImages.push_back(aD.image);
     }
 
@@ -37,8 +45,8 @@ void FlowTask::Execute() {
 
     auto obj = ofTracker.track(allignImages, roi);
 
-    roiData.trackedRoi = obj;
-    data->setTrackingData(roiData);
+    resultData.trackedRoi = obj;
+    data->setResultData(resultData);
 }
 
 /**
