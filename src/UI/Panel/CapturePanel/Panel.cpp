@@ -97,7 +97,8 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
 
 void CapturePanel::LoadButtonHandler(wxButton *button) {
 #if DEBUG
-    std::string path = "./example.bin";
+    std::string path = "./2023823_13453.scpdata";
+
     controller->e_LoadFileStart(this, path);
 #else
     wxFileDialog openFileDialog(this, _("Open .bin file"), "", "",
