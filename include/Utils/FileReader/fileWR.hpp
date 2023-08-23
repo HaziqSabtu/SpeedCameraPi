@@ -9,9 +9,6 @@
  *
  */
 
-#ifndef FILEWR_HPP
-#define FILEWR_HPP
-
 #include "Model/SessionData.hpp"
 #include <Utils/CommonUtils.hpp>
 #include <chrono>
@@ -20,33 +17,25 @@
 #include <opencv2/core.hpp>
 #include <string> // Include the necessary header for strings
 
-/**
- * @brief Utils Class for reading and writing binary file
- *
- */
-class FILEWR {
-  private:
-    /* data */
-  public:
-    FILEWR(/* args */);
-    ~FILEWR();
-    static CDVector ReadFileOld(std::string path);
-};
+#pragma once
 
+namespace Utils {
 struct FileMetaData {
     int vectorSize;
     int imgWidth;
     int imgHeight;
 
     bool isCalibrated;
+
+    bool isROI;
 };
-class FileWR2 {
+class FileReadWrite {
   public:
-    FileWR2();
-    ~FileWR2();
+    FileReadWrite();
+    ~FileReadWrite();
     //CDVector ReadFile(std::string path);
     void WriteFile(DataPtr data, std::string filename = "");
-    DataPtr ReadFile(std::string filename);
+    void ReadFile(DataPtr data, std::string filename);
 
   private:
     const std::string FILE_IDENTIFIER = "SPEEDCAMERAPI";
@@ -56,4 +45,4 @@ class FileWR2 {
   private:
 };
 
-#endif
+} // namespace Utils

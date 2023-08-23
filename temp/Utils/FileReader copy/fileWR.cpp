@@ -13,7 +13,58 @@
 #include <Utils/FileReader/fileWR.hpp>
 #include <iostream>
 
-namespace Utils {
+/**
+ * @brief Construct a new FILEWR::FILEWR object
+ *
+ */
+FILEWR::FILEWR(/* args */) {}
+
+/**
+ * @brief Destroy the FILEWR::FILEWR object
+ *
+ */
+FILEWR::~FILEWR() {}
+
+CDVector FILEWR::ReadFileOld(std::string path) {
+    std::ifstream file(path, std::ios::binary);
+
+    if (!file.is_open()) {
+        throw std::runtime_error("Error opening file");
+    }
+
+    CDVector data;
+
+    while (file) {
+        std::chrono::high_resolution_clock::time_point time;
+        file.read(reinterpret_cast<char *>(&time), sizeof(time));
+
+        int cols;
+        int rows;
+        int type;
+        bool continuous;
+
+        file.read(reinterpret_cast<char *>(&cols), sizeof(cols));
+        file.read(reinterpret_cast<char *>(&rows), sizeof(rows));
+        file.read(reinterpret_cast<char *>(&type), sizeof(type));
+        file.read(reinterpret_cast<char *>(&continuous), sizeof(continuous));
+
+        cv::Mat img(rows, cols, type);
+        if (continuous) {
+            size_t size = rows * cols * img.elemSize();
+            file.read(reinterpret_cast<char *>(img.ptr()), size);
+        } else {
+            size_t size = cols * img.elemSize();
+            for (int i = 0; i < rows; ++i) {
+                file.read(reinterpret_cast<char *>(img.ptr(i)), size);
+            }
+        }
+        if (!img.empty() && time.time_since_epoch().count() != 0)
+            data.push_back({img, time});
+    }
+    file.close();
+    return data;
+}
+
 FileReadWrite::FileReadWrite() {}
 
 FileReadWrite::~FileReadWrite() {}
@@ -128,14 +179,21 @@ void FileReadWrite::ReadFile(DataPtr data, std::string filename) {
         throw std::runtime_error("Error: Invalid file");
     }
 
-    FileMetaData m;
+    FileMetaData metadata;
 
     // Read metadata from the file
-    file.read(reinterpret_cast<char *>(&m), sizeof(m));
+    file.read(reinterpret_cast<char *>(&metadata), sizeof(metadata));
+
+    // print all
+    std::cerr << "Vector size: " << metadata.vectorSize << std::endl;
+    std::cerr << "Image width: " << metadata.imgWidth << std::endl;
+    std::cerr << "Image height: " << metadata.imgHeight << std::endl;
+    std::cerr << "Is calibrated: " << metadata.isCalibrated << std::endl;
+    std::cerr << "Is ROI: " << metadata.isROI << std::endl;
 
     // Read each cv::Mat object
     std::vector<CaptureData> captureData;
-    for (size_t i = 0; i < m.vectorSize; i++) {
+    for (size_t i = 0; i < metadata.vectorSize; i++) {
         int rows = 0;
         int cols = 0;
         int type = 0;
@@ -158,7 +216,7 @@ void FileReadWrite::ReadFile(DataPtr data, std::string filename) {
 
     data->setCaptureData(captureData);
 
-    if (m.isCalibrated) {
+    if (metadata.isCalibrated) {
         // read divider
         std::string divider;
         divider.resize(DATA_DIVIDER.size());
@@ -179,7 +237,7 @@ void FileReadWrite::ReadFile(DataPtr data, std::string filename) {
         data->setCalibrationData(calibData);
     }
 
-    if (m.isROI) {
+    if (metadata.isROI) {
 
         std::string divider;
         divider.resize(DATA_DIVIDER.size());
@@ -193,6 +251,9 @@ void FileReadWrite::ReadFile(DataPtr data, std::string filename) {
 
         file.read(reinterpret_cast<char *>(&roi), sizeof(roi));
 
+        std::cerr << "ROI: " << roi.x << " " << roi.y << " " << roi.width << " "
+                  << roi.height << std::endl;
+
         TrackingData trackingData;
         trackingData.roi = roi;
         data->setTrackingData(trackingData);
@@ -200,4 +261,3 @@ void FileReadWrite::ReadFile(DataPtr data, std::string filename) {
 
     file.close();
 }
-}; // namespace Utils

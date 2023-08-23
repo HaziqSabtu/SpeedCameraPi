@@ -127,7 +127,7 @@ wxThread::ExitCode ProcessThread::Entry() {
         UpdateStatusEvent::Submit(parent, resultString);
 
         // TODO: temp
-        FileWR2 f;
+        Utils::FileReadWrite f;
         f.WriteFile(data);
 
     } catch (const std::exception &e) {

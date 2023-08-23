@@ -61,13 +61,7 @@ wxThread::ExitCode LoadFileThread::Entry() {
 
         UpdateStatusEvent::Submit(parent, "Loading file...");
 
-        // auto captureData = FILEWR::ReadFileOld(path);
-        auto loadedData = FileWR2().ReadFile(path);
-        auto loadedCaptureData = loadedData->getCaptureData();
-        auto loadedCalibrationData = loadedData->getCalibrationData();
-
-        data->setCaptureData(loadedCaptureData);
-        data->setCalibrationData(loadedCalibrationData);
+        Utils::FileReadWrite().ReadFile(data, path);
         auto captureData = data->getCaptureData();
 
         UpdateStatusEvent::Submit(parent, "File loaded");
