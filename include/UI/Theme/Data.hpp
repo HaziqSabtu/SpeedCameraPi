@@ -394,6 +394,15 @@ const TextButtonData MeasureTextButton = {
     .size = wxSize(100, 58),
 };
 
+const TextButtonData BackTextButton = {
+    .text = wxT("Back"),
+    .normalBgColor = CC::Twitter_ExtExtLightGray,
+    .normalFgColor = T::Text,
+    .disabledBgColor = CC::Twitter_LightGray,
+    .disabledFgColor = CC::Twitter_ExtExtLightGray,
+    .size = wxSize(100, 58),
+};
+
 const TextButtonDataT2 OnOffT2TextButton = {
     .onText = wxT("Enable"),
     .offText = wxT("Disable"),

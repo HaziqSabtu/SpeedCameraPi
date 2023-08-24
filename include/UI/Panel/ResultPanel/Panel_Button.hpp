@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Button/TextButton/Type2/TextButtonT2.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"
@@ -19,7 +20,7 @@ class ResultPanelButton : public wxPanel {
     ResultMainStatusPanel *main_status_panel;
     ResultPreviewStatusPanel *preview_status_panel;
 
-    OKCancelPanel *ok_cancel_panel;
+    TextButton *back_button;
 
   private:
     wxPanel *button_panel;

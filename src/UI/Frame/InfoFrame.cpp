@@ -1,18 +1,31 @@
+#include "UI/Layout/TitlePanel.hpp"
+#include "UI/Panel/SettingsPanel/SettingsPanel.hpp"
+#include "Utils/Config/ConfigStruct.hpp"
+#include "Utils/Enum.hpp"
+#include <UI/Button/TextButton/Button_Back.hpp>
 #include <UI/Frame/InfoFrame.hpp>
 
-InfoFrame::InfoFrame() : wxFrame(nullptr, wxID_ANY, "Info") {
+InfoFrame::InfoFrame() : wxFrame(nullptr, wxID_ANY, "Settings") {
     ShowFullScreen(true);
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-    wxStaticText *text = new wxStaticText(
-        this, wxID_ANY, "Info Frame --- Not implemented for now");
-    sizer->Add(text, 0, wxALIGN_CENTER | wxALL, 20);
 
-    wxButton *closeButton = new wxButton(this, wxID_ANY, "Close Info");
-    closeButton->Bind(wxEVT_BUTTON, &InfoFrame::OnButton, this);
-    sizer->Add(closeButton, 0, wxALIGN_CENTER | wxALL, 10);
+    title_panel = new TitlePanel(this, panel_id);
+    sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
 
+    info_panel = new InfoPanel(this, wxID_ANY);
+    sizer->Add(info_panel, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    // scrolled_panel = new SettingsScrollPanel(this);
+    // sizer->Add(scrolled_panel, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+
+    back_button = new BackTextButton(this, wxID_ANY);
+    sizer->Add(back_button, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+
+    title_panel->exit_Button->setDisabled();
+    title_panel->setting_Button->setDisabled();
     SetSizer(sizer);
+
+    SetBackgroundColour(Theme::Background);
 }
 
 void InfoFrame::OnButton(wxCommandEvent &e) { Close(); }

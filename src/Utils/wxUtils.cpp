@@ -64,9 +64,28 @@ wxBitmap recolor(wxBitmap &b, const wxColour &c) {
 
 wxBitmap resize(const wxBitmap &b, const wxSize &s) {
     wxImage img = b.ConvertToImage();
-    img.Rescale(s.GetWidth(), s.GetHeight());
+
+    if (s.GetWidth() == 0 && s.GetHeight() != 0) {
+        double aspectRatio =
+            static_cast<double>(img.GetWidth()) / img.GetHeight();
+        int newWidth = static_cast<int>(s.GetHeight() * aspectRatio);
+        img.Rescale(newWidth, s.GetHeight());
+    } else if (s.GetWidth() != 0 && s.GetHeight() == 0) {
+        double aspectRatio =
+            static_cast<double>(img.GetHeight()) / img.GetWidth();
+        int newHeight = static_cast<int>(s.GetWidth() * aspectRatio);
+        img.Rescale(s.GetWidth(), newHeight);
+    } else {
+        img.Rescale(s.GetWidth(), s.GetHeight());
+    }
+
     return wxBitmap(img);
 }
+// wxBitmap resize(const wxBitmap &b, const wxSize &s) {
+//     wxImage img = b.ConvertToImage();
+//     img.Rescale(s.GetWidth(), s.GetHeight());
+//     return wxBitmap(img);
+// }
 
 std::pair<cv::Scalar, cv::Scalar>
 HSVRangeConfigToScalar(const HSVRangeConfig &range) {
