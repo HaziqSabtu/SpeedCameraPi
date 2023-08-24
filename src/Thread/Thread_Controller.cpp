@@ -10,6 +10,7 @@
 #include "Thread/Thread_Process.hpp"
 #include "Thread/Thread_ResultPreview.hpp"
 #include "Thread/Thread_Roi.hpp"
+#include "Thread/Thread_SaveData.hpp"
 #include <Thread/Thread_Controller.hpp>
 #include <Thread/Thread_ManualCalib.hpp>
 
@@ -31,6 +32,7 @@ void ThreadController::initThread() {
     captureThread = nullptr;
     loadCaptureThread = nullptr;
     loadFileThread = nullptr;
+    saveFileThread = nullptr;
     replayThread = nullptr;
     calibrationThread = nullptr;
     captureCalibrationThread = nullptr;
@@ -50,6 +52,7 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(captureThread);
     stopAndDeleteThread(loadCaptureThread);
     stopAndDeleteThread(loadFileThread);
+    stopAndDeleteThread(saveFileThread);
     stopAndDeleteThread(replayThread);
     stopAndDeleteThread(calibrationThread);
     stopAndDeleteThread(captureCalibrationThread);
@@ -76,6 +79,10 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
 
     if (threadID == ThreadID::THREAD_LOAD_FILE) {
         return loadFileThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_SAVE_FILE) {
+        return saveFileThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_REPLAY) {
@@ -260,6 +267,10 @@ bool ThreadController::isCapturePanelThreadRunning() {
         return true;
     }
 
+    if (!isThreadNullptr(THREAD_SAVE_FILE)) {
+        return true;
+    }
+
     if (!isThreadNullptr(THREAD_REPLAY)) {
         return true;
     }
@@ -315,6 +326,8 @@ LoadCaptureThread *ThreadController::getLoadCaptureThread() {
 }
 
 LoadFileThread *ThreadController::getLoadFileThread() { return loadFileThread; }
+
+SaveDataThread *ThreadController::getSaveFileThread() { return saveFileThread; }
 
 ReplayThread *ThreadController::getReplayThread() { return replayThread; }
 
@@ -375,6 +388,19 @@ void ThreadController::startLoadFileHandler(wxEvtHandler *parent, DataPtr data,
 
 void ThreadController::endLoadFileHandler() {
     loadFileThread = stopAndDeleteThread(loadFileThread);
+}
+
+void ThreadController::startSaveFileHandler(wxEvtHandler *parent, DataPtr data,
+                                            PanelID panelID) {
+
+    saveFileThread = new SaveDataThread(parent, data);
+    saveFileThread->Run();
+
+    owner[saveFileThread->getID()] = panelID;
+}
+
+void ThreadController::endSaveFileHandler() {
+    saveFileThread = stopAndDeleteThread(saveFileThread);
 }
 
 void ThreadController::startCalibrationHandler(

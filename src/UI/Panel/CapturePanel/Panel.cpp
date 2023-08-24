@@ -3,6 +3,7 @@
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
+#include "Event/Event_SaveData.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/AppState.hpp"
@@ -87,7 +88,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
         }
 
         if (e.GetId() == Enum::CP_Save_Button_ID) {
-            controller->e_SaveSessionData(this);
+            controller->e_SaveSessionDataStart(this);
         }
 
         if (e.GetId() == Enum::CP_Reset_Button_ID) {
@@ -201,6 +202,30 @@ void CapturePanel::OnReplay(wxCommandEvent &e) {
     e.Skip();
 }
 
+void CapturePanel::OnSaveData(wxCommandEvent &e) {
+    if (e.GetId() == SAVE_DATA_START) {
+        wxString msg = "Saving";
+        UpdateStatusEvent::Submit(this, msg);
+    }
+
+    if (e.GetId() == SAVE_DATA_END) {
+        controller->e_SaveSessionDataEnd(this);
+
+        wxString msg = "Save complete";
+        UpdateStatusEvent::Submit(this, msg);
+    }
+
+    if (e.GetId() == SAVE_DATA_ERROR) {
+        controller->e_SaveSessionDataEnd(this);
+
+        wxString msg = "Error saving data";
+        UpdateStatusEvent::Submit(this, msg);
+    }
+
+    controller->e_UpdateState(this);
+    e.Skip();
+}
+
 void CapturePanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
         controller->e_UpdateState(this);
@@ -215,5 +240,6 @@ wxBEGIN_EVENT_TABLE(CapturePanel, wxPanel)
     EVT_UPDATE_STATE(wxID_ANY, CapturePanel::OnUpdateState)
     EVT_UPDATE_STATUS(wxID_ANY, CapturePanel::OnUpdateStatus)
     EVT_COMMAND(wxID_ANY, c_REPLAY_EVENT, CapturePanel::OnReplay)
+    EVT_COMMAND(wxID_ANY, c_SAVE_DATA_EVENT, CapturePanel::OnSaveData)
     EVT_SHOW(CapturePanel::OnShow)
 wxEND_EVENT_TABLE()

@@ -54,6 +54,7 @@ class CapturePanel : public wxPanel {
     void OnUpdateState(UpdateStateEvent &e);
     void OnUpdateStatus(UpdateStatusEvent &e);
     void OnReplay(wxCommandEvent &e);
+    void OnSaveData(wxCommandEvent &e);
     void OnShow(wxShowEvent &e);
     // void OnChangePanel(wxCommandEvent &e);
 

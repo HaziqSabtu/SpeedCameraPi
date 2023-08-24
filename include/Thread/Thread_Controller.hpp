@@ -18,6 +18,7 @@
 #include "Thread/Thread_ResultPreview.hpp"
 #include "Thread/Thread_Roi.hpp"
 #include "Thread/Thread_RoiPreview.hpp"
+#include "Thread/Thread_SaveData.hpp"
 #include <unordered_map>
 
 class ThreadController {
@@ -40,6 +41,11 @@ class ThreadController {
                                       int maxFrame, std::string path,
                                       PanelID panelID);
     void endLoadFileHandler();
+
+    virtual void startSaveFileHandler(wxEvtHandler *parent, DataPtr data,
+                                      PanelID panelID);
+
+    void endSaveFileHandler();
 
     virtual void startReplayHandler(wxEvtHandler *parent, DataPtr data,
                                     PanelID panelID);
@@ -123,6 +129,7 @@ class ThreadController {
 
     bool isThreadOwner(ThreadID threadID, PanelID panelID);
 
+    // TODO: Remove this
     bool isThreadsWithCameraNullptr();
 
     // Calibration Helper Methods
@@ -151,6 +158,8 @@ class ThreadController {
     LoadCaptureThread *getLoadCaptureThread();
 
     LoadFileThread *getLoadFileThread();
+
+    SaveDataThread *getSaveFileThread();
 
     ReplayThread *getReplayThread();
 
@@ -195,6 +204,8 @@ class ThreadController {
     LoadCaptureThread *loadCaptureThread;
 
     LoadFileThread *loadFileThread;
+
+    SaveDataThread *saveFileThread;
 
     ReplayThread *replayThread;
 

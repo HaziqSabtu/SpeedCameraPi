@@ -56,10 +56,19 @@ void CaptureController::e_ChangeToResultPanel(wxEvtHandler *parent) {
     }
 }
 
-void CaptureController::e_SaveSessionData(wxEvtHandler *parent) {
+void CaptureController::e_SaveSessionDataStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        saveSessionDataHandler(parent);
+        saveSessionDataStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureController::e_SaveSessionDataEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        saveSessionDataEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -450,7 +459,9 @@ void CaptureController::removeRoiHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, msg);
 }
 
-void CaptureController::saveSessionDataHandler(wxEvtHandler *parent) {
+void CaptureController::saveSessionDataStartHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
     throwIfAnyThreadIsRunning();
 
     if (shared->sessionData.isCaptureDataEmpty()) {
@@ -470,10 +481,23 @@ void CaptureController::saveSessionDataHandler(wxEvtHandler *parent) {
 
     auto data = shared->getSessionData();
 
-    Utils::FileReadWrite().WriteFile(data);
+    tc->startSaveFileHandler(parent, data, panelID);
+}
 
-    // TODO: Add this to StatusCollection
-    wxString msg = "Data is saved";
+void CaptureController::saveSessionDataEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_SAVE_FILE)) {
+        throw std::runtime_error("saveFileThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_SAVE_FILE, panelID)) {
+        throw std::runtime_error("saveFileThread is not owned by this panel");
+    }
+
+    tc->endSaveFileHandler();
+
+    wxString msg = "Save Complete";
     UpdateStatusEvent::Submit(parent, msg);
 }
 

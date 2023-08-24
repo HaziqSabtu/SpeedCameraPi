@@ -38,7 +38,8 @@ class CaptureController {
 
     void e_ChangeToResultPanel(wxEvtHandler *parent);
 
-    void e_SaveSessionData(wxEvtHandler *parent);
+    void e_SaveSessionDataStart(wxEvtHandler *parent);
+    void e_SaveSessionDataEnd(wxEvtHandler *parent);
     void e_ResetSessionData(wxEvtHandler *parent);
 
   private:
@@ -65,6 +66,7 @@ class CaptureController {
     void startLoadCaptureHandler(wxEvtHandler *parent);
     void endLoadCaptureHandler();
 
-    void saveSessionDataHandler(wxEvtHandler *parent);
+    void saveSessionDataStartHandler(wxEvtHandler *parent);
+    void saveSessionDataEndHandler(wxEvtHandler *parent);
     void resetSessionDataHandler(wxEvtHandler *parent);
 };
