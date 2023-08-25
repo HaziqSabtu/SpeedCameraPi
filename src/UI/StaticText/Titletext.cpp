@@ -54,5 +54,9 @@ wxString TitleText::panelID_to_string(PanelID panel_id) {
         return "Info";
     }
 
+    if (panel_id == PanelID::PANEL_TRIM_DATA) {
+        return "Trim Data";
+    }
+
     return "Unknown Panel";
 }

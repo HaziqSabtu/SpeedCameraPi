@@ -5,9 +5,9 @@
 enum FontStyle { FONT_NORMAL, FONT_ITALIC, FONT_BOLD, FONT_LIGHT };
 
 struct FontData {
-    wxString fontName;
+    wxString fontName = "Roboto";
     int fontSize;
-    FontStyle fontStyle;
+    FontStyle fontStyle = FontStyle::FONT_NORMAL;
 };
 
 class AppFontInfo : public wxFontInfo {
