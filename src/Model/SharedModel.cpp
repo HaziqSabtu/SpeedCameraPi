@@ -145,6 +145,13 @@ void SharedModel::killAllThreads() {
 
         tc->endRoiPreviewHandler();
     }
+
+    if (!tc->isThreadNullptr(ThreadID::THREAD_TRIM_DATA)) {
+        auto thread = tc->getTrimDataThread();
+        thread->Pause();
+
+        tc->endTrimDataHandler();
+    }
 }
 
 // return a shared_ptr to the SessionData object WITHOUT copying it

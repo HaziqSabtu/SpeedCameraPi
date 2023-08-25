@@ -95,6 +95,10 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
             controller->e_ResetSessionData(this);
         }
 
+        if (e.GetId() == Enum::CP_Trim_Button_ID) {
+            controller->e_ChangeToTrimDataPanel(this);
+        }
+
         controller->e_UpdateState(this);
 
         e.Skip();

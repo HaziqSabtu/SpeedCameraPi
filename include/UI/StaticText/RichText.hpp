@@ -124,4 +124,16 @@ const RTD RESULT_OK = {
     {wxT("Result: "), Theme::Text},
     {wxT("OK"), Theme::StatusOk},
 };
+
+const RTD TRIM_DATA = {
+    {wxT("Trim Data"), Theme::Text},
+};
+
+const RTD TRIM_START = {
+    {wxT("Set Start"), Theme::Text},
+};
+
+const RTD TRIM_END = {
+    {wxT("Set End"), Theme::Text},
+};
 }; // namespace RichTextCollection

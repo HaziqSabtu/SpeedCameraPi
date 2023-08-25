@@ -46,6 +46,7 @@ void ThreadController::initThread() {
     roiPreviewThread = nullptr;
     processThread = nullptr;
     resultPreviewThread = nullptr;
+    trimDataThread = nullptr;
 };
 
 void ThreadController::deleteThread() {
@@ -66,6 +67,7 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(roiPreviewThread);
     stopAndDeleteThread(processThread);
     stopAndDeleteThread(resultPreviewThread);
+    stopAndDeleteThread(trimDataThread);
 };
 
 bool ThreadController::isThreadNullptr(ThreadID threadID) {
@@ -135,6 +137,10 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
 
     if (threadID == ThreadID::THREAD_RESULT_PREVIEW) {
         return resultPreviewThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_TRIM_DATA) {
+        return trimDataThread == nullptr;
     }
 
     throw std::runtime_error(
@@ -376,6 +382,8 @@ ResultPreviewThread *ThreadController::getResultPreviewThread() {
     return resultPreviewThread;
 }
 
+TrimDataThread *ThreadController::getTrimDataThread() { return trimDataThread; }
+
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, DataPtr data,
                                             int maxFrame, std::string path,
                                             PanelID panelID) {
@@ -562,6 +570,18 @@ void ThreadController::startResultPreviewHandler(wxEvtHandler *parent,
 
 void ThreadController::endResultPreviewHandler() {
     resultPreviewThread = stopAndDeleteThread(resultPreviewThread);
+}
+
+void ThreadController::startTrimDataHandler(wxEvtHandler *parent, DataPtr data,
+                                            PanelID panelID) {
+    trimDataThread = new TrimDataThread(parent, data);
+    trimDataThread->Run();
+
+    owner[trimDataThread->getID()] = panelID;
+}
+
+void ThreadController::endTrimDataHandler() {
+    trimDataThread = stopAndDeleteThread(trimDataThread);
 }
 
 template <typename T>

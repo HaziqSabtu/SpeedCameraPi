@@ -1,5 +1,6 @@
 #include "Controller/ControllerFactory.hpp"
 #include "Controller/ManualCalibrationController.hpp"
+#include "Controller/TrimDataController.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/SessionData.hpp"
 #include "Model/SharedModel.hpp"
@@ -58,6 +59,10 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
     color_calibration_panel = new ColorCalibrationPanel(this, wxID_ANY, ccc);
     panels[PANEL_COLOR_CALIBRATION] = color_calibration_panel;
 
+    auto tdc = factory.createTrimDataController();
+    trim_data_panel = new TrimDataPanel(this, wxID_ANY, tdc);
+    panels[PANEL_TRIM_DATA] = trim_data_panel;
+
     auto rsc = factory.createResultController();
     result_panel = new ResultPanel(this, wxID_ANY, rsc);
     panels[PANEL_RESULT] = result_panel;
@@ -68,6 +73,7 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
     sizer->Add(calibration_panel, 1, wxEXPAND);
     sizer->Add(manual_calibration_panel, 1, wxEXPAND);
     sizer->Add(color_calibration_panel, 1, wxEXPAND);
+    sizer->Add(trim_data_panel, 1, wxEXPAND);
     sizer->Add(result_panel, 1, wxEXPAND);
     SetSizer(sizer);
 
@@ -78,7 +84,7 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
 MainFrame::~MainFrame() { wxWakeUpIdle(); }
 
 void MainFrame::OnError(ErrorEvent &e) {
-    std::string msg = e.GetErrorData();
+    wxString msg = e.GetErrorData();
     wxMessageBox(msg, "Error", wxOK | wxICON_ERROR);
 }
 

@@ -2,7 +2,7 @@
 
 #include "Model/SharedModel.hpp"
 #include <memory>
-enum ButtonState { NORMAL, ACTIVE, DISABLED, ON, OFF };
+enum ButtonState { NORMAL, ACTIVE, DISABLED, ON, OFF, HIDDEN };
 
 enum PanelState { PANEL_NOT_OK, PANEL_OK, PANEL_HIDDEN };
 
@@ -113,6 +113,24 @@ struct RoiPanelState {
     ButtonState cancelButtonState;
 };
 
+struct TrimDataPanelState {
+    ButtonState startButtonState;
+    ButtonState replayButtonState;
+    ButtonState rangeButtonState;
+    ButtonState removeButtonState;
+
+    PanelState startStatusState;
+    ButtonState incStartButtonState;
+    ButtonState decStartButtonState;
+
+    PanelState endStatusState;
+    ButtonState incEndButtonState;
+    ButtonState decEndButtonState;
+
+    ButtonState okButtonState;
+    ButtonState cancelButtonState;
+};
+
 struct ResultPanelState {
     PanelState state;
     ButtonState resultButtonState;
@@ -136,6 +154,7 @@ class AppState {
     ColorCalibrationPanelState getColorCalibrationPanelState(ModelPtr model);
     RoiPanelState getRoiPanelState(ModelPtr model);
     ResultPanelState getResultPanelState(ModelPtr model);
+    TrimDataPanelState getTrimDataPanelState(ModelPtr model);
 
   public:
     CapturePanelState cameraPanel;
@@ -144,6 +163,7 @@ class AppState {
     ColorCalibrationPanelState colorCalibrationPanel;
     RoiPanelState roiPanel;
     ResultPanelState resultPanel;
+    TrimDataPanelState trimDataPanel;
 
   private:
     PanelState getCameraStatusState(ModelPtr model);
@@ -260,6 +280,26 @@ class AppState {
     // ROI Panel -> OK / Cancel
     ButtonState getROIOKButtonState(ModelPtr model);
     ButtonState getROICancelButtonState(ModelPtr model);
+
+    // Trim Data Panel
+    ButtonState getTDStartButtonState(ModelPtr model);
+    ButtonState getTDReplayButtonState(ModelPtr model);
+    ButtonState getTDRangeButtonState(ModelPtr model);
+    ButtonState getTDRemoveButtonState(ModelPtr model);
+
+    // Trim Data Panel -> Start
+    PanelState getTDStartStatusState(ModelPtr model);
+    ButtonState getTDIncStartButtonState(ModelPtr model);
+    ButtonState getTDDecStartButtonState(ModelPtr model);
+
+    // Trim Data Panel -> End
+    PanelState getTDEndStatusState(ModelPtr model);
+    ButtonState getTDIncEndButtonState(ModelPtr model);
+    ButtonState getTDDecEndButtonState(ModelPtr model);
+
+    // Trim Data Panel -> OK / Cancel
+    ButtonState getTDOKButtonState(ModelPtr model);
+    ButtonState getTDCancelButtonState(ModelPtr model);
 
     // Result Panel
     PanelState getRPResultStatusState(ModelPtr model);

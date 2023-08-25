@@ -19,6 +19,7 @@
 #include "Thread/Thread_Roi.hpp"
 #include "Thread/Thread_RoiPreview.hpp"
 #include "Thread/Thread_SaveData.hpp"
+#include "Thread/Thread_TrimData.hpp"
 #include <unordered_map>
 
 class ThreadController {
@@ -118,6 +119,11 @@ class ThreadController {
 
     void endResultPreviewHandler();
 
+    virtual void startTrimDataHandler(wxEvtHandler *parent, DataPtr data,
+                                      PanelID panelID);
+
+    void endTrimDataHandler();
+
     ////////////////////////////////
     ////////////////////////////////
     ////////////////////////////////
@@ -187,6 +193,8 @@ class ThreadController {
 
     ProcessThread *getProcessThread();
 
+    TrimDataThread *getTrimDataThread();
+
     void killAllThreads();
 
   protected:
@@ -232,4 +240,6 @@ class ThreadController {
     ProcessThread *processThread;
 
     ResultPreviewThread *resultPreviewThread;
+
+    TrimDataThread *trimDataThread;
 };

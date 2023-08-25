@@ -83,6 +83,15 @@ void CaptureController::e_ResetSessionData(wxEvtHandler *parent) {
     }
 }
 
+void CaptureController::e_ChangeToTrimDataPanel(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        changeToTrimDataPanelHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void CaptureController::e_UpdateState(wxEvtHandler *parent) {
     try {
         AppState state(shared);
@@ -402,6 +411,28 @@ void CaptureController::throwIfAnyThreadIsRunning() {
     }
 }
 
+void CaptureController::killAllThreads(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+        endCaptureHandler();
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        endLoadFileHandler();
+    }
+
+    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        endLoadCaptureHandler();
+    }
+
+    if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+        e_ReplayEnd(parent);
+    }
+
+    throwIfAnyThreadIsRunning();
+}
+
 void CaptureController::clearImageDataHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -516,4 +547,22 @@ void CaptureController::resetSessionDataHandler(wxEvtHandler *parent) {
 
     wxString msg = "Session Reset Complete";
     UpdateStatusEvent::Submit(parent, msg);
+}
+
+void CaptureController::changeToTrimDataPanelHandler(wxEvtHandler *parent) {
+    killAllThreads(parent);
+
+    // ask for confirmation
+    // TODO: dialog
+    auto wx = wxTheApp->GetTopWindow();
+    auto dialog = new ResetDataDialog(wx);
+    if (dialog->ShowModal() == wxID_NO) {
+        wxString msg = "Session Reset Cancelled";
+        UpdateStatusEvent::Submit(parent, msg);
+
+        return;
+    }
+
+    ChangePanelData data(panelID, PanelID::PANEL_TRIM_DATA);
+    ChangePanelEvent::Submit(parent, data);
 }

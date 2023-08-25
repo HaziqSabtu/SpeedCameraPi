@@ -229,7 +229,25 @@ const BitmapData BitmapTrimData = {
     .normal = T::BitmapNormal,
     .active = T::BitmapActive,
     .disabled = T::BitmapDisabled,
-    .text = "Trim Data",
+    .text = wxT("Trim Data"),
+};
+
+const BitmapData BitmapNext = {
+    .filename = wxT("Assets/next_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Next"),
+};
+
+const BitmapData BitmapPrevious = {
+    .filename = wxT("Assets/previous_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapDisabled,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Previous"),
 };
 
 // BitmapButtonT2 Data

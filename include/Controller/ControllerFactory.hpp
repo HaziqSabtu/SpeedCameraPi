@@ -6,6 +6,7 @@
 #include "Controller/ManualCalibrationController.hpp"
 #include "Controller/ResultController.hpp"
 #include "Controller/RoiController.hpp"
+#include "Controller/TrimDataController.hpp"
 #include <Model/SharedModel.hpp>
 #include <memory>
 
@@ -22,6 +23,7 @@ class ControllerFactory {
     CCCPtr createColorCalibrationController();
     ROCPtr createRoiController();
     RSCPtr createResultController();
+    TDCPtr createTrimDataController();
 
   private:
     ModelPtr sharedModel;

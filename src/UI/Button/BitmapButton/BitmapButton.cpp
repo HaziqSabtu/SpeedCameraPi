@@ -56,6 +56,10 @@ void BitmapButton::update(ButtonState state) {
         return setDisabled();
     }
 
+    if (state == ButtonState::HIDDEN) {
+        return setHidden();
+    }
+
     throw new std::runtime_error("Invalid ButtonState");
 }
 
@@ -63,16 +67,21 @@ void BitmapButton::setNormal() {
     button->SetBitmap(normal);
     button->Enable();
     button->SetBitmapPosition(wxTOP);
+    Show();
 }
 
 void BitmapButton::setActive() {
     button->SetBitmap(active);
     button->Disable();
     button->SetBitmapPosition(wxTOP);
+    Show();
 }
 
 void BitmapButton::setDisabled() {
     button->SetBitmap(disabled);
     button->Disable();
     button->SetBitmapPosition(wxTOP);
+    Show();
 }
+
+void BitmapButton::setHidden() { Hide(); }

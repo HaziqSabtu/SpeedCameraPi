@@ -34,4 +34,5 @@ class BitmapButton : public wxPanel {
     void setNormal();
     void setActive();
     void setDisabled();
+    void setHidden();
 };

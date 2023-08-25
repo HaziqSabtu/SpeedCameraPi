@@ -7,6 +7,7 @@
 #include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
 #include "UI/Panel/ResultPanel/Panel.hpp"
+#include "UI/Panel/TrimDataPanel/Panel.hpp"
 #include <Controller/ControllerFactory.hpp>
 
 #include <UI/Panel/CapturePanel/Panel.hpp>
@@ -31,6 +32,7 @@ class MainFrame : public wxFrame {
     CalibrationPanel *calibration_panel;
     ManualCalibrationPanel *manual_calibration_panel;
     ColorCalibrationPanel *color_calibration_panel;
+    TrimDataPanel *trim_data_panel;
     ResultPanel *result_panel;
 
     std::unordered_map<PanelID, wxPanel *> panels;

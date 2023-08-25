@@ -87,6 +87,21 @@ enum ProjectIDs {
     RO_AcceptRect_Button_ID,
     RO_RemoveRect_Button_ID,
 
+    // TrimPanel
+    TR_Panel_ID,
+    TR_IMG_PANEL_ID,
+    TR_BUTTON_PANEL_ID,
+
+    TD_Start_Button_ID,
+    TD_Preview_Button_ID,
+    TD_Range_Button_ID,
+    TD_Reset_Button_ID,
+
+    TD_IncrementStart_Button_ID,
+    TD_DecrementStart_Button_ID,
+    TD_IncrementEnd_Button_ID,
+    TD_DecrementEnd_Button_ID,
+
     // ResultPanel
     RE_Panel_ID,
     RE_IMG_PANEL_ID,

@@ -42,6 +42,8 @@ class CaptureController {
     void e_SaveSessionDataEnd(wxEvtHandler *parent);
     void e_ResetSessionData(wxEvtHandler *parent);
 
+    void e_ChangeToTrimDataPanel(wxEvtHandler *parent);
+
   private:
     const PanelID panelID = PanelID::PANEL_CAPTURE;
     ModelPtr shared;
@@ -50,6 +52,8 @@ class CaptureController {
     void checkPreCondition();
 
     void throwIfAnyThreadIsRunning();
+
+    void killAllThreads(wxEvtHandler *parent);
 
     void clearImageDataHandler(wxEvtHandler *parent);
 
@@ -69,4 +73,6 @@ class CaptureController {
     void saveSessionDataStartHandler(wxEvtHandler *parent);
     void saveSessionDataEndHandler(wxEvtHandler *parent);
     void resetSessionDataHandler(wxEvtHandler *parent);
+
+    void changeToTrimDataPanelHandler(wxEvtHandler *parent);
 };

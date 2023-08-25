@@ -3,6 +3,7 @@
 #include "Thread/Thread_ColorCalib.hpp"
 #include "Thread/Thread_ID.hpp"
 #include "Thread/Thread_ManualCalib.hpp"
+#include "Thread/Thread_TrimData.hpp"
 #include <Model/AppState.hpp>
 
 AppState::AppState() {}
@@ -14,6 +15,7 @@ AppState::AppState(ModelPtr model) {
     colorCalibrationPanel = getColorCalibrationPanelState(model);
     roiPanel = getRoiPanelState(model);
     resultPanel = getResultPanelState(model);
+    trimDataPanel = getTrimDataPanelState(model);
 }
 
 PanelState AppState::getCameraStatusState(ModelPtr model) {
@@ -157,6 +159,28 @@ RoiPanelState AppState::getRoiPanelState(ModelPtr model) {
 
     ps.okButtonState = getROIOKButtonState(model);
     ps.cancelButtonState = getROICancelButtonState(model);
+
+    return ps;
+}
+
+TrimDataPanelState AppState::getTrimDataPanelState(ModelPtr model) {
+    TrimDataPanelState ps;
+
+    ps.startButtonState = getTDStartButtonState(model);
+    ps.replayButtonState = getTDReplayButtonState(model);
+    ps.rangeButtonState = getTDRangeButtonState(model);
+    ps.removeButtonState = getTDRemoveButtonState(model);
+
+    ps.startStatusState = getTDStartStatusState(model);
+    ps.incStartButtonState = getTDIncStartButtonState(model);
+    ps.decStartButtonState = getTDDecStartButtonState(model);
+
+    ps.endStatusState = getTDEndStatusState(model);
+    ps.incEndButtonState = getTDIncEndButtonState(model);
+    ps.decEndButtonState = getTDDecEndButtonState(model);
+
+    ps.okButtonState = getTDOKButtonState(model);
+    ps.cancelButtonState = getTDCancelButtonState(model);
 
     return ps;
 }
@@ -1089,7 +1113,187 @@ ButtonState AppState::getROIOKButtonState(ModelPtr model) {
 
     return ButtonState::DISABLED;
 }
+
 ButtonState AppState::getROICancelButtonState(ModelPtr model) {
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getTDStartButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
+        return ButtonState::ON;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::OFF;
+}
+
+ButtonState AppState::getTDReplayButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
+        return ButtonState::HIDDEN;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getTDRangeButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_TRIM_DATA)) {
+        return ButtonState::HIDDEN;
+    }
+
+    auto thread = tc->getTrimDataThread();
+    if (thread->getStatus() == TRIM_PREVIEW) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getTDRemoveButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (model->isSessionDataChanged()) {
+        return ButtonState::NORMAL;
+    }
+
+    return ButtonState::DISABLED;
+}
+
+PanelState AppState::getTDStartStatusState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
+        return PanelState::PANEL_OK;
+    }
+
+    return PanelState::PANEL_HIDDEN;
+}
+
+ButtonState AppState::getTDIncStartButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getTDStartStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    if (tc->isThreadNullptr(THREAD_TRIM_DATA)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getTrimDataThread();
+
+    if (thread->getStatus() == TRIM_PREVIEW) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!thread->isStartIncrementable()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getTDDecStartButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getTDStartStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    if (tc->isThreadNullptr(THREAD_TRIM_DATA)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getTrimDataThread();
+
+    if (thread->getStatus() == TRIM_PREVIEW) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!thread->isStartDecrementable()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+PanelState AppState::getTDEndStatusState(ModelPtr model) {
+    return getTDStartStatusState(model);
+}
+
+ButtonState AppState::getTDIncEndButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getTDEndStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    if (tc->isThreadNullptr(THREAD_TRIM_DATA)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getTrimDataThread();
+
+    if (thread->getStatus() == TRIM_PREVIEW) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!thread->isEndIncrementable()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getTDDecEndButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getTDEndStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    if (tc->isThreadNullptr(THREAD_TRIM_DATA)) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getTrimDataThread();
+
+    if (thread->getStatus() == TRIM_PREVIEW) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!thread->isEndDecrementable()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getTDOKButtonState(ModelPtr model) {
+    if (model->isSessionDataChanged()) {
+        return ButtonState::NORMAL;
+    }
+
+    return ButtonState::DISABLED;
+}
+
+ButtonState AppState::getTDCancelButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 

@@ -66,3 +66,7 @@ ROCPtr ControllerFactory::createRoiController() {
 RSCPtr ControllerFactory::createResultController() {
     return std::make_unique<ResultController>(sharedModel);
 }
+
+TDCPtr ControllerFactory::createTrimDataController() {
+    return std::make_unique<TrimDataController>(sharedModel);
+}
