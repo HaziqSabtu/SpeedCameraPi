@@ -1,10 +1,12 @@
 #pragma once
 
-#include "UI/Layout/TitlePanel.hpp"
-#include "UI/Panel/Common/Spacer.hpp"
-#include "UI/Panel/InfoPanel/InfoPanel.hpp"
-
-#include <wx/wx.h>
+#include <UI/Button/TextButton/Button_Back.hpp>
+#include <UI/Layout/TitlePanel.hpp>
+#include <UI/Panel/Common/Spacer.hpp>
+#include <UI/Panel/InfoPanel/InfoPanel.hpp>
+#include <UI/Panel/SettingsPanel/SettingsPanel.hpp>
+#include <Utils/Config/ConfigStruct.hpp>
+#include <Utils/Enum.hpp>
 
 class InfoFrame : public wxFrame {
   public:

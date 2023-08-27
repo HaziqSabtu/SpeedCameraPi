@@ -1,30 +1,15 @@
 #pragma once
 
-#include "UI/Control/ButtonControl/ButtonControl.hpp"
-#include "UI/Control/SpinControl/SpinControl.hpp"
-#include "UI/Font/Font.hpp"
-#include "UI/StaticText/DefaultStaticText.hpp"
-#include <wx/colour.h>
-#include <wx/spinctrl.h>
+#include <UI/Control/ButtonControl/ButtonControl.hpp>
+#include <UI/Control/SpinControl/SpinControl.hpp>
+
+#include <UI/StaticText/DefaultStaticText.hpp>
+
+#include <UI/Theme/SettingsData.hpp>
+
+#include <Utils/Config/ConfigStruct.hpp>
+
 #include <wx/wx.h>
-
-const FontData titleFontData = {"Roboto", 20, FontStyle::FONT_BOLD};
-const FontData titleFontData2 = {"Roboto", 13, FontStyle::FONT_BOLD};
-const FontData descriptionFontData = {"Roboto", 10, FontStyle::FONT_LIGHT};
-
-const StaticTextData tData = {wxColour(0, 0, 0), wxTransparentColour,
-                              "SETTINGS COMPONENT", titleFontData};
-
-const StaticTextData tData2 = {wxColour(0, 0, 0), wxTransparentColour,
-                               "SETTINGS CHILD COMPONENT", titleFontData2};
-
-const StaticTextData dData = {wxColour(0, 0, 0), wxTransparentColour,
-                              "This is a settings component",
-                              descriptionFontData};
-
-const std::vector<StaticTextData> textDataVector = {dData, dData, dData};
-const std::vector<StaticTextData> textDataVector2 = {dData, dData, dData,
-                                                     dData};
 
 class SettingsComponent : public wxPanel {
   public:

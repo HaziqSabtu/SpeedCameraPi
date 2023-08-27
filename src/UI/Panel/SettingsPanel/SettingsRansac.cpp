@@ -1,9 +1,4 @@
-#include "UI/Panel/SettingsPanel/SettingsComponent.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
 #include <UI/Panel/SettingsPanel/SettingsRansac.hpp>
-#include <wx/dlimpexp.h>
-#include <wx/gdicmn.h>
-#include <wx/sizer.h>
 
 SettingsRansacComponent::SettingsRansacComponent(wxWindow *parent)
     : SettingsComponent(parent, DSPRan::Title, DSPRan::Description) {

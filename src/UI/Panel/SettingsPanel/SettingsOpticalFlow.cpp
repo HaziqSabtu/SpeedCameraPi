@@ -1,9 +1,4 @@
-#include "UI/Panel/SettingsPanel/SettingsComponent.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
 #include <UI/Panel/SettingsPanel/SettingsOpticalFlow.hpp>
-#include <wx/dlimpexp.h>
-#include <wx/gdicmn.h>
-#include <wx/sizer.h>
 
 SettingsOptFlowComponent::SettingsOptFlowComponent(wxWindow *parent)
     : SettingsComponent(parent, DSPOpt::Title, DSPOpt::Description) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UI/Font/Font.hpp"
+#include <UI/Font/Font.hpp>
 #include <wx/wx.h>
 
 #define StaticTextDataVector std::vector<StaticTextData>

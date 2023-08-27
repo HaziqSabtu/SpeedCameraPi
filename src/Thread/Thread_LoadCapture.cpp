@@ -12,17 +12,19 @@
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
 #include "Model/SessionData.hpp"
+#include "Utils/FileReader/fileWR.hpp"
+#include "Utils/wxUtils.hpp"
 #include <Thread/Thread_LoadCapture.hpp>
 #include <memory>
 
 LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent,
                                      std::unique_ptr<CameraBase> &camera,
                                      DataPtr data, const int maxFrame,
-                                     const bool debug_SaveImageData,
-                                     const bool debug_ShowImagesWhenCapture)
+                                     const bool debug_ShowImage,
+                                     const bool debug_Save)
     : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(std::move(camera)),
-      data(data), maxFrame(maxFrame), debug_SaveImageData(debug_SaveImageData),
-      debug_ShowImagesWhenCapture(debug_ShowImagesWhenCapture) {}
+      data(data), maxFrame(maxFrame), debug_SaveImageData(debug_Save),
+      debug_ShowImagesWhenCapture(debug_ShowImage) {}
 
 LoadCaptureThread::~LoadCaptureThread() {}
 
@@ -82,6 +84,7 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
             // if running in VNC there are possibility that the image
             // captured at wrong captured time ... better turn off for now
             // show the result after finish capturing instead
+            // TODO:Show images when capturing
             if (!debug_ShowImagesWhenCapture) {
                 continue;
             }
@@ -99,9 +102,13 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
             wxMilliSleep(200);
         }
 
-        // TODO: Handle Saving
         if (debug_SaveImageData) {
-            // FILEWR::WriteFile(imgData);
+            auto random = std::to_string(std::rand());
+            auto filename = "DEBUG_" + random;
+
+            Utils::FileReadWrite().WriteFile(data, filename);
+
+            std::cerr << "DEBUG: Saved to " << filename << std::endl;
         }
 
     } catch (const std::exception &e) {

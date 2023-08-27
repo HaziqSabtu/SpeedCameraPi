@@ -1,4 +1,3 @@
-#include "Utils/Config/ConfigStruct.hpp"
 #include <UI/Panel/SettingsPanel/SettingsPanel.hpp>
 
 SettingsScrollPanel::SettingsScrollPanel(wxWindow *parent)

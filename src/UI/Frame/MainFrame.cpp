@@ -137,7 +137,7 @@ void MainFrame::ExitButtonHandler(wxCommandEvent &e) {
 }
 
 #else
-void MainFrame::exitButtonHandler(wxCommandEvent &e) {
+void MainFrame::ExitButtonHandler(wxCommandEvent &e) {
     ConfirmationDialog dialog(this,
                               "Are you sure you want to exit the application?");
     if (dialog.ShowModal() == wxID_YES) {

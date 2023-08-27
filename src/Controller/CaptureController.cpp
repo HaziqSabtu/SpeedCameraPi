@@ -355,12 +355,15 @@ void CaptureController::startLoadCaptureHandler(wxEvtHandler *parent) {
     AppConfig config;
     auto captureConfig = config.GetCaptureConfig();
     int maxFrame = captureConfig.maxFrame;
+    bool debug_ShowImage = captureConfig.DebugShowImage;
+    bool debug_Save = captureConfig.DebugSave;
 
     auto camera = shared->getCamera();
 
     auto data = shared->getSessionData();
 
-    tc->startLoadCaptureHandler(parent, camera, data, maxFrame, panelID);
+    tc->startLoadCaptureHandler(parent, camera, data, maxFrame, debug_ShowImage,
+                                debug_Save, panelID);
 }
 
 void CaptureController::endLoadCaptureHandler() {

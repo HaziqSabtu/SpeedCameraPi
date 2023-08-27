@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Model/AppState.hpp"
-#include "wx/wx.h"
+#include <Model/AppState.hpp>
+#include <wx/wx.h>
 
 struct TextButtonData {
     wxString text;

@@ -300,9 +300,11 @@ void ThreadController::endCaptureHandler() {
 
 void ThreadController::startLoadCaptureHandler(
     wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera, DataPtr data,
-    const int maxFrame, PanelID panelID) {
+    const int maxFrame, const bool Debug_ShowImage, const bool Debug_Save,
+    PanelID panelID) {
 
-    loadCaptureThread = new LoadCaptureThread(parent, camera, data, maxFrame);
+    loadCaptureThread = new LoadCaptureThread(parent, camera, data, maxFrame,
+                                              Debug_ShowImage, Debug_Save);
     loadCaptureThread->Run();
 
     owner[loadCaptureThread->getID()] = panelID;

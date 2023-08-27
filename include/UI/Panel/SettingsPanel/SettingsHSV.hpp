@@ -1,9 +1,7 @@
 #pragma once
 
-#include "UI/Panel/SettingsPanel/SettingsComponent.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
-#include <UI/Theme/SettingsData.hpp>
-#include <wx/wx.h>
+#include <UI/Panel/SettingsPanel/SettingsComponent.hpp>
+#include <Utils/Enum.hpp>
 
 #define DSPHSV Data::Settings::Panel::HSV
 

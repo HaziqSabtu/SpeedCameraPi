@@ -1,9 +1,4 @@
-#include "UI/Panel/SettingsPanel/SettingsComponent.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
 #include <UI/Panel/SettingsPanel/SettingsPreview.hpp>
-#include <wx/dlimpexp.h>
-#include <wx/gdicmn.h>
-#include <wx/sizer.h>
 
 SettingsPreviewComponent::SettingsPreviewComponent(wxWindow *parent)
     : SettingsComponent(parent, DSPPrv::Title, DSPPrv::Description) {

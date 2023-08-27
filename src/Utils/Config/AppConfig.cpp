@@ -30,7 +30,8 @@ AppConfig::AppConfig() {
 
         config->SetPath("/Capture_Parameter");
         config->Write("Max_Frame_Count", Default_Max_Frame_Count);
-        config->Write("Debug", Default_Debug);
+        config->Write("Debug_Show_Image", Default_DebugShowImage);
+        config->Write("Debug_Save", Default_DebugSave);
 
         config->SetPath("/Load_Parameter");
         config->Write("Max_Frame", Default_Max_Frame);
@@ -216,24 +217,27 @@ CaptureConfig AppConfig::GetCaptureConfig() {
     config->SetPath("/Capture_Parameter");
     config->Read("Max_Frame_Count", &captureConfig.maxFrame,
                  Default_Max_Frame_Count);
-    config->Read("Debug", &captureConfig.Debug, Default_Debug);
+    config->Read("Debug_Show_Image", &captureConfig.DebugShowImage,
+                 Default_DebugShowImage);
+    config->Read("Debug_Save", &captureConfig.DebugSave, Default_DebugSave);
     return captureConfig;
 }
 
 void AppConfig::SetCaptureConfig(CaptureConfig captureConfig) {
     int maxFrame = captureConfig.maxFrame;
-    bool debug = captureConfig.Debug;
+    bool debug = captureConfig.DebugShowImage;
 
     config->SetPath("/Capture_Parameter");
     config->Write("Max_Frame_Count", maxFrame);
-    config->Write("Debug", debug);
+    config->Write("Debug_Show_Image", debug);
+    config->Write("Debug_Save", captureConfig.DebugSave);
 }
 
 void AppConfig::ResetCaptureConfig() {
     CaptureConfig captureConfig;
     captureConfig.maxFrame = Default_Max_Frame_Count;
-    captureConfig.Debug = Default_Debug;
-
+    captureConfig.DebugShowImage = Default_DebugShowImage;
+    captureConfig.DebugSave = Default_DebugSave;
     SetCaptureConfig(captureConfig);
 }
 

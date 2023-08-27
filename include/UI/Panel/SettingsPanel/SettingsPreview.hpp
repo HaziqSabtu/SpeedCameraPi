@@ -1,12 +1,6 @@
 #pragma once
 
-#include "UI/Control/SpinControl/SpinControl.hpp"
-#include "UI/Panel/SettingsPanel/SettingsComponent.hpp"
-#include "UI/StaticText/DefaultStaticText.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
-#include <UI/Theme/SettingsData.hpp>
-#include <wx/gtk/spinbutt.h>
-#include <wx/sizer.h>
+#include <UI/Panel/SettingsPanel/SettingsComponent.hpp>
 
 #define DSPPrv Data::Settings::Panel::Preview
 

@@ -1,8 +1,4 @@
-#include "UI/Panel/SettingsPanel/SettingsComponent.hpp"
 #include <UI/Panel/SettingsPanel/SettingsCamera.hpp>
-#include <wx/dlimpexp.h>
-#include <wx/gdicmn.h>
-#include <wx/sizer.h>
 
 SettingsCameraComponent::SettingsCameraComponent(wxWindow *parent)
     : SettingsComponent(parent, DSPC::Title, DSPC::Description) {

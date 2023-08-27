@@ -35,6 +35,8 @@ class ThreadController {
     virtual void startLoadCaptureHandler(wxEvtHandler *parent,
                                          std::unique_ptr<CameraBase> &camera,
                                          DataPtr data, const int maxFrame,
+                                         const bool Debug_ShowImage,
+                                         const bool Debug_Save,
                                          PanelID panelID);
     void endLoadCaptureHandler();
 

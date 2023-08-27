@@ -1,8 +1,4 @@
-#include "UI/Control/ButtonControl/ButtonControl.hpp"
-#include "UI/StaticText/DefaultStaticText.hpp"
 #include <UI/Panel/SettingsPanel/SettingsComponent.hpp>
-#include <wx/font.h>
-#include <wx/gtk/colour.h>
 
 SettingsComponent::SettingsComponent(
     wxWindow *parent, const StaticTextData &textData,

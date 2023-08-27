@@ -1,6 +1,4 @@
-#include "Utils/Enum.hpp"
 #include <UI/Panel/SettingsPanel/SettingsHSV.hpp>
-#include <wx/event.h>
 
 SettingsHSVChildComponent::SettingsHSVChildComponent(
     wxWindow *parent, const StaticTextData &textData,

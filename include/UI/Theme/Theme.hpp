@@ -45,9 +45,20 @@ const wxColour SettingsButtonBackground = CC::Twitter_ExtExtLightGray;
 const wxColour SettingsButtonNormal = CC::Twitter_Secondary;
 const wxColour SettingsButtonDisabled = CC::Twitter_LightGray;
 
-const FontData TitleFontData = {"Roboto", 20, FontStyle::FONT_BOLD};
-const FontData TitleChildFontData = {"Roboto", 13, FontStyle::FONT_BOLD};
-const FontData descriptionFontData = {"Roboto", 10, FontStyle::FONT_LIGHT};
+const FontData TitleFontData = {
+    .fontSize = 20,
+    .fontStyle = FontStyle::FONT_BOLD,
+};
+
+const FontData TitleChildFontData = {
+    .fontSize = 13,
+    .fontStyle = FontStyle::FONT_BOLD,
+};
+
+const FontData descriptionFontData = {
+    .fontSize = 10,
+    .fontStyle = FontStyle::FONT_LIGHT,
+};
 
 // PanelStatus
 const wxColour StatusNone = CC::Red_Mandy;

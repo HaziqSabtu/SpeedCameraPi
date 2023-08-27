@@ -1,8 +1,4 @@
-#include "UI/Panel/SettingsPanel/SettingsComponent.hpp"
 #include <UI/Panel/SettingsPanel/SettingsModel.hpp>
-#include <wx/dlimpexp.h>
-#include <wx/gdicmn.h>
-#include <wx/sizer.h>
 
 SettingsModelComponent::SettingsModelComponent(wxWindow *parent)
     : SettingsComponent(parent, DSPMod::Title, DSPMod::Description) {

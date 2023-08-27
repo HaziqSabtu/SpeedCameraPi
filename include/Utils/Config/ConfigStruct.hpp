@@ -29,10 +29,13 @@ struct CameraConfig {
 
 struct CaptureConfig {
     int maxFrame;
-    bool Debug;
+    bool DebugShowImage;
+    bool DebugSave;
 
     bool operator==(const CaptureConfig &other) const {
-        return maxFrame == other.maxFrame && Debug == other.Debug;
+        return maxFrame == other.maxFrame &&
+               DebugShowImage == other.DebugShowImage &&
+               DebugSave == other.DebugSave;
     }
 };
 

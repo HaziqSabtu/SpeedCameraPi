@@ -36,8 +36,8 @@ class LoadCaptureThread : public wxThread {
   public:
     LoadCaptureThread(wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
                       DataPtr data, const int maxFrame,
-                      const bool debug_SaveImageData = false,
-                      const bool debug_ShowImagesWhenCapture = false);
+                      const bool debug_ShowImage = false,
+                      const bool debug_Save = false);
     ~LoadCaptureThread();
 
     std::unique_ptr<CameraBase> getCamera();

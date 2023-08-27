@@ -94,7 +94,8 @@ class AppConfig {
 
     // Capture Parameter
     int Default_Max_Frame_Count = 10;
-    bool Default_Debug = false;
+    bool Default_DebugShowImage = false;
+    bool Default_DebugSave = false;
 
     // Load Parameter
     int Default_Max_Frame = 10;

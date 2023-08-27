@@ -1,9 +1,3 @@
-#include "Model/SessionData.hpp"
-#include "Model/SharedModel.hpp"
-#include "Thread/Thread_ColorCalib.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Thread/Thread_ManualCalib.hpp"
-#include "Thread/Thread_TrimData.hpp"
 #include <Model/AppState.hpp>
 
 AppState::AppState() {}

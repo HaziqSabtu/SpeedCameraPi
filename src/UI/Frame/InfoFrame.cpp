@@ -1,8 +1,3 @@
-#include "UI/Layout/TitlePanel.hpp"
-#include "UI/Panel/SettingsPanel/SettingsPanel.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
-#include "Utils/Enum.hpp"
-#include <UI/Button/TextButton/Button_Back.hpp>
 #include <UI/Frame/InfoFrame.hpp>
 
 InfoFrame::InfoFrame() : wxFrame(nullptr, wxID_ANY, "Info") {

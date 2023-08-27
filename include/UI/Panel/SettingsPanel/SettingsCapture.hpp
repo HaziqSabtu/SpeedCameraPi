@@ -2,13 +2,7 @@
 
 #pragma once
 
-#include "UI/Control/SpinControl/SpinControl.hpp"
-#include "UI/Panel/SettingsPanel/SettingsComponent.hpp"
-#include "UI/StaticText/DefaultStaticText.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
-#include <UI/Theme/SettingsData.hpp>
-#include <wx/gtk/spinbutt.h>
-#include <wx/sizer.h>
+#include <UI/Panel/SettingsPanel/SettingsComponent.hpp>
 
 #define DSPCap Data::Settings::Panel::Capture
 
@@ -24,9 +18,13 @@ class SettingsCaptureComponent : public SettingsComponent {
     const STDV MaxFrameDD = DSPCap::MaxFrameDD;
     const SCDI MaxFrameCtrlData = DSPCap::MaxFrameCtrlData;
 
-    const STD DebugTD = DSPCap::DebugTD;
-    const STDV DebugDD = DSPCap::DebugDD;
+    const STD DebugShowImageTD = DSPCap::DebugShowImageTD;
+    const STDV DebugShowImageDD = DSPCap::DebugShowImageDD;
+
+    const STD DebugSaveTD = DSPCap::DebugSaveTD;
+    const STDV DebugSaveDD = DSPCap::DebugSaveDD;
 
     SettingsChildComponentInt *maxFrame;
-    SettingsChildComponentBool *debug;
+    SettingsChildComponentBool *debugShowImage;
+    SettingsChildComponentBool *debugSave;
 };

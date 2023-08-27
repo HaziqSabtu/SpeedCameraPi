@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Model/SharedModel.hpp"
+#include <Model/SharedModel.hpp>
 #include <memory>
+
 enum ButtonState { NORMAL, ACTIVE, DISABLED, ON, OFF, HIDDEN };
 
 enum PanelState { PANEL_NOT_OK, PANEL_OK, PANEL_HIDDEN };

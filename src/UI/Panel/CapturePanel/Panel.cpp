@@ -114,8 +114,8 @@ void CapturePanel::LoadButtonHandler(wxButton *button) {
 
     controller->e_LoadFileStart(this, path);
 #else
-    wxFileDialog openFileDialog(this, _("Open .bin file"), "", "",
-                                "XYZ files (*.bin)|*.bin",
+    wxFileDialog openFileDialog(this, _("Open .scpdata file"), "", "",
+                                "XYZ files (*.scpdata)|*.scpdata",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
     if (openFileDialog.ShowModal() == wxID_CANCEL) {

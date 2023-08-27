@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Control/ButtonControl/ButtonControl.hpp"
 #include "UI/Control/SpinControl/SpinControl.hpp"
 #include "UI/StaticText/DefaultStaticText.hpp"
 #include "UI/Theme/Theme.hpp"
@@ -18,32 +19,42 @@ namespace Data {
 namespace Settings {
 namespace Panel {
 namespace Camera {
-const STD Title = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Camera",
-                   .fontData = T::TitleFontData};
-
-const STDV Description = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The camera settings.",
-     .fontData = T::descriptionFontData},
+const STD Title = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Camera",
+    .fontData = T::TitleFontData,
 };
 
-const STD IDTD = {.textColor = T::Text,
-                  .backgroundColor = T::Background,
-                  .text = "Camera ID",
-                  .fontData = T::TitleChildFontData};
+const STDV Description = {
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The camera settings.",
+        .fontData = T::descriptionFontData,
+    },
+};
+
+const STD IDTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Camera ID",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV IDDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The ID of the camera to use.",
-     .fontData = T::descriptionFontData},
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Disabled for now.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The ID of the camera to use.",
+        .fontData = T::descriptionFontData,
+    },
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Disabled for now.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI IDCtrlData = {
@@ -53,20 +64,26 @@ const SCDI IDCtrlData = {
     .isDisabled = true,
 };
 
-const STD WidthTD = {.textColor = T::Text,
-                     .backgroundColor = T::Background,
-                     .text = "Camera Width",
-                     .fontData = T::TitleChildFontData};
+const STD WidthTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Camera Width",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV WidthDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The width of the camera resolution.",
-     .fontData = T::descriptionFontData},
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Disabled for now.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The width of the camera resolution.",
+        .fontData = T::descriptionFontData,
+    },
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Disabled for now.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI WidthCtrlData = {
@@ -76,20 +93,26 @@ const SCDI WidthCtrlData = {
     .isDisabled = true,
 };
 
-const STD HeightTD = {.textColor = T::Text,
-                      .backgroundColor = T::Background,
-                      .text = "Camera Height",
-                      .fontData = T::TitleChildFontData};
+const STD HeightTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Camera Height",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV HeightDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The height of the camera resolution.",
-     .fontData = T::descriptionFontData},
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Disabled for now.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The height of the camera resolution.",
+        .fontData = T::descriptionFontData,
+    },
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Disabled for now.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI HeightCtrlData = {
@@ -99,16 +122,20 @@ const SCDI HeightCtrlData = {
     .isDisabled = true,
 };
 
-const STD FPSTD = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Camera FPS",
-                   .fontData = T::TitleChildFontData};
+const STD FPSTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Camera FPS",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV FPSDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The FPS of the camera.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The FPS of the camera.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI FPSCtrlData = {
@@ -121,10 +148,12 @@ const SCDI FPSCtrlData = {
 } // namespace Camera
 
 namespace Sensor {
-const STD Title = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Sensor",
-                   .fontData = T::TitleFontData};
+const STD Title = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Sensor",
+    .fontData = T::TitleFontData,
+};
 
 const STDV Description = {
     {.textColor = T::Text,
@@ -183,16 +212,20 @@ const STDV Description = {
      .fontData = T::descriptionFontData},
 };
 
-const STD MaxFrameTD = {.textColor = T::Text,
-                        .backgroundColor = T::Background,
-                        .text = "Max Frame",
-                        .fontData = T::TitleChildFontData};
+const STD MaxFrameTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Max Frame",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV MaxFrameDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The maximum number of frames to capture.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The maximum number of frames to capture.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI MaxFrameCtrlData = {
@@ -201,16 +234,42 @@ const SCDI MaxFrameCtrlData = {
     .increment = 1,
 };
 
-const STD DebugTD = {.textColor = T::Text,
-                     .backgroundColor = T::Background,
-                     .text = "Debug",
-                     .fontData = T::TitleChildFontData};
+const STD DebugShowImageTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Debug - Show Image",
+    .fontData = T::TitleChildFontData,
+};
 
-const STDV DebugDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Enable debug mode.",
-     .fontData = T::descriptionFontData},
+const STDV DebugShowImageDD = {
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "if Enable, show the image when capturing.",
+        .fontData = T::descriptionFontData,
+    },
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "It is recommended to disable this for now.",
+        .fontData = T::descriptionFontData,
+    },
+};
+
+const STD DebugSaveTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Debug - Save Data",
+    .fontData = T::TitleChildFontData,
+};
+
+const STDV DebugSaveDD = {
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "if Enable, data will automatically saved after capturing.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 }; // namespace Capture
@@ -234,14 +293,18 @@ const STD MaxPoolTD = {.textColor = T::Text,
                        .fontData = T::TitleChildFontData};
 
 const STDV MaxPoolDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The maximum number of threads to use for the thread pool.",
-     .fontData = T::descriptionFontData},
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Require restart to take effect.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The maximum number of threads to use for the thread pool.",
+        .fontData = T::descriptionFontData,
+    },
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Require restart to take effect.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI MaxPoolCtrlData = {

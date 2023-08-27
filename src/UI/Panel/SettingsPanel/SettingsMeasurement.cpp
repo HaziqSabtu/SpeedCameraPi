@@ -1,9 +1,4 @@
-#include "UI/Panel/SettingsPanel/SettingsComponent.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
 #include <UI/Panel/SettingsPanel/SettingsMeasurement.hpp>
-#include <wx/dlimpexp.h>
-#include <wx/gdicmn.h>
-#include <wx/sizer.h>
 
 SettingsMeasurementComponent::SettingsMeasurementComponent(wxWindow *parent)
     : SettingsComponent(parent, DSPMes::Title, DSPMes::Description) {
