@@ -37,7 +37,8 @@ else()
 endif() # UNIX AND EXISTS "/etc/os-release"
 
 if(CROSS_COMPILING)
-    # allow pkg-config to find the libraries in sysroot
+    message("Cross compiling")  
+  # allow pkg-config to find the libraries in sysroot
     set(ENV{PKG_CONFIG_DIR} "")
     # set(ENV "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/pkgconfig:${CMAKE_SYSROOT}/usr/local/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf/pkgconfig")
     set(ENV{LD_LIBRARY_PATH} "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf:${CMAKE_SYSROOT}/usr/local/lib:${CMAKE_SYSROOT}/usr/local/share:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf")
@@ -74,6 +75,7 @@ if(CROSS_COMPILING)
     #     COMMAND curl --location '192.168.178.20:8080/wav/succ'
     # )
 else()
+    message("Native compiling")
     set(libcamIncludeDir /usr/include/libcamera)
 
     set(pathToLibcamera /usr/local/lib/arm-linux-gnueabihf/libcamera.so)
