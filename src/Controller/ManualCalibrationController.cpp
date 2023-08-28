@@ -1,51 +1,11 @@
-#include "Algorithm/Struct/D_Line.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Model/AppState.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Model/SessionData.hpp"
-#include "Model/SharedModel.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Thread/Thread_ManualCalib.hpp"
-#include "UI/Dialog/CancelDialog.hpp"
-#include "Utils/wxUtils.hpp"
-
 #include <Controller/ManualCalibrationController.hpp>
-#include <wx/event.h>
 
 ManualCalibrationController::ManualCalibrationController(ModelPtr sharedModel)
-    : shared(sharedModel) {}
-
-void ManualCalibrationController::e_UpdateState(wxEvtHandler *parent) {
-    try {
-        AppState state(shared);
-        UpdateStateEvent::Submit(parent, state);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
+    : BaseController(sharedModel) {
+    panelID = currentPanelID;
 }
 
 ManualCalibrationController::~ManualCalibrationController() {}
-
-void ManualCalibrationController::checkPreCondition() {
-    auto data = shared->getSessionData();
-    if (panelID != data->getPanelID()) {
-        throw std::runtime_error(
-            "ManualCalibrationController::endPoint() - PanelID mismatch");
-    }
-}
-
-void ManualCalibrationController::e_PanelShow(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        panelShowHandler(parent);
-
-        e_UpdateState(parent);
-
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
 
 void ManualCalibrationController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
@@ -89,61 +49,9 @@ void ManualCalibrationController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
-void ManualCalibrationController::e_CreateTempSessionData(
-    wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        createTempSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ManualCalibrationController::e_RestoreSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        restoreSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ManualCalibrationController::e_SaveSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        saveSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ManualCalibrationController::e_OKButtonHandler(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        okButtonHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ManualCalibrationController::e_CancelButtonHandler(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        cancelButtonHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
 void ManualCalibrationController::e_ChangeToLeft(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         changeToLeftHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -153,7 +61,6 @@ void ManualCalibrationController::e_ChangeToLeft(wxEvtHandler *parent) {
 void ManualCalibrationController::e_ChangeToRight(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         changeToRightHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -164,9 +71,7 @@ void ManualCalibrationController::e_SetPoint1(wxEvtHandler *parent,
                                               wxPoint point) {
     try {
         checkPreCondition();
-
         setPoint1Handler(parent, Utils::wxPointToCvPoint(point));
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -176,9 +81,7 @@ void ManualCalibrationController::e_SetPoint2(wxEvtHandler *parent,
                                               wxPoint point) {
     try {
         checkPreCondition();
-
         setPoint2Handler(parent, Utils::wxPointToCvPoint(point));
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -188,9 +91,7 @@ void ManualCalibrationController::e_SaveLine(wxEvtHandler *parent,
                                              wxPoint point) {
     try {
         checkPreCondition();
-
         saveLineHandler(parent, Utils::wxPointToCvPoint(point));
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -199,9 +100,7 @@ void ManualCalibrationController::e_SaveLine(wxEvtHandler *parent,
 void ManualCalibrationController::e_ManualCalibStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         manualCalibStartHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -210,9 +109,7 @@ void ManualCalibrationController::e_ManualCalibStart(wxEvtHandler *parent) {
 void ManualCalibrationController::e_ManualCalibEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         manualCalibEndHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -222,9 +119,7 @@ void ManualCalibrationController::e_ManualCalibCaptureStart(
     wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         manualCalibCaptureStartHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -234,9 +129,7 @@ void ManualCalibrationController::e_ManualCalibCaptureEnd(
     wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         manualCalibCaptureEndHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -245,9 +138,7 @@ void ManualCalibrationController::e_ManualCalibCaptureEnd(
 void ManualCalibrationController::e_CalibPrevStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibPrevStartHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -256,9 +147,7 @@ void ManualCalibrationController::e_CalibPrevStart(wxEvtHandler *parent) {
 void ManualCalibrationController::e_CalibPrevEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibPrevEndHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -268,9 +157,7 @@ void ManualCalibrationController::e_CalibCapturePrevStart(
     wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibCapturePrevStartHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -279,9 +166,7 @@ void ManualCalibrationController::e_CalibCapturePrevStart(
 void ManualCalibrationController::e_CalibCapturePrevEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibCapturePrevEndHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -290,9 +175,7 @@ void ManualCalibrationController::e_CalibCapturePrevEnd(wxEvtHandler *parent) {
 void ManualCalibrationController::e_RemoveLeft(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         removeLeftHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -301,9 +184,7 @@ void ManualCalibrationController::e_RemoveLeft(wxEvtHandler *parent) {
 void ManualCalibrationController::e_RemoveRight(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         removeRightHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -312,9 +193,7 @@ void ManualCalibrationController::e_RemoveRight(wxEvtHandler *parent) {
 void ManualCalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         removeCalibDataHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -622,40 +501,6 @@ void ManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
     data->setCalibrationData(calibData);
 }
 
-void ManualCalibrationController::createTempSessionDataHandler(
-    wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    auto data = shared->getSessionData();
-    shared->setTempSessionData(*data);
-}
-
-void ManualCalibrationController::saveSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    //  will it ever null?
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    shared->setTempSessionData(SessionData());
-}
-
-void ManualCalibrationController::restoreSessionDataHandler(
-    wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    shared->setSessionData(*temp);
-}
-
 void ManualCalibrationController::removeCalibDataHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -664,33 +509,6 @@ void ManualCalibrationController::removeCalibDataHandler(wxEvtHandler *parent) {
     auto data = shared->getSessionData();
 
     data->removeCalibrationData();
-}
-
-void ManualCalibrationController::okButtonHandler(wxEvtHandler *parent) {
-
-    killAllThreads(parent);
-
-    saveSessionDataHandler(parent);
-
-    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-    ChangePanelEvent::Submit(parent, data);
-}
-
-void ManualCalibrationController::cancelButtonHandler(wxEvtHandler *parent) {
-
-    if (shared->isSessionDataChanged()) {
-        auto dialog = CancelDialog(nullptr);
-        if (dialog.ShowModal() == wxID_NO) {
-            return;
-        }
-    }
-
-    killAllThreads(parent);
-
-    restoreSessionDataHandler(parent);
-
-    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-    ChangePanelEvent::Submit(parent, data);
 }
 
 void ManualCalibrationController::panelShowHandler(wxEvtHandler *parent) {

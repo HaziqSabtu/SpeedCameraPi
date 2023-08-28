@@ -1,101 +1,11 @@
-#include "Algorithm/hsv_filter/BFS.hpp"
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Algorithm/ransac_line/RansacLine.hpp"
-#include "Event/Event_UpdateState.hpp"
 #include <Controller/RoiController.hpp>
 
-#include "Model/SessionData.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_Calibration.hpp"
-#include "Thread/Thread_Capture.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Thread/Thread_LoadFile.hpp"
-#include "UI/Dialog/CancelDialog.hpp"
-#include "Utils/Camera/CameraBase.hpp"
-#include "Utils/CommonUtils.hpp"
-#include "Utils/Config/AppConfig.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
-#include "Utils/wxUtils.hpp"
-#include <memory>
-#include <vector>
-#include <wx/event.h>
-#include <wx/object.h>
-
-RoiController::RoiController(ModelPtr sharedModel) : shared(sharedModel) {}
+RoiController::RoiController(ModelPtr sharedModel)
+    : BaseController(sharedModel) {
+    panelID = currentPanelID;
+}
 
 RoiController::~RoiController() {}
-
-void RoiController::e_UpdateState(wxEvtHandler *parent) {
-    try {
-        AppState state(shared);
-        UpdateStateEvent::Submit(parent, state);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void RoiController::e_PanelShow(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        panelShowHandler(parent);
-
-        e_UpdateState(parent);
-
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void RoiController::e_CreateTempSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        createTempSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void RoiController::e_RestoreSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        restoreSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void RoiController::e_SaveSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        saveSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void RoiController::e_OKButtonHandler(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        okButtonHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void RoiController::e_CancelButtonHandler(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        cancelButtonHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
 
 void RoiController::e_ClearRect(wxEvtHandler *parent) {
     try {
@@ -194,14 +104,6 @@ void RoiController::e_RoiPreviewEnd(wxEvtHandler *parent) {
         roiPreviewEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void RoiController::checkPreCondition() {
-    auto data = shared->getSessionData();
-    if (panelID != data->getPanelID()) {
-        throw std::runtime_error(
-            "RoiController::endPoint() - PanelID mismatch");
     }
 }
 
@@ -478,64 +380,6 @@ void RoiController::roiPreviewEndHandler(wxEvtHandler *parent) {
     }
 
     tc->endRoiPreviewHandler();
-}
-
-void RoiController::createTempSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    auto data = shared->getSessionData();
-    shared->setTempSessionData(*data);
-}
-
-void RoiController::saveSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    shared->setTempSessionData(SessionData());
-}
-
-void RoiController::restoreSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    shared->setSessionData(*temp);
-}
-
-void RoiController::okButtonHandler(wxEvtHandler *parent) {
-
-    killAllThreads(parent);
-
-    saveSessionDataHandler(parent);
-
-    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-    ChangePanelEvent::Submit(parent, data);
-}
-
-void RoiController::cancelButtonHandler(wxEvtHandler *parent) {
-
-    if (shared->isSessionDataChanged()) {
-        auto dialog = CancelDialog(nullptr);
-        if (dialog.ShowModal() == wxID_NO) {
-            return;
-        }
-    }
-
-    killAllThreads(parent);
-
-    restoreSessionDataHandler(parent);
-
-    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-    ChangePanelEvent::Submit(parent, data);
 }
 
 void RoiController::panelShowHandler(wxEvtHandler *parent) {

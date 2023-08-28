@@ -9,6 +9,7 @@
 namespace StatusCollection {
 const wxString STATUS_IDLE = wxT("Idle");
 
+// TODO : CLeanup
 // Statuses for CalibrationPanel
 const wxString STATUS_START_CALIBRATION = wxT("Start Calibration");
 const wxString STATUS_CALIBRATION_SUCCESS = wxT("Calibration Success");
@@ -26,9 +27,11 @@ const wxString STATUS_REPLAY_END = wxT("Replay End");
 
 } // namespace StatusCollection
 
+namespace SC = StatusCollection;
+
 class StatusPanel : public wxPanel {
   public:
-    StatusPanel(wxWindow *parent, wxString stat);
+    StatusPanel(wxWindow *parent, wxString stat = SC::STATUS_IDLE);
     ~StatusPanel();
 
     void SetText(wxString text);

@@ -1,23 +1,33 @@
 #pragma once
 
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Calibration.hpp"
-#include "Thread/Thread_Capture.hpp"
-#include "Utils/Camera/CameraBase.hpp"
+#include <Controller/BaseController.hpp>
+
+#include <Event/Event_UpdateState.hpp>
+
+#include <Model/SessionData.hpp>
 #include <Model/SharedModel.hpp>
+
+#include <Thread/ThreadPool.hpp>
+#include <Thread/Thread_ResultPreview.hpp>
+
+#include <Utils/Camera/CameraBase.hpp>
+#include <Utils/Config/AppConfig.hpp>
+#include <Utils/Config/ConfigStruct.hpp>
+#include <Utils/wxUtils.hpp>
+
 #include <memory>
+#include <vector>
+
 #include <wx/event.h>
+#include <wx/object.h>
 #include <wx/thread.h>
 
 #define RSCPtr std::unique_ptr<ResultController>
 
-class ResultController {
+class ResultController : public BaseController {
   public:
     ResultController(ModelPtr sharedModel);
     ~ResultController();
-
-    void e_UpdateState(wxEvtHandler *parent);
 
     void e_CancelButtonHandler(wxEvtHandler *parent);
 
@@ -33,17 +43,14 @@ class ResultController {
     void e_SetIndexToZero(wxEvtHandler *parent);
 
   private:
-    static const PanelID panelID = PanelID::PANEL_RESULT;
-    ModelPtr shared;
+    static const PanelID currentPanelID = PanelID::PANEL_RESULT;
 
   private:
-    void checkPreCondition();
+    void throwIfAnyThreadIsRunning() override;
 
-    void throwIfAnyThreadIsRunning();
+    void killAllThreads(wxEvtHandler *parent) override;
 
-    void killAllThreads(wxEvtHandler *parent);
-
-    void cancelButtonHandler(wxEvtHandler *parent);
+    void cancelButtonHandler(wxEvtHandler *parent) override;
 
     void processThreadStartHandler(wxEvtHandler *parent);
     void processThreadEndHandler(wxEvtHandler *parent);

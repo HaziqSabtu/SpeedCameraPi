@@ -1,80 +1,11 @@
-#include "Algorithm/hsv_filter/BFS.hpp"
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Algorithm/ransac_line/RansacLine.hpp"
-#include "Event/Event_UpdateState.hpp"
 #include <Controller/CalibrationController.hpp>
 
-#include "Model/SessionData.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_Calibration.hpp"
-#include "Thread/Thread_Capture.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Thread/Thread_LoadFile.hpp"
-#include "UI/Dialog/CancelDialog.hpp"
-#include "Utils/Camera/CameraBase.hpp"
-#include "Utils/Config/AppConfig.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
-#include <memory>
-#include <vector>
-#include <wx/event.h>
-#include <wx/object.h>
-
 CalibrationController::CalibrationController(ModelPtr sharedModel)
-    : shared(sharedModel) {}
+    : BaseController(sharedModel) {
+    panelID = currentPanelID;
+}
 
 CalibrationController::~CalibrationController() {}
-
-void CalibrationController::e_UpdateState(wxEvtHandler *parent) {
-    try {
-        AppState state(shared);
-        UpdateStateEvent::Submit(parent, state);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CalibrationController::e_PanelShow(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        panelShowHandler(parent);
-
-        e_UpdateState(parent);
-
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CalibrationController::e_CreateTempSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        createTempSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CalibrationController::e_RestoreSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        restoreSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CalibrationController::e_SaveSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        saveSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
 
 void CalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
     try {
@@ -171,26 +102,6 @@ void CalibrationController::e_CalibrationCapturePreviewEnd(
 
         calibrationCapturePreviewEndHandler(parent);
 
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CalibrationController::e_OKButtonHandler(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        okButtonHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CalibrationController::e_CancelButtonHandler(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        cancelButtonHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -435,14 +346,6 @@ void CalibrationController::clearPointHandler(wxEvtHandler *parent) {
     thread->clearPoint();
 }
 
-void CalibrationController::checkPreCondition() {
-    auto data = shared->getSessionData();
-    if (panelID != data->getPanelID()) {
-        throw std::runtime_error(
-            "CalibrationController::endPoint() - PanelID mismatch");
-    }
-}
-
 void CalibrationController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -485,62 +388,6 @@ void CalibrationController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
-void CalibrationController::createTempSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    auto data = shared->getSessionData();
-    shared->setTempSessionData(*data);
-}
-
-void CalibrationController::saveSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    shared->setTempSessionData(SessionData());
-}
-
-void CalibrationController::restoreSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    shared->setSessionData(*temp);
-}
-
-void CalibrationController::okButtonHandler(wxEvtHandler *parent) {
-    killAllThreads(parent);
-
-    saveSessionDataHandler(parent);
-
-    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-    ChangePanelEvent::Submit(parent, data);
-}
-
-void CalibrationController::cancelButtonHandler(wxEvtHandler *parent) {
-    if (shared->isSessionDataChanged()) {
-        auto dialog = CancelDialog(nullptr);
-        if (dialog.ShowModal() == wxID_NO) {
-            return;
-        }
-    }
-
-    killAllThreads(parent);
-
-    restoreSessionDataHandler(parent);
-
-    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-    ChangePanelEvent::Submit(parent, data);
-}
-
 void CalibrationController::changeToManualPanelHandler(wxEvtHandler *parent) {
     if (shared->isSessionDataChanged()) {
         auto dialog = CancelDialog(nullptr);
@@ -548,6 +395,8 @@ void CalibrationController::changeToManualPanelHandler(wxEvtHandler *parent) {
             return;
         }
     }
+
+    // TODO: Add Dialog
 
     killAllThreads(parent);
 
@@ -564,6 +413,8 @@ void CalibrationController::changeToColorPanelHandler(wxEvtHandler *parent) {
             return;
         }
     }
+
+    // TODO: Add Dialog
 
     killAllThreads(parent);
 

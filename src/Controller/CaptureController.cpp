@@ -1,35 +1,16 @@
-#include "Event/Event_ChangePanel.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Model/AppState.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_Capture.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Thread/Thread_LoadFile.hpp"
-#include "UI/Dialog/ResetDataDialog.hpp"
-#include "UI/Dialog/SaveDataDialog.hpp"
-#include "UI/Layout/StatusPanel.hpp"
-#include "Utils/Camera/CameraBase.hpp"
-#include "Utils/Config/AppConfig.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
-#include "Utils/FileReader/fileWR.hpp"
-#include "Utils/wxUtils.hpp"
 #include <Controller/CaptureController.hpp>
-#include <Event/Event_UpdateStatus.hpp>
-#include <memory>
-#include <vector>
-#include <wx/event.h>
 
 CaptureController::CaptureController(ModelPtr sharedModel)
-    : shared(sharedModel) {}
+    : BaseController(sharedModel) {
+    panelID = currentPanelID;
+}
 
 CaptureController::~CaptureController() {}
 
 void CaptureController::e_ChangeToCalibPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        ChangePanelData data(this->panelID, PanelID::PANEL_CALIBRATION);
-        ChangePanelEvent::Submit(parent, data);
+        changeToCalibPanelHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -38,19 +19,16 @@ void CaptureController::e_ChangeToCalibPanel(wxEvtHandler *parent) {
 void CaptureController::e_ChangeToRoiPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        ChangePanelData data(this->panelID, PanelID::PANEL_ROI);
-        ChangePanelEvent::Submit(parent, data);
+        changeToRoiPanelHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
-// TODO: Addhandler
 void CaptureController::e_ChangeToResultPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        ChangePanelData data(this->panelID, PanelID::PANEL_RESULT);
-        ChangePanelEvent::Submit(parent, data);
+        changeToResultPanelHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -92,22 +70,10 @@ void CaptureController::e_ChangeToTrimDataPanel(wxEvtHandler *parent) {
     }
 }
 
-void CaptureController::e_UpdateState(wxEvtHandler *parent) {
-    try {
-        AppState state(shared);
-        UpdateStateEvent::Submit(parent, state);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
 void CaptureController::e_ClearImageData(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
         clearImageDataHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -115,9 +81,7 @@ void CaptureController::e_ClearImageData(wxEvtHandler *parent) {
 
 void CaptureController::e_RemoveCalibration(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
         removeCalibrationHandler(parent);
 
     } catch (std::exception &e) {
@@ -127,11 +91,8 @@ void CaptureController::e_RemoveCalibration(wxEvtHandler *parent) {
 
 void CaptureController::e_RemoveRoi(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
         removeRoiHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -139,27 +100,8 @@ void CaptureController::e_RemoveRoi(wxEvtHandler *parent) {
 
 void CaptureController::e_ReplayStart(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
-        auto tc = shared->getThreadController();
-
-        if (!tc->isThreadsWithCameraNullptr()) {
-            throw std::runtime_error("Thread with camera is already running");
-        }
-
-        if (!tc->isThreadNullptr(THREAD_REPLAY)) {
-            throw std::runtime_error("ReplayThread is already running");
-        }
-
-        if (shared->sessionData.isCaptureDataEmpty()) {
-            throw std::runtime_error("ImageData is Empty");
-        }
-
-        auto data = shared->getSessionData();
-
-        tc->startReplayHandler(parent, data, panelID);
-
+        replayStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -167,21 +109,8 @@ void CaptureController::e_ReplayStart(wxEvtHandler *parent) {
 
 void CaptureController::e_ReplayEnd(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
-        auto tc = shared->getThreadController();
-
-        if (tc->isThreadNullptr(THREAD_REPLAY)) {
-            throw std::runtime_error("replayThread is not running");
-        }
-
-        if (!tc->isThreadOwner(THREAD_REPLAY, panelID)) {
-            throw std::runtime_error("replayThread is not owned by this panel");
-        }
-
-        tc->endReplayHandler();
-
+        replayEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -189,10 +118,8 @@ void CaptureController::e_ReplayEnd(wxEvtHandler *parent) {
 
 void CaptureController::e_CameraStart(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
-        startCaptureHandler(parent);
+        captureStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -200,10 +127,8 @@ void CaptureController::e_CameraStart(wxEvtHandler *parent) {
 
 void CaptureController::e_CameraEnd(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
-        endCaptureHandler();
+        captureEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -212,10 +137,8 @@ void CaptureController::e_CameraEnd(wxEvtHandler *parent) {
 void CaptureController::e_LoadFileStart(wxEvtHandler *parent,
                                         std::string path) {
     try {
-
         checkPreCondition();
-
-        startLoadFileHandler(parent, path);
+        loadFileStartHandler(parent, path);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -223,10 +146,8 @@ void CaptureController::e_LoadFileStart(wxEvtHandler *parent,
 
 void CaptureController::e_LoadFileEnd(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
-        endLoadFileHandler();
+        loadFileEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -234,10 +155,8 @@ void CaptureController::e_LoadFileEnd(wxEvtHandler *parent) {
 
 void CaptureController::e_LoadCaptureStart(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
-        startLoadCaptureHandler(parent);
+        loadCaptureStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -245,152 +164,10 @@ void CaptureController::e_LoadCaptureStart(wxEvtHandler *parent) {
 
 void CaptureController::e_LoadCaptureEnd(wxEvtHandler *parent) {
     try {
-
         checkPreCondition();
-
-        endLoadCaptureHandler();
-
-        UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_CAPTURE_END);
-
+        loadCaptureEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CaptureController::startCaptureHandler(wxEvtHandler *parent) {
-    auto tc = shared->getThreadController();
-
-    if (!shared->isCameraAvailable()) {
-        throw std::runtime_error("Error acquiring camera");
-    }
-
-    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
-        throw std::runtime_error("captureThread is already running");
-    }
-
-    auto camera = shared->getCamera();
-    tc->startCaptureHandler(parent, camera, panelID);
-}
-
-void CaptureController::endCaptureHandler() {
-    auto tc = shared->getThreadController();
-
-    if (tc->isThreadNullptr(THREAD_CAPTURE)) {
-        throw std::runtime_error("captureThread is not running");
-    }
-
-    if (!tc->isThreadOwner(THREAD_CAPTURE, panelID)) {
-        throw std::runtime_error("captureThread is not owned by this panel");
-    }
-
-    auto captureThread = tc->getCaptureThread();
-    captureThread->Pause();
-
-    auto camera = captureThread->getCamera();
-    shared->setCamera(camera);
-
-    tc->endCaptureHandler();
-}
-
-void CaptureController::startLoadFileHandler(wxEvtHandler *parent,
-                                             std::string path) {
-
-    auto tc = shared->getThreadController();
-
-    if (!tc->isThreadsWithCameraNullptr()) {
-        throw std::runtime_error("Thread with camera is already running");
-    }
-
-    if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
-        throw std::runtime_error("LoadFileThread is already running");
-    }
-
-    if (!shared->sessionData.isCaptureDataEmpty()) {
-        throw std::runtime_error("ImageData is not empty");
-    }
-
-    AppConfig config;
-    auto c = config.GetLoadConfig();
-
-    auto data = shared->getSessionData();
-
-    tc->startLoadFileHandler(parent, data, c.maxFrame, path, panelID);
-}
-
-void CaptureController::endLoadFileHandler() {
-    auto tc = shared->getThreadController();
-
-    if (tc->isThreadNullptr(THREAD_LOAD_FILE)) {
-        throw std::runtime_error("loadFileThread is not running");
-    }
-
-    if (!tc->isThreadOwner(THREAD_LOAD_FILE, panelID)) {
-        throw std::runtime_error("loadFileThread is not owned by this panel");
-    }
-
-    auto loadCaptureThread = tc->getLoadFileThread();
-
-    tc->endLoadFileHandler();
-}
-
-void CaptureController::startLoadCaptureHandler(wxEvtHandler *parent) {
-    auto tc = shared->getThreadController();
-
-    if (!shared->isCameraAvailable()) {
-        throw std::runtime_error("Error acquiring camera");
-    }
-
-    if (!tc->isThreadsWithCameraNullptr()) {
-        throw std::runtime_error("Thread with camera is already running");
-    }
-
-    if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
-        throw std::runtime_error("LoadCaptureThread is already running");
-    }
-
-    if (!shared->sessionData.isCaptureDataEmpty()) {
-        throw std::runtime_error("ImageData is not empty");
-    }
-
-    AppConfig config;
-    auto captureConfig = config.GetCaptureConfig();
-    int maxFrame = captureConfig.maxFrame;
-    bool debug_ShowImage = captureConfig.DebugShowImage;
-    bool debug_Save = captureConfig.DebugSave;
-
-    auto camera = shared->getCamera();
-
-    auto data = shared->getSessionData();
-
-    tc->startLoadCaptureHandler(parent, camera, data, maxFrame, debug_ShowImage,
-                                debug_Save, panelID);
-}
-
-void CaptureController::endLoadCaptureHandler() {
-    auto tc = shared->getThreadController();
-
-    if (tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
-        throw std::runtime_error("loadCaptureThread is not running");
-    }
-
-    if (!tc->isThreadOwner(THREAD_LOAD_CAPTURE, panelID)) {
-        throw std::runtime_error(
-            "loadCaptureThread is not owned by this panel");
-    }
-
-    auto loadCaptureThread = tc->getLoadCaptureThread();
-
-    auto camera = loadCaptureThread->getCamera();
-    shared->setCamera(camera);
-
-    tc->endLoadCaptureHandler();
-}
-
-void CaptureController::checkPreCondition() {
-    auto data = shared->getSessionData();
-    if (panelID != data->getPanelID()) {
-        throw std::runtime_error(
-            "CaptureController::endPoint() - PanelID mismatch");
     }
 }
 
@@ -418,19 +195,19 @@ void CaptureController::killAllThreads(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
-        endCaptureHandler();
+        captureEndHandler(parent);
     }
 
     if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
-        endLoadFileHandler();
+        loadFileEndHandler(parent);
     }
 
     if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
-        endLoadCaptureHandler();
+        loadCaptureEndHandler(parent);
     }
 
     if (!tc->isThreadNullptr(THREAD_REPLAY)) {
-        e_ReplayEnd(parent);
+        replayEndHandler(parent);
     }
 
     throwIfAnyThreadIsRunning();
@@ -439,23 +216,162 @@ void CaptureController::killAllThreads(wxEvtHandler *parent) {
 void CaptureController::clearImageDataHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
-    if (tc->isCapturePanelThreadRunning()) {
-        throw std::runtime_error("Thread of Capture Panel is running");
-    }
+    throwIfAnyThreadIsRunning();
 
     if (shared->sessionData.isCaptureDataEmpty()) {
         throw std::runtime_error("ImageData is empty");
     }
 
     shared->sessionData.removeCaptureData();
-
     shared->sessionData.clearTrackingData();
-
     shared->sessionData.clearResultData();
 
     UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_REMOVE_DATA);
-
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
+}
+
+void CaptureController::captureStartHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    if (!shared->isCameraAvailable()) {
+        throw std::runtime_error("Error acquiring camera");
+    }
+
+    auto camera = shared->getCamera();
+    tc->startCaptureHandler(parent, camera, panelID);
+}
+
+void CaptureController::captureEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_CAPTURE)) {
+        throw std::runtime_error("captureThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_CAPTURE, panelID)) {
+        throw std::runtime_error("captureThread is not owned by this panel");
+    }
+
+    auto captureThread = tc->getCaptureThread();
+    captureThread->Pause();
+
+    auto camera = captureThread->getCamera();
+    shared->setCamera(camera);
+
+    tc->endCaptureHandler();
+}
+
+void CaptureController::loadFileStartHandler(wxEvtHandler *parent,
+                                             std::string path) {
+
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    if (!shared->sessionData.isCaptureDataEmpty()) {
+        throw std::runtime_error("ImageData is not empty");
+    }
+
+    AppConfig config;
+    auto c = config.GetLoadConfig();
+
+    auto data = shared->getSessionData();
+
+    tc->startLoadFileHandler(parent, data, c.maxFrame, path, panelID);
+}
+
+void CaptureController::loadFileEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_LOAD_FILE)) {
+        throw std::runtime_error("loadFileThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_LOAD_FILE, panelID)) {
+        throw std::runtime_error("loadFileThread is not owned by this panel");
+    }
+
+    auto loadCaptureThread = tc->getLoadFileThread();
+
+    tc->endLoadFileHandler();
+}
+
+void CaptureController::loadCaptureStartHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    if (!shared->isCameraAvailable()) {
+        throw std::runtime_error("Error acquiring camera");
+    }
+
+    if (!shared->sessionData.isCaptureDataEmpty()) {
+        throw std::runtime_error("ImageData is not empty");
+    }
+
+    AppConfig config;
+    auto captureConfig = config.GetCaptureConfig();
+    int maxFrame = captureConfig.maxFrame;
+    bool debug_ShowImage = captureConfig.DebugShowImage;
+    bool debug_Save = captureConfig.DebugSave;
+
+    auto camera = shared->getCamera();
+    auto data = shared->getSessionData();
+
+    tc->startLoadCaptureHandler(parent, camera, data, maxFrame, debug_ShowImage,
+                                debug_Save, panelID);
+}
+
+void CaptureController::loadCaptureEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
+        throw std::runtime_error("loadCaptureThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_LOAD_CAPTURE, panelID)) {
+        throw std::runtime_error(
+            "loadCaptureThread is not owned by this panel");
+    }
+
+    auto loadCaptureThread = tc->getLoadCaptureThread();
+
+    auto camera = loadCaptureThread->getCamera();
+    shared->setCamera(camera);
+
+    tc->endLoadCaptureHandler();
+
+    UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_CAPTURE_END);
+}
+
+void CaptureController::replayStartHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    if (shared->sessionData.isCaptureDataEmpty()) {
+        throw std::runtime_error("ImageData is Empty");
+    }
+
+    auto data = shared->getSessionData();
+
+    tc->startReplayHandler(parent, data, panelID);
+}
+
+void CaptureController::replayEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(THREAD_REPLAY)) {
+        throw std::runtime_error("replayThread is not running");
+    }
+
+    if (!tc->isThreadOwner(THREAD_REPLAY, panelID)) {
+        throw std::runtime_error("replayThread is not owned by this panel");
+    }
+
+    tc->endReplayHandler();
 }
 
 void CaptureController::removeCalibrationHandler(wxEvtHandler *parent) {
@@ -489,6 +405,7 @@ void CaptureController::removeRoiHandler(wxEvtHandler *parent) {
 
     shared->sessionData.clearTrackingData();
 
+    // TODO: Add this to StatusCollection
     wxString msg = "Roi data is removed";
     UpdateStatusEvent::Submit(parent, msg);
 }
@@ -531,6 +448,7 @@ void CaptureController::saveSessionDataEndHandler(wxEvtHandler *parent) {
 
     tc->endSaveFileHandler();
 
+    // TODO: Add this to StatusCollection
     wxString msg = "Save Complete";
     UpdateStatusEvent::Submit(parent, msg);
 }
@@ -548,8 +466,30 @@ void CaptureController::resetSessionDataHandler(wxEvtHandler *parent) {
 
     shared->resetSessionData();
 
+    // TODO: Add this to StatusCollection
     wxString msg = "Session Reset Complete";
     UpdateStatusEvent::Submit(parent, msg);
+}
+
+void CaptureController::changeToCalibPanelHandler(wxEvtHandler *parent) {
+    killAllThreads(parent);
+
+    ChangePanelData data(panelID, PanelID::PANEL_CALIBRATION);
+    ChangePanelEvent::Submit(parent, data);
+}
+
+void CaptureController::changeToRoiPanelHandler(wxEvtHandler *parent) {
+    killAllThreads(parent);
+
+    ChangePanelData data(panelID, PanelID::PANEL_ROI);
+    ChangePanelEvent::Submit(parent, data);
+}
+
+void CaptureController::changeToResultPanelHandler(wxEvtHandler *parent) {
+    killAllThreads(parent);
+
+    ChangePanelData data(panelID, PanelID::PANEL_RESULT);
+    ChangePanelEvent::Submit(parent, data);
 }
 
 void CaptureController::changeToTrimDataPanelHandler(wxEvtHandler *parent) {

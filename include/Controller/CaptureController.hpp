@@ -1,21 +1,44 @@
 #pragma once
 
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Capture.hpp"
-#include "Utils/Camera/CameraBase.hpp"
+#include <Controller/BaseController.hpp>
+
+#include <Event/Event_ChangePanel.hpp>
+#include <Event/Event_UpdatePreview.hpp>
+#include <Event/Event_UpdateState.hpp>
+#include <Event/Event_UpdateStatus.hpp>
+
+#include <Model/AppState.hpp>
+#include <Model/SessionData.hpp>
 #include <Model/SharedModel.hpp>
+
+#include <Thread/ThreadPool.hpp>
+#include <Thread/Thread_Capture.hpp>
+#include <Thread/Thread_ID.hpp>
+#include <Thread/Thread_LoadFile.hpp>
+
+#include <UI/Dialog/ResetDataDialog.hpp>
+#include <UI/Dialog/SaveDataDialog.hpp>
+#include <UI/Layout/StatusPanel.hpp>
+
+#include <Utils/Camera/CameraBase.hpp>
+#include <Utils/Config/AppConfig.hpp>
+#include <Utils/Config/ConfigStruct.hpp>
+#include <Utils/FileReader/fileWR.hpp>
+#include <Utils/wxUtils.hpp>
+
 #include <memory>
+#include <vector>
+
 #include <wx/event.h>
 #include <wx/thread.h>
 
 #define CPCPtr std::unique_ptr<CaptureController>
 
-class CaptureController {
+class CaptureController : public BaseController {
   public:
     CaptureController(ModelPtr sharedModel);
     ~CaptureController();
 
-    void e_UpdateState(wxEvtHandler *parent);
     void e_ClearImageData(wxEvtHandler *parent);
 
     void e_CameraStart(wxEvtHandler *parent);
@@ -45,15 +68,12 @@ class CaptureController {
     void e_ChangeToTrimDataPanel(wxEvtHandler *parent);
 
   private:
-    const PanelID panelID = PanelID::PANEL_CAPTURE;
-    ModelPtr shared;
+    static const PanelID currentPanelID = PanelID::PANEL_CAPTURE;
 
   private:
-    void checkPreCondition();
+    void throwIfAnyThreadIsRunning() override;
 
-    void throwIfAnyThreadIsRunning();
-
-    void killAllThreads(wxEvtHandler *parent);
+    void killAllThreads(wxEvtHandler *parent) override;
 
     void clearImageDataHandler(wxEvtHandler *parent);
 
@@ -61,18 +81,26 @@ class CaptureController {
 
     void removeRoiHandler(wxEvtHandler *parent);
 
-    void startCaptureHandler(wxEvtHandler *parent);
-    void endCaptureHandler();
+    void captureStartHandler(wxEvtHandler *parent);
+    void captureEndHandler(wxEvtHandler *parent);
 
-    void startLoadFileHandler(wxEvtHandler *parent, std::string path);
-    void endLoadFileHandler();
+    void loadFileStartHandler(wxEvtHandler *parent, std::string path);
+    void loadFileEndHandler(wxEvtHandler *parent);
 
-    void startLoadCaptureHandler(wxEvtHandler *parent);
-    void endLoadCaptureHandler();
+    void loadCaptureStartHandler(wxEvtHandler *parent);
+    void loadCaptureEndHandler(wxEvtHandler *parent);
+
+    void replayStartHandler(wxEvtHandler *parent);
+    void replayEndHandler(wxEvtHandler *parent);
 
     void saveSessionDataStartHandler(wxEvtHandler *parent);
     void saveSessionDataEndHandler(wxEvtHandler *parent);
+
     void resetSessionDataHandler(wxEvtHandler *parent);
+
+    void changeToCalibPanelHandler(wxEvtHandler *parent);
+    void changeToRoiPanelHandler(wxEvtHandler *parent);
+    void changeToResultPanelHandler(wxEvtHandler *parent);
 
     void changeToTrimDataPanelHandler(wxEvtHandler *parent);
 };

@@ -1,26 +1,30 @@
 #pragma once
 
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_ManualCalib.hpp"
+#include <Algorithm/Struct/D_Line.hpp>
+
+#include <Controller/BaseController.hpp>
+
+#include <Event/Event_UpdateState.hpp>
+
+#include <Model/AppState.hpp>
+#include <Model/CalibrationData.hpp>
+#include <Model/SessionData.hpp>
 #include <Model/SharedModel.hpp>
+
+#include <Thread/Thread_ManualCalib.hpp>
+
+#include <UI/Dialog/CancelDialog.hpp>
+
+#include <Utils/wxUtils.hpp>
+
+#include <wx/event.h>
 
 #define MCCPtr std::unique_ptr<ManualCalibrationController>
 
-class ManualCalibrationController {
+class ManualCalibrationController : public BaseController {
   public:
     ManualCalibrationController(ModelPtr sharedModel);
     ~ManualCalibrationController();
-
-    void e_UpdateState(wxEvtHandler *parent);
-
-    void e_PanelShow(wxEvtHandler *parent);
-
-    void e_CreateTempSessionData(wxEvtHandler *parent);
-    void e_RestoreSessionData(wxEvtHandler *parent);
-    void e_SaveSessionData(wxEvtHandler *parent);
-
-    void e_OKButtonHandler(wxEvtHandler *parent);
-    void e_CancelButtonHandler(wxEvtHandler *parent);
 
     void e_ChangeToLeft(wxEvtHandler *parent);
     void e_ChangeToRight(wxEvtHandler *parent);
@@ -47,21 +51,15 @@ class ManualCalibrationController {
     void e_RemoveCalibData(wxEvtHandler *parent);
 
   private:
-    static const PanelID panelID = PanelID::PANEL_MANUAL_CALIBRATION;
-    ModelPtr shared;
+    static const PanelID currentPanelID = PanelID::PANEL_MANUAL_CALIBRATION;
 
   private:
-    void checkPreCondition();
+    void throwIfAnyThreadIsRunning() override;
 
-    void throwIfAnyThreadIsRunning();
-
-    void killAllThreads(wxEvtHandler *parent);
+    void killAllThreads(wxEvtHandler *parent) override;
 
     void changeToLeftHandler(wxEvtHandler *parent);
     void changeToRightHandler(wxEvtHandler *parent);
-
-    void okButtonHandler(wxEvtHandler *parent);
-    void cancelButtonHandler(wxEvtHandler *parent);
 
     void setPoint1Handler(wxEvtHandler *parent, cv::Point point);
     void setPoint2Handler(wxEvtHandler *parent, cv::Point point);
@@ -82,11 +80,7 @@ class ManualCalibrationController {
     void removeLeftHandler(wxEvtHandler *parent);
     void removeRightHandler(wxEvtHandler *parent);
 
-    void createTempSessionDataHandler(wxEvtHandler *parent);
-    void restoreSessionDataHandler(wxEvtHandler *parent);
-    void saveSessionDataHandler(wxEvtHandler *parent);
-
     void removeCalibDataHandler(wxEvtHandler *parent);
 
-    void panelShowHandler(wxEvtHandler *parent);
+    void panelShowHandler(wxEvtHandler *parent) override;
 };

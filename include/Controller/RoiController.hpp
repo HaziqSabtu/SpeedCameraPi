@@ -1,32 +1,13 @@
 #pragma once
 
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Calibration.hpp"
-#include "Thread/Thread_Capture.hpp"
-#include "Utils/Camera/CameraBase.hpp"
-#include <Model/SharedModel.hpp>
-#include <memory>
-#include <wx/event.h>
-#include <wx/thread.h>
+#include <Controller/BaseController.hpp>
 
 #define ROCPtr std::unique_ptr<RoiController>
 
-class RoiController {
+class RoiController : public BaseController {
   public:
     RoiController(ModelPtr sharedModel);
     ~RoiController();
-
-    void e_UpdateState(wxEvtHandler *parent);
-
-    void e_PanelShow(wxEvtHandler *parent);
-
-    void e_CreateTempSessionData(wxEvtHandler *parent);
-    void e_RestoreSessionData(wxEvtHandler *parent);
-    void e_SaveSessionData(wxEvtHandler *parent);
-
-    void e_OKButtonHandler(wxEvtHandler *parent);
-    void e_CancelButtonHandler(wxEvtHandler *parent);
 
     void e_ClearRect(wxEvtHandler *parent);
     void e_RemoveRect(wxEvtHandler *parent);
@@ -43,21 +24,15 @@ class RoiController {
     void e_RoiPreviewEnd(wxEvtHandler *parent);
 
   private:
-    static const PanelID panelID = PanelID::PANEL_ROI;
-    ModelPtr shared;
+    static const PanelID currentPanelID = PanelID::PANEL_ROI;
 
   private:
-    void checkPreCondition();
+    void throwIfAnyThreadIsRunning() override;
 
-    void throwIfAnyThreadIsRunning();
-
-    void killAllThreads(wxEvtHandler *parent);
+    void killAllThreads(wxEvtHandler *parent) override;
 
     void clearRectHandler(wxEvtHandler *parent);
     void removeRectHandler(wxEvtHandler *parent);
-
-    void okButtonHandler(wxEvtHandler *parent);
-    void cancelButtonHandler(wxEvtHandler *parent);
 
     void setPoint1Handler(wxEvtHandler *parent, cv::Point point);
     void setPoint2Handler(wxEvtHandler *parent, cv::Point point);
@@ -70,9 +45,5 @@ class RoiController {
     void roiPreviewStartHandler(wxEvtHandler *parent);
     void roiPreviewEndHandler(wxEvtHandler *parent);
 
-    void createTempSessionDataHandler(wxEvtHandler *parent);
-    void restoreSessionDataHandler(wxEvtHandler *parent);
-    void saveSessionDataHandler(wxEvtHandler *parent);
-
-    void panelShowHandler(wxEvtHandler *parent);
+    void panelShowHandler(wxEvtHandler *parent) override;
 };

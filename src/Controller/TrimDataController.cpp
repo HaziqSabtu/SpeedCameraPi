@@ -1,97 +1,11 @@
-#include "Event/Event_UpdateState.hpp"
 #include <Controller/TrimDataController.hpp>
 
-#include "Model/SessionData.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Thread/Thread_TrimData.hpp"
-#include "UI/Dialog/CancelDialog.hpp"
-#include "Utils/Camera/CameraBase.hpp"
-#include "Utils/CommonUtils.hpp"
-#include "Utils/Config/AppConfig.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
-#include "Utils/wxUtils.hpp"
-#include <memory>
-#include <vector>
-#include <wx/event.h>
-#include <wx/object.h>
-
 TrimDataController::TrimDataController(ModelPtr sharedModel)
-    : shared(sharedModel) {}
+    : BaseController(sharedModel) {
+    panelID = currentPanelID;
+}
 
 TrimDataController::~TrimDataController() {}
-
-void TrimDataController::e_UpdateState(wxEvtHandler *parent) {
-    try {
-        AppState state(shared);
-        UpdateStateEvent::Submit(parent, state);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void TrimDataController::e_PanelShow(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        panelShowHandler(parent);
-
-        e_UpdateState(parent);
-
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void TrimDataController::e_CreateTempSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        createTempSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void TrimDataController::e_RestoreSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        restoreSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void TrimDataController::e_SaveSessionData(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        saveSessionDataHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void TrimDataController::e_OKButtonHandler(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        okButtonHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void TrimDataController::e_CancelButtonHandler(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-
-        cancelButtonHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
 
 void TrimDataController::e_TrimDataStart(wxEvtHandler *parent) {
     try {
@@ -183,14 +97,6 @@ void TrimDataController::e_PreviewCurrentRange(wxEvtHandler *parent) {
     }
 }
 
-void TrimDataController::checkPreCondition() {
-    auto data = shared->getSessionData();
-    if (panelID != data->getPanelID()) {
-        throw std::runtime_error(
-            "TrimDataController::endPoint() - PanelID mismatch");
-    }
-}
-
 void TrimDataController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -215,68 +121,6 @@ void TrimDataController::killAllThreads(wxEvtHandler *parent) {
     }
 
     throwIfAnyThreadIsRunning();
-}
-
-void TrimDataController::createTempSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    auto data = shared->getSessionData();
-    shared->setTempSessionData(*data);
-}
-
-void TrimDataController::saveSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    shared->setTempSessionData(SessionData());
-}
-
-void TrimDataController::restoreSessionDataHandler(wxEvtHandler *parent) {
-    auto temp = shared->getTempSessionData();
-
-    if (temp == nullptr) {
-        throw std::runtime_error("TempSessionData is nullptr");
-    }
-
-    shared->setSessionData(*temp);
-}
-
-void TrimDataController::okButtonHandler(wxEvtHandler *parent) {
-
-    killAllThreads(parent);
-
-    saveSessionDataHandler(parent);
-
-    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-    ChangePanelEvent::Submit(parent, data);
-}
-
-void TrimDataController::cancelButtonHandler(wxEvtHandler *parent) {
-
-    if (shared->isSessionDataChanged()) {
-        auto dialog = CancelDialog(nullptr);
-        if (dialog.ShowModal() == wxID_NO) {
-            return;
-        }
-    }
-
-    killAllThreads(parent);
-
-    restoreSessionDataHandler(parent);
-
-    ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-    ChangePanelEvent::Submit(parent, data);
-}
-
-void TrimDataController::panelShowHandler(wxEvtHandler *parent) {
-    createTempSessionDataHandler(parent);
 }
 
 void TrimDataController::trimDataStartHandler(wxEvtHandler *parent) {

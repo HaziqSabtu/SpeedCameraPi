@@ -1,29 +1,40 @@
 #pragma once
 
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Calibration.hpp"
-#include "Thread/Thread_Capture.hpp"
-#include "Utils/Camera/CameraBase.hpp"
+#include <Algorithm/hsv_filter/BFS.hpp>
+#include <Algorithm/hsv_filter/HSVFilter.hpp>
+#include <Algorithm/ransac_line/RansacLine.hpp>
+
+#include <Controller/BaseController.hpp>
+
+#include <Event/Event_UpdateState.hpp>
+
+#include <Model/SessionData.hpp>
 #include <Model/SharedModel.hpp>
+
+#include <Thread/ThreadPool.hpp>
+#include <Thread/Thread_Calibration.hpp>
+#include <Thread/Thread_Capture.hpp>
+#include <Thread/Thread_LoadFile.hpp>
+
+#include <UI/Dialog/CancelDialog.hpp>
+
+#include <Utils/Camera/CameraBase.hpp>
+#include <Utils/Config/AppConfig.hpp>
+#include <Utils/Config/ConfigStruct.hpp>
+
 #include <memory>
+#include <vector>
+
 #include <wx/event.h>
+#include <wx/object.h>
 #include <wx/thread.h>
 
 #define CLCPtr std::unique_ptr<CalibrationController>
 
-class CalibrationController {
+class CalibrationController : public BaseController {
   public:
     CalibrationController(ModelPtr sharedModel);
     ~CalibrationController();
-
-    void e_UpdateState(wxEvtHandler *parent);
-
-    void e_PanelShow(wxEvtHandler *parent);
-
-    void e_CreateTempSessionData(wxEvtHandler *parent);
-    void e_RestoreSessionData(wxEvtHandler *parent);
-    void e_SaveSessionData(wxEvtHandler *parent);
 
     void e_RemoveCalibData(wxEvtHandler *parent);
 
@@ -42,22 +53,16 @@ class CalibrationController {
     void e_CalibrationCapturePreviewStart(wxEvtHandler *parent);
     void e_CalibrationCapturePreviewEnd(wxEvtHandler *parent);
 
-    void e_OKButtonHandler(wxEvtHandler *parent);
-    void e_CancelButtonHandler(wxEvtHandler *parent);
-
     void e_ChangeToManualPanel(wxEvtHandler *parent);
     void e_ChangeToColorPanel(wxEvtHandler *parent);
 
   private:
-    static const PanelID panelID = PanelID::PANEL_CALIBRATION;
-    ModelPtr shared;
+    static const PanelID currentPanelID = PanelID::PANEL_CALIBRATION;
 
   private:
-    void checkPreCondition();
+    void throwIfAnyThreadIsRunning() override;
 
-    void throwIfAnyThreadIsRunning();
-
-    void killAllThreads(wxEvtHandler *parent);
+    void killAllThreads(wxEvtHandler *parent) override;
 
     void saveCalibrationData(wxEvtHandler *parent,
                              BaseCalibrationThread *thread);
@@ -77,15 +82,8 @@ class CalibrationController {
     void setPointHandler(wxEvtHandler *parent, cv::Point point);
     void clearPointHandler(wxEvtHandler *parent);
 
-    void createTempSessionDataHandler(wxEvtHandler *parent);
-    void restoreSessionDataHandler(wxEvtHandler *parent);
-    void saveSessionDataHandler(wxEvtHandler *parent);
-
-    void okButtonHandler(wxEvtHandler *parent);
-    void cancelButtonHandler(wxEvtHandler *parent);
-
     void changeToManualPanelHandler(wxEvtHandler *parent);
     void changeToColorPanelHandler(wxEvtHandler *parent);
 
-    void panelShowHandler(wxEvtHandler *parent);
+    void panelShowHandler(wxEvtHandler *parent) override;
 };

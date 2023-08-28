@@ -1,38 +1,11 @@
-#include "Algorithm/hsv_filter/BFS.hpp"
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Algorithm/ransac_line/RansacLine.hpp"
-#include "Event/Event_UpdateState.hpp"
 #include <Controller/ResultController.hpp>
 
-#include "Model/SessionData.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_Calibration.hpp"
-#include "Thread/Thread_Capture.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Thread/Thread_LoadFile.hpp"
-#include "Thread/Thread_ResultPreview.hpp"
-#include "Utils/Camera/CameraBase.hpp"
-#include "Utils/Config/AppConfig.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
-#include "Utils/wxUtils.hpp"
-#include <memory>
-#include <vector>
-#include <wx/event.h>
-#include <wx/object.h>
-
 ResultController::ResultController(ModelPtr sharedModel)
-    : shared(sharedModel) {}
+    : BaseController(sharedModel) {
+    panelID = currentPanelID;
+}
 
 ResultController::~ResultController() {}
-
-void ResultController::e_UpdateState(wxEvtHandler *parent) {
-    try {
-        AppState state(shared);
-        UpdateStateEvent::Submit(parent, state);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
 
 void ResultController::e_CancelButtonHandler(wxEvtHandler *parent) {
     try {
@@ -121,14 +94,6 @@ void ResultController::e_SetIndexToZero(wxEvtHandler *parent) {
         setIndexToZeroHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ResultController::checkPreCondition() {
-    auto data = shared->getSessionData();
-    if (panelID != data->getPanelID()) {
-        throw std::runtime_error(
-            "ResultController::endPoint() - PanelID mismatch");
     }
 }
 
@@ -289,14 +254,7 @@ void ResultController::setIndexToZeroHandler(wxEvtHandler *parent) {
 void ResultController::cancelButtonHandler(wxEvtHandler *parent) {
     killAllThreads(parent);
 
-    // remove all data from session
     auto sessionData = shared->getSessionData();
-    // sessionData->removeAllignData();
-
-    // auto tracking = sessionData->getTrackingData();
-    // tracking.trackedRoi.clear();
-    // sessionData->setTrackingData(tracking);
-
     sessionData->clearResultData();
 
     shared->setSessionData(*sessionData);
