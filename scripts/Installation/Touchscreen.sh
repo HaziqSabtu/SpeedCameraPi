@@ -29,7 +29,8 @@ display_rotate=1
 EOF
 
 # prevent overriding
-sudo grep -qxF 'dtoverlay=vc4-fkms-v3d' /boot/config.txt && sudo sed -i 's/dtoverlay=vc4-fkms-v3d/# dtoverlay=vc4-fkms-v3d/' /boot/config.txt
+sudo sed -i "s/dtoverlay=vc4-kms-v3d/# dtoverlay=vc4-kms-v3d/" /boot/config.txt
+# sudo sed -i "s/dtoverlay=vc4-fkms-v3d/# dtoverlay=vc4-fkms-v3d/" /boot/config.txt
 
 # rotate touchscreen
 # sudo apt-get install xserver-xorg-input-libinput
