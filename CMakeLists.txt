@@ -75,6 +75,9 @@ if(CROSS_COMPILING)
     # )
 else()
     set(libcamIncludeDir /usr/include/libcamera)
+
+    set(pathToLibcamera ${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/libcamera.so)
+    set(pathToLibcameraBase ${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/libcamera-base.so)
     
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
     COMMAND cp -r ${CMAKE_SOURCE_DIR}/Assets $<TARGET_FILE_DIR:SpeedCameraPi>
