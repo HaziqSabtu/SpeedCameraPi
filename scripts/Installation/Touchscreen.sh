@@ -29,7 +29,7 @@ display_rotate=1
 EOF
 
 # prevent overriding
-sudo sed -i "s/dtoverlay=vc4-fkms-v3d/#dtoverlay=vc4-fkms-v3d/" /boot/config.txt
+sudo sed -i "s/dtoverlay=vc4-fkms-v3d/# dtoverlay=vc4-fkms-v3d/" /boot/config.txt
 
 # rotate touchscreen
 sudo apt-get install xserver-xorg-input-libinput
