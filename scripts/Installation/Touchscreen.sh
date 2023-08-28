@@ -69,7 +69,7 @@ EndSection'
 # Check if the file contains the search content
 if grep -qF "$search_content" "$file_path"; then
     # Replace the search content with the new content
-    sed -i "s|$search_content|$new_content|g" "$file_path"
+    sed -i "s,$search_content,$new_content,g" "$file_path"
     echo "Content replaced successfully."
 else
     echo "Search content not found in the file."
