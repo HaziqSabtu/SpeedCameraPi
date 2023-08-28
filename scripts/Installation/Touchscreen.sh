@@ -32,51 +32,51 @@ EOF
 sudo sed -i "s/dtoverlay=vc4-fkms-v3d/# dtoverlay=vc4-fkms-v3d/" /boot/config.txt
 
 # rotate touchscreen
-sudo apt-get install xserver-xorg-input-libinput
+# sudo apt-get install xserver-xorg-input-libinput
 
-# check if folder is exist
-if [ ! -d "/etc/X11/xorg.conf.d" ]; then
-  sudo mkdir /etc/X11/xorg.conf.d
-fi
+# # check if folder is exist
+# if [ ! -d "/etc/X11/xorg.conf.d" ]; then
+#   sudo mkdir /etc/X11/xorg.conf.d
+# fi
 
-sudo cp /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/
+# sudo cp /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/
 
-sudo nano /etc/X11/xorg.conf.d/40-libinput.conf
+# sudo nano /etc/X11/xorg.conf.d/40-libinput.conf
 
-# Specify the path to the file you want to modify
-file_path="/path/to/your/file.conf"
+# # Specify the path to the file you want to modify
+# file_path="/path/to/your/file.conf"
 
-# Define the content to search for
-search_content='Section "InputClass"
-        Identifier "libinput touchscreen catchall"
-        MatchIsTouchscreen "on"
-        MatchDevicePath "/dev/input/event*"
-        Driver "libinput"
-EndSection'
+# # Define the content to search for
+# search_content='Section "InputClass"
+#         Identifier "libinput touchscreen catchall"
+#         MatchIsTouchscreen "on"
+#         MatchDevicePath "/dev/input/event*"
+#         Driver "libinput"
+# EndSection'
 
-# Define the new content to replace with
-new_content='Section "InputClass"
-        Identifier "libinput touchscreen catchall"
-        MatchIsTouchscreen "on"
-        Option "CalibrationMatrix" "0 1 0 -1 0 1 0 0 1"
-        MatchDevicePath "/dev/input/event*"
-        Driver "libinput"
-EndSection'
+# # Define the new content to replace with
+# new_content='Section "InputClass"
+#         Identifier "libinput touchscreen catchall"
+#         MatchIsTouchscreen "on"
+#         Option "CalibrationMatrix" "0 1 0 -1 0 1 0 0 1"
+#         MatchDevicePath "/dev/input/event*"
+#         Driver "libinput"
+# EndSection'
 
-# Check if the file contains the search content
-if grep -qF "$search_content" "$file_path"; then
-    # Replace the search content with the new content
-    sed -i "s|$search_content|$new_content|g" "$file_path"
-    echo "Content replaced successfully."
-else
-    echo "Search content not found in the file."
-    # throw an error and exit
-    exit 1
-fi
+# # Check if the file contains the search content
+# if grep -qF "$search_content" "$file_path"; then
+#     # Replace the search content with the new content
+#     sed -i "s|$search_content|$new_content|g" "$file_path"
+#     echo "Content replaced successfully."
+# else
+#     echo "Search content not found in the file."
+#     # throw an error and exit
+#     exit 1
+# fi
 
-echo ""
-echo ""
-echo "" Success! Reboot to apply changes
-echo ""
-echo ""
-echo "******************************************************************************************************"
+# echo ""
+# echo ""
+# echo "" Success! Reboot to apply changes
+# echo ""
+# echo ""
+# echo "******************************************************************************************************"
