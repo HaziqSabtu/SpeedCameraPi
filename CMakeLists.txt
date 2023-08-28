@@ -76,7 +76,7 @@ if(CROSS_COMPILING)
     # )
 else()
     message("Native compiling")
-    set(libcamIncludeDir /usr/include/libcamera)
+    set(libcamIncludeDir /usr/local/include/libcamera)
 
     set(pathToLibcamera /usr/local/lib/arm-linux-gnueabihf/libcamera.so)
     set(pathToLibcameraBase /usr/local/lib/arm-linux-gnueabihf/libcamera-base.so)
