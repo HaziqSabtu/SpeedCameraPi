@@ -18,7 +18,7 @@ sudo apt-get update
 sudo apt-get upgrade -y
 
 # rotate screen
-cat << EOF > /boot/config.txt
+cat << EOF >> /boot/config.txt
 max_usb_current=1
 hdmi_force_hotplug=1
 config_hdmi_boost=10
