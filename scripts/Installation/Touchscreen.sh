@@ -44,10 +44,7 @@ sudo cp /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/
 
 # sudo nano /etc/X11/xorg.conf.d/40-libinput.conf
 
-# Specify the path to the file you want to modify
-file_path="/etc/X11/xorg.conf.d/40-libinput.conf"
 
-# sudo nano /etc/X11/xorg.conf.d/40-libinput.conf
 
 # Define the content to search for
 search_content='Section "InputClass"
@@ -66,16 +63,17 @@ new_content='Section "InputClass"
         Driver "libinput"
 EndSection'
 
-# Check if the file contains the search content
-if grep -qzF "$search_content" "$file_path"; then
-    # Replace the search content with the new content
-    sed -zi "s|$search_content|$new_content|g" "$file_path"
-    echo "Content replaced successfully."
-else
-    echo "Search content not found in the file."
-    # throw an error and exit
-    exit 1
-fi
+# File path
+file_path="/etc/X11/xorg.conf.d/40-libinput.conf"
+
+# Use awk to replace content
+awk -v search="$search_content" -v replace="$new_content" 'BEGIN { RS = "" } $0 == search { print replace; found = 1 } END { if (!found) { print "Search content not found in the file."; exit 1 } }' "$file_path" > "$file_path.tmp"
+
+# Replace the original file with the modified content
+mv "$file_path.tmp" "$file_path"
+
+echo "Content replaced successfully."
+
 
 echo ""
 echo ""
