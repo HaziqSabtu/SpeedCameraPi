@@ -42,10 +42,6 @@ fi
 
 sudo cp /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/
 
-# sudo nano /etc/X11/xorg.conf.d/40-libinput.conf
-
-
-
 # Define the content to search for
 search_content='Section "InputClass"
         Identifier "libinput touchscreen catchall"
@@ -67,7 +63,26 @@ EndSection'
 file_path="/etc/X11/xorg.conf.d/40-libinput.conf"
 
 # Use awk to replace content
-awk -v search="$search_content" -v replace="$new_content" 'BEGIN { RS = "" } $0 == search { print replace; found = 1 } END { if (!found) { print "Search content not found in the file."; exit 1 } }' "$file_path" > "$file_path.tmp"
+awk -v search="$search_content" -v replace="$new_content" '
+BEGIN {
+    RS = ""
+    ORS = "\n"
+}
+$0 == search {
+    print replace
+    found = 1
+    next
+}
+{
+    print
+}
+END {
+    if (!found) {
+        print "Search content not found in the file."
+        exit 1
+    }
+}
+' "$file_path" > "$file_path.tmp"
 
 # Replace the original file with the modified content
 mv "$file_path.tmp" "$file_path"
