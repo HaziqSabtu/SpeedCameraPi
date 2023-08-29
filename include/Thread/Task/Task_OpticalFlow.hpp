@@ -26,14 +26,13 @@ class FlowTask : public Task {
   public:
     FlowTask(DataPtr data, OpticalFlowConfig config);
     void Execute() override;
-    TaskProperty GetProperty() const override;
-    std::string GetName() const override;
 
   private:
-    const TaskProperty property;
     DataPtr data;
-
     OpticalFlowConfig config;
+
+    const std::string currentName = "FlowTask";
+    const TaskType currentType = TaskType::TASK_FLOW;
 };
 
 #endif

@@ -113,14 +113,18 @@ class Task {
      *
      * @return TaskProperty
      */
-    virtual TaskProperty GetProperty() const = 0;
+    TaskProperty GetProperty() const { return property; }
 
     /**
      * @brief Get the Priority object
      *
      * @return TaskPriority
      */
-    virtual std::string GetName() const = 0;
+    std::string GetName() const { return name; }
+
+  protected:
+    TaskProperty property;
+    std::string name;
 };
 
 #endif

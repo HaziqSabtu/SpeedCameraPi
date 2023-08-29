@@ -15,6 +15,6 @@
 /**
  * @brief Enum class for feature type
  */
-enum class DetectorType { SIFT, ORB };
+enum class DetectorType { SIFT };
 
 #endif

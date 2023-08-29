@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2023
  *
  */
+#include "Model/SessionData.hpp"
+#include "Utils/Config/ConfigStruct.hpp"
 #include <Thread/Task/Task_Speed.hpp>
 
 /**
@@ -18,43 +20,68 @@
  * @param result Result of Speed Calculation
  * @param sensorConfig Sensor Configuration ... SensorConfig
  */
-// SpeedTask::SpeedTask(std::vector<ImageData> *imgData,
-//                      std::vector<Line> &selectedLine,
-//                      std::unique_ptr<float> &result, SensorConfig sensorConfig)
-//     : property(TaskType::TASK_SPEED), imgData(imgData), result(result),
-//       selectedLine(selectedLine), sensorConfig(sensorConfig) {}
+SpeedTask::SpeedTask(DataPtr data, SensorConfig sensorConfig,
+                     MeasurementConfig measurementConfig)
+    : data(data), sensorConfig(sensorConfig),
+      measurementConfig(measurementConfig) {
+    property = TaskProperty(currentType);
+    name = currentName;
+}
 
-// /**
-//  * @brief Execute the Speed Calculation
-//  * @details This method will be called automatically by the thread worker
-//  * <ul>
-//  * <li> 1. Create SpeedCalculation object
-//  * <li> 2. Set Sensor Width, Sensor Focal Length, and Object Width
-//  * <li> 3. Set Image Width
-//  * <li> 4. Run SpeedCalculation::runCalculation()
-//  * <li> 5. Set the result to the result pointer
-//  * </ul>
-//  *
-//  */
-// void SpeedTask::Execute() {
-//     // SpeedCalculation speedCalc(sensorConfig.SensorWidth,
-//     //                            sensorConfig.SensorFocalLength,
-//     //                            sensorConfig.ObjectWidth);
-//     // speedCalc.SetImageWidth(imgData->at(0).image.cols);
-//     // speedCalc.runCalculation(imgData, selectedLine);
-//     // result.reset(new float(speedCalc.GetAvgSpeed()));
-// }
+/**
+ * @brief Execute the Speed Calculation
+ * @details This method will be called automatically by the thread worker
+ * <ul>
+ * <li> 1. Create SpeedCalculation object
+ * <li> 2. Set Sensor Width, Sensor Focal Length, and Object Width
+ * <li> 3. Set Image Width
+ * <li> 4. Run SpeedCalculation::runCalculation()
+ * <li> 5. Set the result to the result pointer
+ * </ul>
+ *
+ */
+void SpeedTask::Execute() {
+    auto resultData = data->getResultData();
+    auto roiData = resultData.trackedRoi;
 
-// /**
-//  * @brief Get the Type object
-//  *
-//  * @return TaskType
-//  */
-// TaskProperty SpeedTask::GetProperty() const { return property; }
+    SpeedCalculation speedCalc;
+    speedCalc.SetSensorWidth(sensorConfig.SensorWidth);
+    speedCalc.SetFocalLength(sensorConfig.SensorFocalLength);
+    speedCalc.SetLaneWidth(measurementConfig.ObjectWidth);
 
-// /**
-//  * @brief Get the Name object
-//  *
-//  * @return std::string
-//  */
-// std::string SpeedTask::GetName() const { return "SpeedTask"; }
+    auto allignData = resultData.allignData;
+
+    std::vector<cv::Mat> allignImages;
+    for (auto d : allignData) {
+        allignImages.push_back(d.image);
+    }
+
+    std::vector<HPTime> times;
+    for (auto t : data->getCaptureData()) {
+        times.push_back(t.time);
+    }
+
+    if (data->isCalibrationDataEmpty()) {
+        throw std::runtime_error("Calibration Data is empty");
+    }
+
+    auto calibData = data->getCalibrationData();
+    std::vector<Line> lines;
+    lines.push_back(calibData.lineLeft);
+    lines.push_back(calibData.lineRight);
+
+    speedCalc.runCalculation(allignImages, times, roiData, lines);
+
+    auto speed = speedCalc.GetTrimmedAverageSpeed(20) * 3.6;
+
+    auto speedList = speedCalc.GetRawSpeed();
+    auto distanceFromCamera = speedCalc.GetDistanceFromCamera();
+    auto intersectingLines = speedCalc.GetIntersectingLines();
+
+    resultData.speed = speed;
+    resultData.speedList = speedList;
+    resultData.distanceFromCamera = distanceFromCamera;
+    resultData.intersectingLines = intersectingLines;
+
+    data->setResultData(resultData);
+}

@@ -12,7 +12,10 @@
 #include <Thread/Task/Task_OpticalFlow.hpp>
 
 FlowTask::FlowTask(DataPtr data, OpticalFlowConfig config)
-    : property(TaskType::TASK_FLOW), data(data), config(config) {}
+    : data(data), config(config) {
+    property = TaskProperty(currentType);
+    name = currentName;
+}
 
 void FlowTask::Execute() {
     OFTracker ofTracker;
@@ -48,17 +51,3 @@ void FlowTask::Execute() {
     resultData.trackedRoi = obj;
     data->setResultData(resultData);
 }
-
-/**
- * @brief Get the Type object
- *
- * @return TaskType
- */
-TaskProperty FlowTask::GetProperty() const { return property; }
-
-/**
- * @brief Get the Name object
- *
- * @return std::string
- */
-std::string FlowTask::GetName() const { return "FlowTask"; }

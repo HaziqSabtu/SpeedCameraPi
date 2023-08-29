@@ -19,15 +19,16 @@
 
 class SiftTask : public Task {
   public:
-    SiftTask(DataPtr data, int id);
+    SiftTask(FeatureDetector &detector, DataPtr data, int id);
     void Execute() override;
-    TaskProperty GetProperty() const override;
-    std::string GetName() const override;
 
   private:
-    const TaskProperty property;
     int id;
     DataPtr data;
+    FeatureDetector detector;
+
+    const std::string currentName = "SiftTask";
+    const TaskType currentType = TaskType::TASK_SIFT;
 };
 
 #endif
