@@ -9,6 +9,7 @@
 #include "UI/Layout/TitlePanel.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelBlueStatus.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelYellowStatus.hpp"
+#include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include <UI/Panel/ColorCalibrationPanel/Panel_Button.hpp>
@@ -23,9 +24,9 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class ColorCalibrationPanel : public wxPanel {
+class ColorCalibrationPanel : public BasePanelWithTouch {
   public:
-    ColorCalibrationPanel(wxWindow *parent, wxWindowID id, CCCPtr &controller);
+    ColorCalibrationPanel(wxWindow *parent, wxWindowID id, CCCPtr controller);
     ~ColorCalibrationPanel();
 
   private:
@@ -33,25 +34,12 @@ class ColorCalibrationPanel : public wxPanel {
 
     CCCPtr controller;
 
-    BaseImagePanel *img_bitmap;
-
-    TitlePanel *title_panel;
-    StatusPanel *status_panel;
-
-    ColorCalibrationPanelButton *button_panel;
-
-    wxBoxSizer *main_sizer;
+    void doPostLeftDown() override;
 
     void ToggleCameraButtonHandler(BitmapButtonT2 *button);
 
-    void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);
     void OnCalibrationEvent(wxCommandEvent &e);
-    void OnCapture(wxCommandEvent &e);
-    void OnLeftDown(wxMouseEvent &e);
-    void OnUpdateStatus(UpdateStatusEvent &e);
-    void OnUpdateState(UpdateStateEvent &e);
-    void OnShow(wxShowEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

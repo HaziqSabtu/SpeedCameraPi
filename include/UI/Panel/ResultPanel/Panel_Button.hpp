@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Model/AppState.hpp"
 #include "UI/Button/TextButton/Type2/TextButtonT2.hpp"
+#include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"
@@ -13,9 +15,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class ResultPanelButton : public wxPanel {
+class ResultPanelButton : public BaseButtonPanel {
   public:
     ResultPanelButton(wxWindow *parent, wxWindowID id);
+
+    void update(const AppState &state) override;
 
     ResultMainStatusPanel *main_status_panel;
     ResultPreviewStatusPanel *preview_status_panel;
@@ -23,8 +27,7 @@ class ResultPanelButton : public wxPanel {
     TextButton *back_button;
 
   private:
-    wxPanel *button_panel;
-    wxStaticText *Spacer;
+    wxStaticText *spacer;
 
     wxBoxSizer *button_sizer;
 

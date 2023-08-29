@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/TrimDataPanel/PanelSetEnd.hpp"
 #include "UI/Panel/TrimDataPanel/PanelSetStart.hpp"
@@ -10,19 +11,19 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class TrimDataPanelButton : public wxPanel {
+class TrimDataPanelButton : public BaseButtonPanel {
   public:
     TrimDataPanelButton(wxWindow *parent, wxWindowID id);
 
-    TrimDataMainPanel *main_status_panel;
+    void update(const AppState &state) override;
 
+    TrimDataMainPanel *main_status_panel;
     SetStartPanel *set_start_panel;
     SetEndPanel *set_end_panel;
-
     OKCancelPanel *ok_cancel_panel;
 
   private:
-    wxStaticText *Spacer;
+    wxStaticText *spacer;
 
     wxBoxSizer *lrSizer;
     wxBoxSizer *button_sizer;

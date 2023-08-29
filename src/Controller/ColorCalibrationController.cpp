@@ -1,71 +1,15 @@
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/AppState.hpp"
-#include "Model/SharedModel.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Utils/Config/AppConfig.hpp"
-#include "Utils/wxUtils.hpp"
 #include <Controller/ColorCalibrationController.hpp>
-#include <opencv2/core/types.hpp>
 
 ColorCalibrationController::ColorCalibrationController(ModelPtr sharedModel)
-    : shared(sharedModel) {}
+    : BaseControllerWithTouch(sharedModel) {
+    panelID = currentPanelID;
+}
 
 ColorCalibrationController::~ColorCalibrationController() {}
-
-void ColorCalibrationController::checkPreCondition() {
-    auto data = shared->getSessionData();
-    if (panelID != data->getPanelID()) {
-        throw std::runtime_error(
-            "ColorCalibrationController::endPoint() - PanelID mismatch");
-    }
-}
-
-void ColorCalibrationController::e_UpdateState(wxEvtHandler *parent) {
-    try {
-        AppState state(shared);
-        UpdateStateEvent::Submit(parent, state);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ColorCalibrationController::e_ChangeToCapturePanel(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-        ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
-        ChangePanelEvent::Submit(parent, data);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ColorCalibrationController::e_ChangeToCalibrationPanel(
-    wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-        ChangePanelData data(this->panelID, PanelID::PANEL_CALIBRATION);
-        ChangePanelEvent::Submit(parent, data);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ColorCalibrationController::e_SetPoint(wxEvtHandler *parent,
-                                            wxPoint point) {
-    try {
-        checkPreCondition();
-
-        setPointHandler(parent, Utils::wxPointToCvPoint(point));
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
 
 void ColorCalibrationController::e_SaveToConfig(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         saveToConfigHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -75,7 +19,6 @@ void ColorCalibrationController::e_SaveToConfig(wxEvtHandler *parent) {
 void ColorCalibrationController::e_RestoreRange(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         restoreRangeHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -85,7 +28,6 @@ void ColorCalibrationController::e_RestoreRange(wxEvtHandler *parent) {
 void ColorCalibrationController::e_RemoveCalibratedRange(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         removeCalibratedRangeHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -95,7 +37,6 @@ void ColorCalibrationController::e_RemoveCalibratedRange(wxEvtHandler *parent) {
 void ColorCalibrationController::e_SetTypeBlue(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         setTypeBlueHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -105,7 +46,6 @@ void ColorCalibrationController::e_SetTypeBlue(wxEvtHandler *parent) {
 void ColorCalibrationController::e_SetTypeYellow(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         setTypeYellowHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -115,7 +55,6 @@ void ColorCalibrationController::e_SetTypeYellow(wxEvtHandler *parent) {
 void ColorCalibrationController::e_ColorCalibrationStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         colorCalibrationStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -125,7 +64,6 @@ void ColorCalibrationController::e_ColorCalibrationStart(wxEvtHandler *parent) {
 void ColorCalibrationController::e_ColorCalibrationEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         colorCalibrationEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -136,7 +74,6 @@ void ColorCalibrationController::e_ColorCalibrationPreviewStart(
     wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         colorCalibrationPreviewStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -147,7 +84,6 @@ void ColorCalibrationController::e_ColorCalibrationPreviewEnd(
     wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         colorCalibrationPreviewEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -157,7 +93,6 @@ void ColorCalibrationController::e_ColorCalibrationPreviewEnd(
 void ColorCalibrationController::e_RemoveBlue(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         removeBlueHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -167,7 +102,6 @@ void ColorCalibrationController::e_RemoveBlue(wxEvtHandler *parent) {
 void ColorCalibrationController::e_RemoveYellow(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         removeYellowHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -177,7 +111,6 @@ void ColorCalibrationController::e_RemoveYellow(wxEvtHandler *parent) {
 void ColorCalibrationController::e_SaveBlue(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         saveBlueHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -187,7 +120,6 @@ void ColorCalibrationController::e_SaveBlue(wxEvtHandler *parent) {
 void ColorCalibrationController::e_SaveYellow(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         saveYellowHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -197,14 +129,39 @@ void ColorCalibrationController::e_SaveYellow(wxEvtHandler *parent) {
 void ColorCalibrationController::e_SaveColorCalibration(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         saveColorCalibrationHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
-void ColorCalibrationController::setPointHandler(wxEvtHandler *parent,
+void ColorCalibrationController::throwIfAnyThreadIsRunning() {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        throw std::runtime_error("ColorCalibrationThread is running");
+    }
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
+        throw std::runtime_error("ColorCalibrationPreviewThread is running");
+    }
+}
+
+void ColorCalibrationController::killAllThreads(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        colorCalibrationEndHandler(parent);
+    }
+
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
+        colorCalibrationPreviewEndHandler(parent);
+    }
+
+    throwIfAnyThreadIsRunning();
+}
+
+void ColorCalibrationController::leftDownHandler(wxEvtHandler *parent,
                                                  cv::Point point) {
     auto tc = shared->getThreadController();
 
@@ -221,6 +178,16 @@ void ColorCalibrationController::setPointHandler(wxEvtHandler *parent,
     calibrationThread->setPoint(point);
 }
 
+void ColorCalibrationController::leftMoveHandler(wxEvtHandler *parent,
+                                                 cv::Point point) {
+    throw std::runtime_error("Blocked Endpoint");
+}
+
+void ColorCalibrationController::leftUpHandler(wxEvtHandler *parent,
+                                               cv::Point point) {
+    throw std::runtime_error("Blocked Endpoint");
+}
+
 void ColorCalibrationController::saveToConfigHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -231,12 +198,12 @@ void ColorCalibrationController::saveToConfigHandler(wxEvtHandler *parent) {
     auto ccExtraModel = shared->getCCExtraModel();
 
     auto blueRange = ccExtraModel->getBlueRange();
-    if (!isRangeCalibrated(blueRange)) {
+    if (!Utils::isRangeCalibrated(blueRange)) {
         throw std::runtime_error("Blue range is not calibrated");
     }
 
     auto yellowRange = ccExtraModel->getYellowRange();
-    if (!isRangeCalibrated(yellowRange)) {
+    if (!Utils::isRangeCalibrated(yellowRange)) {
         throw std::runtime_error("Yellow range is not calibrated");
     }
 
@@ -447,7 +414,7 @@ void ColorCalibrationController::saveBlueHandler(wxEvtHandler *parent) {
     auto colorCalibrationThread = tc->getColorCalibrationThread();
 
     auto blueRange = colorCalibrationThread->getBlueRange();
-    if (!isRangeCalibrated(blueRange)) {
+    if (!Utils::isRangeCalibrated(blueRange)) {
         throw std::runtime_error("Blue range is not calibrated");
     }
     auto ccModel = shared->getCCExtraModel();
@@ -473,7 +440,7 @@ void ColorCalibrationController::saveYellowHandler(wxEvtHandler *parent) {
     auto colorCalibrationThread = tc->getColorCalibrationThread();
 
     auto yellowRange = colorCalibrationThread->getYellowRange();
-    if (!isRangeCalibrated(yellowRange)) {
+    if (!Utils::isRangeCalibrated(yellowRange)) {
         throw std::runtime_error("Yellow range is not calibrated");
     }
     auto ccModel = shared->getCCExtraModel();
@@ -487,10 +454,4 @@ void ColorCalibrationController::saveYellowHandler(wxEvtHandler *parent) {
 void ColorCalibrationController::saveColorCalibrationHandler(
     wxEvtHandler *parent) {
     throw std::runtime_error("Not implemented");
-}
-
-bool ColorCalibrationController::isRangeCalibrated(
-    const std::pair<cv::Scalar, cv::Scalar> &range) {
-    return range.first != cv::Scalar(0, 0, 0) &&
-           range.second != cv::Scalar(0, 0, 0);
 }

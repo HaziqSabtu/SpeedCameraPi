@@ -1,22 +1,13 @@
 #pragma once
 
-#include "Model/SessionData.hpp"
-#include <Model/SharedModel.hpp>
+#include <Controller/BaseController.hpp>
 
-#define CCCPtr std::unique_ptr<ColorCalibrationController>
+#define CCCPtr std::shared_ptr<ColorCalibrationController>
 
-class ColorCalibrationController {
+class ColorCalibrationController : public BaseControllerWithTouch {
   public:
     ColorCalibrationController(ModelPtr sharedModel);
     ~ColorCalibrationController();
-
-    void e_UpdateState(wxEvtHandler *parent);
-
-    void e_ChangeToCapturePanel(wxEvtHandler *parent);
-
-    void e_ChangeToCalibrationPanel(wxEvtHandler *parent);
-
-    void e_SetPoint(wxEvtHandler *parent, wxPoint point);
 
     void e_SaveToConfig(wxEvtHandler *parent);
 
@@ -42,15 +33,16 @@ class ColorCalibrationController {
     void e_SaveColorCalibration(wxEvtHandler *parent);
 
   private:
-    static const PanelID panelID = PanelID::PANEL_COLOR_CALIBRATION;
-    ModelPtr shared;
+    static const PanelID currentPanelID = PanelID::PANEL_COLOR_CALIBRATION;
 
   private:
-    void checkPreCondition();
+    void throwIfAnyThreadIsRunning() override;
 
-    bool isRangeCalibrated(const std::pair<cv::Scalar, cv::Scalar> &range);
+    void killAllThreads(wxEvtHandler *parent) override;
 
-    void setPointHandler(wxEvtHandler *parent, cv::Point point);
+    void leftDownHandler(wxEvtHandler *parent, cv::Point point) override;
+    void leftMoveHandler(wxEvtHandler *parent, cv::Point point) override;
+    void leftUpHandler(wxEvtHandler *parent, cv::Point point) override;
 
     void saveToConfigHandler(wxEvtHandler *parent);
 

@@ -174,4 +174,9 @@ bool isCvMatSameRandom(const cv::Mat &img1, const cv::Mat &img2, int points) {
     return true;
 }
 
+bool isRangeCalibrated(const std::pair<cv::Scalar, cv::Scalar> &range) {
+    return range.first != cv::Scalar(0, 0, 0) &&
+           range.second != cv::Scalar(0, 0, 0);
+}
+
 } // namespace Utils

@@ -1,4 +1,5 @@
 #include <Controller/ResultController.hpp>
+#include <wx/event.h>
 
 ResultController::ResultController(ModelPtr sharedModel)
     : BaseController(sharedModel) {
@@ -10,7 +11,6 @@ ResultController::~ResultController() {}
 void ResultController::e_CancelButtonHandler(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         cancelButtonHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -20,7 +20,6 @@ void ResultController::e_CancelButtonHandler(wxEvtHandler *parent) {
 void ResultController::e_ProcessThreadStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         processThreadStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -30,7 +29,6 @@ void ResultController::e_ProcessThreadStart(wxEvtHandler *parent) {
 void ResultController::e_ProcessThreadEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         processThreadEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -40,7 +38,6 @@ void ResultController::e_ProcessThreadEnd(wxEvtHandler *parent) {
 void ResultController::e_ResultPreviewStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         resultPreviewStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -50,7 +47,6 @@ void ResultController::e_ResultPreviewStart(wxEvtHandler *parent) {
 void ResultController::e_ResultPreviewEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         resultPreviewEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -60,7 +56,6 @@ void ResultController::e_ResultPreviewEnd(wxEvtHandler *parent) {
 void ResultController::e_ToggleShowBox(wxEvtHandler *parent, bool show) {
     try {
         checkPreCondition();
-
         toggleShowBoxHandler(parent, show);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -70,7 +65,6 @@ void ResultController::e_ToggleShowBox(wxEvtHandler *parent, bool show) {
 void ResultController::e_ToggleShowLines(wxEvtHandler *parent, bool show) {
     try {
         checkPreCondition();
-
         toggleShowLinesHandler(parent, show);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -80,7 +74,6 @@ void ResultController::e_ToggleShowLines(wxEvtHandler *parent, bool show) {
 void ResultController::e_ToggleShowLanes(wxEvtHandler *parent, bool show) {
     try {
         checkPreCondition();
-
         toggleShowLanesHandler(parent, show);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -90,7 +83,6 @@ void ResultController::e_ToggleShowLanes(wxEvtHandler *parent, bool show) {
 void ResultController::e_SetIndexToZero(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         setIndexToZeroHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -249,6 +241,15 @@ void ResultController::setIndexToZeroHandler(wxEvtHandler *parent) {
 
     auto thread = tc->getResultPreviewThread();
     thread->SetImageIndex(0);
+}
+
+void ResultController::panelShowHandler(wxEvtHandler *parent) {
+    // do nothing
+    // do not create temp session data
+}
+
+void ResultController::okButtonHandler(wxEvtHandler *parent) {
+    throw std::runtime_error("Blocked Endpoint");
 }
 
 void ResultController::cancelButtonHandler(wxEvtHandler *parent) {

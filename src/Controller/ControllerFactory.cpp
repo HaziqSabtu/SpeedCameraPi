@@ -44,29 +44,29 @@ ControllerFactory::~ControllerFactory() { sharedModel = nullptr; }
 ModelPtr ControllerFactory::getSharedModel() { return sharedModel; }
 
 CPCPtr ControllerFactory::createCaptureController() {
-    return std::make_unique<CaptureController>(sharedModel);
+    return std::make_shared<CaptureController>(sharedModel);
 }
 
 CLCPtr ControllerFactory::createCalibrationController() {
-    return std::make_unique<CalibrationController>(sharedModel);
+    return std::make_shared<CalibrationController>(sharedModel);
 }
 
 MCCPtr ControllerFactory::createManualCalibrationController() {
-    return std::make_unique<ManualCalibrationController>(sharedModel);
+    return std::make_shared<ManualCalibrationController>(sharedModel);
 }
 
 CCCPtr ControllerFactory::createColorCalibrationController() {
-    return std::make_unique<ColorCalibrationController>(sharedModel);
+    return std::make_shared<ColorCalibrationController>(sharedModel);
 }
 
 ROCPtr ControllerFactory::createRoiController() {
-    return std::make_unique<RoiController>(sharedModel);
+    return std::make_shared<RoiController>(sharedModel);
 }
 
 RSCPtr ControllerFactory::createResultController() {
-    return std::make_unique<ResultController>(sharedModel);
+    return std::make_shared<ResultController>(sharedModel);
 }
 
 TDCPtr ControllerFactory::createTrimDataController() {
-    return std::make_unique<TrimDataController>(sharedModel);
+    return std::make_shared<TrimDataController>(sharedModel);
 }

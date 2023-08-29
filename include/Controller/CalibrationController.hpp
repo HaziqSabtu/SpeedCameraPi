@@ -29,16 +29,15 @@
 #include <wx/object.h>
 #include <wx/thread.h>
 
-#define CLCPtr std::unique_ptr<CalibrationController>
+#define CLCPtr std::shared_ptr<CalibrationController>
 
-class CalibrationController : public BaseController {
+class CalibrationController : public BaseControllerWithTouch {
   public:
     CalibrationController(ModelPtr sharedModel);
     ~CalibrationController();
 
     void e_RemoveCalibData(wxEvtHandler *parent);
 
-    void e_SetPoint(wxEvtHandler *parent, wxPoint point);
     void e_ClearPoint(wxEvtHandler *parent);
 
     void e_CalibrationStart(wxEvtHandler *parent);
@@ -79,7 +78,10 @@ class CalibrationController : public BaseController {
     void calibrationCapturePreviewStartHandler(wxEvtHandler *parent);
     void calibrationCapturePreviewEndHandler(wxEvtHandler *parent);
 
-    void setPointHandler(wxEvtHandler *parent, cv::Point point);
+    void leftDownHandler(wxEvtHandler *parent, cv::Point point) override;
+    void leftMoveHandler(wxEvtHandler *parent, cv::Point point) override;
+    void leftUpHandler(wxEvtHandler *parent, cv::Point point) override;
+
     void clearPointHandler(wxEvtHandler *parent);
 
     void changeToManualPanelHandler(wxEvtHandler *parent);

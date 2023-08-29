@@ -83,7 +83,6 @@ void CaptureController::e_RemoveCalibration(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         removeCalibrationHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -508,4 +507,17 @@ void CaptureController::changeToTrimDataPanelHandler(wxEvtHandler *parent) {
 
     ChangePanelData data(panelID, PanelID::PANEL_TRIM_DATA);
     ChangePanelEvent::Submit(parent, data);
+}
+
+void CaptureController::panelShowHandler(wxEvtHandler *parent) {
+    // do nothing
+    // do not create temp session data
+}
+
+void CaptureController::okButtonHandler(wxEvtHandler *parent) {
+    throw std::runtime_error("Blocked Endpoint");
+}
+
+void CaptureController::cancelButtonHandler(wxEvtHandler *parent) {
+    throw std::runtime_error("Blocked Endpoint");
 }

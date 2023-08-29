@@ -9,6 +9,7 @@
 #include "Model/AppState.hpp"
 
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
+#include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include "Utils/Enum.hpp"
@@ -18,97 +19,79 @@
 #include <wx/event.h>
 #include <wx/gdicmn.h>
 
-CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr &controller)
-    : wxPanel(parent, id), controller(std::move(controller)) {
+CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller)
+    : BasePanel(parent, id, controller), controller(controller) {
+
     button_panel = new CaptureButtonPanel(this, Enum::CP_BUTTON_PANEL_ID);
-
-    img_bitmap = new BaseImagePanel(this);
-
     title_panel = new TitlePanel(this, panel_id);
 
-    status_panel = new StatusPanel(this, wxT("Status"));
-
-    main_sizer = new wxBoxSizer(wxVERTICAL);
-    main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(img_bitmap, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(status_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(button_panel, 1, wxEXPAND | wxALL, 10);
-
-    SetSizer(main_sizer);
-    Fit();
-
-    Hide();
+    size();
 }
 
 CapturePanel::~CapturePanel() {}
 
 void CapturePanel::OnButton(wxCommandEvent &e) {
-    try {
-        if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
-            auto button = button_panel->cPanel->camera_Button;
-            ToggleCameraButtonHandler(button);
-        }
 
-        if (e.GetId() == Enum::CP_Capture_Button_ID) {
-            auto button = button_panel->cPanel->Capture_Button->button;
-            CaptureButtonHandler(button);
-        }
+    CaptureButtonPanel *button_panel =
+        dynamic_cast<CaptureButtonPanel *>(this->button_panel);
 
-        if (e.GetId() == Enum::CP_Load_Button_ID) {
-            auto button = button_panel->cPanel->Load_Button->button;
-            LoadButtonHandler(button);
-        }
-
-        if (e.GetId() == Enum::CP_ClearCapture_Button_ID) {
-            controller->e_ClearImageData(this);
-        }
-
-        if (e.GetId() == Enum::CP_Replay_Button_ID) {
-            controller->e_ReplayStart(this);
-        }
-
-        if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
-            controller->e_ChangeToResultPanel(this);
-        }
-
-        if (e.GetId() == Enum::CP_Calibration_Button_ID) {
-            controller->e_ChangeToCalibPanel(this);
-        }
-
-        if (e.GetId() == Enum::CP_RemoveCalibration_Button_ID) {
-            controller->e_RemoveCalibration(this);
-        }
-
-        if (e.GetId() == Enum::CP_Roi_Button_ID) {
-            controller->e_ChangeToRoiPanel(this);
-        }
-
-        if (e.GetId() == Enum::CP_RemoveRoi_Button_ID) {
-            controller->e_RemoveRoi(this);
-        }
-
-        if (e.GetId() == Enum::CP_Save_Button_ID) {
-            controller->e_SaveSessionDataStart(this);
-        }
-
-        if (e.GetId() == Enum::CP_Reset_Button_ID) {
-            controller->e_ResetSessionData(this);
-        }
-
-        if (e.GetId() == Enum::CP_Trim_Button_ID) {
-            controller->e_ChangeToTrimDataPanel(this);
-        }
-
-        controller->e_UpdateState(this);
-
-        e.Skip();
-
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(this, e.what());
+    if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
+        auto button = button_panel->cPanel->camera_Button;
+        ToggleCameraButtonHandler(button);
     }
+
+    if (e.GetId() == Enum::CP_Capture_Button_ID) {
+        controller->e_LoadCaptureStart(this);
+    }
+
+    if (e.GetId() == Enum::CP_Load_Button_ID) {
+        LoadButtonHandler();
+    }
+
+    if (e.GetId() == Enum::CP_ClearCapture_Button_ID) {
+        controller->e_ClearImageData(this);
+    }
+
+    if (e.GetId() == Enum::CP_Replay_Button_ID) {
+        controller->e_ReplayStart(this);
+    }
+
+    if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
+        controller->e_ChangeToResultPanel(this);
+    }
+
+    if (e.GetId() == Enum::CP_Calibration_Button_ID) {
+        controller->e_ChangeToCalibPanel(this);
+    }
+
+    if (e.GetId() == Enum::CP_RemoveCalibration_Button_ID) {
+        controller->e_RemoveCalibration(this);
+    }
+
+    if (e.GetId() == Enum::CP_Roi_Button_ID) {
+        controller->e_ChangeToRoiPanel(this);
+    }
+
+    if (e.GetId() == Enum::CP_RemoveRoi_Button_ID) {
+        controller->e_RemoveRoi(this);
+    }
+
+    if (e.GetId() == Enum::CP_Save_Button_ID) {
+        controller->e_SaveSessionDataStart(this);
+    }
+
+    if (e.GetId() == Enum::CP_Reset_Button_ID) {
+        controller->e_ResetSessionData(this);
+    }
+
+    if (e.GetId() == Enum::CP_Trim_Button_ID) {
+        controller->e_ChangeToTrimDataPanel(this);
+    }
+
+    e.Skip();
 }
 
-void CapturePanel::LoadButtonHandler(wxButton *button) {
+void CapturePanel::LoadButtonHandler() {
 #if DEBUG
     std::string path = "./2023823_15547.scpdata";
 
@@ -127,10 +110,6 @@ void CapturePanel::LoadButtonHandler(wxButton *button) {
 #endif
 }
 
-void CapturePanel::CaptureButtonHandler(wxButton *button) {
-    controller->e_LoadCaptureStart(this);
-}
-
 void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_CameraStart(button);
@@ -142,17 +121,6 @@ void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
         return;
     }
     throw std::runtime_error("Invalid button state");
-}
-
-void CapturePanel::OnUpdatePreview(UpdatePreviewEvent &e) {
-    if (e.GetId() == UPDATE_PREVIEW) {
-        wxBitmap image = e.GetImage();
-        img_bitmap->setImage(image);
-    }
-
-    if (e.GetId() == CLEAR_PREVIEW) {
-        img_bitmap->setNoImage();
-    }
 }
 
 void CapturePanel::OnLoadImage(wxCommandEvent &e) {
@@ -171,25 +139,6 @@ void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     controller->e_UpdateState(this);
 
     e.Skip();
-}
-
-void CapturePanel::OnUpdateState(UpdateStateEvent &e) {
-    auto state = e.GetState();
-    button_panel->cPanel->update(state);
-    button_panel->csPanel->update(state);
-    button_panel->rPanel->update(state);
-    button_panel->tPanel->update(state);
-
-    auto ms = state.cameraPanel.measureButtonState;
-    button_panel->switch_Button->update(ms);
-
-    Refresh();
-}
-
-void CapturePanel::OnUpdateStatus(UpdateStatusEvent &e) {
-    auto status = e.GetStatus();
-    status_panel->SetText(status);
-    Refresh();
 }
 
 void CapturePanel::OnReplay(wxCommandEvent &e) {
@@ -230,20 +179,10 @@ void CapturePanel::OnSaveData(wxCommandEvent &e) {
     e.Skip();
 }
 
-void CapturePanel::OnShow(wxShowEvent &e) {
-    if (e.IsShown()) {
-        controller->e_UpdateState(this);
-    }
-}
-
 // clang-format off
-wxBEGIN_EVENT_TABLE(CapturePanel, wxPanel)
-    EVT_UPDATE_PREVIEW(wxID_ANY, CapturePanel::OnUpdatePreview)
+wxBEGIN_EVENT_TABLE(CapturePanel, BasePanel)
     EVT_BUTTON(wxID_ANY,CapturePanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_LOAD_IMAGE_EVENT, CapturePanel::OnLoadImage)
-    EVT_UPDATE_STATE(wxID_ANY, CapturePanel::OnUpdateState)
-    EVT_UPDATE_STATUS(wxID_ANY, CapturePanel::OnUpdateStatus)
     EVT_COMMAND(wxID_ANY, c_REPLAY_EVENT, CapturePanel::OnReplay)
     EVT_COMMAND(wxID_ANY, c_SAVE_DATA_EVENT, CapturePanel::OnSaveData)
-    EVT_SHOW(CapturePanel::OnShow)
 wxEND_EVENT_TABLE()

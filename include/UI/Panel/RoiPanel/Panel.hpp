@@ -9,6 +9,7 @@
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Layout/TitlePanel.hpp"
+#include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include <UI/Panel/Common/Panel_Image.hpp>
@@ -23,9 +24,9 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class RoiPanel : public wxPanel {
+class RoiPanel : public BasePanelWithTouch {
   public:
-    RoiPanel(wxWindow *parent, wxWindowID id, ROCPtr &controller);
+    RoiPanel(wxWindow *parent, wxWindowID id, ROCPtr controller);
     ~RoiPanel();
 
   private:
@@ -33,30 +34,14 @@ class RoiPanel : public wxPanel {
 
     ROCPtr controller;
 
-    BaseImagePanel *img_bitmap;
-
-    TitlePanel *title_panel;
-    StatusPanel *status_panel;
-
-    RoiPanelButton *button_panel;
-
-    wxBoxSizer *main_sizer;
-
-    void UnbindImagePanel();
-
     void ToggleRoiButtonHandler(BitmapButtonT2 *button);
     void TogglePreviewButtonHandler(BitmapButtonT2 *button);
 
-    void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);
     void OnCalibrationEvent(wxCommandEvent &e);
-    void OnCapture(wxCommandEvent &e);
     void OnLeftDown(wxMouseEvent &e);
     void OnMotion(wxMouseEvent &e);
     void OnLeftUp(wxMouseEvent &e);
-    void OnUpdateStatus(UpdateStatusEvent &e);
-    void OnUpdateState(UpdateStateEvent &e);
-    void OnShow(wxShowEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

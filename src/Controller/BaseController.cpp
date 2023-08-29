@@ -137,3 +137,35 @@ void BaseController::cancelButtonHandler(wxEvtHandler *parent) {
     ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
     ChangePanelEvent::Submit(parent, data);
 }
+
+BaseControllerWithTouch::BaseControllerWithTouch(ModelPtr shared)
+    : BaseController(shared) {}
+
+BaseControllerWithTouch::~BaseControllerWithTouch() {}
+
+void BaseControllerWithTouch::e_LeftDown(wxEvtHandler *parent, wxPoint point) {
+    try {
+        checkPreCondition();
+        leftDownHandler(parent, Utils::wxPointToCvPoint(point));
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void BaseControllerWithTouch::e_LeftUp(wxEvtHandler *parent, wxPoint point) {
+    try {
+        checkPreCondition();
+        leftUpHandler(parent, Utils::wxPointToCvPoint(point));
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void BaseControllerWithTouch::e_LeftMove(wxEvtHandler *parent, wxPoint point) {
+    try {
+        checkPreCondition();
+        leftMoveHandler(parent, Utils::wxPointToCvPoint(point));
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}

@@ -2,9 +2,9 @@
 
 #include <Controller/BaseController.hpp>
 
-#define ROCPtr std::unique_ptr<RoiController>
+#define ROCPtr std::shared_ptr<RoiController>
 
-class RoiController : public BaseController {
+class RoiController : public BaseControllerWithTouch {
   public:
     RoiController(ModelPtr sharedModel);
     ~RoiController();
@@ -12,9 +12,9 @@ class RoiController : public BaseController {
     void e_ClearRect(wxEvtHandler *parent);
     void e_RemoveRect(wxEvtHandler *parent);
 
-    void e_SetPoint1(wxEvtHandler *parent, wxPoint point);
-    void e_SetPoint2(wxEvtHandler *parent, wxPoint point);
-    void e_SaveRect(wxEvtHandler *parent, wxPoint point);
+    // void e_SetPoint1(wxEvtHandler *parent, wxPoint point);
+    // void e_SetPoint2(wxEvtHandler *parent, wxPoint point);
+    // void e_SaveRect(wxEvtHandler *parent, wxPoint point);
 
     void e_RoiThreadStart(wxEvtHandler *parent);
     void e_RoiThreadSave(wxEvtHandler *parent);
@@ -34,9 +34,12 @@ class RoiController : public BaseController {
     void clearRectHandler(wxEvtHandler *parent);
     void removeRectHandler(wxEvtHandler *parent);
 
-    void setPoint1Handler(wxEvtHandler *parent, cv::Point point);
-    void setPoint2Handler(wxEvtHandler *parent, cv::Point point);
-    void saveRectHandler(wxEvtHandler *parent, cv::Point point);
+    void leftDownHandler(wxEvtHandler *parent, cv::Point point);
+    void leftMoveHandler(wxEvtHandler *parent, cv::Point point);
+    void leftUpHandler(wxEvtHandler *parent, cv::Point point);
+    // void setPoint1Handler(wxEvtHandler *parent, cv::Point point);
+    // void setPoint2Handler(wxEvtHandler *parent, cv::Point point);
+    // void saveRectHandler(wxEvtHandler *parent, cv::Point point);
 
     void roiThreadStartHandler(wxEvtHandler *parent);
     void roiThreadSaveHandler(wxEvtHandler *parent);

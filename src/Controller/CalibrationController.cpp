@@ -1,7 +1,8 @@
 #include <Controller/CalibrationController.hpp>
+#include <stdexcept>
 
 CalibrationController::CalibrationController(ModelPtr sharedModel)
-    : BaseController(sharedModel) {
+    : BaseControllerWithTouch(sharedModel) {
     panelID = currentPanelID;
 }
 
@@ -10,7 +11,6 @@ CalibrationController::~CalibrationController() {}
 void CalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         shared->sessionData.removeCalibrationData();
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -20,9 +20,7 @@ void CalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
 void CalibrationController::e_CalibrationStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibrationStartHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -31,9 +29,7 @@ void CalibrationController::e_CalibrationStart(wxEvtHandler *parent) {
 void CalibrationController::e_CalibrationEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibrationEndHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -42,9 +38,7 @@ void CalibrationController::e_CalibrationEnd(wxEvtHandler *parent) {
 void CalibrationController::e_CalibrationCaptureStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibrationCaptureStartHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -53,9 +47,7 @@ void CalibrationController::e_CalibrationCaptureStart(wxEvtHandler *parent) {
 void CalibrationController::e_CalibrationCaptureEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibrationCaptureEndHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -64,9 +56,7 @@ void CalibrationController::e_CalibrationCaptureEnd(wxEvtHandler *parent) {
 void CalibrationController::e_CalibrationPreviewStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibrationPreviewStartHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -75,9 +65,7 @@ void CalibrationController::e_CalibrationPreviewStart(wxEvtHandler *parent) {
 void CalibrationController::e_CalibrationPreviewEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibrationPreviewEndHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -87,9 +75,7 @@ void CalibrationController::e_CalibrationCapturePreviewStart(
     wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibrationCapturePreviewStartHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -99,9 +85,7 @@ void CalibrationController::e_CalibrationCapturePreviewEnd(
     wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         calibrationCapturePreviewEndHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -110,7 +94,6 @@ void CalibrationController::e_CalibrationCapturePreviewEnd(
 void CalibrationController::e_ChangeToManualPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         changeToManualPanelHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
@@ -120,20 +103,7 @@ void CalibrationController::e_ChangeToManualPanel(wxEvtHandler *parent) {
 void CalibrationController::e_ChangeToColorPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         changeToColorPanelHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void CalibrationController::e_SetPoint(wxEvtHandler *parent, wxPoint point) {
-    try {
-
-        checkPreCondition();
-
-        setPointHandler(parent, Utils::wxPointToCvPoint(point));
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -142,9 +112,7 @@ void CalibrationController::e_SetPoint(wxEvtHandler *parent, wxPoint point) {
 void CalibrationController::e_ClearPoint(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-
         clearPointHandler(parent);
-
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -313,7 +281,7 @@ void CalibrationController::saveCalibrationData(wxEvtHandler *parent,
     data->setCalibrationData(calibData);
 }
 
-void CalibrationController::setPointHandler(wxEvtHandler *parent,
+void CalibrationController::leftDownHandler(wxEvtHandler *parent,
                                             cv::Point point) {
     auto tc = shared->getThreadController();
 
@@ -328,6 +296,16 @@ void CalibrationController::setPointHandler(wxEvtHandler *parent,
 
     auto thread = tc->getRunningCalibrationThread();
     thread->setPoint(point);
+}
+
+void CalibrationController::leftMoveHandler(wxEvtHandler *parent,
+                                            cv::Point point) {
+    throw std::runtime_error("Blocked Endpoint");
+}
+
+void CalibrationController::leftUpHandler(wxEvtHandler *parent,
+                                          cv::Point point) {
+    throw std::runtime_error("Blocked Endpoint");
 }
 
 void CalibrationController::clearPointHandler(wxEvtHandler *parent) {

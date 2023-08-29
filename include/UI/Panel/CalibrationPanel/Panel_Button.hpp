@@ -4,6 +4,7 @@
 #include "UI/Panel/CalibrationPanel/PanelStatusOther.hpp"
 #include "UI/Panel/CalibrationPanel/PanelStatusPreview.hpp"
 #include "UI/Panel/CalibrationPanel/PanelStatusTool.hpp"
+#include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include <Utils/Enum.hpp>
 
@@ -11,9 +12,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class CalibrationPanelButton : public wxPanel {
+class CalibrationPanelButton : public BaseButtonPanel {
   public:
     CalibrationPanelButton(wxWindow *parent, wxWindowID id);
+
+    void update(const AppState &state) override;
 
     CalibrationMainStatusPanel *cPanel;
     CalibrationToolPanel *ctPanel;

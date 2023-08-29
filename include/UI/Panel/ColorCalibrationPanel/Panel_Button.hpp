@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Model/AppState.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelBlueStatus.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelStatusCalib.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelStatusOther.hpp"
 #include "UI/Panel/ColorCalibrationPanel/PanelYellowStatus.hpp"
+#include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelStatusCalib.hpp"
 #include <Utils/Enum.hpp>
@@ -12,9 +14,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class ColorCalibrationPanelButton : public wxPanel {
+class ColorCalibrationPanelButton : public BaseButtonPanel {
   public:
     ColorCalibrationPanelButton(wxWindow *parent, wxWindowID id);
+
+    void update(const AppState &state) override;
 
     ColorCalibrationMainStatusPanel *main_status_panel;
 
@@ -26,10 +30,7 @@ class ColorCalibrationPanelButton : public wxPanel {
     OKCancelPanel *ok_cancel_panel;
 
   private:
-    wxPanel *button_panel;
-    wxStaticText *Spacer;
-    wxStaticText *left_Spacer;
-    wxStaticText *right_Spacer;
+    wxStaticText *spacer;
 
     wxBoxSizer *left_sizer;
     wxBoxSizer *right_sizer;

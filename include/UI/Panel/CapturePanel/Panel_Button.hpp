@@ -5,6 +5,7 @@
 #include "UI/Panel/CapturePanel/PanelStatusCapture.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusROI.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusTools.hpp"
+#include "UI/Panel/Common/BasePanel.hpp"
 #include <UI/Button/TextButton/Button_Measure.hpp>
 
 #include <Utils/Enum.hpp>
@@ -13,9 +14,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class CaptureButtonPanel : public wxPanel {
+class CaptureButtonPanel : public BaseButtonPanel {
   public:
     CaptureButtonPanel(wxWindow *parent, wxWindowID id);
+
+    void update(const AppState &state) override;
 
     CaptureStatusPanel *cPanel;
 
@@ -35,7 +38,7 @@ class CaptureButtonPanel : public wxPanel {
     wxBoxSizer *lrSizer;
     wxBoxSizer *main_sizer;
 
-    wxStaticText *Spacer;
+    wxStaticText *spacer;
 
     DECLARE_EVENT_TABLE();
 };

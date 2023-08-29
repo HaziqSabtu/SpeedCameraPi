@@ -15,39 +15,21 @@
 namespace SC = StatusCollection;
 
 CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
-                                   CLCPtr &controller)
-    : wxPanel(parent, id), controller(std::move(controller)) {
+                                   CLCPtr controller)
+    : BasePanelWithTouch(parent, id, controller), controller(controller) {
+
     button_panel = new CalibrationPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
-
-    img_bitmap = new BaseImagePanel(this);
-
     title_panel = new TitlePanel(this, panel_id);
 
-    status_panel = new StatusPanel(this, SC::STATUS_IDLE);
-
-    main_sizer = new wxBoxSizer(wxVERTICAL);
-    main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(img_bitmap, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(status_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
-    main_sizer->Add(button_panel, 1,
-                    wxEXPAND | wxTOP | wxLEFT | wxRIGHT | wxBOTTOM, 10);
-
-    SetSizer(main_sizer);
-    Fit();
-
-    Hide();
+    size();
 }
 
 CalibrationPanel::~CalibrationPanel() {}
 
 void CalibrationPanel::OnButton(wxCommandEvent &e) {
-    if (e.GetId() == Enum::G_Cancel_Button_ID) {
-        controller->e_CancelButtonHandler(this);
-    }
 
-    if (e.GetId() == Enum::G_OK_Button_ID) {
-        controller->e_OKButtonHandler(this);
-    }
+    CalibrationPanelButton *button_panel =
+        dynamic_cast<CalibrationPanelButton *>(this->button_panel);
 
     if (e.GetId() == Enum::CL_ChangeManual_Button_ID) {
         controller->e_ChangeToManualPanel(this);
@@ -82,20 +64,14 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CL_SelectPoint_Button_ID) {
-        img_bitmap->Bind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
+        bindLeftDown();
     }
 
     if (e.GetId() == Enum::CL_ClearPoint_Button_ID) {
         controller->e_ClearPoint(this);
     }
 
-    controller->e_UpdateState(this);
-
     e.Skip();
-}
-
-void CalibrationPanel::unBindImagePanel() {
-    img_bitmap->Unbind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
 }
 
 void CalibrationPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
@@ -152,17 +128,6 @@ void CalibrationPanel::ToggleCalibrationCaptureButtonHandler(
     throw std::runtime_error("Invalid button state");
 }
 
-void CalibrationPanel::OnUpdatePreview(UpdatePreviewEvent &e) {
-    if (e.GetId() == UPDATE_PREVIEW) {
-        wxBitmap image = e.GetImage();
-        img_bitmap->setImage(image);
-    }
-
-    if (e.GetId() == CLEAR_PREVIEW) {
-        img_bitmap->setNoImage();
-    }
-}
-
 void CalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     if (e.GetId() == CALIBRATION_START) {
         status_panel->SetText(SC::STATUS_START_CALIBRATION);
@@ -173,73 +138,10 @@ void CalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     }
 }
 
-void CalibrationPanel::OnCapture(wxCommandEvent &e) {
-    if (e.GetId() == CAPTURE_START) {
-        status_panel->SetText(SC::STATUS_CAMERA_ON);
-    }
-
-    if (e.GetId() == CAPTURE_END) {
-        status_panel->SetText(SC::STATUS_CAMERA_OFF);
-    }
-}
-
-void CalibrationPanel::OnLeftDown(wxMouseEvent &e) {
-    wxPoint pos = e.GetPosition();
-    wxSize size = img_bitmap->GetSize();
-    wxSize img_size = img_bitmap->getImageSize();
-
-    if (pos.x > 0 && pos.x < size.x && pos.y > 0 && pos.y < size.y) {
-        if (img_size.x > 0 && img_size.y > 0) {
-            int x = pos.x * img_size.x / size.x;
-            int y = pos.y * img_size.y / size.y;
-            controller->e_SetPoint(this, wxPoint(x, y));
-        }
-    }
-    img_bitmap->Unbind(wxEVT_LEFT_DOWN, &CalibrationPanel::OnLeftDown, this);
-}
-
-void CalibrationPanel::OnUpdateState(UpdateStateEvent &e) {
-    try {
-        auto state = e.GetState();
-        button_panel->cPanel->update(state);
-        button_panel->ctPanel->update(state);
-        button_panel->cpPanel->update(state);
-        button_panel->coPanel->update(state);
-
-        auto okState = state.calibrationPanel.okButtonState;
-        auto cancelState = state.calibrationPanel.cancelButtonState;
-        button_panel->okCancelPanel->update(okState, cancelState);
-
-        Refresh();
-        Layout();
-    } catch (const std::exception &e) {
-        ErrorEvent::Submit(this, e.what());
-    }
-}
-
-void CalibrationPanel::OnUpdateStatus(UpdateStatusEvent &e) {
-    try {
-        auto status = e.GetStatus();
-        status_panel->SetText(status);
-        Refresh();
-    } catch (const std::exception &e) {
-        ErrorEvent::Submit(this, e.what());
-    }
-}
-
-void CalibrationPanel::OnShow(wxShowEvent &e) {
-    if (e.IsShown()) {
-        controller->e_PanelShow(this);
-    }
-}
+void CalibrationPanel::doPostLeftDown() { unBindAll(); }
 
 // clang-format off
-wxBEGIN_EVENT_TABLE(CalibrationPanel, wxPanel)
-    EVT_UPDATE_PREVIEW(wxID_ANY, CalibrationPanel::OnUpdatePreview)
-    EVT_UPDATE_STATUS(wxID_ANY, CalibrationPanel::OnUpdateStatus)
-    EVT_UPDATE_STATE(wxID_ANY, CalibrationPanel::OnUpdateState)
+wxBEGIN_EVENT_TABLE(CalibrationPanel, BasePanelWithTouch)
     EVT_BUTTON(wxID_ANY,CalibrationPanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, CalibrationPanel::OnCalibrationEvent)
-    EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, CalibrationPanel::OnCapture)
-    EVT_SHOW(CalibrationPanel::OnShow)
 wxEND_EVENT_TABLE()

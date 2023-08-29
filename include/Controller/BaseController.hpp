@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Event/Event_UpdateState.hpp>
+#include <Event/Event_UpdateStatus.hpp>
 
 #include <Model/SessionData.hpp>
 #include <Model/SharedModel.hpp>
@@ -22,7 +23,7 @@
 class BaseController {
   public:
     BaseController(ModelPtr sharedModel);
-    ~BaseController();
+    virtual ~BaseController();
 
     void e_UpdateState(wxEvtHandler *parent);
 
@@ -54,4 +55,19 @@ class BaseController {
     virtual void createTempSessionDataHandler(wxEvtHandler *parent);
     virtual void restoreSessionDataHandler(wxEvtHandler *parent);
     virtual void saveSessionDataHandler(wxEvtHandler *parent);
+};
+
+class BaseControllerWithTouch : public BaseController {
+  public:
+    BaseControllerWithTouch(ModelPtr shared);
+    ~BaseControllerWithTouch();
+
+    void e_LeftDown(wxEvtHandler *parent, wxPoint point);
+    void e_LeftMove(wxEvtHandler *parent, wxPoint point);
+    void e_LeftUp(wxEvtHandler *parent, wxPoint point);
+
+  protected:
+    virtual void leftDownHandler(wxEvtHandler *parent, cv::Point point) = 0;
+    virtual void leftMoveHandler(wxEvtHandler *parent, cv::Point point) = 0;
+    virtual void leftUpHandler(wxEvtHandler *parent, cv::Point point) = 0;
 };

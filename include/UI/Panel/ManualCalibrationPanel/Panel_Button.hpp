@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp"
 #include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"
@@ -11,9 +12,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class ManualCalibrationPanelButton : public wxPanel {
+class ManualCalibrationPanelButton : public BaseButtonPanel {
   public:
     ManualCalibrationPanelButton(wxWindow *parent, wxWindowID id);
+
+    void update(const AppState &state) override;
 
     ManualCalibrationMainStatusPanel *main_status_panel;
 
@@ -25,7 +28,7 @@ class ManualCalibrationPanelButton : public wxPanel {
     OKCancelPanel *ok_cancel_panel;
 
   private:
-    wxStaticText *Spacer;
+    wxStaticText *spacer;
 
     wxBoxSizer *lrSizer;
     wxBoxSizer *button_sizer;

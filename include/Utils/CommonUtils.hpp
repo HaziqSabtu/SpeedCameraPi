@@ -44,4 +44,6 @@ bool isCvMatSame(const cv::Mat &img1, const cv::Mat &img2);
 
 bool isCvMatSameRandom(const cv::Mat &img1, const cv::Mat &img2, int points);
 
+bool isRangeCalibrated(const std::pair<cv::Scalar, cv::Scalar> &range);
+
 } // namespace Utils

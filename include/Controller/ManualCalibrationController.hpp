@@ -19,19 +19,15 @@
 
 #include <wx/event.h>
 
-#define MCCPtr std::unique_ptr<ManualCalibrationController>
+#define MCCPtr std::shared_ptr<ManualCalibrationController>
 
-class ManualCalibrationController : public BaseController {
+class ManualCalibrationController : public BaseControllerWithTouch {
   public:
     ManualCalibrationController(ModelPtr sharedModel);
     ~ManualCalibrationController();
 
     void e_ChangeToLeft(wxEvtHandler *parent);
     void e_ChangeToRight(wxEvtHandler *parent);
-
-    void e_SetPoint1(wxEvtHandler *parent, wxPoint point);
-    void e_SetPoint2(wxEvtHandler *parent, wxPoint point);
-    void e_SaveLine(wxEvtHandler *parent, wxPoint point);
 
     void e_ManualCalibStart(wxEvtHandler *parent);
     void e_ManualCalibEnd(wxEvtHandler *parent);
@@ -61,9 +57,9 @@ class ManualCalibrationController : public BaseController {
     void changeToLeftHandler(wxEvtHandler *parent);
     void changeToRightHandler(wxEvtHandler *parent);
 
-    void setPoint1Handler(wxEvtHandler *parent, cv::Point point);
-    void setPoint2Handler(wxEvtHandler *parent, cv::Point point);
-    void saveLineHandler(wxEvtHandler *parent, cv::Point point);
+    void leftDownHandler(wxEvtHandler *parent, cv::Point point) override;
+    void leftMoveHandler(wxEvtHandler *parent, cv::Point point) override;
+    void leftUpHandler(wxEvtHandler *parent, cv::Point point) override;
 
     void manualCalibStartHandler(wxEvtHandler *parent);
     void manualCalibEndHandler(wxEvtHandler *parent);

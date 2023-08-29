@@ -1,7 +1,7 @@
 #include <Controller/RoiController.hpp>
 
 RoiController::RoiController(ModelPtr sharedModel)
-    : BaseController(sharedModel) {
+    : BaseControllerWithTouch(sharedModel) {
     panelID = currentPanelID;
 }
 
@@ -27,35 +27,35 @@ void RoiController::e_RemoveRect(wxEvtHandler *parent) {
     }
 }
 
-void RoiController::e_SetPoint1(wxEvtHandler *parent, wxPoint point) {
-    try {
-        checkPreCondition();
+// void RoiController::e_SetPoint1(wxEvtHandler *parent, wxPoint point) {
+//     try {
+//         checkPreCondition();
 
-        setPoint1Handler(parent, Utils::wxPointToCvPoint(point));
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
+//         setPoint1Handler(parent, Utils::wxPointToCvPoint(point));
+//     } catch (std::exception &e) {
+//         ErrorEvent::Submit(parent, e.what());
+//     }
+// }
 
-void RoiController::e_SetPoint2(wxEvtHandler *parent, wxPoint point) {
-    try {
-        checkPreCondition();
+// void RoiController::e_SetPoint2(wxEvtHandler *parent, wxPoint point) {
+//     try {
+//         checkPreCondition();
 
-        setPoint2Handler(parent, Utils::wxPointToCvPoint(point));
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
+//         setPoint2Handler(parent, Utils::wxPointToCvPoint(point));
+//     } catch (std::exception &e) {
+//         ErrorEvent::Submit(parent, e.what());
+//     }
+// }
 
-void RoiController::e_SaveRect(wxEvtHandler *parent, wxPoint point) {
-    try {
-        checkPreCondition();
+// void RoiController::e_SaveRect(wxEvtHandler *parent, wxPoint point) {
+//     try {
+//         checkPreCondition();
 
-        saveRectHandler(parent, Utils::wxPointToCvPoint(point));
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
+//         saveRectHandler(parent, Utils::wxPointToCvPoint(point));
+//     } catch (std::exception &e) {
+//         ErrorEvent::Submit(parent, e.what());
+//     }
+// }
 
 void RoiController::e_RoiThreadStart(wxEvtHandler *parent) {
     try {
@@ -171,7 +171,7 @@ void RoiController::removeRectHandler(wxEvtHandler *parent) {
     data->clearTrackingData();
 }
 
-void RoiController::setPoint1Handler(wxEvtHandler *parent, cv::Point point) {
+void RoiController::leftDownHandler(wxEvtHandler *parent, cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
@@ -187,10 +187,11 @@ void RoiController::setPoint1Handler(wxEvtHandler *parent, cv::Point point) {
 
     auto roiThread = tc->getRoiThread();
 
+    roiThread->setPoint2(cv::Point(-1, -1));
     roiThread->setPoint1(point);
 }
 
-void RoiController::setPoint2Handler(wxEvtHandler *parent, cv::Point point) {
+void RoiController::leftMoveHandler(wxEvtHandler *parent, cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
@@ -209,7 +210,7 @@ void RoiController::setPoint2Handler(wxEvtHandler *parent, cv::Point point) {
     roiThread->setPoint2(point);
 }
 
-void RoiController::saveRectHandler(wxEvtHandler *parent, cv::Point point) {
+void RoiController::leftUpHandler(wxEvtHandler *parent, cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {

@@ -28,7 +28,7 @@
 #include <wx/object.h>
 #include <wx/thread.h>
 
-#define TDCPtr std::unique_ptr<TrimDataController>
+#define TDCPtr std::shared_ptr<TrimDataController>
 
 class TrimDataController : public BaseController {
   public:

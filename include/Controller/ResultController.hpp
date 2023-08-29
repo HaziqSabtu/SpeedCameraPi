@@ -22,7 +22,7 @@
 #include <wx/object.h>
 #include <wx/thread.h>
 
-#define RSCPtr std::unique_ptr<ResultController>
+#define RSCPtr std::shared_ptr<ResultController>
 
 class ResultController : public BaseController {
   public:
@@ -50,6 +50,8 @@ class ResultController : public BaseController {
 
     void killAllThreads(wxEvtHandler *parent) override;
 
+    void panelShowHandler(wxEvtHandler *parent) override;
+    void okButtonHandler(wxEvtHandler *parent) override;
     void cancelButtonHandler(wxEvtHandler *parent) override;
 
     void processThreadStartHandler(wxEvtHandler *parent);

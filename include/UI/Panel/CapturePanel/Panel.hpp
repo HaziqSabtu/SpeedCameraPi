@@ -9,6 +9,7 @@
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Layout/TitlePanel.hpp"
+#include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/RoiPanel/Panel.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
@@ -25,9 +26,9 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class CapturePanel : public wxPanel {
+class CapturePanel : public BasePanel {
   public:
-    CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr &controller);
+    CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller);
     ~CapturePanel();
 
   private:
@@ -35,28 +36,13 @@ class CapturePanel : public wxPanel {
 
     CPCPtr controller;
 
-    CaptureButtonPanel *button_panel;
-    BaseImagePanel *img_bitmap;
-
-    TitlePanel *title_panel;
-    StatusPanel *status_panel;
-
-    wxBoxSizer *main_sizer;
-
-    void LoadButtonHandler(wxButton *button);
-    void CaptureButtonHandler(wxButton *button);
+    void LoadButtonHandler();
     void ToggleCameraButtonHandler(BitmapButtonT2 *button);
-    void OnChangePanelButton(wxButton *button);
 
-    void OnUpdatePreview(UpdatePreviewEvent &e);
     void OnButton(wxCommandEvent &e);
     void OnLoadImage(wxCommandEvent &e);
-    void OnUpdateState(UpdateStateEvent &e);
-    void OnUpdateStatus(UpdateStatusEvent &e);
     void OnReplay(wxCommandEvent &e);
     void OnSaveData(wxCommandEvent &e);
-    void OnShow(wxShowEvent &e);
-    // void OnChangePanel(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

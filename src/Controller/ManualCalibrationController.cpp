@@ -1,7 +1,7 @@
 #include <Controller/ManualCalibrationController.hpp>
 
 ManualCalibrationController::ManualCalibrationController(ModelPtr sharedModel)
-    : BaseController(sharedModel) {
+    : BaseControllerWithTouch(sharedModel) {
     panelID = currentPanelID;
 }
 
@@ -62,36 +62,6 @@ void ManualCalibrationController::e_ChangeToRight(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         changeToRightHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ManualCalibrationController::e_SetPoint1(wxEvtHandler *parent,
-                                              wxPoint point) {
-    try {
-        checkPreCondition();
-        setPoint1Handler(parent, Utils::wxPointToCvPoint(point));
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ManualCalibrationController::e_SetPoint2(wxEvtHandler *parent,
-                                              wxPoint point) {
-    try {
-        checkPreCondition();
-        setPoint2Handler(parent, Utils::wxPointToCvPoint(point));
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ManualCalibrationController::e_SaveLine(wxEvtHandler *parent,
-                                             wxPoint point) {
-    try {
-        checkPreCondition();
-        saveLineHandler(parent, Utils::wxPointToCvPoint(point));
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -233,8 +203,8 @@ void ManualCalibrationController::changeToRightHandler(wxEvtHandler *parent) {
     thread->setDirection(ManualDirection::MANUAL_RIGHT);
 }
 
-void ManualCalibrationController::setPoint1Handler(wxEvtHandler *parent,
-                                                   cv::Point point) {
+void ManualCalibrationController::leftDownHandler(wxEvtHandler *parent,
+                                                  cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (!tc->isManualCalibrationThreadRunning()) {
@@ -251,8 +221,8 @@ void ManualCalibrationController::setPoint1Handler(wxEvtHandler *parent,
     thread->setPoint1(point);
 }
 
-void ManualCalibrationController::setPoint2Handler(wxEvtHandler *parent,
-                                                   cv::Point point) {
+void ManualCalibrationController::leftMoveHandler(wxEvtHandler *parent,
+                                                  cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (!tc->isManualCalibrationThreadRunning()) {
@@ -269,8 +239,8 @@ void ManualCalibrationController::setPoint2Handler(wxEvtHandler *parent,
     thread->setPoint2(point);
 }
 
-void ManualCalibrationController::saveLineHandler(wxEvtHandler *parent,
-                                                  cv::Point point) {
+void ManualCalibrationController::leftUpHandler(wxEvtHandler *parent,
+                                                cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (!tc->isManualCalibrationThreadRunning()) {

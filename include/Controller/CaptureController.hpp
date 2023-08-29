@@ -32,7 +32,7 @@
 #include <wx/event.h>
 #include <wx/thread.h>
 
-#define CPCPtr std::unique_ptr<CaptureController>
+#define CPCPtr std::shared_ptr<CaptureController>
 
 class CaptureController : public BaseController {
   public:
@@ -103,4 +103,8 @@ class CaptureController : public BaseController {
     void changeToResultPanelHandler(wxEvtHandler *parent);
 
     void changeToTrimDataPanelHandler(wxEvtHandler *parent);
+
+    void panelShowHandler(wxEvtHandler *parent) override;
+    void okButtonHandler(wxEvtHandler *parent) override;
+    void cancelButtonHandler(wxEvtHandler *parent) override;
 };
