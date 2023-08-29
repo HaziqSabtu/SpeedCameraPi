@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-# This script updates package information, upgrades packages, and modifies dphys-swapfile configuration
 
 # Check if script is run with sudo
 if [ "$EUID" -ne 0 ]; then
@@ -9,16 +8,17 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 echo "********************************************************************"
-echo "Dependency Installation Script 1"
+echo "Dependency Installation Script 4"
 echo ""
 echo ""
-
+echo
 # Explanation of script actions
 echo "This script will perform the following actions:"
-echo "1. Update package information."
-echo "2. Upgrade packages."
-echo "3. Modify dphys-swapfile configuration to set CONF_SWAPSIZE and CONF_MAXSWAP to 100."
+echo "1. Install libcamera v0.0.4"
 echo
+echo "It will take minimal 1.0 hour !"
+echo
+echo ""
 
 # Prompt for confirmation
 read -p "Do you want to proceed? (y/n): " choice
@@ -27,24 +27,35 @@ if [ "$choice" != "y" ]; then
   exit 0
 fi
 
-# Run apt-get update
-sudo apt-get update
+# Update and upgrade packages
+sudo apt-get update && sudo apt-get upgrade
 
-# Run apt-get upgrade
-sudo apt-get upgrade
+# Install required dependencies
+sudo apt install -y libboost-dev
+sudo apt install -y libgnutls28-dev openssl libtiff5-dev pybind11-dev
+sudo apt install -y qtbase5-dev libqt5core5a libqt5gui5 libqt5widgets5
+sudo apt install -y meson
+sudo apt install -y cmake
+sudo pip3 install pyyaml ply
+sudo pip3 install --upgrade meson
 
-# Define the new CONF_SWAPSIZE value
-NEW_SWAPSIZE=100
+sudo apt install -y libglib2.0-dev libgstreamer-plugins-base1.0-dev
 
-# Update CONF_SWAPSIZE in dphys-swapfile configuration
-sudo sed -i "s/CONF_SWAPSIZE=.*/CONF_SWAPSIZE=$NEW_SWAPSIZE/" /etc/dphys-swapfile
 
-# Update CONF_MAXSWAP in dphys-swapfile configuration
-sudo sed -i "s/CONF_MAXSWAP=.*/CONF_MAXSWAP=$NEW_SWAPSIZE/" /sbin/dphys-swapfile
+# Download libcamera
+cd
+git clone https://github.com/raspberrypi/libcamera.git
+cd libcamera
+git checkout v0.0.4
 
-# Restart dphys-swapfile service
-sudo systemctl restart dphys-swapfile
+# Configure the build process
+meson build --buildtype=release -Dpipelines=raspberrypi -Dipas=raspberrypi -Dv4l2=true -Dgstreamer=enabled -Dtest=false -Dlc-compliance=disabled -Dcam=disabled -Dqcam=enabled -Ddocumentation=disabled -Dpycamera=enabled
 
-echo "Script executed successfully."
-echo "Please reboot for changes to take effect"
-echo "Done. Reboot"
+# Compile and install the library
+ninja -C build -j2   # use -j 2 on Raspberry Pi 3 or earlier devices
+sudo ninja -C build install
+
+echo "libcamera v0.0.4 succesfully installed"
+echo
+echo
+echo "Run DI_Script5.sh to proceed with installation"

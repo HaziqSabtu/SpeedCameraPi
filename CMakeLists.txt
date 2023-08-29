@@ -37,13 +37,21 @@ else()
 endif() # UNIX AND EXISTS "/etc/os-release"
 
 if(CROSS_COMPILING)
-    # allow pkg-config to find the libraries in sysroot
+    message("Cross compiling")  
+  # allow pkg-config to find the libraries in sysroot
     set(ENV{PKG_CONFIG_DIR} "")
-    set(ENV{PKG_CONFIG_LIBDIR} "${CMAKE_SYSROOT}/usr/lib/arm-linux-gnueabihf/pkgconfig:${CMAKE_SYSROOT}/usr/lib/pkgconfig:${CMAKE_SYSROOT}/usr/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig")
+    # set(ENV "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/pkgconfig:${CMAKE_SYSROOT}/usr/local/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf/pkgconfig")
+    set(ENV{LD_LIBRARY_PATH} "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf:${CMAKE_SYSROOT}/usr/local/lib:${CMAKE_SYSROOT}/usr/local/share:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf")
+    set(ENV{PKG_CONFIG_LIBDIR} "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/pkgconfig:${CMAKE_SYSROOT}/usr/local/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf/pkgconfig")
+    set(ENV{PKG_CONFIG_PATH} "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig")
+    # set(ENV{PKG_CONFIG_PATH} "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/pkgconfig:${CMAKE_SYSROOT}/usr/local/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf/pkgconfig")
     set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
 
+    set(pathToLibcamera ${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/libcamera.so)
+    set(pathToLibcameraBase ${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/libcamera-base.so)
+
     # set the include directory for libcamera
-    set(libcamIncludeDir ${CMAKE_SYSROOT}/usr/include/libcamera)
+    set(libcamIncludeDir ${CMAKE_SYSROOT}/usr/local/include/libcamera)
 
     # set the prefix location for wxWidgets
     set(wxWidgets_CONFIG_OPTIONS --prefix=${CMAKE_SYSROOT}/usr/local)
@@ -67,11 +75,14 @@ if(CROSS_COMPILING)
     #     COMMAND curl --location '192.168.178.20:8080/wav/succ'
     # )
 else()
-    set(libcamIncludeDir /usr/include/libcamera)
+    message("Native compiling")
+    set(libcamIncludeDir /usr/local/include/libcamera)
+
+    set(pathToLibcamera /usr/local/lib/arm-linux-gnueabihf/libcamera.so)
+    set(pathToLibcameraBase /usr/local/lib/arm-linux-gnueabihf/libcamera-base.so)
     
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
-    COMMAND cp -r ${CMAKE_SOURCE_DIR}/Assets RPi0:~/Target
-
+    COMMAND cp -r ${CMAKE_SOURCE_DIR}/Assets $<TARGET_FILE_DIR:SpeedCameraPi>
     )
 endif() # CROSS_COMPILING
 
@@ -100,6 +111,11 @@ else()
 endif() # wxWidgets_FOUND
 
 find_package(PkgConfig REQUIRED)
+
+# print out the pkg-config path
+message(STATUS "pkg-config path: $ENV{PKG_CONFIG_PATH}")
+
+# force to look in local directory
 pkg_check_modules(LIBCAMERA REQUIRED libcamera)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -112,11 +128,17 @@ if(Threads_FOUND AND LIBCAMERA_FOUND)
     message(STATUS "    include path: ${LIBCAMERA_INCLUDE_DIRS}")
     message(STATUS "    Library found in directory: ${LIBCAMERA_LIBRARY_DIRS}")
 
-    target_link_libraries(SpeedCameraPi PRIVATE Threads::Threads ${LIBCAMERA_LINK_LIBRARIES})
+    message (STATUS "libcamera include dir: ${libcamIncludeDir}")
+    message (STATUS "path to libcamera: ${pathToLibcamera}")
+    message (STATUS "path to libcamera-base: ${pathToLibcameraBase}")
+
+    target_link_libraries(SpeedCameraPi PRIVATE Threads::Threads ${pathToLibcamera} ${pathToLibcameraBase})
+    # target_link_libraries(SpeedCameraPi PRIVATE Threads::Threads ${LIBCAMERA_LINK_LIBRARIES})
     target_include_directories(SpeedCameraPi PRIVATE ${libcamIncludeDir})
 else()
     message(FATAL_ERROR "Threads not found")
 endif() # Threads_FOUND
+
 
 # set(CMAKE_MODULE_PATH "/usr/local/lib/cmake" ; ${CMAKE_MODULE_PATH})
 # find_package(raspicam REQUIRED)
