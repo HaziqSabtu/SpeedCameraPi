@@ -158,15 +158,6 @@ bool ThreadController::isThreadOwner(ThreadID threadID, PanelID panelID) {
     return owner[threadID] == panelID;
 }
 
-bool ThreadController::isThreadsWithCameraNullptr() {
-    return captureThread == nullptr && loadCaptureThread == nullptr &&
-           loadFileThread == nullptr && calibrationThread == nullptr &&
-           calibPreviewThread == nullptr &&
-           manualCalibrationThread == nullptr &&
-           colorCalibrationThread == nullptr &&
-           colorCalibPreviewThread == nullptr;
-}
-
 bool ThreadController::isCalibrationThreadRunning() {
 
     if (!isThreadNullptr(THREAD_CALIBRATION)) {

@@ -280,12 +280,10 @@ void ColorCalibrationController::colorCalibrationStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
+    throwIfAnyThreadIsRunning();
+
     if (!shared->isCameraAvailable()) {
         throw std::runtime_error("Camera is not available");
-    }
-
-    if (!tc->isThreadsWithCameraNullptr()) {
-        throw std::runtime_error("Thread with camera is already running");
     }
 
     if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -324,12 +322,10 @@ void ColorCalibrationController::colorCalibrationPreviewStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
+    throwIfAnyThreadIsRunning();
+
     if (!shared->isCameraAvailable()) {
         throw std::runtime_error("Camera is not available");
-    }
-
-    if (!tc->isThreadsWithCameraNullptr()) {
-        throw std::runtime_error("Thread with camera is already running");
     }
 
     if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {

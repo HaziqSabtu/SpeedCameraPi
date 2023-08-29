@@ -137,9 +137,6 @@ class ThreadController {
 
     bool isThreadOwner(ThreadID threadID, PanelID panelID);
 
-    // TODO: Remove this
-    bool isThreadsWithCameraNullptr();
-
     // Calibration Helper Methods
     bool isCalibrationThreadRunning();
     bool isCalibrationThreadOwner(PanelID panelID);
