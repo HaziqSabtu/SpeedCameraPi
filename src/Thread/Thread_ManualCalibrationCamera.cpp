@@ -3,31 +3,31 @@
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "UI/Layout/StatusPanel.hpp"
-#include <Thread/Thread_ManualCalib.hpp>
+#include "Utils/Camera/CameraBase.hpp"
+#include <Thread/Thread_ManualCalibrationCamera.hpp>
 #include <opencv2/imgproc.hpp>
 #include <wx/event.h>
 
-BaseManualCalibrationThread::BaseManualCalibrationThread(wxEvtHandler *parent)
-    : wxThread(wxTHREAD_JOINABLE) {
-    this->parent = parent;
-
-    auto config = AppConfig();
-    auto previewConfig = config.GetPreviewConfig();
-    int pWidth = previewConfig.width;
-    int pHeight = previewConfig.height;
-    this->pSize = cv::Size(pWidth, pHeight);
-}
+BaseManualCalibrationThread::BaseManualCalibrationThread(wxEvtHandler *parent,
+                                                         DataPtr data)
+    : BaseThread(parent, data), PreviewableThread() {}
 
 BaseManualCalibrationThread::~BaseManualCalibrationThread() {}
 
-ManualCalibrationThread::ManualCalibrationThread(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera)
-    : BaseManualCalibrationThread(parent), camera(std::move(camera)) {}
+CalibrationData BaseManualCalibrationThread::getCalibrationData() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    return CalibrationData(rightLine, leftLine);
+}
 
-ManualCalibrationThread::~ManualCalibrationThread() {}
+ManualCalibrationCameraThread::ManualCalibrationCameraThread(
+    wxEvtHandler *parent, CameraPtr &camera)
+    : BaseManualCalibrationThread(parent, nullptr), CameraAccessor(camera) {}
 
-wxThread::ExitCode ManualCalibrationThread::Entry() {
+ManualCalibrationCameraThread::~ManualCalibrationCameraThread() {}
+
+wxThread::ExitCode ManualCalibrationCameraThread::Entry() {
 
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
                                          CALIBRATION_START);
@@ -45,14 +45,14 @@ wxThread::ExitCode ManualCalibrationThread::Entry() {
 
             cv::resize(frame, frame, pSize);
 
-            if (isLineValid(yellowLine)) {
+            if (isLineValid(rightLine)) {
 
-                cv::line(frame, yellowLine.p1, yellowLine.p2,
+                cv::line(frame, rightLine.p1, rightLine.p2,
                          cv::Scalar(0, 255, 255), 2);
             }
 
-            if (isLineValid(blueLine)) {
-                cv::line(frame, blueLine.p1, blueLine.p2, cv::Scalar(255, 0, 0),
+            if (isLineValid(leftLine)) {
+                cv::line(frame, leftLine.p1, leftLine.p2, cv::Scalar(255, 0, 0),
                          2);
             }
 
@@ -71,48 +71,39 @@ wxThread::ExitCode ManualCalibrationThread::Entry() {
     return 0;
 }
 
-std::unique_ptr<CameraBase> ManualCalibrationThread::getCamera() {
-    return std::move(camera);
+ThreadID ManualCalibrationCameraThread::getID() const { return threadID; }
+
+void BaseManualCalibrationThread::updateRightLine(Line line) {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    rightLine = line;
 }
 
-ThreadID ManualCalibrationThread::getID() const { return threadID; }
-
-void BaseManualCalibrationThread::updateYellowLine(Line line) {
+void BaseManualCalibrationThread::updateLeftLine(Line line) {
     std::unique_lock<std::mutex> lock(m_mutex);
-    yellowLine = line;
-}
-
-void BaseManualCalibrationThread::updateBlueLine(Line line) {
-    std::unique_lock<std::mutex> lock(m_mutex);
-    blueLine = line;
-}
-
-CalibrationData ManualCalibrationThread::getCalibData() {
-    std::unique_lock<std::mutex> lock(m_mutex);
-    return CalibrationData(yellowLine, blueLine);
+    leftLine = line;
 }
 
 void BaseManualCalibrationThread::setPoint1(cv::Point point) {
     Line line;
     line.setP1(point);
 
-    direction == MANUAL_LEFT ? updateBlueLine(line) : updateYellowLine(line);
+    direction == MANUAL_LEFT ? updateLeftLine(line) : updateRightLine(line);
 }
 
 void BaseManualCalibrationThread::setPoint2(cv::Point point) {
-    Line line = direction == MANUAL_LEFT ? blueLine : yellowLine;
+    Line line = direction == MANUAL_LEFT ? leftLine : rightLine;
     line.setP2(point);
 
-    direction == MANUAL_LEFT ? updateBlueLine(line) : updateYellowLine(line);
+    direction == MANUAL_LEFT ? updateLeftLine(line) : updateRightLine(line);
 }
 
 void BaseManualCalibrationThread::setPoint2AndExtend(cv::Point point) {
-    Line line = direction == MANUAL_LEFT ? blueLine : yellowLine;
+    Line line = direction == MANUAL_LEFT ? leftLine : rightLine;
     line.setP2(point);
 
     direction == MANUAL_LEFT
-        ? updateBlueLine(line.Extrapolate(pSize.height, pSize.width))
-        : updateYellowLine(line.Extrapolate(pSize.height, pSize.width));
+        ? updateLeftLine(line.Extrapolate(pSize.height, pSize.width))
+        : updateRightLine(line.Extrapolate(pSize.height, pSize.width));
 }
 
 void BaseManualCalibrationThread::setDirection(ManualDirection direction) {
@@ -135,20 +126,20 @@ bool BaseManualCalibrationThread::isLineValid(Line &line) {
     return true;
 }
 
-void BaseManualCalibrationThread::setYellowLine(Line line) {
-    updateYellowLine(line);
+void BaseManualCalibrationThread::setRightLine(Line line) {
+    updateRightLine(line);
 }
 
-Line BaseManualCalibrationThread::getYellowLine() {
+Line BaseManualCalibrationThread::getRightLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    return yellowLine;
+    return rightLine;
 }
 
-void BaseManualCalibrationThread::setBlueLine(Line line) {
-    updateBlueLine(line);
+void BaseManualCalibrationThread::setLeftLine(Line line) {
+    updateLeftLine(line);
 }
 
-Line BaseManualCalibrationThread::getBlueLine() {
+Line BaseManualCalibrationThread::getLeftLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    return blueLine;
+    return leftLine;
 }

@@ -5,6 +5,7 @@
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Model/CalibrationData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -22,18 +23,17 @@
 
 enum ColorCalibrationType { COLOR_CALIBRATION_BLUE, COLOR_CALIBRATION_YELLOW };
 
-class ColorCalibrationThread : public wxThread {
+class ColorCalibrationThread : public BaseThread,
+                               public PreviewableThread,
+                               public CameraAccessor {
   public:
-    ColorCalibrationThread(wxEvtHandler *parent,
-                           std::unique_ptr<CameraBase> &camera);
+    ColorCalibrationThread(wxEvtHandler *parent, CameraPtr &camera);
     ~ColorCalibrationThread();
 
-    std::unique_ptr<CameraBase> getCamera();
+    ThreadID getID() const override;
 
     void setPoint(cv::Point point);
     cv::Point getPoint();
-
-    ThreadID getID() const;
 
     std::pair<cv::Scalar, cv::Scalar> getBlueRange();
     std::pair<cv::Scalar, cv::Scalar> getYellowRange();
@@ -45,12 +45,9 @@ class ColorCalibrationThread : public wxThread {
     void removeYellowRange();
 
   protected:
-    virtual ExitCode Entry();
+    virtual ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    std::unique_ptr<CameraBase> camera;
-
     const ThreadID threadID = ThreadID::THREAD_COLOR_CALIBRATION;
 
     HSVFilter hsvFilter;

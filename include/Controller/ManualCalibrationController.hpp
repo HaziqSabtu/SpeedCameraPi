@@ -11,7 +11,7 @@
 #include <Model/SessionData.hpp>
 #include <Model/SharedModel.hpp>
 
-#include <Thread/Thread_ManualCalib.hpp>
+#include <Thread/Thread_Controller.hpp>
 
 #include <UI/Dialog/CancelDialog.hpp>
 
@@ -29,17 +29,17 @@ class ManualCalibrationController : public BaseControllerWithTouch {
     void e_ChangeToLeft(wxEvtHandler *parent);
     void e_ChangeToRight(wxEvtHandler *parent);
 
-    void e_ManualCalibStart(wxEvtHandler *parent);
-    void e_ManualCalibEnd(wxEvtHandler *parent);
+    void e_ManualCalibrationCameraStart(wxEvtHandler *parent);
+    void e_ManualCalibrationCameraEnd(wxEvtHandler *parent);
 
-    void e_ManualCalibCaptureStart(wxEvtHandler *parent);
-    void e_ManualCalibCaptureEnd(wxEvtHandler *parent);
+    void e_ManualCalibrationCaptureStart(wxEvtHandler *parent);
+    void e_ManualCalibrationCaptureEnd(wxEvtHandler *parent);
 
-    void e_CalibPrevStart(wxEvtHandler *parent);
-    void e_CalibPrevEnd(wxEvtHandler *parent);
+    void e_CalibrationPreviewCameraStart(wxEvtHandler *parent);
+    void e_CalibrationPreviewCameraEnd(wxEvtHandler *parent);
 
-    void e_CalibCapturePrevStart(wxEvtHandler *parent);
-    void e_CalibCapturePrevEnd(wxEvtHandler *parent);
+    void e_CalibrationPreviewCaptureStart(wxEvtHandler *parent);
+    void e_CalibrationPreviewCaptureEnd(wxEvtHandler *parent);
 
     void e_RemoveLeft(wxEvtHandler *parent);
     void e_RemoveRight(wxEvtHandler *parent);
@@ -61,17 +61,17 @@ class ManualCalibrationController : public BaseControllerWithTouch {
     void leftMoveHandler(wxEvtHandler *parent, cv::Point point) override;
     void leftUpHandler(wxEvtHandler *parent, cv::Point point) override;
 
-    void manualCalibStartHandler(wxEvtHandler *parent);
-    void manualCalibEndHandler(wxEvtHandler *parent);
+    void manualCalibrationCameraStartHandler(wxEvtHandler *parent);
+    void manualCalibrationCameraEndHandler(wxEvtHandler *parent);
 
-    void manualCalibCaptureStartHandler(wxEvtHandler *parent);
-    void manualCalibCaptureEndHandler(wxEvtHandler *parent);
+    void manualCalibrationCaptureStartHandler(wxEvtHandler *parent);
+    void manualCalibrationCaptureEndHandler(wxEvtHandler *parent);
 
-    void calibPrevStartHandler(wxEvtHandler *parent);
-    void calibPrevEndHandler(wxEvtHandler *parent);
+    void calibrationPreviewCameraStartHandler(wxEvtHandler *parent);
+    void calibrationPreviewCameraEndHandler(wxEvtHandler *parent);
 
-    void calibCapturePrevStartHandler(wxEvtHandler *parent);
-    void calibCapturePrevEndHandler(wxEvtHandler *parent);
+    void calibrationPreviewCaptureStartHandler(wxEvtHandler *parent);
+    void calibrationPreviewCaptureEndHandler(wxEvtHandler *parent);
 
     void removeLeftHandler(wxEvtHandler *parent);
     void removeRightHandler(wxEvtHandler *parent);

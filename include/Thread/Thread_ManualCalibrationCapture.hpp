@@ -7,7 +7,7 @@
 #include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_ID.hpp"
-#include "Thread/Thread_ManualCalib.hpp"
+#include "Thread/Thread_ManualCalibrationCamera.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
 
@@ -25,15 +25,11 @@ class ManualCalibrationCaptureThread : public BaseManualCalibrationThread {
     ManualCalibrationCaptureThread(wxEvtHandler *parent, DataPtr data);
     ~ManualCalibrationCaptureThread();
 
-    CalibrationData getCalibData();
-
     ThreadID getID() const override;
 
   protected:
     virtual ExitCode Entry() override;
 
   private:
-    DataPtr data;
-
     const ThreadID threadID = ThreadID::THREAD_MANUAL_CALIBRATION_CAPTURE;
 };

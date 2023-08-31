@@ -17,7 +17,7 @@ ControllerFactory::ControllerFactory(wxWindow *parent) {
 
     CameraConfig cameraConfig = config.GetCameraConfig();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<LibCam>();
+    CameraPtr camera = std::make_unique<LibCam>();
     camera->setHeight(cameraConfig.Camera_Height);
     camera->setWidth(cameraConfig.Camera_Width);
     camera->setFPS(cameraConfig.Camera_FPS);

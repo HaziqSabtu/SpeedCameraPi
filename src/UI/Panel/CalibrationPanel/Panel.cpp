@@ -51,7 +51,7 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::CL_Start_Button_ID) {
         auto button = button_panel->cPanel->calibrate_Button;
-        ToggleCalibrationButtonHandler(button);
+        ToggleCalibrationCameraButtonHandler(button);
     }
 
     if (e.GetId() == Enum::CL_StartC_Button_ID) {
@@ -76,12 +76,12 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
 
 void CalibrationPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        controller->e_CalibrationPreviewStart(button);
+        controller->e_CalibrationPreviewCameraStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        controller->e_CalibrationPreviewEnd(button);
+        controller->e_CalibrationPreviewCameraEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
@@ -90,25 +90,26 @@ void CalibrationPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
 void CalibrationPanel::TogglePreviewCaptureButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        controller->e_CalibrationCapturePreviewStart(button);
+        controller->e_CalibrationPreviewCaptureStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        controller->e_CalibrationCapturePreviewEnd(button);
+        controller->e_CalibrationPreviewCaptureEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
 }
 
-void CalibrationPanel::ToggleCalibrationButtonHandler(BitmapButtonT2 *button) {
+void CalibrationPanel::ToggleCalibrationCameraButtonHandler(
+    BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        controller->e_CalibrationStart(button);
+        controller->e_CalibrationCameraStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        controller->e_CalibrationEnd(button);
+        controller->e_CalibrationCameraEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");

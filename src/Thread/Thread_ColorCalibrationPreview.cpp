@@ -3,22 +3,21 @@
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/ExtraModel.hpp"
-#include <Thread/Thread_ColorCalibPreview.hpp>
+#include "Thread/Thread_Base.hpp"
+#include "Utils/Camera/CameraBase.hpp"
+#include <Thread/Thread_ColorCalibrationPreview.hpp>
 #include <memory>
 #include <opencv2/core/types.hpp>
 #include <wx/utils.h>
 
-ColorCalibPreviewThread::ColorCalibPreviewThread(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    CCModelPtr ccExtraModel)
-    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)),
-      ccExtraModel(ccExtraModel) {
-    this->parent = parent;
-}
+ColorCalibrationPreviewThread::ColorCalibrationPreviewThread(
+    wxEvtHandler *parent, CameraPtr &camera, CCModelPtr ccExtraModel)
+    : BaseThread(parent, nullptr), CameraAccessor(camera), PreviewableThread(),
+      ccExtraModel(ccExtraModel) {}
 
-ColorCalibPreviewThread::~ColorCalibPreviewThread() {}
+ColorCalibrationPreviewThread::~ColorCalibrationPreviewThread() {}
 
-wxThread::ExitCode ColorCalibPreviewThread::Entry() {
+wxThread::ExitCode ColorCalibrationPreviewThread::Entry() {
 
     wxCommandEvent startCaptureEvent(c_CAPTURE_EVENT, CAPTURE_START);
     wxPostEvent(parent, startCaptureEvent);
@@ -37,8 +36,7 @@ wxThread::ExitCode ColorCalibPreviewThread::Entry() {
                 continue;
             }
 
-            cv::Size s(640, 480);
-            cv::resize(frame, frame, s);
+            cv::resize(frame, frame, pSize);
 
             if (!isCalibrationComplete()) {
                 UpdatePreviewEvent::Submit(parent, frame);
@@ -91,13 +89,9 @@ wxThread::ExitCode ColorCalibPreviewThread::Entry() {
     return 0;
 }
 
-std::unique_ptr<CameraBase> ColorCalibPreviewThread::getCamera() {
-    return std::move(camera);
-}
+ThreadID ColorCalibrationPreviewThread::getID() const { return id; }
 
-ThreadID ColorCalibPreviewThread::getID() const { return id; }
-
-bool ColorCalibPreviewThread::isCalibrationComplete() {
+bool ColorCalibrationPreviewThread::isCalibrationComplete() {
     return ccExtraModel->isBlueCalibrated() &&
            ccExtraModel->isYellowCalibrated();
 }

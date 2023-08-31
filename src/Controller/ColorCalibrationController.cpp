@@ -337,7 +337,8 @@ void ColorCalibrationController::colorCalibrationPreviewStartHandler(
 
     auto ccExtraModel = shared->getCCExtraModel();
 
-    tc->startColorCalibPreviewHandler(parent, camera, ccExtraModel, panelID);
+    tc->startColorCalibrationPreviewHandler(parent, camera, ccExtraModel,
+                                            panelID);
 }
 
 void ColorCalibrationController::colorCalibrationPreviewEndHandler(
@@ -360,7 +361,7 @@ void ColorCalibrationController::colorCalibrationPreviewEndHandler(
     auto camera = colorCalibPreviewThread->getCamera();
     shared->setCamera(camera);
 
-    tc->endColorCalibPreviewHandler();
+    tc->endColorCalibrationPreviewHandler();
 }
 
 void ColorCalibrationController::removeBlueHandler(wxEvtHandler *parent) {

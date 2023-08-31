@@ -104,7 +104,7 @@ void TrimDataController::throwIfAnyThreadIsRunning() {
         throw std::runtime_error("TrimDataThread is running");
     }
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_REPLAY)) {
+    if (!tc->isThreadNullptr(ThreadID::THREAD_CAPTURE_PREVIEW)) {
         throw std::runtime_error("ReplayThread is running");
     }
 }
@@ -116,7 +116,7 @@ void TrimDataController::killAllThreads(wxEvtHandler *parent) {
         trimDataEndHandler(parent);
     }
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_REPLAY)) {
+    if (!tc->isThreadNullptr(ThreadID::THREAD_CAPTURE_PREVIEW)) {
         replayEndHandler(parent);
     }
 
@@ -160,7 +160,7 @@ void TrimDataController::replayStartHandler(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 
     auto data = shared->getSessionData();
-    tc->startReplayHandler(parent, data, panelID);
+    tc->startCapturePreviewHandler(parent, data, panelID);
 
     wxString msg = wxString("Replay Started");
     UpdateStatusEvent::Submit(parent, msg);
@@ -169,18 +169,18 @@ void TrimDataController::replayStartHandler(wxEvtHandler *parent) {
 void TrimDataController::replayEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
-    if (tc->isThreadNullptr(ThreadID::THREAD_REPLAY)) {
+    if (tc->isThreadNullptr(ThreadID::THREAD_CAPTURE_PREVIEW)) {
         throw std::runtime_error("ReplayThread is not running");
     }
 
-    if (!tc->isThreadOwner(ThreadID::THREAD_REPLAY, panelID)) {
+    if (!tc->isThreadOwner(ThreadID::THREAD_CAPTURE_PREVIEW, panelID)) {
         throw std::runtime_error("ReplayThread is not owned by this panel");
     }
 
-    auto thread = tc->getReplayThread();
+    auto thread = tc->getCapturePreviewThread();
     thread->Pause();
 
-    tc->endReplayHandler();
+    tc->endCapturePreviewHandler();
 
     wxString msg = wxString("Replay Ended");
     UpdateStatusEvent::Submit(parent, msg);

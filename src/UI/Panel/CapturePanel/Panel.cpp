@@ -53,7 +53,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CP_Replay_Button_ID) {
-        controller->e_ReplayStart(this);
+        controller->e_CapturePreviewStart(this);
     }
 
     if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
@@ -61,7 +61,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CP_Calibration_Button_ID) {
-        controller->e_ChangeToCalibPanel(this);
+        controller->e_ChangeToCalibrationPanel(this);
     }
 
     if (e.GetId() == Enum::CP_RemoveCalibration_Button_ID) {
@@ -112,12 +112,12 @@ void CapturePanel::LoadButtonHandler() {
 
 void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        controller->e_CameraStart(button);
+        controller->e_CameraPreviewStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        controller->e_CameraEnd(button);
+        controller->e_CameraPreviewEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
@@ -147,7 +147,7 @@ void CapturePanel::OnReplay(wxCommandEvent &e) {
     }
 
     if (e.GetId() == REPLAY_END) {
-        controller->e_ReplayEnd(this);
+        controller->e_CapturePreviewEnd(this);
         UpdateStatusEvent::Submit(this, StatusCollection::STATUS_REPLAY_END);
     }
 

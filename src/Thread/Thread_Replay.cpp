@@ -2,16 +2,18 @@
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
 #include "Event/Event_Replay.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Thread/Thread_LoadCapture.hpp>
 #include <memory>
+#include <opencv2/imgproc.hpp>
 
-ReplayThread::ReplayThread(wxEvtHandler *parent, DataPtr data)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), data(data) {}
+CapturePreviewThread::CapturePreviewThread(wxEvtHandler *parent, DataPtr data)
+    : BaseThread(parent, data), PreviewableThread() {}
 
-ReplayThread::~ReplayThread() {}
+CapturePreviewThread::~CapturePreviewThread() {}
 
-wxThread::ExitCode ReplayThread::Entry() {
+wxThread::ExitCode CapturePreviewThread::Entry() {
     try {
 
         wxCommandEvent startLoadEvent(c_REPLAY_EVENT, REPLAY_START);
@@ -27,7 +29,8 @@ wxThread::ExitCode ReplayThread::Entry() {
 
         for (int i = 0; i < MAX_FRAME; i++) {
 
-            cv::Mat frame = captureData.at(i).image;
+            cv::Mat frame = captureData.at(i).image.clone();
+            cv::resize(frame, frame, pSize);
             UpdatePreviewEvent::Submit(parent, frame);
 
             wxMilliSleep(200);
@@ -46,4 +49,4 @@ wxThread::ExitCode ReplayThread::Entry() {
     return 0;
 }
 
-ThreadID ReplayThread::getID() const { return id; }
+ThreadID CapturePreviewThread::getID() const { return id; }

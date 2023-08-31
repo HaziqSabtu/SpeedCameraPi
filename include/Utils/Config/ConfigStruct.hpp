@@ -39,16 +39,6 @@ struct CaptureConfig {
     }
 };
 
-// Define equality operators for the remaining structs in a similar manner
-
-struct LoadConfig {
-    int maxFrame;
-
-    bool operator==(const LoadConfig &other) const {
-        return maxFrame == other.maxFrame;
-    }
-};
-
 struct OpticalFlowConfig {
     int maxCorners;
     double qualityLevel;
@@ -140,7 +130,6 @@ struct SettingsModel {
     ModelConfig modelConfig;
     CameraConfig cameraConfig;
     CaptureConfig captureConfig;
-    LoadConfig loadConfig;
     OpticalFlowConfig opticalFlowConfig;
     SensorConfig sensorConfig;
     MeasurementConfig measurementConfig;
@@ -154,7 +143,6 @@ struct SettingsModel {
         return modelConfig == other.modelConfig &&
                cameraConfig == other.cameraConfig &&
                captureConfig == other.captureConfig &&
-               //loadConfig == other.loadConfig &&
                opticalFlowConfig == other.opticalFlowConfig &&
                sensorConfig == other.sensorConfig &&
                measurementConfig == other.measurementConfig &&

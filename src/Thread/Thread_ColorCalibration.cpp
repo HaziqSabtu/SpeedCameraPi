@@ -3,17 +3,17 @@
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "UI/Layout/StatusPanel.hpp"
-#include <Thread/Thread_ColorCalib.hpp>
+#include <Thread/Thread_ColorCalibration.hpp>
 #include <iostream>
 #include <opencv2/imgproc.hpp>
 #include <utility>
 #include <wx/utils.h>
 
-ColorCalibrationThread::ColorCalibrationThread(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera)
-    : wxThread(wxTHREAD_JOINABLE), camera(std::move(camera)) {
-    this->parent = parent;
+ColorCalibrationThread::ColorCalibrationThread(wxEvtHandler *parent,
+                                               CameraPtr &camera)
+    : BaseThread(parent, nullptr), PreviewableThread(), CameraAccessor(camera) {
 }
 
 ColorCalibrationThread::~ColorCalibrationThread() {}
@@ -31,7 +31,6 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
 
         while (!TestDestroy()) {
             {
-                // std::unique_lock<std::recursive_mutex> lock(m_mutex);
 
                 cv::Mat frame;
                 camera->getFrame(frame);
@@ -40,8 +39,7 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
                     throw std::runtime_error("Failed to capture frame");
                 }
 
-                cv::Size s(640, 480);
-                cv::resize(frame, frame, s);
+                cv::resize(frame, frame, pSize);
 
                 if (point == cv::Point(-1, -1)) {
                     wxMilliSleep(300);
@@ -169,10 +167,6 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
     wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT, CALIBRATION_END);
     wxPostEvent(parent, endCalibrationEvent);
     return 0;
-}
-
-std::unique_ptr<CameraBase> ColorCalibrationThread::getCamera() {
-    return std::move(camera);
 }
 
 void ColorCalibrationThread::setPoint(cv::Point point) {

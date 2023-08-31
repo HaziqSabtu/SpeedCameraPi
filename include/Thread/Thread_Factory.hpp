@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Thread/Thread_Capture.hpp"
+#include "Thread/Thread_CameraPreview.hpp"
 
 static class ThreadFactory {
   public:

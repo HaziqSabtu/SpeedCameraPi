@@ -5,6 +5,7 @@
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Model/CalibrationData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -20,10 +21,13 @@
 
 enum ManualDirection { MANUAL_LEFT, MANUAL_RIGHT };
 
-class BaseManualCalibrationThread : public wxThread {
+class BaseManualCalibrationThread : public BaseThread,
+                                    public PreviewableThread {
   public:
-    BaseManualCalibrationThread(wxEvtHandler *parent);
+    BaseManualCalibrationThread(wxEvtHandler *parent, DataPtr data);
     ~BaseManualCalibrationThread();
+
+    CalibrationData getCalibrationData();
 
     void setPoint1(cv::Point point);
     void setPoint2(cv::Point point);
@@ -32,41 +36,31 @@ class BaseManualCalibrationThread : public wxThread {
     void setDirection(ManualDirection direction);
     ManualDirection getDirection();
 
-    void setYellowLine(Line line);
-    Line getYellowLine();
+    void setRightLine(Line line);
+    Line getRightLine();
 
-    void setBlueLine(Line line);
-    Line getBlueLine();
-
-    virtual ThreadID getID() const = 0;
+    void setLeftLine(Line line);
+    Line getLeftLine();
 
   protected:
-    wxEvtHandler *parent;
-
     std::mutex m_mutex;
-    Line yellowLine;
-    Line blueLine;
+    Line rightLine;
+    Line leftLine;
 
     ManualDirection direction = MANUAL_LEFT;
 
-    cv::Size pSize;
-
   protected:
-    void updateYellowLine(Line line);
-    void updateBlueLine(Line line);
+    void updateRightLine(Line line);
+    void updateLeftLine(Line line);
 
     bool isLineValid(Line &line);
 };
 
-class ManualCalibrationThread : public BaseManualCalibrationThread {
+class ManualCalibrationCameraThread : public BaseManualCalibrationThread,
+                                      public CameraAccessor {
   public:
-    ManualCalibrationThread(wxEvtHandler *parent,
-                            std::unique_ptr<CameraBase> &camera);
-    ~ManualCalibrationThread();
-
-    std::unique_ptr<CameraBase> getCamera();
-
-    CalibrationData getCalibData();
+    ManualCalibrationCameraThread(wxEvtHandler *parent, CameraPtr &camera);
+    ~ManualCalibrationCameraThread();
 
     ThreadID getID() const override;
 
@@ -74,7 +68,5 @@ class ManualCalibrationThread : public BaseManualCalibrationThread {
     virtual ExitCode Entry() override;
 
   private:
-    std::unique_ptr<CameraBase> camera;
-
-    const ThreadID threadID = ThreadID::THREAD_MANUAL_CALIBRATION;
+    const ThreadID threadID = ThreadID::THREAD_MANUAL_CALIBRATION_CAMERA;
 };

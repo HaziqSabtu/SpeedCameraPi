@@ -33,9 +33,6 @@ AppConfig::AppConfig() {
         config->Write("Debug_Show_Image", Default_DebugShowImage);
         config->Write("Debug_Save", Default_DebugSave);
 
-        config->SetPath("/Load_Parameter");
-        config->Write("Max_Frame", Default_Max_Frame);
-
         config->SetPath("/Line_Selection_Parameter");
         config->Write("Radius", Default_Radius);
 
@@ -239,13 +236,6 @@ void AppConfig::ResetCaptureConfig() {
     captureConfig.DebugShowImage = Default_DebugShowImage;
     captureConfig.DebugSave = Default_DebugSave;
     SetCaptureConfig(captureConfig);
-}
-
-LoadConfig AppConfig::GetLoadConfig() {
-    LoadConfig loadConfig;
-    config->SetPath("/Load_Parameter");
-    config->Read("Max_Frame", &loadConfig.maxFrame, Default_Max_Frame);
-    return loadConfig;
 }
 
 OpticalFlowConfig AppConfig::GetOpticalFlowConfig() {

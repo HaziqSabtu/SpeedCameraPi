@@ -11,13 +11,13 @@
 #include <opencv2/imgproc.hpp>
 #include <wx/utils.h>
 
-CaptureCalibrationThread::CaptureCalibrationThread(wxEvtHandler *parent,
+CalibrationCaptureThread::CalibrationCaptureThread(wxEvtHandler *parent,
                                                    DataPtr data)
-    : BaseCalibrationThread(parent), data(data) {}
+    : BaseCalibrationThread(parent, data) {}
 
-CaptureCalibrationThread::~CaptureCalibrationThread() {}
+CalibrationCaptureThread::~CalibrationCaptureThread() {}
 
-wxThread::ExitCode CaptureCalibrationThread::Entry() {
+wxThread::ExitCode CalibrationCaptureThread::Entry() {
 
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
                                          CALIBRATION_START);
@@ -62,7 +62,7 @@ wxThread::ExitCode CaptureCalibrationThread::Entry() {
                 Line yellowLine =
                     ransac.run(mask_yellow).Extrapolate(mask_yellow);
                 if (!yellowLine.isNull()) {
-                    updateYellowLine(yellowLine);
+                    updateRightLine(yellowLine);
                     cv::line(previewImage, yellowLine.p1, yellowLine.p2,
                              cv::Scalar(0, 255, 255), 2);
                 }
@@ -70,7 +70,7 @@ wxThread::ExitCode CaptureCalibrationThread::Entry() {
                 cv::Mat mask_blue = hsvFilter.blueMask(combined);
                 Line blueLine = ransac.run(mask_blue).Extrapolate(mask_blue);
                 if (!blueLine.isNull()) {
-                    updateBlueLine(blueLine);
+                    updateLeftLine(blueLine);
                     cv::line(previewImage, blueLine.p1, blueLine.p2,
                              cv::Scalar(255, 0, 0), 2);
                 }
@@ -101,4 +101,4 @@ wxThread::ExitCode CaptureCalibrationThread::Entry() {
     return 0;
 }
 
-ThreadID CaptureCalibrationThread::getID() const { return threadID; }
+ThreadID CalibrationCaptureThread::getID() const { return threadID; }

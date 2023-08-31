@@ -233,7 +233,7 @@ ButtonState AppState::getLoadButtonState(ModelPtr model) {
 ButtonState AppState::getReplayButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+    if (!tc->isThreadNullptr(THREAD_CAPTURE_PREVIEW)) {
         return ButtonState::ACTIVE;
     }
 
@@ -266,7 +266,7 @@ ButtonState AppState::getCameraButtonState(ModelPtr model) {
 
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+    if (!tc->isThreadNullptr(THREAD_CAMERA_PREVIEW)) {
         return ButtonState::ON;
     }
 
@@ -385,7 +385,7 @@ ButtonState AppState::getCPMeasureButtonState(ModelPtr model) {
 ButtonState AppState::getCalibrationButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
         return ButtonState::ON;
     }
 
@@ -413,7 +413,7 @@ ButtonState AppState::getCalibrationCaptureButtonState(ModelPtr model) {
         return ButtonState::ON;
     }
 
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
         return ButtonState::DISABLED;
     }
 
@@ -427,7 +427,7 @@ ButtonState AppState::getCalibrationCaptureButtonState(ModelPtr model) {
 ButtonState AppState::getCalibrationRemoveButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
         return ButtonState::DISABLED;
     }
 
@@ -439,7 +439,7 @@ ButtonState AppState::getCalibrationRemoveButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (!tc->isThreadNullptr(THREAD_CAPTURE)) {
+    if (!tc->isThreadNullptr(THREAD_CAMERA_PREVIEW)) {
         return ButtonState::DISABLED;
     }
 
@@ -495,11 +495,11 @@ PanelState AppState::getCLPreviewStatusState(ModelPtr model) {
 ButtonState AppState::getCLPrevCameraButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
         return ButtonState::ON;
     }
 
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION)) {
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
         return ButtonState::DISABLED;
     }
 
@@ -519,7 +519,7 @@ ButtonState AppState::getCLPrevCaptureButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
         return ButtonState::DISABLED;
     }
 
@@ -572,7 +572,7 @@ ButtonState AppState::getCLCancelButtonState(ModelPtr model) {
 ButtonState AppState::getMCButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+    if (!tc->isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
         return ButtonState::ON;
     }
 
@@ -600,7 +600,7 @@ ButtonState AppState::getMCCaptureButtonState(ModelPtr model) {
         return ButtonState::ON;
     }
 
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
         return ButtonState::DISABLED;
     }
 
@@ -735,7 +735,7 @@ ButtonState AppState::getMCPrevCameraButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+    if (tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
         return ButtonState::OFF;
     }
 
@@ -755,7 +755,7 @@ ButtonState AppState::getMCPrevCaptureButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
         return ButtonState::DISABLED;
     }
 
@@ -1119,7 +1119,7 @@ ButtonState AppState::getTDStartButtonState(ModelPtr model) {
         return ButtonState::ON;
     }
 
-    if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+    if (!tc->isThreadNullptr(THREAD_CAPTURE_PREVIEW)) {
         return ButtonState::DISABLED;
     }
 
@@ -1158,7 +1158,7 @@ ButtonState AppState::getTDRemoveButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
-    if (!tc->isThreadNullptr(THREAD_REPLAY)) {
+    if (!tc->isThreadNullptr(THREAD_CAPTURE_PREVIEW)) {
         return ButtonState::DISABLED;
     }
 

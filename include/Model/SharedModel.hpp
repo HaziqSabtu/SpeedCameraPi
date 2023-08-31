@@ -2,17 +2,13 @@
 
 #include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
-#include "Thread/Thread_Controller.hpp"
 #include "Thread/Thread_Process.hpp"
 
 #include <Event/Event_ChangePanel.hpp>
 #include <Event/Event_Error.hpp>
 
 #include <Thread/ThreadPool.hpp>
-#include <Thread/Thread_Capture.hpp>
-#include <Thread/Thread_LoadCapture.hpp>
-#include <Thread/Thread_LoadFile.hpp>
-#include <Thread/Thread_Process.hpp>
+#include <Thread/Thread_Controller.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>
 #include <Utils/Camera/libcam.hpp>
@@ -29,8 +25,8 @@ class ISharedModel {
   public:
     virtual ~ISharedModel() = default;
 
-    virtual void setCamera(std::unique_ptr<CameraBase> &camera) = 0;
-    virtual std::unique_ptr<CameraBase> getCamera() = 0;
+    virtual void setCamera(CameraPtr &camera) = 0;
+    virtual CameraPtr getCamera() = 0;
     virtual bool isCameraAvailable() = 0;
 
     virtual void setThreadPool(std::shared_ptr<ThreadPool> threadPool) = 0;
@@ -47,8 +43,8 @@ class SharedModel : public ISharedModel {
     SharedModel();
     ~SharedModel();
 
-    void setCamera(std::unique_ptr<CameraBase> &camera) override;
-    std::unique_ptr<CameraBase> getCamera() override;
+    void setCamera(CameraPtr &camera) override;
+    CameraPtr getCamera() override;
     bool isCameraAvailable() override;
 
     void setThreadPool(POOLPtr threadPool) override;
@@ -76,7 +72,7 @@ class SharedModel : public ISharedModel {
 
   protected:
   private:
-    std::unique_ptr<CameraBase> camera;
+    CameraPtr camera;
     std::shared_ptr<ThreadPool> threadPool;
     std::shared_ptr<ThreadController> threadController;
 

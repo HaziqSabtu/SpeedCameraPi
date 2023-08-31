@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Error.hpp>
 #include <Event/Event_LoadImage.hpp>
@@ -17,19 +18,16 @@
 #include <wx/thread.h>
 #include <wx/wx.h>
 
-class ReplayThread : public wxThread {
+class CapturePreviewThread : public BaseThread, PreviewableThread {
   public:
-    ReplayThread(wxEvtHandler *parent, DataPtr data);
-    ~ReplayThread();
+    CapturePreviewThread(wxEvtHandler *parent, DataPtr data);
+    ~CapturePreviewThread();
 
-    ThreadID getID() const;
+    ThreadID getID() const override;
 
   protected:
-    ExitCode Entry();
+    ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    DataPtr data;
-
-    const ThreadID id = THREAD_REPLAY;
+    const ThreadID id = THREAD_CAPTURE_PREVIEW;
 };

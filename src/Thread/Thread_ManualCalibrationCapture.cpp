@@ -3,15 +3,14 @@
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
-#include "Thread/Thread_ManualCalib.hpp"
 #include "UI/Layout/StatusPanel.hpp"
-#include <Thread/Thread_ManualCalibCapture.hpp>
+#include <Thread/Thread_ManualCalibrationCapture.hpp>
 #include <opencv2/imgproc.hpp>
 #include <wx/utils.h>
 
 ManualCalibrationCaptureThread::ManualCalibrationCaptureThread(
     wxEvtHandler *parent, DataPtr data)
-    : BaseManualCalibrationThread(parent), data(data) {
+    : BaseManualCalibrationThread(parent, data) {
 
     if (data->isCaptureDataEmpty()) {
         throw std::runtime_error("Capture data is empty");
@@ -43,13 +42,13 @@ wxThread::ExitCode ManualCalibrationCaptureThread::Entry() {
 
             cv::Mat previewFrame = firstFrame.clone();
 
-            if (isLineValid(yellowLine)) {
-                cv::line(previewFrame, yellowLine.p1, yellowLine.p2,
+            if (isLineValid(rightLine)) {
+                cv::line(previewFrame, rightLine.p1, rightLine.p2,
                          cv::Scalar(0, 255, 255), 2);
             }
 
-            if (isLineValid(blueLine)) {
-                cv::line(previewFrame, blueLine.p1, blueLine.p2,
+            if (isLineValid(leftLine)) {
+                cv::line(previewFrame, leftLine.p1, leftLine.p2,
                          cv::Scalar(255, 0, 0), 2);
             }
 
@@ -69,8 +68,3 @@ wxThread::ExitCode ManualCalibrationCaptureThread::Entry() {
 }
 
 ThreadID ManualCalibrationCaptureThread::getID() const { return threadID; }
-
-CalibrationData ManualCalibrationCaptureThread::getCalibData() {
-    std::unique_lock<std::mutex> lock(m_mutex);
-    return CalibrationData(yellowLine, blueLine);
-}

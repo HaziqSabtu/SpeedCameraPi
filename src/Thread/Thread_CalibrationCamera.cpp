@@ -5,21 +5,15 @@
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
 #include "UI/Layout/StatusPanel.hpp"
+#include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
-#include <Thread/Thread_Calibration.hpp>
+#include <Thread/Thread_CalibrationCamera.hpp>
 #include <opencv2/imgproc.hpp>
 #include <wx/utils.h>
 
 // TODO: Fix Status
-BaseCalibrationThread::BaseCalibrationThread(wxEvtHandler *parent)
-    : wxThread(wxTHREAD_JOINABLE) {
-    this->parent = parent;
-
-    auto config = AppConfig();
-    auto previewConfig = config.GetPreviewConfig();
-    int pWidth = previewConfig.width;
-    int pHeight = previewConfig.height;
-    this->pSize = cv::Size(pWidth, pHeight);
+BaseCalibrationThread::BaseCalibrationThread(wxEvtHandler *parent, DataPtr data)
+    : BaseThread(parent, data), PreviewableThread() {
 
     AppConfig c;
     auto RansacConfig = c.GetRansacConfig();
@@ -31,13 +25,13 @@ BaseCalibrationThread::BaseCalibrationThread(wxEvtHandler *parent)
 
 BaseCalibrationThread::~BaseCalibrationThread() {}
 
-CalibrationThread::CalibrationThread(wxEvtHandler *parent,
-                                     std::unique_ptr<CameraBase> &camera)
-    : BaseCalibrationThread(parent), camera(std::move(camera)) {}
+CalibrationCameraThread::CalibrationCameraThread(wxEvtHandler *parent,
+                                                 CameraPtr &camera)
+    : BaseCalibrationThread(parent, nullptr), CameraAccessor(camera) {}
 
-CalibrationThread::~CalibrationThread() {}
+CalibrationCameraThread::~CalibrationCameraThread() {}
 
-wxThread::ExitCode CalibrationThread::Entry() {
+wxThread::ExitCode CalibrationCameraThread::Entry() {
 
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
                                          CALIBRATION_START);
@@ -52,8 +46,6 @@ wxThread::ExitCode CalibrationThread::Entry() {
             if (frame.empty()) {
                 throw std::runtime_error("Failed to capture frame");
             }
-
-            // std::cerr << "Frame size: " << frame.size() << std::endl;
 
             cv::resize(frame, frame, pSize);
 
@@ -76,7 +68,7 @@ wxThread::ExitCode CalibrationThread::Entry() {
                 Line yellowLine =
                     ransac.run(mask_yellow).Extrapolate(mask_yellow);
                 if (!yellowLine.isNull()) {
-                    updateYellowLine(yellowLine);
+                    updateRightLine(yellowLine);
                     cv::line(frame, yellowLine.p1, yellowLine.p2,
                              cv::Scalar(0, 255, 255), 2);
                 }
@@ -84,7 +76,7 @@ wxThread::ExitCode CalibrationThread::Entry() {
                 cv::Mat mask_blue = hsvFilter.blueMask(combined);
                 Line blueLine = ransac.run(mask_blue).Extrapolate(mask_blue);
                 if (!blueLine.isNull()) {
-                    updateBlueLine(blueLine);
+                    updateLeftLine(blueLine);
                     cv::line(frame, blueLine.p1, blueLine.p2,
                              cv::Scalar(255, 0, 0), 2);
                 }
@@ -115,10 +107,6 @@ wxThread::ExitCode CalibrationThread::Entry() {
     return 0;
 }
 
-std::unique_ptr<CameraBase> CalibrationThread::getCamera() {
-    return std::move(camera);
-}
-
 void BaseCalibrationThread::setPoint(cv::Point point) {
     std::unique_lock<std::mutex> lock(m_mutex);
     this->point = point;
@@ -131,19 +119,19 @@ void BaseCalibrationThread::clearPoint() {
     bfs.setStart(point);
 }
 
-ThreadID CalibrationThread::getID() const { return threadID; }
+ThreadID CalibrationCameraThread::getID() const { return threadID; }
 
-void BaseCalibrationThread::updateYellowLine(Line line) {
+void BaseCalibrationThread::updateRightLine(Line line) {
     std::unique_lock<std::mutex> lock(m_mutex);
-    yellowLine = line;
+    rightLine = line;
 }
 
-void BaseCalibrationThread::updateBlueLine(Line line) {
+void BaseCalibrationThread::updateLeftLine(Line line) {
     std::unique_lock<std::mutex> lock(m_mutex);
-    blueLine = line;
+    leftLine = line;
 }
 
-CalibrationData BaseCalibrationThread::getCalibData() {
+CalibrationData BaseCalibrationThread::getCalibrationData() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    return CalibrationData(yellowLine, blueLine);
+    return CalibrationData(rightLine, leftLine);
 }

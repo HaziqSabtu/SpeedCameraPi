@@ -9,9 +9,7 @@
 #include <Model/SharedModel.hpp>
 
 #include <Thread/ThreadPool.hpp>
-#include <Thread/Thread_Calibration.hpp>
-#include <Thread/Thread_Capture.hpp>
-#include <Thread/Thread_TrimData.hpp>
+#include <Thread/Thread_Controller.hpp>
 
 #include <UI/Dialog/CancelDialog.hpp>
 

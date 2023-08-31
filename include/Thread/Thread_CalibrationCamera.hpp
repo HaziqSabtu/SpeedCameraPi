@@ -5,6 +5,8 @@
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Model/CalibrationData.hpp"
+#include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -18,44 +20,36 @@
 
 #include <wx/thread.h>
 
-class BaseCalibrationThread : public wxThread {
+class BaseCalibrationThread : public BaseThread, public PreviewableThread {
   public:
-    BaseCalibrationThread(wxEvtHandler *parent);
+    BaseCalibrationThread(wxEvtHandler *parent, DataPtr data);
     ~BaseCalibrationThread();
 
     void setPoint(cv::Point point);
     void clearPoint();
 
-    CalibrationData getCalibData();
-
-    virtual ThreadID getID() const = 0;
+    CalibrationData getCalibrationData();
 
   protected:
-    wxEvtHandler *parent;
-
-    cv::Size pSize;
-
     HSVFilter hsvFilter;
     BFS bfs;
     RansacLine ransac;
 
     std::mutex m_mutex;
     cv::Point point;
-    Line yellowLine;
-    Line blueLine;
+    Line rightLine; // yellow line
+    Line leftLine;  // blue line
 
   protected:
-    void updateYellowLine(Line line);
-    void updateBlueLine(Line line);
+    void updateRightLine(Line line);
+    void updateLeftLine(Line line);
 };
 
-class CalibrationThread : public BaseCalibrationThread {
+class CalibrationCameraThread : public BaseCalibrationThread,
+                                public CameraAccessor {
   public:
-    CalibrationThread(wxEvtHandler *parent,
-                      std::unique_ptr<CameraBase> &camera);
-    ~CalibrationThread();
-
-    std::unique_ptr<CameraBase> getCamera();
+    CalibrationCameraThread(wxEvtHandler *parent, CameraPtr &camera);
+    ~CalibrationCameraThread();
 
     ThreadID getID() const override;
 
@@ -63,7 +57,5 @@ class CalibrationThread : public BaseCalibrationThread {
     virtual ExitCode Entry() override;
 
   private:
-    std::unique_ptr<CameraBase> camera;
-
-    const ThreadID threadID = ThreadID::THREAD_CALIBRATION;
+    const ThreadID threadID = ThreadID::THREAD_CALIBRATION_CAMERA;
 };

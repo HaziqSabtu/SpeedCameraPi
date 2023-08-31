@@ -82,12 +82,12 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
 void ManualCalibrationPanel::TogglePreviewButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        controller->e_CalibPrevStart(button);
+        controller->e_CalibrationPreviewCameraStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        controller->e_CalibPrevEnd(button);
+        controller->e_CalibrationPreviewCameraEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
@@ -96,12 +96,12 @@ void ManualCalibrationPanel::TogglePreviewButtonHandler(
 void ManualCalibrationPanel::TogglePreviewCaptureButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        controller->e_CalibCapturePrevStart(button);
+        controller->e_CalibrationPreviewCaptureStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        controller->e_CalibCapturePrevEnd(button);
+        controller->e_CalibrationPreviewCaptureEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
@@ -110,12 +110,12 @@ void ManualCalibrationPanel::TogglePreviewCaptureButtonHandler(
 void ManualCalibrationPanel::ToggleCalibrationButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        controller->e_ManualCalibStart(button);
+        controller->e_ManualCalibrationCameraStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        controller->e_ManualCalibEnd(button);
+        controller->e_ManualCalibrationCameraEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");
@@ -124,12 +124,12 @@ void ManualCalibrationPanel::ToggleCalibrationButtonHandler(
 void ManualCalibrationPanel::ToggleCalibrationCaptureButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
-        controller->e_ManualCalibCaptureStart(button);
+        controller->e_ManualCalibrationCaptureStart(button);
         return;
     }
 
     if (button->getState() == ButtonState::ON) {
-        controller->e_ManualCalibCaptureEnd(button);
+        controller->e_ManualCalibrationCaptureEnd(button);
         return;
     }
     throw std::runtime_error("Invalid button state");

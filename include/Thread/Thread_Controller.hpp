@@ -2,17 +2,17 @@
 
 #include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
-#include "Thread/Thread_CalibPreview.hpp"
-#include "Thread/Thread_CalibPreviewCapture.hpp"
-#include "Thread/Thread_Calibration.hpp"
+#include "Thread/Thread_CalibrationCamera.hpp"
 #include "Thread/Thread_CalibrationCapture.hpp"
-#include "Thread/Thread_Capture.hpp"
-#include "Thread/Thread_ColorCalib.hpp"
-#include "Thread/Thread_ColorCalibPreview.hpp"
+#include "Thread/Thread_CalibrationPreviewCamera.hpp"
+#include "Thread/Thread_CalibrationPreviewCapture.hpp"
+#include "Thread/Thread_CameraPreview.hpp"
+#include "Thread/Thread_ColorCalibration.hpp"
+#include "Thread/Thread_ColorCalibrationPreview.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
-#include "Thread/Thread_ManualCalib.hpp"
-#include "Thread/Thread_ManualCalibCapture.hpp"
+#include "Thread/Thread_ManualCalibrationCamera.hpp"
+#include "Thread/Thread_ManualCalibrationCapture.hpp"
 #include "Thread/Thread_Process.hpp"
 #include "Thread/Thread_Replay.hpp"
 #include "Thread/Thread_ResultPreview.hpp"
@@ -27,22 +27,20 @@ class ThreadController {
     ThreadController();
     ~ThreadController();
 
-    virtual void startCaptureHandler(wxEvtHandler *parent,
-                                     std::unique_ptr<CameraBase> &camera,
-                                     PanelID panelID);
+    virtual void startCameraPreviewHandler(wxEvtHandler *parent,
+                                           CameraPtr &camera, PanelID panelID);
     void endCaptureHandler();
 
     virtual void startLoadCaptureHandler(wxEvtHandler *parent,
-                                         std::unique_ptr<CameraBase> &camera,
-                                         DataPtr data, const int maxFrame,
+                                         CameraPtr &camera, DataPtr data,
+                                         const int maxFrame,
                                          const bool Debug_ShowImage,
                                          const bool Debug_Save,
                                          PanelID panelID);
     void endLoadCaptureHandler();
 
     virtual void startLoadFileHandler(wxEvtHandler *parent, DataPtr data,
-                                      int maxFrame, std::string path,
-                                      PanelID panelID);
+                                      std::string path, PanelID panelID);
     void endLoadFileHandler();
 
     virtual void startSaveFileHandler(wxEvtHandler *parent, DataPtr data,
@@ -50,37 +48,38 @@ class ThreadController {
 
     void endSaveFileHandler();
 
-    virtual void startReplayHandler(wxEvtHandler *parent, DataPtr data,
-                                    PanelID panelID);
-    void endReplayHandler();
+    virtual void startCapturePreviewHandler(wxEvtHandler *parent, DataPtr data,
+                                            PanelID panelID);
+    void endCapturePreviewHandler();
 
-    virtual void startCalibrationHandler(wxEvtHandler *parent,
-                                         std::unique_ptr<CameraBase> &camera,
-                                         PanelID panelID);
-    void endCalibrationHandler();
+    virtual void startCalibrationCameraHandler(wxEvtHandler *parent,
+                                               CameraPtr &camera,
+                                               PanelID panelID);
+    void endCalibrationCameraHandler();
 
-    virtual void startCaptureCalibrationHandler(wxEvtHandler *parent,
+    virtual void startCalibrationCaptureHandler(wxEvtHandler *parent,
                                                 DataPtr data, PanelID panelID);
 
-    void endCaptureCalibrationHandler();
+    void endCalibrationCaptureHandler();
 
-    virtual void startCalibPreviewHandler(wxEvtHandler *parent,
-                                          std::unique_ptr<CameraBase> &camera,
-                                          DataPtr data, PanelID panelID);
+    virtual void startCalibrationPreviewCameraHandler(wxEvtHandler *parent,
+                                                      CameraPtr &camera,
+                                                      DataPtr data,
+                                                      PanelID panelID);
 
-    void endCalibPreviewHandler();
+    void endCalibrationPreviewCameraHandler();
 
-    virtual void startCalibCapturePreviewHandler(wxEvtHandler *parent,
-                                                 DataPtr data, PanelID panelID);
+    virtual void startCalibrationPreviewCaptureHandler(wxEvtHandler *parent,
+                                                       DataPtr data,
+                                                       PanelID panelID);
 
-    void endCalibCapturePreviewHandler();
+    void endCalibrationPreviewCaptureHandler();
 
-    virtual void
-    startManualCalibrationHandler(wxEvtHandler *parent,
-                                  std::unique_ptr<CameraBase> &camera,
-                                  PanelID panelID);
+    virtual void startManualCalibrationCameraHandler(wxEvtHandler *parent,
+                                                     CameraPtr &camera,
+                                                     PanelID panelID);
 
-    void endManualCalibrationHandler();
+    void endManualCalibrationCameraHandler();
 
     virtual void startManualCalibrationCaptureHandler(wxEvtHandler *parent,
                                                       DataPtr data,
@@ -88,18 +87,17 @@ class ThreadController {
 
     void endManualCalibrationCaptureHandler();
 
-    virtual void
-    startColorCalibrationHandler(wxEvtHandler *parent,
-                                 std::unique_ptr<CameraBase> &camera,
-                                 PanelID panelID);
+    virtual void startColorCalibrationHandler(wxEvtHandler *parent,
+                                              CameraPtr &camera,
+                                              PanelID panelID);
     void endColorCalibrationHandler();
 
-    virtual void
-    startColorCalibPreviewHandler(wxEvtHandler *parent,
-                                  std::unique_ptr<CameraBase> &camera,
-                                  CCModelPtr ccExtraModel, PanelID panelID);
+    virtual void startColorCalibrationPreviewHandler(wxEvtHandler *parent,
+                                                     CameraPtr &camera,
+                                                     CCModelPtr ccExtraModel,
+                                                     PanelID panelID);
 
-    void endColorCalibPreviewHandler();
+    void endColorCalibrationPreviewHandler();
 
     virtual void startRoiHandler(wxEvtHandler *parent, DataPtr data,
                                  PanelID panelID);
@@ -158,7 +156,7 @@ class ThreadController {
     ////////////////////////////////
     ////////////////////////////////
 
-    CaptureThread *getCaptureThread();
+    CameraPreviewThread *getCameraPreviewThread();
 
     LoadCaptureThread *getLoadCaptureThread();
 
@@ -166,23 +164,23 @@ class ThreadController {
 
     SaveDataThread *getSaveFileThread();
 
-    ReplayThread *getReplayThread();
+    CapturePreviewThread *getCapturePreviewThread();
 
-    CalibrationThread *getCalibrationThread();
+    CalibrationCameraThread *getCalibrationCameraThread();
 
-    CaptureCalibrationThread *getCaptureCalibrationThread();
+    CalibrationCaptureThread *getCalibrationCaptureThread();
 
-    CalibPreviewThread *getCalibPreviewThread();
+    CalibrationPreviewCameraThread *getCalibrationPreviewCameraThread();
 
-    CalibCapturePreviewThread *getCalibCapturePreviewThread();
+    CalibrationPreviewCaptureThread *getCalibrationPreviewCaptureThread();
 
-    ManualCalibrationThread *getManualCalibrationThread();
+    ManualCalibrationCameraThread *getManualCalibrationCameraThread();
 
     ManualCalibrationCaptureThread *getManualCalibrationCaptureThread();
 
     ColorCalibrationThread *getColorCalibrationThread();
 
-    ColorCalibPreviewThread *getColorCalibPreviewThread();
+    ColorCalibrationPreviewThread *getColorCalibPreviewThread();
 
     ResultPreviewThread *getResultPreviewThread();
 
@@ -206,7 +204,7 @@ class ThreadController {
     template <typename T>
     T *stopAndDeleteThread(T *threadPtr);
 
-    CaptureThread *captureThread;
+    CameraPreviewThread *cameraPreviewThread;
 
     LoadCaptureThread *loadCaptureThread;
 
@@ -214,23 +212,23 @@ class ThreadController {
 
     SaveDataThread *saveFileThread;
 
-    ReplayThread *replayThread;
+    CapturePreviewThread *capturePreviewThread;
 
-    CalibrationThread *calibrationThread;
+    CalibrationCameraThread *calibrationCameraThread;
 
-    CaptureCalibrationThread *captureCalibrationThread;
+    CalibrationCaptureThread *calibrationCaptureThread;
 
-    CalibPreviewThread *calibPreviewThread;
+    CalibrationPreviewCameraThread *calibrationPreviewCameraThread;
 
-    CalibCapturePreviewThread *calibCapturePreviewThread;
+    CalibrationPreviewCaptureThread *calibrationPreviewCaptureThread;
 
-    ManualCalibrationThread *manualCalibrationThread;
+    ManualCalibrationCameraThread *manualCalibrationCameraThread;
 
     ManualCalibrationCaptureThread *manualCalibrationCaptureThread;
 
     ColorCalibrationThread *colorCalibrationThread;
 
-    ColorCalibPreviewThread *colorCalibPreviewThread;
+    ColorCalibrationPreviewThread *colorCalibPreviewThread;
 
     RoiThread *roiThread;
 

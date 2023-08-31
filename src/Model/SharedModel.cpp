@@ -20,11 +20,11 @@ SharedModel::~SharedModel() {
     }
 }
 
-void SharedModel::setCamera(std::unique_ptr<CameraBase> &camera) {
+void SharedModel::setCamera(CameraPtr &camera) {
     this->camera = std::move(camera);
 }
 
-std::unique_ptr<CameraBase> SharedModel::getCamera() {
+CameraPtr SharedModel::getCamera() {
     return camera == nullptr ? nullptr : std::move(camera);
 }
 
@@ -48,8 +48,8 @@ std::shared_ptr<ThreadController> SharedModel::getThreadController() {
 void SharedModel::killAllThreads() {
     auto tc = getThreadController();
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_CAPTURE)) {
-        auto thread = tc->getCaptureThread();
+    if (!tc->isThreadNullptr(ThreadID::THREAD_CAMERA_PREVIEW)) {
+        auto thread = tc->getCameraPreviewThread();
         thread->Pause();
 
         auto camera = thread->getCamera();
@@ -68,41 +68,41 @@ void SharedModel::killAllThreads() {
         tc->endLoadCaptureHandler();
     }
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION)) {
-        auto thread = tc->getCalibrationThread();
+    if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION_CAMERA)) {
+        auto thread = tc->getCalibrationCameraThread();
         thread->Pause();
 
         auto camera = thread->getCamera();
         setCamera(camera);
 
-        tc->endCalibrationHandler();
+        tc->endCalibrationCameraHandler();
     }
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION_PREVIEW)) {
-        auto thread = tc->getCalibPreviewThread();
+    if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION_PREVIEW_CAMERA)) {
+        auto thread = tc->getCalibrationPreviewCameraThread();
         thread->Pause();
 
         auto camera = thread->getCamera();
         setCamera(camera);
 
-        tc->endCalibPreviewHandler();
+        tc->endCalibrationPreviewCameraHandler();
     }
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION_PREVIEW_CAPTURE)) {
-        auto thread = tc->getCalibCapturePreviewThread();
+        auto thread = tc->getCalibrationPreviewCaptureThread();
         thread->Pause();
 
-        tc->endCalibCapturePreviewHandler();
+        tc->endCalibrationPreviewCaptureHandler();
     }
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_MANUAL_CALIBRATION)) {
-        auto thread = tc->getManualCalibrationThread();
+    if (!tc->isThreadNullptr(ThreadID::THREAD_MANUAL_CALIBRATION_CAMERA)) {
+        auto thread = tc->getManualCalibrationCameraThread();
         thread->Pause();
 
         auto camera = thread->getCamera();
         setCamera(camera);
 
-        tc->endManualCalibrationHandler();
+        tc->endManualCalibrationCameraHandler();
     }
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_MANUAL_CALIBRATION_CAPTURE)) {
@@ -129,7 +129,7 @@ void SharedModel::killAllThreads() {
         auto camera = thread->getCamera();
         setCamera(camera);
 
-        tc->endColorCalibPreviewHandler();
+        tc->endColorCalibrationPreviewHandler();
     }
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
@@ -156,13 +156,13 @@ void SharedModel::killAllThreads() {
 
 // return a shared_ptr to the SessionData object WITHOUT copying it
 // e.g. is pointing to the same object as the one in SharedModel
-// if want to deep copy -> std::shared_ptr<SessionData>(sessionData)
+// if want to deep copy -> DataPtr(sessionData)
 DataPtr SharedModel::getSessionData() {
-    return std::shared_ptr<SessionData>(&sessionData, [](SessionData *) {});
+    return DataPtr(&sessionData, [](SessionData *) {});
 }
 
 DataPtr SharedModel::getTempSessionData() {
-    return std::shared_ptr<SessionData>(&tempSessionData, [](SessionData *) {});
+    return DataPtr(&tempSessionData, [](SessionData *) {});
 }
 
 void SharedModel::setSessionData(SessionData data) {

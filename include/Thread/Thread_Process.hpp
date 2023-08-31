@@ -13,9 +13,8 @@
 #define PROCESS_THREAD_HPP
 
 #include "Model/SessionData.hpp"
-#include "Thread/Thread_ID.hpp"
+#include "Thread/Thread_Base.hpp"
 #include <Event/Event_ProcessImage.hpp>
-#include <Event/Event_UpdatePreview.hpp>
 #include <Thread/Task/Task_OpticalFlow.hpp>
 #include <Thread/Task/Task_Sift.hpp>
 #include <Thread/ThreadPool.hpp>
@@ -30,22 +29,20 @@
  * @brief Custom wxThread for processing ImageData
  *
  */
-class ProcessThread : public wxThread {
+class ProcessThread : public BaseThread {
   public:
-    ProcessThread(wxEvtHandler *parent, POOLPtr threadPool, DataPtr data);
+    ProcessThread(wxEvtHandler *parent, DataPtr data, POOLPtr threadPool);
     ~ProcessThread();
 
-    ThreadID getID() const;
+    ThreadID getID() const override;
 
   protected:
-    virtual ExitCode Entry();
+    virtual ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    POOLPtr pool;
-    DataPtr data;
-
     const ThreadID threadID = ThreadID::THREAD_PROCESS;
+
+    POOLPtr pool;
 };
 
 #endif

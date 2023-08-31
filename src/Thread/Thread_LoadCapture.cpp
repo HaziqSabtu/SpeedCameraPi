@@ -12,18 +12,19 @@
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Utils/FileReader/fileWR.hpp"
 #include "Utils/wxUtils.hpp"
 #include <Thread/Thread_LoadCapture.hpp>
 #include <memory>
+#include <opencv2/imgproc.hpp>
 
-LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent,
-                                     std::unique_ptr<CameraBase> &camera,
+LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent, CameraPtr &camera,
                                      DataPtr data, const int maxFrame,
                                      const bool debug_ShowImage,
                                      const bool debug_Save)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(std::move(camera)),
-      data(data), maxFrame(maxFrame), debug_SaveImageData(debug_Save),
+    : BaseThread(parent, data), CameraAccessor(camera), PreviewableThread(),
+      maxFrame(maxFrame), debug_SaveImageData(debug_Save),
       debug_ShowImagesWhenCapture(debug_ShowImage) {}
 
 LoadCaptureThread::~LoadCaptureThread() {}
@@ -94,7 +95,8 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
 
         // showing captured frames
         for (int i = 0; i < maxFrame; i++) {
-            cv::Mat frame = vec.at(i).image;
+            cv::Mat frame = vec.at(i).image.clone();
+            cv::resize(frame, frame, pSize);
             UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
                                                   UPDATE_PREVIEW);
             updatePreviewEvent.SetImage(frame);
@@ -118,15 +120,6 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
     wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_CAMERA);
     wxPostEvent(parent, stopLoadEvent);
     return 0;
-}
-
-/**
- * @brief Get the Camera object
- *
- * @return std::unique_ptr<CameraBase>
- */
-std::unique_ptr<CameraBase> LoadCaptureThread::getCamera() {
-    return std::move(camera);
 }
 
 /**

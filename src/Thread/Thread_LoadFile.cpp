@@ -12,6 +12,7 @@
 #include "Event/Event_LoadImage.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Utils/FileReader/fileWR.hpp"
 #include <Thread/Thread_LoadFile.hpp>
 
@@ -25,9 +26,8 @@
  * @param maxFrame maximum number of frame to load
  */
 LoadFileThread::LoadFileThread(wxEvtHandler *parent, DataPtr data,
-                               std::string path, const int maxFrame)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), data(data), path(path),
-      maxFrame(maxFrame) {}
+                               std::string path)
+    : BaseThread(parent, data), PreviewableThread(), path(path) {}
 
 /**
  * @brief Destroy the Load File Thread:: Load File Thread object
@@ -65,12 +65,6 @@ wxThread::ExitCode LoadFileThread::Entry() {
         auto captureData = data->getCaptureData();
 
         UpdateStatusEvent::Submit(parent, "File loaded");
-
-        // trim capture data
-        if (maxFrame > 0 && maxFrame < captureData.size()) {
-            captureData.erase(captureData.begin() + maxFrame,
-                              captureData.end());
-        }
 
         for (int i = 0; i < captureData.size(); i++) {
             cv::Mat frame = captureData.at(i).image;

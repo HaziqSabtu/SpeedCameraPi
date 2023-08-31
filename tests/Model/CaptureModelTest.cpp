@@ -4,7 +4,7 @@
 #include "Event/Event_LoadImage.hpp"
 #include "Model/SessionData.hpp"
 #include "Model/SharedModel.hpp"
-#include "Thread/Thread_Capture.hpp"
+#include "Thread/Thread_CameraPreview.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
@@ -149,9 +149,10 @@ class MockCaptureModel : public CaptureController {
         return new MockLoadFileThread(parent);
     }
 
-    wxThread *initLoadCaptureThread(
-        wxEvtHandler *parent, std::unique_ptr<CameraBase> camera,
-        std::shared_ptr<std::vector<ImageData>> imgData, const int maxFrame) {
+    wxThread *
+    initLoadCaptureThread(wxEvtHandler *parent, CameraPtr camera,
+                          std::shared_ptr<std::vector<ImageData>> imgData,
+                          const int maxFrame) {
         return new MockLoadCaptureThread(parent);
     }
 
@@ -188,7 +189,7 @@ TEST_F(CaptureModelTest, startCaptureHandler_cameraNull) {
 TEST_F(CaptureModelTest, startCaptureHandler_captureThreadNotNull) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);
@@ -209,7 +210,7 @@ TEST_F(CaptureModelTest, startCaptureHandler_captureThreadNotNull) {
 TEST_F(CaptureModelTest, startCaptureHandlerOK) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);
@@ -225,7 +226,7 @@ TEST_F(CaptureModelTest, startCaptureHandlerOK) {
 TEST_F(CaptureModelTest, endCaptureHandler_captureThreadNull) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);
@@ -248,7 +249,7 @@ TEST_F(CaptureModelTest, endCaptureHandler_captureThreadNull) {
 TEST_F(CaptureModelTest, endCaptureHandler_captureThreadNotNull) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);
@@ -276,7 +277,7 @@ TEST_F(CaptureModelTest, endCaptureHandler_captureThreadNotNull) {
 TEST_F(CaptureModelTest, startLoadFileHandler_captureThreadNotNull) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);
@@ -422,7 +423,7 @@ TEST_F(CaptureModelTest, startLoadCaptureHandler_cameraNull) {
 TEST_F(CaptureModelTest, startLoadCaptureHandler_captureThreadNotNull) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);
@@ -450,7 +451,7 @@ TEST_F(CaptureModelTest, startLoadCaptureHandler_captureThreadNotNull) {
 TEST_F(CaptureModelTest, startLoadCoptureHandler_loadCaptureThreadNotNull) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);
@@ -474,7 +475,7 @@ TEST_F(CaptureModelTest, startLoadCoptureHandler_loadCaptureThreadNotNull) {
 TEST_F(CaptureModelTest, startLoadCaptureHandler_imageDataNotEmpty) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     ImageData data(cv::Mat(100, 100, CV_8UC3, cv::Scalar(0, 0, 0)));
@@ -499,7 +500,7 @@ TEST_F(CaptureModelTest, startLoadCaptureHandler_imageDataNotEmpty) {
 TEST_F(CaptureModelTest, startLoadCaptureHandlerOK) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);
@@ -517,7 +518,7 @@ TEST_F(CaptureModelTest, startLoadCaptureHandlerOK) {
 TEST_F(CaptureModelTest, endLoadCaptureHandler_loadCaptureThreadNull) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);
@@ -540,7 +541,7 @@ TEST_F(CaptureModelTest, endLoadCaptureHandler_loadCaptureThreadNull) {
 TEST_F(CaptureModelTest, endLoadCaptureHandler_loadCaptureThreadNotNull) {
     std::shared_ptr<SharedModel> shared = std::make_shared<SharedModel>();
 
-    std::unique_ptr<CameraBase> camera = std::make_unique<MockCamera>(100, 100);
+    CameraPtr camera = std::make_unique<MockCamera>(100, 100);
     shared->setCamera(camera);
 
     MockCaptureModel model(shared);

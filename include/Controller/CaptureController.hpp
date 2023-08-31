@@ -12,9 +12,7 @@
 #include <Model/SharedModel.hpp>
 
 #include <Thread/ThreadPool.hpp>
-#include <Thread/Thread_Capture.hpp>
-#include <Thread/Thread_ID.hpp>
-#include <Thread/Thread_LoadFile.hpp>
+#include <Thread/Thread_Controller.hpp>
 
 #include <UI/Dialog/ResetDataDialog.hpp>
 #include <UI/Dialog/SaveDataDialog.hpp>
@@ -41,8 +39,8 @@ class CaptureController : public BaseController {
 
     void e_ClearImageData(wxEvtHandler *parent);
 
-    void e_CameraStart(wxEvtHandler *parent);
-    void e_CameraEnd(wxEvtHandler *parent);
+    void e_CameraPreviewStart(wxEvtHandler *parent);
+    void e_CameraPreviewEnd(wxEvtHandler *parent);
 
     void e_LoadFileStart(wxEvtHandler *parent, std::string path);
     void e_LoadFileEnd(wxEvtHandler *parent);
@@ -50,10 +48,10 @@ class CaptureController : public BaseController {
     void e_LoadCaptureStart(wxEvtHandler *parent);
     void e_LoadCaptureEnd(wxEvtHandler *parent);
 
-    void e_ReplayStart(wxEvtHandler *parent);
-    void e_ReplayEnd(wxEvtHandler *parent);
+    void e_CapturePreviewStart(wxEvtHandler *parent);
+    void e_CapturePreviewEnd(wxEvtHandler *parent);
 
-    void e_ChangeToCalibPanel(wxEvtHandler *parent);
+    void e_ChangeToCalibrationPanel(wxEvtHandler *parent);
     void e_RemoveCalibration(wxEvtHandler *parent);
 
     void e_ChangeToRoiPanel(wxEvtHandler *parent);
@@ -81,8 +79,8 @@ class CaptureController : public BaseController {
 
     void removeRoiHandler(wxEvtHandler *parent);
 
-    void captureStartHandler(wxEvtHandler *parent);
-    void captureEndHandler(wxEvtHandler *parent);
+    void cameraPreviewStartHandler(wxEvtHandler *parent);
+    void cameraPreviewEndHandler(wxEvtHandler *parent);
 
     void loadFileStartHandler(wxEvtHandler *parent, std::string path);
     void loadFileEndHandler(wxEvtHandler *parent);
@@ -90,8 +88,8 @@ class CaptureController : public BaseController {
     void loadCaptureStartHandler(wxEvtHandler *parent);
     void loadCaptureEndHandler(wxEvtHandler *parent);
 
-    void replayStartHandler(wxEvtHandler *parent);
-    void replayEndHandler(wxEvtHandler *parent);
+    void capturePreviewStartHandler(wxEvtHandler *parent);
+    void capturePreviewEndHandler(wxEvtHandler *parent);
 
     void saveSessionDataStartHandler(wxEvtHandler *parent);
     void saveSessionDataEndHandler(wxEvtHandler *parent);

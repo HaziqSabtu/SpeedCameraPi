@@ -16,10 +16,9 @@
 #include <wx/event.h>
 #include <wx/utils.h>
 
-ProcessThread::ProcessThread(wxEvtHandler *parent, POOLPtr threadPool,
-                             DataPtr data)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
-      data(data) {}
+ProcessThread::ProcessThread(wxEvtHandler *parent, DataPtr data,
+                             POOLPtr threadPool)
+    : BaseThread(parent, data), pool(threadPool) {}
 
 ProcessThread::~ProcessThread() {}
 

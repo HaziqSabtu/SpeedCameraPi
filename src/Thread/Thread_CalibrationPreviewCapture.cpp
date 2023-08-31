@@ -1,39 +1,17 @@
 
 #include "Event/Event_Error.hpp"
-#include <Thread/Thread_CalibPreviewCapture.hpp>
+#include <Thread/Thread_CalibrationPreviewCapture.hpp>
 #include <memory>
 #include <opencv2/core/types.hpp>
 
-CalibCapturePreviewThread::CalibCapturePreviewThread(wxEvtHandler *parent,
-                                                     DataPtr data)
-    : wxThread(wxTHREAD_JOINABLE), data(data) {
-    this->parent = parent;
-
-    AppConfig config;
-    auto previewConfig = config.GetPreviewConfig();
-    int pWidth = previewConfig.width;
-    int pHeight = previewConfig.height;
-    this->pSize = cv::Size(pWidth, pHeight);
-
-    if (data->isCaptureDataEmpty()) {
-        throw std::runtime_error("Capture data is empty");
-    }
-
-    auto captureData = data->getCaptureData();
-    auto firstData = captureData.front();
-    int iWidth = firstData.image.cols;
-    int iHeight = firstData.image.rows;
-    this->imageSize = cv::Size(iWidth, iHeight);
+CalibrationPreviewCaptureThread::CalibrationPreviewCaptureThread(
+    wxEvtHandler *parent, DataPtr data)
+    : BaseThread(parent, data), ImageSizeDataThread(data), PreviewableThread() {
 }
 
-CalibCapturePreviewThread::~CalibCapturePreviewThread() {}
+CalibrationPreviewCaptureThread::~CalibrationPreviewCaptureThread() {}
 
-// TODO: do only one loop
-wxThread::ExitCode CalibCapturePreviewThread::Entry() {
-
-    wxCommandEvent startCaptureEvent(c_CAPTURE_EVENT, CAPTURE_START);
-    wxPostEvent(parent, startCaptureEvent);
-
+wxThread::ExitCode CalibrationPreviewCaptureThread::Entry() {
     try {
         cv::Mat firstFrame;
         auto captureData = data->getCaptureData();
@@ -75,10 +53,7 @@ wxThread::ExitCode CalibCapturePreviewThread::Entry() {
     UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
     wxPostEvent(parent, clearPreviewEvent);
 
-    wxCommandEvent endCaptureEvent(c_CAPTURE_EVENT, CAPTURE_END);
-    wxPostEvent(parent, endCaptureEvent);
-
     return 0;
 }
 
-ThreadID CalibCapturePreviewThread::getID() const { return id; }
+ThreadID CalibrationPreviewCaptureThread::getID() const { return id; }

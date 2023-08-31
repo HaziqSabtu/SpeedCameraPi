@@ -11,6 +11,7 @@
 #ifndef CAPTURE_THREAD_HPP
 #define CAPTURE_THREAD_HPP
 
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Capture.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -28,23 +29,18 @@
  * @brief Custom wxThread for capturing image from camera
  *
  */
-class CaptureThread : public wxThread {
+class CameraPreviewThread : public BaseThread, public CameraAccessor {
   public:
-    CaptureThread(wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera);
-    ~CaptureThread();
+    CameraPreviewThread(wxEvtHandler *parent, CameraPtr &camera);
+    ~CameraPreviewThread();
 
-    std::unique_ptr<CameraBase> getCamera();
-
-    ThreadID getID() const;
+    ThreadID getID() const override;
 
   protected:
-    virtual ExitCode Entry();
+    virtual ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    std::unique_ptr<CameraBase> camera;
-
-    const ThreadID id = THREAD_CAPTURE;
+    const ThreadID id = THREAD_CAMERA_PREVIEW;
 };
 
 #endif

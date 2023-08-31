@@ -13,6 +13,7 @@
 #define LOAD_FILE_THREAD_HPP
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Error.hpp>
 #include <Event/Event_LoadImage.hpp>
@@ -34,24 +35,20 @@
  * @brief Custom wxThread for loading ImageData from file
  *
  */
-class LoadFileThread : public wxThread {
+class LoadFileThread : public BaseThread, public PreviewableThread {
   public:
-    LoadFileThread(wxEvtHandler *parent, DataPtr data, std::string path,
-                   const int maxFrame);
+    LoadFileThread(wxEvtHandler *parent, DataPtr data, std::string path);
     ~LoadFileThread();
 
-    ThreadID getID() const;
+    ThreadID getID() const override;
 
   protected:
-    ExitCode Entry();
+    ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    DataPtr data;
-    std::string path;
-    const int maxFrame;
-
     const ThreadID id = THREAD_LOAD_FILE;
+
+    std::string path;
 };
 
 #endif

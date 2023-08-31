@@ -6,7 +6,7 @@
 #include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
-#include "Thread/Thread_Calibration.hpp"
+#include "Thread/Thread_CalibrationCamera.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -20,10 +20,10 @@
 
 #include <wx/thread.h>
 
-class CaptureCalibrationThread : public BaseCalibrationThread {
+class CalibrationCaptureThread : public BaseCalibrationThread {
   public:
-    CaptureCalibrationThread(wxEvtHandler *parent, DataPtr data);
-    ~CaptureCalibrationThread();
+    CalibrationCaptureThread(wxEvtHandler *parent, DataPtr data);
+    ~CalibrationCaptureThread();
 
     ThreadID getID() const override;
 
@@ -31,7 +31,5 @@ class CaptureCalibrationThread : public BaseCalibrationThread {
     virtual ExitCode Entry() override;
 
   private:
-    DataPtr data;
-
     const ThreadID threadID = ThreadID::THREAD_CALIBRATION_CAPTURE;
 };

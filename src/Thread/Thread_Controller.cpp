@@ -1,18 +1,7 @@
 #include "Algorithm/hsv_filter/BFS.hpp"
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Model/SessionData.hpp"
-#include "Thread/Thread_CalibPreviewCapture.hpp"
-#include "Thread/Thread_CalibrationCapture.hpp"
-#include "Thread/Thread_ColorCalibPreview.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Thread/Thread_LoadCapture.hpp"
-#include "Thread/Thread_ManualCalibCapture.hpp"
-#include "Thread/Thread_Process.hpp"
-#include "Thread/Thread_ResultPreview.hpp"
-#include "Thread/Thread_Roi.hpp"
-#include "Thread/Thread_SaveData.hpp"
 #include <Thread/Thread_Controller.hpp>
-#include <Thread/Thread_ManualCalib.hpp>
 
 #include <exception>
 #include <iostream>
@@ -29,16 +18,16 @@ ThreadController::~ThreadController() {
 }
 
 void ThreadController::initThread() {
-    captureThread = nullptr;
+    cameraPreviewThread = nullptr;
     loadCaptureThread = nullptr;
     loadFileThread = nullptr;
     saveFileThread = nullptr;
-    replayThread = nullptr;
-    calibrationThread = nullptr;
-    captureCalibrationThread = nullptr;
-    calibPreviewThread = nullptr;
-    calibCapturePreviewThread = nullptr;
-    manualCalibrationThread = nullptr;
+    capturePreviewThread = nullptr;
+    calibrationCameraThread = nullptr;
+    calibrationCaptureThread = nullptr;
+    calibrationPreviewCameraThread = nullptr;
+    calibrationPreviewCaptureThread = nullptr;
+    manualCalibrationCameraThread = nullptr;
     manualCalibrationCaptureThread = nullptr;
     colorCalibrationThread = nullptr;
     colorCalibPreviewThread = nullptr;
@@ -50,16 +39,16 @@ void ThreadController::initThread() {
 };
 
 void ThreadController::deleteThread() {
-    stopAndDeleteThread(captureThread);
+    stopAndDeleteThread(cameraPreviewThread);
     stopAndDeleteThread(loadCaptureThread);
     stopAndDeleteThread(loadFileThread);
     stopAndDeleteThread(saveFileThread);
-    stopAndDeleteThread(replayThread);
-    stopAndDeleteThread(calibrationThread);
-    stopAndDeleteThread(captureCalibrationThread);
-    stopAndDeleteThread(calibPreviewThread);
-    stopAndDeleteThread(calibCapturePreviewThread);
-    stopAndDeleteThread(manualCalibrationThread);
+    stopAndDeleteThread(capturePreviewThread);
+    stopAndDeleteThread(calibrationCameraThread);
+    stopAndDeleteThread(calibrationCaptureThread);
+    stopAndDeleteThread(calibrationPreviewCameraThread);
+    stopAndDeleteThread(calibrationPreviewCaptureThread);
+    stopAndDeleteThread(manualCalibrationCameraThread);
     stopAndDeleteThread(manualCalibrationCaptureThread);
     stopAndDeleteThread(colorCalibrationThread);
     stopAndDeleteThread(colorCalibPreviewThread);
@@ -71,8 +60,8 @@ void ThreadController::deleteThread() {
 };
 
 bool ThreadController::isThreadNullptr(ThreadID threadID) {
-    if (threadID == ThreadID::THREAD_CAPTURE) {
-        return captureThread == nullptr;
+    if (threadID == ThreadID::THREAD_CAMERA_PREVIEW) {
+        return cameraPreviewThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_LOAD_CAPTURE) {
@@ -87,28 +76,28 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return saveFileThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_REPLAY) {
-        return replayThread == nullptr;
+    if (threadID == ThreadID::THREAD_CAPTURE_PREVIEW) {
+        return capturePreviewThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_CALIBRATION) {
-        return calibrationThread == nullptr;
+    if (threadID == ThreadID::THREAD_CALIBRATION_CAMERA) {
+        return calibrationCameraThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_CALIBRATION_CAPTURE) {
-        return captureCalibrationThread == nullptr;
+        return calibrationCaptureThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_CALIBRATION_PREVIEW) {
-        return calibPreviewThread == nullptr;
+    if (threadID == ThreadID::THREAD_CALIBRATION_PREVIEW_CAMERA) {
+        return calibrationPreviewCameraThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_CALIBRATION_PREVIEW_CAPTURE) {
-        return calibCapturePreviewThread == nullptr;
+        return calibrationPreviewCaptureThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION) {
-        return manualCalibrationThread == nullptr;
+    if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION_CAMERA) {
+        return manualCalibrationCameraThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION_CAPTURE) {
@@ -160,7 +149,7 @@ bool ThreadController::isThreadOwner(ThreadID threadID, PanelID panelID) {
 
 bool ThreadController::isCalibrationThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION)) {
+    if (!isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
         return true;
     }
 
@@ -173,8 +162,8 @@ bool ThreadController::isCalibrationThreadRunning() {
 
 bool ThreadController::isCalibrationThreadOwner(PanelID panelID) {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION)) {
-        return isThreadOwner(THREAD_CALIBRATION, panelID);
+    if (!isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
+        return isThreadOwner(THREAD_CALIBRATION_CAMERA, panelID);
     }
 
     if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
@@ -186,12 +175,12 @@ bool ThreadController::isCalibrationThreadOwner(PanelID panelID) {
 
 BaseCalibrationThread *ThreadController::getRunningCalibrationThread() {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION)) {
-        return getCalibrationThread();
+    if (!isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
+        return getCalibrationCameraThread();
     }
 
     if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
-        return getCaptureCalibrationThread();
+        return getCalibrationCaptureThread();
     }
 
     return nullptr;
@@ -199,7 +188,7 @@ BaseCalibrationThread *ThreadController::getRunningCalibrationThread() {
 
 bool ThreadController::isManualCalibrationThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
+    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
         return true;
     }
 
@@ -212,8 +201,8 @@ bool ThreadController::isManualCalibrationThreadRunning() {
 
 bool ThreadController::isManualCalibrationThreadOwner(PanelID panelID) {
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
-        return isThreadOwner(THREAD_MANUAL_CALIBRATION, panelID);
+    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
+        return isThreadOwner(THREAD_MANUAL_CALIBRATION_CAMERA, panelID);
     }
 
     if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
@@ -226,8 +215,8 @@ bool ThreadController::isManualCalibrationThreadOwner(PanelID panelID) {
 BaseManualCalibrationThread *
 ThreadController::getRunningManualCalibrationThread() {
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION)) {
-        return getManualCalibrationThread();
+    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
+        return getManualCalibrationCameraThread();
     }
 
     if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
@@ -239,7 +228,7 @@ ThreadController::getRunningManualCalibrationThread() {
 
 bool ThreadController::isCalibPreviewThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW)) {
+    if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
         return true;
     }
 
@@ -252,7 +241,7 @@ bool ThreadController::isCalibPreviewThreadRunning() {
 
 bool ThreadController::isCapturePanelThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_CAPTURE)) {
+    if (!isThreadNullptr(THREAD_CAMERA_PREVIEW)) {
         return true;
     }
 
@@ -268,31 +257,30 @@ bool ThreadController::isCapturePanelThreadRunning() {
         return true;
     }
 
-    if (!isThreadNullptr(THREAD_REPLAY)) {
+    if (!isThreadNullptr(THREAD_CAPTURE_PREVIEW)) {
         return true;
     }
 
     return false;
 }
 
-void ThreadController::startCaptureHandler(wxEvtHandler *parent,
-                                           std::unique_ptr<CameraBase> &camera,
-                                           PanelID panelID) {
+void ThreadController::startCameraPreviewHandler(wxEvtHandler *parent,
+                                                 CameraPtr &camera,
+                                                 PanelID panelID) {
 
-    captureThread = new CaptureThread(parent, camera);
-    captureThread->Run();
+    cameraPreviewThread = new CameraPreviewThread(parent, camera);
+    cameraPreviewThread->Run();
 
-    owner[captureThread->getID()] = panelID;
+    owner[cameraPreviewThread->getID()] = panelID;
 }
 
 void ThreadController::endCaptureHandler() {
-    captureThread = stopAndDeleteThread(captureThread);
+    cameraPreviewThread = stopAndDeleteThread(cameraPreviewThread);
 }
 
 void ThreadController::startLoadCaptureHandler(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera, DataPtr data,
-    const int maxFrame, const bool Debug_ShowImage, const bool Debug_Save,
-    PanelID panelID) {
+    wxEvtHandler *parent, CameraPtr &camera, DataPtr data, const int maxFrame,
+    const bool Debug_ShowImage, const bool Debug_Save, PanelID panelID) {
 
     loadCaptureThread = new LoadCaptureThread(parent, camera, data, maxFrame,
                                               Debug_ShowImage, Debug_Save);
@@ -305,20 +293,23 @@ void ThreadController::endLoadCaptureHandler() {
     loadCaptureThread = stopAndDeleteThread(loadCaptureThread);
 }
 
-void ThreadController::startReplayHandler(wxEvtHandler *parent, DataPtr data,
-                                          PanelID panelID) {
+void ThreadController::startCapturePreviewHandler(wxEvtHandler *parent,
+                                                  DataPtr data,
+                                                  PanelID panelID) {
 
-    replayThread = new ReplayThread(parent, data);
-    replayThread->Run();
+    capturePreviewThread = new CapturePreviewThread(parent, data);
+    capturePreviewThread->Run();
 
-    owner[replayThread->getID()] = panelID;
+    owner[capturePreviewThread->getID()] = panelID;
 }
 
-void ThreadController::endReplayHandler() {
-    replayThread = stopAndDeleteThread(replayThread);
+void ThreadController::endCapturePreviewHandler() {
+    capturePreviewThread = stopAndDeleteThread(capturePreviewThread);
 }
 
-CaptureThread *ThreadController::getCaptureThread() { return captureThread; }
+CameraPreviewThread *ThreadController::getCameraPreviewThread() {
+    return cameraPreviewThread;
+}
 
 LoadCaptureThread *ThreadController::getLoadCaptureThread() {
     return loadCaptureThread;
@@ -328,26 +319,31 @@ LoadFileThread *ThreadController::getLoadFileThread() { return loadFileThread; }
 
 SaveDataThread *ThreadController::getSaveFileThread() { return saveFileThread; }
 
-ReplayThread *ThreadController::getReplayThread() { return replayThread; }
-
-CalibrationThread *ThreadController::getCalibrationThread() {
-    return calibrationThread;
+CapturePreviewThread *ThreadController::getCapturePreviewThread() {
+    return capturePreviewThread;
 }
 
-CaptureCalibrationThread *ThreadController::getCaptureCalibrationThread() {
-    return captureCalibrationThread;
+CalibrationCameraThread *ThreadController::getCalibrationCameraThread() {
+    return calibrationCameraThread;
 }
 
-CalibPreviewThread *ThreadController::getCalibPreviewThread() {
-    return calibPreviewThread;
+CalibrationCaptureThread *ThreadController::getCalibrationCaptureThread() {
+    return calibrationCaptureThread;
 }
 
-CalibCapturePreviewThread *ThreadController::getCalibCapturePreviewThread() {
-    return calibCapturePreviewThread;
+CalibrationPreviewCameraThread *
+ThreadController::getCalibrationPreviewCameraThread() {
+    return calibrationPreviewCameraThread;
 }
 
-ManualCalibrationThread *ThreadController::getManualCalibrationThread() {
-    return manualCalibrationThread;
+CalibrationPreviewCaptureThread *
+ThreadController::getCalibrationPreviewCaptureThread() {
+    return calibrationPreviewCaptureThread;
+}
+
+ManualCalibrationCameraThread *
+ThreadController::getManualCalibrationCameraThread() {
+    return manualCalibrationCameraThread;
 }
 
 ManualCalibrationCaptureThread *
@@ -359,7 +355,7 @@ ColorCalibrationThread *ThreadController::getColorCalibrationThread() {
     return colorCalibrationThread;
 }
 
-ColorCalibPreviewThread *ThreadController::getColorCalibPreviewThread() {
+ColorCalibrationPreviewThread *ThreadController::getColorCalibPreviewThread() {
     return colorCalibPreviewThread;
 }
 
@@ -378,10 +374,9 @@ ResultPreviewThread *ThreadController::getResultPreviewThread() {
 TrimDataThread *ThreadController::getTrimDataThread() { return trimDataThread; }
 
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, DataPtr data,
-                                            int maxFrame, std::string path,
-                                            PanelID panelID) {
+                                            std::string path, PanelID panelID) {
 
-    loadFileThread = new LoadFileThread(parent, data, path, maxFrame);
+    loadFileThread = new LoadFileThread(parent, data, path);
     loadFileThread->Run();
 
     owner[loadFileThread->getID()] = panelID;
@@ -404,72 +399,76 @@ void ThreadController::endSaveFileHandler() {
     saveFileThread = stopAndDeleteThread(saveFileThread);
 }
 
-void ThreadController::startCalibrationHandler(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    PanelID panelID) {
+void ThreadController::startCalibrationCameraHandler(wxEvtHandler *parent,
+                                                     CameraPtr &camera,
+                                                     PanelID panelID) {
 
-    calibrationThread = new CalibrationThread(parent, camera);
-    calibrationThread->Run();
+    calibrationCameraThread = new CalibrationCameraThread(parent, camera);
+    calibrationCameraThread->Run();
 
-    owner[calibrationThread->getID()] = panelID;
+    owner[calibrationCameraThread->getID()] = panelID;
 }
 
-void ThreadController::endCalibrationHandler() {
-    calibrationThread = stopAndDeleteThread(calibrationThread);
+void ThreadController::endCalibrationCameraHandler() {
+    calibrationCameraThread = stopAndDeleteThread(calibrationCameraThread);
 }
 
-void ThreadController::startCaptureCalibrationHandler(wxEvtHandler *parent,
+void ThreadController::startCalibrationCaptureHandler(wxEvtHandler *parent,
                                                       DataPtr data,
                                                       PanelID panelID) {
 
-    captureCalibrationThread = new CaptureCalibrationThread(parent, data);
-    captureCalibrationThread->Run();
+    calibrationCaptureThread = new CalibrationCaptureThread(parent, data);
+    calibrationCaptureThread->Run();
 
-    owner[captureCalibrationThread->getID()] = panelID;
+    owner[calibrationCaptureThread->getID()] = panelID;
 }
 
-void ThreadController::endCaptureCalibrationHandler() {
-    captureCalibrationThread = stopAndDeleteThread(captureCalibrationThread);
+void ThreadController::endCalibrationCaptureHandler() {
+    calibrationCaptureThread = stopAndDeleteThread(calibrationCaptureThread);
 }
 
-void ThreadController::startCalibPreviewHandler(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    std::shared_ptr<SessionData> data, PanelID panelID) {
-    calibPreviewThread = new CalibPreviewThread(parent, camera, data);
-    calibPreviewThread->Run();
+void ThreadController::startCalibrationPreviewCameraHandler(
+    wxEvtHandler *parent, CameraPtr &camera, DataPtr data, PanelID panelID) {
+    calibrationPreviewCameraThread =
+        new CalibrationPreviewCameraThread(parent, data, camera);
+    calibrationPreviewCameraThread->Run();
 
-    owner[calibPreviewThread->getID()] = panelID;
+    owner[calibrationPreviewCameraThread->getID()] = panelID;
 }
 
-void ThreadController::endCalibPreviewHandler() {
-    calibPreviewThread = stopAndDeleteThread(calibPreviewThread);
+void ThreadController::endCalibrationPreviewCameraHandler() {
+    calibrationPreviewCameraThread =
+        stopAndDeleteThread(calibrationPreviewCameraThread);
 }
 
-void ThreadController::startCalibCapturePreviewHandler(wxEvtHandler *parent,
-                                                       DataPtr data,
-                                                       PanelID panelID) {
-    calibCapturePreviewThread = new CalibCapturePreviewThread(parent, data);
-    calibCapturePreviewThread->Run();
+void ThreadController::startCalibrationPreviewCaptureHandler(
+    wxEvtHandler *parent, DataPtr data, PanelID panelID) {
+    calibrationPreviewCaptureThread =
+        new CalibrationPreviewCaptureThread(parent, data);
+    calibrationPreviewCaptureThread->Run();
 
-    owner[calibCapturePreviewThread->getID()] = panelID;
+    owner[calibrationPreviewCaptureThread->getID()] = panelID;
 }
 
-void ThreadController::endCalibCapturePreviewHandler() {
-    calibCapturePreviewThread = stopAndDeleteThread(calibCapturePreviewThread);
+void ThreadController::endCalibrationPreviewCaptureHandler() {
+    calibrationPreviewCaptureThread =
+        stopAndDeleteThread(calibrationPreviewCaptureThread);
 }
 
-void ThreadController::startManualCalibrationHandler(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    PanelID panelID) {
+void ThreadController::startManualCalibrationCameraHandler(wxEvtHandler *parent,
+                                                           CameraPtr &camera,
+                                                           PanelID panelID) {
 
-    manualCalibrationThread = new ManualCalibrationThread(parent, camera);
-    manualCalibrationThread->Run();
+    manualCalibrationCameraThread =
+        new ManualCalibrationCameraThread(parent, camera);
+    manualCalibrationCameraThread->Run();
 
-    owner[manualCalibrationThread->getID()] = panelID;
+    owner[manualCalibrationCameraThread->getID()] = panelID;
 }
 
-void ThreadController::endManualCalibrationHandler() {
-    manualCalibrationThread = stopAndDeleteThread(manualCalibrationThread);
+void ThreadController::endManualCalibrationCameraHandler() {
+    manualCalibrationCameraThread =
+        stopAndDeleteThread(manualCalibrationCameraThread);
 }
 
 void ThreadController::startManualCalibrationCaptureHandler(
@@ -487,9 +486,9 @@ void ThreadController::endManualCalibrationCaptureHandler() {
         stopAndDeleteThread(manualCalibrationCaptureThread);
 }
 
-void ThreadController::startColorCalibrationHandler(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
-    PanelID panelID) {
+void ThreadController::startColorCalibrationHandler(wxEvtHandler *parent,
+                                                    CameraPtr &camera,
+                                                    PanelID panelID) {
 
     colorCalibrationThread = new ColorCalibrationThread(parent, camera);
     colorCalibrationThread->Run();
@@ -501,17 +500,17 @@ void ThreadController::endColorCalibrationHandler() {
     colorCalibrationThread = stopAndDeleteThread(colorCalibrationThread);
 }
 
-void ThreadController::startColorCalibPreviewHandler(
-    wxEvtHandler *parent, std::unique_ptr<CameraBase> &camera,
+void ThreadController::startColorCalibrationPreviewHandler(
+    wxEvtHandler *parent, CameraPtr &camera,
     std::shared_ptr<ColorCalibExtraModel> ccExtraModel, PanelID panelID) {
     colorCalibPreviewThread =
-        new ColorCalibPreviewThread(parent, camera, ccExtraModel);
+        new ColorCalibrationPreviewThread(parent, camera, ccExtraModel);
     colorCalibPreviewThread->Run();
 
     owner[colorCalibPreviewThread->getID()] = panelID;
 }
 
-void ThreadController::endColorCalibPreviewHandler() {
+void ThreadController::endColorCalibrationPreviewHandler() {
     colorCalibPreviewThread = stopAndDeleteThread(colorCalibPreviewThread);
 }
 
@@ -542,7 +541,7 @@ void ThreadController::endRoiPreviewHandler() {
 void ThreadController::startProcessHandler(wxEvtHandler *parent,
                                            POOLPtr threadPool, DataPtr data,
                                            PanelID panelID) {
-    processThread = new ProcessThread(parent, threadPool, data);
+    processThread = new ProcessThread(parent, data, threadPool);
     processThread->Run();
 
     owner[processThread->getID()] = panelID;
@@ -596,6 +595,6 @@ void ThreadController::killAllThreads() { deleteThread(); }
 // Maybe Required for testing
 // CaptureThread *
 // CaptureModel::initCaptureThread(wxEvtHandler *parent,
-//                                 std::unique_ptr<CameraBase> &camera) {
+//                                 CameraPtr &camera) {
 //     return new CaptureThread(parent, camera);
 // }

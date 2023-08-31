@@ -33,10 +33,6 @@ class AppConfig {
     void SetCaptureConfig(CaptureConfig config);
     void ResetCaptureConfig();
 
-    LoadConfig GetLoadConfig();
-    void SetLoadConfig(LoadConfig config);
-    void ResetLoadConfig();
-
     OpticalFlowConfig GetOpticalFlowConfig();
     void SetOpticalFlowConfig(OpticalFlowConfig config);
     void ResetOpticalFlowConfig();
@@ -96,9 +92,6 @@ class AppConfig {
     int Default_Max_Frame_Count = 10;
     bool Default_DebugShowImage = false;
     bool Default_DebugSave = false;
-
-    // Load Parameter
-    int Default_Max_Frame = 10;
 
     // Detection Parameter
     int Default_Max_Points = 1000;
