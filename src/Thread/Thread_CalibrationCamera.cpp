@@ -134,7 +134,6 @@ void BaseCalibrationThread::updateLeftLine(Line line) {
 ThreadID CalibrationCameraThread::getID() const { return threadID; }
 
 CalibrationData CalibrationCameraThread::getCalibrationData() {
-    std::unique_lock<std::mutex> lock(m_mutex);
     return CalibrationData(getRealLeftLine(), getRealRightLine());
 }
 

@@ -87,6 +87,5 @@ Line ManualCalibrationCaptureThread::getRealLeftLine() {
 }
 
 CalibrationData ManualCalibrationCaptureThread::getCalibrationData() {
-    std::unique_lock<std::mutex> lock(m_mutex);
     return CalibrationData(getRealRightLine(), getRealLeftLine());
 }

@@ -17,7 +17,6 @@ BaseManualCalibrationThread::BaseManualCalibrationThread(wxEvtHandler *parent,
 BaseManualCalibrationThread::~BaseManualCalibrationThread() {}
 
 CalibrationData ManualCalibrationCameraThread::getCalibrationData() {
-    std::unique_lock<std::mutex> lock(m_mutex);
     return CalibrationData(getRealLeftLine(), getRealRightLine());
 }
 

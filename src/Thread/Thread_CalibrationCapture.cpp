@@ -105,7 +105,6 @@ wxThread::ExitCode CalibrationCaptureThread::Entry() {
 ThreadID CalibrationCaptureThread::getID() const { return threadID; }
 
 CalibrationData CalibrationCaptureThread::getCalibrationData() {
-    std::unique_lock<std::mutex> lock(m_mutex);
     return CalibrationData(getRealLeftLine(), getRealRightLine());
 }
 

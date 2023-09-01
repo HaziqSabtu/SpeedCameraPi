@@ -1,5 +1,6 @@
 #include <Controller/CalibrationController.hpp>
 #include <stdexcept>
+#include <wx/app.h>
 
 CalibrationController::CalibrationController(ModelPtr sharedModel)
     : BaseControllerWithTouch(sharedModel) {
@@ -355,7 +356,8 @@ void CalibrationController::killAllThreads(wxEvtHandler *parent) {
 
 void CalibrationController::changeToManualPanelHandler(wxEvtHandler *parent) {
     if (shared->isSessionDataChanged()) {
-        auto dialog = CancelDialog(nullptr);
+        auto wx = wxTheApp->GetTopWindow();
+        auto dialog = CancelDialog(wx);
         if (dialog.ShowModal() == wxID_NO) {
             return;
         }
