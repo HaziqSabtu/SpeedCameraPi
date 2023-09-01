@@ -1,10 +1,9 @@
-#include "Thread/Thread_Replay.hpp"
+#include "Thread/Thread_CapturePreview.hpp"
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
 #include "Event/Event_Replay.hpp"
 #include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
-#include <Thread/Thread_LoadCapture.hpp>
 #include <memory>
 #include <opencv2/imgproc.hpp>
 

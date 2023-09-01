@@ -8,19 +8,7 @@
 #include <wx/utils.h>
 
 RoiPreviewThread::RoiPreviewThread(wxEvtHandler *parent, DataPtr data)
-    : wxThread(wxTHREAD_JOINABLE), data(data) {
-    this->parent = parent;
-
-    auto config = AppConfig();
-    auto previewConfig = config.GetPreviewConfig();
-    int pWidth = previewConfig.width;
-    int pHeight = previewConfig.height;
-    this->pSize = cv::Size(pWidth, pHeight);
-
-    auto cameraConfig = config.GetCameraConfig();
-    int iWidth = cameraConfig.Camera_Width;
-    int iHeight = cameraConfig.Camera_Height;
-    this->imageSize = cv::Size(iWidth, iHeight);
+    : BaseThread(parent, data), PreviewableThread(), ImageSizeDataThread(data) {
 }
 
 RoiPreviewThread::~RoiPreviewThread() {}

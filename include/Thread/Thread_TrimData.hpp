@@ -6,6 +6,7 @@
 #include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -26,10 +27,12 @@ enum TrimDataThreadCurrentStatus {
     TRIM_PREVIEW,
 };
 
-class TrimDataThread : public wxThread {
+class TrimDataThread : public BaseThread, PreviewableThread {
   public:
     TrimDataThread(wxEvtHandler *parent, DataPtr data);
     ~TrimDataThread();
+
+    ThreadID getID() const override;
 
     void processTrimData();
 
@@ -48,16 +51,12 @@ class TrimDataThread : public wxThread {
     void setStatus(TrimDataThreadCurrentStatus status);
     TrimDataThreadCurrentStatus getStatus();
 
-    ThreadID getID() const;
-
   protected:
-    virtual ExitCode Entry();
+    virtual ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    DataPtr data;
-
     const ThreadID threadID = ThreadID::THREAD_TRIM_DATA;
+
     const int MILLI_SLEEP = 100;
 
     TrimDataThreadCurrentStatus status =
@@ -70,8 +69,6 @@ class TrimDataThread : public wxThread {
 
     const int MAX_FRAME;
     const int MIN_ALLOWED_FRAME = 5;
-
-    cv::Size pSize;
 
     int getFrameRange();
 };

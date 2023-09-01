@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Capture.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -14,22 +15,18 @@
 
 #include <wx/thread.h>
 
-class RoiPreviewThread : public wxThread {
+class RoiPreviewThread : public BaseThread,
+                         PreviewableThread,
+                         ImageSizeDataThread {
   public:
     RoiPreviewThread(wxEvtHandler *parent, DataPtr data);
     ~RoiPreviewThread();
 
-    ThreadID getID() const;
+    ThreadID getID() const override;
 
   protected:
-    virtual ExitCode Entry();
+    virtual ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    DataPtr data;
-
     const ThreadID id = THREAD_ROI_PREVIEW;
-
-    cv::Size pSize;
-    cv::Size imageSize;
 };

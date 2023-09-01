@@ -14,15 +14,9 @@
 #include <wx/utils.h>
 
 TrimDataThread::TrimDataThread(wxEvtHandler *parent, DataPtr data)
-    : wxThread(wxTHREAD_JOINABLE), data(data),
+    : BaseThread(parent, data), PreviewableThread(),
       MAX_FRAME(data->getCaptureData().size()) {
     this->parent = parent;
-
-    AppConfig config;
-    auto pConfig = config.GetPreviewConfig();
-    int width = pConfig.width;
-    int height = pConfig.height;
-    this->pSize = cv::Size(width, height);
 
     startPos = 0;
     endPos = MAX_FRAME - 1;

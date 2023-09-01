@@ -3,27 +3,15 @@
 #include "Event/Event_SaveData.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "UI/Dialog/SaveDataDialog.hpp"
 #include "Utils/FileReader/fileWR.hpp"
 #include <Thread/Thread_SaveData.hpp>
 #include <wx/utils.h>
 
-/**
- * @brief Construct a new Load File Thread:: Load File Thread object
- *
- * @param parent parent wxEvtHandler
- * @param threadPool pointer to ThreadPool
- * @param imgData pointer to ImageData vector
- * @param path path to file
- * @param maxFrame maximum number of frame to load
- */
 SaveDataThread::SaveDataThread(wxEvtHandler *parent, DataPtr data)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), data(data) {}
+    : BaseThread(parent, data) {}
 
-/**
- * @brief Destroy the Load File Thread:: Load File Thread object
- *
- */
 SaveDataThread::~SaveDataThread() {
     if (parent != nullptr) {
         parent = nullptr;

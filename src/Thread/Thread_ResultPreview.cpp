@@ -5,6 +5,7 @@
 #include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/ThreadPool.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Utils/CommonUtils.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include <Thread/Thread_ResultPreview.hpp>
@@ -12,21 +13,7 @@
 #include <wx/utils.h>
 
 ResultPreviewThread::ResultPreviewThread(wxEvtHandler *parent, DataPtr data)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), data(data) {
-    AppConfig c;
-    auto previewConfig = c.GetPreviewConfig();
-    int width = previewConfig.width;
-    int height = previewConfig.height;
-    pSize = cv::Size(width, height);
-
-    if (data->isCaptureDataEmpty()) {
-        throw std::runtime_error("Capture Data is empty");
-    }
-
-    auto captureData = data->getCaptureData();
-    auto firstData = captureData.front();
-    auto firstImage = firstData.image;
-    imageSize = firstImage.size();
+    : BaseThread(parent, data), PreviewableThread(), ImageSizeDataThread(data) {
 }
 
 ResultPreviewThread::~ResultPreviewThread() {}

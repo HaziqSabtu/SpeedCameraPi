@@ -4,6 +4,7 @@
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include <Thread/Thread_Roi.hpp>
@@ -11,15 +12,7 @@
 #include <wx/utils.h>
 
 RoiThread::RoiThread(wxEvtHandler *parent, DataPtr data)
-    : wxThread(wxTHREAD_JOINABLE), data(data) {
-    this->parent = parent;
-
-    AppConfig config;
-    auto pConfig = config.GetPreviewConfig();
-    int width = pConfig.width;
-    int height = pConfig.height;
-    this->pSize = cv::Size(width, height);
-}
+    : BaseThread(parent, data), PreviewableThread() {}
 
 RoiThread::~RoiThread() {}
 

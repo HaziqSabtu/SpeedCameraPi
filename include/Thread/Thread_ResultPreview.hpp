@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_ProcessImage.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -15,12 +16,14 @@
 #include <wx/thread.h>
 #include <wx/wx.h>
 
-class ResultPreviewThread : public wxThread {
+class ResultPreviewThread : public BaseThread,
+                            public PreviewableThread,
+                            public ImageSizeDataThread {
   public:
     ResultPreviewThread(wxEvtHandler *parent, DataPtr data);
     ~ResultPreviewThread();
 
-    ThreadID getID() const;
+    ThreadID getID() const override;
 
     int GetImageIndex() const;
     void SetImageIndex(int index);
@@ -35,11 +38,10 @@ class ResultPreviewThread : public wxThread {
     void SetShowLanes(bool show);
 
   protected:
-    virtual ExitCode Entry();
+    virtual ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    DataPtr data;
+    const ThreadID threadID = ThreadID::THREAD_RESULT_PREVIEW;
 
     mutable std::mutex mutex;
     int imageIndex = 0;
@@ -49,9 +51,5 @@ class ResultPreviewThread : public wxThread {
 
     int maxImageIndex;
 
-    const ThreadID threadID = ThreadID::THREAD_RESULT_PREVIEW;
     const int PREVIEW_DELAY = 300;
-
-    cv::Size pSize;
-    cv::Size imageSize;
 };

@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Error.hpp>
 #include <Event/Event_LoadImage.hpp>
@@ -33,19 +34,16 @@
  * @brief Custom wxThread for loading ImageData from file
  *
  */
-class SaveDataThread : public wxThread {
+class SaveDataThread : public BaseThread {
   public:
     SaveDataThread(wxEvtHandler *parent, DataPtr data);
     ~SaveDataThread();
 
-    ThreadID getID() const;
+    ThreadID getID() const override;
 
   protected:
-    ExitCode Entry();
+    ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    DataPtr data;
-
     const ThreadID id = THREAD_SAVE_FILE;
 };

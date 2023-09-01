@@ -6,6 +6,7 @@
 #include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Calibration.hpp>
 #include <Event/Event_UpdatePreview.hpp>
@@ -19,10 +20,12 @@
 
 #include <wx/thread.h>
 
-class RoiThread : public wxThread {
+class RoiThread : public BaseThread, PreviewableThread {
   public:
     RoiThread(wxEvtHandler *parent, DataPtr data);
     ~RoiThread();
+
+    ThreadID getID() const override;
 
     void setPoint1(cv::Point point);
     void setPoint2(cv::Point point);
@@ -31,21 +34,14 @@ class RoiThread : public wxThread {
 
     cv::Rect getRect();
 
-    ThreadID getID() const;
-
   protected:
-    virtual ExitCode Entry();
+    virtual ExitCode Entry() override;
 
   private:
-    wxEvtHandler *parent;
-    DataPtr data;
-
     const ThreadID threadID = ThreadID::THREAD_ROI;
 
     std::mutex m_mutex;
 
     cv::Point p1 = cv::Point(-1, -1);
     cv::Point p2 = cv::Point(-1, -1);
-
-    cv::Size pSize;
 };
