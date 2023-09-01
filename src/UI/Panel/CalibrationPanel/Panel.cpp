@@ -18,7 +18,7 @@ CalibrationPanel::CalibrationPanel(wxWindow *parent, wxWindowID id,
                                    CLCPtr controller)
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
 
-    button_panel = new CalibrationPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
+    button_panel = new CalibrationPanelButton(this, Enum::CL_Button_Panel_ID);
     title_panel = new TitlePanel(this, panel_id);
 
     size();
@@ -39,22 +39,22 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
         controller->e_ChangeToColorPanel(this);
     }
 
-    if (e.GetId() == Enum::CL_ToggleCamera_Button_ID) {
+    if (e.GetId() == Enum::CL_PreviewCamera_Button_ID) {
         auto button = button_panel->cpPanel->pCamera_button;
         TogglePreviewButtonHandler(button);
     }
 
-    if (e.GetId() == Enum::CL_ToggleCapture_Button_ID) {
+    if (e.GetId() == Enum::CL_PreviewCapture_Button_ID) {
         auto button = button_panel->cpPanel->pCapture_button;
         TogglePreviewCaptureButtonHandler(button);
     }
 
-    if (e.GetId() == Enum::CL_Start_Button_ID) {
+    if (e.GetId() == Enum::CL_CalibrationCamera_Button_ID) {
         auto button = button_panel->cPanel->calibrate_Button;
         ToggleCalibrationCameraButtonHandler(button);
     }
 
-    if (e.GetId() == Enum::CL_StartC_Button_ID) {
+    if (e.GetId() == Enum::CL_CalibrationCapture_Button_ID) {
         auto button = button_panel->cPanel->cCapture_Button;
         ToggleCalibrationCaptureButtonHandler(button);
     }

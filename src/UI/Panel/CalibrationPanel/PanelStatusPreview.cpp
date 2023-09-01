@@ -9,9 +9,9 @@
 CalibrationPreviewPanel::CalibrationPreviewPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::PREVIEW) {
 
-    pCamera_button = new BitmapT2Camera(this, Enum::CL_ToggleCamera_Button_ID);
+    pCamera_button = new BitmapT2Camera(this, Enum::CL_PreviewCamera_Button_ID);
     pCapture_button =
-        new BitmapT2MagnifyGlass(this, Enum::CL_ToggleCapture_Button_ID);
+        new BitmapT2MagnifyGlass(this, Enum::CL_PreviewCapture_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(pCamera_button, 1, wxEXPAND);

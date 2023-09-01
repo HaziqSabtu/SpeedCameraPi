@@ -40,44 +40,44 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
 
     // * IDEA : Is there a better way to do this?
     auto cpc = factory.createCaptureController();
-    capture_panel = new CapturePanel(this, Enum::CP_Panel_ID, cpc);
-    panels[PANEL_CAPTURE] = capture_panel;
+    cpp = new CapturePanel(this, Enum::CP_Panel_ID, cpc);
+    panels[PANEL_CAPTURE] = cpp;
 
     auto roc = factory.createRoiController();
-    roi_panel = new RoiPanel(this, Enum::CP_Panel_ID, roc);
-    panels[PANEL_ROI] = roi_panel;
+    rop = new RoiPanel(this, Enum::RO_Panel_ID, roc);
+    panels[PANEL_ROI] = rop;
 
     auto clc = factory.createCalibrationController();
-    calibration_panel = new CalibrationPanel(this, Enum::CP_Panel_ID, clc);
-    panels[PANEL_CALIBRATION] = calibration_panel;
+    clp = new CalibrationPanel(this, Enum::CL_Panel_ID, clc);
+    panels[PANEL_CALIBRATION] = clp;
 
     auto mcc = factory.createManualCalibrationController();
-    manual_calibration_panel = new ManualCalibrationPanel(this, wxID_ANY, mcc);
-    panels[PANEL_MANUAL_CALIBRATION] = manual_calibration_panel;
+    mcp = new ManualCalibrationPanel(this, Enum::MC_Panel_ID, mcc);
+    panels[PANEL_MANUAL_CALIBRATION] = mcp;
 
     auto ccc = factory.createColorCalibrationController();
-    color_calibration_panel = new ColorCalibrationPanel(this, wxID_ANY, ccc);
-    panels[PANEL_COLOR_CALIBRATION] = color_calibration_panel;
+    ccp = new ColorCalibrationPanel(this, Enum::CC_Panel_ID, ccc);
+    panels[PANEL_COLOR_CALIBRATION] = ccp;
 
     auto tdc = factory.createTrimDataController();
-    trim_data_panel = new TrimDataPanel(this, wxID_ANY, tdc);
-    panels[PANEL_TRIM_DATA] = trim_data_panel;
+    tdp = new TrimDataPanel(this, Enum::TR_Panel_ID, tdc);
+    panels[PANEL_TRIM_DATA] = tdp;
 
     auto rsc = factory.createResultController();
-    result_panel = new ResultPanel(this, wxID_ANY, rsc);
-    panels[PANEL_RESULT] = result_panel;
+    rsp = new ResultPanel(this, Enum::RE_Panel_ID, rsc);
+    panels[PANEL_RESULT] = rsp;
 
     sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(capture_panel, 1, wxEXPAND);
-    sizer->Add(roi_panel, 1, wxEXPAND);
-    sizer->Add(calibration_panel, 1, wxEXPAND);
-    sizer->Add(manual_calibration_panel, 1, wxEXPAND);
-    sizer->Add(color_calibration_panel, 1, wxEXPAND);
-    sizer->Add(trim_data_panel, 1, wxEXPAND);
-    sizer->Add(result_panel, 1, wxEXPAND);
+    sizer->Add(cpp, 1, wxEXPAND);
+    sizer->Add(rop, 1, wxEXPAND);
+    sizer->Add(clp, 1, wxEXPAND);
+    sizer->Add(mcp, 1, wxEXPAND);
+    sizer->Add(ccp, 1, wxEXPAND);
+    sizer->Add(tdp, 1, wxEXPAND);
+    sizer->Add(rsp, 1, wxEXPAND);
     SetSizer(sizer);
 
-    capture_panel->Show();
+    cpp->Show();
     sharedModel->sessionData.setPanelID(PANEL_CAPTURE);
 }
 

@@ -22,7 +22,7 @@
 CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {
 
-    button_panel = new CaptureButtonPanel(this, Enum::CP_BUTTON_PANEL_ID);
+    button_panel = new CaptureButtonPanel(this, Enum::CP_Button_Panel_ID);
     title_panel = new TitlePanel(this, panel_id);
 
     size();
@@ -36,7 +36,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
         dynamic_cast<CaptureButtonPanel *>(this->button_panel);
 
     if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
-        auto button = button_panel->cPanel->camera_Button;
+        auto button = button_panel->cPanel->Camera_Button;
         ToggleCameraButtonHandler(button);
     }
 
@@ -56,7 +56,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
         controller->e_CapturePreviewStart(this);
     }
 
-    if (e.GetId() == Enum::CP_SWITCH_Button_ID) {
+    if (e.GetId() == Enum::CP_Measure_Button_ID) {
         controller->e_ChangeToResultPanel(this);
     }
 

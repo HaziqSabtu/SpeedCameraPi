@@ -23,7 +23,7 @@ namespace SC = StatusCollection;
 ResultPanel::ResultPanel(wxWindow *parent, wxWindowID id, RSCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {
 
-    button_panel = new ResultPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
+    button_panel = new ResultPanelButton(this, Enum::RE_Button_Panel_ID);
 
     title_panel = new TitlePanel(this, panel_id);
 

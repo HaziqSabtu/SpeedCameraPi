@@ -22,7 +22,7 @@ ColorCalibrationPanel::ColorCalibrationPanel(wxWindow *parent, wxWindowID id,
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
 
     button_panel =
-        new ColorCalibrationPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
+        new ColorCalibrationPanelButton(this, Enum::CC_Button_Panel_ID);
 
     title_panel = new TitlePanel(this, panel_id);
 

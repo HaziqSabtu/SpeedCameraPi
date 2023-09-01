@@ -27,13 +27,13 @@ class MainFrame : public wxFrame {
   private:
     std::shared_ptr<SharedModel> sharedModel;
 
-    CapturePanel *capture_panel;
-    RoiPanel *roi_panel;
-    CalibrationPanel *calibration_panel;
-    ManualCalibrationPanel *manual_calibration_panel;
-    ColorCalibrationPanel *color_calibration_panel;
-    TrimDataPanel *trim_data_panel;
-    ResultPanel *result_panel;
+    CapturePanel *cpp;
+    RoiPanel *rop;
+    CalibrationPanel *clp;
+    ManualCalibrationPanel *mcp;
+    ColorCalibrationPanel *ccp;
+    TrimDataPanel *tdp;
+    ResultPanel *rsp;
 
     std::unordered_map<PanelID, wxPanel *> panels;
 

@@ -10,7 +10,7 @@
 CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     : BaseButtonPanel(parent, id) {
 
-    switch_Button = new MeasureTextButton(this, Enum::CP_SWITCH_Button_ID);
+    switch_Button = new MeasureTextButton(this, Enum::CP_Measure_Button_ID);
 
     spacer = new Spacer(this);
 

@@ -18,8 +18,7 @@ RoiMainStatusPanel::RoiMainStatusPanel(wxWindow *parent)
 
     calibrate_Button =
         new BitmapT2Calibration(this, Enum::RO_Calibration_Button_ID);
-    camera_Button =
-        new BitmapT2MagnifyGlass(this, Enum::RO_ToggleCamera_Button_ID);
+    camera_Button = new BitmapT2MagnifyGlass(this, Enum::RO_Preview_Button_ID);
     reset_Button = new BitmapRemove(this, Enum::RO_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);

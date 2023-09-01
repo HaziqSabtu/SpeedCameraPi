@@ -21,7 +21,7 @@ namespace SC = StatusCollection;
 RoiPanel::RoiPanel(wxWindow *parent, wxWindowID id, ROCPtr controller)
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
 
-    button_panel = new RoiPanelButton(this, Enum::RE_BUTTON_PANEL_ID);
+    button_panel = new RoiPanelButton(this, Enum::RO_Button_Panel_ID);
     title_panel = new TitlePanel(this, panel_id);
 
     size();
@@ -39,7 +39,7 @@ void RoiPanel::OnButton(wxCommandEvent &e) {
         ToggleRoiButtonHandler(button);
     }
 
-    if (e.GetId() == Enum::RO_ToggleCamera_Button_ID) {
+    if (e.GetId() == Enum::RO_Preview_Button_ID) {
         auto button = button_panel->main_status_panel->camera_Button;
         TogglePreviewButtonHandler(button);
     }

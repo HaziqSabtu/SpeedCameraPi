@@ -22,7 +22,7 @@ ManualCalibrationPanel::ManualCalibrationPanel(wxWindow *parent, wxWindowID id,
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
 
     button_panel =
-        new ManualCalibrationPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
+        new ManualCalibrationPanelButton(this, Enum::MC_Button_Panel_ID);
     title_panel = new TitlePanel(this, panel_id);
 
     size();
@@ -35,11 +35,11 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
     ManualCalibrationPanelButton *button_panel =
         dynamic_cast<ManualCalibrationPanelButton *>(this->button_panel);
 
-    if (e.GetId() == Enum::MC_Start_Button_ID) {
+    if (e.GetId() == Enum::MC_CalibrationCamera_Button_ID) {
         auto button = button_panel->main_status_panel->calibrate_Button;
         ToggleCalibrationButtonHandler(button);
     }
-    if (e.GetId() == Enum::MC_StartCapture_Button_ID) {
+    if (e.GetId() == Enum::MC_CalibrationCapture_Button_ID) {
         auto button = button_panel->main_status_panel->cCapture_Button;
         ToggleCalibrationCaptureButtonHandler(button);
     }
@@ -62,12 +62,12 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
         controller->e_RemoveRight(this);
     }
 
-    if (e.GetId() == Enum::MC_ToggleCamera_Button_ID) {
+    if (e.GetId() == Enum::MC_PreviewCamera_Button_ID) {
         auto button = button_panel->preview_panel->pCamera_button;
         TogglePreviewButtonHandler(button);
     }
 
-    if (e.GetId() == Enum::MC_ToggleCapture_Button_ID) {
+    if (e.GetId() == Enum::MC_PreviewCapture_Button_ID) {
         auto button = button_panel->preview_panel->pCapture_button;
         TogglePreviewCaptureButtonHandler(button);
     }

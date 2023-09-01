@@ -21,7 +21,7 @@ namespace SC = StatusCollection;
 TrimDataPanel::TrimDataPanel(wxWindow *parent, wxWindowID id, TDCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {
 
-    button_panel = new TrimDataPanelButton(this, Enum::CP_BUTTON_PANEL_ID);
+    button_panel = new TrimDataPanelButton(this, Enum::TR_Button_Panel_ID);
     title_panel = new TitlePanel(this, panel_id);
 
     size();

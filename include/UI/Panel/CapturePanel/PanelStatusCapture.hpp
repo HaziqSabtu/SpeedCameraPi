@@ -13,9 +13,9 @@ class CaptureStatusPanel : public TextOutlinePanel {
 
     BitmapButton *Capture_Button;
     BitmapButton *Load_Button;
-    BitmapButton *reset_Button;
-    BitmapButton *replay_Button;
-    BitmapButtonT2 *camera_Button;
+    BitmapButton *Reset_Button;
+    BitmapButton *Replay_Button;
+    BitmapButtonT2 *Camera_Button;
 
     void setPanelState(PanelState state);
     void update(const AppState &state);

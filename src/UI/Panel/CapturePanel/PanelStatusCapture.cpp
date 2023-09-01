@@ -17,16 +17,16 @@ CaptureStatusPanel::CaptureStatusPanel(wxWindow *parent)
 
     Capture_Button = new BitmapCapture(this, Enum::CP_Capture_Button_ID);
     Load_Button = new BitmapLoad(this, Enum::CP_Load_Button_ID);
-    replay_Button = new BitmapReplay(this, Enum::CP_Replay_Button_ID);
-    reset_Button = new BitmapRemove(this, Enum::CP_ClearCapture_Button_ID);
-    camera_Button = new BitmapT2Camera(this, Enum::CP_ToggleCamera_Button_ID);
+    Replay_Button = new BitmapReplay(this, Enum::CP_Replay_Button_ID);
+    Reset_Button = new BitmapRemove(this, Enum::CP_ClearCapture_Button_ID);
+    Camera_Button = new BitmapT2Camera(this, Enum::CP_ToggleCamera_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(Capture_Button, 1, wxEXPAND);
     buttonSizer->Add(Load_Button, 1, wxEXPAND);
-    buttonSizer->Add(camera_Button, 1, wxEXPAND);
-    buttonSizer->Add(replay_Button, 1, wxEXPAND);
-    buttonSizer->Add(reset_Button, 1, wxEXPAND);
+    buttonSizer->Add(Camera_Button, 1, wxEXPAND);
+    buttonSizer->Add(Replay_Button, 1, wxEXPAND);
+    buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -58,7 +58,7 @@ void CaptureStatusPanel::update(const AppState &state) {
     setPanelState(state.cameraPanel.captureStatusState);
     Capture_Button->update(state.cameraPanel.captureButtonState);
     Load_Button->update(state.cameraPanel.loadButtonState);
-    replay_Button->update(state.cameraPanel.replayButtonState);
-    reset_Button->update(state.cameraPanel.removeButtonState);
-    camera_Button->update(state.cameraPanel.cameraButtonState);
+    Replay_Button->update(state.cameraPanel.replayButtonState);
+    Reset_Button->update(state.cameraPanel.removeButtonState);
+    Camera_Button->update(state.cameraPanel.cameraButtonState);
 }
