@@ -34,6 +34,7 @@ enum TaskType {
     TASK_SIFT,
     TASK_HOUGHLINE,
     TASK_FLOW,
+    TASK_CSRT,
     TASK_SPEED,
 };
 

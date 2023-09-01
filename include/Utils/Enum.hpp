@@ -107,7 +107,7 @@ enum ProjectIDs {
     RE_IMG_PANEL_ID,
     RE_BUTTON_PANEL_ID,
     RE_Start_Button_ID,
-    RE_Stop_Button_ID,
+    RE_Redundant_Button_ID,
     RE_Preview_Button_ID,
     RE_Box_Button_ID,
     RE_Lines_Button_ID,

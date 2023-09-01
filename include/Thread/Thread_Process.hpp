@@ -45,4 +45,21 @@ class ProcessThread : public BaseThread {
     POOLPtr pool;
 };
 
+class ProcessRedundantThread : public BaseThread {
+  public:
+    ProcessRedundantThread(wxEvtHandler *parent, DataPtr data,
+                           POOLPtr threadPool);
+    ~ProcessRedundantThread();
+
+    ThreadID getID() const override;
+
+  protected:
+    virtual ExitCode Entry() override;
+
+  private:
+    const ThreadID threadID = ThreadID::THREAD_PROCESS_REDUNDANT;
+
+    POOLPtr pool;
+};
+
 #endif

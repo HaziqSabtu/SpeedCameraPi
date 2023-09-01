@@ -1,3 +1,4 @@
+#include "Thread/Thread_ID.hpp"
 #include <Model/AppState.hpp>
 
 AppState::AppState() {}
@@ -185,6 +186,7 @@ ResultPanelState AppState::getResultPanelState(ModelPtr model) {
     ps.state = getRPResultStatusState(model);
 
     ps.resultButtonState = getRPResultButtonState(model);
+    ps.redundantButtonState = getRPRedundantButtonState(model);
     ps.previewButtonState = getRPPreviewButtonState(model);
 
     ps.previewStatusState = getRPPreviewStatusState(model);
@@ -1300,7 +1302,29 @@ ButtonState AppState::getRPResultButtonState(ModelPtr model) {
         return ButtonState::DISABLED;
     }
 
+    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
+        return ButtonState::DISABLED;
+    }
+
     if (!tc->isThreadNullptr(THREAD_PROCESS)) {
+        return ButtonState::ACTIVE;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getRPRedundantButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_PROCESS)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
         return ButtonState::ACTIVE;
     }
 
@@ -1311,6 +1335,10 @@ ButtonState AppState::getRPPreviewButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_PROCESS)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
         return ButtonState::DISABLED;
     }
 

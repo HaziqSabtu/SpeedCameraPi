@@ -16,10 +16,13 @@ ResultMainStatusPanel::ResultMainStatusPanel(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::RESULT_NONE) {
 
     calibrate_Button = new BitmapCalibration(this, Enum::RE_Start_Button_ID);
+    redundant_Button =
+        new BitmapCalibration(this, Enum::RE_Redundant_Button_ID);
     camera_Button = new BitmapT2MagnifyGlass(this, Enum::RE_Preview_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
+    buttonSizer->Add(redundant_Button, 1, wxEXPAND);
     buttonSizer->Add(camera_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
@@ -44,6 +47,7 @@ void ResultMainStatusPanel::update(const AppState &state) {
     setPanelState(ps.state);
 
     calibrate_Button->update(ps.resultButtonState);
+    redundant_Button->update(ps.redundantButtonState);
     camera_Button->update(ps.previewButtonState);
 }
 

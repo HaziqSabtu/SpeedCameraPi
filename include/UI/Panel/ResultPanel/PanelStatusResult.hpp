@@ -13,6 +13,7 @@ class ResultMainStatusPanel : public TextOutlinePanel {
     void update(const AppState &state);
 
     BitmapButton *calibrate_Button;
+    BitmapButton *redundant_Button;
     BitmapButtonT2 *camera_Button;
 
   private:

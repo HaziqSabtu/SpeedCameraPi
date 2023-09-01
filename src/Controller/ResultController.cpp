@@ -1,3 +1,4 @@
+#include "Thread/Thread_ID.hpp"
 #include <Controller/ResultController.hpp>
 #include <wx/event.h>
 
@@ -7,6 +8,15 @@ ResultController::ResultController(ModelPtr sharedModel)
 }
 
 ResultController::~ResultController() {}
+
+void ResultController::e_ProcessEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
 
 void ResultController::e_CancelButtonHandler(wxEvtHandler *parent) {
     try {
@@ -30,6 +40,24 @@ void ResultController::e_ProcessThreadEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         processThreadEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ProcessRedundantThreadStart(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processRedundantThreadStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ProcessRedundantThreadEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processRedundantThreadEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -96,6 +124,10 @@ void ResultController::throwIfAnyThreadIsRunning() {
         throw std::runtime_error("ProcessThread is still running");
     }
 
+    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
+        throw std::runtime_error("ProcessRedundantThread is still running");
+    }
+
     if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
         throw std::runtime_error("ResultPreviewThread is still running");
     }
@@ -108,6 +140,10 @@ void ResultController::killAllThreads(wxEvtHandler *parent) {
         processThreadEndHandler(parent);
     }
 
+    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
+        processRedundantThreadEndHandler(parent);
+    }
+
     if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
         resultPreviewEndHandler(parent);
     }
@@ -118,11 +154,7 @@ void ResultController::killAllThreads(wxEvtHandler *parent) {
 void ResultController::processThreadStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_PROCESS)) {
-        throw std::runtime_error(
-            "ResultController::processThreadStartHandler() - Thread is already "
-            "running");
-    }
+    throwIfAnyThreadIsRunning();
 
     auto sessionData = shared->getSessionData();
 
@@ -135,28 +167,49 @@ void ResultController::processThreadEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_PROCESS)) {
-        throw std::runtime_error(
-            "ResultController::processThreadEndHandler() - Thread is already "
-            "stopped");
+        throw std::runtime_error("ProcessThread is already stopped");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_PROCESS, panelID)) {
-        throw std::runtime_error("ResultController::processThreadEndHandler() "
-                                 "- Thread is not owned by "
+        throw std::runtime_error("ProcessThread is not owned by "
                                  "this controller");
     }
 
     tc->endProcessHandler();
 }
 
+void ResultController::processRedundantThreadStartHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    auto sessionData = shared->getSessionData();
+
+    auto pool = shared->getThreadPool();
+
+    tc->startProcessRedundantHandler(parent, pool, sessionData, panelID);
+}
+
+void ResultController::processRedundantThreadEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(ThreadID::THREAD_PROCESS_REDUNDANT)) {
+        throw std::runtime_error("ProcessRedundantThread is already stopped");
+    }
+
+    if (!tc->isThreadOwner(ThreadID::THREAD_PROCESS_REDUNDANT, panelID)) {
+        throw std::runtime_error("ProcessRedundantThread is not owned by "
+                                 "this controller");
+    }
+
+    tc->endProcessRedundantHandler();
+}
+
 void ResultController::resultPreviewStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_RESULT_PREVIEW)) {
-        throw std::runtime_error(
-            "ResultController::resultPreviewStartHandler() - Thread is already "
-            "running");
-    }
+    throwIfAnyThreadIsRunning();
 
     auto sessionData = shared->getSessionData();
 
@@ -169,14 +222,11 @@ void ResultController::resultPreviewEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_RESULT_PREVIEW)) {
-        throw std::runtime_error(
-            "ResultController::resultPreviewEndHandler() - Thread is already "
-            "stopped");
+        throw std::runtime_error("ResultPreviewThread is already stopped");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_RESULT_PREVIEW, panelID)) {
-        throw std::runtime_error("ResultController::resultPreviewEndHandler() "
-                                 "- Thread is not owned by "
+        throw std::runtime_error("ResultPreviewThread is not owned by "
                                  "this controller");
     }
 
@@ -262,4 +312,30 @@ void ResultController::cancelButtonHandler(wxEvtHandler *parent) {
 
     ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
     ChangePanelEvent::Submit(parent, data);
+}
+
+void ResultController::processEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isProcessThreadRunning()) {
+        throw std::runtime_error("Process thread is not running");
+    }
+
+    if (!tc->isProcessThreadOwner(panelID)) {
+        throw std::runtime_error("Process thread is not owned by this panel");
+    }
+
+    auto thread = tc->getRunningProcessThread();
+
+    if (thread->getID() == THREAD_PROCESS) {
+        processThreadEndHandler(parent);
+        return;
+    }
+
+    if (thread->getID() == THREAD_PROCESS_REDUNDANT) {
+        processRedundantThreadEndHandler(parent);
+        return;
+    }
+
+    throw std::runtime_error("Invalid thread ID");
 }

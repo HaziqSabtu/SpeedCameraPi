@@ -35,4 +35,16 @@ class FlowTask : public Task {
     const TaskType currentType = TaskType::TASK_FLOW;
 };
 
+class CsrtTask : public Task {
+  public:
+    CsrtTask(DataPtr data);
+    void Execute() override;
+
+  private:
+    DataPtr data;
+
+    const std::string currentName = "CsrtTask";
+    const TaskType currentType = TaskType::TASK_CSRT;
+};
+
 #endif

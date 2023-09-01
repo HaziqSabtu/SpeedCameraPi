@@ -114,6 +114,12 @@ class ThreadController {
 
     void endProcessHandler();
 
+    virtual void startProcessRedundantHandler(wxEvtHandler *parent,
+                                              POOLPtr threadPool, DataPtr data,
+                                              PanelID panelID);
+
+    void endProcessRedundantHandler();
+
     virtual void startResultPreviewHandler(wxEvtHandler *parent, DataPtr data,
                                            PanelID panelID);
 
@@ -150,6 +156,11 @@ class ThreadController {
 
     // Capture Helper Methods
     bool isCapturePanelThreadRunning();
+
+    // Process Helper Methods
+    bool isProcessThreadRunning();
+    bool isProcessThreadOwner(PanelID panelID);
+    BaseThread *getRunningProcessThread();
 
     ////////////////////////////////
     ////////////////////////////////
@@ -189,6 +200,8 @@ class ThreadController {
     RoiPreviewThread *getRoiPreviewThread();
 
     ProcessThread *getProcessThread();
+
+    ProcessRedundantThread *getProcessRedundantThread();
 
     TrimDataThread *getTrimDataThread();
 
@@ -235,6 +248,8 @@ class ThreadController {
     RoiPreviewThread *roiPreviewThread;
 
     ProcessThread *processThread;
+
+    ProcessRedundantThread *processRedundantThread;
 
     ResultPreviewThread *resultPreviewThread;
 

@@ -1,6 +1,8 @@
 #include "Algorithm/hsv_filter/BFS.hpp"
 #include "Algorithm/hsv_filter/HSVFilter.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
+#include "Thread/Thread_ID.hpp"
 #include <Thread/Thread_Controller.hpp>
 
 #include <exception>
@@ -34,6 +36,7 @@ void ThreadController::initThread() {
     roiThread = nullptr;
     roiPreviewThread = nullptr;
     processThread = nullptr;
+    processRedundantThread = nullptr;
     resultPreviewThread = nullptr;
     trimDataThread = nullptr;
 };
@@ -55,6 +58,7 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(roiThread);
     stopAndDeleteThread(roiPreviewThread);
     stopAndDeleteThread(processThread);
+    stopAndDeleteThread(processRedundantThread);
     stopAndDeleteThread(resultPreviewThread);
     stopAndDeleteThread(trimDataThread);
 };
@@ -122,6 +126,10 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
 
     if (threadID == ThreadID::THREAD_PROCESS) {
         return processThread == nullptr;
+    }
+
+    if (threadID == ThreadID::THREAD_PROCESS_REDUNDANT) {
+        return processRedundantThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_RESULT_PREVIEW) {
@@ -221,6 +229,45 @@ ThreadController::getRunningManualCalibrationThread() {
 
     if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
         return getManualCalibrationCaptureThread();
+    }
+
+    return nullptr;
+}
+
+bool ThreadController::isProcessThreadRunning() {
+
+    if (!isThreadNullptr(THREAD_PROCESS)) {
+        return true;
+    }
+
+    if (!isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
+        return true;
+    }
+
+    return false;
+}
+
+bool ThreadController::isProcessThreadOwner(PanelID panelID) {
+
+    if (!isThreadNullptr(THREAD_PROCESS)) {
+        return isThreadOwner(THREAD_PROCESS, panelID);
+    }
+
+    if (!isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
+        return isThreadOwner(THREAD_PROCESS_REDUNDANT, panelID);
+    }
+
+    return false;
+}
+
+BaseThread *ThreadController::getRunningProcessThread() {
+
+    if (!isThreadNullptr(THREAD_PROCESS)) {
+        return getProcessThread();
+    }
+
+    if (!isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
+        return getProcessRedundantThread();
     }
 
     return nullptr;
@@ -366,6 +413,10 @@ RoiPreviewThread *ThreadController::getRoiPreviewThread() {
 }
 
 ProcessThread *ThreadController::getProcessThread() { return processThread; }
+
+ProcessRedundantThread *ThreadController::getProcessRedundantThread() {
+    return processRedundantThread;
+}
 
 ResultPreviewThread *ThreadController::getResultPreviewThread() {
     return resultPreviewThread;
@@ -549,6 +600,21 @@ void ThreadController::startProcessHandler(wxEvtHandler *parent,
 
 void ThreadController::endProcessHandler() {
     processThread = stopAndDeleteThread(processThread);
+}
+
+void ThreadController::startProcessRedundantHandler(wxEvtHandler *parent,
+                                                    POOLPtr threadPool,
+                                                    DataPtr data,
+                                                    PanelID panelID) {
+    processRedundantThread =
+        new ProcessRedundantThread(parent, data, threadPool);
+    processRedundantThread->Run();
+
+    owner[processRedundantThread->getID()] = panelID;
+}
+
+void ThreadController::endProcessRedundantHandler() {
+    processRedundantThread = stopAndDeleteThread(processRedundantThread);
 }
 
 void ThreadController::startResultPreviewHandler(wxEvtHandler *parent,

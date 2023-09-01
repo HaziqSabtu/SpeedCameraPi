@@ -29,10 +29,15 @@ class ResultController : public BaseController {
     ResultController(ModelPtr sharedModel);
     ~ResultController();
 
+    void e_ProcessEnd(wxEvtHandler *parent);
+
     void e_CancelButtonHandler(wxEvtHandler *parent);
 
     void e_ProcessThreadStart(wxEvtHandler *parent);
     void e_ProcessThreadEnd(wxEvtHandler *parent);
+
+    void e_ProcessRedundantThreadStart(wxEvtHandler *parent);
+    void e_ProcessRedundantThreadEnd(wxEvtHandler *parent);
 
     void e_ResultPreviewStart(wxEvtHandler *parent);
     void e_ResultPreviewEnd(wxEvtHandler *parent);
@@ -57,6 +62,9 @@ class ResultController : public BaseController {
     void processThreadStartHandler(wxEvtHandler *parent);
     void processThreadEndHandler(wxEvtHandler *parent);
 
+    void processRedundantThreadStartHandler(wxEvtHandler *parent);
+    void processRedundantThreadEndHandler(wxEvtHandler *parent);
+
     void resultPreviewStartHandler(wxEvtHandler *parent);
     void resultPreviewEndHandler(wxEvtHandler *parent);
 
@@ -64,4 +72,6 @@ class ResultController : public BaseController {
     void toggleShowLanesHandler(wxEvtHandler *parent, bool show);
     void toggleShowLinesHandler(wxEvtHandler *parent, bool show);
     void setIndexToZeroHandler(wxEvtHandler *parent);
+
+    void processEndHandler(wxEvtHandler *parent);
 };

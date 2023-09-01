@@ -41,8 +41,12 @@ void ResultPanel::OnButton(wxCommandEvent &e) {
         controller->e_ProcessThreadStart(this);
     }
 
-    if (e.GetId() == Enum::RE_Stop_Button_ID) {
-        controller->e_ProcessThreadEnd(this);
+    // if (e.GetId() == Enum::RE_Stop_Button_ID) {
+    //     controller->e_ProcessThreadEnd(this);
+    // }
+
+    if (e.GetId() == Enum::RE_Redundant_Button_ID) {
+        controller->e_ProcessRedundantThreadStart(this);
     }
 
     if (e.GetId() == Enum::RE_Preview_Button_ID) {
@@ -126,7 +130,7 @@ void ResultPanel::ToggleLanesButtonHandler(BitmapButtonT2 *button) {
 
 void ResultPanel::OnProcessImage(wxCommandEvent &e) {
     if (e.GetId() == PROCESS_END) {
-        controller->e_ProcessThreadEnd(this);
+        controller->e_ProcessEnd(this);
     }
 
     controller->e_UpdateState(this);

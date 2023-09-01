@@ -135,6 +135,7 @@ struct TrimDataPanelState {
 struct ResultPanelState {
     PanelState state;
     ButtonState resultButtonState;
+    ButtonState redundantButtonState;
     ButtonState previewButtonState;
 
     PanelState previewStatusState;
@@ -305,6 +306,7 @@ class AppState {
     // Result Panel
     PanelState getRPResultStatusState(ModelPtr model);
     ButtonState getRPResultButtonState(ModelPtr model);
+    ButtonState getRPRedundantButtonState(ModelPtr model);
     ButtonState getRPPreviewButtonState(ModelPtr model);
 
     // Result Panel -> Preview
