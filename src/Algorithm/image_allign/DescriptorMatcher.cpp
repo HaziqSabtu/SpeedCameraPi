@@ -45,7 +45,6 @@ void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
     matcher.match(query, target, matches);
 }
 
-// TODO: DOCS
 void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
                                  std::vector<std::vector<cv::DMatch>> &matches,
                                  std::string type, int normType) {
@@ -60,7 +59,6 @@ void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
     matcher.knnMatch(query, target, matches, 2);
 }
 
-// TODO: DOCS -> Use Enum
 /**
  * @brief Map an integer `normType` value to a corresponding `cv::NormTypes`
  * enum value and string type name.

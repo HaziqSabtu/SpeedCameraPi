@@ -262,30 +262,14 @@ void ManualCalibrationController::leftUpHandler(wxEvtHandler *parent,
     thread->setPoint2AndExtend(point);
 
     auto dir = thread->getDirection();
-    auto line =
-        dir == MANUAL_LEFT ? thread->getLeftLine() : thread->getRightLine();
+    auto line = dir == MANUAL_LEFT ? thread->getRealLeftLine()
+                                   : thread->getRealRightLine();
 
     auto data = shared->getSessionData();
 
-    // TODO: Do this inside thread
-    AppConfig config;
-    auto pConfig = config.GetPreviewConfig();
-    int pWidth = pConfig.width;
-    int pHeight = pConfig.height;
-    cv::Size src(pWidth, pHeight);
-
-    auto cConfig = config.GetCameraConfig();
-
-    int width = cConfig.Camera_Width;
-    int height = cConfig.Camera_Height;
-    cv::Size dst(width, height);
-
-    auto realLine = line.Scale(src, dst);
-
     auto calibData = data->getCalibrationData();
 
-    dir == MANUAL_LEFT ? calibData.lineLeft = realLine
-                       : calibData.lineRight = realLine;
+    dir == MANUAL_LEFT ? calibData.lineLeft = line : calibData.lineRight = line;
 
     data->setCalibrationData(calibData);
 }

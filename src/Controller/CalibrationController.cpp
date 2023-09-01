@@ -264,23 +264,6 @@ void CalibrationController::saveCalibrationData(wxEvtHandler *parent,
                                                 BaseCalibrationThread *thread) {
     auto calibData = thread->getCalibrationData();
 
-    AppConfig config;
-    auto pConfig = config.GetPreviewConfig();
-    int pWidth = pConfig.width;
-    int pHeight = pConfig.height;
-    cv::Size pSize(pWidth, pHeight);
-
-    auto cConfig = config.GetCameraConfig();
-    int cWidth = cConfig.Camera_Width;
-    int cHeight = cConfig.Camera_Height;
-    cv::Size cSize(cWidth, cHeight);
-
-    auto leftLine = calibData.lineLeft;
-    calibData.lineLeft = leftLine.Scale(pSize, cSize);
-
-    auto rightLine = calibData.lineRight;
-    calibData.lineRight = rightLine.Scale(pSize, cSize);
-
     auto data = shared->getSessionData();
     data->setCalibrationData(calibData);
 }

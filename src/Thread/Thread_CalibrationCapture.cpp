@@ -5,6 +5,7 @@
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include <Thread/Thread_CalibrationCapture.hpp>
@@ -13,7 +14,7 @@
 
 CalibrationCaptureThread::CalibrationCaptureThread(wxEvtHandler *parent,
                                                    DataPtr data)
-    : BaseCalibrationThread(parent, data) {}
+    : BaseCalibrationThread(parent, data), ImageSizeDataThread(data) {}
 
 CalibrationCaptureThread::~CalibrationCaptureThread() {}
 
@@ -102,3 +103,20 @@ wxThread::ExitCode CalibrationCaptureThread::Entry() {
 }
 
 ThreadID CalibrationCaptureThread::getID() const { return threadID; }
+
+CalibrationData CalibrationCaptureThread::getCalibrationData() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    return CalibrationData(getRealLeftLine(), getRealRightLine());
+}
+
+Line CalibrationCaptureThread::getRealRightLine() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    auto rl = rightLine.Scale(imageSize, pSize);
+    return rl;
+}
+
+Line CalibrationCaptureThread::getRealLeftLine() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    auto ll = leftLine.Scale(imageSize, pSize);
+    return ll;
+}

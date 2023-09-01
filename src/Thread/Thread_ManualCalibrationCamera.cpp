@@ -16,14 +16,15 @@ BaseManualCalibrationThread::BaseManualCalibrationThread(wxEvtHandler *parent,
 
 BaseManualCalibrationThread::~BaseManualCalibrationThread() {}
 
-CalibrationData BaseManualCalibrationThread::getCalibrationData() {
+CalibrationData ManualCalibrationCameraThread::getCalibrationData() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    return CalibrationData(rightLine, leftLine);
+    return CalibrationData(getRealLeftLine(), getRealRightLine());
 }
 
 ManualCalibrationCameraThread::ManualCalibrationCameraThread(
     wxEvtHandler *parent, CameraPtr &camera)
-    : BaseManualCalibrationThread(parent, nullptr), CameraAccessor(camera) {}
+    : BaseManualCalibrationThread(parent, nullptr), CameraAccessor(camera),
+      ImageSizeCameraThread() {}
 
 ManualCalibrationCameraThread::~ManualCalibrationCameraThread() {}
 
@@ -142,4 +143,20 @@ void BaseManualCalibrationThread::setLeftLine(Line line) {
 Line BaseManualCalibrationThread::getLeftLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
     return leftLine;
+}
+
+// line size is in preview size
+// need to convert to original size (image size)
+Line ManualCalibrationCameraThread::getRealRightLine() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    Line rl = this->rightLine.Scale(pSize, imageSize);
+    return rl;
+}
+
+Line ManualCalibrationCameraThread::getRealLeftLine() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    Line ll = this->leftLine.Scale(pSize, imageSize);
+    return ll;
 }

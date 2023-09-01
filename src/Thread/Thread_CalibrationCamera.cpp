@@ -4,6 +4,7 @@
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"
@@ -27,7 +28,8 @@ BaseCalibrationThread::~BaseCalibrationThread() {}
 
 CalibrationCameraThread::CalibrationCameraThread(wxEvtHandler *parent,
                                                  CameraPtr &camera)
-    : BaseCalibrationThread(parent, nullptr), CameraAccessor(camera) {}
+    : BaseCalibrationThread(parent, nullptr), CameraAccessor(camera),
+      ImageSizeCameraThread() {}
 
 CalibrationCameraThread::~CalibrationCameraThread() {}
 
@@ -119,8 +121,6 @@ void BaseCalibrationThread::clearPoint() {
     bfs.setStart(point);
 }
 
-ThreadID CalibrationCameraThread::getID() const { return threadID; }
-
 void BaseCalibrationThread::updateRightLine(Line line) {
     std::unique_lock<std::mutex> lock(m_mutex);
     rightLine = line;
@@ -131,7 +131,21 @@ void BaseCalibrationThread::updateLeftLine(Line line) {
     leftLine = line;
 }
 
-CalibrationData BaseCalibrationThread::getCalibrationData() {
+ThreadID CalibrationCameraThread::getID() const { return threadID; }
+
+CalibrationData CalibrationCameraThread::getCalibrationData() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    return CalibrationData(rightLine, leftLine);
+    return CalibrationData(getRealLeftLine(), getRealRightLine());
+}
+
+Line CalibrationCameraThread::getRealRightLine() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    auto rl = rightLine.Scale(imageSize, pSize);
+    return rl;
+}
+
+Line CalibrationCameraThread::getRealLeftLine() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    auto ll = leftLine.Scale(imageSize, pSize);
+    return ll;
 }

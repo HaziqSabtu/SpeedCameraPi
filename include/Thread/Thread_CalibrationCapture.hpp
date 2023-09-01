@@ -6,6 +6,7 @@
 #include "Algorithm/ransac_line/RansacLine.hpp"
 #include "Model/CalibrationData.hpp"
 #include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_CalibrationCamera.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Event/Event_Calibration.hpp>
@@ -20,12 +21,18 @@
 
 #include <wx/thread.h>
 
-class CalibrationCaptureThread : public BaseCalibrationThread {
+class CalibrationCaptureThread : public BaseCalibrationThread,
+                                 public ImageSizeDataThread {
   public:
     CalibrationCaptureThread(wxEvtHandler *parent, DataPtr data);
     ~CalibrationCaptureThread();
 
     ThreadID getID() const override;
+
+    CalibrationData getCalibrationData() override;
+
+    Line getRealLeftLine() override;
+    Line getRealRightLine() override;
 
   protected:
     virtual ExitCode Entry() override;

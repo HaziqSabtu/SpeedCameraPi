@@ -27,7 +27,7 @@ class BaseManualCalibrationThread : public BaseThread,
     BaseManualCalibrationThread(wxEvtHandler *parent, DataPtr data);
     ~BaseManualCalibrationThread();
 
-    CalibrationData getCalibrationData();
+    virtual CalibrationData getCalibrationData() = 0;
 
     void setPoint1(cv::Point point);
     void setPoint2(cv::Point point);
@@ -38,9 +38,11 @@ class BaseManualCalibrationThread : public BaseThread,
 
     void setRightLine(Line line);
     Line getRightLine();
+    virtual Line getRealRightLine() = 0;
 
     void setLeftLine(Line line);
     Line getLeftLine();
+    virtual Line getRealLeftLine() = 0;
 
   protected:
     std::mutex m_mutex;
@@ -57,12 +59,18 @@ class BaseManualCalibrationThread : public BaseThread,
 };
 
 class ManualCalibrationCameraThread : public BaseManualCalibrationThread,
-                                      public CameraAccessor {
+                                      public CameraAccessor,
+                                      public ImageSizeCameraThread {
   public:
     ManualCalibrationCameraThread(wxEvtHandler *parent, CameraPtr &camera);
     ~ManualCalibrationCameraThread();
 
+    CalibrationData getCalibrationData() override;
+
     ThreadID getID() const override;
+
+    Line getRealRightLine() override;
+    Line getRealLeftLine() override;
 
   protected:
     virtual ExitCode Entry() override;

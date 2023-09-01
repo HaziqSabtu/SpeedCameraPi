@@ -28,7 +28,10 @@ class BaseCalibrationThread : public BaseThread, public PreviewableThread {
     void setPoint(cv::Point point);
     void clearPoint();
 
-    CalibrationData getCalibrationData();
+    virtual CalibrationData getCalibrationData() = 0;
+
+    virtual Line getRealRightLine() = 0;
+    virtual Line getRealLeftLine() = 0;
 
   protected:
     HSVFilter hsvFilter;
@@ -46,12 +49,18 @@ class BaseCalibrationThread : public BaseThread, public PreviewableThread {
 };
 
 class CalibrationCameraThread : public BaseCalibrationThread,
-                                public CameraAccessor {
+                                public CameraAccessor,
+                                public ImageSizeCameraThread {
   public:
     CalibrationCameraThread(wxEvtHandler *parent, CameraPtr &camera);
     ~CalibrationCameraThread();
 
     ThreadID getID() const override;
+
+    CalibrationData getCalibrationData() override;
+
+    Line getRealRightLine() override;
+    Line getRealLeftLine() override;
 
   protected:
     virtual ExitCode Entry() override;

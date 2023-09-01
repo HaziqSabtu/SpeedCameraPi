@@ -3,6 +3,7 @@
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
+#include "Thread/Thread_Base.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include <Thread/Thread_ManualCalibrationCapture.hpp>
 #include <opencv2/imgproc.hpp>
@@ -10,7 +11,7 @@
 
 ManualCalibrationCaptureThread::ManualCalibrationCaptureThread(
     wxEvtHandler *parent, DataPtr data)
-    : BaseManualCalibrationThread(parent, data) {
+    : BaseManualCalibrationThread(parent, data), ImageSizeDataThread(data) {
 
     if (data->isCaptureDataEmpty()) {
         throw std::runtime_error("Capture data is empty");
@@ -68,3 +69,24 @@ wxThread::ExitCode ManualCalibrationCaptureThread::Entry() {
 }
 
 ThreadID ManualCalibrationCaptureThread::getID() const { return threadID; }
+
+// line size is in preview size
+// need to convert to original size (image size)
+Line ManualCalibrationCaptureThread::getRealRightLine() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    Line rl = this->rightLine.Scale(pSize, imageSize);
+    return rl;
+}
+
+Line ManualCalibrationCaptureThread::getRealLeftLine() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    Line ll = this->leftLine.Scale(pSize, imageSize);
+    return ll;
+}
+
+CalibrationData ManualCalibrationCaptureThread::getCalibrationData() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    return CalibrationData(getRealRightLine(), getRealLeftLine());
+}
