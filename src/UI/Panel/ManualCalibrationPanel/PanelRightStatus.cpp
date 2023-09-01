@@ -5,15 +5,15 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp>
 
-RightStatusPanel::RightStatusPanel(wxWindow *parent)
+ManualCalibrationButtonRight::ManualCalibrationButtonRight(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::RIGHT_NONE) {
 
-    right_Button = new BitmapR(this, Enum::MC_SelectRight_Button_ID);
-    clear_Button = new BitmapRemove(this, Enum::MC_RemoveRight_Button_ID);
+    Right_Button = new BitmapR(this, Enum::MC_SelectRight_Button_ID);
+    Clear_Button = new BitmapRemove(this, Enum::MC_RemoveRight_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(right_Button, 1, wxEXPAND);
-    buttonSizer->Add(clear_Button, 1, wxEXPAND);
+    buttonSizer->Add(Right_Button, 1, wxEXPAND);
+    buttonSizer->Add(Clear_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -29,18 +29,20 @@ RightStatusPanel::RightStatusPanel(wxWindow *parent)
     Fit();
 }
 
-void RightStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void ManualCalibrationButtonRight::OnButtonClicked(wxCommandEvent &e) {
+    e.Skip();
+}
 
-void RightStatusPanel::update(const AppState &state) {
+void ManualCalibrationButtonRight::update(const AppState &state) {
     // set panel
     ManualCalibrationPanelState ps = state.manualCalibrationPanel;
 
     setPanelState(ps.rightStatusState);
-    right_Button->update(ps.selectRightButtonState);
-    clear_Button->update(ps.removeRightButtonState);
+    Right_Button->update(ps.selectRightButtonState);
+    Clear_Button->update(ps.removeRightButtonState);
 }
 
-void RightStatusPanel::setPanelState(PanelState state) {
+void ManualCalibrationButtonRight::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         this->Show();
         SetTextData(RTC::RIGHT_OK);

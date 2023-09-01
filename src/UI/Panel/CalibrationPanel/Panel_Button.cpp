@@ -10,34 +10,34 @@
 CalibrationPanelButton::CalibrationPanelButton(wxWindow *parent, wxWindowID id)
     : BaseButtonPanel(parent, id) {
 
-    cPanel = new CalibrationMainStatusPanel(this);
-    ctPanel = new CalibrationToolPanel(this);
-    cpPanel = new CalibrationPreviewPanel(this);
-    coPanel = new CalibrationOtherPanel(this);
-    okCancelPanel = new OKCancelPanel(this);
+    MainPanel = new CalibrationButtonMain(this);
+    ToolPanel = new CalibrationButtonTool(this);
+    PreviewPanel = new CalibrationButtonPreview(this);
+    OtherPanel = new CalibrationButtonOther(this);
+    OkCancelPanel = new OKCancelPanel(this);
 
     wxStaticText *spacer = new Spacer(this);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
-    main_sizer->Add(cPanel, 0, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(ctPanel, 0, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(cpPanel, 0, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(coPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(ToolPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(PreviewPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(OtherPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(spacer, 1, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(okCancelPanel, 0, wxEXPAND | wxBOTTOM, 0);
+    main_sizer->Add(OkCancelPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
     this->SetSizer(main_sizer);
 }
 
 void CalibrationPanelButton::update(const AppState &state) {
-    cPanel->update(state);
-    ctPanel->update(state);
-    cpPanel->update(state);
-    coPanel->update(state);
+    MainPanel->update(state);
+    ToolPanel->update(state);
+    PreviewPanel->update(state);
+    OtherPanel->update(state);
 
     auto okState = state.calibrationPanel.okButtonState;
     auto cancelState = state.calibrationPanel.cancelButtonState;
-    okCancelPanel->update(okState, cancelState);
+    OkCancelPanel->update(okState, cancelState);
 }
 
 // clang-format off

@@ -5,16 +5,15 @@
 
 #include <wx/wx.h>
 
-class CalibrationToolPanel : public TextOutlinePanel {
+class CalibrationButtonTool : public TextOutlinePanel {
 
   public:
-    CalibrationToolPanel(wxWindow *parent);
+    CalibrationButtonTool(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButton *target_button;
-    BitmapButton *cancel_button;
-    // BitmapButton *ok_button;
+    BitmapButton *SetPoint_Button;
+    BitmapButton *Cancel_Button;
 
   private:
     void setPanelState(PanelState state);

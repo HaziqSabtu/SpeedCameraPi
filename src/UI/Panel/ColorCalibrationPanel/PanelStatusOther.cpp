@@ -7,16 +7,16 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/ColorCalibrationPanel/PanelStatusOther.hpp>
 
-ColorCalibrationOtherPanel::ColorCalibrationOtherPanel(wxWindow *parent)
+ColorCalibrationButtonOther::ColorCalibrationButtonOther(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_OTHER) {
 
-    save_button = new BitmapSave(this, Enum::CC_Save_Button_ID);
-    restore_button =
+    Save_button = new BitmapSave(this, Enum::CC_Save_Button_ID);
+    Restore_button =
         new BitmapReset(this, Enum::CC_Restore_Button_ID, Data::BitmapRestore);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(save_button, 1, wxEXPAND);
-    buttonSizer->Add(restore_button, 1, wxEXPAND);
+    buttonSizer->Add(Save_button, 1, wxEXPAND);
+    buttonSizer->Add(Restore_button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -32,10 +32,10 @@ ColorCalibrationOtherPanel::ColorCalibrationOtherPanel(wxWindow *parent)
     Fit();
 }
 
-void ColorCalibrationOtherPanel::update(const AppState &state) {
+void ColorCalibrationButtonOther::update(const AppState &state) {
     // set panel
     ColorCalibrationPanelState ps = state.colorCalibrationPanel;
 
-    save_button->update(ps.saveButtonState);
-    restore_button->update(ps.restoreButtonState);
+    Save_button->update(ps.saveButtonState);
+    Restore_button->update(ps.restoreButtonState);
 }

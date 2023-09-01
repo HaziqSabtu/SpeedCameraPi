@@ -5,13 +5,13 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class CaptureToolsPanel : public TextOutlinePanel {
+class CaptureButtonTools : public TextOutlinePanel {
   public:
-    CaptureToolsPanel(wxWindow *parent);
+    CaptureButtonTools(wxWindow *parent);
 
-    BitmapButton *save_Button;
-    BitmapButton *trim_Button;
-    BitmapButton *reset_Button;
+    BitmapButton *Save_Button;
+    BitmapButton *Trim_Button;
+    BitmapButton *Reset_Button;
 
     void update(const AppState &state);
 
@@ -20,4 +20,5 @@ class CaptureToolsPanel : public TextOutlinePanel {
 
     wxBoxSizer *hSizer;
     wxBoxSizer *vSizer;
+    wxBoxSizer *buttonSizer;
 };

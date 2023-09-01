@@ -10,44 +10,44 @@
 CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     : BaseButtonPanel(parent, id) {
 
-    switch_Button = new MeasureTextButton(this, Enum::CP_Measure_Button_ID);
+    Measure_Button = new MeasureTextButton(this, Enum::CP_Measure_Button_ID);
 
     spacer = new Spacer(this);
 
-    cPanel = new CaptureStatusPanel(this);
-    csPanel = new CalibrationStatusPanel(this);
-    rPanel = new ROIStatusPanel(this);
+    MainPanel = new CaptureButtonMain(this);
+    CalibrationPanel = new CaptureButtonCalibration(this);
+    RoiPanel = new CaptureButtonROI(this);
 
     left_sizer = new wxBoxSizer(wxVERTICAL);
-    left_sizer->Add(csPanel, 0, wxEXPAND | wxBOTTOM, 0);
+    left_sizer->Add(CalibrationPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
     right_sizer = new wxBoxSizer(wxVERTICAL);
-    right_sizer->Add(rPanel, 0, wxEXPAND | wxBOTTOM, 0);
+    right_sizer->Add(RoiPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
     lrSizer = new wxBoxSizer(wxHORIZONTAL);
     lrSizer->Add(left_sizer, 1, wxALL, 0);
     lrSizer->Add(spacer, 0, wxALL, 0);
     lrSizer->Add(right_sizer, 1, wxALL, 0);
 
-    tPanel = new CaptureToolsPanel(this);
+    ToolsPanel = new CaptureButtonTools(this);
 
     main_sizer = new wxBoxSizer(wxVERTICAL);
-    main_sizer->Add(cPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(tPanel, 0, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(switch_Button, 1, wxEXPAND | wxBOTTOM, 0);
+    main_sizer->Add(ToolsPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    main_sizer->Add(Measure_Button, 1, wxEXPAND | wxBOTTOM, 0);
 
     SetSizer(main_sizer);
 }
 
 void CaptureButtonPanel::update(const AppState &state) {
-    cPanel->update(state);
-    csPanel->update(state);
-    rPanel->update(state);
-    tPanel->update(state);
+    MainPanel->update(state);
+    CalibrationPanel->update(state);
+    RoiPanel->update(state);
+    ToolsPanel->update(state);
 
     auto ms = state.cameraPanel.measureButtonState;
-    switch_Button->update(ms);
+    Measure_Button->update(ms);
 }
 
 // clang-format off

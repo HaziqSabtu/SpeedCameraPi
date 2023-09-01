@@ -4,9 +4,6 @@
 #include "UI/Button/TextButton/Type2/TextButtonT2.hpp"
 #include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
-#include "UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp"
-#include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"
-#include "UI/Panel/ManualCalibrationPanel/PanelStatusCalib.hpp"
 #include "UI/Panel/ResultPanel/PanelResultPreview.hpp"
 #include "UI/Panel/ResultPanel/PanelStatusResult.hpp"
 #include <Utils/Enum.hpp>
@@ -21,10 +18,10 @@ class ResultPanelButton : public BaseButtonPanel {
 
     void update(const AppState &state) override;
 
-    ResultMainStatusPanel *main_status_panel;
-    ResultPreviewStatusPanel *preview_status_panel;
+    ResultPanelMain *MainPanel;
+    ResultPanelPreview *PreviewPanel;
 
-    TextButton *back_button;
+    TextButton *Back_button;
 
   private:
     wxStaticText *spacer;

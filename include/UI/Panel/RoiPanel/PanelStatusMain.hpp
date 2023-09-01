@@ -6,17 +6,15 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class ManualCalibrationMainStatusPanel : public TextOutlinePanel {
+class RoiButtonMain : public TextOutlinePanel {
   public:
-    ManualCalibrationMainStatusPanel(wxWindow *parent);
+    RoiButtonMain(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButtonT2 *calibrate_Button;
-    BitmapButtonT2 *cCapture_Button;
-    // BitmapButton *stop_Button;
-    // BitmapButtonT2 *camera_Button;
-    BitmapButton *reset_Button;
+    BitmapButtonT2 *Roi_Button;
+    BitmapButtonT2 *Preview_Button;
+    BitmapButton *Reset_Button;
 
   private:
     void setPanelState(PanelState state);

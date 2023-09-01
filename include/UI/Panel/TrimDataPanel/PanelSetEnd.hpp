@@ -4,14 +4,14 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class SetEndPanel : public TextOutlinePanel {
+class TrimButtonSetEnd : public TextOutlinePanel {
   public:
-    SetEndPanel(wxWindow *parent);
+    TrimButtonSetEnd(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButton *next_Button;
-    BitmapButton *previous_Button;
+    BitmapButton *Next_Button;
+    BitmapButton *Previous_Button;
 
   private:
     void setPanelState(PanelState state);

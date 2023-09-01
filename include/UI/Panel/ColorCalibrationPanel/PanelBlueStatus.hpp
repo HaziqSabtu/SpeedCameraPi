@@ -4,14 +4,14 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class BlueStatusPanel : public TextOutlinePanel {
+class ColorCalibrationButtonBlue : public TextOutlinePanel {
   public:
-    BlueStatusPanel(wxWindow *parent);
+    ColorCalibrationButtonBlue(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButton *color_Button;
-    BitmapButton *clear_Button;
+    BitmapButton *Color_Button;
+    BitmapButton *Clear_Button;
 
   private:
     void setPanelState(PanelState state);

@@ -11,23 +11,22 @@
 #include "UI/StaticText/RichText.hpp"
 #include "UI/Theme/Data.hpp"
 #include "Utils/Enum.hpp"
-#include <UI/Panel/ColorCalibrationPanel/PanelStatusCalib.hpp>
+#include <UI/Panel/ColorCalibrationPanel/PanelStatusMain.hpp>
 
-ColorCalibrationMainStatusPanel::ColorCalibrationMainStatusPanel(
-    wxWindow *parent)
+ColorCalibrationButtonMain::ColorCalibrationButtonMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::COLOR_CALIB) {
 
-    calibrate_Button = new BitmapCalibration(this, Enum::CC_Start_Button_ID);
-    stop_Button = new BitmapStop(this, Enum::CC_Stop_Button_ID);
-    camera_Button =
+    Calibrate_Button = new BitmapCalibration(this, Enum::CC_Start_Button_ID);
+    Stop_Button = new BitmapStop(this, Enum::CC_Stop_Button_ID);
+    Preview_Button =
         new BitmapT2MagnifyGlass(this, Enum::CC_ToggleCamera_Button_ID);
-    reset_Button = new BitmapRemove(this, Enum::CC_Remove_Button_ID);
+    Reset_Button = new BitmapRemove(this, Enum::CC_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
-    buttonSizer->Add(stop_Button, 1, wxEXPAND);
-    buttonSizer->Add(camera_Button, 1, wxEXPAND);
-    buttonSizer->Add(reset_Button, 1, wxEXPAND);
+    buttonSizer->Add(Calibrate_Button, 1, wxEXPAND);
+    buttonSizer->Add(Stop_Button, 1, wxEXPAND);
+    buttonSizer->Add(Preview_Button, 1, wxEXPAND);
+    buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -42,25 +41,25 @@ ColorCalibrationMainStatusPanel::ColorCalibrationMainStatusPanel(
     SetSizer(hSizer);
     Fit();
 
-    reset_Button->Bind(wxEVT_BUTTON,
-                       &ColorCalibrationMainStatusPanel::OnButtonClicked, this);
+    Reset_Button->Bind(wxEVT_BUTTON,
+                       &ColorCalibrationButtonMain::OnButtonClicked, this);
 }
 
-void ColorCalibrationMainStatusPanel::OnButtonClicked(wxCommandEvent &e) {
+void ColorCalibrationButtonMain::OnButtonClicked(wxCommandEvent &e) {
     e.Skip();
 }
 
-void ColorCalibrationMainStatusPanel::update(const AppState &state) {
+void ColorCalibrationButtonMain::update(const AppState &state) {
     // set panel
     ColorCalibrationPanelState ps = state.colorCalibrationPanel;
 
-    calibrate_Button->update(ps.calibrationButtonState);
-    stop_Button->update(ps.stopButtonState);
-    camera_Button->update(ps.cameraButtonState);
-    reset_Button->update(ps.removeButtonState);
+    Calibrate_Button->update(ps.calibrationButtonState);
+    Stop_Button->update(ps.stopButtonState);
+    Preview_Button->update(ps.cameraButtonState);
+    Reset_Button->update(ps.removeButtonState);
 }
 
-void ColorCalibrationMainStatusPanel::setPanelState(PanelState state) {
+void ColorCalibrationButtonMain::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         SetTextData(RTC::CALIB_OK);
     }

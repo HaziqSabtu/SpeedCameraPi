@@ -6,16 +6,16 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class ColorCalibrationMainStatusPanel : public TextOutlinePanel {
+class ColorCalibrationButtonMain : public TextOutlinePanel {
   public:
-    ColorCalibrationMainStatusPanel(wxWindow *parent);
+    ColorCalibrationButtonMain(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButton *calibrate_Button;
-    BitmapButton *stop_Button;
-    BitmapButtonT2 *camera_Button;
-    BitmapButton *reset_Button;
+    BitmapButton *Calibrate_Button;
+    BitmapButton *Stop_Button;
+    BitmapButtonT2 *Preview_Button;
+    BitmapButton *Reset_Button;
 
   private:
     void setPanelState(PanelState state);

@@ -40,22 +40,22 @@ void CalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CL_PreviewCamera_Button_ID) {
-        auto button = button_panel->cpPanel->pCamera_button;
+        auto button = button_panel->PreviewPanel->PreviewCamera_Button;
         TogglePreviewButtonHandler(button);
     }
 
     if (e.GetId() == Enum::CL_PreviewCapture_Button_ID) {
-        auto button = button_panel->cpPanel->pCapture_button;
+        auto button = button_panel->PreviewPanel->PreviewCapture_Button;
         TogglePreviewCaptureButtonHandler(button);
     }
 
     if (e.GetId() == Enum::CL_CalibrationCamera_Button_ID) {
-        auto button = button_panel->cPanel->calibrate_Button;
+        auto button = button_panel->MainPanel->CalibrateCamera_Button;
         ToggleCalibrationCameraButtonHandler(button);
     }
 
     if (e.GetId() == Enum::CL_CalibrationCapture_Button_ID) {
-        auto button = button_panel->cPanel->cCapture_Button;
+        auto button = button_panel->MainPanel->CalibrateCapture_Button;
         ToggleCalibrationCaptureButtonHandler(button);
     }
 

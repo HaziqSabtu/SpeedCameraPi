@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UI/Panel/CalibrationPanel/PanelStatusCalib.hpp"
+#include "UI/Panel/CalibrationPanel/PanelStatusMain.hpp"
 #include "UI/Panel/CalibrationPanel/PanelStatusOther.hpp"
 #include "UI/Panel/CalibrationPanel/PanelStatusPreview.hpp"
 #include "UI/Panel/CalibrationPanel/PanelStatusTool.hpp"
@@ -18,11 +18,11 @@ class CalibrationPanelButton : public BaseButtonPanel {
 
     void update(const AppState &state) override;
 
-    CalibrationMainStatusPanel *cPanel;
-    CalibrationToolPanel *ctPanel;
-    CalibrationPreviewPanel *cpPanel;
-    CalibrationOtherPanel *coPanel;
-    OKCancelPanel *okCancelPanel;
+    CalibrationButtonMain *MainPanel;
+    CalibrationButtonTool *ToolPanel;
+    CalibrationButtonPreview *PreviewPanel;
+    CalibrationButtonOther *OtherPanel;
+    OKCancelPanel *OkCancelPanel;
 
   private:
     wxBoxSizer *main_sizer;

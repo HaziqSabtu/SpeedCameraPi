@@ -16,19 +16,19 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/ResultPanel/PanelResultPreview.hpp>
 
-ResultPreviewStatusPanel::ResultPreviewStatusPanel(wxWindow *parent)
+ResultPanelPreview::ResultPanelPreview(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::RESULT_NONE) {
 
-    box_Button = new BitmapT2Box(this, Enum::RE_Box_Button_ID);
-    intersection_Button = new BitmapT2Ruler(this, Enum::RE_Lines_Button_ID);
-    lanes_Button = new BitmapT2Lanes(this, Enum::RE_Lanes_Button_ID);
-    replay_Button = new BitmapReplay(this, Enum::RE_Replay_Button_ID);
+    Box_Button = new BitmapT2Box(this, Enum::RE_Box_Button_ID);
+    Intersection_Button = new BitmapT2Ruler(this, Enum::RE_Lines_Button_ID);
+    Lanes_Button = new BitmapT2Lanes(this, Enum::RE_Lanes_Button_ID);
+    Replay_Button = new BitmapReplay(this, Enum::RE_Replay_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(box_Button, 1, wxEXPAND);
-    buttonSizer->Add(intersection_Button, 1, wxEXPAND);
-    buttonSizer->Add(lanes_Button, 1, wxEXPAND);
-    buttonSizer->Add(replay_Button, 1, wxEXPAND);
+    buttonSizer->Add(Box_Button, 1, wxEXPAND);
+    buttonSizer->Add(Intersection_Button, 1, wxEXPAND);
+    buttonSizer->Add(Lanes_Button, 1, wxEXPAND);
+    buttonSizer->Add(Replay_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -44,20 +44,20 @@ ResultPreviewStatusPanel::ResultPreviewStatusPanel(wxWindow *parent)
     Fit();
 }
 
-void ResultPreviewStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void ResultPanelPreview::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
-void ResultPreviewStatusPanel::update(const AppState &state) {
+void ResultPanelPreview::update(const AppState &state) {
     // set panel
     ResultPanelState ps = state.resultPanel;
     setPanelState(ps.previewStatusState);
 
-    box_Button->update(ps.boxButtonState);
-    intersection_Button->update(ps.linesButtonState);
-    lanes_Button->update(ps.lanesButtonState);
-    replay_Button->update(ps.replayButtonState);
+    Box_Button->update(ps.boxButtonState);
+    Intersection_Button->update(ps.linesButtonState);
+    Lanes_Button->update(ps.lanesButtonState);
+    Replay_Button->update(ps.replayButtonState);
 }
 
-void ResultPreviewStatusPanel::setPanelState(PanelState state) {
+void ResultPanelPreview::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_HIDDEN) {
         this->Hide();
         return;

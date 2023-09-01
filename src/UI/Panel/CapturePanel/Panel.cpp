@@ -36,7 +36,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
         dynamic_cast<CaptureButtonPanel *>(this->button_panel);
 
     if (e.GetId() == Enum::CP_ToggleCamera_Button_ID) {
-        auto button = button_panel->cPanel->Camera_Button;
+        auto button = button_panel->MainPanel->Camera_Button;
         ToggleCameraButtonHandler(button);
     }
 

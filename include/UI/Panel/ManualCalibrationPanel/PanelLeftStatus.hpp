@@ -4,14 +4,14 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class LeftStatusPanel : public TextOutlinePanel {
+class ManualCalibrationButtonLeft : public TextOutlinePanel {
   public:
-    LeftStatusPanel(wxWindow *parent);
+    ManualCalibrationButtonLeft(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButton *left_Button;
-    BitmapButton *clear_Button;
+    BitmapButton *Left_Button;
+    BitmapButton *Clear_Button;
 
   private:
     void setPanelState(PanelState state);

@@ -37,7 +37,7 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
         dynamic_cast<ColorCalibrationPanelButton *>(this->button_panel);
 
     if (e.GetId() == Enum::CC_ToggleCamera_Button_ID) {
-        auto button = button_panel->main_status_panel->camera_Button;
+        auto button = button_panel->MainPanel->Preview_Button;
         ToggleCameraButtonHandler(button);
     }
 

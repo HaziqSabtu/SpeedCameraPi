@@ -4,15 +4,15 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CalibrationPanel/PanelStatusTool.hpp>
 
-CalibrationToolPanel::CalibrationToolPanel(wxWindow *parent)
+CalibrationButtonTool::CalibrationButtonTool(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_TOOL) {
 
-    target_button = new BitmapTarget(this, Enum::CL_SelectPoint_Button_ID);
-    cancel_button = new BitmapCancel(this, Enum::CL_ClearPoint_Button_ID);
+    SetPoint_Button = new BitmapTarget(this, Enum::CL_SelectPoint_Button_ID);
+    Cancel_Button = new BitmapCancel(this, Enum::CL_ClearPoint_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(target_button, 1, wxEXPAND);
-    buttonSizer->Add(cancel_button, 1, wxEXPAND);
+    buttonSizer->Add(SetPoint_Button, 1, wxEXPAND);
+    buttonSizer->Add(Cancel_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -28,18 +28,17 @@ CalibrationToolPanel::CalibrationToolPanel(wxWindow *parent)
     Fit();
 }
 
-void CalibrationToolPanel::update(const AppState &state) {
+void CalibrationButtonTool::update(const AppState &state) {
     // set panel
     CalibrationPanelState ps = state.calibrationPanel;
 
     setPanelState(ps.toolStatusState);
 
-    target_button->update(ps.selectPointButtonState);
-    cancel_button->update(ps.cancelCalibrationButtonState);
-    // ok_button->update(ps.acceptCalibrationButtonState);
+    SetPoint_Button->update(ps.selectPointButtonState);
+    Cancel_Button->update(ps.cancelCalibrationButtonState);
 }
 
-void CalibrationToolPanel::setPanelState(PanelState state) {
+void CalibrationButtonTool::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_HIDDEN) {
         this->Hide();
         return;

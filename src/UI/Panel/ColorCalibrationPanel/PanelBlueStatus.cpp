@@ -9,16 +9,16 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/ColorCalibrationPanel/PanelBlueStatus.hpp>
 
-BlueStatusPanel::BlueStatusPanel(wxWindow *parent)
+ColorCalibrationButtonBlue::ColorCalibrationButtonBlue(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::COLOR_CALIB_BLUE_NONE) {
 
-    color_Button = new BitmapColorPicker(this, Enum::CC_SelectBlue_Button_ID,
+    Color_Button = new BitmapColorPicker(this, Enum::CC_SelectBlue_Button_ID,
                                          Data::BitmapSelectBlue);
-    clear_Button = new BitmapAccept(this, Enum::CC_AcceptBlue_Button_ID);
+    Clear_Button = new BitmapAccept(this, Enum::CC_AcceptBlue_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(color_Button, 1, wxEXPAND);
-    buttonSizer->Add(clear_Button, 1, wxEXPAND);
+    buttonSizer->Add(Color_Button, 1, wxEXPAND);
+    buttonSizer->Add(Clear_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -34,18 +34,20 @@ BlueStatusPanel::BlueStatusPanel(wxWindow *parent)
     Fit();
 }
 
-void BlueStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void ColorCalibrationButtonBlue::OnButtonClicked(wxCommandEvent &e) {
+    e.Skip();
+}
 
-void BlueStatusPanel::update(const AppState &state) {
+void ColorCalibrationButtonBlue::update(const AppState &state) {
     // // set panel
     ColorCalibrationPanelState ps = state.colorCalibrationPanel;
 
     setPanelState(ps.blueStatusState);
-    color_Button->update(ps.selectBlueButtonState);
-    clear_Button->update(ps.acceptBlueButtonState);
+    Color_Button->update(ps.selectBlueButtonState);
+    Clear_Button->update(ps.acceptBlueButtonState);
 }
 
-void BlueStatusPanel::setPanelState(PanelState state) {
+void ColorCalibrationButtonBlue::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         SetTextData(RTC::CALIB_OK);
     }

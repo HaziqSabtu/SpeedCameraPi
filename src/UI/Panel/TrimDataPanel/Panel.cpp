@@ -35,7 +35,7 @@ void TrimDataPanel::OnButton(wxCommandEvent &e) {
         dynamic_cast<TrimDataPanelButton *>(this->button_panel);
 
     if (e.GetId() == Enum::TD_Start_Button_ID) {
-        auto button = button_panel->main_status_panel->start_Button;
+        auto button = button_panel->MainPanel->Start_Button;
         ToggleTrimDataButtonHandler(button);
     }
 

@@ -13,15 +13,15 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/RoiPanel/PanelRoiTools.hpp>
 
-RoiToolsPanel::RoiToolsPanel(wxWindow *parent)
+RoiButtonTools::RoiButtonTools(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::ROI_TOOLS) {
 
-    ok_button = new BitmapOK(this, Enum::RO_AcceptRect_Button_ID);
-    remove_button = new BitmapRemove(this, Enum::RO_RemoveRect_Button_ID);
+    Ok_button = new BitmapOK(this, Enum::RO_AcceptRect_Button_ID);
+    Remove_button = new BitmapRemove(this, Enum::RO_RemoveRect_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(ok_button, 1, wxEXPAND);
-    buttonSizer->Add(remove_button, 1, wxEXPAND);
+    buttonSizer->Add(Ok_button, 1, wxEXPAND);
+    buttonSizer->Add(Remove_button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -37,19 +37,19 @@ RoiToolsPanel::RoiToolsPanel(wxWindow *parent)
     Fit();
 }
 
-void RoiToolsPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void RoiButtonTools::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
-void RoiToolsPanel::update(const AppState &state) {
+void RoiButtonTools::update(const AppState &state) {
     // set panel
     RoiPanelState ps = state.roiPanel;
 
     setPanelState(ps.roiToolsStatusState);
 
-    ok_button->update(ps.acceptRoiButtonState);
-    remove_button->update(ps.clearRoiButtonState);
+    Ok_button->update(ps.acceptRoiButtonState);
+    Remove_button->update(ps.clearRoiButtonState);
 }
 
-void RoiToolsPanel::setPanelState(PanelState state) {
+void RoiButtonTools::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_HIDDEN) {
         this->Hide();
         return;

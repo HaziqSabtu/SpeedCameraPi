@@ -11,22 +11,21 @@
 #include "UI/StaticText/RichText.hpp"
 #include "UI/Theme/Data.hpp"
 #include "Utils/Enum.hpp"
-#include <UI/Panel/ManualCalibrationPanel/PanelStatusCalib.hpp>
+#include <UI/Panel/ManualCalibrationPanel/PanelStatusMain.hpp>
 
-ManualCalibrationMainStatusPanel::ManualCalibrationMainStatusPanel(
-    wxWindow *parent)
+ManualCalibrationButtonMain::ManualCalibrationButtonMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_NONE) {
 
-    calibrate_Button =
+    CalibrateCamera_Button =
         new BitmapT2Calibration(this, Enum::MC_CalibrationCamera_Button_ID);
-    cCapture_Button =
+    CalibrateCapture_Button =
         new BitmapT2Calibration(this, Enum::MC_CalibrationCapture_Button_ID);
-    reset_Button = new BitmapRemove(this, Enum::MC_Remove_Button_ID);
+    Reset_Button = new BitmapRemove(this, Enum::MC_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
-    buttonSizer->Add(cCapture_Button, 1, wxEXPAND);
-    buttonSizer->Add(reset_Button, 1, wxEXPAND);
+    buttonSizer->Add(CalibrateCamera_Button, 1, wxEXPAND);
+    buttonSizer->Add(CalibrateCapture_Button, 1, wxEXPAND);
+    buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -41,25 +40,25 @@ ManualCalibrationMainStatusPanel::ManualCalibrationMainStatusPanel(
     SetSizer(hSizer);
     Fit();
 
-    reset_Button->Bind(
-        wxEVT_BUTTON, &ManualCalibrationMainStatusPanel::OnButtonClicked, this);
+    Reset_Button->Bind(wxEVT_BUTTON,
+                       &ManualCalibrationButtonMain::OnButtonClicked, this);
 }
 
-void ManualCalibrationMainStatusPanel::OnButtonClicked(wxCommandEvent &e) {
+void ManualCalibrationButtonMain::OnButtonClicked(wxCommandEvent &e) {
     e.Skip();
 }
 
-void ManualCalibrationMainStatusPanel::update(const AppState &state) {
+void ManualCalibrationButtonMain::update(const AppState &state) {
     // set panel
     ManualCalibrationPanelState ps = state.manualCalibrationPanel;
     setPanelState(ps.state);
 
-    calibrate_Button->update(ps.calibrationButtonState);
-    cCapture_Button->update(ps.calibrationCaptureButtonState);
-    reset_Button->update(ps.removeButtonState);
+    CalibrateCamera_Button->update(ps.calibrationButtonState);
+    CalibrateCapture_Button->update(ps.calibrationCaptureButtonState);
+    Reset_Button->update(ps.removeButtonState);
 }
 
-void ManualCalibrationMainStatusPanel::setPanelState(PanelState state) {
+void ManualCalibrationButtonMain::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         SetTextData(RTC::CALIB_OK);
     }

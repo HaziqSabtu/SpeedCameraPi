@@ -12,18 +12,18 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/ResultPanel/PanelStatusResult.hpp>
 
-ResultMainStatusPanel::ResultMainStatusPanel(wxWindow *parent)
+ResultPanelMain::ResultPanelMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::RESULT_NONE) {
 
-    calibrate_Button = new BitmapCalibration(this, Enum::RE_Start_Button_ID);
-    redundant_Button =
+    Process_Button = new BitmapCalibration(this, Enum::RE_Start_Button_ID);
+    Redundant_Button =
         new BitmapCalibration(this, Enum::RE_Redundant_Button_ID);
-    camera_Button = new BitmapT2MagnifyGlass(this, Enum::RE_Preview_Button_ID);
+    Preview_Button = new BitmapT2MagnifyGlass(this, Enum::RE_Preview_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
-    buttonSizer->Add(redundant_Button, 1, wxEXPAND);
-    buttonSizer->Add(camera_Button, 1, wxEXPAND);
+    buttonSizer->Add(Process_Button, 1, wxEXPAND);
+    buttonSizer->Add(Redundant_Button, 1, wxEXPAND);
+    buttonSizer->Add(Preview_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -39,19 +39,19 @@ ResultMainStatusPanel::ResultMainStatusPanel(wxWindow *parent)
     Fit();
 }
 
-void ResultMainStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void ResultPanelMain::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
-void ResultMainStatusPanel::update(const AppState &state) {
+void ResultPanelMain::update(const AppState &state) {
     // set panel
     ResultPanelState ps = state.resultPanel;
     setPanelState(ps.state);
 
-    calibrate_Button->update(ps.resultButtonState);
-    redundant_Button->update(ps.redundantButtonState);
-    camera_Button->update(ps.previewButtonState);
+    Process_Button->update(ps.resultButtonState);
+    Redundant_Button->update(ps.redundantButtonState);
+    Preview_Button->update(ps.previewButtonState);
 }
 
-void ResultMainStatusPanel::setPanelState(PanelState state) {
+void ResultPanelMain::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         SetTextData(RTC::RESULT_OK);
     }

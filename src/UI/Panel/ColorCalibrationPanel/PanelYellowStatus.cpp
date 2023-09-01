@@ -7,16 +7,16 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/ColorCalibrationPanel/PanelYellowStatus.hpp>
 
-YellowStatusPanel::YellowStatusPanel(wxWindow *parent)
+ColorCalibrationButtonYellow::ColorCalibrationButtonYellow(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::COLOR_CALIB_YELLOW_NONE) {
 
-    color_Button = new BitmapColorPicker(this, Enum::CC_SelectYellow_Button_ID,
+    Color_Button = new BitmapColorPicker(this, Enum::CC_SelectYellow_Button_ID,
                                          Data::BitmapSelectYellow);
-    clear_Button = new BitmapAccept(this, Enum::CC_AcceptYellow_Button_ID);
+    Clear_Button = new BitmapAccept(this, Enum::CC_AcceptYellow_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(color_Button, 1, wxEXPAND);
-    buttonSizer->Add(clear_Button, 1, wxEXPAND);
+    buttonSizer->Add(Color_Button, 1, wxEXPAND);
+    buttonSizer->Add(Clear_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -32,18 +32,20 @@ YellowStatusPanel::YellowStatusPanel(wxWindow *parent)
     Fit();
 }
 
-void YellowStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void ColorCalibrationButtonYellow::OnButtonClicked(wxCommandEvent &e) {
+    e.Skip();
+}
 
-void YellowStatusPanel::update(const AppState &state) {
+void ColorCalibrationButtonYellow::update(const AppState &state) {
     // // set panel
     ColorCalibrationPanelState ps = state.colorCalibrationPanel;
 
     setPanelState(ps.yellowStatusState);
-    color_Button->update(ps.selectYellowButtonState);
-    clear_Button->update(ps.acceptYellowButtonState);
+    Color_Button->update(ps.selectYellowButtonState);
+    Clear_Button->update(ps.acceptYellowButtonState);
 }
 
-void YellowStatusPanel::setPanelState(PanelState state) {
+void ColorCalibrationButtonYellow::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         SetTextData(RTC::CALIB_OK);
     }

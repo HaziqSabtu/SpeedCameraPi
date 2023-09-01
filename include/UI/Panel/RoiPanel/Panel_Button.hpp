@@ -2,11 +2,8 @@
 
 #include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
-#include "UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp"
-#include "UI/Panel/ManualCalibrationPanel/PanelRightStatus.hpp"
-#include "UI/Panel/ManualCalibrationPanel/PanelStatusCalib.hpp"
 #include "UI/Panel/RoiPanel/PanelRoiTools.hpp"
-#include "UI/Panel/RoiPanel/PanelStatusRoi.hpp"
+#include "UI/Panel/RoiPanel/PanelStatusMain.hpp"
 #include <Utils/Enum.hpp>
 
 #include <wx/gtk/button.h>
@@ -19,11 +16,11 @@ class RoiPanelButton : public BaseButtonPanel {
 
     void update(const AppState &state) override;
 
-    RoiMainStatusPanel *main_status_panel;
+    RoiButtonMain *MainPanel;
 
-    RoiToolsPanel *roi_tools_panel;
+    RoiButtonTools *ToolsPanel;
 
-    OKCancelPanel *ok_cancel_panel;
+    OKCancelPanel *OkCancelPanel;
 
   private:
     wxStaticText *spacer;

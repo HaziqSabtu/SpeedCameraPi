@@ -6,16 +6,16 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class ResultPreviewStatusPanel : public TextOutlinePanel {
+class ResultPanelPreview : public TextOutlinePanel {
   public:
-    ResultPreviewStatusPanel(wxWindow *parent);
+    ResultPanelPreview(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButtonT2 *box_Button;
-    BitmapButtonT2 *intersection_Button;
-    BitmapButtonT2 *lanes_Button;
-    BitmapButton *replay_Button;
+    BitmapButtonT2 *Box_Button;
+    BitmapButtonT2 *Intersection_Button;
+    BitmapButtonT2 *Lanes_Button;
+    BitmapButton *Replay_Button;
 
   private:
     void setPanelState(PanelState state);

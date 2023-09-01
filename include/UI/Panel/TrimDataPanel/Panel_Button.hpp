@@ -17,10 +17,10 @@ class TrimDataPanelButton : public BaseButtonPanel {
 
     void update(const AppState &state) override;
 
-    TrimDataMainPanel *main_status_panel;
-    SetStartPanel *set_start_panel;
-    SetEndPanel *set_end_panel;
-    OKCancelPanel *ok_cancel_panel;
+    TrimButtonMain *MainPanel;
+    TrimButtonSetStart *SetStartPanel;
+    TrimButtonSetEnd *SetEndPanel;
+    OKCancelPanel *OkCancelPanel;
 
   private:
     wxStaticText *spacer;

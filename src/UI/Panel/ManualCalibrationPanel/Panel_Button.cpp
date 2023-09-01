@@ -11,38 +11,38 @@ ManualCalibrationPanelButton::ManualCalibrationPanelButton(wxWindow *parent,
 
     spacer = new Spacer(this);
 
-    main_status_panel = new ManualCalibrationMainStatusPanel(this);
+    MainPanel = new ManualCalibrationButtonMain(this);
 
-    left_status_panel = new LeftStatusPanel(this);
-    right_status_panel = new RightStatusPanel(this);
+    LeftPanel = new ManualCalibrationButtonLeft(this);
+    RightPanel = new ManualCalibrationButtonRight(this);
 
     lrSizer = new wxBoxSizer(wxHORIZONTAL);
-    lrSizer->Add(left_status_panel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 10);
-    lrSizer->Add(right_status_panel, 1, wxEXPAND | wxBOTTOM, 10);
+    lrSizer->Add(LeftPanel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 10);
+    lrSizer->Add(RightPanel, 1, wxEXPAND | wxBOTTOM, 10);
 
-    preview_panel = new ManualCalibrationPreviewPanel(this);
+    PreviewPanel = new ManualCalibrationButtonPreview(this);
 
-    ok_cancel_panel = new OKCancelPanel(this);
+    OkCancelPanel = new OKCancelPanel(this);
 
     button_sizer = new wxBoxSizer(wxVERTICAL);
-    button_sizer->Add(main_status_panel, 0, wxEXPAND | wxBOTTOM, 10);
+    button_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
-    button_sizer->Add(preview_panel, 0, wxEXPAND | wxBOTTOM, 10);
+    button_sizer->Add(PreviewPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(spacer, 1, wxEXPAND);
-    button_sizer->Add(ok_cancel_panel, 0, wxEXPAND | wxBOTTOM, 0);
+    button_sizer->Add(OkCancelPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
     this->SetSizer(button_sizer);
 }
 
 void ManualCalibrationPanelButton::update(const AppState &state) {
-    main_status_panel->update(state);
-    left_status_panel->update(state);
-    right_status_panel->update(state);
-    preview_panel->update(state);
+    MainPanel->update(state);
+    LeftPanel->update(state);
+    RightPanel->update(state);
+    PreviewPanel->update(state);
 
     auto okState = state.manualCalibrationPanel.okButtonState;
     auto cancelState = state.manualCalibrationPanel.cancelButtonState;
-    ok_cancel_panel->update(okState, cancelState);
+    OkCancelPanel->update(okState, cancelState);
 }
 
 // clang-format off

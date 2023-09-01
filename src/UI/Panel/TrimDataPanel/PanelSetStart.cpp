@@ -6,16 +6,16 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/TrimDataPanel/PanelSetStart.hpp>
 
-SetStartPanel::SetStartPanel(wxWindow *parent)
+TrimButtonSetStart::TrimButtonSetStart(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::TRIM_START) {
 
-    next_Button = new BitmapNext(this, Enum::TD_IncrementStart_Button_ID);
-    previous_Button =
+    Next_Button = new BitmapNext(this, Enum::TD_IncrementStart_Button_ID);
+    Previous_Button =
         new BitmapPrevious(this, Enum::TD_DecrementStart_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(previous_Button, 1, wxEXPAND);
-    buttonSizer->Add(next_Button, 1, wxEXPAND);
+    buttonSizer->Add(Previous_Button, 1, wxEXPAND);
+    buttonSizer->Add(Next_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -31,7 +31,7 @@ SetStartPanel::SetStartPanel(wxWindow *parent)
     Fit();
 }
 
-void SetStartPanel::setPanelState(PanelState state) {
+void TrimButtonSetStart::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         this->Show();
         return;
@@ -50,13 +50,13 @@ void SetStartPanel::setPanelState(PanelState state) {
     throw std::runtime_error("Invalid panel state");
 }
 
-void SetStartPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void TrimButtonSetStart::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
-void SetStartPanel::update(const AppState &state) {
+void TrimButtonSetStart::update(const AppState &state) {
     // set panel
     TrimDataPanelState ps = state.trimDataPanel;
 
     setPanelState(ps.startStatusState);
-    next_Button->update(ps.incStartButtonState);
-    previous_Button->update(ps.decStartButtonState);
+    Next_Button->update(ps.incStartButtonState);
+    Previous_Button->update(ps.decStartButtonState);
 }

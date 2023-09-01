@@ -41,31 +41,27 @@ void ResultPanel::OnButton(wxCommandEvent &e) {
         controller->e_ProcessThreadStart(this);
     }
 
-    // if (e.GetId() == Enum::RE_Stop_Button_ID) {
-    //     controller->e_ProcessThreadEnd(this);
-    // }
-
     if (e.GetId() == Enum::RE_Redundant_Button_ID) {
         controller->e_ProcessRedundantThreadStart(this);
     }
 
     if (e.GetId() == Enum::RE_Preview_Button_ID) {
-        auto button = button_panel->main_status_panel->camera_Button;
+        auto button = button_panel->MainPanel->Preview_Button;
         TogglePreviewButtonHandler(button);
     }
 
     if (e.GetId() == Enum::RE_Box_Button_ID) {
-        auto button = button_panel->preview_status_panel->box_Button;
+        auto button = button_panel->PreviewPanel->Box_Button;
         ToggleBoxButtonHandler(button);
     }
 
     if (e.GetId() == Enum::RE_Lines_Button_ID) {
-        auto button = button_panel->preview_status_panel->intersection_Button;
+        auto button = button_panel->PreviewPanel->Intersection_Button;
         ToggleLinesButtonHandler(button);
     }
 
     if (e.GetId() == Enum::RE_Lanes_Button_ID) {
-        auto button = button_panel->preview_status_panel->lanes_Button;
+        auto button = button_panel->PreviewPanel->Lanes_Button;
         ToggleLanesButtonHandler(button);
     }
 

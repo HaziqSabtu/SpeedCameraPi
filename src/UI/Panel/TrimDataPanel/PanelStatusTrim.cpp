@@ -14,19 +14,19 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/TrimDataPanel/PanelStatusTrim.hpp>
 
-TrimDataMainPanel::TrimDataMainPanel(wxWindow *parent)
+TrimButtonMain::TrimButtonMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::TRIM_DATA) {
 
-    start_Button = new BitmapT2Calibration(this, Enum::TD_Start_Button_ID);
-    preview_Button = new BitmapReplay(this, Enum::TD_Preview_Button_ID);
-    preview2_Button = new BitmapReplay(this, Enum::TD_Range_Button_ID);
-    reset_Button = new BitmapRemove(this, Enum::TD_Reset_Button_ID);
+    Start_Button = new BitmapT2Calibration(this, Enum::TD_Start_Button_ID);
+    Preview_Button = new BitmapReplay(this, Enum::TD_Preview_Button_ID);
+    PreviewInThread_Button = new BitmapReplay(this, Enum::TD_Range_Button_ID);
+    Reset_Button = new BitmapRemove(this, Enum::TD_Reset_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(start_Button, 1, wxEXPAND);
-    buttonSizer->Add(preview_Button, 1, wxEXPAND);
-    buttonSizer->Add(preview2_Button, 1, wxEXPAND);
-    buttonSizer->Add(reset_Button, 1, wxEXPAND);
+    buttonSizer->Add(Start_Button, 1, wxEXPAND);
+    buttonSizer->Add(Preview_Button, 1, wxEXPAND);
+    buttonSizer->Add(PreviewInThread_Button, 1, wxEXPAND);
+    buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -42,14 +42,14 @@ TrimDataMainPanel::TrimDataMainPanel(wxWindow *parent)
     Fit();
 }
 
-void TrimDataMainPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void TrimButtonMain::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
-void TrimDataMainPanel::update(const AppState &state) {
+void TrimButtonMain::update(const AppState &state) {
     // set panel
     TrimDataPanelState ps = state.trimDataPanel;
 
-    start_Button->update(ps.startButtonState);
-    preview_Button->update(ps.replayButtonState);
-    preview2_Button->update(ps.rangeButtonState);
-    reset_Button->update(ps.removeButtonState);
+    Start_Button->update(ps.startButtonState);
+    Preview_Button->update(ps.replayButtonState);
+    PreviewInThread_Button->update(ps.rangeButtonState);
+    Reset_Button->update(ps.removeButtonState);
 }

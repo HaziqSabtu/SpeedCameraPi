@@ -11,20 +11,19 @@
 #include "UI/StaticText/RichText.hpp"
 #include "UI/Theme/Data.hpp"
 #include "Utils/Enum.hpp"
-#include <UI/Panel/RoiPanel/PanelStatusRoi.hpp>
+#include <UI/Panel/RoiPanel/PanelStatusMain.hpp>
 
-RoiMainStatusPanel::RoiMainStatusPanel(wxWindow *parent)
+RoiButtonMain::RoiButtonMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::ROI_NONE) {
 
-    calibrate_Button =
-        new BitmapT2Calibration(this, Enum::RO_Calibration_Button_ID);
-    camera_Button = new BitmapT2MagnifyGlass(this, Enum::RO_Preview_Button_ID);
-    reset_Button = new BitmapRemove(this, Enum::RO_Remove_Button_ID);
+    Roi_Button = new BitmapT2Calibration(this, Enum::RO_Calibration_Button_ID);
+    Preview_Button = new BitmapT2MagnifyGlass(this, Enum::RO_Preview_Button_ID);
+    Reset_Button = new BitmapRemove(this, Enum::RO_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(calibrate_Button, 1, wxEXPAND);
-    buttonSizer->Add(camera_Button, 1, wxEXPAND);
-    buttonSizer->Add(reset_Button, 1, wxEXPAND);
+    buttonSizer->Add(Roi_Button, 1, wxEXPAND);
+    buttonSizer->Add(Preview_Button, 1, wxEXPAND);
+    buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -39,23 +38,22 @@ RoiMainStatusPanel::RoiMainStatusPanel(wxWindow *parent)
     SetSizer(hSizer);
     Fit();
 
-    reset_Button->Bind(wxEVT_BUTTON, &RoiMainStatusPanel::OnButtonClicked,
-                       this);
+    Reset_Button->Bind(wxEVT_BUTTON, &RoiButtonMain::OnButtonClicked, this);
 }
 
-void RoiMainStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void RoiButtonMain::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
-void RoiMainStatusPanel::update(const AppState &state) {
+void RoiButtonMain::update(const AppState &state) {
     // set panel
     RoiPanelState ps = state.roiPanel;
     setPanelState(ps.state);
 
-    calibrate_Button->update(ps.roiButtonState);
-    camera_Button->update(ps.cameraButtonState);
-    reset_Button->update(ps.removeButtonState);
+    Roi_Button->update(ps.roiButtonState);
+    Preview_Button->update(ps.cameraButtonState);
+    Reset_Button->update(ps.removeButtonState);
 }
 
-void RoiMainStatusPanel::setPanelState(PanelState state) {
+void RoiButtonMain::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         SetTextData(RTC::ROI_OK);
     }

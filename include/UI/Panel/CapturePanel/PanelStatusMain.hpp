@@ -7,19 +7,20 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class CalibrationMainStatusPanel : public TextOutlinePanel {
+class CaptureButtonMain : public TextOutlinePanel {
   public:
-    CalibrationMainStatusPanel(wxWindow *parent);
+    CaptureButtonMain(wxWindow *parent);
 
-    BitmapButtonT2 *calibrate_Button;
-    BitmapButtonT2 *cCapture_Button;
-    BitmapButton *reset_Button;
+    BitmapButton *Capture_Button;
+    BitmapButton *Load_Button;
+    BitmapButton *Reset_Button;
+    BitmapButton *Replay_Button;
+    BitmapButtonT2 *Camera_Button;
 
+    void setPanelState(PanelState state);
     void update(const AppState &state);
 
   private:
-    void setPanelState(PanelState state);
-
     void OnButtonClicked(wxCommandEvent &e);
 
     wxBoxSizer *hSizer;

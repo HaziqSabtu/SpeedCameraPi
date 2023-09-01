@@ -6,20 +6,20 @@
 
 #include <wx/wx.h>
 
-class ManualCalibrationPreviewPanel : public TextOutlinePanel {
+class ManualCalibrationButtonPreview : public TextOutlinePanel {
 
   public:
-    ManualCalibrationPreviewPanel(wxWindow *parent);
+    ManualCalibrationButtonPreview(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButtonT2 *pCamera_button;
-    BitmapButtonT2 *pCapture_button;
+    BitmapButtonT2 *PreviewCamera_Button;
+    BitmapButtonT2 *PreviewCapture_Button;
 
   private:
     void setPanelState(PanelState state);
 
-    wxBoxSizer *buttonSizer;
     wxBoxSizer *vSizer;
     wxBoxSizer *hSizer;
+    wxBoxSizer *buttonSizer;
 };

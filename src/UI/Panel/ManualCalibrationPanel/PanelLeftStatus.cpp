@@ -5,15 +5,15 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/ManualCalibrationPanel/PanelLeftStatus.hpp>
 
-LeftStatusPanel::LeftStatusPanel(wxWindow *parent)
+ManualCalibrationButtonLeft::ManualCalibrationButtonLeft(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::LEFT_NONE) {
 
-    left_Button = new BitmapL(this, Enum::MC_SelectLeft_Button_ID);
-    clear_Button = new BitmapRemove(this, Enum::MC_RemoveLeft_Button_ID);
+    Left_Button = new BitmapL(this, Enum::MC_SelectLeft_Button_ID);
+    Clear_Button = new BitmapRemove(this, Enum::MC_RemoveLeft_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(left_Button, 1, wxEXPAND);
-    buttonSizer->Add(clear_Button, 1, wxEXPAND);
+    buttonSizer->Add(Left_Button, 1, wxEXPAND);
+    buttonSizer->Add(Clear_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -29,18 +29,20 @@ LeftStatusPanel::LeftStatusPanel(wxWindow *parent)
     Fit();
 }
 
-void LeftStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void ManualCalibrationButtonLeft::OnButtonClicked(wxCommandEvent &e) {
+    e.Skip();
+}
 
-void LeftStatusPanel::update(const AppState &state) {
+void ManualCalibrationButtonLeft::update(const AppState &state) {
     // set panel
     ManualCalibrationPanelState ps = state.manualCalibrationPanel;
 
     setPanelState(ps.leftStatusState);
-    left_Button->update(ps.selectLeftButtonState);
-    clear_Button->update(ps.removeLeftButtonState);
+    Left_Button->update(ps.selectLeftButtonState);
+    Clear_Button->update(ps.removeLeftButtonState);
 }
 
-void LeftStatusPanel::setPanelState(PanelState state) {
+void ManualCalibrationButtonLeft::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         this->Show();
         SetTextData(RTC::LEFT_OK);

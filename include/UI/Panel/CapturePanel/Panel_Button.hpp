@@ -2,7 +2,7 @@
 
 #include "UI/Button/TextButton/TextButton.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusCalib.hpp"
-#include "UI/Panel/CapturePanel/PanelStatusCapture.hpp"
+#include "UI/Panel/CapturePanel/PanelStatusMain.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusROI.hpp"
 #include "UI/Panel/CapturePanel/PanelStatusTools.hpp"
 #include "UI/Panel/Common/BasePanel.hpp"
@@ -20,19 +20,17 @@ class CaptureButtonPanel : public BaseButtonPanel {
 
     void update(const AppState &state) override;
 
-    CaptureStatusPanel *cPanel;
+    CaptureButtonMain *MainPanel;
 
-    CalibrationStatusPanel *csPanel;
+    CaptureButtonCalibration *CalibrationPanel;
 
-    ROIStatusPanel *rPanel;
+    CaptureButtonROI *RoiPanel;
 
-    CaptureToolsPanel *tPanel;
+    CaptureButtonTools *ToolsPanel;
 
-    TextButton *switch_Button;
+    TextButton *Measure_Button;
 
   private:
-    wxPanel *button_panel;
-
     wxBoxSizer *left_sizer;
     wxBoxSizer *right_sizer;
     wxBoxSizer *lrSizer;

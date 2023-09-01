@@ -35,12 +35,12 @@ void RoiPanel::OnButton(wxCommandEvent &e) {
         dynamic_cast<RoiPanelButton *>(this->button_panel);
 
     if (e.GetId() == Enum::RO_Calibration_Button_ID) {
-        auto button = button_panel->main_status_panel->calibrate_Button;
+        auto button = button_panel->MainPanel->Roi_Button;
         ToggleRoiButtonHandler(button);
     }
 
     if (e.GetId() == Enum::RO_Preview_Button_ID) {
-        auto button = button_panel->main_status_panel->camera_Button;
+        auto button = button_panel->MainPanel->Preview_Button;
         TogglePreviewButtonHandler(button);
     }
 

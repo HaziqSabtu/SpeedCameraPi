@@ -10,22 +10,22 @@ ResultPanelButton::ResultPanelButton(wxWindow *parent, wxWindowID id)
 
     spacer = new Spacer(this);
 
-    main_status_panel = new ResultMainStatusPanel(this);
-    preview_status_panel = new ResultPreviewStatusPanel(this);
-    back_button = new BackTextButton(this, Enum::G_Cancel_Button_ID);
+    MainPanel = new ResultPanelMain(this);
+    PreviewPanel = new ResultPanelPreview(this);
+    Back_button = new BackTextButton(this, Enum::G_Cancel_Button_ID);
 
     button_sizer = new wxBoxSizer(wxVERTICAL);
-    button_sizer->Add(main_status_panel, 0, wxEXPAND | wxBOTTOM, 10);
-    button_sizer->Add(preview_status_panel, 0, wxEXPAND | wxBOTTOM, 10);
+    button_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
+    button_sizer->Add(PreviewPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(spacer, 1, wxEXPAND);
-    button_sizer->Add(back_button, 0, wxEXPAND | wxBOTTOM, 0);
+    button_sizer->Add(Back_button, 0, wxEXPAND | wxBOTTOM, 0);
 
     this->SetSizer(button_sizer);
 }
 
 void ResultPanelButton::update(const AppState &state) {
-    main_status_panel->update(state);
-    preview_status_panel->update(state);
+    MainPanel->update(state);
+    PreviewPanel->update(state);
 }
 
 // clang-format off

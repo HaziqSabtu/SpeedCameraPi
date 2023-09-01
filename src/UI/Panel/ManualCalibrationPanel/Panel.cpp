@@ -36,11 +36,11 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
         dynamic_cast<ManualCalibrationPanelButton *>(this->button_panel);
 
     if (e.GetId() == Enum::MC_CalibrationCamera_Button_ID) {
-        auto button = button_panel->main_status_panel->calibrate_Button;
+        auto button = button_panel->MainPanel->CalibrateCamera_Button;
         ToggleCalibrationButtonHandler(button);
     }
     if (e.GetId() == Enum::MC_CalibrationCapture_Button_ID) {
-        auto button = button_panel->main_status_panel->cCapture_Button;
+        auto button = button_panel->MainPanel->CalibrateCapture_Button;
         ToggleCalibrationCaptureButtonHandler(button);
     }
 
@@ -63,12 +63,12 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::MC_PreviewCamera_Button_ID) {
-        auto button = button_panel->preview_panel->pCamera_button;
+        auto button = button_panel->PreviewPanel->PreviewCamera_Button;
         TogglePreviewButtonHandler(button);
     }
 
     if (e.GetId() == Enum::MC_PreviewCapture_Button_ID) {
-        auto button = button_panel->preview_panel->pCapture_button;
+        auto button = button_panel->PreviewPanel->PreviewCapture_Button;
         TogglePreviewCaptureButtonHandler(button);
     }
 

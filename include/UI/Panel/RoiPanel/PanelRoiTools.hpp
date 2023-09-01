@@ -6,14 +6,14 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class RoiToolsPanel : public TextOutlinePanel {
+class RoiButtonTools : public TextOutlinePanel {
   public:
-    RoiToolsPanel(wxWindow *parent);
+    RoiButtonTools(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButton *ok_button;
-    BitmapButton *remove_button;
+    BitmapButton *Ok_button;
+    BitmapButton *Remove_button;
 
   private:
     void setPanelState(PanelState state);

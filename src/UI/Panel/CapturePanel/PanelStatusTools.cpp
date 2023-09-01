@@ -9,22 +9,22 @@
 #include "UI/Theme/Data.hpp"
 #include "Utils/Enum.hpp"
 
-CaptureToolsPanel::CaptureToolsPanel(wxWindow *parent)
+CaptureButtonTools::CaptureButtonTools(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CAPTURE_TOOLS) {
 
-    save_Button =
+    Save_Button =
         new BitmapSave(this, Enum::CP_Save_Button_ID, Data::BitmapSaveData);
-    trim_Button = new BitmapTrim(this, Enum::CP_Trim_Button_ID);
-    reset_Button = new BitmapReset(this, Enum::CP_Reset_Button_ID);
+    Trim_Button = new BitmapTrim(this, Enum::CP_Trim_Button_ID);
+    Reset_Button = new BitmapReset(this, Enum::CP_Reset_Button_ID);
 
-    wxBoxSizer *hSizer = new wxBoxSizer(wxHORIZONTAL);
-    hSizer->Add(save_Button, 1, wxEXPAND);
-    hSizer->Add(trim_Button, 1, wxEXPAND);
-    hSizer->Add(reset_Button, 1, wxEXPAND);
+    buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+    buttonSizer->Add(Save_Button, 1, wxEXPAND);
+    buttonSizer->Add(Trim_Button, 1, wxEXPAND);
+    buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
-    vSizer->Add(hSizer, 0, wxEXPAND | wxALL, 10);
+    vSizer->Add(buttonSizer, 0, wxEXPAND | wxALL, 10);
     vSizer->Add(bottomPadding, 0, wxEXPAND);
 
     hSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -36,10 +36,10 @@ CaptureToolsPanel::CaptureToolsPanel(wxWindow *parent)
     Fit();
 }
 
-void CaptureToolsPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void CaptureButtonTools::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
-void CaptureToolsPanel::update(const AppState &state) {
-    save_Button->update(state.cameraPanel.saveButtonState);
-    trim_Button->update(state.cameraPanel.trimButtonState);
-    reset_Button->update(state.cameraPanel.resetButtonState);
+void CaptureButtonTools::update(const AppState &state) {
+    Save_Button->update(state.cameraPanel.saveButtonState);
+    Trim_Button->update(state.cameraPanel.trimButtonState);
+    Reset_Button->update(state.cameraPanel.resetButtonState);
 }

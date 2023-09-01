@@ -5,18 +5,18 @@
 
 #include <wx/wx.h>
 
-class ColorCalibrationOtherPanel : public TextOutlinePanel {
+class ColorCalibrationButtonOther : public TextOutlinePanel {
 
   public:
-    ColorCalibrationOtherPanel(wxWindow *parent);
+    ColorCalibrationButtonOther(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButton *save_button;
-    BitmapButton *restore_button;
+    BitmapButton *Save_button;
+    BitmapButton *Restore_button;
 
   private:
-    wxBoxSizer *buttonSizer;
     wxBoxSizer *vSizer;
     wxBoxSizer *hSizer;
+    wxBoxSizer *buttonSizer;
 };

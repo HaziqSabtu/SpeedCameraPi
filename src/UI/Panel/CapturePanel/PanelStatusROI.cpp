@@ -5,19 +5,19 @@
 #include "UI/StaticText/RichText.hpp"
 #include "Utils/Enum.hpp"
 
-ROIStatusPanel::ROIStatusPanel(wxWindow *parent)
+CaptureButtonROI::CaptureButtonROI(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::ROI_NONE) {
 
-    roi_Button = new BitmapRoi(this, Enum::CP_Roi_Button_ID);
-    reset_Button = new BitmapRemove(this, Enum::CP_RemoveRoi_Button_ID);
+    Roi_Button = new BitmapRoi(this, Enum::CP_Roi_Button_ID);
+    Reset_Button = new BitmapRemove(this, Enum::CP_RemoveRoi_Button_ID);
 
-    wxBoxSizer *hSizer = new wxBoxSizer(wxHORIZONTAL);
-    hSizer->Add(roi_Button, 1, wxEXPAND);
-    hSizer->Add(reset_Button, 1, wxEXPAND);
+    buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+    buttonSizer->Add(Roi_Button, 1, wxEXPAND);
+    buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
-    vSizer->Add(hSizer, 0, wxEXPAND | wxALL, 10);
+    vSizer->Add(buttonSizer, 0, wxEXPAND | wxALL, 10);
     vSizer->Add(bottomPadding, 0, wxEXPAND);
 
     hSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -29,9 +29,9 @@ ROIStatusPanel::ROIStatusPanel(wxWindow *parent)
     Fit();
 }
 
-void ROIStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void CaptureButtonROI::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
-void ROIStatusPanel::setPanelState(PanelState state) {
+void CaptureButtonROI::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         SetTextData(RTC::ROI_OK);
     }
@@ -41,8 +41,8 @@ void ROIStatusPanel::setPanelState(PanelState state) {
     }
 }
 
-void ROIStatusPanel::update(const AppState &state) {
+void CaptureButtonROI::update(const AppState &state) {
     setPanelState(state.cameraPanel.roiStatusState);
-    roi_Button->update(state.cameraPanel.roiButtonState);
-    reset_Button->update(state.cameraPanel.roiRemoveButtonState);
+    Roi_Button->update(state.cameraPanel.roiButtonState);
+    Reset_Button->update(state.cameraPanel.roiRemoveButtonState);
 }

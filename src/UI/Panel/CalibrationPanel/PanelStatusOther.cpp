@@ -3,16 +3,17 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CalibrationPanel/PanelStatusOther.hpp>
 
-CalibrationOtherPanel::CalibrationOtherPanel(wxWindow *parent)
+CalibrationButtonOther::CalibrationButtonOther(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_OTHER) {
 
-    recalibrate_button =
+    ColorCalibration_Button =
         new BitmapColorPicker(this, Enum::CL_ChangeColor_Button_ID);
-    manual_button = new BitmapUser(this, Enum::CL_ChangeManual_Button_ID);
+    ManualCalibration_Button =
+        new BitmapUser(this, Enum::CL_ChangeManual_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(recalibrate_button, 1, wxEXPAND);
-    buttonSizer->Add(manual_button, 1, wxEXPAND);
+    buttonSizer->Add(ColorCalibration_Button, 1, wxEXPAND);
+    buttonSizer->Add(ManualCalibration_Button, 1, wxEXPAND);
 
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);
@@ -28,17 +29,17 @@ CalibrationOtherPanel::CalibrationOtherPanel(wxWindow *parent)
     Fit();
 }
 
-void CalibrationOtherPanel::update(const AppState &state) {
+void CalibrationButtonOther::update(const AppState &state) {
     // set panel
     CalibrationPanelState ps = state.calibrationPanel;
 
     setPanelState(ps.otherStatusState);
 
-    recalibrate_button->update(ps.recalibrateColorButtonState);
-    manual_button->update(ps.manualCalibrationButtonState);
+    ColorCalibration_Button->update(ps.recalibrateColorButtonState);
+    ManualCalibration_Button->update(ps.manualCalibrationButtonState);
 }
 
-void CalibrationOtherPanel::setPanelState(PanelState state) {
+void CalibrationButtonOther::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_HIDDEN) {
         this->Hide();
         return;

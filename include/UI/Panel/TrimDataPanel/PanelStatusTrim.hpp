@@ -6,16 +6,16 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class TrimDataMainPanel : public TextOutlinePanel {
+class TrimButtonMain : public TextOutlinePanel {
   public:
-    TrimDataMainPanel(wxWindow *parent);
+    TrimButtonMain(wxWindow *parent);
 
     void update(const AppState &state);
 
-    BitmapButtonT2 *start_Button;
-    BitmapButton *reset_Button;
-    BitmapButton *preview_Button;
-    BitmapButton *preview2_Button;
+    BitmapButtonT2 *Start_Button;
+    BitmapButton *Reset_Button;
+    BitmapButton *Preview_Button;
+    BitmapButton *PreviewInThread_Button;
 
   private:
     void OnButtonClicked(wxCommandEvent &e);

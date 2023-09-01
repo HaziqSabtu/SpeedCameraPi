@@ -6,13 +6,13 @@
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/StaticText/RichText.hpp"
 #include "Utils/Enum.hpp"
-#include <UI/Panel/CapturePanel/PanelStatusCapture.hpp>
+#include <UI/Panel/CapturePanel/PanelStatusMain.hpp>
 #include <wx/gdicmn.h>
 #include <wx/gtk/bmpbuttn.h>
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
-CaptureStatusPanel::CaptureStatusPanel(wxWindow *parent)
+CaptureButtonMain::CaptureButtonMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CAPTURE_NONE) {
 
     Capture_Button = new BitmapCapture(this, Enum::CP_Capture_Button_ID);
@@ -42,9 +42,9 @@ CaptureStatusPanel::CaptureStatusPanel(wxWindow *parent)
     Fit();
 }
 
-void CaptureStatusPanel::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
+void CaptureButtonMain::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
-void CaptureStatusPanel::setPanelState(PanelState state) {
+void CaptureButtonMain::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
         SetTextData(RTC::CAPTURE_OK);
     }
@@ -54,7 +54,7 @@ void CaptureStatusPanel::setPanelState(PanelState state) {
     }
 }
 
-void CaptureStatusPanel::update(const AppState &state) {
+void CaptureButtonMain::update(const AppState &state) {
     setPanelState(state.cameraPanel.captureStatusState);
     Capture_Button->update(state.cameraPanel.captureButtonState);
     Load_Button->update(state.cameraPanel.loadButtonState);

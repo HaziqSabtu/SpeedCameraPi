@@ -5,12 +5,12 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class ROIStatusPanel : public TextOutlinePanel {
+class CaptureButtonROI : public TextOutlinePanel {
   public:
-    ROIStatusPanel(wxWindow *parent);
+    CaptureButtonROI(wxWindow *parent);
 
-    BitmapButton *roi_Button;
-    BitmapButton *reset_Button;
+    BitmapButton *Roi_Button;
+    BitmapButton *Reset_Button;
 
     void setPanelState(PanelState state);
     void update(const AppState &state);
@@ -20,4 +20,5 @@ class ROIStatusPanel : public TextOutlinePanel {
 
     wxBoxSizer *hSizer;
     wxBoxSizer *vSizer;
+    wxBoxSizer *buttonSizer;
 };
