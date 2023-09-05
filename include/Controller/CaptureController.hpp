@@ -96,7 +96,7 @@ class CaptureController : public BaseController {
 
     void resetSessionDataHandler(wxEvtHandler *parent);
 
-    void changeToCalibPanelHandler(wxEvtHandler *parent);
+    void changeToCalibrationPanelHandler(wxEvtHandler *parent);
     void changeToRoiPanelHandler(wxEvtHandler *parent);
     void changeToResultPanelHandler(wxEvtHandler *parent);
 

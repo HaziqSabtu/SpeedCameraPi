@@ -28,6 +28,18 @@ const wxString Text = "Are you sure you want to reset current session? All "
                       "unsaved changes will be lost.";
 } // namespace ResetData
 
+namespace RemoveCalibration {
+const wxString Title = "Remove Calibration";
+const wxString Text = "Are you sure you want to remove current calibration? "
+                      "This action cannot be undone.";
+} // namespace RemoveCalibration
+
+namespace RemoveRoi {
+const wxString Title = "Remove ROI";
+const wxString Text = "Are you sure you want to remove current ROI? This "
+                      "action cannot be undone.";
+} // namespace RemoveRoi
+
 // namespace SaveData
 // namespace Cancel
 } // namespace Dialog

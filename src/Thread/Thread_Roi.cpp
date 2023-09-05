@@ -6,13 +6,15 @@
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Base.hpp"
 #include "UI/Layout/StatusPanel.hpp"
+#include "Utils/CommonUtils.hpp"
 #include "Utils/Config/AppConfig.hpp"
 #include <Thread/Thread_Roi.hpp>
 #include <opencv2/imgproc.hpp>
 #include <wx/utils.h>
 
 RoiThread::RoiThread(wxEvtHandler *parent, DataPtr data)
-    : BaseThread(parent, data), PreviewableThread() {}
+    : BaseThread(parent, data), PreviewableThread(), ImageSizeDataThread(data) {
+}
 
 RoiThread::~RoiThread() {}
 
@@ -84,4 +86,9 @@ cv::Rect RoiThread::getRect() {
     }
 
     return cv::Rect(start, end);
+}
+
+cv::Rect RoiThread::getRealRect() {
+    cv::Rect rect = getRect();
+    return Utils::scaleRect(rect, pSize, imageSize);
 }

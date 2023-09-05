@@ -12,10 +12,6 @@ class RoiController : public BaseControllerWithTouch {
     void e_ClearRect(wxEvtHandler *parent);
     void e_RemoveRect(wxEvtHandler *parent);
 
-    // void e_SetPoint1(wxEvtHandler *parent, wxPoint point);
-    // void e_SetPoint2(wxEvtHandler *parent, wxPoint point);
-    // void e_SaveRect(wxEvtHandler *parent, wxPoint point);
-
     void e_RoiThreadStart(wxEvtHandler *parent);
     void e_RoiThreadSave(wxEvtHandler *parent);
     void e_RoiThreadCancel(wxEvtHandler *parent);
@@ -34,12 +30,9 @@ class RoiController : public BaseControllerWithTouch {
     void clearRectHandler(wxEvtHandler *parent);
     void removeRectHandler(wxEvtHandler *parent);
 
-    void leftDownHandler(wxEvtHandler *parent, cv::Point point);
-    void leftMoveHandler(wxEvtHandler *parent, cv::Point point);
-    void leftUpHandler(wxEvtHandler *parent, cv::Point point);
-    // void setPoint1Handler(wxEvtHandler *parent, cv::Point point);
-    // void setPoint2Handler(wxEvtHandler *parent, cv::Point point);
-    // void saveRectHandler(wxEvtHandler *parent, cv::Point point);
+    void leftDownHandler(wxEvtHandler *parent, cv::Point point) override;
+    void leftMoveHandler(wxEvtHandler *parent, cv::Point point) override;
+    void leftUpHandler(wxEvtHandler *parent, cv::Point point) override;
 
     void roiThreadStartHandler(wxEvtHandler *parent);
     void roiThreadSaveHandler(wxEvtHandler *parent);

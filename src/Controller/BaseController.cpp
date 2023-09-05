@@ -78,8 +78,6 @@ void BaseController::checkPreCondition() {
 
 void BaseController::panelShowHandler(wxEvtHandler *parent) {
     createTempSessionDataHandler(parent);
-
-    //TODO: Add Idle
 }
 
 void BaseController::createTempSessionDataHandler(wxEvtHandler *parent) {

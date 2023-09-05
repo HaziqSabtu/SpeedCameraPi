@@ -31,12 +31,17 @@ const wxString STATUS_LOAD_DATA_ERROR = wxT("Error Loading Data");
 const wxString STATUS_LOAD_DATA_CANCEL = wxT("Data Load Cancelled");
 
 const wxString STATUS_REMOVE_DATA = wxT("Data Removed");
+
 const wxString STATUS_PREVIEW_CAPTURE_START = wxT("Preview Start [CAPTURE]");
 const wxString STATUS_PREVIEW_CAPTURE_END = wxT("Preview End [CAPTURE]");
 const wxString STATUS_PREVIEW_CAPTURE_ERROR = wxT("Preview Error [CAPTURE]");
 const wxString STATUS_PREVIEW_CAMERA_START = wxT("Preview Start [CAMERA]");
 const wxString STATUS_PREVIEW_CAMERA_END = wxT("Preview End [CAMERA]");
 const wxString STATUS_PREVIEW_CAMERA_ERROR = wxT("Preview Error [CAMERA]");
+
+
+const wxString STATUS_REMOVE_CALIBRATION_OK = wxT("Calibration Removed");
+const wxString STATUS_REMOVE_ROI_OK = wxT("ROI Removed");
 
 } // namespace StatusCollection
 // clang-format on

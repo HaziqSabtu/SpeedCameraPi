@@ -20,7 +20,7 @@
 
 #include <wx/thread.h>
 
-class RoiThread : public BaseThread, PreviewableThread {
+class RoiThread : public BaseThread, PreviewableThread, ImageSizeDataThread {
   public:
     RoiThread(wxEvtHandler *parent, DataPtr data);
     ~RoiThread();
@@ -33,6 +33,8 @@ class RoiThread : public BaseThread, PreviewableThread {
     bool isRectValid();
 
     cv::Rect getRect();
+
+    cv::Rect getRealRect();
 
   protected:
     virtual ExitCode Entry() override;

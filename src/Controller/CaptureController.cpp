@@ -1,3 +1,6 @@
+#include "UI/Dialog/RemoveCalibrationDialog.hpp"
+#include "UI/Dialog/RemoveRoiDialog.hpp"
+#include "UI/Layout/StatusPanel.hpp"
 #include <Controller/CaptureController.hpp>
 
 CaptureController::CaptureController(ModelPtr sharedModel)
@@ -10,7 +13,7 @@ CaptureController::~CaptureController() {}
 void CaptureController::e_ChangeToCalibrationPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        changeToCalibPanelHandler(parent);
+        changeToCalibrationPanelHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -381,11 +384,17 @@ void CaptureController::removeCalibrationHandler(wxEvtHandler *parent) {
         throw std::runtime_error("CalibrationData is empty");
     }
 
-    shared->sessionData.removeCalibrationData();
+#if DEBUG
+#else
+    auto wx = wxTheApp->GetTopWindow();
+    auto dialog = new RemoveCalibrationDialog(wx);
+    if (dialog->ShowModal() == wxID_NO) {
+        return;
+    }
+#endif
 
-    // TODO: Add this to StatusCollection
-    wxString msg = "Calibration data is removed";
-    UpdateStatusEvent::Submit(parent, msg);
+    shared->sessionData.removeCalibrationData();
+    UpdateStatusEvent::Submit(parent, SC::STATUS_REMOVE_CALIBRATION_OK);
 }
 
 void CaptureController::removeRoiHandler(wxEvtHandler *parent) {
@@ -399,11 +408,17 @@ void CaptureController::removeRoiHandler(wxEvtHandler *parent) {
         throw std::runtime_error("RoiData is empty");
     }
 
-    shared->sessionData.clearTrackingData();
+#if DEBUG
+#else
+    auto wx = wxTheApp->GetTopWindow();
+    auto dialog = new RemoveRoiDialog(wx);
+    if (dialog->ShowModal() == wxID_NO) {
+        return;
+    }
+#endif
 
-    // TODO: Add this to StatusCollection
-    wxString msg = "Roi data is removed";
-    UpdateStatusEvent::Submit(parent, msg);
+    shared->sessionData.clearTrackingData();
+    UpdateStatusEvent::Submit(parent, SC::STATUS_REMOVE_ROI_OK);
 }
 
 void CaptureController::saveSessionDataStartHandler(wxEvtHandler *parent) {
@@ -467,7 +482,7 @@ void CaptureController::resetSessionDataHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, msg);
 }
 
-void CaptureController::changeToCalibPanelHandler(wxEvtHandler *parent) {
+void CaptureController::changeToCalibrationPanelHandler(wxEvtHandler *parent) {
     killAllThreads(parent);
 
     ChangePanelData data(panelID, PanelID::PANEL_CALIBRATION);

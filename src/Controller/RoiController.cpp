@@ -27,36 +27,6 @@ void RoiController::e_RemoveRect(wxEvtHandler *parent) {
     }
 }
 
-// void RoiController::e_SetPoint1(wxEvtHandler *parent, wxPoint point) {
-//     try {
-//         checkPreCondition();
-
-//         setPoint1Handler(parent, Utils::wxPointToCvPoint(point));
-//     } catch (std::exception &e) {
-//         ErrorEvent::Submit(parent, e.what());
-//     }
-// }
-
-// void RoiController::e_SetPoint2(wxEvtHandler *parent, wxPoint point) {
-//     try {
-//         checkPreCondition();
-
-//         setPoint2Handler(parent, Utils::wxPointToCvPoint(point));
-//     } catch (std::exception &e) {
-//         ErrorEvent::Submit(parent, e.what());
-//     }
-// }
-
-// void RoiController::e_SaveRect(wxEvtHandler *parent, wxPoint point) {
-//     try {
-//         checkPreCondition();
-
-//         saveRectHandler(parent, Utils::wxPointToCvPoint(point));
-//     } catch (std::exception &e) {
-//         ErrorEvent::Submit(parent, e.what());
-//     }
-// }
-
 void RoiController::e_RoiThreadStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -137,14 +107,11 @@ void RoiController::clearRectHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
-        throw std::runtime_error(
-            "RoiController::clearRectHandler() - Thread is not running");
+        throw std::runtime_error("RoiThread is not running");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_ROI, panelID)) {
-        throw std::runtime_error(
-            "RoiController::clearRectHandler() - Thread is not owned by this "
-            "controller");
+        throw std::runtime_error("RoiThread is not owned by this controller");
     }
 
     auto roiThread = tc->getRoiThread();
@@ -157,15 +124,13 @@ void RoiController::removeRectHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
-        throw std::runtime_error(
-            "RoiController::removeRectHandler() - Thread is  running");
+        throw std::runtime_error("RoiThread is running, cannot remove rect");
     }
 
     auto data = shared->getSessionData();
 
     if (data->isTrackingDataEmpty()) {
-        throw std::runtime_error(
-            "RoiController::removeRectHandler() - RoiData is empty");
+        throw std::runtime_error("Tracking data is empty");
     }
 
     data->clearTrackingData();
@@ -175,14 +140,11 @@ void RoiController::leftDownHandler(wxEvtHandler *parent, cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
-        throw std::runtime_error(
-            "RoiController::setPoint1Handler() - Thread is not running");
+        throw std::runtime_error("RoiThread is not running");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_ROI, panelID)) {
-        throw std::runtime_error(
-            "RoiController::setPoint1Handler() - Thread is not owned by this "
-            "controller");
+        throw std::runtime_error("RoiThread is not owned by this controller");
     }
 
     auto roiThread = tc->getRoiThread();
@@ -195,14 +157,11 @@ void RoiController::leftMoveHandler(wxEvtHandler *parent, cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
-        throw std::runtime_error(
-            "RoiController::setPoint2Handler() - Thread is not running");
+        throw std::runtime_error("RoiThread is not running");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_ROI, panelID)) {
-        throw std::runtime_error(
-            "RoiController::setPoint2Handler() - Thread is not owned by this "
-            "controller");
+        throw std::runtime_error("RoiThread is not owned by this controller");
     }
 
     auto roiThread = tc->getRoiThread();
@@ -214,40 +173,22 @@ void RoiController::leftUpHandler(wxEvtHandler *parent, cv::Point point) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
-        throw std::runtime_error(
-            "RoiController::setPoint2Handler() - Thread is not running");
+        throw std::runtime_error("RoiThread is not running");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_ROI, panelID)) {
-        throw std::runtime_error(
-            "RoiController::setPoint2Handler() - Thread is not owned by this "
-            "controller");
+        throw std::runtime_error("RoiThread is not owned by this controller");
     }
 
     auto roiThread = tc->getRoiThread();
 
     roiThread->setPoint2(point);
 
-    cv::Rect rect = roiThread->getRect();
-
-    if (rect.width <= 0 || rect.height <= 0) {
-        throw std::runtime_error(
-            "RoiController::roiThreadSaveHandler() - Invalid ROI");
+    if (roiThread->getRect().area() <= 0) {
+        throw std::runtime_error("Invalid ROI");
     }
 
-    AppConfig c;
-
-    auto pConfig = c.GetPreviewConfig();
-    int pWidth = pConfig.width;
-    int pHeight = pConfig.height;
-    cv::Size src(pWidth, pHeight);
-
-    auto cConfig = c.GetCameraConfig();
-    int width = cConfig.Camera_Width;
-    int height = cConfig.Camera_Height;
-    cv::Size dst(width, height);
-
-    auto realRect = Utils::scaleRect(rect, src, dst);
+    auto realRect = roiThread->getRealRect();
 
     TrackingData data;
     data.roi = realRect;
@@ -266,17 +207,7 @@ void RoiController::roiThreadStartHandler(wxEvtHandler *parent) {
             "RoiController::roiThreadStartHandler() - Capture data is empty");
     }
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
-        throw std::runtime_error(
-            "RoiController::roiThreadStartHandler() - Thread is already "
-            "running");
-    }
-
-    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI_PREVIEW)) {
-        throw std::runtime_error(
-            "RoiController::roiThreadStartHandler() - Roi Preview is already "
-            "running");
-    }
+    throwIfAnyThreadIsRunning();
 
     tc->startRoiHandler(parent, data, panelID);
 }
@@ -285,41 +216,21 @@ void RoiController::roiThreadSaveHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
-        throw std::runtime_error(
-            "RoiController::roiThreadSaveHandler() - Thread is already "
-            "stopped");
+        throw std::runtime_error("RoiThread is not running");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_ROI, panelID)) {
-        throw std::runtime_error(
-            "RoiController::roiThreadSaveHandler() - Thread is not owned by "
-            "this controller");
+        throw std::runtime_error("RoiThread is not owned by this controller");
     }
 
     auto roiThread = tc->getRoiThread();
     roiThread->Pause();
 
-    cv::Rect rect = roiThread->getRect();
-
-    if (rect.width <= 0 || rect.height <= 0) {
-        throw std::runtime_error(
-            "RoiController::roiThreadSaveHandler() - Invalid ROI");
+    if (roiThread->getRect().area() <= 0) {
+        throw std::runtime_error("Invalid ROI");
     }
 
-    // TODO: Do this in Thread
-    AppConfig c;
-
-    auto pConfig = c.GetPreviewConfig();
-    int pWidth = pConfig.width;
-    int pHeight = pConfig.height;
-    cv::Size src(pWidth, pHeight);
-
-    auto cConfig = c.GetCameraConfig();
-    int width = cConfig.Camera_Width;
-    int height = cConfig.Camera_Height;
-    cv::Size dst(width, height);
-
-    auto realRect = Utils::scaleRect(rect, src, dst);
+    auto realRect = roiThread->getRealRect();
 
     TrackingData data;
     data.roi = realRect;
@@ -329,19 +240,16 @@ void RoiController::roiThreadSaveHandler(wxEvtHandler *parent) {
 
     tc->endRoiHandler();
 }
+
 void RoiController::roiThreadCancelHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
-        throw std::runtime_error(
-            "RoiController::roiThreadCancelHandler() - Thread is already "
-            "stopped");
+        throw std::runtime_error("RoiThread is already stopped");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_ROI, panelID)) {
-        throw std::runtime_error(
-            "RoiController::roiThreadCancelHandler() - Thread is not owned by "
-            "this controller");
+        throw std::runtime_error("RoiThread is not owned by this controller");
     }
 
     tc->endRoiHandler();
@@ -350,15 +258,7 @@ void RoiController::roiThreadCancelHandler(wxEvtHandler *parent) {
 void RoiController::roiPreviewStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI)) {
-        throw std::runtime_error("ROI Thread is running");
-    }
-
-    if (!tc->isThreadNullptr(ThreadID::THREAD_ROI_PREVIEW)) {
-        throw std::runtime_error(
-            "RoiController::roiPreviewStartHandler() - Roi Preview is already "
-            "running");
-    }
+    throwIfAnyThreadIsRunning();
 
     auto data = shared->getSessionData();
 
@@ -369,15 +269,12 @@ void RoiController::roiPreviewEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     if (tc->isThreadNullptr(ThreadID::THREAD_ROI_PREVIEW)) {
-        throw std::runtime_error(
-            "RoiController::roiPreviewEndHandler() - Roi Preview is already "
-            "stopped");
+        throw std::runtime_error("RoiPreviewThread is not running");
     }
 
     if (!tc->isThreadOwner(ThreadID::THREAD_ROI_PREVIEW, panelID)) {
         throw std::runtime_error(
-            "RoiController::roiPreviewEndHandler() - Roi Preview is not owned "
-            "by this controller");
+            "RoiPreviewThread is not owned by this controller");
     }
 
     tc->endRoiPreviewHandler();

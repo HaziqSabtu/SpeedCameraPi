@@ -7,7 +7,8 @@ DialogBaseYesNo::DialogBaseYesNo(wxWindow *parent, const wxString &title,
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
-    wxStaticText *staticText = new wxStaticText(this, wxID_ANY, text);
+    wxStaticText *staticText = new wxStaticText(
+        this, wxID_ANY, text, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
     sizer->Add(staticText, 0, wxALL, 10);
 
     wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -24,6 +25,8 @@ DialogBaseYesNo::DialogBaseYesNo(wxWindow *parent, const wxString &title,
 
     yesButton->Bind(wxEVT_BUTTON, &DialogBaseYesNo::OnYesButton, this);
     noButton->Bind(wxEVT_BUTTON, &DialogBaseYesNo::OnNoButton, this);
+
+    staticText->Wrap(GetSize().GetWidth() - 20);
 }
 
 bool DialogBaseYesNo::GetConfirmationResult() const { return result; }
