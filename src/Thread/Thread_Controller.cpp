@@ -321,7 +321,7 @@ void ThreadController::startCameraPreviewHandler(wxEvtHandler *parent,
     owner[cameraPreviewThread->getID()] = panelID;
 }
 
-void ThreadController::endCaptureHandler() {
+void ThreadController::endCameraPreviewHandler() {
     cameraPreviewThread = stopAndDeleteThread(cameraPreviewThread);
 }
 

@@ -1,8 +1,8 @@
 #include "Controller/CaptureController.hpp"
-#include "Event/Event_Capture.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
+#include "Event/Event_Preview.hpp"
 #include "Event/Event_SaveData.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
@@ -102,6 +102,7 @@ void CapturePanel::LoadButtonHandler() {
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
     if (openFileDialog.ShowModal() == wxID_CANCEL) {
+        status_panel->SetText(SC::STATUS_IDLE);
         return;
     }
 
@@ -125,15 +126,31 @@ void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
 
 void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     if (e.GetId() == LOAD_START_CAMERA) {
-        UpdateStatusEvent::Submit(this, StatusCollection::STATUS_CAPTURE_START);
-    }
-
-    if (e.GetId() == LOAD_END_FILE) {
-        controller->e_LoadFileEnd(this);
+        UpdateStatusEvent::Submit(this, SC::STATUS_CAPTURE_START);
     }
 
     if (e.GetId() == LOAD_END_CAMERA) {
         controller->e_LoadCaptureEnd(this);
+        UpdateStatusEvent::Submit(this, SC::STATUS_CAPTURE_END);
+    }
+
+    if (e.GetId() == LOAD_ERROR_CAMERA) {
+        controller->e_LoadCaptureEnd(this);
+        UpdateStatusEvent::Submit(this, SC::STATUS_CAPTURE_ERROR);
+    }
+
+    if (e.GetId() == LOAD_START_FILE) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_LOAD_DATA_START);
+    }
+
+    if (e.GetId() == LOAD_END_FILE) {
+        controller->e_LoadFileEnd(this);
+        UpdateStatusEvent::Submit(this, SC::STATUS_LOAD_DATA_END);
+    }
+
+    if (e.GetId() == LOAD_ERROR_FILE) {
+        controller->e_LoadFileEnd(this);
+        UpdateStatusEvent::Submit(this, SC::STATUS_LOAD_DATA_ERROR);
     }
 
     controller->e_UpdateState(this);
@@ -141,14 +158,36 @@ void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     e.Skip();
 }
 
-void CapturePanel::OnReplay(wxCommandEvent &e) {
-    if (e.GetId() == REPLAY_START) {
-        UpdateStatusEvent::Submit(this, StatusCollection::STATUS_REPLAY_START);
+void CapturePanel::OnPreviewCapture(wxCommandEvent &e) {
+    if (e.GetId() == PREVIEW_START) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_START);
     }
 
-    if (e.GetId() == REPLAY_END) {
+    if (e.GetId() == PREVIEW_END) {
         controller->e_CapturePreviewEnd(this);
-        UpdateStatusEvent::Submit(this, StatusCollection::STATUS_REPLAY_END);
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_END);
+    }
+
+    if (e.GetId() == PREVIEW_ERROR) {
+        controller->e_CapturePreviewEnd(this);
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_ERROR);
+    }
+
+    controller->e_UpdateState(this);
+    e.Skip();
+}
+
+void CapturePanel::OnPreviewCamera(wxCommandEvent &e) {
+    if (e.GetId() == PREVIEW_START) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_START);
+    }
+
+    if (e.GetId() == PREVIEW_END) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_END);
+    }
+
+    if (e.GetId() == PREVIEW_ERROR) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_ERROR);
     }
 
     controller->e_UpdateState(this);
@@ -183,6 +222,7 @@ void CapturePanel::OnSaveData(wxCommandEvent &e) {
 wxBEGIN_EVENT_TABLE(CapturePanel, BasePanel)
     EVT_BUTTON(wxID_ANY,CapturePanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_LOAD_IMAGE_EVENT, CapturePanel::OnLoadImage)
-    EVT_COMMAND(wxID_ANY, c_REPLAY_EVENT, CapturePanel::OnReplay)
+    EVT_COMMAND(wxID_ANY, c_PREVIEW_CAPTURE_EVENT, CapturePanel::OnPreviewCapture)
+    EVT_COMMAND(wxID_ANY, c_PREVIEW_CAMERA_EVENT, CapturePanel::OnPreviewCamera)
     EVT_COMMAND(wxID_ANY, c_SAVE_DATA_EVENT, CapturePanel::OnSaveData)
 wxEND_EVENT_TABLE()

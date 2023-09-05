@@ -2,21 +2,19 @@
 #include "Thread/Thread_Base.hpp"
 #include <Thread/Thread_CameraPreview.hpp>
 #include <memory>
+#include <wx/event.h>
 
 CameraPreviewThread::CameraPreviewThread(wxEvtHandler *parent,
                                          CameraPtr &camera)
     : BaseThread(parent, nullptr), CameraAccessor(camera) {}
 
-/**
- * @brief Destroy the Capture Thread:: Capture Thread object
- *
- */
 CameraPreviewThread::~CameraPreviewThread() {}
 
 wxThread::ExitCode CameraPreviewThread::Entry() {
 
-    wxCommandEvent startCaptureEvent(c_CAPTURE_EVENT, CAPTURE_START);
-    wxPostEvent(parent, startCaptureEvent);
+    wxCommandEvent startPreviewCameraEvent(c_PREVIEW_CAMERA_EVENT,
+                                           PREVIEW_START);
+    wxPostEvent(parent, startPreviewCameraEvent);
 
     try {
 
@@ -33,13 +31,16 @@ wxThread::ExitCode CameraPreviewThread::Entry() {
         }
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+        wxCommandEvent errorPreviewCameraEvent(c_PREVIEW_CAMERA_EVENT,
+                                               PREVIEW_ERROR);
+        wxPostEvent(parent, errorPreviewCameraEvent);
     }
 
     UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
     wxPostEvent(parent, clearPreviewEvent);
 
-    wxCommandEvent endCaptureEvent(c_CAPTURE_EVENT, CAPTURE_END);
-    wxPostEvent(parent, endCaptureEvent);
+    wxCommandEvent endPreviewCameraEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_END);
+    wxPostEvent(parent, endPreviewCameraEvent);
 
     return 0;
 }

@@ -1,5 +1,6 @@
 #include "Event/Event_RequestUpdateState.hpp"
 #include "Event/Event_UpdatePreview.hpp"
+#include "UI/Layout/StatusPanel.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/Common/BasePanel.hpp>
 #include <iostream>
@@ -10,8 +11,6 @@ BasePanel::BasePanel(wxWindow *parent, wxWindowID id, BSCPtr controller)
 
     img_bitmap = new BaseImagePanel(this);
     status_panel = new StatusPanel(this);
-
-    // title_panel = new TitlePanel(this, panel_id);
 
     Hide();
 }
@@ -80,6 +79,7 @@ void BasePanel::OnUpdateStatus(UpdateStatusEvent &e) {
 
 void BasePanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
+        status_panel->SetText(SC::STATUS_IDLE);
         controller->e_PanelShow(this);
     }
 }

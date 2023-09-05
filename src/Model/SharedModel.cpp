@@ -55,7 +55,7 @@ void SharedModel::killAllThreads() {
         auto camera = thread->getCamera();
         setCamera(camera);
 
-        tc->endCaptureHandler();
+        tc->endCameraPreviewHandler();
     }
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_LOAD_CAPTURE)) {

@@ -5,6 +5,7 @@
 #include "Model/SessionData.hpp"
 #include "UI/Panel/CalibrationPanel/Panel.hpp"
 #include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
+#include "UI/Panel/Common/PanelFactory.hpp"
 #include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
 #include "UI/Panel/ResultPanel/Panel.hpp"
 #include "UI/Panel/TrimDataPanel/Panel.hpp"
@@ -25,7 +26,11 @@ class MainFrame : public wxFrame {
     ~MainFrame();
 
   private:
+    const PanelID FIRST_PANEL_ID = PANEL_CAPTURE;
+
     std::shared_ptr<SharedModel> sharedModel;
+
+    PanelFactoryPtr panelFactory;
 
     CapturePanel *cpp;
     RoiPanel *rop;
@@ -37,7 +42,11 @@ class MainFrame : public wxFrame {
 
     std::unordered_map<PanelID, wxPanel *> panels;
 
-    wxBoxSizer *sizer;
+    wxBoxSizer *sizer = nullptr;
+
+    void registerPanel(PanelID panelID);
+
+    void showFirstPanel();
 
     void ExitButtonHandler(wxCommandEvent &e);
 

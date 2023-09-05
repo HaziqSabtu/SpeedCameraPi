@@ -150,11 +150,11 @@ void ManualCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
 }
 
 void ManualCalibrationPanel::OnCapture(wxCommandEvent &e) {
-    if (e.GetId() == CAPTURE_START) {
+    if (e.GetId() == PREVIEW_START) {
         status_panel->SetText(SC::STATUS_CAMERA_ON);
     }
 
-    if (e.GetId() == CAPTURE_END) {
+    if (e.GetId() == PREVIEW_END) {
         status_panel->SetText(SC::STATUS_CAMERA_OFF);
     }
 }
@@ -163,5 +163,5 @@ void ManualCalibrationPanel::OnCapture(wxCommandEvent &e) {
 wxBEGIN_EVENT_TABLE(ManualCalibrationPanel, BasePanelWithTouch)
     EVT_BUTTON(wxID_ANY, ManualCalibrationPanel::OnButton)
     EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, ManualCalibrationPanel::OnCalibrationEvent)
-    EVT_COMMAND(wxID_ANY, c_CAPTURE_EVENT, ManualCalibrationPanel::OnCapture)
+    EVT_COMMAND(wxID_ANY, c_PREVIEW_CAMERA_EVENT, ManualCalibrationPanel::OnCapture)
 wxEND_EVENT_TABLE()

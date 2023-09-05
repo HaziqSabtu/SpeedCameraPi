@@ -259,7 +259,7 @@ void CaptureController::cameraPreviewEndHandler(wxEvtHandler *parent) {
     auto camera = captureThread->getCamera();
     shared->setCamera(camera);
 
-    tc->endCaptureHandler();
+    tc->endCameraPreviewHandler();
 }
 
 void CaptureController::loadFileStartHandler(wxEvtHandler *parent,

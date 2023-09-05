@@ -59,12 +59,8 @@ wxThread::ExitCode LoadFileThread::Entry() {
             throw std::runtime_error("Capture data is not empty");
         }
 
-        UpdateStatusEvent::Submit(parent, "Loading file...");
-
         Utils::FileReadWrite().ReadFile(data, path);
         auto captureData = data->getCaptureData();
-
-        UpdateStatusEvent::Submit(parent, "File loaded");
 
         for (int i = 0; i < captureData.size(); i++) {
             cv::Mat frame = captureData.at(i).image;
@@ -74,6 +70,8 @@ wxThread::ExitCode LoadFileThread::Entry() {
 
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+        wxCommandEvent errorLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_ERROR_FILE);
+        wxPostEvent(parent, errorLoadEvent);
     }
 
     wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_FILE);

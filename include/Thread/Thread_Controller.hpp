@@ -29,7 +29,7 @@ class ThreadController {
 
     virtual void startCameraPreviewHandler(wxEvtHandler *parent,
                                            CameraPtr &camera, PanelID panelID);
-    void endCaptureHandler();
+    void endCameraPreviewHandler();
 
     virtual void startLoadCaptureHandler(wxEvtHandler *parent,
                                          CameraPtr &camera, DataPtr data,

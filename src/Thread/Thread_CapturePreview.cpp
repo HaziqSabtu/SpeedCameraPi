@@ -1,6 +1,7 @@
 #include "Thread/Thread_CapturePreview.hpp"
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
+#include "Event/Event_Preview.hpp"
 #include "Event/Event_Replay.hpp"
 #include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
@@ -15,8 +16,9 @@ CapturePreviewThread::~CapturePreviewThread() {}
 wxThread::ExitCode CapturePreviewThread::Entry() {
     try {
 
-        wxCommandEvent startLoadEvent(c_REPLAY_EVENT, REPLAY_START);
-        wxPostEvent(parent, startLoadEvent);
+        wxCommandEvent previewCaptureStartEvent(c_PREVIEW_CAPTURE_EVENT,
+                                                PREVIEW_START);
+        wxPostEvent(parent, previewCaptureStartEvent);
 
         if (data->isCaptureDataEmpty()) {
             throw std::runtime_error("capture data is empty");
@@ -41,10 +43,14 @@ wxThread::ExitCode CapturePreviewThread::Entry() {
 
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+        wxCommandEvent previewCaptureErrorEvent(c_PREVIEW_CAPTURE_EVENT,
+                                                PREVIEW_ERROR);
+        wxPostEvent(parent, previewCaptureErrorEvent);
     }
 
-    wxCommandEvent stopLoadEvent(c_REPLAY_EVENT, REPLAY_END);
-    wxPostEvent(parent, stopLoadEvent);
+    wxCommandEvent previewCaptureStopEvent(c_PREVIEW_CAPTURE_EVENT,
+                                           PREVIEW_END);
+    wxPostEvent(parent, previewCaptureStopEvent);
     return 0;
 }
 

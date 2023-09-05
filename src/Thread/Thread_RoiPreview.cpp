@@ -15,7 +15,7 @@ RoiPreviewThread::~RoiPreviewThread() {}
 
 wxThread::ExitCode RoiPreviewThread::Entry() {
 
-    wxCommandEvent startCaptureEvent(c_CAPTURE_EVENT, CAPTURE_START);
+    wxCommandEvent startCaptureEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_START);
     wxPostEvent(parent, startCaptureEvent);
 
     try {
@@ -48,7 +48,7 @@ wxThread::ExitCode RoiPreviewThread::Entry() {
     UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
     wxPostEvent(parent, clearPreviewEvent);
 
-    wxCommandEvent endCaptureEvent(c_CAPTURE_EVENT, CAPTURE_END);
+    wxCommandEvent endCaptureEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_END);
     wxPostEvent(parent, endCaptureEvent);
 
     return 0;

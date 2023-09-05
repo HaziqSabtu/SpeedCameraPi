@@ -1,5 +1,6 @@
 #pragma once
 
+#include <UI/Layout/StatusPanel.hpp>
 #include <wx/event.h>
 #include <wx/string.h>
 

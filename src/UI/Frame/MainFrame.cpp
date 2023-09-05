@@ -35,53 +35,54 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
 
     ShowFullScreen(true);
 
-    ControllerFactory factory(this);
-    sharedModel = factory.getSharedModel();
+    CtrlFactoryPtr ctrlFactory = std::make_shared<ControllerFactory>(this);
+    sharedModel = ctrlFactory->getSharedModel();
 
-    // * IDEA : Is there a better way to do this?
-    auto cpc = factory.createCaptureController();
-    cpp = new CapturePanel(this, Enum::CP_Panel_ID, cpc);
-    panels[PANEL_CAPTURE] = cpp;
+    panelFactory = std::make_shared<PanelFactory>(ctrlFactory);
 
-    auto roc = factory.createRoiController();
-    rop = new RoiPanel(this, Enum::RO_Panel_ID, roc);
-    panels[PANEL_ROI] = rop;
+    registerPanel(PANEL_CAPTURE);
+    registerPanel(PANEL_ROI);
+    registerPanel(PANEL_CALIBRATION);
+    registerPanel(PANEL_MANUAL_CALIBRATION);
+    registerPanel(PANEL_COLOR_CALIBRATION);
+    registerPanel(PANEL_TRIM_DATA);
+    registerPanel(PANEL_RESULT);
 
-    auto clc = factory.createCalibrationController();
-    clp = new CalibrationPanel(this, Enum::CL_Panel_ID, clc);
-    panels[PANEL_CALIBRATION] = clp;
-
-    auto mcc = factory.createManualCalibrationController();
-    mcp = new ManualCalibrationPanel(this, Enum::MC_Panel_ID, mcc);
-    panels[PANEL_MANUAL_CALIBRATION] = mcp;
-
-    auto ccc = factory.createColorCalibrationController();
-    ccp = new ColorCalibrationPanel(this, Enum::CC_Panel_ID, ccc);
-    panels[PANEL_COLOR_CALIBRATION] = ccp;
-
-    auto tdc = factory.createTrimDataController();
-    tdp = new TrimDataPanel(this, Enum::TR_Panel_ID, tdc);
-    panels[PANEL_TRIM_DATA] = tdp;
-
-    auto rsc = factory.createResultController();
-    rsp = new ResultPanel(this, Enum::RE_Panel_ID, rsc);
-    panels[PANEL_RESULT] = rsp;
-
-    sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(cpp, 1, wxEXPAND);
-    sizer->Add(rop, 1, wxEXPAND);
-    sizer->Add(clp, 1, wxEXPAND);
-    sizer->Add(mcp, 1, wxEXPAND);
-    sizer->Add(ccp, 1, wxEXPAND);
-    sizer->Add(tdp, 1, wxEXPAND);
-    sizer->Add(rsp, 1, wxEXPAND);
-    SetSizer(sizer);
-
-    cpp->Show();
-    sharedModel->sessionData.setPanelID(PANEL_CAPTURE);
+    showFirstPanel();
 }
 
 MainFrame::~MainFrame() { wxWakeUpIdle(); }
+
+void MainFrame::registerPanel(PanelID panelID) {
+
+    if (panelFactory == nullptr) {
+        throw std::runtime_error("panelFactory is null");
+    }
+
+    auto panel = panelFactory->createPanel(this, panelID);
+
+    if (panel == nullptr) {
+        throw std::runtime_error("MainFrame::registerPanel: panel is null");
+    }
+
+    panels[panelID] = panel;
+
+    if (sizer == nullptr) {
+        sizer = new wxBoxSizer(wxVERTICAL);
+    }
+
+    sizer->Add(panel, 1, wxEXPAND);
+    SetSizer(sizer);
+}
+
+void MainFrame::showFirstPanel() {
+    if (panels[FIRST_PANEL_ID] == nullptr) {
+        throw std::runtime_error("MainFrame::showFirstPanel: panel is null");
+    }
+
+    panels[FIRST_PANEL_ID]->Show();
+    sharedModel->sessionData.setPanelID(FIRST_PANEL_ID);
+}
 
 void MainFrame::OnError(ErrorEvent &e) {
     wxString msg = e.GetErrorData();

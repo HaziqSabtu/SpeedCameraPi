@@ -1,0 +1,8 @@
+#pragma once
+#include <wx/event.h>
+
+wxDECLARE_EVENT(c_PREVIEW_CAMERA_EVENT, wxCommandEvent);
+
+wxDECLARE_EVENT(c_PREVIEW_CAPTURE_EVENT, wxCommandEvent);
+
+enum PREVIEW_EVENT_TYPE { PREVIEW_START = 1, PREVIEW_END, PREVIEW_ERROR };

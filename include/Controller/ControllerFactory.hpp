@@ -10,6 +10,8 @@
 #include <Model/SharedModel.hpp>
 #include <memory>
 
+#define CtrlFactoryPtr std::shared_ptr<ControllerFactory>
+
 class ControllerFactory {
   public:
     ControllerFactory(wxWindow *parent);
