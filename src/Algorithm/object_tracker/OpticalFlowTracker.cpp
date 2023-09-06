@@ -11,8 +11,6 @@
 
 #include "Algorithm/object_tracker/OpticalFlowTracker.hpp"
 
-// TODO: Setters and Getters for params
-
 /**
  * @brief Construct a new Object Detection:: Object Detection object
  *

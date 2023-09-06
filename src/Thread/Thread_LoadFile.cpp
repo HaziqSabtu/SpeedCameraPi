@@ -72,6 +72,8 @@ wxThread::ExitCode LoadFileThread::Entry() {
         ErrorEvent::Submit(parent, e.what());
         wxCommandEvent errorLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_ERROR_FILE);
         wxPostEvent(parent, errorLoadEvent);
+
+        return 0;
     }
 
     wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_FILE);

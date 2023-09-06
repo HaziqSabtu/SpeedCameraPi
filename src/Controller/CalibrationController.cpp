@@ -1,3 +1,5 @@
+#include "Event/Event_UpdateStatus.hpp"
+#include "UI/Dialog/RemoveCalibrationDialog.hpp"
 #include <Controller/CalibrationController.hpp>
 #include <stdexcept>
 #include <wx/app.h>
@@ -9,10 +11,10 @@ CalibrationController::CalibrationController(ModelPtr sharedModel)
 
 CalibrationController::~CalibrationController() {}
 
-void CalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
+void CalibrationController::e_RemoveCalibrationData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        shared->sessionData.removeCalibrationData();
+        removeCalibrationDataHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -284,6 +286,8 @@ void CalibrationController::leftDownHandler(wxEvtHandler *parent,
 
     auto thread = tc->getRunningCalibrationThread();
     thread->setPoint(point);
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_CALIBRATION_POINTSELECTED);
 }
 
 void CalibrationController::leftMoveHandler(wxEvtHandler *parent,
@@ -310,6 +314,22 @@ void CalibrationController::clearPointHandler(wxEvtHandler *parent) {
 
     auto thread = tc->getRunningCalibrationThread();
     thread->clearPoint();
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_CALIBRATION_POINTREMOVED);
+}
+
+void CalibrationController::removeCalibrationDataHandler(wxEvtHandler *parent) {
+    throwIfAnyThreadIsRunning();
+
+    auto wx = wxTheApp->GetTopWindow();
+    auto dialog = RemoveCalibrationDialog(wx);
+    if (dialog.ShowModal() == wxID_NO) {
+        return;
+    }
+
+    shared->sessionData.removeCalibrationData();
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_REMOVE_CALIBRATION_OK);
 }
 
 void CalibrationController::throwIfAnyThreadIsRunning() {
@@ -363,8 +383,6 @@ void CalibrationController::changeToManualPanelHandler(wxEvtHandler *parent) {
         }
     }
 
-    // TODO: Add Dialog
-
     killAllThreads(parent);
 
     restoreSessionDataHandler(parent);
@@ -380,8 +398,6 @@ void CalibrationController::changeToColorPanelHandler(wxEvtHandler *parent) {
             return;
         }
     }
-
-    // TODO: Add Dialog
 
     killAllThreads(parent);
 

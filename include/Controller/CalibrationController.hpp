@@ -34,7 +34,7 @@ class CalibrationController : public BaseControllerWithTouch {
     CalibrationController(ModelPtr sharedModel);
     ~CalibrationController();
 
-    void e_RemoveCalibData(wxEvtHandler *parent);
+    void e_RemoveCalibrationData(wxEvtHandler *parent);
 
     void e_ClearPoint(wxEvtHandler *parent);
 
@@ -81,6 +81,8 @@ class CalibrationController : public BaseControllerWithTouch {
     void leftUpHandler(wxEvtHandler *parent, cv::Point point) override;
 
     void clearPointHandler(wxEvtHandler *parent);
+
+    void removeCalibrationDataHandler(wxEvtHandler *parent);
 
     void changeToManualPanelHandler(wxEvtHandler *parent);
     void changeToColorPanelHandler(wxEvtHandler *parent);

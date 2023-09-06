@@ -15,4 +15,6 @@ class DialogBaseYesNo : public wxDialog {
     void OnNoButton(wxCommandEvent &event);
 
     bool result;
+
+    wxBoxSizer *buttonSizer;
 };

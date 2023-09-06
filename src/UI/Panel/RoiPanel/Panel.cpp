@@ -16,8 +16,6 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
-namespace SC = StatusCollection;
-
 RoiPanel::RoiPanel(wxWindow *parent, wxWindowID id, ROCPtr controller)
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
 
@@ -88,14 +86,14 @@ void RoiPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
 }
 
 void RoiPanel::OnCalibrationEvent(wxCommandEvent &e) {
-    if (e.GetId() == CALIBRATION_START) {
+    if (e.GetId() == CALIBRATION_CAMERA_START) {
         status_panel->SetText(SC::STATUS_START_CALIBRATION);
 
         // Bind Left Down Event
         bindLeftDown();
     }
 
-    if (e.GetId() == CALIBRATION_END) {
+    if (e.GetId() == CALIBRATION_CAMERA_END) {
         status_panel->SetText(SC::STATUS_CALIBRATION_SUCCESS);
         unBindAll();
     }

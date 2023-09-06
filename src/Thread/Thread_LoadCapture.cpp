@@ -117,6 +117,8 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
         ErrorEvent::Submit(parent, e.what());
         wxCommandEvent errorLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_ERROR_CAMERA);
         wxPostEvent(parent, errorLoadEvent);
+
+        return 0;
     }
 
     wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_CAMERA);

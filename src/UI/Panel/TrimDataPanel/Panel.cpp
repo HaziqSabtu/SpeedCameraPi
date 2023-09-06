@@ -16,8 +16,6 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
-namespace SC = StatusCollection;
-
 TrimDataPanel::TrimDataPanel(wxWindow *parent, wxWindowID id, TDCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {
 

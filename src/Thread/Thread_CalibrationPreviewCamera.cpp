@@ -1,5 +1,6 @@
 
 #include "Event/Event_Error.hpp"
+#include "Event/Event_Preview.hpp"
 #include "Thread/Thread_Base.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include <Thread/Thread_CalibrationPreviewCamera.hpp>
@@ -15,8 +16,8 @@ CalibrationPreviewCameraThread::~CalibrationPreviewCameraThread() {}
 
 wxThread::ExitCode CalibrationPreviewCameraThread::Entry() {
 
-    wxCommandEvent startCaptureEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_START);
-    wxPostEvent(parent, startCaptureEvent);
+    wxCommandEvent startPreviewEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_START);
+    wxPostEvent(parent, startPreviewEvent);
 
     try {
         while (!TestDestroy()) {
@@ -50,13 +51,15 @@ wxThread::ExitCode CalibrationPreviewCameraThread::Entry() {
         }
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+
+        wxCommandEvent errorPreviewEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_ERROR);
+        wxPostEvent(parent, errorPreviewEvent);
     }
 
-    UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
-    wxPostEvent(parent, clearPreviewEvent);
+    UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
 
-    wxCommandEvent endCaptureEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_END);
-    wxPostEvent(parent, endCaptureEvent);
+    wxCommandEvent endPreviewEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_END);
+    wxPostEvent(parent, endPreviewEvent);
 
     return 0;
 }

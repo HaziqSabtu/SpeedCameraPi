@@ -12,6 +12,10 @@ CalibrationPreviewCaptureThread::CalibrationPreviewCaptureThread(
 CalibrationPreviewCaptureThread::~CalibrationPreviewCaptureThread() {}
 
 wxThread::ExitCode CalibrationPreviewCaptureThread::Entry() {
+
+    wxCommandEvent startPreviewEvent(c_PREVIEW_CAPTURE_EVENT, PREVIEW_START);
+    wxPostEvent(parent, startPreviewEvent);
+
     try {
         cv::Mat firstFrame;
         auto captureData = data->getCaptureData();
@@ -48,11 +52,16 @@ wxThread::ExitCode CalibrationPreviewCaptureThread::Entry() {
         }
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+
+        wxCommandEvent errorPreviewEvent(c_PREVIEW_CAPTURE_EVENT,
+                                         PREVIEW_ERROR);
+        wxPostEvent(parent, errorPreviewEvent);
     }
 
-    UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
-    wxPostEvent(parent, clearPreviewEvent);
+    UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
 
+    wxCommandEvent endPreviewEvent(c_PREVIEW_CAPTURE_EVENT, PREVIEW_END);
+    wxPostEvent(parent, endPreviewEvent);
     return 0;
 }
 

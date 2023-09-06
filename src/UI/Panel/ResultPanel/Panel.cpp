@@ -18,8 +18,6 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
-namespace SC = StatusCollection;
-
 ResultPanel::ResultPanel(wxWindow *parent, wxWindowID id, RSCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {
 

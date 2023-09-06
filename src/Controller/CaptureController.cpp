@@ -1,5 +1,6 @@
 #include "UI/Dialog/RemoveCalibrationDialog.hpp"
 #include "UI/Dialog/RemoveRoiDialog.hpp"
+#include "UI/Dialog/TrimDataDialog.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include <Controller/CaptureController.hpp>
 
@@ -435,9 +436,7 @@ void CaptureController::saveSessionDataStartHandler(wxEvtHandler *parent) {
 
     auto dialog = new SaveDataDialog(nullptr, filename);
     if (dialog->ShowModal() == wxID_NO) {
-        // TODO: Add this to StatusCollection
-        wxString msg = "Save Cancelled";
-        UpdateStatusEvent::Submit(parent, msg);
+        UpdateStatusEvent::Submit(parent, SC::STATUS_SAVE_DATA_CANCEL);
         return;
     }
 
@@ -458,10 +457,6 @@ void CaptureController::saveSessionDataEndHandler(wxEvtHandler *parent) {
     }
 
     tc->endSaveFileHandler();
-
-    // TODO: Add this to StatusCollection
-    wxString msg = "Save Complete";
-    UpdateStatusEvent::Submit(parent, msg);
 }
 
 void CaptureController::resetSessionDataHandler(wxEvtHandler *parent) {
@@ -469,17 +464,13 @@ void CaptureController::resetSessionDataHandler(wxEvtHandler *parent) {
 
     auto dialog = new ResetDataDialog(nullptr);
     if (dialog->ShowModal() == wxID_NO) {
-        wxString msg = "Session Reset Cancelled";
-        UpdateStatusEvent::Submit(parent, msg);
-
+        UpdateStatusEvent::Submit(parent, SC::STATUS_RESET_SESSION_CANCEL);
         return;
     }
 
     shared->resetSessionData();
 
-    // TODO: Add this to StatusCollection
-    wxString msg = "Session Reset Complete";
-    UpdateStatusEvent::Submit(parent, msg);
+    UpdateStatusEvent::Submit(parent, SC::STATUS_RESET_SESSION_OK);
 }
 
 void CaptureController::changeToCalibrationPanelHandler(wxEvtHandler *parent) {
@@ -506,19 +497,20 @@ void CaptureController::changeToResultPanelHandler(wxEvtHandler *parent) {
 void CaptureController::changeToTrimDataPanelHandler(wxEvtHandler *parent) {
     killAllThreads(parent);
 
-    // ask for confirmation
-    // TODO: dialog
     auto wx = wxTheApp->GetTopWindow();
-    auto dialog = new ResetDataDialog(wx);
-    if (dialog->ShowModal() == wxID_NO) {
-        wxString msg = "Session Reset Cancelled";
-        UpdateStatusEvent::Submit(parent, msg);
+    auto dialog = new TrimDataDialog(wx);
 
+    if (dialog->ShowModal() == wxID_NO) {
         return;
     }
 
-    ChangePanelData data(panelID, PanelID::PANEL_TRIM_DATA);
-    ChangePanelEvent::Submit(parent, data);
+    auto data = shared->getSessionData();
+    data->removeCalibrationData();
+    data->clearTrackingData();
+    shared->setSessionData(*data);
+
+    ChangePanelData changeToTrimPanelEvent(panelID, PanelID::PANEL_TRIM_DATA);
+    ChangePanelEvent::Submit(parent, changeToTrimPanelEvent);
 }
 
 void CaptureController::panelShowHandler(wxEvtHandler *parent) {

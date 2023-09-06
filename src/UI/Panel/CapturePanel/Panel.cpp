@@ -9,6 +9,7 @@
 #include "Model/AppState.hpp"
 
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
+#include "UI/Dialog/DataSavedDialog.hpp"
 #include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include "UI/StaticText/Titletext.hpp"
@@ -16,6 +17,7 @@
 #include <UI/Panel/CapturePanel/Panel.hpp>
 #include <iostream>
 #include <stdexcept>
+#include <wx/app.h>
 #include <wx/event.h>
 #include <wx/gdicmn.h>
 
@@ -196,22 +198,30 @@ void CapturePanel::OnPreviewCamera(wxCommandEvent &e) {
 
 void CapturePanel::OnSaveData(wxCommandEvent &e) {
     if (e.GetId() == SAVE_DATA_START) {
-        wxString msg = "Saving";
-        UpdateStatusEvent::Submit(this, msg);
+        UpdateStatusEvent::Submit(this, SC::STATUS_SAVE_DATA_START);
     }
 
     if (e.GetId() == SAVE_DATA_END) {
         controller->e_SaveSessionDataEnd(this);
+        UpdateStatusEvent::Submit(this, SC::STATUS_SAVE_DATA_END);
 
-        wxString msg = "Save complete";
-        UpdateStatusEvent::Submit(this, msg);
+        auto dialog = new DataSavedDialog(this);
+        auto result = dialog->ShowModal();
+
+        if (result == wxID_YES) {
+            controller->e_ClearImageData(this);
+        }
+
+        if (result == dialog->resetButtonID) {
+            controller->e_ResetSessionData(this);
+        }
     }
 
     if (e.GetId() == SAVE_DATA_ERROR) {
         controller->e_SaveSessionDataEnd(this);
 
-        wxString msg = "Error saving data";
-        UpdateStatusEvent::Submit(this, msg);
+        ErrorEvent::Submit(this, "Error saving data");
+        UpdateStatusEvent::Submit(this, SC::STATUS_SAVE_DATA_ERROR);
     }
 
     controller->e_UpdateState(this);

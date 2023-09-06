@@ -16,9 +16,9 @@ const wxString Text = "Any unsaved changes will be lost. Are you sure ?";
 } // namespace Cancel
 
 namespace SaveData {
-const wxString Title = "Save";
+const wxString Title = "Save Data";
 inline const wxString Text(wxString s) {
-    return wxString::Format("Save %s ?", s);
+    return wxString::Format("File will be saved as %s", s);
 }
 } // namespace SaveData
 
@@ -40,7 +40,17 @@ const wxString Text = "Are you sure you want to remove current ROI? This "
                       "action cannot be undone.";
 } // namespace RemoveRoi
 
-// namespace SaveData
-// namespace Cancel
+namespace DataSaved {
+const wxString Title = "Data Saved";
+const wxString Text = "Data saved successfully. Do you want to clear current "
+                      "session and start a new one?";
+} // namespace DataSaved
+
+namespace TrimData {
+const wxString Title = "Trim Data";
+const wxString Text =
+    "Trimming Data requires the Roi and Calibration data to be "
+    "removed. Do you want to continue? This action cannot be undone.";
+} // namespace TrimData
 } // namespace Dialog
 } // namespace Data

@@ -11,7 +11,7 @@ DialogBaseYesNo::DialogBaseYesNo(wxWindow *parent, const wxString &title,
         this, wxID_ANY, text, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
     sizer->Add(staticText, 0, wxALL, 10);
 
-    wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+    buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 
     wxButton *yesButton = new wxButton(this, wxID_YES, "Yes");
     buttonSizer->Add(yesButton, 0, wxALL, 5);

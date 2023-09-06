@@ -15,8 +15,6 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
-namespace SC = StatusCollection;
-
 ManualCalibrationPanel::ManualCalibrationPanel(wxWindow *parent, wxWindowID id,
                                                MCCPtr controller)
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
@@ -136,7 +134,7 @@ void ManualCalibrationPanel::ToggleCalibrationCaptureButtonHandler(
 }
 
 void ManualCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
-    if (e.GetId() == CALIBRATION_START) {
+    if (e.GetId() == CALIBRATION_CAMERA_START) {
         status_panel->SetText(SC::STATUS_START_CALIBRATION);
 
         // Bind Left Down Event
@@ -144,7 +142,7 @@ void ManualCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
                          this);
     }
 
-    if (e.GetId() == CALIBRATION_END) {
+    if (e.GetId() == CALIBRATION_CAMERA_END) {
         status_panel->SetText(SC::STATUS_CALIBRATION_SUCCESS);
     }
 }

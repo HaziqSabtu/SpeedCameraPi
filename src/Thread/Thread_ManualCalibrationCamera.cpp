@@ -30,7 +30,7 @@ ManualCalibrationCameraThread::~ManualCalibrationCameraThread() {}
 wxThread::ExitCode ManualCalibrationCameraThread::Entry() {
 
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
-                                         CALIBRATION_START);
+                                         CALIBRATION_CAMERA_START);
     wxPostEvent(parent, startCalibrationEvent);
 
     try {
@@ -66,7 +66,8 @@ wxThread::ExitCode ManualCalibrationCameraThread::Entry() {
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
 
-    wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT, CALIBRATION_END);
+    wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT,
+                                       CALIBRATION_CAMERA_END);
     wxPostEvent(parent, endCalibrationEvent);
     return 0;
 }

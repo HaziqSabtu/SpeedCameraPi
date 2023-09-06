@@ -36,7 +36,7 @@ CalibrationCameraThread::~CalibrationCameraThread() {}
 wxThread::ExitCode CalibrationCameraThread::Entry() {
 
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
-                                         CALIBRATION_START);
+                                         CALIBRATION_CAMERA_START);
     wxPostEvent(parent, startCalibrationEvent);
 
     try {
@@ -83,11 +83,13 @@ wxThread::ExitCode CalibrationCameraThread::Entry() {
                              cv::Scalar(255, 0, 0), 2);
                 }
 
-                UpdateStatusEvent::Submit(
-                    parent, StatusCollection::STATUS_LINE_DETECTED);
-            } else {
-                UpdateStatusEvent::Submit(
-                    parent, StatusCollection::STATUS_LINE_NOT_DETECTED);
+                if (yellowLine.isNull() && blueLine.isNull()) {
+                    UpdateStatusEvent::Submit(parent,
+                                              SC::STATUS_CALIBRATION_LINEOK);
+                } else {
+                    UpdateStatusEvent::Submit(
+                        parent, SC::STATUS_CALIBRATION_LINENOTFOUND);
+                }
             }
 
             if (point != cv::Point(0, 0)) {
@@ -100,11 +102,16 @@ wxThread::ExitCode CalibrationCameraThread::Entry() {
         }
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+
+        wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT,
+                                           CALIBRATION_CAMERA_ERROR);
+        wxPostEvent(parent, endCalibrationEvent);
     }
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
 
-    wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT, CALIBRATION_END);
+    wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT,
+                                       CALIBRATION_CAMERA_END);
     wxPostEvent(parent, endCalibrationEvent);
     return 0;
 }

@@ -15,8 +15,6 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
-namespace SC = StatusCollection;
-
 ColorCalibrationPanel::ColorCalibrationPanel(wxWindow *parent, wxWindowID id,
                                              CCCPtr controller)
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
@@ -94,13 +92,13 @@ void ColorCalibrationPanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
 }
 
 void ColorCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
-    if (e.GetId() == CALIBRATION_START) {
+    if (e.GetId() == CALIBRATION_CAMERA_START) {
         status_panel->SetText(SC::STATUS_START_CALIBRATION);
 
         bindLeftDown();
     }
 
-    if (e.GetId() == CALIBRATION_END) {
+    if (e.GetId() == CALIBRATION_CAMERA_END) {
         status_panel->SetText(SC::STATUS_CALIBRATION_END);
 
         unBindAll();
