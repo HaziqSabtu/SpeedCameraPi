@@ -1,4 +1,4 @@
-#include "UI/Theme/Theme.hpp"
+#include "UI/Data/Theme.hpp"
 
 ButtonCapture::ButtonCapture(wxWindow *parent, wxWindowID id)
     : ButtonWState(parent, id, "Capture", "Capturing", "Capture", false,

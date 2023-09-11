@@ -1,8 +1,8 @@
 #pragma once
 
 #include "UI/Button/BitmapButton/Type3/BitmapButtonT3.hpp"
-#include "UI/Theme/Data.hpp"
-#include "UI/Theme/Theme.hpp"
+#include "UI/Data/Data.hpp"
+#include "UI/Data/Theme.hpp"
 #include <wx/wx.h>
 
 class ButtonExit : public BitmapButtonT3 {

@@ -1,6 +1,6 @@
 #include "UI/Button/BitmapButton/Button_ColorPicker.hpp"
-#include "UI/Theme/Data.hpp"
-#include "UI/Theme/Theme.hpp"
+#include "UI/Data/Data.hpp"
+#include "UI/Data/Theme.hpp"
 
 BitmapColorPicker::BitmapColorPicker(wxWindow *parent, wxWindowID id,
                                      const BitmapData &data)

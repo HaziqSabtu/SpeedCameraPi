@@ -1,7 +1,7 @@
 #pragma once
 
 #include "UI/StaticText/Hyperlink.hpp"
-#include <UI/Theme/Data.hpp>
+#include <UI/Data/Data.hpp>
 
 namespace Data::Info {
 const wxString Title = "SpeedCameraPi";

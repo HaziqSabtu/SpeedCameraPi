@@ -2,7 +2,7 @@
 
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Font/Font.hpp"
-#include <UI/Theme/ColorCollection.hpp>
+#include <UI/Data/ColorCollection.hpp>
 #include <wx/gtk/colour.h>
 
 namespace CC = ColorCollection;

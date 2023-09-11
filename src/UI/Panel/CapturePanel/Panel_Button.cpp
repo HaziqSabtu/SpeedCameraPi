@@ -1,8 +1,8 @@
+#include "UI/Data/Theme.hpp"
 #include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/Common/DividerPanel.hpp"
 #include "UI/Panel/Common/Spacer.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
-#include "UI/Theme/Theme.hpp"
 #include <UI/Panel/CapturePanel/Panel_Button.hpp>
 #include <wx/gdicmn.h>
 #include <wx/layout.h>

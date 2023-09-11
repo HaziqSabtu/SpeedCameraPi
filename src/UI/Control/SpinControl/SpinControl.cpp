@@ -1,5 +1,5 @@
-#include "UI/Theme/Data.hpp"
-#include "UI/Theme/Theme.hpp"
+#include "UI/Data/Data.hpp"
+#include "UI/Data/Theme.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Control/SpinControl/SpinControl.hpp>
 #include <wx/gtk/stattext.h>

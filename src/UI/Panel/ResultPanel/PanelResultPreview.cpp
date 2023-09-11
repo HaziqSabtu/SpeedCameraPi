@@ -10,9 +10,9 @@
 #include "UI/Button/BitmapButton/Type2/Button_Lanes.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_MagnifyGlass.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_Ruler.hpp"
+#include "UI/Data/Data.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/StaticText/RichText.hpp"
-#include "UI/Theme/Data.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/ResultPanel/PanelResultPreview.hpp>
 

@@ -5,7 +5,7 @@
 
 #include <UI/StaticText/DefaultStaticText.hpp>
 
-#include <UI/Theme/SettingsData.hpp>
+#include <UI/Data/SettingsData.hpp>
 
 #include <Utils/Config/ConfigStruct.hpp>
 

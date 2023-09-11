@@ -1,7 +1,7 @@
 #pragma once
 
-#include "UI/Theme/Data.hpp"
-#include "UI/Theme/Theme.hpp"
+#include "UI/Data/Data.hpp"
+#include "UI/Data/Theme.hpp"
 #include <wx/wx.h>
 
 class ButtonSettings : public BitmapButtonT3 {

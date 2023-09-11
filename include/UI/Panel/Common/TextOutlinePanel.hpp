@@ -1,7 +1,7 @@
 #pragma once
 
+#include "UI/Data/Theme.hpp"
 #include "UI/StaticText/RichText.hpp"
-#include "UI/Theme/Theme.hpp"
 #include <wx/wx.h>
 
 namespace RTC = RichTextCollection;

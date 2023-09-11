@@ -1,7 +1,7 @@
 #pragma once
 
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
-#include "UI/Theme/Data.hpp"
+#include "UI/Data/Data.hpp"
 
 class BitmapT2Box : public BitmapButtonT2 {
   public:

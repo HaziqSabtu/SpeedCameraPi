@@ -4,9 +4,9 @@
 #include "UI/Button/BitmapButton/Button_Roi.hpp"
 #include "UI/Button/BitmapButton/Button_Save.hpp"
 #include "UI/Button/BitmapButton/Button_Trim.hpp"
+#include "UI/Data/Data.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/StaticText/RichText.hpp"
-#include "UI/Theme/Data.hpp"
 #include "Utils/Enum.hpp"
 
 CaptureButtonTools::CaptureButtonTools(wxWindow *parent)

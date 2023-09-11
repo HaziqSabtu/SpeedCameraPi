@@ -2,9 +2,9 @@
 
 #include "UI/Control/ButtonControl/ButtonControl.hpp"
 #include "UI/Control/SpinControl/SpinControl.hpp"
+#include "UI/Data/Theme.hpp"
 #include "UI/StaticText/DefaultStaticText.hpp"
-#include "UI/Theme/Theme.hpp"
-#include <UI/Theme/Data.hpp>
+#include <UI/Data/Data.hpp>
 
 #define STD StaticTextData
 #define STDV StaticTextDataVector

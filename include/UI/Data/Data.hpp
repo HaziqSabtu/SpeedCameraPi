@@ -5,7 +5,7 @@
 #include "UI/Button/BitmapButton/Type3/BitmapButtonT3.hpp"
 #include "UI/Button/TextButton/TextButton.hpp"
 #include "UI/Button/TextButton/Type2/TextButtonT2.hpp"
-#include <UI/Theme/Theme.hpp>
+#include <UI/Data/Theme.hpp>
 #include <wx/gdicmn.h>
 
 namespace T = Theme;

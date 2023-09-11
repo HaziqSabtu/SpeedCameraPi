@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Model/SessionData.hpp"
-#include "UI/Theme/Theme.hpp"
+#include "UI/Data/Theme.hpp"
 #include <wx/wx.h>
 
 class TitleText : public wxStaticText {

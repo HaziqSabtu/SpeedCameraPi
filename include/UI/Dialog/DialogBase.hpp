@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UI/Theme/DialogData.hpp"
+#include "UI/Data/DialogData.hpp"
 #include <wx/wx.h>
 
 class DialogBaseYesNo : public wxDialog {

@@ -12,7 +12,6 @@
 #include <opencv2/imgproc.hpp>
 #include <wx/utils.h>
 
-// TODO: Fix Status
 BaseCalibrationThread::BaseCalibrationThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread() {
 
