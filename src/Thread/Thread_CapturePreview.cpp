@@ -46,6 +46,8 @@ wxThread::ExitCode CapturePreviewThread::Entry() {
         wxCommandEvent previewCaptureErrorEvent(c_PREVIEW_CAPTURE_EVENT,
                                                 PREVIEW_ERROR);
         wxPostEvent(parent, previewCaptureErrorEvent);
+
+        return 0;
     }
 
     wxCommandEvent previewCaptureStopEvent(c_PREVIEW_CAPTURE_EVENT,

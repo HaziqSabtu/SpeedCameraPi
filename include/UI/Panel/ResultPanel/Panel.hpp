@@ -42,6 +42,7 @@ class ResultPanel : public BasePanel {
 
     void OnButton(wxCommandEvent &e);
     void OnProcessImage(wxCommandEvent &e);
+    void OnCapturePreview(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

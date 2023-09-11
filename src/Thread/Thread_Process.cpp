@@ -24,7 +24,7 @@ ProcessThread::ProcessThread(wxEvtHandler *parent, DataPtr data,
 ProcessThread::~ProcessThread() {}
 
 wxThread::ExitCode ProcessThread::Entry() {
-    wxCommandEvent startProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_BEGIN);
+    wxCommandEvent startProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_START);
     wxPostEvent(parent, startProcessEvent);
 
     UpdateStatusEvent::Submit(parent, "Starting Process Thread");
@@ -128,7 +128,7 @@ ProcessRedundantThread::ProcessRedundantThread(wxEvtHandler *parent,
 ProcessRedundantThread::~ProcessRedundantThread() {}
 
 wxThread::ExitCode ProcessRedundantThread::Entry() {
-    wxCommandEvent startProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_BEGIN);
+    wxCommandEvent startProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_START);
     wxPostEvent(parent, startProcessEvent);
 
     UpdateStatusEvent::Submit(parent, "Starting Process Thread");

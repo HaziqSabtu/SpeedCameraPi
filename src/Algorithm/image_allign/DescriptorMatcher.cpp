@@ -40,8 +40,6 @@ void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
 
     // crosscheck is True for Normal Matching
     cv::BFMatcher matcher(normTypes, true);
-    std::cout << "Running BruteForce with " << typeName << std::endl;
-
     matcher.match(query, target, matches);
 }
 
@@ -161,5 +159,4 @@ void DMatcher::FilterKeyPoints(std::vector<std::vector<cv::DMatch>> &knnMatches,
                 goodMatch.push_back(knnMatches[i][0]);
         }
     }
-    std::cout << "Filtered KeyPoints: " << goodMatch.size() << std::endl;
 }

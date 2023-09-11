@@ -21,6 +21,10 @@ ResultPreviewThread::~ResultPreviewThread() {}
 wxThread::ExitCode ResultPreviewThread::Entry() {
     try {
 
+        wxCommandEvent previewCaptureStartEvent(c_PREVIEW_CAPTURE_EVENT,
+                                                PREVIEW_START);
+        wxPostEvent(parent, previewCaptureStartEvent);
+
         if (data->isResultDataEmpty()) {
             throw std::runtime_error("ResultData is empty");
         }
@@ -90,9 +94,19 @@ wxThread::ExitCode ResultPreviewThread::Entry() {
         }
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+
+        wxCommandEvent previewCaptureErrorEvent(c_PREVIEW_CAPTURE_EVENT,
+                                                PREVIEW_ERROR);
+        wxPostEvent(parent, previewCaptureErrorEvent);
+
+        return 0;
     }
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
+
+    wxCommandEvent previewCaptureStopEvent(c_PREVIEW_CAPTURE_EVENT,
+                                           PREVIEW_END);
+    wxPostEvent(parent, previewCaptureStopEvent);
 
     return 0;
 }

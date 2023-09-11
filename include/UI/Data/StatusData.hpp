@@ -73,5 +73,25 @@ const wxString STATUS_ROI_REMOVE = wxT("Roi Removed");
 const wxString STATUS_ROI_ERROR = wxT("Error Selecting ROI");
 const wxString STATUS_ROI_SAVE = wxT("ROI Saved");
 
+const wxString STATUS_PROCESSING_START = wxT("Processing");
+const wxString STATUS_PROCESSING_END = wxT("Processing End");
+const wxString STATUS_PROCESSING_ERROR = wxT("Processing Error");
+
+
+const wxString STATUS_RESULT_PREVIEW_START = wxT("Preview Start");
+const wxString STATUS_RESULT_PREVIEW_END = wxT("Preview End");
+const wxString STATUS_RESULT_PREVIEW_ERROR = wxT("Preview Error");
+
+const wxString STATUS_RESULT_PREVIEW_SHOWBOX_ON = wxT("Show Box On");
+const wxString STATUS_RESULT_PREVIEW_SHOWBOX_OFF = wxT("Show Box Off");
+
+const wxString STATUS_RESULT_PREVIEW_SHOWLINES_ON = wxT("Show Lines On");
+const wxString STATUS_RESULT_PREVIEW_SHOWLINES_OFF = wxT("Show Lines Off");
+
+const wxString STATUS_RESULT_PREVIEW_SHOWLANES_ON = wxT("Show Lanes On");
+const wxString STATUS_RESULT_PREVIEW_SHOWLANES_OFF = wxT("Show Lanes Off");
+
+const wxString STATUS_RESULT_PREVIEW_REPLAY = wxT("Replay");
+
 } // namespace StatusCollection
 // clang-format on

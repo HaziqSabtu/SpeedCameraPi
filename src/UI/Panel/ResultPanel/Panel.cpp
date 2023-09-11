@@ -6,6 +6,7 @@
 #include "Event/Event_UpdateStatus.hpp"
 
 #include "Model/AppState.hpp"
+#include "UI/Data/StatusData.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/ResultPanel/Panel_Button.hpp"
@@ -123,8 +124,35 @@ void ResultPanel::ToggleLanesButtonHandler(BitmapButtonT2 *button) {
 }
 
 void ResultPanel::OnProcessImage(wxCommandEvent &e) {
+
+    if (e.GetId() == PROCESS_START) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PROCESSING_START);
+    }
+
+    if (e.GetId() == PROCESS_ERROR) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PROCESSING_ERROR);
+    }
+
     if (e.GetId() == PROCESS_END) {
         controller->e_ProcessEnd(this);
+        // UpdateStatusEvent::Submit(this, SC::STATUS_PROCESSING_END);
+    }
+
+    controller->e_UpdateState(this);
+}
+
+void ResultPanel::OnCapturePreview(wxCommandEvent &e) {
+
+    if (e.GetId() == PREVIEW_START) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_RESULT_PREVIEW_START);
+    }
+
+    if (e.GetId() == PREVIEW_ERROR) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_RESULT_PREVIEW_ERROR);
+    }
+
+    if (e.GetId() == PREVIEW_END) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_RESULT_PREVIEW_END);
     }
 
     controller->e_UpdateState(this);
@@ -134,4 +162,5 @@ void ResultPanel::OnProcessImage(wxCommandEvent &e) {
 wxBEGIN_EVENT_TABLE(ResultPanel, BasePanel)
     EVT_BUTTON(wxID_ANY,ResultPanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT, ResultPanel::OnProcessImage)
+    EVT_COMMAND(wxID_ANY, c_PREVIEW_CAPTURE_EVENT, ResultPanel::OnCapturePreview)
 wxEND_EVENT_TABLE()

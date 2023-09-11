@@ -1,4 +1,6 @@
+#include "Event/Event_UpdateStatus.hpp"
 #include "Thread/Thread_ID.hpp"
+#include "UI/Data/StatusData.hpp"
 #include <Controller/ResultController.hpp>
 #include <wx/event.h>
 
@@ -158,6 +160,11 @@ void ResultController::processThreadStartHandler(wxEvtHandler *parent) {
 
     auto sessionData = shared->getSessionData();
 
+    if (!sessionData->isResultDataEmpty()) {
+        sessionData->clearResultData();
+        shared->setSessionData(*sessionData);
+    }
+
     auto pool = shared->getThreadPool();
 
     tc->startProcessHandler(parent, pool, sessionData, panelID);
@@ -185,6 +192,11 @@ void ResultController::processRedundantThreadStartHandler(
     throwIfAnyThreadIsRunning();
 
     auto sessionData = shared->getSessionData();
+
+    if (!sessionData->isResultDataEmpty()) {
+        sessionData->clearResultData();
+        shared->setSessionData(*sessionData);
+    }
 
     auto pool = shared->getThreadPool();
 
@@ -246,6 +258,11 @@ void ResultController::toggleShowBoxHandler(wxEvtHandler *parent, bool show) {
 
     auto thread = tc->getResultPreviewThread();
     thread->SetShowBox(show);
+
+    show ? UpdateStatusEvent::Submit(parent,
+                                     SC::STATUS_RESULT_PREVIEW_SHOWBOX_ON)
+         : UpdateStatusEvent::Submit(parent,
+                                     SC::STATUS_RESULT_PREVIEW_SHOWBOX_OFF);
 }
 
 void ResultController::toggleShowLinesHandler(wxEvtHandler *parent, bool show) {
@@ -261,6 +278,11 @@ void ResultController::toggleShowLinesHandler(wxEvtHandler *parent, bool show) {
 
     auto thread = tc->getResultPreviewThread();
     thread->SetShowIntersection(show);
+
+    show ? UpdateStatusEvent::Submit(parent,
+                                     SC::STATUS_RESULT_PREVIEW_SHOWLINES_ON)
+         : UpdateStatusEvent::Submit(parent,
+                                     SC::STATUS_RESULT_PREVIEW_SHOWLINES_OFF);
 }
 
 void ResultController::toggleShowLanesHandler(wxEvtHandler *parent, bool show) {
@@ -276,6 +298,11 @@ void ResultController::toggleShowLanesHandler(wxEvtHandler *parent, bool show) {
 
     auto thread = tc->getResultPreviewThread();
     thread->SetShowLanes(show);
+
+    show ? UpdateStatusEvent::Submit(parent,
+                                     SC::STATUS_RESULT_PREVIEW_SHOWLANES_ON)
+         : UpdateStatusEvent::Submit(parent,
+                                     SC::STATUS_RESULT_PREVIEW_SHOWLANES_OFF);
 }
 
 void ResultController::setIndexToZeroHandler(wxEvtHandler *parent) {
@@ -291,6 +318,8 @@ void ResultController::setIndexToZeroHandler(wxEvtHandler *parent) {
 
     auto thread = tc->getResultPreviewThread();
     thread->SetImageIndex(0);
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_RESULT_PREVIEW_REPLAY);
 }
 
 void ResultController::panelShowHandler(wxEvtHandler *parent) {
