@@ -1,3 +1,6 @@
+#include "Event/Event_UpdateStatus.hpp"
+#include "UI/Data/StatusData.hpp"
+#include "UI/Dialog/RemoveCalibrationDialog.hpp"
 #include <Controller/ManualCalibrationController.hpp>
 
 ManualCalibrationController::ManualCalibrationController(ModelPtr sharedModel)
@@ -165,10 +168,11 @@ void ManualCalibrationController::e_RemoveRight(wxEvtHandler *parent) {
     }
 }
 
-void ManualCalibrationController::e_RemoveCalibData(wxEvtHandler *parent) {
+void ManualCalibrationController::e_RemoveCalibrationData(
+    wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        removeCalibDataHandler(parent);
+        removeCalibrationDataHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -189,6 +193,8 @@ void ManualCalibrationController::changeToLeftHandler(wxEvtHandler *parent) {
     auto thread = tc->getRunningManualCalibrationThread();
 
     thread->setDirection(ManualDirection::MANUAL_LEFT);
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_SELECTLEFT);
 }
 
 void ManualCalibrationController::changeToRightHandler(wxEvtHandler *parent) {
@@ -206,6 +212,8 @@ void ManualCalibrationController::changeToRightHandler(wxEvtHandler *parent) {
     auto thread = tc->getRunningManualCalibrationThread();
 
     thread->setDirection(ManualDirection::MANUAL_RIGHT);
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_SELECTRIGHT);
 }
 
 void ManualCalibrationController::leftDownHandler(wxEvtHandler *parent,
@@ -436,6 +444,8 @@ void ManualCalibrationController::removeLeftHandler(wxEvtHandler *parent) {
     calibData.lineLeft = Line();
 
     data->setCalibrationData(calibData);
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_REMOVELEFT);
 }
 
 void ManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
@@ -461,16 +471,23 @@ void ManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
     calibData.lineRight = Line();
 
     data->setCalibrationData(calibData);
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_REMOVERIGHT);
 }
 
-void ManualCalibrationController::removeCalibDataHandler(wxEvtHandler *parent) {
-    auto tc = shared->getThreadController();
-
+void ManualCalibrationController::removeCalibrationDataHandler(
+    wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 
-    auto data = shared->getSessionData();
+    auto wx = wxTheApp->GetTopWindow();
+    auto dialog = RemoveCalibrationDialog(wx);
+    if (dialog.ShowModal() == wxID_NO) {
+        return;
+    }
 
-    data->removeCalibrationData();
+    shared->sessionData.removeCalibrationData();
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_REMOVE_CALIBRATION_OK);
 }
 
 void ManualCalibrationController::panelShowHandler(wxEvtHandler *parent) {

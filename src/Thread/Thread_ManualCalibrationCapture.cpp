@@ -4,6 +4,7 @@
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
 #include "Thread/Thread_Base.hpp"
+#include "UI/Data/StatusData.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include <Thread/Thread_ManualCalibrationCapture.hpp>
 #include <opencv2/imgproc.hpp>
@@ -23,10 +24,14 @@ ManualCalibrationCaptureThread::~ManualCalibrationCaptureThread() {}
 wxThread::ExitCode ManualCalibrationCaptureThread::Entry() {
 
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
-                                         CALIBRATION_CAMERA_START);
+                                         CALIBRATION_CAPTURE_START);
     wxPostEvent(parent, startCalibrationEvent);
 
     try {
+
+        direction == ManualDirection::MANUAL_LEFT
+            ? UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_SELECTLEFT)
+            : UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_SELECTRIGHT);
 
         cv::Mat firstFrame;
 
@@ -59,12 +64,18 @@ wxThread::ExitCode ManualCalibrationCaptureThread::Entry() {
         }
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+
+        wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT,
+                                           CALIBRATION_CAPTURE_END);
+        wxPostEvent(parent, endCalibrationEvent);
+
+        return 0;
     }
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
 
     wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT,
-                                       CALIBRATION_CAMERA_END);
+                                       CALIBRATION_CAPTURE_END);
     wxPostEvent(parent, endCalibrationEvent);
     return 0;
 }

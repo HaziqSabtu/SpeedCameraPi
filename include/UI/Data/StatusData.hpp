@@ -62,5 +62,16 @@ const wxString STATUS_CALIBRATION_POINTREMOVED = wxT("Point Removed");
 const wxString STATUS_CALIBRATION_LINENOTFOUND = wxT("Line Not Found");
 const wxString STATUS_CALIBRATION_LINEOK = wxT("Line Found");
 
+const wxString STATUS_MANUAL_SELECTLEFT = wxT("Select Left Line");
+const wxString STATUS_MANUAL_REMOVELEFT = wxT("Left Line Removed");
+const wxString STATUS_MANUAL_SELECTRIGHT = wxT("Select Right Line");
+const wxString STATUS_MANUAL_REMOVERIGHT = wxT("Right Line Removed");
+
+const wxString STATUS_ROI_SELECT = wxT("Select ROI");
+const wxString STATUS_ROI_SELECTED = wxT("ROI Selected");
+const wxString STATUS_ROI_REMOVE = wxT("Roi Removed");
+const wxString STATUS_ROI_ERROR = wxT("Error Selecting ROI");
+const wxString STATUS_ROI_SAVE = wxT("ROI Saved");
+
 } // namespace StatusCollection
 // clang-format on

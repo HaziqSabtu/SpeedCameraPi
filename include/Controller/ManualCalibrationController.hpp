@@ -44,7 +44,7 @@ class ManualCalibrationController : public BaseControllerWithTouch {
     void e_RemoveLeft(wxEvtHandler *parent);
     void e_RemoveRight(wxEvtHandler *parent);
 
-    void e_RemoveCalibData(wxEvtHandler *parent);
+    void e_RemoveCalibrationData(wxEvtHandler *parent);
 
   private:
     static const PanelID currentPanelID = PanelID::PANEL_MANUAL_CALIBRATION;
@@ -76,7 +76,7 @@ class ManualCalibrationController : public BaseControllerWithTouch {
     void removeLeftHandler(wxEvtHandler *parent);
     void removeRightHandler(wxEvtHandler *parent);
 
-    void removeCalibDataHandler(wxEvtHandler *parent);
+    void removeCalibrationDataHandler(wxEvtHandler *parent);
 
     void panelShowHandler(wxEvtHandler *parent) override;
 };

@@ -135,10 +135,12 @@ void CalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
 
     if (e.GetId() == CALIBRATION_CAMERA_END) {
         status_panel->SetText(SC::STATUS_CALIBRATION_CAMERA_END);
+        unBindAll();
     }
 
     if (e.GetId() == CALIBRATION_CAMERA_ERROR) {
         status_panel->SetText(SC::STATUS_CALIBRATION_CAMERA_ERROR);
+        unBindAll();
     }
 
     if (e.GetId() == CALIBRATION_CAPTURE_START) {
@@ -147,10 +149,12 @@ void CalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
 
     if (e.GetId() == CALIBRATION_CAPTURE_END) {
         status_panel->SetText(SC::STATUS_CALIBRATION_CAPTURE_END);
+        unBindAll();
     }
 
     if (e.GetId() == CALIBRATION_CAPTURE_ERROR) {
         status_panel->SetText(SC::STATUS_CALIBRATION_CAPTURE_ERROR);
+        unBindAll();
     }
 }
 

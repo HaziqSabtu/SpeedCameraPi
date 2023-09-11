@@ -35,6 +35,10 @@ wxThread::ExitCode ManualCalibrationCameraThread::Entry() {
 
     try {
 
+        direction == ManualDirection::MANUAL_LEFT
+            ? UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_SELECTLEFT)
+            : UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_SELECTRIGHT);
+
         while (!TestDestroy()) {
             cv::Mat frame;
             camera->getFrame(frame);
@@ -62,6 +66,12 @@ wxThread::ExitCode ManualCalibrationCameraThread::Entry() {
         }
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+
+        wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT,
+                                           CALIBRATION_CAMERA_ERROR);
+        wxPostEvent(parent, endCalibrationEvent);
+
+        return 0;
     }
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);

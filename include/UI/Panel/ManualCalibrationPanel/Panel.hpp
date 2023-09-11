@@ -42,7 +42,8 @@ class ManualCalibrationPanel : public BasePanelWithTouch {
 
     void OnButton(wxCommandEvent &e);
     void OnCalibrationEvent(wxCommandEvent &e);
-    void OnCapture(wxCommandEvent &e);
+    void OnPreviewCapture(wxCommandEvent &e);
+    void OnPreviewCamera(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

@@ -15,7 +15,7 @@ RoiPreviewThread::~RoiPreviewThread() {}
 
 wxThread::ExitCode RoiPreviewThread::Entry() {
 
-    wxCommandEvent startCaptureEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_START);
+    wxCommandEvent startCaptureEvent(c_PREVIEW_CAPTURE_EVENT, PREVIEW_START);
     wxPostEvent(parent, startCaptureEvent);
 
     try {
@@ -43,12 +43,18 @@ wxThread::ExitCode RoiPreviewThread::Entry() {
         }
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+
+        wxCommandEvent errorCaptureEvent(c_PREVIEW_CAPTURE_EVENT,
+                                         PREVIEW_ERROR);
+        wxPostEvent(parent, errorCaptureEvent);
+
+        return 0;
     }
 
     UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
     wxPostEvent(parent, clearPreviewEvent);
 
-    wxCommandEvent endCaptureEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_END);
+    wxCommandEvent endCaptureEvent(c_PREVIEW_CAPTURE_EVENT, PREVIEW_END);
     wxPostEvent(parent, endCaptureEvent);
 
     return 0;

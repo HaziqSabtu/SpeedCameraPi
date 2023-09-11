@@ -38,10 +38,8 @@ class RoiPanel : public BasePanelWithTouch {
     void TogglePreviewButtonHandler(BitmapButtonT2 *button);
 
     void OnButton(wxCommandEvent &e);
-    void OnCalibrationEvent(wxCommandEvent &e);
-    void OnLeftDown(wxMouseEvent &e);
-    void OnMotion(wxMouseEvent &e);
-    void OnLeftUp(wxMouseEvent &e);
+    void OnPreviewCapture(wxCommandEvent &e);
+    void OnRoi(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

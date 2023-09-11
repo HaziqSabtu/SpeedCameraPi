@@ -75,7 +75,6 @@ void RotateImage(std::vector<cv::Mat> &imgData, int angle) {
     }
 }
 
-// TODO: Utils->algorithm
 /**
  * @brief Calculate trimmed mean
  *

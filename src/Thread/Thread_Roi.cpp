@@ -1,5 +1,6 @@
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_Error.hpp"
+#include "Event/Event_Roi.hpp"
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
@@ -20,9 +21,8 @@ RoiThread::~RoiThread() {}
 
 wxThread::ExitCode RoiThread::Entry() {
 
-    wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
-                                         CALIBRATION_CAMERA_START);
-    wxPostEvent(parent, startCalibrationEvent);
+    wxCommandEvent startRoiEvent(c_ROI_EVENT, ROI_START);
+    wxPostEvent(parent, startRoiEvent);
 
     try {
 
@@ -47,13 +47,17 @@ wxThread::ExitCode RoiThread::Entry() {
 
     } catch (const std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
+
+        wxCommandEvent errorRoiEvent(c_ROI_EVENT, ROI_ERROR);
+        wxPostEvent(parent, errorRoiEvent);
+
+        return 0;
     }
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
 
-    wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT,
-                                       CALIBRATION_CAMERA_END);
-    wxPostEvent(parent, endCalibrationEvent);
+    wxCommandEvent endRoiEvent(c_ROI_EVENT, ROI_END);
+    wxPostEvent(parent, endRoiEvent);
     return 0;
 }
 

@@ -19,7 +19,6 @@ TitleText::TitleText(wxWindow *parent, wxWindowID id, PanelID panel_id)
     sizer->AddStretchSpacer();
 }
 
-// TODO: Move to Data
 wxString TitleText::panelID_to_string(PanelID panel_id) {
 
     if (panel_id == PanelID::PANEL_CAPTURE) {

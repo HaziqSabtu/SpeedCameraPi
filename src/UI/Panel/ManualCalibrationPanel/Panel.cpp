@@ -71,7 +71,7 @@ void ManualCalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::MC_Remove_Button_ID) {
-        controller->e_RemoveCalibData(this);
+        controller->e_RemoveCalibrationData(this);
     }
 
     e.Skip();
@@ -135,31 +135,74 @@ void ManualCalibrationPanel::ToggleCalibrationCaptureButtonHandler(
 
 void ManualCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     if (e.GetId() == CALIBRATION_CAMERA_START) {
-        status_panel->SetText(SC::STATUS_START_CALIBRATION);
-
-        // Bind Left Down Event
-        img_bitmap->Bind(wxEVT_LEFT_DOWN, &ManualCalibrationPanel::OnLeftDown,
-                         this);
+        status_panel->SetText(SC::STATUS_CALIBRATION_CAMERA_START);
+        bindLeftDown();
     }
 
     if (e.GetId() == CALIBRATION_CAMERA_END) {
-        status_panel->SetText(SC::STATUS_CALIBRATION_SUCCESS);
+        status_panel->SetText(SC::STATUS_CALIBRATION_CAMERA_END);
+        unBindAll();
+    }
+
+    if (e.GetId() == CALIBRATION_CAMERA_ERROR) {
+        status_panel->SetText(SC::STATUS_CALIBRATION_CAMERA_ERROR);
+        unBindAll();
+    }
+
+    if (e.GetId() == CALIBRATION_CAPTURE_START) {
+        status_panel->SetText(SC::STATUS_CALIBRATION_CAPTURE_START);
+        bindLeftDown();
+    }
+
+    if (e.GetId() == CALIBRATION_CAPTURE_END) {
+        status_panel->SetText(SC::STATUS_CALIBRATION_CAPTURE_END);
+        unBindAll();
+    }
+
+    if (e.GetId() == CALIBRATION_CAPTURE_ERROR) {
+        status_panel->SetText(SC::STATUS_CALIBRATION_CAPTURE_ERROR);
+        unBindAll();
     }
 }
 
-void ManualCalibrationPanel::OnCapture(wxCommandEvent &e) {
+void ManualCalibrationPanel::OnPreviewCapture(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
-        status_panel->SetText(SC::STATUS_CAMERA_ON);
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_START);
     }
 
     if (e.GetId() == PREVIEW_END) {
-        status_panel->SetText(SC::STATUS_CAMERA_OFF);
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_END);
     }
+
+    if (e.GetId() == PREVIEW_ERROR) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_ERROR);
+    }
+
+    controller->e_UpdateState(this);
+    e.Skip();
+}
+
+void ManualCalibrationPanel::OnPreviewCamera(wxCommandEvent &e) {
+    if (e.GetId() == PREVIEW_START) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_START);
+    }
+
+    if (e.GetId() == PREVIEW_END) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_END);
+    }
+
+    if (e.GetId() == PREVIEW_ERROR) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_ERROR);
+    }
+
+    controller->e_UpdateState(this);
+    e.Skip();
 }
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(ManualCalibrationPanel, BasePanelWithTouch)
     EVT_BUTTON(wxID_ANY, ManualCalibrationPanel::OnButton)
     EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, ManualCalibrationPanel::OnCalibrationEvent)
-    EVT_COMMAND(wxID_ANY, c_PREVIEW_CAMERA_EVENT, ManualCalibrationPanel::OnCapture)
+    EVT_COMMAND(wxID_ANY, c_PREVIEW_CAPTURE_EVENT, ManualCalibrationPanel::OnPreviewCapture)
+    EVT_COMMAND(wxID_ANY, c_PREVIEW_CAMERA_EVENT, ManualCalibrationPanel::OnPreviewCamera)
 wxEND_EVENT_TABLE()

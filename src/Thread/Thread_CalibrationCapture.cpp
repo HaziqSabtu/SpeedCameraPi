@@ -99,6 +99,8 @@ wxThread::ExitCode CalibrationCaptureThread::Entry() {
         wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT,
                                            CALIBRATION_CAPTURE_END);
         wxPostEvent(parent, endCalibrationEvent);
+
+        return 0;
     }
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);

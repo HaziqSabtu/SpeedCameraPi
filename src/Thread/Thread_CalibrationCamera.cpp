@@ -105,6 +105,8 @@ wxThread::ExitCode CalibrationCameraThread::Entry() {
         wxCommandEvent endCalibrationEvent(c_CALIBRATION_EVENT,
                                            CALIBRATION_CAMERA_ERROR);
         wxPostEvent(parent, endCalibrationEvent);
+
+        return 0;
     }
 
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);

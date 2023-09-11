@@ -139,7 +139,6 @@ void OpticalFlowData::push(std::vector<cv::Point2f> points) {
  * @throw "No points detected" if points is empty
  * @throw "Size of points and OFData not match" if size of points and OFData not
  */
-// TODO: Refractor again
 void OpticalFlowData::push(OpticalFlowData &OFData,
                            std::vector<cv::Point2f> points,
                            std::vector<float> errors,

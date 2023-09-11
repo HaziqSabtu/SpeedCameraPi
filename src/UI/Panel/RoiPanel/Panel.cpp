@@ -1,9 +1,11 @@
 #include "Controller/ManualCalibrationController.hpp"
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
+#include "Event/Event_Roi.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 
 #include "Model/AppState.hpp"
+#include "UI/Data/StatusData.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/RoiPanel/Panel_Button.hpp"
@@ -85,22 +87,45 @@ void RoiPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
-void RoiPanel::OnCalibrationEvent(wxCommandEvent &e) {
-    if (e.GetId() == CALIBRATION_CAMERA_START) {
-        status_panel->SetText(SC::STATUS_START_CALIBRATION);
+void RoiPanel::OnRoi(wxCommandEvent &e) {
+    if (e.GetId() == ROI_START) {
+        status_panel->SetText(SC::STATUS_ROI_SELECT);
 
         // Bind Left Down Event
         bindLeftDown();
     }
 
-    if (e.GetId() == CALIBRATION_CAMERA_END) {
-        status_panel->SetText(SC::STATUS_CALIBRATION_SUCCESS);
+    if (e.GetId() == ROI_END) {
+        status_panel->SetText(SC::STATUS_ROI_SAVE);
         unBindAll();
     }
+
+    if (e.GetId() == ROI_ERROR) {
+        status_panel->SetText(SC::STATUS_ROI_ERROR);
+        unBindAll();
+    }
+}
+
+void RoiPanel::OnPreviewCapture(wxCommandEvent &e) {
+    if (e.GetId() == PREVIEW_START) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_START);
+    }
+
+    if (e.GetId() == PREVIEW_END) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_END);
+    }
+
+    if (e.GetId() == PREVIEW_ERROR) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_ERROR);
+    }
+
+    controller->e_UpdateState(this);
+    e.Skip();
 }
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(RoiPanel, BasePanelWithTouch)
     EVT_BUTTON(wxID_ANY,RoiPanel::OnButton) 
-    EVT_COMMAND(wxID_ANY, c_CALIBRATION_EVENT, RoiPanel::OnCalibrationEvent)
+    EVT_COMMAND(wxID_ANY, c_ROI_EVENT, RoiPanel::OnRoi)
+    EVT_COMMAND(wxID_ANY, c_PREVIEW_CAPTURE_EVENT, RoiPanel::OnPreviewCapture)
 wxEND_EVENT_TABLE()

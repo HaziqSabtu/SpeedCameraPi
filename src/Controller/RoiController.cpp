@@ -1,3 +1,5 @@
+#include "Event/Event_UpdateStatus.hpp"
+#include "UI/Dialog/RemoveRoiDialog.hpp"
 #include <Controller/RoiController.hpp>
 
 RoiController::RoiController(ModelPtr sharedModel)
@@ -133,7 +135,15 @@ void RoiController::removeRectHandler(wxEvtHandler *parent) {
         throw std::runtime_error("Tracking data is empty");
     }
 
+    auto wx = wxTheApp->GetTopWindow();
+    auto dialog = new RemoveRoiDialog(wx);
+    if (dialog->ShowModal() == wxID_NO) {
+        return;
+    }
+
     data->clearTrackingData();
+
+    UpdateStatusEvent::Submit(parent, "ROI removed");
 }
 
 void RoiController::leftDownHandler(wxEvtHandler *parent, cv::Point point) {
@@ -195,6 +205,8 @@ void RoiController::leftUpHandler(wxEvtHandler *parent, cv::Point point) {
 
     auto sessionData = shared->getSessionData();
     sessionData->setTrackingData(data);
+
+    UpdateStatusEvent::Submit(parent, SC::STATUS_ROI_SELECTED);
 }
 
 void RoiController::roiThreadStartHandler(wxEvtHandler *parent) {
