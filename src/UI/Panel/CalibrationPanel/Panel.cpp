@@ -5,6 +5,7 @@
 #include "Event/Event_Error.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 
+#include "UI/Data/StatusData.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include "UI/Panel/CalibrationPanel/Panel_Button.hpp"
 #include "Utils/Enum.hpp"
@@ -156,6 +157,17 @@ void CalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
         status_panel->SetText(SC::STATUS_CALIBRATION_CAPTURE_ERROR);
         unBindAll();
     }
+
+    if (e.GetId() == CALIBRATION_LINE_FOUND) {
+        controller->e_SaveData(this);
+        status_panel->SetText(SC::STATUS_CALIBRATION_LINEOK);
+    }
+
+    if (e.GetId() == CALIBRATION_LINE_NOT_FOUND) {
+        status_panel->SetText(SC::STATUS_CALIBRATION_LINENOTFOUND);
+    }
+
+    controller->e_UpdateState(this);
 }
 
 void CalibrationPanel::OnPreviewCapture(wxCommandEvent &e) {

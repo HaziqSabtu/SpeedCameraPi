@@ -52,5 +52,17 @@ const wxString Text =
     "Trimming Data requires the Roi and Calibration data to be "
     "removed. Do you want to continue? This action cannot be undone.";
 } // namespace TrimData
+
+namespace ResetConfig {
+const wxString Title = "Reset Config";
+const wxString Text = "Are you sure you want to reset the configuration? "
+                      "This action cannot be undone.";
+} // namespace ResetConfig
+
+namespace ExitApp {
+const wxString Title = "Exit";
+const wxString Text = "Are you sure you want to exit the application?";
+} // namespace ExitApp
+
 } // namespace Dialog
 } // namespace Data

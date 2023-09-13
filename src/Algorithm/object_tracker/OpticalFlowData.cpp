@@ -71,14 +71,10 @@ cv::Rect DetectionData::GetRect() { return cv::boundingRect(GetPoints()); }
  * @return Line
  */
 Line DetectionData::GetLine() {
-    std::cout << "GetLine" << std::endl;
     std::vector<cv::Point2f> p = GetPoints();
-    std::cout << "GetPoints: p size" << p.size() << std::endl;
     std::sort(p.begin(), p.end(),
               [](cv::Point2f &a, cv::Point2f &b) { return a.y > b.y; });
-    std::cout << "Sort" << std::endl;
     cv::Point2f selected = p.front();
-    std::cout << "Selected: " << selected << std::endl;
     return Line(selected, cv::Point2f(selected.x + 1, selected.y));
 }
 

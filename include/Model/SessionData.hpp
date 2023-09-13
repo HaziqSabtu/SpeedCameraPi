@@ -252,49 +252,6 @@ class SessionData {
     /**
     *
     *
-    * Allign Data Vector
-    *
-    *
-    */
-    /////////////////////////////////////////////////////////
-    //   private:
-    //     ADVector allignData;
-
-    //   public:
-    //     void setAllignData(ADVector &data) { allignData = data; }
-
-    //     void setAllignDataAt(int index, AllignData &data) {
-    //         if (isAllignDataEmpty()) {
-    //             throw std::runtime_error("Allign Data is empty");
-    //         }
-
-    //         if (index < 0 || index >= captureData.size()) {
-    //             throw std::runtime_error("Index out of range");
-    //         }
-
-    //         allignData[index] = data;
-    //     }
-
-    //     void removeAllignData() { allignData.clear(); }
-
-    //     ADVector getAllignData() { return allignData; }
-
-    //     bool isAllignDataEmpty() { return allignData.empty(); }
-
-    //     void initAllignData() {
-    //         if (isCaptureDataEmpty()) {
-    //             throw std::runtime_error("Capture Data is empty");
-    //         }
-
-    //         if (isAllignDataEmpty()) {
-    //             allignData.resize(captureData.size());
-    //         }
-    //     }
-
-    /////////////////////////////////////////////////////////
-    /**
-    *
-    *
     * Calibration Data
     *
     *
@@ -383,7 +340,6 @@ class SessionData {
         id = other.id;
         currentPanelID = other.currentPanelID;
         captureData = other.captureData;
-        // allignData = other.allignData;
         calibrationData = other.calibrationData;
         trackingData = other.trackingData;
         resultData = other.resultData;
@@ -393,7 +349,6 @@ class SessionData {
     bool operator==(const SessionData &other) const {
         return (id == other.id && currentPanelID == other.currentPanelID &&
                 captureData == other.captureData &&
-                // allignData == other.allignData &&
                 calibrationData == other.calibrationData &&
                 trackingData == other.trackingData &&
                 resultData == other.resultData);

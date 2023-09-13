@@ -184,11 +184,6 @@ void AppConfig::ResetSensorConfig() {
     sensorConfig.SensorWidth = Default_Sensor_Width;
     sensorConfig.SensorFocalLength = Default_Sensor_Focal_Length;
 
-    std::cout << "Reset sensor config" << std::endl;
-    std::cout << "Sensor width: " << sensorConfig.SensorWidth << std::endl;
-    std::cout << "Sensor focal length: " << sensorConfig.SensorFocalLength
-              << std::endl;
-
     SetSensorConfig(sensorConfig);
 }
 

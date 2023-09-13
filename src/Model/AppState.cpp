@@ -1282,7 +1282,9 @@ ButtonState AppState::getTDDecEndButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getTDOKButtonState(ModelPtr model) {
-    if (model->isSessionDataChanged()) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
         return ButtonState::NORMAL;
     }
 

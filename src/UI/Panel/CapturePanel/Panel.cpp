@@ -95,7 +95,8 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
 
 void CapturePanel::LoadButtonHandler() {
 #if DEBUG
-    std::string path = "./2023823_15547.scpdata";
+    std::string path = "./DEBUG_615629056.scpdata";
+    // std::string path = "./2023823_15547.scpdata";
 
     controller->e_LoadFileStart(this, path);
 #else

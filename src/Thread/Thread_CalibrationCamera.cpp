@@ -83,11 +83,13 @@ wxThread::ExitCode CalibrationCameraThread::Entry() {
                 }
 
                 if (yellowLine.isNull() && blueLine.isNull()) {
-                    UpdateStatusEvent::Submit(parent,
-                                              SC::STATUS_CALIBRATION_LINEOK);
+                    wxCommandEvent lineOKEvent(c_CALIBRATION_EVENT,
+                                               CALIBRATION_LINE_FOUND);
+                    wxPostEvent(parent, lineOKEvent);
                 } else {
-                    UpdateStatusEvent::Submit(
-                        parent, SC::STATUS_CALIBRATION_LINENOTFOUND);
+                    wxCommandEvent lineNotOKEvent(c_CALIBRATION_EVENT,
+                                                  CALIBRATION_LINE_NOT_FOUND);
+                    wxPostEvent(parent, lineNotOKEvent);
                 }
             }
 
@@ -139,6 +141,16 @@ void BaseCalibrationThread::updateLeftLine(Line line) {
     leftLine = line;
 }
 
+bool BaseCalibrationThread::isBothLineValid() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    if (leftLine.isNull() || rightLine.isNull()) {
+        return false;
+    }
+
+    return true;
+    // return !leftLine.isNull() && !rightLine.isNull();
+}
+
 ThreadID CalibrationCameraThread::getID() const { return threadID; }
 
 CalibrationData CalibrationCameraThread::getCalibrationData() {
@@ -147,12 +159,12 @@ CalibrationData CalibrationCameraThread::getCalibrationData() {
 
 Line CalibrationCameraThread::getRealRightLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    auto rl = rightLine.Scale(imageSize, pSize);
+    auto rl = rightLine.Scale(pSize, imageSize);
     return rl;
 }
 
 Line CalibrationCameraThread::getRealLeftLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
-    auto ll = leftLine.Scale(imageSize, pSize);
+    auto ll = leftLine.Scale(pSize, imageSize);
     return ll;
 }

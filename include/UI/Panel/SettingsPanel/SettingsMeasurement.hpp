@@ -16,5 +16,15 @@ class SettingsMeasurementComponent : public SettingsComponent {
     const STDV ObjectWidthDD = DSPMes::ObjectWidthDD;
     const SCDI ObjectWidthCtrlData = DSPMes::ObjectWidthCtrlData;
 
+    void laneSizeButtonHandler(wxCommandEvent &e);
+    void matSizeButtonHandler(wxCommandEvent &e);
+
     SettingsChildComponentInt *objectWidth;
+
+    wxButton *laneSizeButton;
+    wxButton *matSizeButton;
+
+    // in mm
+    const int LANE_WIDTH = 3500;
+    const int MAT_WIDTH = 380;
 };

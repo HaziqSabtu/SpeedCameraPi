@@ -20,10 +20,6 @@ SettingsSensorComponent::SettingsSensorComponent(wxWindow *parent)
 void SettingsSensorComponent::setValue(const SensorConfig &config) {
     width->getControl()->setValue(config.SensorWidth);
     focalLength->getControl()->setValue(config.SensorFocalLength);
-
-    std::cout << "SettingsSensorComponent::setValue" << std::endl;
-    std::cout << "SensorWidth: " << config.SensorWidth << std::endl;
-    std::cout << "SensorFocalLength: " << config.SensorFocalLength << std::endl;
 }
 
 SensorConfig SettingsSensorComponent::getValue() {

@@ -46,6 +46,8 @@ class BaseCalibrationThread : public BaseThread, public PreviewableThread {
   protected:
     void updateRightLine(Line line);
     void updateLeftLine(Line line);
+
+    bool isBothLineValid();
 };
 
 class CalibrationCameraThread : public BaseCalibrationThread,

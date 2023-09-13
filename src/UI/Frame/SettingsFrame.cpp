@@ -1,3 +1,4 @@
+#include "UI/Dialog/ResetConfigDialog.hpp"
 #include "UI/Layout/TitlePanel.hpp"
 #include "UI/Panel/SettingsPanel/SettingsPanel.hpp"
 #include "Utils/Config/ConfigStruct.hpp"
@@ -76,17 +77,17 @@ void SettingsFrame::CancelButtonHandler() {
 }
 
 void SettingsFrame::ResetButtonHandler() {
+    auto dialog = new ResetConfigDialog(this);
+    if (dialog->ShowModal() == wxID_NO) {
+        return;
+    }
+
     AppConfig c;
     c.ResetConfig();
 
     auto newSettings = c.GetConfig();
     settingsPanel->setSettingsModel(newSettings);
-
-    std::cout << "Reset" << std::endl;
     auto sensorConfig = newSettings.sensorConfig;
-    std::cout << "SensorWidth: " << sensorConfig.SensorWidth << std::endl;
-    std::cout << "SensorFocalLength: " << sensorConfig.SensorFocalLength
-              << std::endl;
 }
 
 BEGIN_EVENT_TABLE(SettingsFrame, wxFrame)

@@ -38,6 +38,8 @@ class CalibrationController : public BaseControllerWithTouch {
 
     void e_ClearPoint(wxEvtHandler *parent);
 
+    void e_SaveData(wxEvtHandler *parent);
+
     void e_CalibrationCameraStart(wxEvtHandler *parent);
     void e_CalibrationCameraEnd(wxEvtHandler *parent);
 
@@ -63,6 +65,8 @@ class CalibrationController : public BaseControllerWithTouch {
 
     void saveCalibrationData(wxEvtHandler *parent,
                              BaseCalibrationThread *thread);
+
+    void saveDataHandler(wxEvtHandler *parent);
 
     void calibrationCameraStartHandler(wxEvtHandler *parent);
     void calibrationCameraEndHandler(wxEvtHandler *parent);

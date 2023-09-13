@@ -123,6 +123,15 @@ void CalibrationController::e_ClearPoint(wxEvtHandler *parent) {
     }
 }
 
+void CalibrationController::e_SaveData(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        saveDataHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void CalibrationController::calibrationCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -288,6 +297,23 @@ void CalibrationController::leftDownHandler(wxEvtHandler *parent,
     thread->setPoint(point);
 
     UpdateStatusEvent::Submit(parent, SC::STATUS_CALIBRATION_POINTSELECTED);
+}
+
+void CalibrationController::saveDataHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isCalibrationThreadRunning()) {
+        throw std::runtime_error("calibration Thread is not running");
+    }
+
+    if (!tc->isCalibrationThreadOwner(panelID)) {
+        throw std::runtime_error(
+            "calibration Thread is not owned by this panel");
+    }
+
+    auto thread = tc->getRunningCalibrationThread();
+
+    saveCalibrationData(parent, thread);
 }
 
 void CalibrationController::leftMoveHandler(wxEvtHandler *parent,

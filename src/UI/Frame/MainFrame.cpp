@@ -7,6 +7,7 @@
 #include "UI/Data/Data.hpp"
 #include "UI/Data/Theme.hpp"
 #include "UI/Dialog/ConfirmationDialog.hpp"
+#include "UI/Dialog/ExitAppDialog.hpp"
 #include "UI/Frame/InfoFrame.hpp"
 #include "UI/Frame/SettingsFrame.hpp"
 #include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
@@ -139,11 +140,16 @@ void MainFrame::ExitButtonHandler(wxCommandEvent &e) {
 
 #else
 void MainFrame::ExitButtonHandler(wxCommandEvent &e) {
-    ConfirmationDialog dialog(this,
-                              "Are you sure you want to exit the application?");
-    if (dialog.ShowModal() == wxID_YES) {
+    auto dialog = new ExitAppDialog(this);
+    int result = dialog->ShowModal();
+    if (result == wxID_YES) {
         sharedModel->killAllThreads();
         Close();
+    }
+
+    if (result == dialog->getShutdownButtonID()) {
+        sharedModel->killAllThreads();
+        wxShutdown();
     }
 }
 #endif
