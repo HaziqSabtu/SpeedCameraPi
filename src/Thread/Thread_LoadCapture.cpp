@@ -89,19 +89,24 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
             if (!debug_ShowImagesWhenCapture) {
                 continue;
             }
+
+            cv::resize(frame, frame, pSize);
+            UpdatePreviewEvent::Submit(parent, frame);
+
+            // is this necessary?
+            // wxMilliSleep(200);
         }
 
         data->setCaptureData(vec);
 
-        // showing captured frames
-        for (int i = 0; i < maxFrame; i++) {
-            cv::Mat frame = vec.at(i).image.clone();
-            cv::resize(frame, frame, pSize);
-            UpdatePreviewEvent updatePreviewEvent(c_UPDATE_PREVIEW_EVENT,
-                                                  UPDATE_PREVIEW);
-            updatePreviewEvent.SetImage(frame);
-            wxPostEvent(parent, updatePreviewEvent);
-            wxMilliSleep(200);
+        // showing captured frames after finish capturing
+        if (!debug_ShowImagesWhenCapture) {
+            for (int i = 0; i < maxFrame; i++) {
+                cv::Mat frame = vec.at(i).image.clone();
+                cv::resize(frame, frame, pSize);
+                UpdatePreviewEvent::Submit(parent, frame);
+                wxMilliSleep(200);
+            }
         }
 
         if (debug_SaveImageData) {
@@ -109,8 +114,6 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
             auto filename = "DEBUG_" + random;
 
             Utils::FileReadWrite().WriteFile(data, filename);
-
-            std::cerr << "DEBUG: Saved to " << filename << std::endl;
         }
 
     } catch (const std::exception &e) {

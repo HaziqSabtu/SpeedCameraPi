@@ -51,8 +51,7 @@ wxThread::ExitCode RoiPreviewThread::Entry() {
         return 0;
     }
 
-    UpdatePreviewEvent clearPreviewEvent(c_UPDATE_PREVIEW_EVENT, CLEAR_PREVIEW);
-    wxPostEvent(parent, clearPreviewEvent);
+    UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
 
     wxCommandEvent endCaptureEvent(c_PREVIEW_CAPTURE_EVENT, PREVIEW_END);
     wxPostEvent(parent, endCaptureEvent);

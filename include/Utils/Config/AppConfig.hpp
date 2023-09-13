@@ -14,8 +14,9 @@ class AppConfig {
     AppConfig();
     ~AppConfig();
 
-    void ResetConfig();
+    SettingsModel GetConfig();
     void SaveConfig(const SettingsModel &model);
+    void ResetConfig();
 
     ModelConfig GetModelConfig();
     void SetModelConfig(ModelConfig config);
@@ -60,8 +61,6 @@ class AppConfig {
     ThreadsConfig GetThreadsConfig();
     void SetThreadsConfig(ThreadsConfig config);
     void ResetThreadsConfig();
-
-    SettingsModel GetSettingsModel();
 
   private:
     wxFileConfig *config;

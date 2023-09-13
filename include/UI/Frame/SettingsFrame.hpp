@@ -12,7 +12,7 @@ class SettingsFrame : public wxFrame {
 
     TitlePanel *title_panel;
 
-    SettingsScrollPanel *scrolled_panel;
+    SettingsScrollPanel *settingsPanel;
 
     OKCancelResetPanel *ok_cancel_panel;
 

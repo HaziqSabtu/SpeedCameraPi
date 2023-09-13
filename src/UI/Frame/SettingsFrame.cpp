@@ -12,8 +12,8 @@ SettingsFrame::SettingsFrame() : wxFrame(nullptr, wxID_ANY, "Settings") {
     title_panel = new TitlePanel(this, panel_id);
     sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
 
-    scrolled_panel = new SettingsScrollPanel(this);
-    sizer->Add(scrolled_panel, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
+    settingsPanel = new SettingsScrollPanel(this);
+    sizer->Add(settingsPanel, 1, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
 
     ok_cancel_panel = new OKCancelResetPanel(this);
     sizer->Add(ok_cancel_panel, 0, wxEXPAND | wxALL, 10);
@@ -44,7 +44,7 @@ void SettingsFrame::OnButton(wxCommandEvent &e) {
 }
 
 void SettingsFrame::OkButtonHandler() {
-    SettingsModel model = scrolled_panel->getSettingsModel();
+    SettingsModel model = settingsPanel->getSettingsModel();
 
     AppConfig c;
     c.SaveConfig(model);
@@ -53,11 +53,11 @@ void SettingsFrame::OkButtonHandler() {
 }
 
 void SettingsFrame::CancelButtonHandler() {
-    SettingsModel model = scrolled_panel->getSettingsModel();
+    SettingsModel model = settingsPanel->getSettingsModel();
 
     AppConfig c;
 
-    if (c.GetSettingsModel() == model) {
+    if (c.GetConfig() == model) {
         Close();
         return;
     }
@@ -76,13 +76,17 @@ void SettingsFrame::CancelButtonHandler() {
 }
 
 void SettingsFrame::ResetButtonHandler() {
-    SettingsModel model = scrolled_panel->getSettingsModel();
-
     AppConfig c;
     c.ResetConfig();
 
-    auto new_model = c.GetSettingsModel();
-    scrolled_panel->setSettingsModel(new_model);
+    auto newSettings = c.GetConfig();
+    settingsPanel->setSettingsModel(newSettings);
+
+    std::cout << "Reset" << std::endl;
+    auto sensorConfig = newSettings.sensorConfig;
+    std::cout << "SensorWidth: " << sensorConfig.SensorWidth << std::endl;
+    std::cout << "SensorFocalLength: " << sensorConfig.SensorFocalLength
+              << std::endl;
 }
 
 BEGIN_EVENT_TABLE(SettingsFrame, wxFrame)

@@ -171,8 +171,8 @@ SensorConfig AppConfig::GetSensorConfig() {
 }
 
 void AppConfig::SetSensorConfig(SensorConfig sensorConfig) {
-    int sensorWidth = sensorConfig.SensorWidth;
-    int sensorFocalLength = sensorConfig.SensorFocalLength;
+    double sensorWidth = sensorConfig.SensorWidth;
+    double sensorFocalLength = sensorConfig.SensorFocalLength;
 
     config->SetPath("/Sensor_Parameter");
     config->Write("Sensor_Width", sensorWidth);
@@ -183,6 +183,11 @@ void AppConfig::ResetSensorConfig() {
     SensorConfig sensorConfig;
     sensorConfig.SensorWidth = Default_Sensor_Width;
     sensorConfig.SensorFocalLength = Default_Sensor_Focal_Length;
+
+    std::cout << "Reset sensor config" << std::endl;
+    std::cout << "Sensor width: " << sensorConfig.SensorWidth << std::endl;
+    std::cout << "Sensor focal length: " << sensorConfig.SensorFocalLength
+              << std::endl;
 
     SetSensorConfig(sensorConfig);
 }
@@ -196,7 +201,7 @@ MeasurementConfig AppConfig::GetMeasurementConfig() {
 }
 
 void AppConfig::SetMeasurementConfig(MeasurementConfig measurementConfig) {
-    int objectWidth = measurementConfig.ObjectWidth;
+    double objectWidth = measurementConfig.ObjectWidth;
 
     config->SetPath("/Measurement_Parameter");
     config->Write("Object_Width", objectWidth);
@@ -496,7 +501,7 @@ void AppConfig::ResetThreadsConfig() {
     SetThreadsConfig(threadsConfig);
 }
 
-SettingsModel AppConfig::GetSettingsModel() {
+SettingsModel AppConfig::GetConfig() {
     SettingsModel settingsModel;
     settingsModel.modelConfig = GetModelConfig();
     settingsModel.cameraConfig = GetCameraConfig();
