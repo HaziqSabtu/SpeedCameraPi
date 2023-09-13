@@ -85,7 +85,6 @@ wxThread::ExitCode LoadCaptureThread::Entry() {
             // if running in VNC there are possibility that the image
             // captured at wrong captured time ... better turn off for now
             // show the result after finish capturing instead
-            // TODO:Show images when capturing
             if (!debug_ShowImagesWhenCapture) {
                 continue;
             }
