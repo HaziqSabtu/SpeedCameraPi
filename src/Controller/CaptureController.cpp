@@ -231,6 +231,8 @@ void CaptureController::clearImageDataHandler(wxEvtHandler *parent) {
 
     UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_REMOVE_DATA);
     UpdatePreviewEvent::Submit(parent, CLEAR_PREVIEW);
+
+    cameraPreviewStartHandler(parent);
 }
 
 void CaptureController::cameraPreviewStartHandler(wxEvtHandler *parent) {
@@ -271,7 +273,8 @@ void CaptureController::loadFileStartHandler(wxEvtHandler *parent,
 
     auto tc = shared->getThreadController();
 
-    throwIfAnyThreadIsRunning();
+    killAllThreads(parent);
+    // throwIfAnyThreadIsRunning();
 
     if (!shared->sessionData.isCaptureDataEmpty()) {
         throw std::runtime_error("ImageData is not empty");
@@ -301,7 +304,8 @@ void CaptureController::loadFileEndHandler(wxEvtHandler *parent) {
 void CaptureController::loadCaptureStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
-    throwIfAnyThreadIsRunning();
+    killAllThreads(parent);
+    // throwIfAnyThreadIsRunning();
 
     if (!shared->isCameraAvailable()) {
         throw std::runtime_error("Error acquiring camera");
@@ -516,6 +520,10 @@ void CaptureController::changeToTrimDataPanelHandler(wxEvtHandler *parent) {
 void CaptureController::panelShowHandler(wxEvtHandler *parent) {
     // do nothing
     // do not create temp session data
+
+    if (shared->sessionData.isCaptureDataEmpty()) {
+        cameraPreviewStartHandler(parent);
+    }
 }
 
 void CaptureController::okButtonHandler(wxEvtHandler *parent) {

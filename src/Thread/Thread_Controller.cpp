@@ -288,9 +288,9 @@ bool ThreadController::isCalibPreviewThreadRunning() {
 
 bool ThreadController::isCapturePanelThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_CAMERA_PREVIEW)) {
-        return true;
-    }
+    // if (!isThreadNullptr(THREAD_CAMERA_PREVIEW)) {
+    //     return true;
+    // }
 
     if (!isThreadNullptr(THREAD_LOAD_CAPTURE)) {
         return true;
