@@ -26,28 +26,18 @@ enum PanelID {
 
 struct TrackingData {
     cv::Rect roi;
-    // std::vector<cv::Rect> trackedRoi;
 
     TrackingData() {}
 
     TrackingData(cv::Rect roi) : roi(roi) {}
 
-    // TrackingData(cv::Rect roi, std::vector<cv::Rect> trackedRoi)
-    //     : roi(roi), trackedRoi(trackedRoi) {}
-
-    void clear() {
-        roi = cv::Rect();
-        // trackedRoi.clear();
-    }
+    void clear() { roi = cv::Rect(); }
 
     bool isInit() { return roi.area() > 0; }
 
     bool operator==(const TrackingData &other) const {
         return roi == other.roi;
     }
-    // bool operator==(const TrackingData &other) const {
-    //     return roi == other.roi && trackedRoi == other.trackedRoi;
-    // }
 
     bool operator!=(const TrackingData &other) const {
         return !(*this == other);
@@ -57,7 +47,6 @@ struct TrackingData {
 
     TrackingData &operator=(const TrackingData &other) {
         roi = other.roi;
-        // trackedRoi = other.trackedRoi;
         return *this;
     }
 };

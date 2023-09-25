@@ -18,13 +18,16 @@ class SettingsMeasurementComponent : public SettingsComponent {
 
     void laneSizeButtonHandler(wxCommandEvent &e);
     void matSizeButtonHandler(wxCommandEvent &e);
+    void matSizeButtonHandler2(wxCommandEvent &e);
 
     SettingsChildComponentInt *objectWidth;
 
     wxButton *laneSizeButton;
     wxButton *matSizeButton;
+    wxButton *matSizeButton2;
 
     // in mm
     const int LANE_WIDTH = 3500;
     const int MAT_WIDTH = 380;
+    const int MAT_WIDTH_2 = 420;
 };

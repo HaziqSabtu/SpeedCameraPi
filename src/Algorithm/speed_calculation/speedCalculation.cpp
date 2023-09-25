@@ -10,6 +10,7 @@
  */
 #include "Model/SessionData.hpp"
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
+#include <cmath>
 #include <iostream>
 #include <vector>
 

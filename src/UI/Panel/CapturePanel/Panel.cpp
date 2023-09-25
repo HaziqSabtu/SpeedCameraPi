@@ -94,12 +94,12 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
 }
 
 void CapturePanel::LoadButtonHandler() {
-#if DEBUG
-    std::string path = "./DEBUG_615629056.scpdata";
-    // std::string path = "./2023823_15547.scpdata";
+    // #if DEBUG
+    //     std::string path = "./DEBUG_615629056.scpdata";
+    //     // std::string path = "./2023823_15547.scpdata";
 
-    controller->e_LoadFileStart(this, path);
-#else
+    //     controller->e_LoadFileStart(this, path);
+    // #else
     wxFileDialog openFileDialog(this, _("Open .scpdata file"), "", "",
                                 "XYZ files (*.scpdata)|*.scpdata",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
@@ -111,7 +111,7 @@ void CapturePanel::LoadButtonHandler() {
 
     std::string path = Utils::wxStringToString(openFileDialog.GetPath());
     controller->e_LoadFileStart(this, path);
-#endif
+    // #endif
 }
 
 void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {

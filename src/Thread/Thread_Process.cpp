@@ -63,7 +63,7 @@ wxThread::ExitCode ProcessThread::Entry() {
             wxMilliSleep(500);
         }
 
-        // Speed Calculation
+        // Track Calculation
         auto roi = data->getTrackingData().roi;
         if (roi.area() <= 0) {
             throw std::runtime_error("ROI is not set");
@@ -84,7 +84,6 @@ wxThread::ExitCode ProcessThread::Entry() {
         }
 
         // Speed Calculation
-
         if (data->isCalibrationDataEmpty()) {
             throw std::runtime_error("Calibration Data is empty");
         }
@@ -167,7 +166,7 @@ wxThread::ExitCode ProcessRedundantThread::Entry() {
             wxMilliSleep(500);
         }
 
-        // Speed Calculation
+        // Track Calculation
         auto roi = data->getTrackingData().roi;
         if (roi.area() <= 0) {
             throw std::runtime_error("ROI is not set");
