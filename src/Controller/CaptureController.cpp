@@ -38,6 +38,16 @@ void CaptureController::e_ChangeToResultPanel(wxEvtHandler *parent) {
     }
 }
 
+void CaptureController::e_ChangeToHorizontalCalibrationPanel(
+    wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        changeToHorizontalCalibrationPanelHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void CaptureController::e_SaveSessionDataStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -515,6 +525,14 @@ void CaptureController::changeToTrimDataPanelHandler(wxEvtHandler *parent) {
 
     ChangePanelData changeToTrimPanelEvent(panelID, PanelID::PANEL_TRIM_DATA);
     ChangePanelEvent::Submit(parent, changeToTrimPanelEvent);
+}
+
+void CaptureController::changeToHorizontalCalibrationPanelHandler(
+    wxEvtHandler *parent) {
+    killAllThreads(parent);
+
+    ChangePanelData data(panelID, PanelID::PANEL_HORIZONTAL_CALIBRATION);
+    ChangePanelEvent::Submit(parent, data);
 }
 
 void CaptureController::panelShowHandler(wxEvtHandler *parent) {

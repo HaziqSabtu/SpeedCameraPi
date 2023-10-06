@@ -10,6 +10,8 @@
 #include "Thread/Thread_CapturePreview.hpp"
 #include "Thread/Thread_ColorCalibration.hpp"
 #include "Thread/Thread_ColorCalibrationPreview.hpp"
+#include "Thread/Thread_HorizontalCalibrationCamera.hpp"
+#include "Thread/Thread_HorizontalCalibrationCapture.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
 #include "Thread/Thread_ManualCalibrationCamera.hpp"
@@ -87,6 +89,18 @@ class ThreadController {
 
     void endManualCalibrationCaptureHandler();
 
+    virtual void startHorizontalCalibrationCameraHandler(wxEvtHandler *parent,
+                                                         CameraPtr &camera,
+                                                         PanelID panelID);
+
+    void endHorizontalCalibrationCameraHandler();
+
+    virtual void startHorizontalCalibrationCaptureHandler(wxEvtHandler *parent,
+                                                          DataPtr data,
+                                                          PanelID panelID);
+
+    void endHorizontalCalibrationCaptureHandler();
+
     virtual void startColorCalibrationHandler(wxEvtHandler *parent,
                                               CameraPtr &camera,
                                               PanelID panelID);
@@ -151,6 +165,11 @@ class ThreadController {
     bool isManualCalibrationThreadOwner(PanelID panelID);
     BaseManualCalibrationThread *getRunningManualCalibrationThread();
 
+    // Horizontal Calibration Helper Methods
+    bool isHorizontalCalibrationThreadRunning();
+    bool isHorizontalCalibrationThreadOwner(PanelID panelID);
+    BaseHorizontalCalibrationThread *getRunningHorizontalCalibrationThread();
+
     // Calibration Preview Helper Methods
     bool isCalibPreviewThreadRunning();
 
@@ -188,6 +207,10 @@ class ThreadController {
     ManualCalibrationCameraThread *getManualCalibrationCameraThread();
 
     ManualCalibrationCaptureThread *getManualCalibrationCaptureThread();
+
+    HorizontalCalibrationCameraThread *getHorizontalCalibrationCameraThread();
+
+    HorizontalCalibrationCaptureThread *getHorizontalCalibrationCaptureThread();
 
     ColorCalibrationThread *getColorCalibrationThread();
 
@@ -238,6 +261,10 @@ class ThreadController {
     ManualCalibrationCameraThread *manualCalibrationCameraThread;
 
     ManualCalibrationCaptureThread *manualCalibrationCaptureThread;
+
+    HorizontalCalibrationCameraThread *horizontalCalibrationCameraThread;
+
+    HorizontalCalibrationCaptureThread *horizontalCalibrationCaptureThread;
 
     ColorCalibrationThread *colorCalibrationThread;
 

@@ -54,6 +54,8 @@ class CaptureController : public BaseController {
     void e_ChangeToCalibrationPanel(wxEvtHandler *parent);
     void e_RemoveCalibration(wxEvtHandler *parent);
 
+    void e_ChangeToHorizontalCalibrationPanel(wxEvtHandler *parent);
+
     void e_ChangeToRoiPanel(wxEvtHandler *parent);
     void e_RemoveRoi(wxEvtHandler *parent);
 
@@ -101,6 +103,8 @@ class CaptureController : public BaseController {
     void changeToResultPanelHandler(wxEvtHandler *parent);
 
     void changeToTrimDataPanelHandler(wxEvtHandler *parent);
+
+    void changeToHorizontalCalibrationPanelHandler(wxEvtHandler *parent);
 
     void panelShowHandler(wxEvtHandler *parent) override;
     void okButtonHandler(wxEvtHandler *parent) override;

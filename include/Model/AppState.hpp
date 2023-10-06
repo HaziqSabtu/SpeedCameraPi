@@ -77,6 +77,29 @@ struct ManualCalibrationPanelState {
     ButtonState cancelButtonState;
 };
 
+struct HorizontalCalibrationPanelState {
+    PanelState state;
+
+    ButtonState calibrationButtonState;
+    ButtonState calibrationCaptureButtonState;
+    ButtonState removeButtonState;
+
+    PanelState topStatusState;
+    ButtonState selectTopButtonState;
+    ButtonState removeTopButtonState;
+
+    PanelState bottomStatusState;
+    ButtonState selectBottomButtonState;
+    ButtonState removeBottomButtonState;
+
+    PanelState previewStatusState;
+    ButtonState prevCameraButtonState;
+    ButtonState prevCaptureButtonState;
+
+    ButtonState okButtonState;
+    ButtonState cancelButtonState;
+};
+
 struct ColorCalibrationPanelState {
 
     ButtonState calibrationButtonState;
@@ -153,6 +176,8 @@ class AppState {
     CapturePanelState getCapturePanelState(ModelPtr model);
     CalibrationPanelState getCalibrationPanelState(ModelPtr model);
     ManualCalibrationPanelState getManualCalibrationPanelState(ModelPtr model);
+    HorizontalCalibrationPanelState
+    getHorizontalCalibrationPanelState(ModelPtr model);
     ColorCalibrationPanelState getColorCalibrationPanelState(ModelPtr model);
     RoiPanelState getRoiPanelState(ModelPtr model);
     ResultPanelState getResultPanelState(ModelPtr model);
@@ -162,6 +187,7 @@ class AppState {
     CapturePanelState cameraPanel;
     CalibrationPanelState calibrationPanel;
     ManualCalibrationPanelState manualCalibrationPanel;
+    HorizontalCalibrationPanelState horizontalCalibrationPanel;
     ColorCalibrationPanelState colorCalibrationPanel;
     RoiPanelState roiPanel;
     ResultPanelState resultPanel;
@@ -243,6 +269,30 @@ class AppState {
     // Manual Calibration Panel -> OK / Cancel
     ButtonState getMCOKButtonState(ModelPtr model);
     ButtonState getMCCancelButtonState(ModelPtr model);
+
+    // Horizontal Calibration Panel
+    ButtonState getHCButtonState(ModelPtr model);
+    ButtonState getHCCaptureButtonState(ModelPtr model);
+    ButtonState getHCRemoveButtonState(ModelPtr model);
+
+    // Horizontal Calibration Panel -> Top
+    PanelState getHCTopStatusState(ModelPtr model);
+    ButtonState getHCSelectTopButtonState(ModelPtr model);
+    ButtonState getHCRemoveTopButtonState(ModelPtr model);
+
+    // Horizontal Calibration Panel -> Bottom
+    PanelState getHCBottomStatusState(ModelPtr model);
+    ButtonState getHCSelectBottomButtonState(ModelPtr model);
+    ButtonState getHCRemoveBottomButtonState(ModelPtr model);
+
+    // Horizontal Calibration Panel -> Preview
+    PanelState getHCPreviewStatusState(ModelPtr model);
+    ButtonState getHCPrevCameraButtonState(ModelPtr model);
+    ButtonState getHCPrevCaptureButtonState(ModelPtr model);
+
+    // Horizontal Calibration Panel -> OK / Cancel
+    ButtonState getHCOKButtonState(ModelPtr model);
+    ButtonState getHCCancelButtonState(ModelPtr model);
 
     // Color Calibration Panel
     ButtonState getCCButtonState(ModelPtr model);

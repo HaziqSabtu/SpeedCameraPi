@@ -65,6 +65,19 @@ enum ProjectIDs {
     MC_SelectRight_Button_ID,
     MC_RemoveRight_Button_ID,
 
+    // HorizontalCalibrationPanel
+    HC_Panel_ID,
+    HC_Button_Panel_ID,
+    HC_CalibrationCamera_Button_ID,
+    HC_CalibrationCapture_Button_ID,
+    HC_Remove_Button_ID,
+    HC_PreviewCamera_Button_ID,
+    HC_PreviewCapture_Button_ID,
+    HC_SelectBottom_Button_ID,
+    HC_RemoveBottom_Button_ID,
+    HC_SelectTop_Button_ID,
+    HC_RemoveTop_Button_ID,
+
     // ColorCalibrationPanel
     CC_Panel_ID,
     CC_Button_Panel_ID,

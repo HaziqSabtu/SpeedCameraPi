@@ -74,6 +74,26 @@ const RTD RIGHT_OK = {
     {wxT("SELECTED"), Theme::StatusOk},
 };
 
+const RTD TOP_NONE = {
+    {wxT("Top: "), Theme::Text},
+    {wxT("NONE"), Theme::StatusNone},
+};
+
+const RTD TOP_OK = {
+    {wxT("Top: "), Theme::Text},
+    {wxT("SELECTED"), Theme::StatusOk},
+};
+
+const RTD BOTTOM_NONE = {
+    {wxT("Bottom: "), Theme::Text},
+    {wxT("NONE"), Theme::StatusNone},
+};
+
+const RTD BOTTOM_OK = {
+    {wxT("Bottom: "), Theme::Text},
+    {wxT("SELECTED"), Theme::StatusOk},
+};
+
 const RTD CALIB_TOOL = {
     {wxT("Calibration Tool"), Theme::Text},
 };

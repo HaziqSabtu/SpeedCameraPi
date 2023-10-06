@@ -3,6 +3,7 @@
 #include "Controller/CalibrationController.hpp"
 #include "Controller/CaptureController.hpp"
 #include "Controller/ColorCalibrationController.hpp"
+#include "Controller/HorizontalCalibrationController.hpp"
 #include "Controller/ManualCalibrationController.hpp"
 #include "Controller/ResultController.hpp"
 #include "Controller/RoiController.hpp"
@@ -21,6 +22,7 @@ class ControllerFactory {
 
     CPCPtr createCaptureController();
     CLCPtr createCalibrationController();
+    HCCPtr createHorizontalCalibrationController();
     MCCPtr createManualCalibrationController();
     CCCPtr createColorCalibrationController();
     ROCPtr createRoiController();

@@ -1,21 +1,21 @@
 #pragma once
 
-#include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
-class CaptureButtonTools : public TextOutlinePanel {
+class HorizontalCalibrationButtonBottom : public TextOutlinePanel {
   public:
-    CaptureButtonTools(wxWindow *parent);
-
-    BitmapButton *Save_Button;
-    BitmapButton *Trim_Button;
-    BitmapButton *Reset_Button;
+    HorizontalCalibrationButtonBottom(wxWindow *parent);
 
     void update(const AppState &state);
 
+    BitmapButton *Bottom_Button;
+    BitmapButton *Clear_Button;
+
   private:
+    void setPanelState(PanelState state);
+
     void OnButtonClicked(wxCommandEvent &e);
 
     wxBoxSizer *buttonSizer;

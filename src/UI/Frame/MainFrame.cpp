@@ -45,6 +45,7 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
     registerPanel(PANEL_ROI);
     registerPanel(PANEL_CALIBRATION);
     registerPanel(PANEL_MANUAL_CALIBRATION);
+    registerPanel(PANEL_HORIZONTAL_CALIBRATION);
     registerPanel(PANEL_COLOR_CALIBRATION);
     registerPanel(PANEL_TRIM_DATA);
     registerPanel(PANEL_RESULT);

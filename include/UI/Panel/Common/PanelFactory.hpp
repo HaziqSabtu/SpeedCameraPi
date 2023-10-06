@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Controller/CalibrationController.hpp"
 #include "Controller/ControllerFactory.hpp"
 #include "Model/SessionData.hpp"
 #include "UI/Panel/CalibrationPanel/Panel.hpp"
 #include "UI/Panel/CapturePanel/Panel.hpp"
 #include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
+#include "UI/Panel/HorizontalCalibrationPanel/Panel.hpp"
 #include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
 #include "UI/Panel/ResultPanel/Panel.hpp"
 #include "UI/Panel/RoiPanel/Panel.hpp"
@@ -33,6 +35,10 @@ class PanelFactory {
 
         if (panelID == PANEL_MANUAL_CALIBRATION) {
             return createManualCalibrationPanel(parent);
+        }
+
+        if (panelID == PANEL_HORIZONTAL_CALIBRATION) {
+            return createHorizontalCalibrationPanel(parent);
         }
 
         if (panelID == PANEL_COLOR_CALIBRATION) {
@@ -70,6 +76,14 @@ class PanelFactory {
             controllerFactory->createManualCalibrationController();
         return new ManualCalibrationPanel(parent, Enum::MC_Panel_ID,
                                           controller);
+    }
+
+    HorizontalCalibrationPanel *
+    createHorizontalCalibrationPanel(wxWindow *parent) {
+        HCCPtr controller =
+            controllerFactory->createHorizontalCalibrationController();
+        return new HorizontalCalibrationPanel(parent, Enum::HC_Panel_ID,
+                                              controller);
     }
 
     ColorCalibrationPanel *createColorCalibrationPanel(wxWindow *parent) {

@@ -51,6 +51,10 @@ CLCPtr ControllerFactory::createCalibrationController() {
     return std::make_shared<CalibrationController>(sharedModel);
 }
 
+HCCPtr ControllerFactory::createHorizontalCalibrationController() {
+    return std::make_shared<HorizontalCalibrationController>(sharedModel);
+}
+
 MCCPtr ControllerFactory::createManualCalibrationController() {
     return std::make_shared<ManualCalibrationController>(sharedModel);
 }

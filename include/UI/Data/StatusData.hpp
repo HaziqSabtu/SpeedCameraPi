@@ -67,6 +67,11 @@ const wxString STATUS_MANUAL_REMOVELEFT = wxT("Left Line Removed");
 const wxString STATUS_MANUAL_SELECTRIGHT = wxT("Select Right Line");
 const wxString STATUS_MANUAL_REMOVERIGHT = wxT("Right Line Removed");
 
+const wxString STATUS_HORIZONTAL_SELECTTOP = wxT("Select Top Line");
+const wxString STATUS_HORIZONTAL_REMOVETOP = wxT("Top Line Removed");
+const wxString STATUS_HORIZONTAL_SELECTBOTTOM = wxT("Select Bottom Line");
+const wxString STATUS_HORIZONTAL_REMOVEBOTTOM = wxT("Bottom Line Removed");
+
 const wxString STATUS_ROI_SELECT = wxT("Select ROI");
 const wxString STATUS_ROI_SELECTED = wxT("ROI Selected");
 const wxString STATUS_ROI_REMOVE = wxT("Roi Removed");

@@ -63,7 +63,8 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CP_Calibration_Button_ID) {
-        controller->e_ChangeToCalibrationPanel(this);
+        controller->e_ChangeToHorizontalCalibrationPanel(this);
+        // controller->e_ChangeToCalibrationPanel(this);
     }
 
     if (e.GetId() == Enum::CP_RemoveCalibration_Button_ID) {
@@ -94,6 +95,7 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
 }
 
 void CapturePanel::LoadButtonHandler() {
+    // TODO: remove this
     // #if DEBUG
     //     std::string path = "./DEBUG_615629056.scpdata";
     //     // std::string path = "./2023823_15547.scpdata";

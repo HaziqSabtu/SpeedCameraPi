@@ -1,3 +1,4 @@
+#include "Thread/Thread_HorizontalCalibrationCamera.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Model/AppState.hpp>
 
@@ -7,6 +8,7 @@ AppState::AppState(ModelPtr model) {
     cameraPanel = getCapturePanelState(model);
     calibrationPanel = getCalibrationPanelState(model);
     manualCalibrationPanel = getManualCalibrationPanelState(model);
+    horizontalCalibrationPanel = getHorizontalCalibrationPanelState(model);
     colorCalibrationPanel = getColorCalibrationPanelState(model);
     roiPanel = getRoiPanelState(model);
     resultPanel = getResultPanelState(model);
@@ -109,6 +111,34 @@ AppState::getManualCalibrationPanelState(std::shared_ptr<SharedModel> model) {
 
     ps.okButtonState = getMCOKButtonState(model);
     ps.cancelButtonState = getMCCancelButtonState(model);
+
+    return ps;
+}
+
+HorizontalCalibrationPanelState
+AppState::getHorizontalCalibrationPanelState(ModelPtr model) {
+    HorizontalCalibrationPanelState ps;
+
+    ps.state = getCalibrationStatusState(model);
+
+    ps.calibrationButtonState = getHCButtonState(model);
+    ps.calibrationCaptureButtonState = getHCCaptureButtonState(model);
+    ps.removeButtonState = getHCRemoveButtonState(model);
+
+    ps.topStatusState = getHCTopStatusState(model);
+    ps.selectTopButtonState = getHCSelectTopButtonState(model);
+    ps.removeTopButtonState = getHCRemoveTopButtonState(model);
+
+    ps.bottomStatusState = getHCBottomStatusState(model);
+    ps.selectBottomButtonState = getHCSelectBottomButtonState(model);
+    ps.removeBottomButtonState = getHCRemoveBottomButtonState(model);
+
+    ps.previewStatusState = getHCPreviewStatusState(model);
+    ps.prevCameraButtonState = getHCPrevCameraButtonState(model);
+    ps.prevCaptureButtonState = getHCPrevCaptureButtonState(model);
+
+    ps.okButtonState = getHCOKButtonState(model);
+    ps.cancelButtonState = getHCCancelButtonState(model);
 
     return ps;
 }
@@ -777,6 +807,215 @@ ButtonState AppState::getMCOKButtonState(ModelPtr model) {
 }
 
 ButtonState AppState::getMCCancelButtonState(ModelPtr model) {
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getHCButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAMERA)) {
+        return ButtonState::ON;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (tc->isCalibPreviewThreadRunning()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::OFF;
+}
+
+ButtonState AppState::getHCCaptureButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    auto data = model->getSessionData();
+
+    if (data->isCaptureDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAPTURE)) {
+        return ButtonState::ON;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAMERA)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (tc->isCalibPreviewThreadRunning()) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::OFF;
+}
+
+ButtonState AppState::getHCRemoveButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isHorizontalCalibrationThreadRunning()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (tc->isCalibPreviewThreadRunning()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!model->sessionData.isCalibrationDataEmpty()) {
+        return ButtonState::NORMAL;
+    }
+
+    return ButtonState::DISABLED;
+}
+
+PanelState AppState::getHCTopStatusState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isHorizontalCalibrationThreadRunning()) {
+        return PanelState::PANEL_HIDDEN;
+    }
+
+    auto data = model->getSessionData();
+    auto calibData = data->getCalibrationData();
+
+    Line line = calibData.lineRight;
+
+    if (line.isNull()) {
+        return PanelState::PANEL_NOT_OK;
+    }
+    return PanelState::PANEL_OK;
+}
+
+ButtonState AppState::getHCSelectTopButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getHCTopStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getRunningHorizontalCalibrationThread();
+    if (thread->getDirection() == HorizontalDirection::HORIZONTAL_TOP) {
+        return ButtonState::ACTIVE;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getHCRemoveTopButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getHCTopStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+PanelState AppState::getHCBottomStatusState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (!tc->isHorizontalCalibrationThreadRunning()) {
+        return PanelState::PANEL_HIDDEN;
+    }
+
+    auto calibData = model->sessionData.getCalibrationData();
+
+    Line line = calibData.lineLeft;
+
+    if (line.isNull()) {
+        return PanelState::PANEL_NOT_OK;
+    }
+    return PanelState::PANEL_OK;
+}
+
+ButtonState AppState::getHCSelectBottomButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getHCBottomStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    auto thread = tc->getRunningHorizontalCalibrationThread();
+    if (thread->getDirection() == HorizontalDirection::HORIZONTAL_BOTTOM) {
+        return ButtonState::ACTIVE;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+ButtonState AppState::getHCRemoveBottomButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getHCBottomStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+PanelState AppState::getHCPreviewStatusState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->getRunningHorizontalCalibrationThread() != nullptr) {
+        return PanelState::PANEL_HIDDEN;
+    }
+
+    return PanelState::PANEL_OK;
+}
+
+ButtonState AppState::getHCPrevCameraButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getHCPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAPTURE)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
+        return ButtonState::OFF;
+    }
+
+    return ButtonState::ON;
+}
+
+ButtonState AppState::getHCPrevCaptureButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (getHCPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    auto data = model->getSessionData();
+
+    if (data->isCaptureDataEmpty()) {
+        return ButtonState::DISABLED;
+    }
+
+    if (!tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
+        return ButtonState::DISABLED;
+    }
+
+    if (tc->isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAPTURE)) {
+        return ButtonState::OFF;
+    }
+
+    return ButtonState::ON;
+}
+
+ButtonState AppState::getHCOKButtonState(ModelPtr model) {
+    if (model->isSessionDataChanged()) {
+        return ButtonState::NORMAL;
+    }
+
+    return ButtonState::DISABLED;
+}
+
+ButtonState AppState::getHCCancelButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
