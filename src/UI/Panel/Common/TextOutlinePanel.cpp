@@ -103,6 +103,21 @@ void TextOutlinePanel::SetTextData(const RTD &textData) {
     Refresh();
 }
 
+void TextOutlinePanel::SetButtonSizer(wxSizer *sizer) {
+    vSizer = new wxBoxSizer(wxVERTICAL);
+    vSizer->Add(topPadding, 0, wxEXPAND);
+    vSizer->Add(sizer, 0, wxEXPAND | wxALL, 10);
+    vSizer->Add(bottomPadding, 0, wxEXPAND);
+
+    hSizer = new wxBoxSizer(wxHORIZONTAL);
+    hSizer->Add(leftPadding, 0, wxEXPAND);
+    hSizer->Add(vSizer, 1, wxEXPAND);
+    hSizer->Add(rightPadding, 0, wxEXPAND);
+
+    SetSizer(hSizer);
+    Fit();
+}
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(TextOutlinePanel, wxPanel) 
 EVT_PAINT(TextOutlinePanel::OnPaint) 

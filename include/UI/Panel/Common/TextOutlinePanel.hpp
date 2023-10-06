@@ -12,8 +12,10 @@ class TextOutlinePanel : public wxPanel {
     void SetOutlineColor(const wxColour &color);
     void SetOutlineWidth(int width);
     void SetTextData(const RTD &textData);
+    void SetButtonSizer(wxSizer *sizer);
 
   protected:
+    // TODO: Add this to theme
     wxColour defaultBackgroundColor = Theme::Background;
 
     wxColour outlineColor = Theme::Primary;
@@ -33,6 +35,9 @@ class TextOutlinePanel : public wxPanel {
     wxStaticText *rightPadding;
 
     RTD textData = RTC::CALIB_NONE;
+
+    wxBoxSizer *hSizer;
+    wxBoxSizer *vSizer;
 
     void OnPaint(wxPaintEvent &event);
 
