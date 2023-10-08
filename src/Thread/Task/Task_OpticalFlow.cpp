@@ -20,17 +20,6 @@ FlowTask::FlowTask(DataPtr data, TrackerPtr tracker)
 
 void FlowTask::Execute() {
 
-    // TODO: Fix to to other
-    // OFTracker ofTracker;
-    // ofTracker.SetMaxCorners(config.maxCorners);
-    // ofTracker.SetQualityLevel(config.qualityLevel);
-    // ofTracker.SetMinDistance(config.minDistance);
-    // ofTracker.SetBlockSize(config.blockSize);
-    // ofTracker.SetUseHarrisDetector(config.useHarrisDetector);
-    // ofTracker.SetK(config.k);
-    // ofTracker.SetMinPointDistance(config.minPointDistance);
-    // ofTracker.SetThreshold(config.threshold);
-
     auto resultData = data->getResultData();
 
     std::vector<cv::Mat> allignImages;

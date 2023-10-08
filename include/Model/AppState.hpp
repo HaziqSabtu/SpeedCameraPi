@@ -195,24 +195,22 @@ class AppState {
     TrimDataPanelState trimDataPanel;
 
   private:
-    PanelState getCameraStatusState(ModelPtr model);
-    PanelState getCalibrationStatusState(ModelPtr model);
-    PanelState getRoiStatusState(ModelPtr model);
-
     // Capture Panel
-    ButtonState getCaptureButtonState(ModelPtr model);
-    ButtonState getLoadButtonState(ModelPtr model);
-    ButtonState getCameraButtonState(ModelPtr model);
-    ButtonState getReplayButtonState(ModelPtr model);
-    ButtonState getRemoveButtonState(ModelPtr model);
+    ButtonState getCPCaptureButtonState(ModelPtr model);
+    ButtonState getCPLoadButtonState(ModelPtr model);
+    ButtonState getCPCameraButtonState(ModelPtr model);
+    ButtonState getCPReplayButtonState(ModelPtr model);
+    ButtonState getCPRemoveButtonState(ModelPtr model);
 
     // Capture Panel -> Calibration
+    PanelState getCPCaptureStatusState(ModelPtr model);
     PanelState getCPCalibrationStatusState(ModelPtr model);
     PanelState getCPHorCalibrationStatusState(ModelPtr model);
     ButtonState getCPCalibrationButtonState(ModelPtr model);
     ButtonState getCPCalibrationRemoveButtonState(ModelPtr model);
 
     // Capture Panel -> ROI
+    PanelState getCPRoiStatusState(ModelPtr model);
     ButtonState getCPROIButtonState(ModelPtr model);
     ButtonState getCPROIRemoveButtonState(ModelPtr model);
 
@@ -225,15 +223,17 @@ class AppState {
     ButtonState getCPMeasureButtonState(ModelPtr model);
 
     // Calibration Panel
-    ButtonState getCalibrationButtonState(ModelPtr model);
-    ButtonState getCalibrationCaptureButtonState(ModelPtr model);
-    ButtonState getCalibrationRemoveButtonState(ModelPtr model);
+    // PanelState AppState::getCalibrationStatusState(ModelPtr model)
+    PanelState getCLStatusState(ModelPtr model);
+    ButtonState getCLCalibrationButtonState(ModelPtr model);
+    ButtonState getCLCaptureButtonState(ModelPtr model);
+    ButtonState getCLRemoveButtonState(ModelPtr model);
 
     // Calibration Panel -> Tools
     PanelState getCLToolStatusState(ModelPtr model);
-    ButtonState getSelectPointButtonState(ModelPtr model);
-    ButtonState getCancelCalibrationButtonState(ModelPtr model);
-    ButtonState getAcceptCalibrationButtonState(ModelPtr model);
+    ButtonState getCLSelectPointButtonState(ModelPtr model);
+    ButtonState getCLCancelCalibrationButtonState(ModelPtr model);
+    ButtonState getCLAcceptCalibrationButtonState(ModelPtr model);
 
     // Calibration Panel -> Preview
     PanelState getCLPreviewStatusState(ModelPtr model);
@@ -242,14 +242,15 @@ class AppState {
 
     // Calibration Panel -> Recalibrate / Others
     PanelState getCLOtherStatusState(ModelPtr model);
-    ButtonState getRecalibrateColorButtonState(ModelPtr model);
-    ButtonState getManualCalibrationButtonState(ModelPtr model);
+    ButtonState getCLRecalibrateColorButtonState(ModelPtr model);
+    ButtonState getCLManualCalibrationButtonState(ModelPtr model);
 
     // Calibration Panel -> OK / Cancel
     ButtonState getCLOKButtonState(ModelPtr model);
     ButtonState getCLCancelButtonState(ModelPtr model);
 
     // Manual Calibration Panel
+    PanelState getMCStatusState(ModelPtr model);
     ButtonState getMCButtonState(ModelPtr model);
     ButtonState getMCCaptureButtonState(ModelPtr model);
     ButtonState getMCRemoveButtonState(ModelPtr model);
@@ -274,6 +275,7 @@ class AppState {
     ButtonState getMCCancelButtonState(ModelPtr model);
 
     // Horizontal Calibration Panel
+    PanelState getHCStatusState(ModelPtr model);
     ButtonState getHCButtonState(ModelPtr model);
     ButtonState getHCCaptureButtonState(ModelPtr model);
     ButtonState getHCRemoveButtonState(ModelPtr model);

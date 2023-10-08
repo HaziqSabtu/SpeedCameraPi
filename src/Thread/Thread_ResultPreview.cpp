@@ -25,10 +25,9 @@ wxThread::ExitCode ResultPreviewThread::Entry() {
                                                 PREVIEW_START);
         wxPostEvent(parent, previewCaptureStartEvent);
 
-        // TODO: Reenable
-        // if (data->isResultDataEmpty()) {
-        //     throw std::runtime_error("ResultData is empty");
-        // }
+        if (data->isResultDataEmpty()) {
+            throw std::runtime_error("ResultData is empty");
+        }
 
         auto resultData = data->getResultData();
 
