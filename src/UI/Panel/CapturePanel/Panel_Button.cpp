@@ -16,18 +16,15 @@ CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
 
     MainPanel = new CaptureButtonMain(this);
     CalibrationPanel = new CaptureButtonCalibration(this);
+    HorCalibrationPanel = new CaptureButtonHorCalibration(this);
     RoiPanel = new CaptureButtonROI(this);
 
-    left_sizer = new wxBoxSizer(wxVERTICAL);
-    left_sizer->Add(CalibrationPanel, 0, wxEXPAND | wxBOTTOM, 0);
-
-    right_sizer = new wxBoxSizer(wxVERTICAL);
-    right_sizer->Add(RoiPanel, 0, wxEXPAND | wxBOTTOM, 0);
-
     lrSizer = new wxBoxSizer(wxHORIZONTAL);
-    lrSizer->Add(left_sizer, 1, wxALL, 0);
+    lrSizer->Add(CalibrationPanel, 1, wxALL, 0);
+    // lrSizer->Add(spacer, 0, wxALL, 0);
+    lrSizer->Add(HorCalibrationPanel, 1, wxALL, 0);
     lrSizer->Add(spacer, 0, wxALL, 0);
-    lrSizer->Add(right_sizer, 1, wxALL, 0);
+    lrSizer->Add(RoiPanel, 1, wxALL, 0);
 
     ToolsPanel = new CaptureButtonTools(this);
 
@@ -43,6 +40,7 @@ CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
 void CaptureButtonPanel::update(const AppState &state) {
     MainPanel->update(state);
     CalibrationPanel->update(state);
+    HorCalibrationPanel->update(state);
     RoiPanel->update(state);
     ToolsPanel->update(state);
 

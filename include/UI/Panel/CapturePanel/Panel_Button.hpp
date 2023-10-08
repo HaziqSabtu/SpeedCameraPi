@@ -24,6 +24,8 @@ class CaptureButtonPanel : public BaseButtonPanel {
 
     CaptureButtonCalibration *CalibrationPanel;
 
+    CaptureButtonHorCalibration *HorCalibrationPanel;
+
     CaptureButtonROI *RoiPanel;
 
     CaptureButtonTools *ToolsPanel;
@@ -31,8 +33,6 @@ class CaptureButtonPanel : public BaseButtonPanel {
     TextButton *Measure_Button;
 
   private:
-    wxBoxSizer *left_sizer;
-    wxBoxSizer *right_sizer;
     wxBoxSizer *lrSizer;
     wxBoxSizer *main_sizer;
 

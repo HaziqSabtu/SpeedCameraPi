@@ -29,7 +29,9 @@
  * @brief Custom wxThread for capturing image from camera
  *
  */
-class CameraPreviewThread : public BaseThread, public CameraAccessor {
+class CameraPreviewThread : public BaseThread,
+                            public CameraAccessor,
+                            public PreviewableThread {
   public:
     CameraPreviewThread(wxEvtHandler *parent, CameraPtr &camera);
     ~CameraPreviewThread();

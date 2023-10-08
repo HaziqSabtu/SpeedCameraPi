@@ -19,8 +19,8 @@ namespace Utils {
  * @param time2 time point 2
  * @return double time difference in milliseconds
  */
-double TimeDiff(std::chrono::high_resolution_clock::time_point time1,
-                std::chrono::high_resolution_clock::time_point time2) {
+double TimeDiffInMilli(std::chrono::high_resolution_clock::time_point time1,
+                       std::chrono::high_resolution_clock::time_point time2) {
     return std::chrono::duration_cast<std::chrono::microseconds>(time2 - time1)
                .count() /
            1000.0;

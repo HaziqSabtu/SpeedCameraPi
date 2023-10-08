@@ -1,5 +1,6 @@
 #include "UI/Dialog/RemoveCalibrationDialog.hpp"
 #include "UI/Dialog/RemoveRoiDialog.hpp"
+#include "UI/Dialog/SwitchModeDialog.hpp"
 #include "UI/Dialog/TrimDataDialog.hpp"
 #include "UI/Layout/StatusPanel.hpp"
 #include <Controller/CaptureController.hpp>
@@ -179,6 +180,15 @@ void CaptureController::e_LoadCaptureEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         loadCaptureEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CaptureController::e_ToggleMode(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        toggleModeHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -550,4 +560,31 @@ void CaptureController::okButtonHandler(wxEvtHandler *parent) {
 
 void CaptureController::cancelButtonHandler(wxEvtHandler *parent) {
     throw std::runtime_error("Blocked Endpoint");
+}
+
+void CaptureController::toggleModeHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isCapturePanelThreadRunning()) {
+        return;
+    }
+
+    if (!shared->sessionData.isCalibrationDataEmpty()) {
+        auto wx = wxTheApp->GetTopWindow();
+        auto dialog = new SwitchModeDialog(wx);
+        if (dialog->ShowModal() == wxID_NO) {
+            wxCommandEvent cancelSwitchModeEvent(c_SWITCH_MODE_EVENT,
+                                                 SWITCH_MODE_CANCEL);
+            wxPostEvent(parent, cancelSwitchModeEvent);
+            return;
+        }
+
+        removeCalibrationHandler(parent);
+    }
+
+    auto data = shared->getSessionData();
+    data->toggleMode();
+
+    wxCommandEvent okSwitchModeEvent(c_SWITCH_MODE_EVENT, SWITCH_MODE_OK);
+    wxPostEvent(parent, okSwitchModeEvent);
 }

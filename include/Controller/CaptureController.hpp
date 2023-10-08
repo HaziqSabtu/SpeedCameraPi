@@ -3,6 +3,7 @@
 #include <Controller/BaseController.hpp>
 
 #include <Event/Event_ChangePanel.hpp>
+#include <Event/Event_SwitchMode.hpp>
 #include <Event/Event_UpdatePreview.hpp>
 #include <Event/Event_UpdateState.hpp>
 #include <Event/Event_UpdateStatus.hpp>
@@ -67,6 +68,8 @@ class CaptureController : public BaseController {
 
     void e_ChangeToTrimDataPanel(wxEvtHandler *parent);
 
+    void e_ToggleMode(wxEvtHandler *parent);
+
   private:
     static const PanelID currentPanelID = PanelID::PANEL_CAPTURE;
 
@@ -109,4 +112,6 @@ class CaptureController : public BaseController {
     void panelShowHandler(wxEvtHandler *parent) override;
     void okButtonHandler(wxEvtHandler *parent) override;
     void cancelButtonHandler(wxEvtHandler *parent) override;
+
+    void toggleModeHandler(wxEvtHandler *parent);
 };

@@ -65,6 +65,24 @@ void ResultController::e_ProcessRedundantThreadEnd(wxEvtHandler *parent) {
     }
 }
 
+void ResultController::e_ProcessHorizontalThreadStart(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processHorizontalThreadStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ProcessHorizontalThreadEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processHorizontalThreadEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void ResultController::e_ResultPreviewStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -218,6 +236,39 @@ void ResultController::processRedundantThreadEndHandler(wxEvtHandler *parent) {
     tc->endProcessRedundantHandler();
 }
 
+void ResultController::processHorizontalThreadStartHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    auto sessionData = shared->getSessionData();
+
+    if (!sessionData->isResultDataEmpty()) {
+        sessionData->clearResultData();
+        shared->setSessionData(*sessionData);
+    }
+
+    auto pool = shared->getThreadPool();
+
+    tc->startProcessHorizontalHandler(parent, pool, sessionData, panelID);
+}
+
+void ResultController::processHorizontalThreadEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (tc->isThreadNullptr(ThreadID::THREAD_PROCESS_HORIZONTAL)) {
+        throw std::runtime_error("ProcessRedundantThread is already stopped");
+    }
+
+    if (!tc->isThreadOwner(ThreadID::THREAD_PROCESS_HORIZONTAL, panelID)) {
+        throw std::runtime_error("ProcessRedundantThread is not owned by "
+                                 "this controller");
+    }
+
+    tc->endProcessHorizontalHandler();
+}
+
 void ResultController::resultPreviewStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -363,6 +414,11 @@ void ResultController::processEndHandler(wxEvtHandler *parent) {
 
     if (thread->getID() == THREAD_PROCESS_REDUNDANT) {
         processRedundantThreadEndHandler(parent);
+        return;
+    }
+
+    if (thread->getID() == THREAD_PROCESS_HORIZONTAL) {
+        processHorizontalThreadEndHandler(parent);
         return;
     }
 

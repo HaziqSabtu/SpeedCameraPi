@@ -64,5 +64,12 @@ const wxString Title = "Exit";
 const wxString Text = "Are you sure you want to exit the application?";
 } // namespace ExitApp
 
+namespace SwitchMode {
+const wxString Title = "Switch Mode";
+const wxString Text = "Switching mode require the Calibration data "
+                      "to be removed. Do you want to continue? This action "
+                      "cannot be undone.";
+} // namespace SwitchMode
+
 } // namespace Dialog
 } // namespace Data

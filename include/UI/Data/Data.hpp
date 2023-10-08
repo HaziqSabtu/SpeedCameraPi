@@ -250,6 +250,15 @@ const BitmapData BitmapPrevious = {
     .text = wxT("Previous"),
 };
 
+const BitmapData BitmapHeight = {
+    .filename = wxT("Assets/height_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapDisabled,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Calibrate"),
+};
+
 // BitmapButtonT2 Data
 const BitmapDataT2 BitmapT2Camera = {
     .size = T::BitmapDefaultSize,
@@ -351,6 +360,15 @@ const BitmapDataT3 BitmapT3Settings = {
 const BitmapDataT3 BitmapT3Info = {
     .size = wxSize(40, 40),
     .onName = "Assets/info_24.ico",
+    .bitmapActiveColour = T::TitleActiveBitmap,
+    .backgroundActiveColour = T::InfoColor,
+    .bitmapDisabledColour = T::TitleDisabledBitmap,
+    .backgroundDisabledColour = T::TitleDisabledBg,
+};
+
+const BitmapDataT3 BitmapT3Replace = {
+    .size = wxSize(40, 40),
+    .onName = "Assets/replace_24.png",
     .bitmapActiveColour = T::TitleActiveBitmap,
     .backgroundActiveColour = T::InfoColor,
     .bitmapDisabledColour = T::TitleDisabledBitmap,

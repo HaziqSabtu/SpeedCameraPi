@@ -16,6 +16,7 @@ struct CapturePanelState {
     ButtonState cameraButtonState;
 
     PanelState calibStatusState;
+    PanelState horCalibStatusState;
     ButtonState calibButtonState;
     ButtonState calibRemoveButtonState;
 
@@ -206,6 +207,8 @@ class AppState {
     ButtonState getRemoveButtonState(ModelPtr model);
 
     // Capture Panel -> Calibration
+    PanelState getCPCalibrationStatusState(ModelPtr model);
+    PanelState getCPHorCalibrationStatusState(ModelPtr model);
     ButtonState getCPCalibrationButtonState(ModelPtr model);
     ButtonState getCPCalibrationRemoveButtonState(ModelPtr model);
 

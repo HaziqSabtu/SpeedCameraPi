@@ -98,5 +98,9 @@ const wxString STATUS_RESULT_PREVIEW_SHOWLANES_OFF = wxT("Show Lanes Off");
 
 const wxString STATUS_RESULT_PREVIEW_REPLAY = wxT("Replay");
 
+const wxString STATUS_SWITCH_MODE_CANCEL = wxT("Switch Mode Cancelled");
+const wxString STATUS_SWITCH_MODE_OK = wxT("Mode Switched");
+const wxString STATUS_SWITCH_MODE_ERROR = wxT("Error Switching Mode");
+
 } // namespace StatusCollection
 // clang-format on

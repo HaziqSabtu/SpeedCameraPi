@@ -62,4 +62,21 @@ class ProcessRedundantThread : public BaseThread {
     POOLPtr pool;
 };
 
+class ProcessHorizontalThread : public BaseThread {
+  public:
+    ProcessHorizontalThread(wxEvtHandler *parent, DataPtr data,
+                            POOLPtr threadPool);
+    ~ProcessHorizontalThread();
+
+    ThreadID getID() const override;
+
+  protected:
+    virtual ExitCode Entry() override;
+
+  private:
+    const ThreadID threadID = ThreadID::THREAD_PROCESS_HORIZONTAL;
+
+    POOLPtr pool;
+};
+
 #endif

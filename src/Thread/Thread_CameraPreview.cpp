@@ -6,7 +6,8 @@
 
 CameraPreviewThread::CameraPreviewThread(wxEvtHandler *parent,
                                          CameraPtr &camera)
-    : BaseThread(parent, nullptr), CameraAccessor(camera) {}
+    : BaseThread(parent, nullptr), CameraAccessor(camera), PreviewableThread() {
+}
 
 CameraPreviewThread::~CameraPreviewThread() {}
 
@@ -26,6 +27,8 @@ wxThread::ExitCode CameraPreviewThread::Entry() {
                 std::cout << "Failed to capture frame" << std::endl;
                 continue;
             }
+
+            cv::resize(frame, frame, pSize);
 
             UpdatePreviewEvent::Submit(parent, frame);
         }

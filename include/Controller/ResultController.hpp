@@ -39,6 +39,9 @@ class ResultController : public BaseController {
     void e_ProcessRedundantThreadStart(wxEvtHandler *parent);
     void e_ProcessRedundantThreadEnd(wxEvtHandler *parent);
 
+    void e_ProcessHorizontalThreadStart(wxEvtHandler *parent);
+    void e_ProcessHorizontalThreadEnd(wxEvtHandler *parent);
+
     void e_ResultPreviewStart(wxEvtHandler *parent);
     void e_ResultPreviewEnd(wxEvtHandler *parent);
 
@@ -64,6 +67,9 @@ class ResultController : public BaseController {
 
     void processRedundantThreadStartHandler(wxEvtHandler *parent);
     void processRedundantThreadEndHandler(wxEvtHandler *parent);
+
+    void processHorizontalThreadStartHandler(wxEvtHandler *parent);
+    void processHorizontalThreadEndHandler(wxEvtHandler *parent);
 
     void resultPreviewStartHandler(wxEvtHandler *parent);
     void resultPreviewEndHandler(wxEvtHandler *parent);

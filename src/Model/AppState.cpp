@@ -1,3 +1,4 @@
+#include "Model/SessionData.hpp"
 #include "Thread/Thread_HorizontalCalibrationCamera.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Model/AppState.hpp>
@@ -19,7 +20,7 @@ PanelState AppState::getCameraStatusState(ModelPtr model) {
     return model->sessionData.isCaptureDataEmpty() ? PanelState::PANEL_NOT_OK
                                                    : PanelState::PANEL_OK;
 }
-
+// TODO: Remove this
 PanelState AppState::getCalibrationStatusState(ModelPtr model) {
     return model->sessionData.isCalibrationDataEmpty()
                ? PanelState::PANEL_NOT_OK
@@ -35,7 +36,6 @@ CapturePanelState AppState::getCapturePanelState(ModelPtr model) {
     CapturePanelState ps;
 
     ps.captureStatusState = getCameraStatusState(model);
-    ps.calibStatusState = getCalibrationStatusState(model);
     ps.roiStatusState = getRoiStatusState(model);
 
     ps.captureButtonState = getCaptureButtonState(model);
@@ -44,6 +44,8 @@ CapturePanelState AppState::getCapturePanelState(ModelPtr model) {
     ps.removeButtonState = getRemoveButtonState(model);
     ps.cameraButtonState = getCameraButtonState(model);
 
+    ps.calibStatusState = getCPCalibrationStatusState(model);
+    ps.horCalibStatusState = getCPHorCalibrationStatusState(model);
     ps.calibButtonState = getCPCalibrationButtonState(model);
     ps.calibRemoveButtonState = getCPCalibrationRemoveButtonState(model);
 
@@ -311,6 +313,34 @@ ButtonState AppState::getCameraButtonState(ModelPtr model) {
     }
 
     return ButtonState::OFF;
+}
+
+PanelState AppState::getCPCalibrationStatusState(ModelPtr model) {
+    auto data = model->getSessionData();
+
+    if (data->getMode() != MODE_LANE) {
+        return PanelState::PANEL_HIDDEN;
+    }
+
+    if (data->isCalibrationDataEmpty()) {
+        return PanelState::PANEL_NOT_OK;
+    }
+
+    return PanelState::PANEL_OK;
+}
+
+PanelState AppState::getCPHorCalibrationStatusState(ModelPtr model) {
+    auto data = model->getSessionData();
+
+    if (data->getMode() != MODE_DISTANCE) {
+        return PanelState::PANEL_HIDDEN;
+    }
+
+    if (data->isTrackingDataEmpty()) {
+        return PanelState::PANEL_NOT_OK;
+    }
+
+    return PanelState::PANEL_OK;
 }
 
 ButtonState AppState::getCPCalibrationButtonState(ModelPtr model) {

@@ -41,7 +41,8 @@ void ResultPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::RE_Redundant_Button_ID) {
-        controller->e_ProcessRedundantThreadStart(this);
+        // controller->e_ProcessRedundantThreadStart(this);
+        controller->e_ProcessHorizontalThreadStart(this);
     }
 
     if (e.GetId() == Enum::RE_Preview_Button_ID) {

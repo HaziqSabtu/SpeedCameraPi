@@ -63,11 +63,15 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CP_Calibration_Button_ID) {
-        controller->e_ChangeToHorizontalCalibrationPanel(this);
-        // controller->e_ChangeToCalibrationPanel(this);
+        controller->e_ChangeToCalibrationPanel(this);
     }
 
-    if (e.GetId() == Enum::CP_RemoveCalibration_Button_ID) {
+    if (e.GetId() == Enum::CP_HorCalibration_Button_ID) {
+        controller->e_ChangeToHorizontalCalibrationPanel(this);
+    }
+
+    if (e.GetId() == Enum::CP_RemoveCalibration_Button_ID ||
+        e.GetId() == Enum::CP_RemoveHorCalibration_Button_ID) {
         controller->e_RemoveCalibration(this);
     }
 
@@ -89,6 +93,10 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::CP_Trim_Button_ID) {
         controller->e_ChangeToTrimDataPanel(this);
+    }
+
+    if (e.GetId() == Enum::G_SwitchMode_Button_ID) {
+        controller->e_ToggleMode(this);
     }
 
     e.Skip();
@@ -231,6 +239,23 @@ void CapturePanel::OnSaveData(wxCommandEvent &e) {
     e.Skip();
 }
 
+void CapturePanel::OnSwitchMode(wxCommandEvent &e) {
+    if (e.GetId() == SWITCH_MODE_OK) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_SWITCH_MODE_OK);
+    }
+
+    if (e.GetId() == SWITCH_MODE_CANCEL) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_SWITCH_MODE_CANCEL);
+    }
+
+    if (e.GetId() == SWITCH_MODE_ERROR) {
+        UpdateStatusEvent::Submit(this, SC::STATUS_SWITCH_MODE_ERROR);
+    }
+
+    controller->e_UpdateState(this);
+    e.Skip();
+}
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(CapturePanel, BasePanel)
     EVT_BUTTON(wxID_ANY,CapturePanel::OnButton) 
@@ -238,4 +263,5 @@ wxBEGIN_EVENT_TABLE(CapturePanel, BasePanel)
     EVT_COMMAND(wxID_ANY, c_PREVIEW_CAPTURE_EVENT, CapturePanel::OnPreviewCapture)
     EVT_COMMAND(wxID_ANY, c_PREVIEW_CAMERA_EVENT, CapturePanel::OnPreviewCamera)
     EVT_COMMAND(wxID_ANY, c_SAVE_DATA_EVENT, CapturePanel::OnSaveData)
+    EVT_COMMAND(wxID_ANY, c_SWITCH_MODE_EVENT, CapturePanel::OnSwitchMode)
 wxEND_EVENT_TABLE()

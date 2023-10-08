@@ -103,7 +103,7 @@ double SpeedCalculation::GetRawAverageSpeed() {
 double SpeedCalculation::calculateSpeed(double prevDist, double curDist,
                                         HPTime prevTime, HPTime curTime) {
     double distDiff = fabs(curDist - prevDist);
-    double timeDiff = Utils::TimeDiff(prevTime, curTime);
+    double timeDiff = Utils::TimeDiffInMilli(prevTime, curTime);
 
     return distDiff / timeDiff;
 }

@@ -44,6 +44,7 @@ class CapturePanel : public BasePanel {
     void OnPreviewCapture(wxCommandEvent &e);
     void OnPreviewCamera(wxCommandEvent &e);
     void OnSaveData(wxCommandEvent &e);
+    void OnSwitchMode(wxCommandEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

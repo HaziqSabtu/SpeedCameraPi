@@ -4,6 +4,7 @@
 #include "UI/Button/BitmapButton/Type3/Button_Exit.hpp"
 #include "UI/Button/BitmapButton/Type3/Button_Info.hpp"
 #include "UI/Button/BitmapButton/Type3/Button_Settings.hpp"
+#include "UI/Button/BitmapButton/Type3/Button_SwitchMode.hpp"
 #include "UI/StaticText/Titletext.hpp"
 #include <wx/wx.h>
 
@@ -13,7 +14,7 @@ class TitlePanel : public wxPanel {
 
     TitlePanel(wxWindow *parent, PanelID panelID, TitleText *titleText,
                ButtonExit *exit_Button, ButtonSettings *setting_Button,
-               ButtonInfo *info_Button);
+               ButtonInfo *info_Button, ButtonSwitchMode *switchMode_Button);
 
     ~TitlePanel();
 
@@ -22,6 +23,7 @@ class TitlePanel : public wxPanel {
     ButtonInfo *info_Button;
     ButtonSettings *setting_Button;
     ButtonExit *exit_Button;
+    ButtonSwitchMode *switchMode_Button;
 
     wxBoxSizer *sizer;
 

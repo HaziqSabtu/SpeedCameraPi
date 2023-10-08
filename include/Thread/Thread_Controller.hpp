@@ -134,6 +134,12 @@ class ThreadController {
 
     void endProcessRedundantHandler();
 
+    virtual void startProcessHorizontalHandler(wxEvtHandler *parent,
+                                               POOLPtr threadPool, DataPtr data,
+                                               PanelID panelID);
+
+    void endProcessHorizontalHandler();
+
     virtual void startResultPreviewHandler(wxEvtHandler *parent, DataPtr data,
                                            PanelID panelID);
 
@@ -226,6 +232,8 @@ class ThreadController {
 
     ProcessRedundantThread *getProcessRedundantThread();
 
+    ProcessHorizontalThread *getProcessHorizontalThread();
+
     TrimDataThread *getTrimDataThread();
 
     void killAllThreads();
@@ -277,6 +285,8 @@ class ThreadController {
     ProcessThread *processThread;
 
     ProcessRedundantThread *processRedundantThread;
+
+    ProcessHorizontalThread *processHorizontalThread;
 
     ResultPreviewThread *resultPreviewThread;
 

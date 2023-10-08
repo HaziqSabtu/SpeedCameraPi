@@ -13,12 +13,22 @@ typedef std::vector<RichTextData> RTD;
 
 namespace RichTextCollection {
 const RTD CALIB_NONE = {
-    {wxT("Calibration: "), Theme::Text},
+    {wxT("Lane Calibration: "), Theme::Text},
     {wxT("NONE"), Theme::StatusNone},
 };
 
 const RTD CALIB_OK = {
-    {wxT("Calibration: "), Theme::Text},
+    {wxT("Lane Calibration: "), Theme::Text},
+    {wxT("CALIBRATED"), Theme::StatusOk},
+};
+
+const RTD HCALIB_NONE = {
+    {wxT("Distance Calibration: "), Theme::Text},
+    {wxT("NONE"), Theme::StatusNone},
+};
+
+const RTD HCALIB_OK = {
+    {wxT("Distance Calibration: "), Theme::Text},
     {wxT("CALIBRATED"), Theme::StatusOk},
 };
 

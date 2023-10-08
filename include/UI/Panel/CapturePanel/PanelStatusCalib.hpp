@@ -21,3 +21,19 @@ class CaptureButtonCalibration : public TextOutlinePanel {
 
     wxBoxSizer *buttonSizer;
 };
+
+class CaptureButtonHorCalibration : public TextOutlinePanel {
+  public:
+    CaptureButtonHorCalibration(wxWindow *parent);
+
+    BitmapButton *Calibrate_Button;
+    BitmapButton *Reset_Button;
+
+    void setPanelState(PanelState state);
+    void update(const AppState &state);
+
+  private:
+    void OnButtonClicked(wxCommandEvent &e);
+
+    wxBoxSizer *buttonSizer;
+};

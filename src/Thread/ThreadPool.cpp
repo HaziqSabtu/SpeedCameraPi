@@ -97,7 +97,13 @@ void ThreadPool::WorkerThread(int threadId) {
             taskQueue.pop_front();
             taskMap[threadId] = task->GetProperty();
         }
-        task->Execute();
+        try {
+            task->Execute();
+        } catch (std::exception &e) {
+            auto error = std::string(e.what());
+            TaskErrorData data = {threadId, task->GetProperty(), error};
+            errorData.push_back(data);
+        }
         {
             std::unique_lock<std::mutex> lock(m_mutex);
             taskMap[threadId] = TASK_NONE;
@@ -243,6 +249,76 @@ bool ThreadPool::HasTasks(std::vector<TaskProperty> &properties) {
         }
     }
     return false;
+}
+
+/**
+ * @brief Empty the task queue
+ */
+void ThreadPool::emptyQueue() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    taskQueue.clear();
+}
+
+/**
+ * @brief Check if a task has an error
+ *
+ * @param property task property which is used to identify the task
+ * @return true if the task has an error
+ * @return false if the task does not have an error
+ */
+bool ThreadPool::isTaskError(TaskProperty &property) {
+    for (auto &data : errorData) {
+        if (data.property == property) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * @brief Check if a list of tasks has an error
+ *
+ * @param properties list of task properties
+ * @return true if any task in the list has an error
+ * @return false if all tasks in the list do not have an error
+ */
+bool ThreadPool::isTaskError(std::vector<TaskProperty> &properties) {
+    for (auto property : properties) {
+        if (isTaskError(property)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * @brief Get the error data of a task
+ *
+ * @param property task property which is used to identify the task
+ * @return TaskErrorData struct
+ */
+TaskErrorData ThreadPool::getErrorData(TaskProperty &property) {
+    for (auto &data : errorData) {
+        if (data.property == property) {
+            return data;
+        }
+    }
+    return TaskErrorData();
+}
+
+/**
+ * @brief Get the error data of a list of tasks
+ *
+ * @param properties list of task properties
+ * @return TaskErrorData struct
+ */
+TaskErrorData ThreadPool::getErrorData(std::vector<TaskProperty> &properties) {
+    for (auto property : properties) {
+        if (isTaskError(property)) {
+            return getErrorData(property);
+        }
+    }
+    return TaskErrorData();
 }
 
 /*

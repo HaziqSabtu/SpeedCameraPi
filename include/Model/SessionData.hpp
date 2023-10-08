@@ -25,6 +25,8 @@ enum PanelID {
     PANEL_INFO
 };
 
+enum Mode { MODE_LANE, MODE_DISTANCE };
+
 struct TrackingData {
     cv::Rect roi;
 
@@ -207,15 +209,19 @@ class SessionData {
     /////////////////////////////////////////////////////////
   private:
     std::string id;
-
-  private:
+    Mode mode;
     PanelID currentPanelID;
 
   public:
     void setPanelID(PanelID id) { currentPanelID = id; }
     PanelID getPanelID() { return currentPanelID; }
+
     void setID(std::string id) { this->id = id; }
     std::string getID() { return id; }
+
+    void setMode(Mode mode) { this->mode = mode; }
+    Mode getMode() { return mode; }
+    void toggleMode() { mode = mode == MODE_LANE ? MODE_DISTANCE : MODE_LANE; }
 
     /////////////////////////////////////////////////////////
     /**
@@ -313,8 +319,8 @@ class SessionData {
     SessionData(const SessionData &other) {
         id = other.id;
         currentPanelID = other.currentPanelID;
+        mode = other.mode;
         captureData = other.captureData;
-        // allignData = other.allignData;
         calibrationData = other.calibrationData;
         trackingData = other.trackingData;
         resultData = other.resultData;
@@ -329,6 +335,7 @@ class SessionData {
 
         id = other.id;
         currentPanelID = other.currentPanelID;
+        mode = other.mode;
         captureData = other.captureData;
         calibrationData = other.calibrationData;
         trackingData = other.trackingData;
@@ -338,7 +345,7 @@ class SessionData {
 
     bool operator==(const SessionData &other) const {
         return (id == other.id && currentPanelID == other.currentPanelID &&
-                captureData == other.captureData &&
+                mode == other.mode && captureData == other.captureData &&
                 calibrationData == other.calibrationData &&
                 trackingData == other.trackingData &&
                 resultData == other.resultData);
@@ -356,6 +363,7 @@ class SessionData {
     void Init() {
         id = Utils::dateToString();
         currentPanelID = PANEL_CAPTURE;
+        mode = MODE_LANE;
         captureData = CDVector();
         // allignData = ADVector();
         calibrationData = CalibrationData();

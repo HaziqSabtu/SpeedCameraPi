@@ -22,8 +22,8 @@
 namespace Utils {
 enum FileExtension { BIN, H264, UNSUPPORTED };
 
-double TimeDiff(std::chrono::high_resolution_clock::time_point time1,
-                std::chrono::high_resolution_clock::time_point time2);
+double TimeDiffInMilli(std::chrono::high_resolution_clock::time_point time1,
+                       std::chrono::high_resolution_clock::time_point time2);
 
 std::string dateToString();
 

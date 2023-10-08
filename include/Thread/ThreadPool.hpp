@@ -24,6 +24,12 @@
 
 #define POOLPtr std::shared_ptr<ThreadPool>
 
+struct TaskErrorData {
+    int threadId;
+    TaskProperty property;
+    std::string error;
+};
+
 /**
  * @brief Class Implementation for Background Thread Pool
  *
@@ -38,6 +44,7 @@ class ThreadPool {
 
     void AddTask(std::unique_ptr<Task> &task);
     void AddTaskFront(std::unique_ptr<Task> task);
+    void emptyQueue();
 
     bool isBusy();
     bool HasTasks(TaskProperty &property);
@@ -50,6 +57,11 @@ class ThreadPool {
 
     int countTasks(std::vector<TaskProperty> &properties);
 
+    bool isTaskError(TaskProperty &property);
+    bool isTaskError(std::vector<TaskProperty> &properties);
+    TaskErrorData getErrorData(TaskProperty &property);
+    TaskErrorData getErrorData(std::vector<TaskProperty> &properties);
+
   private:
     void WorkerThread(int threadId);
 
@@ -61,6 +73,7 @@ class ThreadPool {
     std::deque<std::unique_ptr<Task>> taskQueue;
     std::mutex m_mutex;
     std::condition_variable cv;
+    std::vector<TaskErrorData> errorData;
 };
 
 #endif
