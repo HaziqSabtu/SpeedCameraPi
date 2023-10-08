@@ -19,13 +19,13 @@
 
 class SiftTask : public Task {
   public:
-    SiftTask(FeatureDetector &detector, DataPtr data, int id);
+    SiftTask(DetectorPtr detector, DataPtr data, int id);
     void Execute() override;
 
   private:
     int id;
     DataPtr data;
-    FeatureDetector detector;
+    DetectorPtr detector;
 
     const std::string currentName = "SiftTask";
     const TaskType currentType = TaskType::TASK_SIFT;

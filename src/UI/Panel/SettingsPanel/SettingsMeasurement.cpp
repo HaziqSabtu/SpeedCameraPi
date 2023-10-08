@@ -9,26 +9,27 @@ SettingsMeasurementComponent::SettingsMeasurementComponent(wxWindow *parent)
         new SettingsChildComponentInt(this, ObjectWidthTD, ObjectWidthDD);
     objectWidth->getControl()->setSpinData(ObjectWidthCtrlData);
 
+    objectHeight =
+        new SettingsChildComponentInt(this, ObjectHeightTD, ObjectHeightDD);
+    objectHeight->getControl()->setSpinData(ObjectHeightCtrlData);
+
     laneSizeButton = new wxButton(this, wxID_ANY, std::to_string(LANE_WIDTH),
                                   wxDefaultPosition, wxSize(100, 40));
     matSizeButton = new wxButton(this, wxID_ANY, std::to_string(MAT_WIDTH),
                                  wxDefaultPosition, wxSize(100, 40));
-    matSizeButton2 = new wxButton(this, wxID_ANY, std::to_string(MAT_WIDTH_2),
-                                  wxDefaultPosition, wxSize(100, 40));
 
     auto leftSpacer = new Spacer(this);
     auto rightSpacer = new Spacer(this);
 
     mainSizer->AddSpacer(20);
     mainSizer->Add(objectWidth, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+    mainSizer->AddSpacer(10);
 
     wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(leftSpacer, 1, wxEXPAND);
     buttonSizer->Add(laneSizeButton, 0, wxEXPAND);
     buttonSizer->AddSpacer(10);
     buttonSizer->Add(matSizeButton, 0, wxEXPAND);
-    buttonSizer->AddSpacer(10);
-    buttonSizer->Add(matSizeButton2, 0, wxEXPAND);
     buttonSizer->Add(rightSpacer, 1, wxEXPAND);
 
     mainSizer->AddSpacer(10);
@@ -43,10 +44,6 @@ SettingsMeasurementComponent::SettingsMeasurementComponent(wxWindow *parent)
     matSizeButton->Bind(wxEVT_BUTTON,
                         &SettingsMeasurementComponent::matSizeButtonHandler,
                         this);
-
-    matSizeButton2->Bind(wxEVT_BUTTON,
-                         &SettingsMeasurementComponent::matSizeButtonHandler2,
-                         this);
 }
 
 void SettingsMeasurementComponent::setValue(const MeasurementConfig &config) {
@@ -67,8 +64,4 @@ void SettingsMeasurementComponent::laneSizeButtonHandler(wxCommandEvent &e) {
 
 void SettingsMeasurementComponent::matSizeButtonHandler(wxCommandEvent &e) {
     objectWidth->getControl()->setValue(MAT_WIDTH);
-}
-
-void SettingsMeasurementComponent::matSizeButtonHandler2(wxCommandEvent &e) {
-    objectWidth->getControl()->setValue(MAT_WIDTH_2);
 }

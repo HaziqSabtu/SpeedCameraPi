@@ -86,6 +86,7 @@ class AppConfig {
 
     // Measurement Parameter
     double Default_Object_Width = 3500.0;
+    double Default_Object_Height = 2000.0;
 
     // Capture Parameter
     int Default_Max_Frame_Count = 10;

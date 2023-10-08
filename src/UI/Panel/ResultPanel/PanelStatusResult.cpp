@@ -35,8 +35,8 @@ void ResultPanelMain::update(const AppState &state) {
     ResultPanelState ps = state.resultPanel;
     setPanelState(ps.state);
 
-    Process_Button->update(ps.resultButtonState);
-    Redundant_Button->update(ps.redundantButtonState);
+    Process_Button->update(ps.procLaneButtonState);
+    Redundant_Button->update(ps.procDistButtonState);
     Preview_Button->update(ps.previewButtonState);
 }
 

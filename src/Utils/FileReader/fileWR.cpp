@@ -28,6 +28,7 @@ void FileReadWrite::WriteFile(DataPtr data, std::string filename) {
     m.vectorSize = data->getCaptureData().size();
     m.imgWidth = data->getCaptureData().front().image.cols;
     m.imgHeight = data->getCaptureData().front().image.rows;
+    m.mode = data->getMode();
     m.isCalibrated = !data->isCalibrationDataEmpty();
     m.isROI = !data->isTrackingDataEmpty();
 
@@ -157,6 +158,12 @@ void FileReadWrite::ReadFile(DataPtr data, std::string filename) {
     }
 
     data->setCaptureData(captureData);
+
+    // update mode if both isCalibrated and isROI is true
+    // otherwise, keep the mode as it is (Raw file)
+    if (m.isCalibrated && m.isROI) {
+        data->setMode(m.mode);
+    }
 
     if (m.isCalibrated) {
         // read divider

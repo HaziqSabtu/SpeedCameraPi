@@ -1,5 +1,6 @@
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
 #include "UI/Button/BitmapButton/Button_Right.hpp"
+#include "UI/Button/BitmapButton/Button_Top.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/StaticText/RichText.hpp"
 #include "Utils/Enum.hpp"
@@ -8,7 +9,7 @@
 HorizontalCalibrationButtonTop::HorizontalCalibrationButtonTop(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::TOP_NONE) {
 
-    Top_Button = new BitmapR(this, Enum::HC_SelectTop_Button_ID);
+    Top_Button = new BitmapT(this, Enum::HC_SelectTop_Button_ID);
     Clear_Button = new BitmapRemove(this, Enum::HC_RemoveTop_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);

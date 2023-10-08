@@ -17,8 +17,9 @@ HorizontalCalibrationPanelButton::HorizontalCalibrationPanelButton(
     TopPanel = new HorizontalCalibrationButtonTop(this);
 
     lrSizer = new wxBoxSizer(wxHORIZONTAL);
-    lrSizer->Add(BottomPanel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 10);
     lrSizer->Add(TopPanel, 1, wxEXPAND | wxBOTTOM, 10);
+    lrSizer->AddSpacer(10);
+    lrSizer->Add(BottomPanel, 1, wxEXPAND | wxBOTTOM, 10);
 
     PreviewPanel = new HorizontalCalibrationButtonPreview(this);
 

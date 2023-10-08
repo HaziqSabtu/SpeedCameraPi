@@ -20,10 +20,8 @@
  * @param result Result of Speed Calculation
  * @param sensorConfig Sensor Configuration ... SensorConfig
  */
-SpeedTask::SpeedTask(DataPtr data, SensorConfig sensorConfig,
-                     MeasurementConfig measurementConfig)
-    : data(data), sensorConfig(sensorConfig),
-      measurementConfig(measurementConfig) {
+SpeedTask::SpeedTask(DataPtr data, SpeedPtr speedCalc)
+    : data(data), speedCalc(speedCalc) {
     property = TaskProperty(currentType);
     name = currentName;
 }
@@ -43,11 +41,6 @@ SpeedTask::SpeedTask(DataPtr data, SensorConfig sensorConfig,
 void SpeedTask::Execute() {
     auto resultData = data->getResultData();
     auto roiData = resultData.trackedRoi;
-
-    SpeedCalculation speedCalc;
-    speedCalc.SetSensorWidth(sensorConfig.SensorWidth);
-    speedCalc.SetFocalLength(sensorConfig.SensorFocalLength);
-    speedCalc.SetLaneWidth(measurementConfig.ObjectWidth);
 
     auto allignData = resultData.allignData;
 
@@ -70,18 +63,18 @@ void SpeedTask::Execute() {
     lines.push_back(calibData.lineLeft);
     lines.push_back(calibData.lineRight);
 
-    speedCalc.runCalculation(allignImages, times, roiData, lines);
+    speedCalc->runCalculation(allignImages, times, roiData, lines);
 
-    auto speed = speedCalc.GetTrimmedAverageSpeed(20) * 3.6;
-
-    auto speedList = speedCalc.GetRawSpeed();
-    auto distanceFromCamera = speedCalc.GetDistanceFromCamera();
-    auto intersectingLines = speedCalc.GetIntersectingLines();
+    auto speed = speedCalc->GetSpeed() * 3.6;
 
     resultData.speed = speed;
-    resultData.speedList = speedList;
-    resultData.distanceFromCamera = distanceFromCamera;
-    resultData.intersectingLines = intersectingLines;
+
+    if (speedCalc->GetType() == SPEED_CALCULATION_LANE) {
+        auto laneSpeedCalc =
+            std::dynamic_pointer_cast<LaneSpeedCalculation>(speedCalc);
+        auto intersectingLines = laneSpeedCalc->GetIntersectingLines();
+        resultData.intersectingLines = intersectingLines;
+    }
 
     data->setResultData(resultData);
 }

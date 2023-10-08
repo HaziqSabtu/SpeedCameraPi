@@ -143,16 +143,6 @@ struct ResultData {
             return false;
         }
 
-        if (speedList.empty() || distanceFromCamera.empty() ||
-            intersectingLines.empty()) {
-            return false;
-        }
-
-        if (speedList.size() + 1 != distanceFromCamera.size() ||
-            speedList.size() + 1 != intersectingLines.size()) {
-            return false;
-        }
-
         return true;
     }
 

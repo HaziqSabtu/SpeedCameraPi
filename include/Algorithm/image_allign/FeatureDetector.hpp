@@ -20,8 +20,10 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
+#define DetectorPtr std::shared_ptr<FeatureDetector>
+
 /**
- * @brief Helper Class for detecting and matching features between two images
+ * @brief  Class for detecting and matching features between two images
  * and alligning them
  */
 class FeatureDetector {

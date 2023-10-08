@@ -12,22 +12,24 @@
 #include "Algorithm/object_tracker/CSRTTracker.hpp"
 #include <Thread/Task/Task_OpticalFlow.hpp>
 
-FlowTask::FlowTask(DataPtr data, OpticalFlowConfig config)
-    : data(data), config(config) {
+FlowTask::FlowTask(DataPtr data, TrackerPtr tracker)
+    : data(data), tracker(tracker) {
     property = TaskProperty(currentType);
     name = currentName;
 }
 
 void FlowTask::Execute() {
-    OFTracker ofTracker;
-    ofTracker.SetMaxCorners(config.maxCorners);
-    ofTracker.SetQualityLevel(config.qualityLevel);
-    ofTracker.SetMinDistance(config.minDistance);
-    ofTracker.SetBlockSize(config.blockSize);
-    ofTracker.SetUseHarrisDetector(config.useHarrisDetector);
-    ofTracker.SetK(config.k);
-    ofTracker.SetMinPointDistance(config.minPointDistance);
-    ofTracker.SetThreshold(config.threshold);
+
+    // TODO: Fix to to other
+    // OFTracker ofTracker;
+    // ofTracker.SetMaxCorners(config.maxCorners);
+    // ofTracker.SetQualityLevel(config.qualityLevel);
+    // ofTracker.SetMinDistance(config.minDistance);
+    // ofTracker.SetBlockSize(config.blockSize);
+    // ofTracker.SetUseHarrisDetector(config.useHarrisDetector);
+    // ofTracker.SetK(config.k);
+    // ofTracker.SetMinPointDistance(config.minPointDistance);
+    // ofTracker.SetThreshold(config.threshold);
 
     auto resultData = data->getResultData();
 
@@ -45,7 +47,7 @@ void FlowTask::Execute() {
     auto roiData = data->getTrackingData();
     auto roi = roiData.roi;
 
-    auto obj = ofTracker.track(allignImages, roi);
+    auto obj = tracker->track(allignImages, roi);
 
     resultData.trackedRoi = obj;
     data->setResultData(resultData);

@@ -14,12 +14,12 @@
 #include <iostream>
 #include <vector>
 
-SpeedCalculation::SpeedCalculation() {}
+LaneSpeedCalculation::LaneSpeedCalculation() {}
 
-void SpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
-                                      std::vector<HPTime> &times,
-                                      std::vector<cv::Rect> trackedRoi,
-                                      std::vector<Line> &lines) {
+void LaneSpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
+                                          std::vector<HPTime> &times,
+                                          std::vector<cv::Rect> trackedRoi,
+                                          std::vector<Line> &lines) {
     if (lines.size() != 2) {
         throw std::invalid_argument("Lines size must be 2");
         return;
@@ -69,7 +69,7 @@ void SpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
  * @param pixelWidth Width of the object in pixels
  * @return double   Distance of the object from the camera in mm
  */
-double SpeedCalculation::distanceFromCameraInMilli(float pixelWidth) {
+double LaneSpeedCalculation::distanceFromCameraInMilli(float pixelWidth) {
     return (laneWidth * imageWidth * focalLength) / (pixelWidth * sensorWidth);
 }
 
@@ -79,7 +79,7 @@ double SpeedCalculation::distanceFromCameraInMilli(float pixelWidth) {
  * @param speeds vector of speeds
  * @return double average speed
  */
-double SpeedCalculation::GetRawAverageSpeed() {
+double LaneSpeedCalculation::GetRawAverageSpeed() {
     if (speeds.size() == 0) {
         return -1;
     }
@@ -100,44 +100,52 @@ double SpeedCalculation::GetRawAverageSpeed() {
  * @param curTime current time of frame
  * @return double speed of the object
  */
-double SpeedCalculation::calculateSpeed(double prevDist, double curDist,
-                                        HPTime prevTime, HPTime curTime) {
+double LaneSpeedCalculation::calculateSpeed(double prevDist, double curDist,
+                                            HPTime prevTime, HPTime curTime) {
     double distDiff = fabs(curDist - prevDist);
     double timeDiff = Utils::TimeDiffInMilli(prevTime, curTime);
 
     return distDiff / timeDiff;
 }
 
-double SpeedCalculation::GetTrimmedAverageSpeed(int percentage) {
+double LaneSpeedCalculation::GetSpeed() {
     if (speeds.size() == 0) {
-        return -1;
+        throw std::invalid_argument("Speeds size must be greater than 0");
     }
 
-    return Utils::TrimmedMean(speeds, percentage);
+    return Utils::TrimmedMean(speeds, trimPercentage);
 }
 
-double SpeedCalculation::GetSensorWidth() const { return this->sensorWidth; }
+double LaneSpeedCalculation::GetSensorWidth() const {
+    return this->sensorWidth;
+}
 
-void SpeedCalculation::SetSensorWidth(double width) {
+void LaneSpeedCalculation::SetSensorWidth(double width) {
     this->sensorWidth = width;
 }
 
-double SpeedCalculation::GetFocalLength() const { return this->focalLength; }
+double LaneSpeedCalculation::GetFocalLength() const {
+    return this->focalLength;
+}
 
-void SpeedCalculation::SetFocalLength(double length) {
+void LaneSpeedCalculation::SetFocalLength(double length) {
     this->focalLength = length;
 }
 
-double SpeedCalculation::GetLaneWidth() const { return this->laneWidth; }
+double LaneSpeedCalculation::GetLaneWidth() const { return this->laneWidth; }
 
-void SpeedCalculation::SetLaneWidth(double width) { this->laneWidth = width; }
+void LaneSpeedCalculation::SetLaneWidth(double width) {
+    this->laneWidth = width;
+}
 
-std::vector<double> SpeedCalculation::GetDistanceFromCamera() const {
+std::vector<double> LaneSpeedCalculation::GetDistanceFromCamera() const {
     return distFromCamera;
 }
 
-std::vector<Line> SpeedCalculation::GetIntersectingLines() const {
+std::vector<Line> LaneSpeedCalculation::GetIntersectingLines() const {
     return intersectingLines;
 }
 
-std::vector<double> SpeedCalculation::GetRawSpeed() const { return speeds; }
+std::vector<double> LaneSpeedCalculation::GetRawSpeed() const { return speeds; }
+
+SpeedCalculationType LaneSpeedCalculation::GetType() const { return type; }

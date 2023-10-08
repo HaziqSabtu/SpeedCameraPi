@@ -124,21 +124,11 @@ class ThreadController {
     void endRoiPreviewHandler();
 
     virtual void startProcessHandler(wxEvtHandler *parent, POOLPtr threadPool,
-                                     DataPtr data, PanelID panelID);
+                                     DataPtr data, DetectorPtr detector,
+                                     TrackerPtr tracker, SpeedPtr speedCalc,
+                                     PanelID panelID);
 
     void endProcessHandler();
-
-    virtual void startProcessRedundantHandler(wxEvtHandler *parent,
-                                              POOLPtr threadPool, DataPtr data,
-                                              PanelID panelID);
-
-    void endProcessRedundantHandler();
-
-    virtual void startProcessHorizontalHandler(wxEvtHandler *parent,
-                                               POOLPtr threadPool, DataPtr data,
-                                               PanelID panelID);
-
-    void endProcessHorizontalHandler();
 
     virtual void startResultPreviewHandler(wxEvtHandler *parent, DataPtr data,
                                            PanelID panelID);
@@ -230,10 +220,6 @@ class ThreadController {
 
     ProcessThread *getProcessThread();
 
-    ProcessRedundantThread *getProcessRedundantThread();
-
-    ProcessHorizontalThread *getProcessHorizontalThread();
-
     TrimDataThread *getTrimDataThread();
 
     void killAllThreads();
@@ -283,10 +269,6 @@ class ThreadController {
     RoiPreviewThread *roiPreviewThread;
 
     ProcessThread *processThread;
-
-    ProcessRedundantThread *processRedundantThread;
-
-    ProcessHorizontalThread *processHorizontalThread;
 
     ResultPreviewThread *resultPreviewThread;
 

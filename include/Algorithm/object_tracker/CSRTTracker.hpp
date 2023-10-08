@@ -5,7 +5,7 @@
 #include <opencv2/tracking/tracking.hpp>
 #include <vector>
 
-class CSRTTracker : public IObjectTracker {
+class CSRTTracker : public ObjectTracker {
   public:
     CSRTTracker();
 

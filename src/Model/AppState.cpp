@@ -217,8 +217,8 @@ ResultPanelState AppState::getResultPanelState(ModelPtr model) {
 
     ps.state = getRPResultStatusState(model);
 
-    ps.resultButtonState = getRPResultButtonState(model);
-    ps.redundantButtonState = getRPRedundantButtonState(model);
+    ps.procLaneButtonState = getRPProcLaneButtonState(model);
+    ps.procDistButtonState = getRPProcDistButtonState(model);
     ps.previewButtonState = getRPPreviewButtonState(model);
 
     ps.previewStatusState = getRPPreviewStatusState(model);
@@ -1566,14 +1566,15 @@ ButtonState AppState::getTDCancelButtonState(ModelPtr model) {
 
 PanelState AppState::getRPResultStatusState(ModelPtr model) { return PANEL_OK; }
 
-ButtonState AppState::getRPResultButtonState(ModelPtr model) {
+ButtonState AppState::getRPProcLaneButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
-        return ButtonState::DISABLED;
+    auto data = model->getSessionData();
+    if (data->getMode() != MODE_LANE) {
+        return ButtonState::HIDDEN;
     }
 
-    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
+    if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
         return ButtonState::DISABLED;
     }
 
@@ -1584,8 +1585,13 @@ ButtonState AppState::getRPResultButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getRPRedundantButtonState(ModelPtr model) {
+ButtonState AppState::getRPProcDistButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
+
+    auto data = model->getSessionData();
+    if (data->getMode() != MODE_DISTANCE) {
+        return ButtonState::HIDDEN;
+    }
 
     if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
         return ButtonState::DISABLED;
@@ -1593,10 +1599,6 @@ ButtonState AppState::getRPRedundantButtonState(ModelPtr model) {
 
     if (!tc->isThreadNullptr(THREAD_PROCESS)) {
         return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
-        return ButtonState::ACTIVE;
     }
 
     return ButtonState::NORMAL;
@@ -1606,10 +1608,6 @@ ButtonState AppState::getRPPreviewButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_PROCESS)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
         return ButtonState::DISABLED;
     }
 

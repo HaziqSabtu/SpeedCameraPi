@@ -158,8 +158,8 @@ struct TrimDataPanelState {
 
 struct ResultPanelState {
     PanelState state;
-    ButtonState resultButtonState;
-    ButtonState redundantButtonState;
+    ButtonState procLaneButtonState;
+    ButtonState procDistButtonState;
     ButtonState previewButtonState;
 
     PanelState previewStatusState;
@@ -358,8 +358,8 @@ class AppState {
 
     // Result Panel
     PanelState getRPResultStatusState(ModelPtr model);
-    ButtonState getRPResultButtonState(ModelPtr model);
-    ButtonState getRPRedundantButtonState(ModelPtr model);
+    ButtonState getRPProcLaneButtonState(ModelPtr model);
+    ButtonState getRPProcDistButtonState(ModelPtr model);
     ButtonState getRPPreviewButtonState(ModelPtr model);
 
     // Result Panel -> Preview

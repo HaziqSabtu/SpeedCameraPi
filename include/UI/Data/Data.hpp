@@ -152,6 +152,24 @@ const BitmapData BitmapR = {
     .text = wxT("Select Right"),
 };
 
+const BitmapData BitmapT = {
+    .filename = wxT("Assets/t_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Select Top"),
+};
+
+const BitmapData BitmapB = {
+    .filename = wxT("Assets/b_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapActive,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Select Bottom"),
+};
+
 const BitmapData BitmapPreview = {
     .filename = wxT("Assets/preview_96.png"),
     .size = T::BitmapDefaultSize,

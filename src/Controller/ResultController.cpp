@@ -1,3 +1,6 @@
+#include "Algorithm/object_tracker/CSRTTracker.hpp"
+#include "Algorithm/speed_calculation/H_speedCalculation.hpp"
+#include "Algorithm/speed_calculation/speedCalculation.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Thread/Thread_ID.hpp"
 #include "UI/Data/StatusData.hpp"
@@ -29,16 +32,16 @@ void ResultController::e_CancelButtonHandler(wxEvtHandler *parent) {
     }
 }
 
-void ResultController::e_ProcessThreadStart(wxEvtHandler *parent) {
+void ResultController::e_ProcessLaneOFStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        processThreadStartHandler(parent);
+        processLaneOFStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
-void ResultController::e_ProcessThreadEnd(wxEvtHandler *parent) {
+void ResultController::e_ProcessLaneOFEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         processThreadEndHandler(parent);
@@ -47,37 +50,55 @@ void ResultController::e_ProcessThreadEnd(wxEvtHandler *parent) {
     }
 }
 
-void ResultController::e_ProcessRedundantThreadStart(wxEvtHandler *parent) {
+void ResultController::e_ProcessLaneCSRTStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        processRedundantThreadStartHandler(parent);
+        processLaneCSRTStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
-void ResultController::e_ProcessRedundantThreadEnd(wxEvtHandler *parent) {
+void ResultController::e_ProcessLaneCSRTEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        processRedundantThreadEndHandler(parent);
+        processThreadEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
-void ResultController::e_ProcessHorizontalThreadStart(wxEvtHandler *parent) {
+void ResultController::e_ProcessDistOFStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        processHorizontalThreadStartHandler(parent);
+        processDistOFStartHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
-void ResultController::e_ProcessHorizontalThreadEnd(wxEvtHandler *parent) {
+void ResultController::e_ProcessDistOFEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        processHorizontalThreadEndHandler(parent);
+        processThreadEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ProcessDistCSRTStart(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processDistCSRTStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ProcessDistCSRTEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processThreadEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -144,10 +165,6 @@ void ResultController::throwIfAnyThreadIsRunning() {
         throw std::runtime_error("ProcessThread is still running");
     }
 
-    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
-        throw std::runtime_error("ProcessRedundantThread is still running");
-    }
-
     if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
         throw std::runtime_error("ResultPreviewThread is still running");
     }
@@ -160,10 +177,6 @@ void ResultController::killAllThreads(wxEvtHandler *parent) {
         processThreadEndHandler(parent);
     }
 
-    if (!tc->isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
-        processRedundantThreadEndHandler(parent);
-    }
-
     if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
         resultPreviewEndHandler(parent);
     }
@@ -171,7 +184,7 @@ void ResultController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
-void ResultController::processThreadStartHandler(wxEvtHandler *parent) {
+void ResultController::processLaneOFStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     throwIfAnyThreadIsRunning();
@@ -185,7 +198,31 @@ void ResultController::processThreadStartHandler(wxEvtHandler *parent) {
 
     auto pool = shared->getThreadPool();
 
-    tc->startProcessHandler(parent, pool, sessionData, panelID);
+    AppConfig c;
+    auto ofConfig = c.GetOpticalFlowConfig();
+    auto sConfig = c.GetSensorConfig();
+    auto mConfig = c.GetMeasurementConfig();
+
+    DetectorPtr detector =
+        std::make_shared<FeatureDetector>(DetectorType::SIFT);
+
+    auto tracker = std::make_shared<OFTracker>();
+    tracker->SetMaxCorners(ofConfig.maxCorners);
+    tracker->SetQualityLevel(ofConfig.qualityLevel);
+    tracker->SetMinDistance(ofConfig.minDistance);
+    tracker->SetBlockSize(ofConfig.blockSize);
+    tracker->SetUseHarrisDetector(ofConfig.useHarrisDetector);
+    tracker->SetK(ofConfig.k);
+    tracker->SetMinPointDistance(ofConfig.minPointDistance);
+    tracker->SetThreshold(ofConfig.threshold);
+
+    auto speedCalc = std::make_shared<LaneSpeedCalculation>();
+    speedCalc->SetSensorWidth(sConfig.SensorWidth);
+    speedCalc->SetFocalLength(sConfig.SensorFocalLength);
+    speedCalc->SetLaneWidth(mConfig.ObjectWidth);
+
+    tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
+                            speedCalc, panelID);
 }
 
 void ResultController::processThreadEndHandler(wxEvtHandler *parent) {
@@ -203,8 +240,8 @@ void ResultController::processThreadEndHandler(wxEvtHandler *parent) {
     tc->endProcessHandler();
 }
 
-void ResultController::processRedundantThreadStartHandler(
-    wxEvtHandler *parent) {
+void ResultController::processLaneCSRTStartHandler(wxEvtHandler *parent) {
+
     auto tc = shared->getThreadController();
 
     throwIfAnyThreadIsRunning();
@@ -218,26 +255,25 @@ void ResultController::processRedundantThreadStartHandler(
 
     auto pool = shared->getThreadPool();
 
-    tc->startProcessRedundantHandler(parent, pool, sessionData, panelID);
+    AppConfig c;
+    auto sConfig = c.GetSensorConfig();
+    auto mConfig = c.GetMeasurementConfig();
+
+    DetectorPtr detector =
+        std::make_shared<FeatureDetector>(DetectorType::SIFT);
+
+    auto tracker = std::make_shared<CSRTTracker>();
+
+    auto speedCalc = std::make_shared<LaneSpeedCalculation>();
+    speedCalc->SetSensorWidth(sConfig.SensorWidth);
+    speedCalc->SetFocalLength(sConfig.SensorFocalLength);
+    speedCalc->SetLaneWidth(mConfig.ObjectWidth);
+
+    tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
+                            speedCalc, panelID);
 }
 
-void ResultController::processRedundantThreadEndHandler(wxEvtHandler *parent) {
-    auto tc = shared->getThreadController();
-
-    if (tc->isThreadNullptr(ThreadID::THREAD_PROCESS_REDUNDANT)) {
-        throw std::runtime_error("ProcessRedundantThread is already stopped");
-    }
-
-    if (!tc->isThreadOwner(ThreadID::THREAD_PROCESS_REDUNDANT, panelID)) {
-        throw std::runtime_error("ProcessRedundantThread is not owned by "
-                                 "this controller");
-    }
-
-    tc->endProcessRedundantHandler();
-}
-
-void ResultController::processHorizontalThreadStartHandler(
-    wxEvtHandler *parent) {
+void ResultController::processDistOFStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
     throwIfAnyThreadIsRunning();
@@ -251,22 +287,57 @@ void ResultController::processHorizontalThreadStartHandler(
 
     auto pool = shared->getThreadPool();
 
-    tc->startProcessHorizontalHandler(parent, pool, sessionData, panelID);
+    AppConfig c;
+    auto ofConfig = c.GetOpticalFlowConfig();
+    auto mConfig = c.GetMeasurementConfig();
+
+    DetectorPtr detector =
+        std::make_shared<FeatureDetector>(DetectorType::SIFT);
+
+    auto tracker = std::make_shared<OFTracker>();
+    tracker->SetMaxCorners(ofConfig.maxCorners);
+    tracker->SetQualityLevel(ofConfig.qualityLevel);
+    tracker->SetMinDistance(ofConfig.minDistance);
+    tracker->SetBlockSize(ofConfig.blockSize);
+    tracker->SetUseHarrisDetector(ofConfig.useHarrisDetector);
+    tracker->SetK(ofConfig.k);
+    tracker->SetMinPointDistance(ofConfig.minPointDistance);
+    tracker->SetThreshold(ofConfig.threshold);
+
+    auto speedCalc = std::make_shared<DistanceSpeedCalculation>();
+    speedCalc->setObjectLength(mConfig.ObjectHeight);
+
+    tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
+                            speedCalc, panelID);
 }
 
-void ResultController::processHorizontalThreadEndHandler(wxEvtHandler *parent) {
+void ResultController::processDistCSRTStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
-    if (tc->isThreadNullptr(ThreadID::THREAD_PROCESS_HORIZONTAL)) {
-        throw std::runtime_error("ProcessRedundantThread is already stopped");
+    throwIfAnyThreadIsRunning();
+
+    auto sessionData = shared->getSessionData();
+
+    if (!sessionData->isResultDataEmpty()) {
+        sessionData->clearResultData();
+        shared->setSessionData(*sessionData);
     }
 
-    if (!tc->isThreadOwner(ThreadID::THREAD_PROCESS_HORIZONTAL, panelID)) {
-        throw std::runtime_error("ProcessRedundantThread is not owned by "
-                                 "this controller");
-    }
+    auto pool = shared->getThreadPool();
 
-    tc->endProcessHorizontalHandler();
+    AppConfig c;
+    auto mConfig = c.GetMeasurementConfig();
+
+    DetectorPtr detector =
+        std::make_shared<FeatureDetector>(DetectorType::SIFT);
+
+    auto tracker = std::make_shared<CSRTTracker>();
+
+    auto speedCalc = std::make_shared<DistanceSpeedCalculation>();
+    speedCalc->setObjectLength(mConfig.ObjectHeight);
+
+    tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
+                            speedCalc, panelID);
 }
 
 void ResultController::resultPreviewStartHandler(wxEvtHandler *parent) {
@@ -409,16 +480,6 @@ void ResultController::processEndHandler(wxEvtHandler *parent) {
 
     if (thread->getID() == THREAD_PROCESS) {
         processThreadEndHandler(parent);
-        return;
-    }
-
-    if (thread->getID() == THREAD_PROCESS_REDUNDANT) {
-        processRedundantThreadEndHandler(parent);
-        return;
-    }
-
-    if (thread->getID() == THREAD_PROCESS_HORIZONTAL) {
-        processHorizontalThreadEndHandler(parent);
         return;
     }
 

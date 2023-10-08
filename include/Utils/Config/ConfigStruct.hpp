@@ -72,9 +72,11 @@ struct SensorConfig {
 
 struct MeasurementConfig {
     double ObjectWidth;
+    double ObjectHeight;
 
     bool operator==(const MeasurementConfig &other) const {
-        return ObjectWidth == other.ObjectWidth;
+        return ObjectWidth == other.ObjectWidth &&
+               ObjectHeight == other.ObjectHeight;
     }
 };
 

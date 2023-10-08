@@ -25,6 +25,8 @@ struct FileMetaData {
     int imgWidth;
     int imgHeight;
 
+    Mode mode;
+
     bool isCalibrated;
 
     bool isROI;

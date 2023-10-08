@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Algorithm/speed_calculation/speedCalculation.hpp"
 #include "Model/SessionData.hpp"
 #include <Algorithm/Struct/D_Line.hpp>
 #include <Utils/CommonUtils.hpp>
@@ -8,17 +9,18 @@
 
 enum MovementDirection { MOVING_DOWNWARDS, MOVING_UPWARDS };
 
-class HorizontalSpeedCalculation {
+class DistanceSpeedCalculation : public SpeedCalculator {
   public:
-    HorizontalSpeedCalculation();
+    DistanceSpeedCalculation();
 
     void runCalculation(std::vector<cv::Mat> &images,
                         std::vector<HPTime> &times,
                         std::vector<cv::Rect> trackedRoi,
                         std::vector<Line> &lines);
 
-    double GetTrimmedAverageSpeed(int percentage);
     double GetSpeed();
+
+    SpeedCalculationType GetType() const;
 
     void setObjectLength(double length);
     double getObjectLength() const;
@@ -32,6 +34,8 @@ class HorizontalSpeedCalculation {
     bool isTimeDefault(HPTime &time);
 
   private:
+    const SpeedCalculationType type = SPEED_CALCULATION_DISTANCE;
+
     double objectLength = 2000; // in mm
 
     // initialize to 1st Jan 1970 (Default value)

@@ -38,8 +38,6 @@ void ThreadController::initThread() {
     roiThread = nullptr;
     roiPreviewThread = nullptr;
     processThread = nullptr;
-    processRedundantThread = nullptr;
-    processHorizontalThread = nullptr;
     resultPreviewThread = nullptr;
     trimDataThread = nullptr;
 };
@@ -63,8 +61,6 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(roiThread);
     stopAndDeleteThread(roiPreviewThread);
     stopAndDeleteThread(processThread);
-    stopAndDeleteThread(processRedundantThread);
-    stopAndDeleteThread(processHorizontalThread);
     stopAndDeleteThread(resultPreviewThread);
     stopAndDeleteThread(trimDataThread);
 };
@@ -140,14 +136,6 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
 
     if (threadID == ThreadID::THREAD_PROCESS) {
         return processThread == nullptr;
-    }
-
-    if (threadID == ThreadID::THREAD_PROCESS_REDUNDANT) {
-        return processRedundantThread == nullptr;
-    }
-
-    if (threadID == ThreadID::THREAD_PROCESS_HORIZONTAL) {
-        return processHorizontalThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_RESULT_PREVIEW) {
@@ -298,14 +286,6 @@ bool ThreadController::isProcessThreadRunning() {
         return true;
     }
 
-    if (!isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
-        return true;
-    }
-
-    if (!isThreadNullptr(THREAD_PROCESS_HORIZONTAL)) {
-        return true;
-    }
-
     return false;
 }
 
@@ -315,14 +295,6 @@ bool ThreadController::isProcessThreadOwner(PanelID panelID) {
         return isThreadOwner(THREAD_PROCESS, panelID);
     }
 
-    if (!isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
-        return isThreadOwner(THREAD_PROCESS_REDUNDANT, panelID);
-    }
-
-    if (!isThreadNullptr(THREAD_PROCESS_HORIZONTAL)) {
-        return isThreadOwner(THREAD_PROCESS_HORIZONTAL, panelID);
-    }
-
     return false;
 }
 
@@ -330,14 +302,6 @@ BaseThread *ThreadController::getRunningProcessThread() {
 
     if (!isThreadNullptr(THREAD_PROCESS)) {
         return getProcessThread();
-    }
-
-    if (!isThreadNullptr(THREAD_PROCESS_REDUNDANT)) {
-        return getProcessRedundantThread();
-    }
-
-    if (!isThreadNullptr(THREAD_PROCESS_HORIZONTAL)) {
-        return getProcessHorizontalThread();
     }
 
     return nullptr;
@@ -493,14 +457,6 @@ RoiPreviewThread *ThreadController::getRoiPreviewThread() {
 }
 
 ProcessThread *ThreadController::getProcessThread() { return processThread; }
-
-ProcessRedundantThread *ThreadController::getProcessRedundantThread() {
-    return processRedundantThread;
-}
-
-ProcessHorizontalThread *ThreadController::getProcessHorizontalThread() {
-    return processHorizontalThread;
-}
 
 ResultPreviewThread *ThreadController::getResultPreviewThread() {
     return resultPreviewThread;
@@ -705,8 +661,12 @@ void ThreadController::endRoiPreviewHandler() {
 
 void ThreadController::startProcessHandler(wxEvtHandler *parent,
                                            POOLPtr threadPool, DataPtr data,
+                                           DetectorPtr detector,
+                                           TrackerPtr tracker,
+                                           SpeedPtr speedCalc,
                                            PanelID panelID) {
-    processThread = new ProcessThread(parent, data, threadPool);
+    processThread = new ProcessThread(parent, data, detector, tracker,
+                                      speedCalc, threadPool);
     processThread->Run();
 
     owner[processThread->getID()] = panelID;
@@ -714,36 +674,6 @@ void ThreadController::startProcessHandler(wxEvtHandler *parent,
 
 void ThreadController::endProcessHandler() {
     processThread = stopAndDeleteThread(processThread);
-}
-
-void ThreadController::startProcessRedundantHandler(wxEvtHandler *parent,
-                                                    POOLPtr threadPool,
-                                                    DataPtr data,
-                                                    PanelID panelID) {
-    processRedundantThread =
-        new ProcessRedundantThread(parent, data, threadPool);
-    processRedundantThread->Run();
-
-    owner[processRedundantThread->getID()] = panelID;
-}
-
-void ThreadController::endProcessRedundantHandler() {
-    processRedundantThread = stopAndDeleteThread(processRedundantThread);
-}
-
-void ThreadController::startProcessHorizontalHandler(wxEvtHandler *parent,
-                                                     POOLPtr threadPool,
-                                                     DataPtr data,
-                                                     PanelID panelID) {
-    processHorizontalThread =
-        new ProcessHorizontalThread(parent, data, threadPool);
-    processHorizontalThread->Run();
-
-    owner[processHorizontalThread->getID()] = panelID;
-}
-
-void ThreadController::endProcessHorizontalHandler() {
-    processHorizontalThread = stopAndDeleteThread(processHorizontalThread);
 }
 
 void ThreadController::startResultPreviewHandler(wxEvtHandler *parent,

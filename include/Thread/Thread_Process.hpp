@@ -12,6 +12,7 @@
 #ifndef PROCESS_THREAD_HPP
 #define PROCESS_THREAD_HPP
 
+#include "Algorithm/speed_calculation/speedCalculation.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Base.hpp"
 #include <Event/Event_ProcessImage.hpp>
@@ -31,7 +32,8 @@
  */
 class ProcessThread : public BaseThread {
   public:
-    ProcessThread(wxEvtHandler *parent, DataPtr data, POOLPtr threadPool);
+    ProcessThread(wxEvtHandler *parent, DataPtr data, DetectorPtr detector,
+                  TrackerPtr tracker, SpeedPtr speedCalc, POOLPtr threadPool);
     ~ProcessThread();
 
     ThreadID getID() const override;
@@ -43,40 +45,9 @@ class ProcessThread : public BaseThread {
     const ThreadID threadID = ThreadID::THREAD_PROCESS;
 
     POOLPtr pool;
-};
-
-class ProcessRedundantThread : public BaseThread {
-  public:
-    ProcessRedundantThread(wxEvtHandler *parent, DataPtr data,
-                           POOLPtr threadPool);
-    ~ProcessRedundantThread();
-
-    ThreadID getID() const override;
-
-  protected:
-    virtual ExitCode Entry() override;
-
-  private:
-    const ThreadID threadID = ThreadID::THREAD_PROCESS_REDUNDANT;
-
-    POOLPtr pool;
-};
-
-class ProcessHorizontalThread : public BaseThread {
-  public:
-    ProcessHorizontalThread(wxEvtHandler *parent, DataPtr data,
-                            POOLPtr threadPool);
-    ~ProcessHorizontalThread();
-
-    ThreadID getID() const override;
-
-  protected:
-    virtual ExitCode Entry() override;
-
-  private:
-    const ThreadID threadID = ThreadID::THREAD_PROCESS_HORIZONTAL;
-
-    POOLPtr pool;
+    SpeedPtr speedCalc;
+    TrackerPtr tracker;
+    DetectorPtr detector;
 };
 
 #endif

@@ -23,14 +23,12 @@
  */
 class SpeedTask : public Task {
   public:
-    SpeedTask(DataPtr data, SensorConfig sensorConfig,
-              MeasurementConfig measurementConfig);
+    SpeedTask(DataPtr data, SpeedPtr speedCalc);
     void Execute() override;
 
   private:
     DataPtr data;
-    SensorConfig sensorConfig;
-    MeasurementConfig measurementConfig;
+    SpeedPtr speedCalc;
 
     const std::string currentName = "SpeedTask";
     const TaskType currentType = TaskType::TASK_SPEED;

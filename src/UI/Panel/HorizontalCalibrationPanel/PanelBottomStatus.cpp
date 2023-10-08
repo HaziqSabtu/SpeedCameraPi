@@ -1,3 +1,4 @@
+#include "UI/Button/BitmapButton/Button_Bottom.hpp"
 #include "UI/Button/BitmapButton/Button_Left.hpp"
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
@@ -9,7 +10,7 @@ HorizontalCalibrationButtonBottom::HorizontalCalibrationButtonBottom(
     wxWindow *parent)
     : TextOutlinePanel(parent, RTC::BOTTOM_NONE) {
 
-    Bottom_Button = new BitmapL(this, Enum::HC_SelectBottom_Button_ID);
+    Bottom_Button = new BitmapB(this, Enum::HC_SelectBottom_Button_ID);
     Clear_Button = new BitmapRemove(this, Enum::HC_RemoveBottom_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);

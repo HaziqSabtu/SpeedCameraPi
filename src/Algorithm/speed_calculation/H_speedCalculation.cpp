@@ -1,10 +1,11 @@
 #include <Algorithm/speed_calculation/H_speedCalculation.hpp>
 
-HorizontalSpeedCalculation::HorizontalSpeedCalculation() {}
+DistanceSpeedCalculation::DistanceSpeedCalculation() {}
 
-void HorizontalSpeedCalculation::runCalculation(
-    std::vector<cv::Mat> &images, std::vector<HPTime> &times,
-    std::vector<cv::Rect> trackedRoi, std::vector<Line> &lines) {
+void DistanceSpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
+                                              std::vector<HPTime> &times,
+                                              std::vector<cv::Rect> trackedRoi,
+                                              std::vector<Line> &lines) {
 
     if (lines.size() != 2) {
         throw std::invalid_argument("Lines size must be 2");
@@ -42,7 +43,7 @@ void HorizontalSpeedCalculation::runCalculation(
     }
 }
 
-void HorizontalSpeedCalculation::analyzeDirection(
+void DistanceSpeedCalculation::analyzeDirection(
     std::vector<cv::Rect> &trackedRoi) {
     auto firstRectBrPoint = trackedRoi.front().br();
     auto lastRectBrPoint = trackedRoi.back().br();
@@ -59,7 +60,7 @@ void HorizontalSpeedCalculation::analyzeDirection(
     }
 }
 
-void HorizontalSpeedCalculation::assignLines(std::vector<Line> &lines) {
+void DistanceSpeedCalculation::assignLines(std::vector<Line> &lines) {
     Line lowerLine;
     Line upperLine;
 
@@ -82,7 +83,7 @@ void HorizontalSpeedCalculation::assignLines(std::vector<Line> &lines) {
     }
 }
 
-bool HorizontalSpeedCalculation::isCrossingLine(Line &line, cv::Rect &rect) {
+bool DistanceSpeedCalculation::isCrossingLine(Line &line, cv::Rect &rect) {
     cv::Point br = rect.br();
 
     if (direction == MOVING_DOWNWARDS) {
@@ -93,7 +94,7 @@ bool HorizontalSpeedCalculation::isCrossingLine(Line &line, cv::Rect &rect) {
 }
 
 // return in m/s
-double HorizontalSpeedCalculation::GetSpeed() {
+double DistanceSpeedCalculation::GetSpeed() {
     if (isTimeDefault(startTime) || isTimeDefault(endTime)) {
         throw std::invalid_argument("Calculation not done yet");
     }
@@ -107,14 +108,16 @@ double HorizontalSpeedCalculation::GetSpeed() {
     return objectLength / timeDiff;
 }
 
-bool HorizontalSpeedCalculation::isTimeDefault(HPTime &time) {
+bool DistanceSpeedCalculation::isTimeDefault(HPTime &time) {
     return time == std::chrono::system_clock::from_time_t(0);
 }
 
-void HorizontalSpeedCalculation::setObjectLength(double length) {
+void DistanceSpeedCalculation::setObjectLength(double length) {
     objectLength = length;
 }
 
-double HorizontalSpeedCalculation::getObjectLength() const {
+double DistanceSpeedCalculation::getObjectLength() const {
     return objectLength;
 }
+
+SpeedCalculationType DistanceSpeedCalculation::GetType() const { return type; }

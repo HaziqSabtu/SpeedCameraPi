@@ -22,7 +22,7 @@
 /**
  * @brief Class for Detecting Objects from Image using Optical Flow
  */
-class OFTracker : public IObjectTracker {
+class OFTracker : public ObjectTracker {
 
   private:
     // Feature detection Params

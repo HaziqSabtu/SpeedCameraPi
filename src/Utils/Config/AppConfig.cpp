@@ -27,6 +27,7 @@ AppConfig::AppConfig() {
 
         config->SetPath("/Measurement_Parameter");
         config->Write("Object_Width", Default_Object_Width);
+        config->Write("Object_Height", Default_Object_Height);
 
         config->SetPath("/Capture_Parameter");
         config->Write("Max_Frame_Count", Default_Max_Frame_Count);
@@ -192,19 +193,24 @@ MeasurementConfig AppConfig::GetMeasurementConfig() {
     config->SetPath("/Measurement_Parameter");
     config->Read("Object_Width", &measurementConfig.ObjectWidth,
                  Default_Object_Width);
+    config->Read("Object_Height", &measurementConfig.ObjectHeight,
+                 Default_Object_Height);
     return measurementConfig;
 }
 
 void AppConfig::SetMeasurementConfig(MeasurementConfig measurementConfig) {
     double objectWidth = measurementConfig.ObjectWidth;
+    double objectHeight = measurementConfig.ObjectHeight;
 
     config->SetPath("/Measurement_Parameter");
     config->Write("Object_Width", objectWidth);
+    config->Write("Object_Height", objectHeight);
 }
 
 void AppConfig::ResetMeasurementConfig() {
     MeasurementConfig measurementConfig;
     measurementConfig.ObjectWidth = Default_Object_Width;
+    measurementConfig.ObjectHeight = Default_Object_Height;
 
     SetMeasurementConfig(measurementConfig);
 }

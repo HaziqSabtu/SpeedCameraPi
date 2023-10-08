@@ -37,12 +37,12 @@ void ResultPanel::OnButton(wxCommandEvent &e) {
         dynamic_cast<ResultPanelButton *>(this->button_panel);
 
     if (e.GetId() == Enum::RE_Start_Button_ID) {
-        controller->e_ProcessThreadStart(this);
+        controller->e_ProcessLaneOFStart(this);
     }
 
     if (e.GetId() == Enum::RE_Redundant_Button_ID) {
         // controller->e_ProcessRedundantThreadStart(this);
-        controller->e_ProcessHorizontalThreadStart(this);
+        controller->e_ProcessDistOFStart(this);
     }
 
     if (e.GetId() == Enum::RE_Preview_Button_ID) {

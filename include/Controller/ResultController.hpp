@@ -33,14 +33,17 @@ class ResultController : public BaseController {
 
     void e_CancelButtonHandler(wxEvtHandler *parent);
 
-    void e_ProcessThreadStart(wxEvtHandler *parent);
-    void e_ProcessThreadEnd(wxEvtHandler *parent);
+    void e_ProcessLaneOFStart(wxEvtHandler *parent);
+    void e_ProcessLaneOFEnd(wxEvtHandler *parent);
 
-    void e_ProcessRedundantThreadStart(wxEvtHandler *parent);
-    void e_ProcessRedundantThreadEnd(wxEvtHandler *parent);
+    void e_ProcessLaneCSRTStart(wxEvtHandler *parent);
+    void e_ProcessLaneCSRTEnd(wxEvtHandler *parent);
 
-    void e_ProcessHorizontalThreadStart(wxEvtHandler *parent);
-    void e_ProcessHorizontalThreadEnd(wxEvtHandler *parent);
+    void e_ProcessDistOFStart(wxEvtHandler *parent);
+    void e_ProcessDistOFEnd(wxEvtHandler *parent);
+
+    void e_ProcessDistCSRTStart(wxEvtHandler *parent);
+    void e_ProcessDistCSRTEnd(wxEvtHandler *parent);
 
     void e_ResultPreviewStart(wxEvtHandler *parent);
     void e_ResultPreviewEnd(wxEvtHandler *parent);
@@ -62,14 +65,11 @@ class ResultController : public BaseController {
     void okButtonHandler(wxEvtHandler *parent) override;
     void cancelButtonHandler(wxEvtHandler *parent) override;
 
-    void processThreadStartHandler(wxEvtHandler *parent);
+    void processLaneOFStartHandler(wxEvtHandler *parent);
+    void processLaneCSRTStartHandler(wxEvtHandler *parent);
+    void processDistOFStartHandler(wxEvtHandler *parent);
+    void processDistCSRTStartHandler(wxEvtHandler *parent);
     void processThreadEndHandler(wxEvtHandler *parent);
-
-    void processRedundantThreadStartHandler(wxEvtHandler *parent);
-    void processRedundantThreadEndHandler(wxEvtHandler *parent);
-
-    void processHorizontalThreadStartHandler(wxEvtHandler *parent);
-    void processHorizontalThreadEndHandler(wxEvtHandler *parent);
 
     void resultPreviewStartHandler(wxEvtHandler *parent);
     void resultPreviewEndHandler(wxEvtHandler *parent);

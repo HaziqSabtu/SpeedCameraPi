@@ -335,7 +335,8 @@ const STD ObjectWidthTD = {.textColor = T::Text,
 const STDV ObjectWidthDD = {
     {.textColor = T::Text,
      .backgroundColor = T::Background,
-     .text = "The width of the object to measure. (in mm)",
+     .text =
+         "The width of the object to measure. (in mm) (for Lane Measurement)",
      .fontData = T::descriptionFontData},
 };
 
@@ -344,6 +345,25 @@ const SCDI ObjectWidthCtrlData = {
     .maxValue = 10000,
     .increment = 1,
 
+};
+
+const STD ObjectHeightTD = {.textColor = T::Text,
+                            .backgroundColor = T::Background,
+                            .text = "Object Height",
+                            .fontData = T::TitleChildFontData};
+
+const STDV ObjectHeightDD = {
+    {.textColor = T::Text,
+     .backgroundColor = T::Background,
+     .text = "The height of the object to measure. (in mm) (for Distance "
+             "Measurement)",
+     .fontData = T::descriptionFontData},
+};
+
+const SCDI ObjectHeightCtrlData = {
+    .minValue = 0,
+    .maxValue = 10000,
+    .increment = 1,
 };
 } // namespace Measurement
 
