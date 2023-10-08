@@ -18,5 +18,7 @@ class CaptureButtonTools : public TextOutlinePanel {
   private:
     void OnButtonClicked(wxCommandEvent &e);
 
+    void setPanelState(PanelState state);
+
     wxBoxSizer *buttonSizer;
 };

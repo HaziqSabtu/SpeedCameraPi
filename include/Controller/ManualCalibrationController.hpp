@@ -29,11 +29,17 @@ class ManualCalibrationController : public BaseControllerWithTouch {
     void e_ChangeToLeft(wxEvtHandler *parent);
     void e_ChangeToRight(wxEvtHandler *parent);
 
+    void e_ManualCalibrationStart(wxEvtHandler *parent);
+    void e_ManualCalibrationEnd(wxEvtHandler *parent);
+
     void e_ManualCalibrationCameraStart(wxEvtHandler *parent);
     void e_ManualCalibrationCameraEnd(wxEvtHandler *parent);
 
     void e_ManualCalibrationCaptureStart(wxEvtHandler *parent);
     void e_ManualCalibrationCaptureEnd(wxEvtHandler *parent);
+
+    void e_CalibrationPreviewStart(wxEvtHandler *parent);
+    void e_CalibrationPreviewEnd(wxEvtHandler *parent);
 
     void e_CalibrationPreviewCameraStart(wxEvtHandler *parent);
     void e_CalibrationPreviewCameraEnd(wxEvtHandler *parent);
@@ -61,11 +67,17 @@ class ManualCalibrationController : public BaseControllerWithTouch {
     void leftMoveHandler(wxEvtHandler *parent, cv::Point point) override;
     void leftUpHandler(wxEvtHandler *parent, cv::Point point) override;
 
+    void manualCalibrationStartHandler(wxEvtHandler *parent);
+    void manualCalibrationEndHandler(wxEvtHandler *parent);
+
     void manualCalibrationCameraStartHandler(wxEvtHandler *parent);
     void manualCalibrationCameraEndHandler(wxEvtHandler *parent);
 
     void manualCalibrationCaptureStartHandler(wxEvtHandler *parent);
     void manualCalibrationCaptureEndHandler(wxEvtHandler *parent);
+
+    void calibrationPreviewStartHandler(wxEvtHandler *parent);
+    void calibrationPreviewEndHandler(wxEvtHandler *parent);
 
     void calibrationPreviewCameraStartHandler(wxEvtHandler *parent);
     void calibrationPreviewCameraEndHandler(wxEvtHandler *parent);

@@ -9,8 +9,7 @@
 ManualCalibrationButtonPreview::ManualCalibrationButtonPreview(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::PREVIEW) {
 
-    PreviewCamera_Button =
-        new BitmapT2Camera(this, Enum::MC_PreviewCamera_Button_ID);
+    PreviewCamera_Button = new BitmapT2Camera(this, Enum::MC_Preview_Button_ID);
     PreviewCapture_Button =
         new BitmapT2MagnifyGlass(this, Enum::MC_PreviewCapture_Button_ID);
 
@@ -23,12 +22,12 @@ ManualCalibrationButtonPreview::ManualCalibrationButtonPreview(wxWindow *parent)
 
 void ManualCalibrationButtonPreview::update(const AppState &state) {
     // set panel
-    ManualCalibrationPanelState ps = state.manualCalibrationPanel;
+    // ManualCalibrationPanelState ps = state.manualCalibrationPanel;
 
-    setPanelState(ps.previewStatusState);
+    // setPanelState(ps.previewStatusState);
 
-    PreviewCamera_Button->update(ps.prevCameraButtonState);
-    PreviewCapture_Button->update(ps.prevCaptureButtonState);
+    // PreviewCamera_Button->update(ps.previewButtonState);
+    // PreviewCapture_Button->update(ps.prevCaptureButtonState);
 }
 
 void ManualCalibrationButtonPreview::setPanelState(PanelState state) {

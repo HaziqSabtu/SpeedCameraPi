@@ -31,7 +31,7 @@ void CaptureButtonROI::setPanelState(PanelState state) {
 }
 
 void CaptureButtonROI::update(const AppState &state) {
-    setPanelState(state.cameraPanel.roiStatusState);
-    Roi_Button->update(state.cameraPanel.roiButtonState);
-    Reset_Button->update(state.cameraPanel.roiRemoveButtonState);
+    setPanelState(state.capturePanel.roiStatusState);
+    Roi_Button->update(state.capturePanel.roiButtonState);
+    Reset_Button->update(state.capturePanel.roiRemoveButtonState);
 }

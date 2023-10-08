@@ -320,6 +320,32 @@ bool ThreadController::isCalibPreviewThreadRunning() {
     return false;
 }
 
+bool ThreadController::isCalibPreviewThreadOwner(PanelID panelID) {
+
+    if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
+        return isThreadOwner(THREAD_CALIBRATION_PREVIEW_CAMERA, panelID);
+    }
+
+    if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAPTURE)) {
+        return isThreadOwner(THREAD_CALIBRATION_PREVIEW_CAPTURE, panelID);
+    }
+
+    return false;
+}
+
+BaseThread *ThreadController::getRunningCalibPreviewThread() {
+
+    if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
+        return getCalibrationPreviewCameraThread();
+    }
+
+    if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAPTURE)) {
+        return getCalibrationPreviewCaptureThread();
+    }
+
+    return nullptr;
+}
+
 bool ThreadController::isCapturePanelThreadRunning() {
 
     // if (!isThreadNullptr(THREAD_CAMERA_PREVIEW)) {

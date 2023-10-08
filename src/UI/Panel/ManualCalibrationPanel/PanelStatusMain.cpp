@@ -16,15 +16,17 @@
 ManualCalibrationButtonMain::ManualCalibrationButtonMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CALIB_NONE) {
 
-    CalibrateCamera_Button =
-        new BitmapT2Calibration(this, Enum::MC_CalibrationCamera_Button_ID);
-    CalibrateCapture_Button =
-        new BitmapT2Calibration(this, Enum::MC_CalibrationCapture_Button_ID);
+    Calibrate_Button =
+        new BitmapT2Calibration(this, Enum::MC_Calibration_Button_ID);
+    Preview_Button = new BitmapT2MagnifyGlass(this, Enum::MC_Preview_Button_ID);
+    // CalibrateCapture_Button =
+    //     new BitmapT2Calibration(this, Enum::MC_CalibrationCapture_Button_ID);
     Reset_Button = new BitmapRemove(this, Enum::MC_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(CalibrateCamera_Button, 1, wxEXPAND);
-    buttonSizer->Add(CalibrateCapture_Button, 1, wxEXPAND);
+    buttonSizer->Add(Calibrate_Button, 1, wxEXPAND);
+    buttonSizer->Add(Preview_Button, 1, wxEXPAND);
+    // buttonSizer->Add(CalibrateCapture_Button, 1, wxEXPAND);
     buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     SetButtonSizer(buttonSizer);
@@ -42,8 +44,9 @@ void ManualCalibrationButtonMain::update(const AppState &state) {
     ManualCalibrationPanelState ps = state.manualCalibrationPanel;
     setPanelState(ps.state);
 
-    CalibrateCamera_Button->update(ps.calibrationButtonState);
-    CalibrateCapture_Button->update(ps.calibrationCaptureButtonState);
+    Calibrate_Button->update(ps.calibrationButtonState);
+    Preview_Button->update(ps.previewButtonState);
+    // CalibrateCapture_Button->update(ps.calibrationCaptureButtonState);
     Reset_Button->update(ps.removeButtonState);
 }
 

@@ -44,10 +44,10 @@ void CaptureButtonMain::setPanelState(PanelState state) {
 }
 
 void CaptureButtonMain::update(const AppState &state) {
-    setPanelState(state.cameraPanel.captureStatusState);
-    Capture_Button->update(state.cameraPanel.captureButtonState);
-    Load_Button->update(state.cameraPanel.loadButtonState);
-    Replay_Button->update(state.cameraPanel.replayButtonState);
-    Reset_Button->update(state.cameraPanel.removeButtonState);
-    Camera_Button->update(state.cameraPanel.cameraButtonState);
+    setPanelState(state.capturePanel.captureStatusState);
+    Capture_Button->update(state.capturePanel.captureButtonState);
+    Load_Button->update(state.capturePanel.loadButtonState);
+    Replay_Button->update(state.capturePanel.replayButtonState);
+    Reset_Button->update(state.capturePanel.removeButtonState);
+    Camera_Button->update(state.capturePanel.cameraButtonState);
 }

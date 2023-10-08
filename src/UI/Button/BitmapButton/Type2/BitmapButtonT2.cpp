@@ -54,15 +54,23 @@ BitmapButtonT2::BitmapButtonT2(wxWindow *parent, wxWindowID id,
 
 void BitmapButtonT2::update(ButtonState state) {
     if (state == ButtonState::ON) {
+        this->Show();
         return setOn();
     }
 
     if (state == ButtonState::OFF) {
+        this->Show();
         return setOff();
     }
 
     if (state == ButtonState::DISABLED) {
+        this->Show();
         return setDisabled();
+    }
+
+    if (state == ButtonState::HIDDEN) {
+        this->Hide();
+        return;
     }
 
     throw std::invalid_argument("Invalid ButtonState");

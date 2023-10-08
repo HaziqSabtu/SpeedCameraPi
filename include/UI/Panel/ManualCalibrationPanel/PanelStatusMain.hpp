@@ -12,8 +12,9 @@ class ManualCalibrationButtonMain : public TextOutlinePanel {
 
     void update(const AppState &state);
 
-    BitmapButtonT2 *CalibrateCamera_Button;
-    BitmapButtonT2 *CalibrateCapture_Button;
+    BitmapButtonT2 *Calibrate_Button;
+    BitmapButtonT2 *Preview_Button;
+    // BitmapButtonT2 *CalibrateCapture_Button;
     BitmapButton *Reset_Button;
 
   private:

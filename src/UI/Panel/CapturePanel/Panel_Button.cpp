@@ -21,7 +21,6 @@ CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
 
     lrSizer = new wxBoxSizer(wxHORIZONTAL);
     lrSizer->Add(CalibrationPanel, 1, wxALL, 0);
-    // lrSizer->Add(spacer, 0, wxALL, 0);
     lrSizer->Add(HorCalibrationPanel, 1, wxALL, 0);
     lrSizer->Add(spacer, 0, wxALL, 0);
     lrSizer->Add(RoiPanel, 1, wxALL, 0);
@@ -32,7 +31,8 @@ CaptureButtonPanel::CaptureButtonPanel(wxWindow *parent, wxWindowID id)
     main_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(ToolsPanel, 0, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(Measure_Button, 1, wxEXPAND | wxBOTTOM, 0);
+    main_sizer->Add(spacer, 1, wxEXPAND | wxBOTTOM, 0);
+    main_sizer->Add(Measure_Button, 0, wxEXPAND | wxBOTTOM, 0);
 
     SetSizer(main_sizer);
 }
@@ -44,7 +44,7 @@ void CaptureButtonPanel::update(const AppState &state) {
     RoiPanel->update(state);
     ToolsPanel->update(state);
 
-    auto ms = state.cameraPanel.measureButtonState;
+    auto ms = state.capturePanel.measureButtonState;
     Measure_Button->update(ms);
 }
 

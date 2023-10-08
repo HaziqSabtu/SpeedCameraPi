@@ -28,7 +28,24 @@ CaptureButtonTools::CaptureButtonTools(wxWindow *parent)
 void CaptureButtonTools::OnButtonClicked(wxCommandEvent &e) { e.Skip(); }
 
 void CaptureButtonTools::update(const AppState &state) {
-    Save_Button->update(state.cameraPanel.saveButtonState);
-    Trim_Button->update(state.cameraPanel.trimButtonState);
-    Reset_Button->update(state.cameraPanel.resetButtonState);
+    auto ps = state.capturePanel;
+    setPanelState(ps.toolsStatusState);
+
+    Save_Button->update(ps.saveButtonState);
+    Trim_Button->update(ps.trimButtonState);
+    Reset_Button->update(ps.resetButtonState);
+}
+
+void CaptureButtonTools::setPanelState(PanelState state) {
+    if (state == PanelState::PANEL_HIDDEN) {
+        this->Hide();
+        return;
+    }
+
+    if (state == PanelState::PANEL_OK) {
+        this->Show();
+        return;
+    }
+
+    throw std::runtime_error("Invalid panel state");
 }

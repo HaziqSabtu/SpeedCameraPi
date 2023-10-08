@@ -20,14 +20,11 @@ ManualCalibrationPanelButton::ManualCalibrationPanelButton(wxWindow *parent,
     lrSizer->Add(LeftPanel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 10);
     lrSizer->Add(RightPanel, 1, wxEXPAND | wxBOTTOM, 10);
 
-    PreviewPanel = new ManualCalibrationButtonPreview(this);
-
     OkCancelPanel = new OKCancelPanel(this);
 
     button_sizer = new wxBoxSizer(wxVERTICAL);
     button_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
-    button_sizer->Add(PreviewPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(spacer, 1, wxEXPAND);
     button_sizer->Add(OkCancelPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
@@ -38,7 +35,6 @@ void ManualCalibrationPanelButton::update(const AppState &state) {
     MainPanel->update(state);
     LeftPanel->update(state);
     RightPanel->update(state);
-    PreviewPanel->update(state);
 
     auto okState = state.manualCalibrationPanel.okButtonState;
     auto cancelState = state.manualCalibrationPanel.cancelButtonState;

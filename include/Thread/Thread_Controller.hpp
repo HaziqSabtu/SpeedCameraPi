@@ -168,6 +168,8 @@ class ThreadController {
 
     // Calibration Preview Helper Methods
     bool isCalibPreviewThreadRunning();
+    bool isCalibPreviewThreadOwner(PanelID panelID);
+    BaseThread *getRunningCalibPreviewThread();
 
     // Capture Helper Methods
     bool isCapturePanelThreadRunning();

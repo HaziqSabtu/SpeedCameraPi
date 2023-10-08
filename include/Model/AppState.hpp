@@ -24,6 +24,7 @@ struct CapturePanelState {
     ButtonState roiButtonState;
     ButtonState roiRemoveButtonState;
 
+    PanelState toolsStatusState;
     ButtonState saveButtonState;
     ButtonState trimButtonState;
     ButtonState resetButtonState;
@@ -59,7 +60,7 @@ struct ManualCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
-    ButtonState calibrationCaptureButtonState;
+    ButtonState previewButtonState;
     ButtonState removeButtonState;
 
     PanelState leftStatusState;
@@ -69,10 +70,6 @@ struct ManualCalibrationPanelState {
     PanelState rightStatusState;
     ButtonState selectRightButtonState;
     ButtonState removeRightButtonState;
-
-    PanelState previewStatusState;
-    ButtonState prevCameraButtonState;
-    ButtonState prevCaptureButtonState;
 
     ButtonState okButtonState;
     ButtonState cancelButtonState;
@@ -185,7 +182,7 @@ class AppState {
     TrimDataPanelState getTrimDataPanelState(ModelPtr model);
 
   public:
-    CapturePanelState cameraPanel;
+    CapturePanelState capturePanel;
     CalibrationPanelState calibrationPanel;
     ManualCalibrationPanelState manualCalibrationPanel;
     HorizontalCalibrationPanelState horizontalCalibrationPanel;
@@ -215,6 +212,7 @@ class AppState {
     ButtonState getCPROIRemoveButtonState(ModelPtr model);
 
     // Capture Panel -> Save / Trim / Reset
+    PanelState getCPToolsStatusState(ModelPtr model);
     ButtonState getCPSaveButtonState(ModelPtr model);
     ButtonState getCPTrimButtonState(ModelPtr model);
     ButtonState getCPResetButtonState(ModelPtr model);
@@ -252,7 +250,7 @@ class AppState {
     // Manual Calibration Panel
     PanelState getMCStatusState(ModelPtr model);
     ButtonState getMCButtonState(ModelPtr model);
-    ButtonState getMCCaptureButtonState(ModelPtr model);
+    ButtonState getMCPreviewButtonState(ModelPtr model);
     ButtonState getMCRemoveButtonState(ModelPtr model);
 
     // Manual Calibration Panel -> Left
@@ -264,11 +262,6 @@ class AppState {
     PanelState getMCRightStatusState(ModelPtr model);
     ButtonState getMCSelectRightButtonState(ModelPtr model);
     ButtonState getMCRemoveRightButtonState(ModelPtr model);
-
-    // Manual Calibration Panel -> Preview
-    PanelState getMCPreviewStatusState(ModelPtr model);
-    ButtonState getMCPrevCameraButtonState(ModelPtr model);
-    ButtonState getMCPrevCaptureButtonState(ModelPtr model);
 
     // Manual Calibration Panel -> OK / Cancel
     ButtonState getMCOKButtonState(ModelPtr model);

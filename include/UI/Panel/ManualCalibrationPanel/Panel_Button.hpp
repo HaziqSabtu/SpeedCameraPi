@@ -21,7 +21,6 @@ class ManualCalibrationPanelButton : public BaseButtonPanel {
     ManualCalibrationButtonMain *MainPanel;
     ManualCalibrationButtonLeft *LeftPanel;
     ManualCalibrationButtonRight *RightPanel;
-    ManualCalibrationButtonPreview *PreviewPanel;
     OKCancelPanel *OkCancelPanel;
 
   private:

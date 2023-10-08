@@ -42,9 +42,9 @@ void CaptureButtonCalibration::setPanelState(PanelState state) {
 }
 
 void CaptureButtonCalibration::update(const AppState &state) {
-    setPanelState(state.cameraPanel.calibStatusState);
-    Calibrate_Button->update(state.cameraPanel.calibButtonState);
-    Reset_Button->update(state.cameraPanel.calibRemoveButtonState);
+    setPanelState(state.capturePanel.calibStatusState);
+    Calibrate_Button->update(state.capturePanel.calibButtonState);
+    Reset_Button->update(state.capturePanel.calibRemoveButtonState);
 }
 
 CaptureButtonHorCalibration::CaptureButtonHorCalibration(wxWindow *parent)
@@ -86,7 +86,7 @@ void CaptureButtonHorCalibration::setPanelState(PanelState state) {
 }
 
 void CaptureButtonHorCalibration::update(const AppState &state) {
-    setPanelState(state.cameraPanel.horCalibStatusState);
-    Calibrate_Button->update(state.cameraPanel.calibButtonState);
-    Reset_Button->update(state.cameraPanel.calibRemoveButtonState);
+    setPanelState(state.capturePanel.horCalibStatusState);
+    Calibrate_Button->update(state.capturePanel.calibButtonState);
+    Reset_Button->update(state.capturePanel.calibRemoveButtonState);
 }

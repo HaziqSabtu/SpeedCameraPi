@@ -1,4 +1,5 @@
 #include "Event/Event_UpdateStatus.hpp"
+#include "Thread/Thread_ID.hpp"
 #include "UI/Data/StatusData.hpp"
 #include "UI/Dialog/RemoveCalibrationDialog.hpp"
 #include <Controller/ManualCalibrationController.hpp>
@@ -70,6 +71,25 @@ void ManualCalibrationController::e_ChangeToRight(wxEvtHandler *parent) {
     }
 }
 
+void ManualCalibrationController::e_ManualCalibrationStart(
+    wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        manualCalibrationStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ManualCalibrationController::e_ManualCalibrationEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        manualCalibrationEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void ManualCalibrationController::e_ManualCalibrationCameraStart(
     wxEvtHandler *parent) {
     try {
@@ -105,6 +125,26 @@ void ManualCalibrationController::e_ManualCalibrationCaptureEnd(
     try {
         checkPreCondition();
         manualCalibrationCaptureEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ManualCalibrationController::e_CalibrationPreviewStart(
+    wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        calibrationPreviewStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ManualCalibrationController::e_CalibrationPreviewEnd(
+    wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        calibrationPreviewEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -282,6 +322,37 @@ void ManualCalibrationController::leftUpHandler(wxEvtHandler *parent,
     data->setCalibrationData(calibData);
 }
 
+void ManualCalibrationController::manualCalibrationStartHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    auto data = shared->getSessionData();
+
+    if (data->isCaptureDataEmpty()) {
+        manualCalibrationCameraStartHandler(parent);
+    } else {
+        manualCalibrationCaptureStartHandler(parent);
+    }
+}
+
+void ManualCalibrationController::manualCalibrationEndHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isManualCalibrationThreadRunning()) {
+        throw std::runtime_error("manualCalibThread is not running");
+    }
+
+    auto thread = tc->getRunningManualCalibrationThread();
+    if (thread->getID() == THREAD_MANUAL_CALIBRATION_CAMERA) {
+        manualCalibrationCameraEndHandler(parent);
+    } else {
+        manualCalibrationCaptureEndHandler(parent);
+    }
+}
+
 void ManualCalibrationController::manualCalibrationCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -347,6 +418,37 @@ void ManualCalibrationController::manualCalibrationCaptureEndHandler(
     thread->Pause();
 
     tc->endManualCalibrationCaptureHandler();
+}
+
+void ManualCalibrationController::calibrationPreviewStartHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    auto data = shared->getSessionData();
+
+    if (data->isCaptureDataEmpty()) {
+        calibrationPreviewCameraStartHandler(parent);
+    } else {
+        calibrationPreviewCaptureStartHandler(parent);
+    }
+}
+
+void ManualCalibrationController::calibrationPreviewEndHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isCalibPreviewThreadRunning()) {
+        throw std::runtime_error("calibPrevThread is not running");
+    }
+
+    auto thread = tc->getRunningCalibPreviewThread();
+    if (thread->getID() == THREAD_CALIBRATION_PREVIEW_CAMERA) {
+        calibrationPreviewCameraEndHandler(parent);
+    } else {
+        calibrationPreviewCaptureEndHandler(parent);
+    }
 }
 
 void ManualCalibrationController::calibrationPreviewCameraStartHandler(
