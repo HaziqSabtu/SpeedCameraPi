@@ -1,4 +1,5 @@
 #include "Event/Event_UpdateStatus.hpp"
+#include "Thread/Thread_ID.hpp"
 #include "UI/Dialog/RemoveCalibrationDialog.hpp"
 #include <Controller/CalibrationController.hpp>
 #include <stdexcept>
@@ -15,6 +16,24 @@ void CalibrationController::e_RemoveCalibrationData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         removeCalibrationDataHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CalibrationController::e_CalibrationStart(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        calibrationStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CalibrationController::e_CalibrationEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        calibrationEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -51,6 +70,24 @@ void CalibrationController::e_CalibrationCaptureEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         calibrationCaptureEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CalibrationController::e_CalibrationPreviewStart(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        calibrationPreviewStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void CalibrationController::e_CalibrationPreviewEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        calibrationPreviewEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -132,6 +169,35 @@ void CalibrationController::e_SaveData(wxEvtHandler *parent) {
     }
 }
 
+void CalibrationController::calibrationStartHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    auto data = shared->getSessionData();
+
+    if (data->isCaptureDataEmpty()) {
+        calibrationCameraStartHandler(parent);
+    } else {
+        calibrationCaptureStartHandler(parent);
+    }
+}
+
+void CalibrationController::calibrationEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isCalibrationThreadRunning()) {
+        throw std::runtime_error("calibrationThread is not running");
+    }
+
+    auto thread = tc->getRunningCalibrationThread();
+    if (thread->getID() == THREAD_CALIBRATION_CAMERA) {
+        calibrationCameraEndHandler(parent);
+    } else {
+        calibrationCaptureEndHandler(parent);
+    }
+}
+
 void CalibrationController::calibrationCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -198,6 +264,36 @@ void CalibrationController::calibrationCaptureEndHandler(wxEvtHandler *parent) {
     saveCalibrationData(parent, thread);
 
     tc->endCalibrationCaptureHandler();
+}
+
+void CalibrationController::calibrationPreviewStartHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    auto data = shared->getSessionData();
+
+    if (data->isCaptureDataEmpty()) {
+        calibrationPreviewCameraStartHandler(parent);
+    } else {
+        calibrationPreviewCaptureStartHandler(parent);
+    }
+}
+
+void CalibrationController::calibrationPreviewEndHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isCalibPreviewThreadRunning()) {
+        throw std::runtime_error("calibPrevThread is not running");
+    }
+
+    auto thread = tc->getRunningCalibPreviewThread();
+    if (thread->getID() == THREAD_CALIBRATION_PREVIEW_CAMERA) {
+        calibrationPreviewCameraEndHandler(parent);
+    } else {
+        calibrationPreviewCaptureEndHandler(parent);
+    }
 }
 
 void CalibrationController::calibrationPreviewCameraStartHandler(

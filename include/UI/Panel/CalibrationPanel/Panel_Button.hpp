@@ -20,7 +20,7 @@ class CalibrationPanelButton : public BaseButtonPanel {
 
     CalibrationButtonMain *MainPanel;
     CalibrationButtonTool *ToolPanel;
-    CalibrationButtonPreview *PreviewPanel;
+    // CalibrationButtonPreview *PreviewPanel;
     CalibrationButtonOther *OtherPanel;
     OKCancelPanel *OkCancelPanel;
 

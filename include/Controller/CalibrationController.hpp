@@ -40,11 +40,17 @@ class CalibrationController : public BaseControllerWithTouch {
 
     void e_SaveData(wxEvtHandler *parent);
 
+    void e_CalibrationStart(wxEvtHandler *parent);
+    void e_CalibrationEnd(wxEvtHandler *parent);
+
     void e_CalibrationCameraStart(wxEvtHandler *parent);
     void e_CalibrationCameraEnd(wxEvtHandler *parent);
 
     void e_CalibrationCaptureStart(wxEvtHandler *parent);
     void e_CalibrationCaptureEnd(wxEvtHandler *parent);
+
+    void e_CalibrationPreviewStart(wxEvtHandler *parent);
+    void e_CalibrationPreviewEnd(wxEvtHandler *parent);
 
     void e_CalibrationPreviewCameraStart(wxEvtHandler *parent);
     void e_CalibrationPreviewCameraEnd(wxEvtHandler *parent);
@@ -68,11 +74,17 @@ class CalibrationController : public BaseControllerWithTouch {
 
     void saveDataHandler(wxEvtHandler *parent);
 
+    void calibrationStartHandler(wxEvtHandler *parent);
+    void calibrationEndHandler(wxEvtHandler *parent);
+
     void calibrationCameraStartHandler(wxEvtHandler *parent);
     void calibrationCameraEndHandler(wxEvtHandler *parent);
 
     void calibrationCaptureStartHandler(wxEvtHandler *parent);
     void calibrationCaptureEndHandler(wxEvtHandler *parent);
+
+    void calibrationPreviewStartHandler(wxEvtHandler *parent);
+    void calibrationPreviewEndHandler(wxEvtHandler *parent);
 
     void calibrationPreviewCameraStartHandler(wxEvtHandler *parent);
     void calibrationPreviewCameraEndHandler(wxEvtHandler *parent);

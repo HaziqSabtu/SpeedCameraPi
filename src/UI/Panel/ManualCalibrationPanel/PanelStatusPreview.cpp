@@ -10,8 +10,8 @@ ManualCalibrationButtonPreview::ManualCalibrationButtonPreview(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::PREVIEW) {
 
     PreviewCamera_Button = new BitmapT2Camera(this, Enum::MC_Preview_Button_ID);
-    PreviewCapture_Button =
-        new BitmapT2MagnifyGlass(this, Enum::MC_PreviewCapture_Button_ID);
+    // PreviewCapture_Button =
+    //     new BitmapT2MagnifyGlass(this, Enum::MC_PreviewCapture_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(PreviewCamera_Button, 1, wxEXPAND);

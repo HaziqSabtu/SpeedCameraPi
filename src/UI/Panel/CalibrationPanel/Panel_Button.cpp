@@ -12,7 +12,6 @@ CalibrationPanelButton::CalibrationPanelButton(wxWindow *parent, wxWindowID id)
 
     MainPanel = new CalibrationButtonMain(this);
     ToolPanel = new CalibrationButtonTool(this);
-    PreviewPanel = new CalibrationButtonPreview(this);
     OtherPanel = new CalibrationButtonOther(this);
     OkCancelPanel = new OKCancelPanel(this);
 
@@ -21,7 +20,6 @@ CalibrationPanelButton::CalibrationPanelButton(wxWindow *parent, wxWindowID id)
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(ToolPanel, 0, wxEXPAND | wxBOTTOM, 10);
-    main_sizer->Add(PreviewPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(OtherPanel, 0, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(spacer, 1, wxEXPAND | wxBOTTOM, 10);
     main_sizer->Add(OkCancelPanel, 0, wxEXPAND | wxBOTTOM, 0);
@@ -32,7 +30,6 @@ CalibrationPanelButton::CalibrationPanelButton(wxWindow *parent, wxWindowID id)
 void CalibrationPanelButton::update(const AppState &state) {
     MainPanel->update(state);
     ToolPanel->update(state);
-    PreviewPanel->update(state);
     OtherPanel->update(state);
 
     auto okState = state.calibrationPanel.okButtonState;

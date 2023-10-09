@@ -36,7 +36,8 @@ struct CalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
-    ButtonState calibrationCaptureButtonState;
+    ButtonState previewButtonState;
+    ButtonState manualCalibrationButtonState;
     ButtonState removeButtonState;
 
     PanelState toolStatusState;
@@ -44,13 +45,8 @@ struct CalibrationPanelState {
     ButtonState cancelCalibrationButtonState;
     ButtonState acceptCalibrationButtonState;
 
-    PanelState previewStatusState;
-    ButtonState prevCameraButtonState;
-    ButtonState prevCaptureButtonState;
-
     PanelState otherStatusState;
     ButtonState recalibrateColorButtonState;
-    ButtonState manualCalibrationButtonState;
 
     ButtonState okButtonState;
     ButtonState cancelButtonState;
@@ -221,10 +217,10 @@ class AppState {
     ButtonState getCPMeasureButtonState(ModelPtr model);
 
     // Calibration Panel
-    // PanelState AppState::getCalibrationStatusState(ModelPtr model)
     PanelState getCLStatusState(ModelPtr model);
     ButtonState getCLCalibrationButtonState(ModelPtr model);
-    ButtonState getCLCaptureButtonState(ModelPtr model);
+    ButtonState getCLPreviewButtonState(ModelPtr model);
+    ButtonState getCLManualCalibrationButtonState(ModelPtr model);
     ButtonState getCLRemoveButtonState(ModelPtr model);
 
     // Calibration Panel -> Tools
@@ -233,15 +229,9 @@ class AppState {
     ButtonState getCLCancelCalibrationButtonState(ModelPtr model);
     ButtonState getCLAcceptCalibrationButtonState(ModelPtr model);
 
-    // Calibration Panel -> Preview
-    PanelState getCLPreviewStatusState(ModelPtr model);
-    ButtonState getCLPrevCameraButtonState(ModelPtr model);
-    ButtonState getCLPrevCaptureButtonState(ModelPtr model);
-
     // Calibration Panel -> Recalibrate / Others
     PanelState getCLOtherStatusState(ModelPtr model);
     ButtonState getCLRecalibrateColorButtonState(ModelPtr model);
-    ButtonState getCLManualCalibrationButtonState(ModelPtr model);
 
     // Calibration Panel -> OK / Cancel
     ButtonState getCLOKButtonState(ModelPtr model);

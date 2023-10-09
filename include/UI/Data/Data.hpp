@@ -277,6 +277,23 @@ const BitmapData BitmapHeight = {
     .text = wxT("Calibrate"),
 };
 
+const BitmapData BitmapAuto = {
+    .filename = wxT("Assets/a_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapDisabled,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Auto Calibration"),
+};
+const BitmapData BitmapManual = {
+    .filename = wxT("Assets/m_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapDisabled,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Manual Calibration"),
+};
+
 // BitmapButtonT2 Data
 const BitmapDataT2 BitmapT2Camera = {
     .size = T::BitmapDefaultSize,
@@ -302,6 +319,19 @@ const BitmapDataT2 BitmapT2Calibration = {
     .disabledName = "Assets/start_96.png",
     .disabledColour = T::BitmapDisabled,
     .disabledText = "Start Calibration",
+};
+
+const BitmapDataT2 BitmapT2Auto = {
+    .size = T::BitmapDefaultSize,
+    .onName = "Assets/stop_96.png",
+    .onColour = T::BitmapActive,
+    .onText = "Stop Calibration",
+    .offName = "Assets/a_96.png",
+    .offColour = T::BitmapNormal,
+    .offText = "Auto Calibration",
+    .disabledName = "Assets/a_96.png",
+    .disabledColour = T::BitmapDisabled,
+    .disabledText = "Auto Calibration",
 };
 
 const BitmapDataT2 BitmapT2MagnifyGlass = {
