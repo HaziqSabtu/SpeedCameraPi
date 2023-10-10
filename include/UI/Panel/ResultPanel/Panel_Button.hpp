@@ -6,6 +6,7 @@
 #include "UI/Panel/Common/OKCancelPanel.hpp"
 #include "UI/Panel/ResultPanel/PanelResultPreview.hpp"
 #include "UI/Panel/ResultPanel/PanelStatusResult.hpp"
+#include "UI/Panel/ResultPanel/SpeedPanel.hpp"
 #include <Utils/Enum.hpp>
 
 #include <wx/gtk/button.h>
@@ -18,8 +19,11 @@ class ResultPanelButton : public BaseButtonPanel {
 
     void update(const AppState &state) override;
 
+    void updateSpeed(double speed);
+
     ResultPanelMain *MainPanel;
     ResultPanelPreview *PreviewPanel;
+    SpeedPanel *speedPanel;
 
     TextButton *Back_button;
 

@@ -17,7 +17,7 @@
 #include <UI/Panel/ResultPanel/PanelResultPreview.hpp>
 
 ResultPanelPreview::ResultPanelPreview(wxWindow *parent)
-    : TextOutlinePanel(parent, RTC::RESULT_NONE) {
+    : TextOutlinePanel(parent, RTC::PREVIEW) {
 
     Box_Button = new BitmapT2Box(this, Enum::RE_Box_Button_ID);
     Intersection_Button = new BitmapT2Ruler(this, Enum::RE_Lines_Button_ID);

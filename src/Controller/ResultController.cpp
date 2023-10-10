@@ -32,6 +32,42 @@ void ResultController::e_CancelButtonHandler(wxEvtHandler *parent) {
     }
 }
 
+void ResultController::e_ProcessOFStart(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processOFStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ProcessOFEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processThreadEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ProcessCSRTStart(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processCSRTStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void ResultController::e_ProcessCSRTEnd(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        processThreadEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void ResultController::e_ProcessLaneOFStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -122,6 +158,15 @@ void ResultController::e_ResultPreviewEnd(wxEvtHandler *parent) {
     }
 }
 
+void ResultController::e_UpdateSpeedPanel(wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        updateSpeedPanelHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void ResultController::e_ToggleShowBox(wxEvtHandler *parent, bool show) {
     try {
         checkPreCondition();
@@ -182,6 +227,30 @@ void ResultController::killAllThreads(wxEvtHandler *parent) {
     }
 
     throwIfAnyThreadIsRunning();
+}
+
+void ResultController::processOFStartHandler(wxEvtHandler *parent) {
+    auto data = shared->getSessionData();
+
+    if (data->getMode() == Mode::MODE_LANE) {
+        processLaneOFStartHandler(parent);
+    } else if (data->getMode() == Mode::MODE_DISTANCE) {
+        processDistOFStartHandler(parent);
+    } else {
+        throw std::runtime_error("Invalid mode");
+    }
+}
+
+void ResultController::processCSRTStartHandler(wxEvtHandler *parent) {
+    auto data = shared->getSessionData();
+
+    if (data->getMode() == Mode::MODE_LANE) {
+        processLaneCSRTStartHandler(parent);
+    } else if (data->getMode() == Mode::MODE_DISTANCE) {
+        processDistCSRTStartHandler(parent);
+    } else {
+        throw std::runtime_error("Invalid mode");
+    }
 }
 
 void ResultController::processLaneOFStartHandler(wxEvtHandler *parent) {
@@ -463,6 +532,23 @@ void ResultController::cancelButtonHandler(wxEvtHandler *parent) {
 
     ChangePanelData data(this->panelID, PanelID::PANEL_CAPTURE);
     ChangePanelEvent::Submit(parent, data);
+}
+
+void ResultController::updateSpeedPanelHandler(wxEvtHandler *parent) {
+    auto data = shared->getSessionData();
+
+    if (data->isResultDataEmpty()) {
+        throw std::runtime_error("Result Data is empty");
+    }
+
+    auto resultData = data->getResultData();
+    auto speed = resultData.speed;
+
+    if (speed < 0) {
+        throw std::runtime_error("Invalid speed");
+    }
+
+    UpdateSpeedEvent::Submit(parent, speed);
 }
 
 void ResultController::processEndHandler(wxEvtHandler *parent) {

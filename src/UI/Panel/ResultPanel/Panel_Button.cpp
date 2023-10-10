@@ -13,11 +13,13 @@ ResultPanelButton::ResultPanelButton(wxWindow *parent, wxWindowID id)
     MainPanel = new ResultPanelMain(this);
     PreviewPanel = new ResultPanelPreview(this);
     Back_button = new BackTextButton(this, Enum::G_Cancel_Button_ID);
+    speedPanel = new SpeedPanel(this);
 
     button_sizer = new wxBoxSizer(wxVERTICAL);
     button_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(PreviewPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(spacer, 1, wxEXPAND);
+    button_sizer->Add(speedPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(Back_button, 0, wxEXPAND | wxBOTTOM, 0);
 
     this->SetSizer(button_sizer);
@@ -26,6 +28,14 @@ ResultPanelButton::ResultPanelButton(wxWindow *parent, wxWindowID id)
 void ResultPanelButton::update(const AppState &state) {
     MainPanel->update(state);
     PreviewPanel->update(state);
+    speedPanel->update(state);
+
+    auto backButtonState = state.resultPanel.backButtonState;
+    Back_button->update(backButtonState);
+}
+
+void ResultPanelButton::updateSpeed(double speed) {
+    speedPanel->SetSpeed(speed);
 }
 
 // clang-format off

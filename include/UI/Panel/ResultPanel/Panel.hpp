@@ -4,6 +4,7 @@
 #include "Controller/ResultController.hpp"
 #include "Controller/RoiController.hpp"
 #include "Event/Event_UpdatePreview.hpp"
+#include "Event/Event_UpdateSpeed.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/SessionData.hpp"
@@ -43,6 +44,7 @@ class ResultPanel : public BasePanel {
     void OnButton(wxCommandEvent &e);
     void OnProcessImage(wxCommandEvent &e);
     void OnCapturePreview(wxCommandEvent &e);
+    void OnUpdateSpeed(UpdateSpeedEvent &e);
 
     DECLARE_EVENT_TABLE()
 };

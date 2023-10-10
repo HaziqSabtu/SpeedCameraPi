@@ -198,6 +198,10 @@ ResultPanelState AppState::getResultPanelState(ModelPtr model) {
     ps.lanesButtonState = getRPLanesButtonState(model);
     ps.replayButtonState = getRPReplayButtonState(model);
 
+    ps.speedStatusState = getRPSpeedStatusState(model);
+
+    ps.backButtonState = getRPBackButtonState(model);
+
     return ps;
 }
 
@@ -1419,18 +1423,20 @@ ButtonState AppState::getTDCancelButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getRPResultStatusState(ModelPtr model) { return PANEL_OK; }
+PanelState AppState::getRPResultStatusState(ModelPtr model) {
+    auto data = model->getSessionData();
+    if (data->isResultDataEmpty()) {
+        return PanelState::PANEL_NOT_OK;
+    }
+    return PanelState::PANEL_OK;
+}
 
 ButtonState AppState::getRPProcLaneButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
-    if (data->getMode() != MODE_LANE) {
+    if (!data->isResultDataEmpty()) {
         return ButtonState::HIDDEN;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
-        return ButtonState::DISABLED;
     }
 
     if (!tc->isThreadNullptr(THREAD_PROCESS)) {
@@ -1444,16 +1450,16 @@ ButtonState AppState::getRPProcDistButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
-    if (data->getMode() != MODE_DISTANCE) {
+    if (data->isResultDataEmpty()) {
         return ButtonState::HIDDEN;
     }
 
     if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
-        return ButtonState::DISABLED;
+        return ButtonState::HIDDEN;
     }
 
     if (!tc->isThreadNullptr(THREAD_PROCESS)) {
-        return ButtonState::DISABLED;
+        return ButtonState::ACTIVE;
     }
 
     return ButtonState::NORMAL;
@@ -1462,8 +1468,13 @@ ButtonState AppState::getRPProcDistButtonState(ModelPtr model) {
 ButtonState AppState::getRPPreviewButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
+    auto data = model->getSessionData();
+    if (data->isResultDataEmpty()) {
+        return ButtonState::HIDDEN;
+    }
+
     if (!tc->isThreadNullptr(THREAD_PROCESS)) {
-        return ButtonState::DISABLED;
+        return ButtonState::HIDDEN;
     }
 
     if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
@@ -1533,6 +1544,26 @@ ButtonState AppState::getRPReplayButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     if (getRPPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
+        return ButtonState::DISABLED;
+    }
+
+    return ButtonState::NORMAL;
+}
+
+PanelState AppState::getRPSpeedStatusState(ModelPtr model) {
+    auto data = model->getSessionData();
+
+    if (data->isResultDataEmpty()) {
+        return PanelState::PANEL_HIDDEN;
+    }
+
+    return PanelState::PANEL_OK;
+}
+
+ButtonState AppState::getRPBackButtonState(ModelPtr model) {
+    auto tc = model->getThreadController();
+
+    if (tc->isProcessThreadRunning()) {
         return ButtonState::DISABLED;
     }
 

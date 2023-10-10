@@ -3,6 +3,7 @@
 #include "UI/Button/BitmapButton/Bitmap_Calibration.hpp"
 #include "UI/Button/BitmapButton/Button_Preview.hpp"
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
+#include "UI/Button/BitmapButton/Button_Replay.hpp"
 #include "UI/Button/BitmapButton/Button_Stop.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_Camera.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_MagnifyGlass.hpp"
@@ -15,9 +16,9 @@
 ResultPanelMain::ResultPanelMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::RESULT_NONE) {
 
-    Process_Button = new BitmapCalibration(this, Enum::RE_Start_Button_ID);
-    Redundant_Button =
-        new BitmapCalibration(this, Enum::RE_Redundant_Button_ID);
+    Process_Button = new BitmapCalibration(this, Enum::RE_Start_OF_Button_ID);
+    Redundant_Button = new BitmapReplay(this, Enum::RE_Redundant_Button_ID,
+                                        Data::BitmapRerunCSRT);
     Preview_Button = new BitmapT2MagnifyGlass(this, Enum::RE_Preview_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);

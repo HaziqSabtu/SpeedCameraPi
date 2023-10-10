@@ -115,7 +115,7 @@ enum ProjectIDs {
     // ResultPanel
     RE_Panel_ID,
     RE_Button_Panel_ID,
-    RE_Start_Button_ID,
+    RE_Start_OF_Button_ID,
     RE_Redundant_Button_ID,
     RE_Preview_Button_ID,
     RE_Box_Button_ID,

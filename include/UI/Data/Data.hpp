@@ -285,6 +285,7 @@ const BitmapData BitmapAuto = {
     .disabled = T::BitmapDisabled,
     .text = wxT("Auto Calibration"),
 };
+
 const BitmapData BitmapManual = {
     .filename = wxT("Assets/m_96.png"),
     .size = T::BitmapDefaultSize,
@@ -292,6 +293,15 @@ const BitmapData BitmapManual = {
     .active = T::BitmapDisabled,
     .disabled = T::BitmapDisabled,
     .text = wxT("Manual Calibration"),
+};
+
+const BitmapData BitmapRerunCSRT = {
+    .filename = wxT("Assets/repeat_96.png"),
+    .size = T::BitmapDefaultSize,
+    .normal = T::BitmapNormal,
+    .active = T::BitmapDisabled,
+    .disabled = T::BitmapDisabled,
+    .text = wxT("Rerun with CSRT"),
 };
 
 // BitmapButtonT2 Data

@@ -3,6 +3,7 @@
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_ProcessImage.hpp"
+#include "Event/Event_UpdateSpeed.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 
 #include "Model/AppState.hpp"
@@ -36,13 +37,13 @@ void ResultPanel::OnButton(wxCommandEvent &e) {
     ResultPanelButton *button_panel =
         dynamic_cast<ResultPanelButton *>(this->button_panel);
 
-    if (e.GetId() == Enum::RE_Start_Button_ID) {
-        controller->e_ProcessLaneOFStart(this);
+    if (e.GetId() == Enum::RE_Start_OF_Button_ID) {
+        controller->e_ProcessOFStart(this);
     }
 
     if (e.GetId() == Enum::RE_Redundant_Button_ID) {
         // controller->e_ProcessRedundantThreadStart(this);
-        controller->e_ProcessDistOFStart(this);
+        controller->e_ProcessCSRTStart(this);
     }
 
     if (e.GetId() == Enum::RE_Preview_Button_ID) {
@@ -136,7 +137,7 @@ void ResultPanel::OnProcessImage(wxCommandEvent &e) {
 
     if (e.GetId() == PROCESS_END) {
         controller->e_ProcessEnd(this);
-        // UpdateStatusEvent::Submit(this, SC::STATUS_PROCESSING_END);
+        controller->e_UpdateSpeedPanel(this);
     }
 
     controller->e_UpdateState(this);
@@ -159,9 +160,18 @@ void ResultPanel::OnCapturePreview(wxCommandEvent &e) {
     controller->e_UpdateState(this);
 }
 
+void ResultPanel::OnUpdateSpeed(UpdateSpeedEvent &e) {
+    auto speed = e.GetSpeed();
+
+    ResultPanelButton *button_panel =
+        dynamic_cast<ResultPanelButton *>(this->button_panel);
+    button_panel->updateSpeed(speed);
+}
+
 // clang-format off
 wxBEGIN_EVENT_TABLE(ResultPanel, BasePanel)
     EVT_BUTTON(wxID_ANY,ResultPanel::OnButton) 
     EVT_COMMAND(wxID_ANY, c_PROCESS_IMAGE_EVENT, ResultPanel::OnProcessImage)
     EVT_COMMAND(wxID_ANY, c_PREVIEW_CAPTURE_EVENT, ResultPanel::OnCapturePreview)
+    EVT_UPDATE_SPEED(wxID_ANY, ResultPanel::OnUpdateSpeed)
 wxEND_EVENT_TABLE()

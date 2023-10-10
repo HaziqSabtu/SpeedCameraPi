@@ -107,6 +107,7 @@ wxThread::ExitCode ProcessThread::Entry() {
         }
 
         auto speed = data->getResultData().speed;
+
         std::string resultString = "Speed: " + std::to_string(speed) + " km/h";
         UpdateStatusEvent::Submit(parent, resultString);
     } catch (const std::exception &e) {

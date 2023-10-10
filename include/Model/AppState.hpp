@@ -156,6 +156,10 @@ struct ResultPanelState {
     ButtonState linesButtonState;
     ButtonState lanesButtonState;
     ButtonState replayButtonState;
+
+    PanelState speedStatusState;
+
+    ButtonState backButtonState;
 };
 
 class AppState {
@@ -344,4 +348,10 @@ class AppState {
     ButtonState getRPLinesButtonState(ModelPtr model);
     ButtonState getRPLanesButtonState(ModelPtr model);
     ButtonState getRPReplayButtonState(ModelPtr model);
+
+    // Result Panel -> Speed
+    PanelState getRPSpeedStatusState(ModelPtr model);
+
+    // Result Panel -> Back
+    ButtonState getRPBackButtonState(ModelPtr model);
 };

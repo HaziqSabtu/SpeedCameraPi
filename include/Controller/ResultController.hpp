@@ -2,6 +2,7 @@
 
 #include <Controller/BaseController.hpp>
 
+#include <Event/Event_UpdateSpeed.hpp>
 #include <Event/Event_UpdateState.hpp>
 
 #include <Model/SessionData.hpp>
@@ -33,20 +34,28 @@ class ResultController : public BaseController {
 
     void e_CancelButtonHandler(wxEvtHandler *parent);
 
+    void e_ProcessOFStart(wxEvtHandler *parent);
+    void e_ProcessOFEnd(wxEvtHandler *parent);
+
     void e_ProcessLaneOFStart(wxEvtHandler *parent);
     void e_ProcessLaneOFEnd(wxEvtHandler *parent);
 
-    void e_ProcessLaneCSRTStart(wxEvtHandler *parent);
-    void e_ProcessLaneCSRTEnd(wxEvtHandler *parent);
-
     void e_ProcessDistOFStart(wxEvtHandler *parent);
     void e_ProcessDistOFEnd(wxEvtHandler *parent);
+
+    void e_ProcessCSRTStart(wxEvtHandler *parent);
+    void e_ProcessCSRTEnd(wxEvtHandler *parent);
+
+    void e_ProcessLaneCSRTStart(wxEvtHandler *parent);
+    void e_ProcessLaneCSRTEnd(wxEvtHandler *parent);
 
     void e_ProcessDistCSRTStart(wxEvtHandler *parent);
     void e_ProcessDistCSRTEnd(wxEvtHandler *parent);
 
     void e_ResultPreviewStart(wxEvtHandler *parent);
     void e_ResultPreviewEnd(wxEvtHandler *parent);
+
+    void e_UpdateSpeedPanel(wxEvtHandler *parent);
 
     void e_ToggleShowBox(wxEvtHandler *parent, bool show);
     void e_ToggleShowLanes(wxEvtHandler *parent, bool show);
@@ -65,6 +74,9 @@ class ResultController : public BaseController {
     void okButtonHandler(wxEvtHandler *parent) override;
     void cancelButtonHandler(wxEvtHandler *parent) override;
 
+    void processOFStartHandler(wxEvtHandler *parent);
+    void processCSRTStartHandler(wxEvtHandler *parent);
+
     void processLaneOFStartHandler(wxEvtHandler *parent);
     void processLaneCSRTStartHandler(wxEvtHandler *parent);
     void processDistOFStartHandler(wxEvtHandler *parent);
@@ -78,6 +90,8 @@ class ResultController : public BaseController {
     void toggleShowLanesHandler(wxEvtHandler *parent, bool show);
     void toggleShowLinesHandler(wxEvtHandler *parent, bool show);
     void setIndexToZeroHandler(wxEvtHandler *parent);
+
+    void updateSpeedPanelHandler(wxEvtHandler *parent);
 
     void processEndHandler(wxEvtHandler *parent);
 };

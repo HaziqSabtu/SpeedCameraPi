@@ -1,7 +1,8 @@
 #include <UI/StaticText/Statustext.hpp>
 
-StatusText::StatusText(wxWindow *parent, wxWindowID id, wxString text)
-    : wxStaticText(parent, id, text) {
+StatusText::StatusText(wxWindow *parent, wxWindowID id, wxString text,
+                       const wxPoint &pos, const wxSize &size, long style)
+    : wxStaticText(parent, id, text, pos, size, style) {
 
     SetBackgroundColour(backgroundColour);
     SetForegroundColour(textColour);
@@ -11,11 +12,6 @@ StatusText::StatusText(wxWindow *parent, wxWindowID id, wxString text)
     wxFont font(fontInfo);
 
     SetFont(font);
-
-    text_sizer = new wxBoxSizer(wxVERTICAL);
-    text_sizer->AddStretchSpacer();
-    text_sizer->Add(this, 0, wxEXPAND);
-    text_sizer->AddStretchSpacer();
 }
 
 StatusText::~StatusText() {}
