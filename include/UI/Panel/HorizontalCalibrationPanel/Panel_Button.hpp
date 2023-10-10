@@ -21,7 +21,6 @@ class HorizontalCalibrationPanelButton : public BaseButtonPanel {
     HorizontalCalibrationButtonMain *MainPanel;
     HorizontalCalibrationButtonBottom *BottomPanel;
     HorizontalCalibrationButtonTop *TopPanel;
-    HorizontalCalibrationButtonPreview *PreviewPanel;
     OKCancelPanel *OkCancelPanel;
 
   private:

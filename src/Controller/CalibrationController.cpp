@@ -546,8 +546,5 @@ void CalibrationController::panelShowHandler(wxEvtHandler *parent) {
         return;
     }
 
-    if (data->isCaptureDataEmpty())
-        return calibrationCameraStartHandler(parent);
-
-    calibrationCaptureStartHandler(parent);
+    calibrationStartHandler(parent);
 }

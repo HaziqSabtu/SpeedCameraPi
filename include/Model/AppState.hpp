@@ -75,7 +75,7 @@ struct HorizontalCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
-    ButtonState calibrationCaptureButtonState;
+    ButtonState previewButtonState;
     ButtonState removeButtonState;
 
     PanelState topStatusState;
@@ -85,10 +85,6 @@ struct HorizontalCalibrationPanelState {
     PanelState bottomStatusState;
     ButtonState selectBottomButtonState;
     ButtonState removeBottomButtonState;
-
-    PanelState previewStatusState;
-    ButtonState prevCameraButtonState;
-    ButtonState prevCaptureButtonState;
 
     ButtonState okButtonState;
     ButtonState cancelButtonState;
@@ -260,7 +256,7 @@ class AppState {
     // Horizontal Calibration Panel
     PanelState getHCStatusState(ModelPtr model);
     ButtonState getHCButtonState(ModelPtr model);
-    ButtonState getHCCaptureButtonState(ModelPtr model);
+    ButtonState getHCPreviewButtonState(ModelPtr model);
     ButtonState getHCRemoveButtonState(ModelPtr model);
 
     // Horizontal Calibration Panel -> Top
@@ -272,11 +268,6 @@ class AppState {
     PanelState getHCBottomStatusState(ModelPtr model);
     ButtonState getHCSelectBottomButtonState(ModelPtr model);
     ButtonState getHCRemoveBottomButtonState(ModelPtr model);
-
-    // Horizontal Calibration Panel -> Preview
-    PanelState getHCPreviewStatusState(ModelPtr model);
-    ButtonState getHCPrevCameraButtonState(ModelPtr model);
-    ButtonState getHCPrevCaptureButtonState(ModelPtr model);
 
     // Horizontal Calibration Panel -> OK / Cancel
     ButtonState getHCOKButtonState(ModelPtr model);

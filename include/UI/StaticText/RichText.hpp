@@ -23,12 +23,12 @@ const RTD CALIB_OK = {
 };
 
 const RTD HCALIB_NONE = {
-    {wxT("Distance Calibration: "), Theme::Text},
+    {wxT("Dist. Calibration: "), Theme::Text},
     {wxT("NONE"), Theme::StatusNone},
 };
 
 const RTD HCALIB_OK = {
-    {wxT("Distance Calibration: "), Theme::Text},
+    {wxT("Dist. Calibration: "), Theme::Text},
     {wxT("CALIBRATED"), Theme::StatusOk},
 };
 
@@ -55,10 +55,6 @@ const RTD ROI_OK = {
 const RTD CAPTURE_TOOLS = {
     {wxT("Tools"), Theme::Text},
 };
-
-// const RTD DEBUG = {
-//     {wxT("#DEBUG"), Theme::Text},
-// };
 
 const RTD PREVIEW = {
     {wxT("Preview"), Theme::Text},

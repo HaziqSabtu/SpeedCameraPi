@@ -73,6 +73,26 @@ void HorizontalCalibrationController::e_ChangeToTop(wxEvtHandler *parent) {
     }
 }
 
+void HorizontalCalibrationController::e_HorizontalCalibrationStart(
+    wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        horizontalCalibrationStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void HorizontalCalibrationController::e_HorizontalCalibrationEnd(
+    wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        horizontalCalibrationEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
 void HorizontalCalibrationController::e_HorizontalCalibrationCameraStart(
     wxEvtHandler *parent) {
     try {
@@ -108,6 +128,26 @@ void HorizontalCalibrationController::e_HorizontalCalibrationCaptureEnd(
     try {
         checkPreCondition();
         horizontalCalibrationCaptureEndHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void HorizontalCalibrationController::e_CalibrationPreviewStart(
+    wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        calibrationPreviewStartHandler(parent);
+    } catch (std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+    }
+}
+
+void HorizontalCalibrationController::e_CalibrationPreviewEnd(
+    wxEvtHandler *parent) {
+    try {
+        checkPreCondition();
+        calibrationPreviewEndHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -275,6 +315,37 @@ void HorizontalCalibrationController::leftUpHandler(wxEvtHandler *parent,
     data->setCalibrationData(calibData);
 }
 
+void HorizontalCalibrationController::horizontalCalibrationStartHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    auto data = shared->getSessionData();
+
+    if (data->isCaptureDataEmpty()) {
+        horizontalCalibrationCameraStartHandler(parent);
+    } else {
+        horizontalCalibrationCaptureStartHandler(parent);
+    }
+}
+
+void HorizontalCalibrationController::horizontalCalibrationEndHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isHorizontalCalibrationThreadRunning()) {
+        throw std::runtime_error("CalibrationThread is not running");
+    }
+
+    auto thread = tc->getRunningHorizontalCalibrationThread();
+    if (thread->getID() == THREAD_HORIZONTAL_CALIBRATION_CAMERA) {
+        horizontalCalibrationCameraEndHandler(parent);
+    } else {
+        horizontalCalibrationCaptureEndHandler(parent);
+    }
+}
+
 void HorizontalCalibrationController::horizontalCalibrationCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -339,6 +410,37 @@ void HorizontalCalibrationController::horizontalCalibrationCaptureEndHandler(
     thread->Pause();
 
     tc->endHorizontalCalibrationCaptureHandler();
+}
+
+void HorizontalCalibrationController::calibrationPreviewStartHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    throwIfAnyThreadIsRunning();
+
+    auto data = shared->getSessionData();
+
+    if (data->isCaptureDataEmpty()) {
+        calibrationPreviewCameraStartHandler(parent);
+    } else {
+        calibrationPreviewCaptureStartHandler(parent);
+    }
+}
+
+void HorizontalCalibrationController::calibrationPreviewEndHandler(
+    wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+
+    if (!tc->isCalibPreviewThreadRunning()) {
+        throw std::runtime_error("calibPrevThread is not running");
+    }
+
+    auto thread = tc->getRunningCalibPreviewThread();
+    if (thread->getID() == THREAD_CALIBRATION_PREVIEW_CAMERA) {
+        calibrationPreviewCameraEndHandler(parent);
+    } else {
+        calibrationPreviewCaptureEndHandler(parent);
+    }
 }
 
 void HorizontalCalibrationController::calibrationPreviewCameraStartHandler(
@@ -500,8 +602,5 @@ void HorizontalCalibrationController::panelShowHandler(wxEvtHandler *parent) {
         return;
     }
 
-    if (data->isCaptureDataEmpty())
-        return horizontalCalibrationCameraStartHandler(parent);
-
-    horizontalCalibrationCaptureStartHandler(parent);
+    horizontalCalibrationCameraStartHandler(parent);
 }

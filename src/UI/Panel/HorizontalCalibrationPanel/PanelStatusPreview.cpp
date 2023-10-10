@@ -9,27 +9,26 @@
 HorizontalCalibrationButtonPreview::HorizontalCalibrationButtonPreview(
     wxWindow *parent)
     : TextOutlinePanel(parent, RTC::PREVIEW) {
+    // TODO: Remove this
+    // PreviewCamera_Button = new BitmapT2Camera(this, Enum::HC_Preview_Button_ID);
+    // PreviewCapture_Button =
+    //     new BitmapT2MagnifyGlass(this, Enum::HC_PreviewCapture_Button_ID);
 
-    PreviewCamera_Button =
-        new BitmapT2Camera(this, Enum::HC_PreviewCamera_Button_ID);
-    PreviewCapture_Button =
-        new BitmapT2MagnifyGlass(this, Enum::HC_PreviewCapture_Button_ID);
+    // buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+    // buttonSizer->Add(PreviewCamera_Button, 1, wxEXPAND);
+    // buttonSizer->Add(PreviewCapture_Button, 1, wxEXPAND);
 
-    buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    buttonSizer->Add(PreviewCamera_Button, 1, wxEXPAND);
-    buttonSizer->Add(PreviewCapture_Button, 1, wxEXPAND);
-
-    SetButtonSizer(buttonSizer);
+    // SetButtonSizer(buttonSizer);
 }
 
 void HorizontalCalibrationButtonPreview::update(const AppState &state) {
     // set panel
     HorizontalCalibrationPanelState ps = state.horizontalCalibrationPanel;
 
-    setPanelState(ps.previewStatusState);
+    // setPanelState(ps.previewStatusState);
 
-    PreviewCamera_Button->update(ps.prevCameraButtonState);
-    PreviewCapture_Button->update(ps.prevCaptureButtonState);
+    // PreviewCamera_Button->update(ps.previewButtonState);
+    // PreviewCapture_Button->update(ps.prevCaptureButtonState);
 }
 
 void HorizontalCalibrationButtonPreview::setPanelState(PanelState state) {

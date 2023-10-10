@@ -21,14 +21,11 @@ HorizontalCalibrationPanelButton::HorizontalCalibrationPanelButton(
     lrSizer->AddSpacer(10);
     lrSizer->Add(BottomPanel, 1, wxEXPAND | wxBOTTOM, 10);
 
-    PreviewPanel = new HorizontalCalibrationButtonPreview(this);
-
     OkCancelPanel = new OKCancelPanel(this);
 
     button_sizer = new wxBoxSizer(wxVERTICAL);
     button_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
-    button_sizer->Add(PreviewPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(spacer, 1, wxEXPAND);
     button_sizer->Add(OkCancelPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
@@ -39,7 +36,6 @@ void HorizontalCalibrationPanelButton::update(const AppState &state) {
     MainPanel->update(state);
     BottomPanel->update(state);
     TopPanel->update(state);
-    PreviewPanel->update(state);
 
     auto okState = state.horizontalCalibrationPanel.okButtonState;
     auto cancelState = state.horizontalCalibrationPanel.cancelButtonState;

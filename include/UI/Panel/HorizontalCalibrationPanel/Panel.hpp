@@ -25,12 +25,8 @@ class HorizontalCalibrationPanel : public BasePanelWithTouch {
 
     HCCPtr controller;
 
-    // void doPostLeftDown() override;
-
     void TogglePreviewButtonHandler(BitmapButtonT2 *button);
-    void TogglePreviewCaptureButtonHandler(BitmapButtonT2 *button);
     void ToggleCalibrationButtonHandler(BitmapButtonT2 *button);
-    void ToggleCalibrationCaptureButtonHandler(BitmapButtonT2 *button);
 
     void OnButton(wxCommandEvent &e);
     void OnCalibrationEvent(wxCommandEvent &e);
