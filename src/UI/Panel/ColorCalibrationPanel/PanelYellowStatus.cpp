@@ -12,7 +12,7 @@ ColorCalibrationButtonYellow::ColorCalibrationButtonYellow(wxWindow *parent)
 
     Color_Button = new BitmapColorPicker(this, Enum::CC_SelectYellow_Button_ID,
                                          Data::BitmapSelectYellow);
-    Clear_Button = new BitmapAccept(this, Enum::CC_AcceptYellow_Button_ID);
+    Clear_Button = new BitmapRemove(this, Enum::CC_AcceptYellow_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(Color_Button, 1, wxEXPAND);
@@ -36,10 +36,16 @@ void ColorCalibrationButtonYellow::update(const AppState &state) {
 
 void ColorCalibrationButtonYellow::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
-        SetTextData(RTC::CALIB_OK);
+        SetTextData(RTC::COLOR_CALIB_YELLOW_OK);
+        this->Show();
     }
 
     if (state == PanelState::PANEL_NOT_OK) {
-        SetTextData(RTC::CALIB_NONE);
+        SetTextData(RTC::COLOR_CALIB_YELLOW_NONE);
+        this->Show();
+    }
+
+    if (state == PanelState::PANEL_HIDDEN) {
+        this->Hide();
     }
 }

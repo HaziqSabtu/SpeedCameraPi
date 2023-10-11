@@ -16,12 +16,15 @@
 
 #include <wx/thread.h>
 
+#define ColorRange std::pair<cv::Scalar, cv::Scalar>
+
 class ColorCalibrationPreviewThread : public BaseThread,
                                       public PreviewableThread,
                                       public CameraAccessor {
   public:
     ColorCalibrationPreviewThread(wxEvtHandler *parent, CameraPtr &camera,
-                                  CCModelPtr ccExtraModel);
+                                  const ColorRange &blueRange,
+                                  const ColorRange &yellowRange);
     ~ColorCalibrationPreviewThread();
 
     ThreadID getID() const override;
@@ -34,5 +37,8 @@ class ColorCalibrationPreviewThread : public BaseThread,
   private:
     const ThreadID id = THREAD_COLOR_CALIBRATION_PREVIEW;
 
-    CCModelPtr ccExtraModel;
+    ColorRange blueRange;
+    ColorRange yellowRange;
+
+    // CCModelPtr ccExtraModel;
 };

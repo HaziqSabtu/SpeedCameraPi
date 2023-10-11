@@ -24,7 +24,22 @@ ColorCalibrationButtonOther::ColorCalibrationButtonOther(wxWindow *parent)
 void ColorCalibrationButtonOther::update(const AppState &state) {
     // set panel
     ColorCalibrationPanelState ps = state.colorCalibrationPanel;
+    setPanelState(ps.otherStatusState);
 
     Save_button->update(ps.saveButtonState);
     Restore_button->update(ps.restoreButtonState);
+}
+
+void ColorCalibrationButtonOther::setPanelState(PanelState state) {
+    if (state == PanelState::PANEL_OK) {
+        this->Show();
+    }
+
+    if (state == PanelState::PANEL_NOT_OK) {
+        this->Show();
+    }
+
+    if (state == PanelState::PANEL_HIDDEN) {
+        this->Hide();
+    }
 }

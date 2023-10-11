@@ -5,6 +5,7 @@
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
 #include "UI/Button/BitmapButton/Button_Save.hpp"
 #include "UI/Button/BitmapButton/Button_Stop.hpp"
+#include "UI/Button/BitmapButton/Type2/Button_Calibration.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_Camera.hpp"
 #include "UI/Button/BitmapButton/Type2/Button_MagnifyGlass.hpp"
 #include "UI/Data/Data.hpp"
@@ -16,7 +17,7 @@
 ColorCalibrationButtonMain::ColorCalibrationButtonMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::COLOR_CALIB) {
 
-    Calibrate_Button = new BitmapCalibration(this, Enum::CC_Start_Button_ID);
+    Calibrate_Button = new BitmapT2Calibration(this, Enum::CC_Start_Button_ID);
     Stop_Button = new BitmapStop(this, Enum::CC_Stop_Button_ID);
     Preview_Button =
         new BitmapT2MagnifyGlass(this, Enum::CC_ToggleCamera_Button_ID);

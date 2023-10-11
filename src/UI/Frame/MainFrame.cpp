@@ -82,8 +82,8 @@ void MainFrame::showFirstPanel() {
         throw std::runtime_error("MainFrame::showFirstPanel: panel is null");
     }
 
-    panels[FIRST_PANEL_ID]->Show();
     sharedModel->sessionData.setPanelID(FIRST_PANEL_ID);
+    panels[FIRST_PANEL_ID]->Show();
 }
 
 void MainFrame::OnError(ErrorEvent &e) {

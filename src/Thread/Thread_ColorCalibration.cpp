@@ -1,5 +1,6 @@
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_Error.hpp"
+#include "Event/Event_RequestUpdateState.hpp"
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateStatus.hpp"
 #include "Model/CalibrationData.hpp"
@@ -9,6 +10,7 @@
 #include <iostream>
 #include <opencv2/imgproc.hpp>
 #include <utility>
+#include <wx/event.h>
 #include <wx/utils.h>
 
 ColorCalibrationThread::ColorCalibrationThread(wxEvtHandler *parent,
@@ -29,18 +31,17 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
         unsigned char smin = 0, smax = 0;
         unsigned char vmin = 0, vmax = 0;
 
+        cv::Mat frame;
+        camera->getFrame(frame);
+
+        if (frame.empty()) {
+            throw std::runtime_error("Failed to capture frame");
+        }
+
+        cv::resize(frame, frame, pSize);
+
         while (!TestDestroy()) {
             {
-
-                cv::Mat frame;
-                camera->getFrame(frame);
-
-                if (frame.empty()) {
-                    throw std::runtime_error("Failed to capture frame");
-                }
-
-                cv::resize(frame, frame, pSize);
-
                 if (point == cv::Point(-1, -1)) {
                     wxMilliSleep(300);
                     UpdatePreviewEvent::Submit(parent, frame);
@@ -91,6 +92,7 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
                             if (alpha == 0) {
                                 continue;
                             }
+
                             if (hsvCrop.at<cv::Vec3b>(y, x)[0] < hmin) {
                                 hmin = hsvCrop.at<cv::Vec3b>(y, x)[0];
                             }
@@ -141,7 +143,7 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
                 cv::Scalar lower = cv::Scalar(hmin, smin, vmin);
                 cv::Scalar upper = cv::Scalar(hmax, smax, vmax);
 
-                auto val = std::make_pair(lower, upper);
+                auto val = std::make_pair(upper, lower);
 
                 pType == COLOR_CALIBRATION_BLUE ? updateBlueRange(val)
                                                 : updateYellowRange(val);
@@ -155,6 +157,14 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
                                     " V: " + std::to_string(vmin) + " - " +
                                     std::to_string(vmax);
                 UpdateStatusEvent::Submit(parent, range);
+
+                if (updateStateSwitch) {
+                    updateStateSwitch = false;
+
+                    wxCommandEvent updateState(c_REQUEST_UPDATE_STATE_EVENT,
+                                               REQUEST_UPDATE_STATE);
+                    wxPostEvent(parent, updateState);
+                }
                 wxMilliSleep(100);
             }
         }
@@ -174,6 +184,7 @@ void ColorCalibrationThread::setPoint(cv::Point point) {
     std::unique_lock<std::recursive_mutex> lock(m_mutex);
     this->point = point;
     bfs.setStart(point);
+    updateStateSwitch = true;
 }
 
 cv::Point ColorCalibrationThread::getPoint() {
@@ -238,4 +249,16 @@ void ColorCalibrationThread::updateYellowRange(
     std::pair<cv::Scalar, cv::Scalar> range) {
     std::unique_lock<std::recursive_mutex> lock(m_mutex);
     yellowRange = range;
+}
+
+bool ColorCalibrationThread::isBlueRangeDefined() {
+    std::unique_lock<std::recursive_mutex> lock(m_mutex);
+    return blueRange.first != cv::Scalar(0, 0, 0) &&
+           blueRange.second != cv::Scalar(0, 0, 0);
+}
+
+bool ColorCalibrationThread::isYellowRangeDefined() {
+    std::unique_lock<std::recursive_mutex> lock(m_mutex);
+    return yellowRange.first != cv::Scalar(0, 0, 0) &&
+           yellowRange.second != cv::Scalar(0, 0, 0);
 }

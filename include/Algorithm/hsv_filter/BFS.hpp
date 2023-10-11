@@ -21,4 +21,6 @@ class BFS {
 
     bool withinDistance(const cv::Vec3b &a, const cv::Vec3b &b,
                         double distance);
+
+    double distance = 1.0;
 };

@@ -15,13 +15,10 @@ ColorCalibrationPanelButton::ColorCalibrationPanelButton(wxWindow *parent,
     BluePanel = new ColorCalibrationButtonBlue(this);
     YellowPanel = new ColorCalibrationButtonYellow(this);
 
-    wxStaticText *lrSpacer = new wxStaticText(
-        this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(10, 10));
-
     wxBoxSizer *lrSizer = new wxBoxSizer(wxHORIZONTAL);
-    lrSizer->Add(BluePanel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 0);
-    lrSizer->Add(lrSpacer, 0, wxEXPAND);
-    lrSizer->Add(YellowPanel, 1, wxEXPAND | wxBOTTOM | wxRIGHT, 0);
+    lrSizer->Add(BluePanel, 1, wxEXPAND);
+    lrSizer->AddSpacer(10);
+    lrSizer->Add(YellowPanel, 1, wxEXPAND);
 
     OtherPanel = new ColorCalibrationButtonOther(this);
 
@@ -29,9 +26,9 @@ ColorCalibrationPanelButton::ColorCalibrationPanelButton(wxWindow *parent,
 
     button_sizer = new wxBoxSizer(wxVERTICAL);
     button_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
-    button_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(OtherPanel, 0, wxEXPAND | wxBOTTOM, 10);
-    button_sizer->Add(spacer, 1, wxEXPAND);
+    button_sizer->Add(lrSizer, 0, wxEXPAND | wxBOTTOM, 10);
+    button_sizer->AddStretchSpacer();
     button_sizer->Add(OkCancelPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
     this->SetSizer(button_sizer);

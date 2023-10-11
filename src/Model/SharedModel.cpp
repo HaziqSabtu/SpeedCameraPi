@@ -180,11 +180,11 @@ bool SharedModel::isSessionDataChanged() {
     return sessionData != tempSessionData;
 }
 
-void SharedModel::setCCExtraModel(ColorCalibExtraModel ccExtraModel) {
-    this->ccExtraModel = ccExtraModel.clone();
-}
+// void SharedModel::setCCExtraModel(ColorCalibExtraModel ccExtraModel) {
+//     this->ccExtraModel = ccExtraModel.clone();
+// }
 
-CCModelPtr SharedModel::getCCExtraModel() {
-    return std::shared_ptr<ColorCalibExtraModel>(&ccExtraModel,
-                                                 [](ColorCalibExtraModel *) {});
-}
+// CCModelPtr SharedModel::getCCExtraModel() {
+//     return std::shared_ptr<ColorCalibExtraModel>(&ccExtraModel,
+//                                                  [](ColorCalibExtraModel *) {});
+// }

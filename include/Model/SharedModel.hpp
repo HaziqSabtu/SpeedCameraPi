@@ -67,8 +67,8 @@ class SharedModel : public ISharedModel {
 
     bool isSessionDataChanged();
 
-    void setCCExtraModel(ColorCalibExtraModel ccExtraModel);
-    CCModelPtr getCCExtraModel();
+    // void setCCExtraModel(ColorCalibExtraModel ccExtraModel);
+    // CCModelPtr getCCExtraModel();
 
   protected:
   private:
@@ -78,5 +78,5 @@ class SharedModel : public ISharedModel {
 
     SessionData tempSessionData;
 
-    ColorCalibExtraModel ccExtraModel;
+    // ColorCalibExtraModel ccExtraModel;
 };

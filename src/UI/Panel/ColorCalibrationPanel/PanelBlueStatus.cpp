@@ -14,7 +14,7 @@ ColorCalibrationButtonBlue::ColorCalibrationButtonBlue(wxWindow *parent)
 
     Color_Button = new BitmapColorPicker(this, Enum::CC_SelectBlue_Button_ID,
                                          Data::BitmapSelectBlue);
-    Clear_Button = new BitmapAccept(this, Enum::CC_AcceptBlue_Button_ID);
+    Clear_Button = new BitmapRemove(this, Enum::CC_AcceptBlue_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(Color_Button, 1, wxEXPAND);
@@ -38,10 +38,16 @@ void ColorCalibrationButtonBlue::update(const AppState &state) {
 
 void ColorCalibrationButtonBlue::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
-        SetTextData(RTC::CALIB_OK);
+        SetTextData(RTC::COLOR_CALIB_BLUE_OK);
+        this->Show();
     }
 
     if (state == PanelState::PANEL_NOT_OK) {
-        SetTextData(RTC::CALIB_NONE);
+        SetTextData(RTC::COLOR_CALIB_BLUE_NONE);
+        this->Show();
+    }
+
+    if (state == PanelState::PANEL_HIDDEN) {
+        this->Hide();
     }
 }

@@ -31,7 +31,7 @@ cv::Mat BFS::run(cv::Mat &src) {
         cv::Vec3b current = src.at<cv::Vec3b>(p.y, p.x);
         cv::Vec3b parent = src.at<cv::Vec3b>(n.parent.y, n.parent.x);
 
-        if (withinDistance(current, parent, 10.0)) {
+        if (withinDistance(current, parent, distance)) {
             dst.at<uchar>(p.y, p.x) = 255;
             p.x + 1 < src.cols ? q.push(Nodes(cv::Point(p.x + 1, p.y), p))
                                : void();
@@ -60,9 +60,11 @@ bool BFS::withinDistance(const cv::Vec3b &a, const cv::Vec3b &b,
     double hue_distance =
         std::min(std::abs(hue_a - hue_b), 180.0 - std::abs(hue_a - hue_b));
 
-    double dist =
-        std::sqrt(std::pow(hue_distance, 2) + std::pow(a[1] - b[1], 2) +
-                  std::pow(a[2] - b[2], 2));
+    double dist = hue_distance;
+
+    // double dist =
+    //     std::sqrt(std::pow(hue_distance, 2) + std::pow(a[1] - b[1], 2) +
+    //               std::pow(a[2] - b[2], 2));
 
     return (dist <= distance);
 }

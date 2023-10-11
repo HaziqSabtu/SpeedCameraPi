@@ -40,7 +40,8 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CC_Start_Button_ID) {
-        controller->e_ColorCalibrationStart(this);
+        auto button = button_panel->MainPanel->Calibrate_Button;
+        ToggleCalibrationButtonHandler(button);
     }
 
     if (e.GetId() == Enum::CC_Stop_Button_ID) {
@@ -56,7 +57,8 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CC_AcceptBlue_Button_ID) {
-        controller->e_SaveBlue(this);
+        controller->e_RemoveBlue(this);
+        // controller->e_SaveBlue(this);
     }
 
     if (e.GetId() == Enum::CC_SelectYellow_Button_ID) {
@@ -64,7 +66,8 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CC_AcceptYellow_Button_ID) {
-        controller->e_SaveYellow(this);
+        // controller->e_SaveYellow(this);
+        controller->e_RemoveYellow(this);
     }
 
     if (e.GetId() == Enum::CC_Save_Button_ID) {
@@ -91,6 +94,20 @@ void ColorCalibrationPanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+void ColorCalibrationPanel::ToggleCalibrationButtonHandler(
+    BitmapButtonT2 *button) {
+    if (button->getState() == ButtonState::OFF) {
+        controller->e_ColorCalibrationStart(button);
+        return;
+    }
+
+    if (button->getState() == ButtonState::ON) {
+        controller->e_ColorCalibrationEnd(button);
+        return;
+    }
+    throw std::runtime_error("Invalid button state");
+}
+
 void ColorCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     if (e.GetId() == CALIBRATION_CAMERA_START) {
         status_panel->SetText(SC::STATUS_START_CALIBRATION);
@@ -109,7 +126,6 @@ void ColorCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
 
 void ColorCalibrationPanel::doPostLeftDown() {
     // do nothing
-    //  unBindAll();
 }
 
 // clang-format off

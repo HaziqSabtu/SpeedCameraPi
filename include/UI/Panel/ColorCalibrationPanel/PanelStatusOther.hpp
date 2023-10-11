@@ -16,6 +16,8 @@ class ColorCalibrationButtonOther : public TextOutlinePanel {
     BitmapButton *Restore_button;
 
   private:
+    void setPanelState(PanelState state);
+
     wxBoxSizer *vSizer;
     wxBoxSizer *hSizer;
     wxBoxSizer *buttonSizer;

@@ -37,6 +37,7 @@ class ColorCalibrationPanel : public BasePanelWithTouch {
     void doPostLeftDown() override;
 
     void ToggleCameraButtonHandler(BitmapButtonT2 *button);
+    void ToggleCalibrationButtonHandler(BitmapButtonT2 *button);
 
     void OnButton(wxCommandEvent &e);
     void OnCalibrationEvent(wxCommandEvent &e);

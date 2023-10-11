@@ -1,3 +1,6 @@
+#include "Controller/BaseController.hpp"
+#include "Event/Event_UpdateStatus.hpp"
+#include "Utils/Config/AppConfig.hpp"
 #include <Controller/ColorCalibrationController.hpp>
 
 ColorCalibrationController::ColorCalibrationController(ModelPtr sharedModel)
@@ -195,23 +198,23 @@ void ColorCalibrationController::saveToConfigHandler(wxEvtHandler *parent) {
         throw std::runtime_error("ColorCalibrationThread is running");
     }
 
-    auto ccExtraModel = shared->getCCExtraModel();
+    // auto ccExtraModel = shared->getCCExtraModel();
 
-    auto blueRange = ccExtraModel->getBlueRange();
-    if (!Utils::isRangeCalibrated(blueRange)) {
-        throw std::runtime_error("Blue range is not calibrated");
-    }
+    // auto blueRange = ccExtraModel->getBlueRange();
+    // if (!Utils::isRangeCalibrated(blueRange)) {
+    //     throw std::runtime_error("Blue range is not calibrated");
+    // }
 
-    auto yellowRange = ccExtraModel->getYellowRange();
-    if (!Utils::isRangeCalibrated(yellowRange)) {
-        throw std::runtime_error("Yellow range is not calibrated");
-    }
+    // auto yellowRange = ccExtraModel->getYellowRange();
+    // if (!Utils::isRangeCalibrated(yellowRange)) {
+    //     throw std::runtime_error("Yellow range is not calibrated");
+    // }
 
-    auto config = AppConfig();
-    config.SetBlueRange(Utils::ScalarToHSVRangeConfig(blueRange));
-    config.SetYellowRange(Utils::ScalarToHSVRangeConfig(yellowRange));
+    // auto config = AppConfig();
+    // config.SetBlueRange(Utils::ScalarToHSVRangeConfig(blueRange));
+    // config.SetYellowRange(Utils::ScalarToHSVRangeConfig(yellowRange));
 
-    UpdateStatusEvent::Submit(parent, "Saved to config");
+    // UpdateStatusEvent::Submit(parent, "Saved to config");
 }
 
 void ColorCalibrationController::restoreRangeHandler(wxEvtHandler *parent) {
@@ -220,6 +223,8 @@ void ColorCalibrationController::restoreRangeHandler(wxEvtHandler *parent) {
     if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
         throw std::runtime_error("ColorCalibrationThread is running");
     }
+
+    // TODO: Add dialog to confirm
 
     auto config = AppConfig();
     config.ResetBlueRange();
@@ -236,10 +241,10 @@ void ColorCalibrationController::removeCalibratedRangeHandler(
         throw std::runtime_error("ColorCalibrationThread is running");
     }
 
-    auto ccExtraModel = shared->getCCExtraModel();
+    // auto ccExtraModel = shared->getCCExtraModel();
 
-    ccExtraModel->resetBlueRange();
-    ccExtraModel->resetYellowRange();
+    // ccExtraModel->resetBlueRange();
+    // ccExtraModel->resetYellowRange();
 
     UpdateStatusEvent::Submit(parent, "Range removed");
 }
@@ -309,6 +314,8 @@ void ColorCalibrationController::colorCalibrationEndHandler(
             "ColorCalibrationThread is not owned by this panel");
     }
 
+    saveColorCalibrationHandler(parent);
+
     auto calibrationThread = tc->getColorCalibrationThread();
     calibrationThread->Pause();
 
@@ -335,10 +342,13 @@ void ColorCalibrationController::colorCalibrationPreviewStartHandler(
 
     auto camera = shared->getCamera();
 
-    auto ccExtraModel = shared->getCCExtraModel();
+    // auto ccExtraModel = shared->getCCExtraModel();
+    AppConfig c;
+    auto blueRange = Utils::HSVRangeConfigToScalar(c.GetBlueRange());
+    auto yellowRange = Utils::HSVRangeConfigToScalar(c.GetYellowRange());
 
-    tc->startColorCalibrationPreviewHandler(parent, camera, ccExtraModel,
-                                            panelID);
+    tc->startColorCalibrationPreviewHandler(parent, camera, blueRange,
+                                            yellowRange, panelID);
 }
 
 void ColorCalibrationController::colorCalibrationPreviewEndHandler(
@@ -408,16 +418,17 @@ void ColorCalibrationController::saveBlueHandler(wxEvtHandler *parent) {
             "ColorCalibrationThread is not owned by this panel");
     }
 
-    auto colorCalibrationThread = tc->getColorCalibrationThread();
+    auto thread = tc->getColorCalibrationThread();
 
-    auto blueRange = colorCalibrationThread->getBlueRange();
+    auto blueRange = thread->getBlueRange();
     if (!Utils::isRangeCalibrated(blueRange)) {
-        throw std::runtime_error("Blue range is not calibrated");
+        return;
     }
-    auto ccModel = shared->getCCExtraModel();
-    ccModel->setBlueRange(blueRange);
 
-    colorCalibrationThread->setPoint(cv::Point(-1, -1));
+    AppConfig c;
+    c.SetBlueRange(Utils::ScalarToHSVRangeConfig(blueRange));
+
+    thread->setPoint(cv::Point(-1, -1));
 
     UpdateStatusEvent::Submit(parent, "Blue range saved");
 }
@@ -434,21 +445,32 @@ void ColorCalibrationController::saveYellowHandler(wxEvtHandler *parent) {
             "ColorCalibrationThread is not owned by this panel");
     }
 
-    auto colorCalibrationThread = tc->getColorCalibrationThread();
+    auto thread = tc->getColorCalibrationThread();
 
-    auto yellowRange = colorCalibrationThread->getYellowRange();
+    auto yellowRange = thread->getYellowRange();
     if (!Utils::isRangeCalibrated(yellowRange)) {
-        throw std::runtime_error("Yellow range is not calibrated");
+        return;
     }
-    auto ccModel = shared->getCCExtraModel();
-    ccModel->setYellowRange(yellowRange);
-
-    colorCalibrationThread->setPoint(cv::Point(-1, -1));
+    thread->setPoint(cv::Point(-1, -1));
+    AppConfig c;
+    c.SetYellowRange(Utils::ScalarToHSVRangeConfig(yellowRange));
 
     UpdateStatusEvent::Submit(parent, "Yellow range saved");
 }
 
 void ColorCalibrationController::saveColorCalibrationHandler(
     wxEvtHandler *parent) {
-    throw std::runtime_error("Not implemented");
+
+    saveBlueHandler(parent);
+    saveYellowHandler(parent);
+
+    UpdateStatusEvent::Submit(parent, "Color calibration saved");
+}
+
+void ColorCalibrationController::okButtonHandler(wxEvtHandler *parent) {
+    auto tc = shared->getThreadController();
+    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
+        saveColorCalibrationHandler(parent);
+    }
+    BaseController::okButtonHandler(parent);
 }

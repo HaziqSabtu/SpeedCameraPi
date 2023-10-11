@@ -44,6 +44,9 @@ class ColorCalibrationThread : public BaseThread,
     void removeBlueRange();
     void removeYellowRange();
 
+    bool isBlueRangeDefined();
+    bool isYellowRangeDefined();
+
   protected:
     virtual ExitCode Entry() override;
 
@@ -57,13 +60,17 @@ class ColorCalibrationThread : public BaseThread,
     cv::Point point = cv::Point(-1, -1);
     cv::Point processedPoint = cv::Point(-1, -1);
 
-    std::pair<cv::Scalar, cv::Scalar> blueRange;
-    std::pair<cv::Scalar, cv::Scalar> yellowRange;
+    std::pair<cv::Scalar, cv::Scalar> blueRange =
+        std::make_pair(cv::Scalar(0, 0, 0), cv::Scalar(0, 0, 0));
+    std::pair<cv::Scalar, cv::Scalar> yellowRange =
+        std::make_pair(cv::Scalar(0, 0, 0), cv::Scalar(0, 0, 0));
 
     ColorCalibrationType type = ColorCalibrationType::COLOR_CALIBRATION_BLUE;
 
     cv::Scalar blue = cv::Scalar(255, 0, 0, 255);
     cv::Scalar yellow = cv::Scalar(0, 255, 255, 255);
+
+    bool updateStateSwitch = false;
 
   private:
     cv::Point grabPoint();

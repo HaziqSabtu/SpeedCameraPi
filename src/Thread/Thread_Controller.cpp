@@ -648,10 +648,10 @@ void ThreadController::endColorCalibrationHandler() {
 }
 
 void ThreadController::startColorCalibrationPreviewHandler(
-    wxEvtHandler *parent, CameraPtr &camera,
-    std::shared_ptr<ColorCalibExtraModel> ccExtraModel, PanelID panelID) {
-    colorCalibPreviewThread =
-        new ColorCalibrationPreviewThread(parent, camera, ccExtraModel);
+    wxEvtHandler *parent, CameraPtr &camera, const ColorRange &blueRange,
+    const ColorRange &yellowRange, PanelID panelID) {
+    colorCalibPreviewThread = new ColorCalibrationPreviewThread(
+        parent, camera, blueRange, yellowRange);
     colorCalibPreviewThread->Run();
 
     owner[colorCalibPreviewThread->getID()] = panelID;

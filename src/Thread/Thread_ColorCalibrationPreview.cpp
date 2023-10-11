@@ -11,14 +11,14 @@
 #include <wx/utils.h>
 
 ColorCalibrationPreviewThread::ColorCalibrationPreviewThread(
-    wxEvtHandler *parent, CameraPtr &camera, CCModelPtr ccExtraModel)
+    wxEvtHandler *parent, CameraPtr &camera, const ColorRange &blueRange,
+    const ColorRange &yellowRange)
     : BaseThread(parent, nullptr), CameraAccessor(camera), PreviewableThread(),
-      ccExtraModel(ccExtraModel) {}
+      blueRange(blueRange), yellowRange(yellowRange) {}
 
 ColorCalibrationPreviewThread::~ColorCalibrationPreviewThread() {}
 
 wxThread::ExitCode ColorCalibrationPreviewThread::Entry() {
-
     wxCommandEvent startCaptureEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_START);
     wxPostEvent(parent, startCaptureEvent);
 
@@ -44,11 +44,9 @@ wxThread::ExitCode ColorCalibrationPreviewThread::Entry() {
                 continue;
             }
 
-            auto blueRange = ccExtraModel->getBlueRange();
             auto blue_lower = blueRange.first;
             auto blue_upper = blueRange.second;
 
-            auto yellowRange = ccExtraModel->getYellowRange();
             auto yellow_lower = yellowRange.first;
             auto yellow_upper = yellowRange.second;
 
@@ -92,6 +90,7 @@ wxThread::ExitCode ColorCalibrationPreviewThread::Entry() {
 ThreadID ColorCalibrationPreviewThread::getID() const { return id; }
 
 bool ColorCalibrationPreviewThread::isCalibrationComplete() {
-    return ccExtraModel->isBlueCalibrated() &&
-           ccExtraModel->isYellowCalibrated();
+    // return ccExtraModel->isBlueCalibrated() &&
+    //        ccExtraModel->isYellowCalibrated();
+    return true;
 }

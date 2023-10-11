@@ -66,4 +66,6 @@ class ColorCalibrationController : public BaseControllerWithTouch {
     void saveYellowHandler(wxEvtHandler *parent);
 
     void saveColorCalibrationHandler(wxEvtHandler *parent);
+
+    void okButtonHandler(wxEvtHandler *parent) override;
 };

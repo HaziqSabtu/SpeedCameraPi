@@ -105,6 +105,7 @@ struct ColorCalibrationPanelState {
     ButtonState selectYellowButtonState;
     ButtonState acceptYellowButtonState;
 
+    PanelState otherStatusState;
     ButtonState saveButtonState;
     ButtonState restoreButtonState;
 
@@ -294,6 +295,7 @@ class AppState {
     ButtonState getCCAcceptYellowButtonState(ModelPtr model);
 
     // Color Calibration Panel -> Save / Restore
+    PanelState getCCOtherStatusState(ModelPtr model);
     ButtonState getCCSaveButtonState(ModelPtr model);
     ButtonState getCCRestoreButtonState(ModelPtr model);
 

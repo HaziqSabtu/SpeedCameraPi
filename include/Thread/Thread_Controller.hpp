@@ -106,10 +106,9 @@ class ThreadController {
                                               PanelID panelID);
     void endColorCalibrationHandler();
 
-    virtual void startColorCalibrationPreviewHandler(wxEvtHandler *parent,
-                                                     CameraPtr &camera,
-                                                     CCModelPtr ccExtraModel,
-                                                     PanelID panelID);
+    virtual void startColorCalibrationPreviewHandler(
+        wxEvtHandler *parent, CameraPtr &camera, const ColorRange &blueRange,
+        const ColorRange &yellowRange, PanelID panelID);
 
     void endColorCalibrationPreviewHandler();
 
