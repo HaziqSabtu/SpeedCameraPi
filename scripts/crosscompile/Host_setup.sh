@@ -12,13 +12,13 @@ sudo apt install -y gcc git bison python gperf pkg-config gdb-multiarch wget rsy
 sudo apt install -y g++ gperf flex texinfo gawk bison openssl pigz libncurses-dev autoconf automake tar figlet
 
 # Create directories and set permissions
-sudo mkdir ~/cxcmpl
-sudo mkdir ~/cxcmpl/tools
-sudo mkdir ~/cxcmpl/build
-sudo mkdir ~/cxcmpl/sysroot
-sudo mkdir ~/cxcmpl/sysroot/usr
-sudo mkdir ~/cxcmpl/sysroot/opt
-sudo chown -R 1000:1000 ~/cxcmpl
+sudo -u $SUDO_USER mkdir /home/$SUDO_USER/cxcmpl
+sudo -u $SUDO_USER mkdir /home/$SUDO_USER/cxcmpl/tools
+sudo -u $SUDO_USER mkdir /home/$SUDO_USER/cxcmpl/build
+sudo -u $SUDO_USER mkdir /home/$SUDO_USER/cxcmpl/sysroot
+sudo -u $SUDO_USER mkdir /home/$SUDO_USER/cxcmpl/sysroot/usr
+sudo -u $SUDO_USER mkdir /home/$SUDO_USER/cxcmpl/sysroot/opt
+sudo -u $SUDO_USER chown -R 1000:1000 /home/$SUDO_USER/cxcmpl
 
 # Change directory to cxcmpl
 cd ~/cxcmpl
@@ -34,8 +34,8 @@ tar xf cross-gcc-*.tar.gz
 cp sysroot-relativelinks.py ~/cxcmpl/sysroot-relativelinks.py
 
 # Make sysroot-relativelinks.py executable
-sudo chmod +x ~/cxcmpl/sysroot-relativelinks.py
+sudo -u $SUDO_USER chmod +x /home/$SUDO_USER/cxcmpl/sysroot-relativelinks.py
 
 cp PI.cmake ~/cxcmpl/tools/PI.cmake
 
-echo "All required packages have been installed, directories set up, the toolchain downloaded and extracted, sysroot-relativelinks.py has been copied, and it is now executable."
+echo "All required packages have been installed"
