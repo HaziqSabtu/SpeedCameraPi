@@ -12,6 +12,7 @@ def syncAll(cxcmpl_dir):
         f'rsync -avz --rsync-path="sudo rsync" --delete RPi0:/usr/include {cxcmpl_dir}/sysroot/usr',
         f'rsync -avz --rsync-path="sudo rsync" --delete RPi0:/usr/lib {cxcmpl_dir}/sysroot/usr',
         f'rsync -avz --rsync-path="sudo rsync" --delete RPi0:/usr/local {cxcmpl_dir}/sysroot/usr',
+        f'rsync -avz --rsync-path="sudo rsync" --delete RPi0:/usr/share {cxcmpl_dir}/sysroot/usr',
         f'./sysroot-relativelinks.py {cxcmpl_dir}/sysroot'
     ]
     for command in commands:
