@@ -20,4 +20,4 @@ os.system(ssh_command)
 
 home_dir = os.path.expanduser("~")
 cxcmpl_dir = os.path.join(home_dir, "cxcmpl")
-SyncWTarget.syncAll(cxcmpl_dir)
+sync.syncAll(cxcmpl_dir)

@@ -15,9 +15,9 @@ def update_sources(credentials, password):
     commands = [
         'echo "deb-src http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi" | sudo tee -a /etc/apt/sources.list',
         'sudo apt update',
-        'sudo apt dist-upgrade',
+        'sudo apt -y dist-upgrade',
         f'echo "$USER ALL=NOPASSWD:$(which rsync)" | sudo tee --append /etc/sudoers',
-        'sudo apt install build-essential cmake unzip pkg-config gfortran gcc g++ gperf flex texinfo gawk bison openssl pigz libncurses-dev autoconf automake tar figlet'
+        'sudo apt -y install build-essential cmake unzip pkg-config gfortran gcc g++ gperf flex texinfo gawk bison openssl pigz libncurses-dev autoconf automake tar figlet'
     ]
 
     for command in commands:
