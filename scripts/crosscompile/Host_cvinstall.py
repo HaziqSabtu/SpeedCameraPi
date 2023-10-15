@@ -28,7 +28,7 @@ def extract_tar_on_target(target_ip, target_path):
 home_dir = os.path.expanduser("~")
 cxcmpl_path = f'{home_dir}/cxcmpl'
 lib_path = f'{cxcmpl_path}/cv'
-output_tar = f'{home_dir}/cv.tar'
+output_tar = f'{cxcmpl_path}/cv.tar'
 target_ip = 'RPi0'
 target_path = '~/cv.tar'
 
