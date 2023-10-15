@@ -3,6 +3,7 @@
 import os
 import argparse
 import sys
+import Target_Ssymlinker
 
 def update_sources(credentials, password):
     commands = [
@@ -28,3 +29,6 @@ if __name__ == "__main__":
         sys.exit(1)
 
     update_sources(args.credentials, args.password)
+
+    Target_Ssymlinker.check_and_download_ssymlinker()
+    Target_Ssymlinker.linkAll()
