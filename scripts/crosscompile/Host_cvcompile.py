@@ -1,8 +1,8 @@
-os.environ['HOME'] = home_path
 #!/usr/bin/env python3
 
 import os
 import subprocess
+import shutil
 
 # Get the current username
 username = os.getlogin()
@@ -60,11 +60,23 @@ if os.path.exists(opencv_path):
     shutil.rmtree(opencv_path)
 
 # Extract opencv and opencv_contrib
-extract_zip("opencv.zip", home_path)
+if (os.path.exists(f"{opencv_path}-4.5.5")):
+    shutil.rmtree(f"{opencv_path}-4.5.5")
+extract_zip("opencv.zip", home_path)#
+
+if (os.path.exists(f"{opencv_path}_contrib-4.5.5")):
+    shutil.rmtree(f"{opencv_path}_contrib-4.5.5")
 extract_zip("opencv_contrib.zip", home_path)
 
 # Rename opencv and opencv_contrib directories
+if os.path.exists(f"{home_path}/opencv"):
+    shutil.rmtree(f"{home_path}/opencv")
+
 os.rename(f"{opencv_path}-4.5.5", "opencv")
+
+if os.path.exists(f"{home_path}/opencv_contrib"):
+    shutil.rmtree(f"{home_path}/opencv_contrib")
+
 os.rename(f"{opencv_path}_contrib-4.5.5", "opencv_contrib")
 
 # Remove zip files
