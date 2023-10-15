@@ -38,5 +38,6 @@ def linkAll():
         ssh_command = f'ssh RPi0 "cd ~ && {command}"'
         subprocess.run(ssh_command, shell=True)
 
-check_and_download_ssymlinker()
-linkAll()
+if __name__ == "__main__":
+    check_and_download_ssymlinker()
+    linkAll()

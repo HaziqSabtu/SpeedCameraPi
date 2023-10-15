@@ -113,6 +113,7 @@ run_command(cmake_command)
 
 # Determine the number of CPU cores
 cores = os.cpu_count()
+print(f"Number of CPU cores: {cores}")
 
 # Make command
 make_command = f"make -j{cores}"
