@@ -2,8 +2,13 @@
 
 import os
 import Ssymlinker as linker
+import cUtils
+import SyncWTarget as sync
 
 # do not run with sudo
+if cUtils.isRunningWithSudo():
+    print("Do not run with sudo")
+    sys.exit(1)
 
 linker.check_and_download_ssymlinker()
 
@@ -12,3 +17,7 @@ ssh_command = 'ssh RPi0 "cd ~ && ./SSymlinker -s /usr/include/arm-linux-gnueabih
 
 # Execute the SSH command
 os.system(ssh_command)
+
+home_dir = os.path.expanduser("~")
+cxcmpl_dir = os.path.join(home_dir, "cxcmpl")
+SyncWTarget.syncAll(cxcmpl_dir)
