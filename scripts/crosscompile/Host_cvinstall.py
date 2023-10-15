@@ -5,7 +5,7 @@ import subprocess
 import shutil
 import os
 import Ssymlinker as linker
-import SyncwithTarget
+import SyncWTarget
 import cUtils
 
 # do not run with sudo
@@ -51,4 +51,4 @@ linker.check_and_download_ssymlinker()
 linker.linkAll()
 
 # Step 5: Sync the target with the host
-SyncwithTarget.syncAll(cxcmpl_path)
+SyncWTarget.syncAll(cxcmpl_path)

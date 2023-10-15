@@ -3,7 +3,7 @@
 import os
 import argparse
 import sys
-import SyncWithTarget as sync
+import SyncWTarget as sync
 import cUtils
 
 # do not run with sudo
