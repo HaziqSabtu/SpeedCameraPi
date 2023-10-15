@@ -12,7 +12,7 @@ if cUtils.isRunningWithSudo():
 
 def setup_ssh_key(hostname, user):
     # Generate SSH key pair
-    subprocess.run(['ssh-keygen'])
+    subprocess.run(['ssh-keygen', '-t', 'rsa', '-b', '2048', '-f', f'{home_dir}/.ssh/id_rsa', '-N', ''])
 
     # Add host configuration to SSH config file
     ssh_config = f'''
