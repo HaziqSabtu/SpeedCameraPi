@@ -5,6 +5,8 @@ import argparse
 import sys
 import Target_Ssymlinker
 
+# do not run with sudo
+
 def update_sources(credentials, password):
     commands = [
         'echo "deb-src http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi" | sudo tee -a /etc/apt/sources.list',
