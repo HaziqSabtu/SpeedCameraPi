@@ -3,9 +3,13 @@
 import os
 import argparse
 import sys
-import Target_Ssymlinker
+import Ssymlinker as linker
+import cUtils
 
 # do not run with sudo
+if cUtils.isRunningWithSudo():
+    print("Please run this script without sudo.")
+    exit()
 
 def update_sources(credentials, password):
     commands = [
@@ -32,5 +36,5 @@ if __name__ == "__main__":
 
     update_sources(args.credentials, args.password)
 
-    Target_Ssymlinker.check_and_download_ssymlinker()
-    Target_Ssymlinker.linkAll()
+    linker.check_and_download_ssymlinker()
+    linker.linkAll()

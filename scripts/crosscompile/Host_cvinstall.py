@@ -4,10 +4,15 @@ import tarfile
 import subprocess
 import shutil
 import os
-import Target_Ssymlinker
-import Host_syncwithTarget
+import Ssymlinker as linker
+import SyncwithTarget
+import cUtils
 
 # do not run with sudo
+if cUtils.isRunningWithSudo():
+    print("Please run this script without sudo.")
+    exit()
+    
 
 # Step 1: Zip a folder with tar
 def zip_folder(folder_path, output_tar):
@@ -42,8 +47,8 @@ send_tar_via_scp(output_tar, target_ip, target_path)
 extract_tar_on_target(target_ip, target_path)
 
 # Step 4: Fix the symlinks on the target
-Target_Ssymlinker.check_and_download_ssymlinker()
-Target_Ssymlinker.linkAll()
+linker.check_and_download_ssymlinker()
+linker.linkAll()
 
 # Step 5: Sync the target with the host
-Host_syncwithTarget.syncAll(cxcmpl_path)
+SyncwithTarget.syncAll(cxcmpl_path)

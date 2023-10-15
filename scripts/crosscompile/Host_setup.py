@@ -2,6 +2,9 @@
 
 import os
 import shutil
+import cUtils
+
+
 
 def run_command(command):
     os.system(command)
@@ -84,4 +87,10 @@ def main():
     print("All required packages have been installed")
 
 if __name__ == "__main__":
+
+    # run with sudo
+    if not cUtils.isRunningWithSudo():
+        print("Please run this script with sudo.")
+        exit()
+
     main()

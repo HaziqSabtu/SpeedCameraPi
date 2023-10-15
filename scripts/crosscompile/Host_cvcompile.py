@@ -3,6 +3,11 @@
 import os
 import subprocess
 import shutil
+import cUtils
+
+if not cUtils.isRunningWithSudo():
+    print("Please run this script as root.")
+    exit()
 
 # Get the current username
 username = os.getlogin()

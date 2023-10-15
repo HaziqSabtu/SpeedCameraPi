@@ -5,6 +5,8 @@ import os
 # Take a sysroot directory and turn all the abolute symlinks and turn them into
 # relative ones such that the sysroot is usable within another system.
 
+#src: https://raw.githubusercontent.com/abhiTronix/rpi_rootfs/master/scripts/sysroot-relativelinks.py
+
 if len(sys.argv) != 2:
     print("Usage is " + sys.argv[0] + "<directory>")
     sys.exit(1)
