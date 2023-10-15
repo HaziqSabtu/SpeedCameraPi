@@ -94,6 +94,10 @@ os.chdir(build_path)
 
 os.environ['HOME'] = home_path
 
+# Temporary fix for allowing GTK to be found
+os.system("export PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig")
+os.system("export PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig")
+
 # CMake command
 cmake_command = f"cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX={cxcmpl_path}/cv/local \
