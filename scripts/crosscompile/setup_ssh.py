@@ -2,8 +2,13 @@
 
 import subprocess
 import sys
+import os
+import cUtils
 
 # do not run with sudo
+if cUtils.isRunningWithSudo():
+    print("Please run this script without sudo.")
+    exit()
 
 def setup_ssh_key(hostname, user):
     # Generate SSH key pair
