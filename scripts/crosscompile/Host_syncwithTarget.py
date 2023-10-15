@@ -4,6 +4,8 @@ import subprocess
 import os
 import shutil
 
+# do not run with sudo
+
 def copy_if_not_exists(source, destination):
     if not os.path.exists(destination):
         shutil.copyfile(source, destination)

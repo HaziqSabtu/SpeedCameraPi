@@ -3,6 +3,8 @@
 import subprocess
 import sys
 
+# do not run with sudo
+
 def setup_ssh_key(hostname, user):
     # Generate SSH key pair
     subprocess.run(['ssh-keygen'])

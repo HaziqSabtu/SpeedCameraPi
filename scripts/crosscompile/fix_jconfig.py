@@ -3,6 +3,8 @@
 import os
 import Target_Ssymlinker
 
+# do not run with sudo
+
 # Check if SSymlinker executable exists on target
 Target_Ssymlinker.check_and_download_ssymlinker()
 
