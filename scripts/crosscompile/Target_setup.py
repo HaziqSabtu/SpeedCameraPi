@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import argparse
 import sys
@@ -12,7 +14,7 @@ def update_sources(credentials, password):
     ]
 
     for command in commands:
-        os.system(f'sshpass -p "{password}" ssh {credentials} "{command}"')
+        os.system(f'ssh {credentials} "{command}"')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Update sources.list and perform system upgrades on a Raspberry Pi Zero over SSH")
@@ -23,10 +25,6 @@ if __name__ == "__main__":
 
     if len(sys.argv) != 3:
         parser.print_usage()
-        sys.exit(1)
-
-    if '@' not in args.credentials:
-        print("Error: Invalid format for credentials. Use 'username@ip_address'.")
         sys.exit(1)
 
     update_sources(args.credentials, args.password)
