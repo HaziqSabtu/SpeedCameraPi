@@ -4,6 +4,7 @@ import os
 import argparse
 import sys
 import SyncWTarget as sync
+import Ssymlinker as linker
 import cUtils
 
 # do not run with sudo
@@ -46,4 +47,6 @@ if __name__ == "__main__":
 
     home_dir = os.path.expanduser("~")
     cxcmpl_dir = os.path.join(home_dir, "cxcmpl")
+    linker.check_and_download_ssymlinker()
+    linker.linkAll()
     sync.syncAll(cxcmpl_dir)
