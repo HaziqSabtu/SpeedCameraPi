@@ -104,11 +104,11 @@ $(document).ready(function(){initNavTree('md_Docs_markdown_developmentSetup.html
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p >For future developers, this section will help you properly setup your development environment. In general the development is done with Visual Studio Code with cross compilation to Raspberry Pi 4. Guide to setup the development environment is provided below. Alternatively, a native development setup will also be provided.</p>
-<h1><a class="anchor" id="autotoc_md58"></a>
+<h1><a class="anchor" id="autotoc_md59"></a>
 Introduction</h1>
 <p >C++ is a programming language that is designed to be compiled, meaning that it is generally translated into machine language that can be understood directly by the system, making the generated program highly efficient. To compile C++ code, you need a set of tools known as the development toolchain, whose core are a compiler and its linker. A compiler is a program that converts your C++ code into machine code, while a linker is a program that combines the machine code with other libraries and resources to create an executable file. There are different compilers and linkers available for C++, such as Visual Studio, Clang, mingw, etc. Some of them are integrated with IDEs (Integrated Development Environments) that provide features such as syntax highlighting, debugging, code completion, etc.</p>
 <p >To cross compile C++ code, you need to use a cross compiler that can generate executable code for a different platform than the one you are running on. For example, if you want to compile C++ code for ARM architecture on a Windows PC, you need to use a cross compiler like arm-none-linux-gnueabi-gcc. Depending on the tool you are using, you may need to configure some settings to enable cross compilation. For example, if you are using Visual Studio Code, you can edit the Compiler path and Compiler arguments settings in the C/C++ extension to specify the cross compiler and the target triplet. You can also use other tools like CMake or Makefile to automate the cross compilation process.</p>
-<h1><a class="anchor" id="autotoc_md59"></a>
+<h1><a class="anchor" id="autotoc_md60"></a>
 Cross-compilation</h1>
 <p >Cross-compilation is the process of compiling code on one platform (host) to run on another platform (target). In this case, we will be compiling the code on a Windows 11 machine running Windows Subsystem for Linux (WSL) to run on Raspberry Pi 4 running Raspberry Pi OS (Bullseye 32-bit).</p>
 <p >This method of development is preferred as it allows for faster compilation time and easier debugging, which allows for better development experience.</p>
@@ -122,7 +122,7 @@ Cross-compilation</h1>
 <li>Windows 11 Pro Version 22H2 OS Build 22621.2428</li>
 <li>WSL 2 with Ubuntu 22.04 LTS</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md60"></a>
+<h2><a class="anchor" id="autotoc_md61"></a>
 Steps to setup Cross-Compilation</h2>
 <p >For this section, it is assumed that you have already installed WSL 2 with Ubuntu 22.04 LTS. If not, please refer to the <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">official documentation</a> to install WSL 2 with Ubuntu 22.04 LTS. Most of the process are taken from <a href="https://github.com/abhiTronix/raspberry-pi-cross-compilers/wiki/Cross-Compiler-CMake-Usage-Guide-with-rsynced-Raspberry-Pi-32-bit-OS#cross-compiler-cmake-usage-guide-with-rsynced-raspberry-pi-32-bit-os">this guide</a>.</p>
 <ul>
@@ -201,7 +201,7 @@ Steps to setup Cross-Compilation</h2>
 </li>
 <li>Now, you should be able to perform cross compilation. However, as of now, there is a linker problem with OpenCV libraries. To fix this, please refer to the next section.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md61"></a>
+<h3><a class="anchor" id="autotoc_md62"></a>
 Fixing OpenCV linker problem</h3>
 <ul>
 <li>Now, we will once again compile OpenCV. There seems to be a problem using the already compiled library of OpenCV as done previously on the <b>Target</b>. Some <em>opencv_contrib</em> libraries cannot be found during runtime. Possible linker error? Still investigating. However, the current fix is to cross compile the library on the <b>Host</b> and transfer the compiled libs to the <b>Target</b>. To do so, follow these steps:<ul>
@@ -263,11 +263,11 @@ sudo chmod +x fix_jconfig.py
 </li>
 <li>Now, the machine is ready for cross-compilation. Now we will explore steps to install Visual Studio Code.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md62"></a>
+<h3><a class="anchor" id="autotoc_md63"></a>
 Installing Visual Studio Code</h3>
 <p >Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS. It is a very popular code editor among developers. This section will guide you through the process of installing Visual Studio Code for Cross-compilation.</p>
 <p >If you are running Linux on WSL, it is recommended to install Visual Studio Code directly on Windows. Download the installer from <a href="https://code.visualstudio.com/Download">here</a> and install it on Windows.</p>
-<h4><a class="anchor" id="autotoc_md63"></a>
+<h4><a class="anchor" id="autotoc_md64"></a>
 Accesing WSL from Visual Studio Code</h4>
 <p >First we need to install WSL Extension for Visual Studio Code. To do so, open the Extensions pane (Ctrl+Shift+X) and search for WSL. Click on the Install button to install the extension.</p>
 <ul>
@@ -284,7 +284,7 @@ Accesing WSL from Visual Studio Code</h4>
 <div class="image">
 <img src="wslconnect2.png" alt=""/>
 </div>
- <h4><a class="anchor" id="autotoc_md64"></a>
+ <h4><a class="anchor" id="autotoc_md65"></a>
 Installing required Extensions</h4>
 <p >To install extensions, open Visual Studio Code and press Ctrl+Shift+X to open the Extensions pane. Search for the following extensions and install them:</p>
 <ul>
@@ -293,7 +293,7 @@ Installing required Extensions</h4>
 <div class="image">
 <img src="c++ext.png" alt=""/>
 </div>
- <h4><a class="anchor" id="autotoc_md65"></a>
+ <h4><a class="anchor" id="autotoc_md66"></a>
 Opening SpeedCameraPi project</h4>
 <p >To open the SpeedCameraPi project, open the Explorer pane (Ctrl+Shift+E) and click on the Open Folder button. Navigate to the SpeedCameraPi folder and click on the OK button. You should now see the SpeedCameraPi project in the Explorer pane.</p>
 <div class="image">
@@ -304,7 +304,7 @@ Opening SpeedCameraPi project</h4>
 <div class="image">
 <img src="wslfolder2.png" alt=""/>
 </div>
- <h4><a class="anchor" id="autotoc_md66"></a>
+ <h4><a class="anchor" id="autotoc_md67"></a>
 Configuring C/C++ extension</h4>
 <p >To configure the C/C++ extension, open the Command Palette (Ctrl+Shift+P) and type <em>CMake:Configure</em> and select the <em>Pi Toolchain</em> option. This will create a <em>build</em> folder in the project directory and generate the CMake cache.</p>
 <p >If the <em>Pi Toolchain</em> option is not available, you may need to check if the cross compilation setup is done correctly. Additionally, in some cases the path may be different. If so, you may need to edit the *.vscode/cmake-kits.json* file to change the path to the cross compiler.</p>
@@ -320,7 +320,7 @@ Configuring C/C++ extension</h4>
 <div class="image">
 <img src="cppconf3.png" alt=""/>
 </div>
- <h4><a class="anchor" id="autotoc_md67"></a>
+ <h4><a class="anchor" id="autotoc_md68"></a>
 Building the project</h4>
 <p >To build the project, open the Command Palette (Ctrl+Shift+P) and type <em>CMake:Build</em>. This will build the project and generate the executable file in the <em>build</em> folder.</p>
 <div class="image">
@@ -329,7 +329,7 @@ Building the project</h4>
  <p >Withing the CMakeLists.txt file, the executable file is by default, configured to be automatically copied to the <b>Target</b> machine. You can disable this by editing out the command. However, it is recommended to keep it as it is. The build application is located at *~/Target/SpeedCameraPi*.</p>
 <p ><br  />
 </p>
-<h4><a class="anchor" id="autotoc_md68"></a>
+<h4><a class="anchor" id="autotoc_md69"></a>
 Debugging the project</h4>
 <h5>Preparations</h5>
 <p >Debugging is crucial when developing a project. This steps need to be done atleast once. To perform debug, we first need to configure the <b>launch.json</b> script. To do so, navigate to the script folder: </p><pre class="fragment">  cd ~/SpeedCameraPi/scripts/debug
@@ -365,10 +365,10 @@ sudo apt-get install gdbserver
 </ul>
 <p ><br  />
 </p>
-<h3><a class="anchor" id="autotoc_md69"></a>
+<h3><a class="anchor" id="autotoc_md70"></a>
 Extra Features</h3>
 <p >In this section, we will explore some extra features that can be used to improve the development experience.</p>
-<h4><a class="anchor" id="autotoc_md70"></a>
+<h4><a class="anchor" id="autotoc_md71"></a>
 VNC Viewer</h4>
 <p >VNC Viewer is a remote desktop application that allows you to remotely control a computer. It is useful for accessing the <b>Target</b> machine remotely. By properly integrating the VNC, your Raspberry Pi can be used without a monitor, keyboard, or mouse.</p>
 <p >To download VNC Viewer, go to <a href="https://www.realvnc.com/en/connect/download/viewer/">this link</a> and download the installer for your operating system. Once installed, you may need to create an account to use the application.</p>
@@ -414,7 +414,7 @@ VNC Viewer</h4>
 </ul>
 <p ><br  />
 </p>
-<h4><a class="anchor" id="autotoc_md71"></a>
+<h4><a class="anchor" id="autotoc_md72"></a>
 VSCode Extensions</h4>
 <p >Following are some useful extensions that can be used to improve the development experience:</p>
 <table class="markdownTable">
@@ -429,12 +429,12 @@ VSCode Extensions</h4>
 </table>
 <p ><br  />
 </p>
-<h1><a class="anchor" id="autotoc_md72"></a>
+<h1><a class="anchor" id="autotoc_md73"></a>
 Native compilation</h1>
 <p >For those that prefer to develop natively on Raspberry Pi, this section will guide you through the process of setting up the development environment.</p>
 <p >For native compilation, the steps is much simpler. Simply install the required dependencies on the <b>target</b> machine and you are good to go. Refer to <a href="md_Docs_markdown_InstallingRequiredDependency.html">this section</a> for more information.</p>
 <p >The installation of VSCode on RaspberryPi is done with <a href="https://code.visualstudio.com/docs/setup/raspberry-pi">this</a> instruction.</p>
-<h4><a class="anchor" id="autotoc_md73"></a>
+<h4><a class="anchor" id="autotoc_md74"></a>
 Installing required Extensions</h4>
 <p >To install extensions, open Visual Studio Code and press Ctrl+Shift+X to open the Extensions pane. Search for the following extensions and install them:</p>
 <ul>
@@ -443,7 +443,7 @@ Installing required Extensions</h4>
 <div class="image">
 <img src="c++ext.png" alt=""/>
 </div>
- <h4><a class="anchor" id="autotoc_md74"></a>
+ <h4><a class="anchor" id="autotoc_md75"></a>
 Opening SpeedCameraPi project</h4>
 <p >To open the SpeedCameraPi project, open the Explorer pane (Ctrl+Shift+E) and click on the Open Folder button. Navigate to the SpeedCameraPi folder and click on the OK button. You should now see the SpeedCameraPi project in the Explorer pane.</p>
 <div class="image">
@@ -451,7 +451,7 @@ Opening SpeedCameraPi project</h4>
 </div>
  <p ><br  />
 </p>
-<h4><a class="anchor" id="autotoc_md75"></a>
+<h4><a class="anchor" id="autotoc_md76"></a>
 Configuring C/C++ extension</h4>
 <p >To configure the C/C++ extension, open the Command Palette (Ctrl+Shift+P) and type <em>CMake:Configure</em> and select the default compiler. This will create a <em>build</em> folder in the project directory and generate the CMake cache.</p>
 <div class="image">
@@ -466,7 +466,7 @@ Configuring C/C++ extension</h4>
 <div class="image">
 <img src="cppconf3.png" alt=""/>
 </div>
- <h4><a class="anchor" id="autotoc_md76"></a>
+ <h4><a class="anchor" id="autotoc_md77"></a>
 Building the project</h4>
 <p >To build the project, open the Command Palette (Ctrl+Shift+P) and type <em>CMake:Build</em>. This will build the project and generate the executable file in the <em>build</em> folder.</p>
 <div class="image">
@@ -476,7 +476,7 @@ Building the project</h4>
 <div class="image">
 <img src="cppbuild3.png" alt=""/>
 </div>
- <h4><a class="anchor" id="autotoc_md77"></a>
+ <h4><a class="anchor" id="autotoc_md78"></a>
 Debugging the project</h4>
 <h5>Debugging</h5>
 <p >To debug the project, open the Debugger Tab (ctrl + shift + D) and select the profile <em>GDB - Native</em> and click on the Run button. This will compile the project and start the debugger. You should now be able to debug the project.</p>

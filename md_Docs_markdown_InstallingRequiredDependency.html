@@ -122,6 +122,29 @@ $(document).ready(function(){initNavTree('md_Docs_markdown_InstallingRequiredDep
 <p >The following sections will guide you through the installation process of these dependencies on Raspberry Pi 4 running Debian. The installation process may involve downloading and compiling the source code yourself or using a package manager to install pre-built binary packages. You may skip this section if the required dependencies are already installed.</p>
 <p >To further simplify the installation process, we have provided a set of scripts that will automatically install the required dependencies for you. You may choose to run the scripts or follow the steps manually. It is also recommended to perform installation on fresh installation of Raspberry Pi OS to prevent any conflicts with existing packages.</p>
 <h1><a class="anchor" id="autotoc_md6"></a>
+Acquiring the source code</h1>
+<p >The first step is to acquire the source code of this project. Run the following commands to clone the repository:</p>
+<ul>
+<li>Navigate to home directory: <pre class="fragment">  cd ~
+</pre></li>
+<li>Clone the repository: <pre class="fragment">  git clone https://github.com/HaziqSabtu/SpeedCameraPi.git
+</pre></li>
+</ul>
+<p >Alternatively, you can download the source code as a zip file from the GitHub repository page and extract it to your home directory.</p>
+<ul>
+<li>Go to the GitHub repository page:</li>
+</ul>
+<pre class="fragment">  git clone https://github.com/HaziqSabtu/SpeedCameraPi.git 
+</pre><ul>
+<li>Click on the green button labeled "Code" and select "Download ZIP".</li>
+</ul>
+<div class="image">
+<img src="dlcode.png" alt=""/>
+</div>
+ <ul>
+<li>Extract the downloaded zip file to your <b>home</b> directory.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Preparing the system</h1>
 <p >Before installing the required dependencies, following steps are required to be done:</p>
 <ul>
@@ -132,7 +155,7 @@ Preparing the system</h1>
 <li>Run script: <pre class="fragment">  sudo ./DI_Scripts1.sh
 </pre> </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 Explanation of script</h2>
 <ul>
 <li>Update the package list and upgrade all packages to their latest versions: <pre class="fragment">  sudo apt-get update &amp;&amp; sudo apt-get upgrade
@@ -143,7 +166,7 @@ Explanation of script</h2>
   sudo systemctl restart dphys-swapfile
 </pre> </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 Installing OpenCV</h1>
 <p >OpenCV is a powerful computer vision library that provides a vast range of image and video processing capabilities. This project uses OpenCV to perform image processing tasks such as detecting and tracking objects in the video stream.</p>
 <p >Steps to install OpenCV on Raspberry Pi 4 running Debian: <a href="https://qengineering.eu/install-opencv-4.5-on-raspberry-pi-4.html">[source]</a></p>
@@ -155,7 +178,7 @@ Installing OpenCV</h1>
 <li>Run script: <pre class="fragment">  sudo ./DI_Scripts2.sh
 </pre> </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Explanation of script</h2>
 <ul>
 <li>Update the package list and upgrade all packages to their latest versions: <pre class="fragment">  sudo apt-get update &amp;&amp; sudo apt-get upgrade
@@ -220,7 +243,7 @@ Explanation of script</h2>
           sudo ldconfig
 </pre> </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 Installing wxWidget</h1>
 <p >wxWidgets is a cross-platform GUI library that provides a set of C++ classes for creating graphical user interfaces. This project uses wxWidgets to create the graphical user interface for the application.</p>
 <p >Steps to install wxWidget on Raspberry Pi 4 running Debian: <a href="https://forums.raspberrypi.com/viewtopic.php?t=271709">[source]</a></p>
@@ -232,7 +255,7 @@ Installing wxWidget</h1>
 <li>Run script: <pre class="fragment">  sudo ./DI_Scripts3.sh
 </pre> </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md12"></a>
 Explanation of script</h2>
 <ul>
 <li>Update the package list and upgrade all packages to their latest versions: <pre class="fragment">  sudo apt-get update &amp;&amp; sudo apt-get upgrade
@@ -256,7 +279,7 @@ Explanation of script</h2>
   sudo make install
 </pre> </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 Installing libcamera</h1>
 <p >Libcamera is an open-source software stack designed to support complex camera configurations on Raspberry Pi and other embedded devices. It provides a unified interface for multiple camera modules, allowing developers to efficiently harness their full potential in various applications, from computer vision projects to advanced photography.</p>
 <p >As of now, libcamera is still under development and is still in alpha stage. However, it is already being used by the Raspberry Pi Foundation to support the Raspberry Pi High Quality Camera Module. It is recommended to use libcamera in the future as it provides a more flexible and powerful interface for controlling the camera module.</p>
@@ -270,7 +293,7 @@ Installing libcamera</h1>
 <li>Run script: <pre class="fragment">  sudo ./DI_Scripts4.sh
 </pre> </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Explanation of script</h2>
 <ul>
 <li>Update the package list and upgrade all packages to their latest versions: <pre class="fragment">  sudo apt-get update &amp;&amp; sudo apt-get upgrade
@@ -294,7 +317,7 @@ Explanation of script</h2>
   sudo ninja -C build install
 </pre> </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 Clean up</h1>
 <p >After installing the required dependencies, you may want to clean up the unnecessary files to free up some disk space. To do so, run the following commands:</p>
 <ul>
@@ -305,10 +328,10 @@ Clean up</h1>
 <li>Run script: <pre class="fragment">  sudo ./DI_Scripts5.sh
 </pre></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 Utility Scripts</h1>
 <p >This collection of scripts is not necessary for the installation of the required dependencies. However, it is recommended to run these scripts to ensure that the system is properly configured for the project.</p>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md17"></a>
 Hotspot</h2>
 <p >This script will configure the Raspberry Pi to enable the hotspot feature whenever it is not connected to local network. This will allow you to connect to the Raspberry Pi directly when you are not at home.</p>
 <ul>
@@ -319,7 +342,7 @@ Hotspot</h2>
 <li>Run script: <pre class="fragment">  sudo ./Hotspot.sh
 </pre> </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md18"></a>
 Startup</h2>
 <p >This script will configure the Raspberry Pi to automatically start the SpeedCameraPi application whenever it is booted up. This will allow you to use the Raspberry Pi as a standalone device without the need to manually start the application.</p>
 <ul>
@@ -330,7 +353,7 @@ Startup</h2>
 <li>Run script: <pre class="fragment">  sudo ./Startup.py
 </pre> </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md19"></a>
 Touchscreen</h2>
 <p >This script will fix the touchscreen rotation issue. This will allow you to use the touchscreen in portrait mode.</p>
 <ul>

@@ -103,10 +103,10 @@ $(document).ready(function(){initNavTree('md_Docs_markdown_LineDetection.html','
   <div class="headertitle"><div class="title"><a class="el" href="structLine.html" title="Custom Implementation of Line Struct with Standard Methods.">Line</a> Detection </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md49"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md50"></a>
 Introduction</h1>
 <p ><a class="el" href="structLine.html" title="Custom Implementation of Line Struct with Standard Methods.">Line</a> detection is a fundamental technique in computer vision that plays an essential role in a variety of applications, such as self-driving cars, robotics, and augmented reality. Additionally, line detection can be used in conjunction with other computer vision techniques, such as depth estimation, to compute the distance of an object from a camera. This section describes how to detect lines in an image using the OpenCV library.</p>
-<h1><a class="anchor" id="autotoc_md50"></a>
+<h1><a class="anchor" id="autotoc_md51"></a>
 Line Detection Algorithm</h1>
 <div class="image">
 <img src="LineDetection.png" alt=""/>
@@ -114,7 +114,7 @@ Line Detection Algorithm</h1>
 Line Detection Algorithm</div></div>
  <p >To perform line detection using the Hough Transform, several pre-processing steps are required. The first step is to convert the RGB image to grayscale, as the Hough Transform is typically performed on grayscale images. The grayscale image only contains intensity values, with no color information, making it easier to detect edges and lines. The next step is to detect edges using Canny edge detection which applies a series of filters and thresholds to the grayscale image to identify the edges of objects in the image.</p>
 <p >Once the edges have been detected, the Hough Transform can be applied to the edge image to detect lines. The Hough Transform algorithm accumulates edge points that are part of the same line and identifies the lines that are most prominent in the image. These lines are then returned as output from the Hough Transform algorithm. All of this steps are included in LineDetection::ProcessImage() method.</p>
-<h2><a class="anchor" id="autotoc_md51"></a>
+<h2><a class="anchor" id="autotoc_md52"></a>
 Useful links</h2>
 <p ><a href="http://docs.opencv.org/2.4/modules/imgproc/doc/feature_detection.html?highlight=houghlinesp#houghlinesp">OpenCV HoughLinesP</a> </p>
 </div></div><!-- contents -->

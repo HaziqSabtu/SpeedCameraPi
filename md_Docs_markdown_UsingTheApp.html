@@ -103,13 +103,13 @@ $(document).ready(function(){initNavTree('md_Docs_markdown_UsingTheApp.html','')
   <div class="headertitle"><div class="title">Using the App </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md21"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md22"></a>
 Setting up the Config file</h1>
 <p >During the first run of the app, a config file will be created in the root directory, e.g. <code>/home/{user}/</code>. This file will be called <code>config.ini</code>. This file contains all the settings for the app. You can edit this file to change the settings.</p>
 <p >Currently the variables can only be set in the config file. In the future, there will be a GUI to change these settings.</p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Configuration Variables</h2>
-<h3><a class="anchor" id="autotoc_md23"></a>
+<h3><a class="anchor" id="autotoc_md24"></a>
 Camera Panel</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -117,7 +117,7 @@ Camera Panel</h3>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>Thread_Pool_Size</code>   </td><td class="markdownTableBodyNone">Number of Thread pool to be used to process the images   </td><td class="markdownTableBodyNone"><code>2</code>   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md24"></a>
+<h3><a class="anchor" id="autotoc_md25"></a>
 Camera Parameter</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -133,7 +133,7 @@ Camera Parameter</h3>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>Camera_FPS</code>   </td><td class="markdownTableBodyNone">FPS of the camera image   </td><td class="markdownTableBodyNone"><code>10</code>   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md25"></a>
+<h3><a class="anchor" id="autotoc_md26"></a>
 Sensor Parameter</h3>
 <p >Followings are the variables for the sensor. The default values are for the Raspberry Pi Camera Module V2.</p>
 <table class="markdownTable">
@@ -147,7 +147,7 @@ Sensor Parameter</h3>
 <td class="markdownTableBodyNone"><code>Object_Width</code>   </td><td class="markdownTableBodyNone">Width of the object in Real World (mm) <br  />
  e.g. Road (3500 mm)   </td><td class="markdownTableBodyNone"><code>360</code>   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md26"></a>
+<h3><a class="anchor" id="autotoc_md27"></a>
 Capture Parameter</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -158,7 +158,7 @@ Capture Parameter</h3>
 <td class="markdownTableBodyNone"><code>Debug</code>   </td><td class="markdownTableBodyNone">Debug mode <br  />
  when set to <code>True</code> a bin file containing the images captured will be saved in the same directory as the app   </td><td class="markdownTableBodyNone"><code>False</code>   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md27"></a>
+<h3><a class="anchor" id="autotoc_md28"></a>
 Load Parameter</h3>
 <p >In the repository, there is a sample file called <code>example.bin</code> located at <code>SpeedCameraPi/example/Data/example.bin</code>. To use this example, the configuration file should be set as follow:</p>
 <div class="image">
@@ -177,7 +177,7 @@ Example for Load</div></div>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>Max_Frame</code>   </td><td class="markdownTableBodyNone">Maximum number of frames to be loaded   </td><td class="markdownTableBodyNone"><code>10</code>   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md28"></a>
+<h3><a class="anchor" id="autotoc_md29"></a>
 Line Selection Parameter</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -186,7 +186,7 @@ Line Selection Parameter</h3>
 <td class="markdownTableBodyNone"><code>Radius</code>   </td><td class="markdownTableBodyNone">Radius of the circle to be used to select the line <br  />
  for debugging purpose   </td><td class="markdownTableBodyNone"><code>10</code>   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md29"></a>
+<h3><a class="anchor" id="autotoc_md30"></a>
 Canny_Parameter</h3>
 <p >Followings are the variables for the Canny Edge Detection. See <a href="https://docs.opencv.org/4.x/dd/d1a/group__imgproc__feature.html#ga04723e007ed888ddf11d9ba04e2232de">OpenCV Canny</a> or <a href="https://docs.opencv.org/4.x/da/d22/tutorial_py_canny.html">Example</a> for more information.</p>
 <table class="markdownTable">
@@ -202,7 +202,7 @@ Canny_Parameter</h3>
 <td class="markdownTableBodyNone"><code>L2Gradient</code>   </td><td class="markdownTableBodyNone">A flag, indicating whether a more accurate <code>L_2</code> norm <br  />
  should be used to calculate the image gradient magnitude   </td><td class="markdownTableBodyNone"><code>0</code>   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md30"></a>
+<h3><a class="anchor" id="autotoc_md31"></a>
 Hough Parameter</h3>
 <p >Followings are the variables for the Hough <a class="el" href="structLine.html" title="Custom Implementation of Line Struct with Standard Methods.">Line</a> Transform. See <a href="https://docs.opencv.org/3.4/dd/d1a/group__imgproc__feature.html#ga8618180a5948286384e3b7ca02f6feeb">OpenCV Hough</a> or <a href="https://docs.opencv.org/3.4/d9/db0/tutorial_hough_lines.html">Example</a> for more information.</p>
 <table class="markdownTable">
@@ -220,7 +220,7 @@ Hough Parameter</h3>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>MaxLineGap</code>   </td><td class="markdownTableBodyNone">Maximum allowed gap between points on the same line to link them   </td><td class="markdownTableBodyNone"><code>10</code>   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md31"></a>
+<h3><a class="anchor" id="autotoc_md32"></a>
 Optical Flow Parameter</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -243,7 +243,7 @@ Optical Flow Parameter</h3>
 <td class="markdownTableBodyNone"><code>Threshold</code>   </td><td class="markdownTableBodyNone">Value to be used to filter out the points <br  />
  adjust this values if the object detection results are inaccurate   </td><td class="markdownTableBodyNone"><code>2.0</code>   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md32"></a>
+<h1><a class="anchor" id="autotoc_md33"></a>
 Using the App</h1>
 <pre class="fragment">The application is currently in development. Proper error handling and
 documentation will be added in the future. The application is also expected to
@@ -259,7 +259,7 @@ crash at random times. Will be fixed in the future.
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Result Panel   </td><td class="markdownTableBodyNone">This part is used to display the processed images.   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md34"></a>
 Capture Panel</h2>
 <div class="image">
 <img src="button1.jpg" alt=""/>
@@ -277,7 +277,7 @@ Camera Panel</div></div>
 <td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">Toggle camera preview. <br  />
  Note: will be removed in the future   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md34"></a>
+<h2><a class="anchor" id="autotoc_md35"></a>
 Processing Panel</h2>
 <div class="image">
 <img src="button2.jpg" alt=""/>
@@ -306,7 +306,7 @@ to some of the variables not being initialized properly. Will be fixed in the
 future. For now, just relaunch the app.
 
 Note: In some cases, the detected lines will not be displayed properly. Relaunch the app to fix this. Will be fixed in the future.
-</pre> <h2><a class="anchor" id="autotoc_md35"></a>
+</pre> <h2><a class="anchor" id="autotoc_md36"></a>
 Result Panel</h2>
 <div class="image">
 <img src="button3.jpg" alt=""/>

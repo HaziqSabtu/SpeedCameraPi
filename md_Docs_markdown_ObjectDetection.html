@@ -103,12 +103,12 @@ $(document).ready(function(){initNavTree('md_Docs_markdown_ObjectDetection.html'
   <div class="headertitle"><div class="title">Object Detection </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md44"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md45"></a>
 Introduction</h1>
 <p >Identifying and locating objects within an image or video is a crucial task in computer vision known as object detection. This task has a wide range of applications, such as in autonomous driving, surveillance, and robotics. Over the years, several methods have been developed to address this problem, ranging from classical computer vision approaches to deep learning-based techniques.</p>
 <p >Classical methods include feature-based approaches such as Haar cascades <b>[viola01]</b> and Histogram of Oriented Gradients (HOG) <b>[dalal05]</b>, while deep learning-based approaches include popular frameworks such as Region-based Convolutional Neural Networks (R-CNN) <b>[ross13]</b> and Single Shot MultiBox Detector (SSD) <b>[wei15]</b>. With the recent advancements in computer hardware and deep learning techniques, object detection has seen significant progress, and state-of-the-art models such as YOLO (You Only Look Once) <b>[joseph15]</b> have achieved remarkable accuracy and speed.</p>
 <p >Due to the hardware limitations for this project, implementing object detection has been a challenging task to solve. A method which neither requires a powerful computatioanal power nor time consuming is needed. This section will propose a method to detect moving objects in a video with Optical Flow algorithm</p>
-<h1><a class="anchor" id="autotoc_md45"></a>
+<h1><a class="anchor" id="autotoc_md46"></a>
 Optical Flow</h1>
 <p >Optical flow is a motion estimation technique used to determine the motion of pixels in a video, resulting in a vector field where each vector represents the motion of the corresponding pixel <b>[Duncan92]</b>. One significant advantage of optical flow is its ability to detect independent moving objects in a scene even when limited information is available <b>[Jiang13]</b>.</p>
 <p >The technique proposed by Lucas and Kanade estimates pixel displacement by comparing the intensity of pixels in consecutive frames. In order to reduce the complexity of calculating optical flow, two assumptions are made by Lucas and Kanade. These assumptions are that the motion between frames is small and that the intensity of the image is smooth <b>[Sharmin12]</b>.</p>
@@ -118,14 +118,14 @@ Optical Flow</h1>
 Result of Optical Flow</div></div>
  <p >Optical flow works by first detecting the keypoints in the first frame of the video as explained in <a class="el" href="classFeatureDetector.html" title="Class for detecting and matching features between two images and alligning them.">FeatureDetector</a>. One study found that feature detection techniques like Canny and Harris can produce more accurate keypoints for optical flow compared to SIFT <b>[Nourani12]</b>. The keypoints are then tracked in the next frame using the Lucas-Kanade algorithm and repeated until all frames are processed.</p>
 <p >The result of optical flow, as shown in Figure ... , clearly shows that moving points can be distinctly identified and tracked. Therefore, if a threshold value is set for the magnitude of the vector, fixed points on the background object, e.g., trees, and roads, will be filtered out, and only moving points will be detected.</p>
-<h1><a class="anchor" id="autotoc_md46"></a>
+<h1><a class="anchor" id="autotoc_md47"></a>
 Object Detection and Tracking Algorithm</h1>
 <div class="image">
 <img src="ObjectDetection.png" alt=""/>
 <div class="caption">
 Object Detection and Tracking Algorithm</div></div>
  <p >The algorithm starts by reading the video and generating initial keypoints using the Shi-Tomasi algorithm. The keypoints are then tracked using the Lucas-Kanade algorithm, and the process is repeated until all frames are processed. The magnitude of the vector is then analyzed. The corresponding point is considered a moving point for any vector whose magnitude is more significant than a threshold value.</p>
-<h1><a class="anchor" id="autotoc_md47"></a>
+<h1><a class="anchor" id="autotoc_md48"></a>
 Useful Links</h1>
 <p >ObjectDetection</p>
 <p >ObjectDetection::updateFlow</p>

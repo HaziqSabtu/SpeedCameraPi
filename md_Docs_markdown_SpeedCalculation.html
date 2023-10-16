@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('md_Docs_markdown_SpeedCalculation.html
   <div class="headertitle"><div class="title">Speed Calculation </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md53"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md54"></a>
 Pinhole Camera Model</h1>
 <p >The utilization of the pinhole camera model in computer vision and image processing has been widespread. Its origin dates back to the fifth century BC, when Mo Jing, a Chinese Mohist philosopher, described a similar design utilizing a closed room and a hole in the wall <b>[Ye2014]</b>. Later in the tenth century AD, the Arabian physicist and mathematician Ibn al-Haytham, also known as Alhazen, conducted experiments on image formation. He placed three candles in a row, a screen with a small hole between them and the wall, and noticed that images were only formed by the small holes, and the candle to the right created an image on the wall to the left <b>[Bekele13]</b>.</p>
 <div class="image">
@@ -111,7 +111,7 @@ Pinhole Camera Model</h1>
 <div class="caption">
 Example of Pinhole Camera Model \cite Ye2014</div></div>
  <p >The pinhole camera model is fundamental in computer vision, and the concept is often used as a reference for developing more complex camera models. It is a single-point perspective camera model that assumes that each point in the object space projects through a single point in the image plane (Figure pinholemodel}) <b>[Huang14]</b>. The model contains three main components: the image plane, focal length, and optical center <b>[Nogueira19]</b>. The image plane is where the light rays from the object space are projected and where an inverted image is formed <b>[Tomasi15]</b>. The optical center, on the other hand, is where the light rays from the object space intersect, and it is located at a focal length distance from the image plane <b>[Tomasi15]</b>.</p>
-<h1><a class="anchor" id="autotoc_md54"></a>
+<h1><a class="anchor" id="autotoc_md55"></a>
 Object Distance from Camera</h1>
 <div class="image">
 <img src="pinhole2.jpg" alt=""/>
@@ -125,12 +125,12 @@ Figure of Pinhole Camera Model</div></div>
 <p >\begin{equation} \label{eq:3} O_d = {f} \cdot \frac{S_{hpix}}{S_h} \cdot \frac{O_h}{I_{hpix}} \end{equation}</p>
 <p >One can obtain the parameters \(S_{hpix}\) and \(f\) directly from the camera specifications or manufacturer. For instance, the Raspberry Pi Camera Module v2 used in this project has a sensor size of 3.68 mm x 2.76 mm, and a focal length of 3.04 mm <b>[pi]</b>. It is worth noting that the sensor size varies in width and height, and the choice of which value to use in the calculation depends on the camera's orientation concerning the object's position.</p>
 <p >While \(S_{hpix}\) depends on the camera resolution, \(I_{hpix}\) value can be measured directly from the image. However, we are left with an unknown variable, \(O_h\), representing the object's height in the real world. Hence, to compute the object's distance from the camera, one must know the object's height in the real world.</p>
-<h1><a class="anchor" id="autotoc_md55"></a>
+<h1><a class="anchor" id="autotoc_md56"></a>
 Speed Calculation</h1>
 <p >To determine the speed of a moving object, one can calculate the distance it travels within a given time interval. This can be done by subtracting the distance of the object in the previous frame from the distance of the object in the current frame. Similarly, the time interval can be calculated by subtracting the time of the previous frame from the current frame's time. Therefore, the formula for determining the speed of the object is derived.</p>
 <p >\begin{equation} \label{eq:4} Speed = \frac{|d_{current} - d_{previous}|}{t_{current} - t_{previous}} \end{equation}</p>
 <p >However, as previously mentioned in {objectdistance}, the object's dimension in the real world must be known to obtain an accurate result in the calculation. A constant object size in the real world must be utilized to ensure consistency in the calculation. In this project, the width of the road, which has an average value of 3.5 meters in Germany, will be utilized as the object size <b>[Autobahn]</b>.</p>
-<h1><a class="anchor" id="autotoc_md56"></a>
+<h1><a class="anchor" id="autotoc_md57"></a>
 Proposed Algorithm</h1>
 <div class="image">
 <img src="algo.jpg" alt=""/>
