@@ -1,14 +1,13 @@
 #ifndef SELECT_LINE_PANEL
 #define SELECT_LINE_PANEL
 
-#include <Algorithm/line_detection/lineDetection.hpp>
+#include <>
+#include <Algorithm/Struct/D_Line.hpp>
 #include <UI/CameraPanel/Panel.hpp>
 #include <UI/SelectLinePanel/ButtonPanel.hpp>
-#include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <Utils/ImageBitmap/Derived/SelectLineBitmap.hpp>
-#include <Utils/Struct/D_Line.hpp>
 #include <wx/wx.h>
 
 class SelectLinePanel : public wxPanel {
@@ -16,7 +15,7 @@ class SelectLinePanel : public wxPanel {
     SelectLinePanel(wxWindow *parent, wxWindowID id);
     ~SelectLinePanel();
 
-    std::vector<Detection::Line> GetSelectedLines();
+    std::vector<Line> GetSelectedLines();
     std::vector<ImageData> GetImgData();
     void OnPageChange();
 
@@ -27,7 +26,7 @@ class SelectLinePanel : public wxPanel {
     std::vector<ImageData> imgData;
     std::vector<cv::Point2f> *ptns;
     std::vector<cv::Vec4i> *houghLines;
-    std::vector<Detection::Line> *selectedLines;
+    std::vector<Line> *selectedLines;
 
     LineDetection lineDetection;
 
@@ -45,7 +44,7 @@ class SelectLinePanel : public wxPanel {
     void OnDecrement();
 
     void checkForLine(wxPoint realMousePos);
-    void addLine(Detection::Line line);
+    void addLine(Line line);
     void addPoints(wxPoint realMousePos);
 
     DECLARE_EVENT_TABLE()

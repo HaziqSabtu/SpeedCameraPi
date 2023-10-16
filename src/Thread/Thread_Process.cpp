@@ -1,73 +1,126 @@
-/**
- * @file Thread_Process.cpp
- * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
- * @brief Custom wxThread for processing ImageData
- * @version 1.0.0
- * @date 2023-03-18
- *
- * @copyright Copyright (c) 2023
- *
- */
-
+#include "Algorithm/image_allign/FeatureDetector.hpp"
+#include "Algorithm/speed_calculation/H_speedCalculation.hpp"
+#include "Algorithm/speed_calculation/speedCalculation.hpp"
+#include "Event/Event_Error.hpp"
+#include "Event/Event_ProcessImage.hpp"
+#include "Event/Event_UpdatePreview.hpp"
+#include "Event/Event_UpdateState.hpp"
+#include "Event/Event_UpdateStatus.hpp"
+#include "Model/CalibrationData.hpp"
+#include "Model/SessionData.hpp"
+#include "Thread/Task/Task_OpticalFlow.hpp"
+#include "Thread/Task/Task_Speed.hpp"
+#include "Thread/ThreadPool.hpp"
+#include "Utils/Config/AppConfig.hpp"
 #include <Thread/Thread_Process.hpp>
+#include <memory>
+#include <vector>
+#include <wx/event.h>
+#include <wx/utils.h>
 
-/**
- * @brief Construct a new Process Thread:: Process Thread object
- *
- * @param parent parent wxEvtHandler
- * @param threadPool pointer to ThreadPool
- * @param imgData pointer to ImageData vector
- * @param ofConfig OpticalFlowConfig
- */
-ProcessThread::ProcessThread(wxEvtHandler *parent, ThreadPool *threadPool,
-                             std::vector<ImageData> *imgData,
-                             OpticalFlowConfig ofConfig)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), pool(threadPool),
-      imgData(imgData), ofConfig(ofConfig) {}
+ProcessThread::ProcessThread(wxEvtHandler *parent, DataPtr data,
+                             DetectorPtr detector, TrackerPtr tracker,
+                             SpeedPtr speedCalc, POOLPtr threadPool)
+    : BaseThread(parent, data), pool(threadPool), detector(detector),
+      tracker(tracker), speedCalc(speedCalc) {}
 
-/**
- * @brief Destroy the Process Thread:: Process Thread object
- *
- */
 ProcessThread::~ProcessThread() {}
 
-/**
- * @brief Entry point of the thread
- * @details This function will be called when the thread is started
- * <ul>
- * <li>For each ImageData in the vector, SiftTask is created and added to the
- * thread pool</li>
- * <li>Wait for the thread pool to finish processing the ImageData</li>
- * <li>FlowTask is created and added to the thread pool</li>
- * <li>Wait for the thread pool to finish processing the ImageData</li>
- * </ul>
- *
- * @return wxThread::ExitCode
- */
 wxThread::ExitCode ProcessThread::Entry() {
-    std::vector<TaskProperty> taskProperties;
-    for (int i = 1; i < imgData->size(); i++) {
-        SiftTask *task = new SiftTask(imgData, i);
-        taskProperties.push_back(task->GetProperty());
-        pool->AddTask(task);
-        task = NULL;
+    wxCommandEvent startProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_START);
+    wxPostEvent(parent, startProcessEvent);
+
+    UpdateStatusEvent::Submit(parent, "Starting Process Thread");
+    try {
+
+        if (data->isCaptureDataEmpty()) {
+            throw std::runtime_error("Capture Data is empty");
+        }
+
+        if (!data->isResultDataEmpty()) {
+            throw std::runtime_error("Result Data already exists");
+        }
+
+        auto captureSize = data->getCaptureData().size();
+        data->initAllignData(captureSize);
+
+        std::vector<TaskProperty> taskProperties;
+
+        const int MAX_FRAME = data->getCaptureData().size();
+
+        // FeatureDetector detector = FeatureDetector(DetectorType::SIFT);
+
+        detector->Init(data->getCaptureData().at(0).image);
+
+        for (int i = 0; i < MAX_FRAME; i++) {
+            DetectorPtr d =
+                std::make_shared<FeatureDetector>(detector->clone());
+            std::unique_ptr<Task> task = std::make_unique<SiftTask>(d, data, i);
+            taskProperties.push_back(task->GetProperty());
+            pool->AddTask(task);
+        }
+
+        int count;
+        while ((count = pool->countTasks(taskProperties)) > 0) {
+            UpdateStatusEvent::Submit(
+                parent, "Waiting for " + std::to_string(count) + " tasks");
+            wxMilliSleep(500);
+        }
+
+        // Track Calculation
+        auto roi = data->getTrackingData().roi;
+        if (roi.area() <= 0) {
+            throw std::runtime_error("ROI is not set");
+        }
+
+        AppConfig c;
+        OpticalFlowConfig ofConfig = c.GetOpticalFlowConfig();
+
+        std::unique_ptr<Task> flowTask =
+            std::make_unique<FlowTask>(data, tracker);
+        TaskProperty flowProperty = flowTask->GetProperty();
+
+        pool->AddTask(flowTask);
+        while (pool->isWorkerBusy(flowProperty) ||
+               pool->HasTasks(flowProperty)) {
+            UpdateStatusEvent::Submit(parent, "Waiting for Flow Task");
+            wxMilliSleep(100);
+        }
+
+        // Speed Calculation
+        if (data->isCalibrationDataEmpty()) {
+            throw std::runtime_error("Calibration Data is empty");
+        }
+
+        SensorConfig sConfig = c.GetSensorConfig();
+        MeasurementConfig mConfig = c.GetMeasurementConfig();
+
+        std::unique_ptr<Task> speedTask =
+            std::make_unique<SpeedTask>(data, speedCalc);
+        TaskProperty speedProperty = speedTask->GetProperty();
+
+        pool->AddTask(speedTask);
+        while (pool->isWorkerBusy(speedProperty) ||
+               pool->HasTasks(speedProperty)) {
+            UpdateStatusEvent::Submit(parent, "Waiting for Speed Task");
+            wxMilliSleep(100);
+        }
+
+        auto speed = data->getResultData().speed;
+
+        std::string resultString = "Speed: " + std::to_string(speed) + " km/h";
+        UpdateStatusEvent::Submit(parent, resultString);
+    } catch (const std::exception &e) {
+        wxCommandEvent errorProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_ERROR);
+        wxPostEvent(parent, errorProcessEvent);
+
+        ErrorEvent::Submit(parent, e.what());
     }
 
-    // TODO: Update Waiting
-    while (pool->isWorkerBusy(taskProperties) ||
-           pool->HasTasks(taskProperties)) {
-        wxMilliSleep(100);
-    }
-
-    FlowTask *flowTask = new FlowTask(imgData, ofConfig);
-    TaskProperty flowProperty = flowTask->GetProperty();
-    pool->AddTask(flowTask);
-    while (pool->isWorkerBusy(flowProperty) || pool->HasTasks(flowProperty)) {
-        wxMilliSleep(100);
-    }
-
-    wxCommandEvent processImageEvent(c_PROCESS_IMAGE_EVENT, PROCESS_END);
-    wxPostEvent(parent, processImageEvent);
+    wxCommandEvent endProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_END);
+    wxPostEvent(parent, endProcessEvent);
 
     return 0;
 }
+
+ThreadID ProcessThread::getID() const { return threadID; }

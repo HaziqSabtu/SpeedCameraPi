@@ -12,28 +12,42 @@
 #ifndef OPTICAL_FLOW_TASK_HPP
 #define OPTICAL_FLOW_TASK_HPP
 
-#include <Algorithm/object_detection/ObjectDetection.hpp>
+#include "Algorithm/object_tracker/ObjectTracker.hpp"
+#include "Model/SessionData.hpp"
+#include <Algorithm/object_tracker/OpticalFlowData.hpp>
+#include <Algorithm/object_tracker/OpticalFlowTracker.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/Config/AppConfig.hpp>
-#include <Utils/DataStruct.hpp>
-#include <Utils/Struct/D_OpticalFlow.hpp>
 
 /**
  * @brief Task Implementation for Optical Flow Detection
  *
  */
+//TODO: Rename
 class FlowTask : public Task {
   public:
-    FlowTask(std::vector<ImageData> *imgData, OpticalFlowConfig config);
+    FlowTask(DataPtr data, TrackerPtr tracker);
     void Execute() override;
-    TaskProperty GetProperty() const override;
-    std::string GetName() const override;
 
   private:
-    const TaskProperty property;
-    std::vector<ImageData> *imgData;
+    DataPtr data;
+    TrackerPtr tracker;
 
-    OpticalFlowConfig config;
+    const std::string currentName = "FlowTask";
+    const TaskType currentType = TaskType::TASK_FLOW;
+};
+
+// TODO: Remove
+class CsrtTask : public Task {
+  public:
+    CsrtTask(DataPtr data);
+    void Execute() override;
+
+  private:
+    DataPtr data;
+
+    const std::string currentName = "CsrtTask";
+    const TaskType currentType = TaskType::TASK_CSRT;
 };
 
 #endif

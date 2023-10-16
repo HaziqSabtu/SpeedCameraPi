@@ -13,14 +13,22 @@
 #define THREAD_POOL_HPP
 
 #include <Thread/Task/Task.hpp>
-#include <Utils/IDGenerator/IDGenerator.hpp>
 #include <condition_variable>
 #include <iostream>
+#include <memory>
 #include <mutex>
 #include <queue>
 #include <thread>
 #include <unordered_map>
 #include <wx/log.h>
+
+#define POOLPtr std::shared_ptr<ThreadPool>
+
+struct TaskErrorData {
+    int threadId;
+    TaskProperty property;
+    std::string error;
+};
 
 /**
  * @brief Class Implementation for Background Thread Pool
@@ -28,11 +36,15 @@
  */
 class ThreadPool {
   public:
+    ThreadPool();
     ThreadPool(const int numThreads);
     ~ThreadPool();
 
-    void AddTask(Task *task);
-    void AddTaskFront(Task *task);
+    void setNumThreads(const int numThreads);
+
+    void AddTask(std::unique_ptr<Task> &task);
+    void AddTaskFront(std::unique_ptr<Task> task);
+    void emptyQueue();
 
     bool isBusy();
     bool HasTasks(TaskProperty &property);
@@ -43,6 +55,13 @@ class ThreadPool {
     bool isWorkerBusy(std::vector<TaskProperty> &properties);
     bool isQueueEmpty();
 
+    int countTasks(std::vector<TaskProperty> &properties);
+
+    bool isTaskError(TaskProperty &property);
+    bool isTaskError(std::vector<TaskProperty> &properties);
+    TaskErrorData getErrorData(TaskProperty &property);
+    TaskErrorData getErrorData(std::vector<TaskProperty> &properties);
+
   private:
     void WorkerThread(int threadId);
 
@@ -50,10 +69,11 @@ class ThreadPool {
     bool isStop;
 
     std::vector<std::thread> threadArray;
-    std::unordered_map<int, Task *> taskMap;
-    std::deque<Task *> taskQueue;
+    std::unordered_map<int, TaskProperty> taskMap;
+    std::deque<std::unique_ptr<Task>> taskQueue;
     std::mutex m_mutex;
     std::condition_variable cv;
+    std::vector<TaskErrorData> errorData;
 };
 
 #endif

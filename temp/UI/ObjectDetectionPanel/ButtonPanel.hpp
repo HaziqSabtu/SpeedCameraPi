@@ -1,7 +1,7 @@
 #ifndef OBJECT_DETECTION_PANEL_BUTTON
 #define OBJECT_DETECTION_PANEL_BUTTON
 
-#include <Algorithm/object_detection/ObjectDetection.hpp>
+#include <Algorithm/object_tracker/OpticalFlowTracker.hpp>
 #include <Utils/Enum.hpp>
 #include <wx/notebook.h>
 #include <wx/wx.h>

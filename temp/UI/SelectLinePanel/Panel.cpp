@@ -5,7 +5,7 @@ SelectLinePanel::SelectLinePanel(wxWindow *parent, wxWindowID id)
 
     ptns = new std::vector<cv::Point2f>();
     // houghLines = new std::vector<Detection>();
-    selectedLines = new std::vector<Detection::Line>();
+    selectedLines = new std::vector<Line>();
 
     button_panel = new SelectLinePanelButton(this, Enum::SL_BUTTON_PANEL_ID);
 
@@ -61,7 +61,7 @@ void SelectLinePanel::OnButton(wxCommandEvent &e) {
         }
         houghLines->clear();
         // img_bitmap->SetHoughLines(nullptr);
-        img_bitmap->SetHoughLines(std::vector<Detection::Line>());
+        img_bitmap->SetHoughLines(std::vector<Line>());
         img_bitmap->drawBitMap();
     }
 
@@ -108,8 +108,8 @@ void SelectLinePanel::OnSize(wxSizeEvent &e) { img_bitmap->drawBitMap(); }
 
 void SelectLinePanel::checkForLine(wxPoint realMousePos) {
     cv::Point2f mousePos(realMousePos.x, realMousePos.y);
-    std::vector<Detection::Line> detLines;
-    std::vector<Detection::Line> linesP = lineDetection.GetLines();
+    std::vector<Line> detLines;
+    std::vector<Line> linesP = lineDetection.GetLines();
 
     if (linesP.empty()) {
         wxLogMessage("No Lines Available");
@@ -127,7 +127,7 @@ void SelectLinePanel::checkForLine(wxPoint realMousePos) {
         return;
     }
 
-    Detection::Line avgLine = Detection::Line::Average(detLines);
+    Line avgLine = Line::Average(detLines);
     addLine(avgLine.Extrapolate(imgData[c].image));
 }
 
@@ -139,9 +139,9 @@ void SelectLinePanel::addPoints(wxPoint realMousePos) {
     ptns->push_back(cv::Point2f(realMousePos.x, realMousePos.y));
 }
 
-void SelectLinePanel::addLine(Detection::Line line) {
+void SelectLinePanel::addLine(Line line) {
     if (selectedLines == NULL) {
-        selectedLines = new std::vector<Detection::Line>();
+        selectedLines = new std::vector<Line>();
         img_bitmap->setSelectedLines(selectedLines);
     }
 
@@ -152,9 +152,9 @@ void SelectLinePanel::addLine(Detection::Line line) {
     }
 }
 
-std::vector<Detection::Line> SelectLinePanel::GetSelectedLines() {
+std::vector<Line> SelectLinePanel::GetSelectedLines() {
     if (selectedLines == NULL || selectedLines->empty()) {
-        return std::vector<Detection::Line>();
+        return std::vector<Line>();
     }
     return *selectedLines;
 }

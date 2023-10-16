@@ -11,32 +11,27 @@
 #ifndef SPEED_TASK_HPP
 #define SPEED_TASK_HPP
 
+#include "Utils/Config/ConfigStruct.hpp"
+#include <Algorithm/Struct/D_Line.hpp>
+
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 #include <Thread/Task/Task.hpp>
 #include <Utils/Config/AppConfig.hpp>
-#include <Utils/DataStruct.hpp>
-#include <Utils/Struct/D_Line.hpp>
-
 /**
  * @brief Task Implementation for Speed Calculation
  *
  */
 class SpeedTask : public Task {
   public:
-    SpeedTask(std::vector<ImageData> *imgData,
-              std::vector<Detection::Line> &selectedLine,
-              std::unique_ptr<float> &result, SensorConfig sensorConfig);
+    SpeedTask(DataPtr data, SpeedPtr speedCalc);
     void Execute() override;
-    TaskProperty GetProperty() const override;
-    std::string GetName() const override;
 
   private:
-    const TaskProperty property;
+    DataPtr data;
+    SpeedPtr speedCalc;
 
-    std::vector<ImageData> *imgData;
-    std::vector<Detection::Line> selectedLine;
-    std::unique_ptr<float> &result;
-    SensorConfig sensorConfig;
+    const std::string currentName = "SpeedTask";
+    const TaskType currentType = TaskType::TASK_SPEED;
 };
 
 #endif

@@ -2,7 +2,6 @@
 #define PROCESS_THREAD_HPP
 
 #include <Algorithm/image_allign/FeatureDetector.hpp>
-#include <Utils/DataStruct.hpp>
 #include <chrono>
 #include <opencv2/core.hpp>
 #include <wx/thread.h>

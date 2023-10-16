@@ -53,6 +53,21 @@
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64"
+        },
+        {
+            "name": "Ubuntu CCX",
+            "includePath": [
+                "/home/haziqsabtu/cxcmpl/sysroot/usr/local/include/**",
+                "/home/haziqsabtu/cxcmpl/sysroot/usr/local/lib/wx/include/**"
+            ],
+            "defines": [
+                "__WXGTK__"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
         }
     ],
     "version": 4

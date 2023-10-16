@@ -40,12 +40,9 @@ void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
 
     // crosscheck is True for Normal Matching
     cv::BFMatcher matcher(normTypes, true);
-    std::cout << "Running BruteForce with " << typeName << std::endl;
-
     matcher.match(query, target, matches);
 }
 
-// TODO: DOCS
 void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
                                  std::vector<std::vector<cv::DMatch>> &matches,
                                  std::string type, int normType) {
@@ -60,7 +57,6 @@ void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
     matcher.knnMatch(query, target, matches, 2);
 }
 
-// TODO: DOCS -> Use Enum
 /**
  * @brief Map an integer `normType` value to a corresponding `cv::NormTypes`
  * enum value and string type name.
@@ -79,42 +75,42 @@ void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
 void DMatcher::getNormType(int normType, cv::NormTypes &normTypes,
                            std::string &typeName) {
     switch (normType) {
-    case 0:
-        normTypes = cv::NORM_HAMMING;
-        typeName = "NORM_HAMMING";
-        break;
-    case 1:
-        normTypes = cv::NORM_INF;
-        typeName = "NORM_INF";
-        break;
-    case 2:
-        normTypes = cv::NORM_L1;
-        typeName = "NORM_L1";
-        break;
-    case 3:
-        normTypes = cv::NORM_L2;
-        typeName = "NORM_L2";
-        break;
-    case 4:
-        normTypes = cv::NORM_L2SQR;
-        typeName = "NORM_L2SQR";
-        break;
-    case 5:
-        normTypes = cv::NORM_HAMMING2;
-        typeName = "NORM_HAMMING2";
-        break;
-    case 6:
-        normTypes = cv::NORM_TYPE_MASK;
-        typeName = "NORM_TYPE_MASK";
-        break;
-    case 7:
-        normTypes = cv::NORM_RELATIVE;
-        typeName = "NORM_RELATIVE";
-        break;
-    case 8:
-        normTypes = cv::NORM_MINMAX;
-        typeName = "NORM_MINMAX";
-        break;
+        case 0:
+            normTypes = cv::NORM_HAMMING;
+            typeName = "NORM_HAMMING";
+            break;
+        case 1:
+            normTypes = cv::NORM_INF;
+            typeName = "NORM_INF";
+            break;
+        case 2:
+            normTypes = cv::NORM_L1;
+            typeName = "NORM_L1";
+            break;
+        case 3:
+            normTypes = cv::NORM_L2;
+            typeName = "NORM_L2";
+            break;
+        case 4:
+            normTypes = cv::NORM_L2SQR;
+            typeName = "NORM_L2SQR";
+            break;
+        case 5:
+            normTypes = cv::NORM_HAMMING2;
+            typeName = "NORM_HAMMING2";
+            break;
+        case 6:
+            normTypes = cv::NORM_TYPE_MASK;
+            typeName = "NORM_TYPE_MASK";
+            break;
+        case 7:
+            normTypes = cv::NORM_RELATIVE;
+            typeName = "NORM_RELATIVE";
+            break;
+        case 8:
+            normTypes = cv::NORM_MINMAX;
+            typeName = "NORM_MINMAX";
+            break;
     }
 }
 
@@ -136,14 +132,13 @@ void DMatcher::getNormType(int normType, cv::NormTypes &normTypes,
 void DMatcher::FlannBasedMatcher(cv::Mat &query, cv::Mat &target,
                                  std::vector<std::vector<cv::DMatch>> &matches,
                                  DetectorType type) {
-    if (type == DetectorType::ORB) {
-        cv::FlannBasedMatcher matcher = cv::FlannBasedMatcher(
-            cv::makePtr<cv::flann::LshIndexParams>(12, 20, 2));
-        matcher.knnMatch(query, target, matches, 2);
-    } else if (type == DetectorType::SIFT) {
+
+    if (type == DetectorType::SIFT) {
         cv::Ptr<cv::DescriptorMatcher> matcher =
             cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
         matcher->knnMatch(query, target, matches, 2);
+    } else {
+        throw std::logic_error("Feature detector not implemented yet");
     }
 }
 
@@ -164,5 +159,4 @@ void DMatcher::FilterKeyPoints(std::vector<std::vector<cv::DMatch>> &knnMatches,
                 goodMatch.push_back(knnMatches[i][0]);
         }
     }
-    std::cout << "Filtered KeyPoints: " << goodMatch.size() << std::endl;
 }

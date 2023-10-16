@@ -3,7 +3,6 @@
 
 #include <UI/CameraPanel/Panel.hpp>
 #include <UI/CaptureViewPanel/ButtonPanel.hpp>
-#include <Utils/DataStruct.hpp>
 #include <Utils/Enum.hpp>
 #include <Utils/ImageBitmap/ImageBitmap.hpp>
 #include <opencv2/opencv.hpp>

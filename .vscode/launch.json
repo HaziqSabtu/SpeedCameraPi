@@ -12,7 +12,7 @@
             "name": "(lldb-linux) Launch",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/build/subprojects/Build/wx_cmake_template_core/main",
+            "program": "${workspaceFolder}/build/SpeedCameraPi",
             "preLaunchTask": "Build with CMake"
         },
         {
@@ -21,6 +21,148 @@
             "request": "launch",
             "program": "${workspaceFolder}\\build\\subprojects\\Build\\wx_cmake_template_core\\Debug\\main.exe",
             "preLaunchTask": "Build with CMake"
-        }
+        },
+        {
+            "name": "(GDB-Auto) Remote GDB Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "startGDB",
+            "postDebugTask": "killGDB",
+            "environment": [],
+            "setupCommands": [
+                {
+                    "text": "target remote 192.168.178.39:2000",
+                    "description": "Target",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Test",
+                    "text": "python import sys;sys.path.insert(0, '/usr/share/gcc/python');from libstdcxx.v6.printers import register_libstdcxx_printers;register_libstdcxx_printers(None)",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "-enable-pretty-printing",
+                    "description": "Enable GDB pretty printing",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Set sysroot directory",
+                    "text": "set sysroot /home/haziqsabtu/cxcmpl/sysroot",
+                    "ignoreFailures": true
+                },
+                {
+                    "text": "skip -rfu ^std::.*",
+                    "description": "Don't step into standard library ",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "skip -rfu ^cv::.*",
+                    "description": "Don't step into cv library ",
+                    "ignoreFailures": false
+                }
+            ],
+            "stopAtEntry": true,
+            "targetArchitecture": "arm",
+            "miDebuggerPath": "/home/haziqsabtu/cxcmpl/tools/cross-pi-gcc-10.3.0-2/bin/arm-linux-gnueabihf-gdb",
+            "MIMode": "gdb",
+            "externalConsole": false,
+            "sourceFileMap": {
+                "${workspaceFolder}": {
+                    "editorPath": "${workspaceFolder}",
+                    "useForBreakpoints": "true"
+                }
+            },
+            "logging": {
+                "engineLogging": true
+            }
+        },
+        {
+            "name": "(GDB-Manual) Remote GDB Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "setupCommands": [
+                {
+                    "text": "target remote 192.168.178.39:2000",
+                    "description": "Target",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "-enable-pretty-printing",
+                    "description": "Enable GDB pretty printing",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "skip -rfu ^std::.*",
+                    "description": "Don't step into standard library ",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "skip -rfu ^cv::.*",
+                    "description": "Don't step into cv library ",
+                    "ignoreFailures": false
+                }
+            ],
+            "stopAtEntry": true,
+            "targetArchitecture": "arm",
+            "miDebuggerPath": "/home/haziqsabtu/cxcmpl/tools/cross-pi-gcc-10.3.0-2/bin/arm-linux-gnueabihf-gdb",
+            "MIMode": "gdb",
+            "externalConsole": false,
+            "sourceFileMap": {
+                "${workspaceFolder}": {
+                    "editorPath": "${workspaceFolder}",
+                    "useForBreakpoints": "true"
+                }
+            },
+            "logging": {
+                "engineLogging": true
+            }
+        },
+        {
+            "name": "GDB-Native",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "setupCommands": [
+                {
+                    "text": "-enable-pretty-printing",
+                    "description": "Enable GDB pretty printing",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "skip -rfu ^std::.*",
+                    "description": "Don't step into standard library ",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "skip -rfu ^cv::.*",
+                    "description": "Don't step into cv library ",
+                    "ignoreFailures": false
+                },
+            ],
+            "stopAtEntry": true,
+            "targetArchitecture": "arm",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "MIMode": "gdb",
+            "externalConsole": false,
+            "sourceFileMap": {
+                "${workspaceFolder}": {
+                    "editorPath": "${workspaceFolder}",
+                    "useForBreakpoints": "true"
+                }
+            },
+            "logging": {
+                "engineLogging": true
+            }
+        },
     ]
 }

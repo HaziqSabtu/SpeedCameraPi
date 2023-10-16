@@ -6,7 +6,7 @@ name: Doxygen Action
 # events but only for the master branch
 on:
   push:
-    branches: [v2-Doxygen]
+    branches: [main]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -47,7 +47,7 @@ jobs:
       - name: Find and Replace
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: 'md__docs_markdown__object_detection'
+          find: 'md__docs_markdown__object_tracker'
           replace: 'md_Docs_markdown_ObjectDetection'
           include: '**DoxygenLayout.xml'
           regex: false

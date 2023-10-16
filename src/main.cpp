@@ -1,26 +1,29 @@
-#include <UI/MainFrame.hpp>
+#include <UI/Frame/MainFrame.hpp>
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Logger/Logger.hpp>
 #include <wx/thread.h>
+#include <wx/utils.h>
 #include <wx/wx.h>
 
 class MyApp : public wxApp {
   public:
     bool OnInit() {
-        AppConfig conf;
         wxInitAllImageHandlers();
 
+#if DEBUG
+        // Show Log Messages in Debug Mode
         wxLog::SetActiveTarget(new AppLogger);
         wxLogMessage("Application Started");
+#endif
 
-        MainFrame *frame = new MainFrame("Speed Gun", wxSize(800, 600), &conf);
-
+        MainFrame *frame = new MainFrame();
         frame->Show(true);
+
         return true;
     }
 
     virtual int OnExit() {
-        wxLogMessage("Application Closed");
+        wxWakeUpIdle();
         return wxApp::OnExit();
     }
 };

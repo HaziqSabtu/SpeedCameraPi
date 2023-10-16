@@ -8,26 +8,26 @@
  * @copyright Copyright (c) 2023
  *
  */
+
+#include "Event/Event_Error.hpp"
+#include "Event/Event_LoadImage.hpp"
+#include "Model/SessionData.hpp"
+#include "Thread/Thread_Base.hpp"
+#include "Utils/FileReader/fileWR.hpp"
+#include "Utils/wxUtils.hpp"
 #include <Thread/Thread_LoadCapture.hpp>
+#include <memory>
+#include <opencv2/imgproc.hpp>
 
-/**
- * @brief Construct a new Load Capture Thread:: Load Capture Thread object
- *
- * @param parent parent wxEvtHandler
- * @param camera camera object
- * @param maxFrame maximum frame to capture
- * @param debug debug mode
- */
-LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent,
-                                     raspicam::RaspiCam_Cv *camera,
-                                     const int maxFrame, const bool debug)
-    : wxThread(wxTHREAD_JOINABLE), parent(parent), camera(camera),
-      maxFrame(maxFrame), debug(debug) {}
+LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent, CameraPtr &camera,
+                                     DataPtr data, const int maxFrame,
+                                     const bool debug_ShowImage,
+                                     const bool debug_Save)
+    : BaseThread(parent, data), CameraAccessor(camera), PreviewableThread(),
+      maxFrame(maxFrame), debug_SaveImageData(debug_Save),
+      debug_ShowImagesWhenCapture(debug_ShowImage) {}
 
-/**
- * @brief Destroy the Load Capture Thread:: Load Capture Thread object
- */
-LoadCaptureThread::~LoadCaptureThread() { camera = nullptr; }
+LoadCaptureThread::~LoadCaptureThread() {}
 
 /**
  * @brief Entry point for the thread
@@ -36,7 +36,7 @@ LoadCaptureThread::~LoadCaptureThread() { camera = nullptr; }
  * <li>Check if camera is opened</li>
  * <li>Grab and retrieve frame from camera</li>
  * <li>Post CaptureImageEvent to parent to signal the start of capture</li>
- * <li>Post UpdateImageEvent to parent to signal that a new frame is
+ * <li>Post updatePreviewEvent to parent to signal that a new frame is
  * available</li>
  * <li>Post CaptureImageEvent to parent to signal the end of capture</li>
  * </ul>
@@ -45,48 +45,92 @@ LoadCaptureThread::~LoadCaptureThread() { camera = nullptr; }
  * @return wxThread::ExitCode
  */
 wxThread::ExitCode LoadCaptureThread::Entry() {
-    if (!camera->isOpened()) {
-        std::cout << "Failed to open camera" << std::endl;
+    try {
+        wxCommandEvent startLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_START_CAMERA);
+        wxPostEvent(parent, startLoadEvent);
+
+        CDVector vec;
+
+        if (data == nullptr) {
+            throw std::runtime_error("data is null");
+        }
+
+        if (!data->isCaptureDataEmpty()) {
+            throw std::runtime_error("capture data is not empty");
+        }
+
+        cv::Mat frame;
+
+        // warmup
+        // first few frames have inconsistent time stamp
+        for (int i = 0; i < WARMPUP_COUNT; i++) {
+            camera->getFrame(frame);
+        }
+
+        for (int i = 0; i < maxFrame; i++) {
+
+            camera->getFrame(frame);
+
+            if (frame.empty()) {
+                std::cout << "Failed to capture frame" << std::endl;
+                continue;
+            }
+
+            vec.push_back(CaptureData(frame.clone()));
+
+            if (TestDestroy()) {
+                break;
+            }
+
+            // if running in VNC there are possibility that the image
+            // captured at wrong captured time ... better turn off for now
+            // show the result after finish capturing instead
+            if (!debug_ShowImagesWhenCapture) {
+                continue;
+            }
+
+            cv::resize(frame, frame, pSize);
+            UpdatePreviewEvent::Submit(parent, frame);
+
+            // is this necessary?
+            // wxMilliSleep(200);
+        }
+
+        data->setCaptureData(vec);
+
+        // showing captured frames after finish capturing
+        if (!debug_ShowImagesWhenCapture) {
+            for (int i = 0; i < maxFrame; i++) {
+                cv::Mat frame = vec.at(i).image.clone();
+                cv::resize(frame, frame, pSize);
+                UpdatePreviewEvent::Submit(parent, frame);
+                wxMilliSleep(200);
+            }
+        }
+
+        if (debug_SaveImageData) {
+            auto random = std::to_string(std::rand());
+            auto filename = "DEBUG_" + random;
+
+            Utils::FileReadWrite().WriteFile(data, filename);
+        }
+
+    } catch (const std::exception &e) {
+        ErrorEvent::Submit(parent, e.what());
+        wxCommandEvent errorLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_ERROR_CAMERA);
+        wxPostEvent(parent, errorLoadEvent);
+
         return 0;
     }
 
-    std::unique_ptr<std::vector<ImageData>> imgData =
-        std::make_unique<std::vector<ImageData>>();
-
-    CaptureImageEvent startCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_START);
-    wxPostEvent(parent, startCaptureEvent);
-
-    cv::Mat frame;
-
-    for (int i = 0; i < maxFrame; i++) {
-        camera->grab();
-        camera->retrieve(frame);
-        if (frame.empty()) {
-            std::cout << "Failed to capture frame" << std::endl;
-            continue;
-        }
-        imgData->push_back(ImageData(frame.clone()));
-        UpdateImageEvent event(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-        event.SetImageData(ImageData(frame));
-        wxPostEvent(parent, event);
-
-        if (TestDestroy()) {
-            break;
-        }
-    }
-
-    cv::Mat first = imgData->at(0).image;
-    UpdateImageEvent updateImageEvent(c_UPDATE_IMAGE_EVENT, UPDATE_IMAGE);
-    updateImageEvent.SetImageData(first);
-    wxPostEvent(parent, updateImageEvent);
-
-    if (debug) {
-        FILEWR::WriteFile(imgData.get());
-    }
-
-    CaptureImageEvent stopCaptureEvent(c_CAPTURE_IMAGE_EVENT, CAPTURE_END);
-    stopCaptureEvent.SetImageData(imgData.release());
-    wxPostEvent(parent, stopCaptureEvent);
-
+    wxCommandEvent stopLoadEvent(c_LOAD_IMAGE_EVENT, LOAD_END_CAMERA);
+    wxPostEvent(parent, stopLoadEvent);
     return 0;
 }
+
+/**
+ * @brief Get the ID object
+ *
+ * @return ThreadID
+ */
+ThreadID LoadCaptureThread::getID() const { return id; }

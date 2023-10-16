@@ -9,28 +9,42 @@
  *
  */
 
-#ifndef FILEWR_HPP
-#define FILEWR_HPP
-
-#include <Utils/DataStruct.hpp>
-#include <Utils/ImageUtils.hpp>
+#include "Model/SessionData.hpp"
+#include <Utils/CommonUtils.hpp>
 #include <chrono>
 #include <fstream>
 #include <iostream>
 #include <opencv2/core.hpp>
+#include <string> // Include the necessary header for strings
 
-/**
- * @brief Utils Class for reading and writing binary file
- *
- */
-class FILEWR {
-  private:
-    /* data */
+#pragma once
+
+namespace Utils {
+struct FileMetaData {
+    int vectorSize;
+    int imgWidth;
+    int imgHeight;
+
+    Mode mode;
+
+    bool isCalibrated;
+
+    bool isROI;
+};
+class FileReadWrite {
   public:
-    FILEWR(/* args */);
-    ~FILEWR();
-    static void ReadFile(std::string path, std::vector<ImageData> *imgData);
-    static void WriteFile(std::vector<ImageData> *imgData);
+    FileReadWrite();
+    ~FileReadWrite();
+    //CDVector ReadFile(std::string path);
+    void WriteFile(DataPtr data, std::string filename = "");
+    void ReadFile(DataPtr data, std::string filename);
+
+  private:
+    const std::string FILE_IDENTIFIER = "SPEEDCAMERAPI";
+    const std::string DATA_DIVIDER = "DIVDIVDIV";
+    const std::string FILE_EXTENSION = ".scpdata";
+
+  private:
 };
 
-#endif
+} // namespace Utils

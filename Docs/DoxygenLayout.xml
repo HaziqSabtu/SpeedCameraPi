@@ -3,13 +3,14 @@
   <!-- Navigation index tabs for HTML output -->
   <navindex>
     <tab type="mainpage" visible="yes" title=""/>
-    <tab type="user" visible="yes" title="Installing Dependency" url="md__docs_markdown__installing_required_dependency.html"/>
-    <tab type="user" visible="yes" title="Compiling Application" url="md__docs_markdown__compiling_programm.html"/>
-    <tab type="user" visible="yes" title="Using the App" url="md__docs_markdown__using_the_app.html">
-    <tab type="user" visible="yes" title="Image Allignment" url="md__docs_markdown__image_allignment.html"/>
-    <tab type="user" visible="yes" title="Object Detection" url="md__docs_markdown__object_detection.html"/>
-    <tab type="user" visible="yes" title="Line Detection" url="md__docs_markdown__line_detection.html"/>
-    <tab type="user" visible="yes" title="Speed Calculation" url="md__docs_markdown__speed_calculation.html"/>
+    <tab type="user" visible="yes" title="Installing Dependency" url="md_Docs_markdown_InstallingRequiredDependency.html"/>
+    <tab type="user" visible="yes" title="Compiling Application" url="md_Docs_markdown_CompilingProgramm.html"/>
+    <tab type="user" visible="yes" title="Development Setup" url="md_Docs_markdown_developmentSetup.html"/>
+    <tab type="user" visible="yes" title="Using the App" url="md_Docs_markdown_UsingTheApp.html">
+    <tab type="user" visible="yes" title="Image Allignment" url="md_Docs_markdown_ImageAllignment.html"/>
+    <tab type="user" visible="yes" title="Object Detection" url="md_Docs_markdown_ObjectDetection.html"/>
+    <tab type="user" visible="yes" title="Line Detection" url="md_Docs_markdown_LineDetection.html"/>
+    <tab type="user" visible="yes" title="Speed Calculation" url="md_Docs_markdown_SpeedCalculation.html"/>
     <!-- </tab> -->
     <tab type="examples" visible="yes" title="" intro=""/>
     <tab type="pages" visible="no" title="" intro=""/>

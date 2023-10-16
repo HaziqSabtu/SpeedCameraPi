@@ -85,13 +85,12 @@ void CameraBitmap::SetIsProcessing(bool *isProcessing) {
     this->isProcessing = isProcessing;
 }
 
-void CameraBitmap::SetHoughLines(std::vector<Detection::Line> houghLines) {
+void CameraBitmap::SetHoughLines(std::vector<Line> houghLines) {
     this->houghLines = houghLines;
     drawBitMap();
 }
 
-void CameraBitmap::setSelectedLines(
-    std::vector<Detection::Line> *selectedLines) {
+void CameraBitmap::setSelectedLines(std::vector<Line> *selectedLines) {
     this->selectedLines = selectedLines;
     drawBitMap();
 }

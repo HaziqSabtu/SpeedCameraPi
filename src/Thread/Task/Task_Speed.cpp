@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2023
  *
  */
+#include "Model/SessionData.hpp"
+#include "Utils/Config/ConfigStruct.hpp"
 #include <Thread/Task/Task_Speed.hpp>
 
 /**
@@ -18,11 +20,11 @@
  * @param result Result of Speed Calculation
  * @param sensorConfig Sensor Configuration ... SensorConfig
  */
-SpeedTask::SpeedTask(std::vector<ImageData> *imgData,
-                     std::vector<Detection::Line> &selectedLine,
-                     std::unique_ptr<float> &result, SensorConfig sensorConfig)
-    : property(TaskType::TASK_SPEED), imgData(imgData), result(result),
-      selectedLine(selectedLine), sensorConfig(sensorConfig) {}
+SpeedTask::SpeedTask(DataPtr data, SpeedPtr speedCalc)
+    : data(data), speedCalc(speedCalc) {
+    property = TaskProperty(currentType);
+    name = currentName;
+}
 
 /**
  * @brief Execute the Speed Calculation
@@ -37,24 +39,42 @@ SpeedTask::SpeedTask(std::vector<ImageData> *imgData,
  *
  */
 void SpeedTask::Execute() {
-    SpeedCalculation speedCalc(sensorConfig.SensorWidth,
-                               sensorConfig.SensorFocalLength,
-                               sensorConfig.ObjectWidth);
-    speedCalc.SetImageWidth(imgData->at(0).image.cols);
-    speedCalc.runCalculation(imgData, selectedLine);
-    result.reset(new float(speedCalc.GetAvgSpeed()));
+    auto resultData = data->getResultData();
+    auto roiData = resultData.trackedRoi;
+
+    auto allignData = resultData.allignData;
+
+    std::vector<cv::Mat> allignImages;
+    for (auto d : allignData) {
+        allignImages.push_back(d.image);
+    }
+
+    std::vector<HPTime> times;
+    for (auto t : data->getCaptureData()) {
+        times.push_back(t.time);
+    }
+
+    if (data->isCalibrationDataEmpty()) {
+        throw std::runtime_error("Calibration Data is empty");
+    }
+
+    auto calibData = data->getCalibrationData();
+    std::vector<Line> lines;
+    lines.push_back(calibData.lineLeft);
+    lines.push_back(calibData.lineRight);
+
+    speedCalc->runCalculation(allignImages, times, roiData, lines);
+
+    auto speed = speedCalc->GetSpeed() * 3.6;
+
+    resultData.speed = speed;
+
+    if (speedCalc->GetType() == SPEED_CALCULATION_LANE) {
+        auto laneSpeedCalc =
+            std::dynamic_pointer_cast<LaneSpeedCalculation>(speedCalc);
+        auto intersectingLines = laneSpeedCalc->GetIntersectingLines();
+        resultData.intersectingLines = intersectingLines;
+    }
+
+    data->setResultData(resultData);
 }
-
-/**
- * @brief Get the Type object
- *
- * @return TaskType
- */
-TaskProperty SpeedTask::GetProperty() const { return property; }
-
-/**
- * @brief Get the Name object
- *
- * @return std::string
- */
-std::string SpeedTask::GetName() const { return "SpeedTask"; }

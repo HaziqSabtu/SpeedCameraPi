@@ -12,12 +12,11 @@ void SelectLineBitmap::SetPoints(std::vector<cv::Point2f> *ptns) {
     this->ptns = ptns;
 }
 
-void SelectLineBitmap::SetHoughLines(std::vector<Detection::Line> houghLines) {
+void SelectLineBitmap::SetHoughLines(std::vector<Line> houghLines) {
     this->houghLines = houghLines;
 }
 
-void SelectLineBitmap::setSelectedLines(
-    std::vector<Detection::Line> *selectedLines) {
+void SelectLineBitmap::setSelectedLines(std::vector<Line> *selectedLines) {
     this->selectedLines = selectedLines;
 }
 
@@ -44,7 +43,7 @@ void SelectLineBitmap::drawBitMap() {
             cv::line(img_cp, l.p1, l.p2, cv::Scalar(0, 255, 255), 2);
         }
     }
-    
+
     cv::Mat img_rs;
     cv::resize(img_cp, img_rs, cv::Size(resizeWidth, resizeHeight));
 

@@ -1,0 +1,6 @@
+[
+    {
+        "name": "Pi ToolChain",
+        "toolchainFile": "~/cxcmpl/tools/PI.cmake"
+    }
+]

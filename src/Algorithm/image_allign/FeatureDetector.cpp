@@ -10,6 +10,7 @@
  */
 
 #include <Algorithm/image_allign/FeatureDetector.hpp>
+#include <opencv2/core/types.hpp>
 
 /**
  * @brief FeatureDetector constructor
@@ -30,48 +31,66 @@ FeatureDetector::FeatureDetector(DetectorType type) : detectorType(type) {
 FeatureDetector::FeatureDetector() : FeatureDetector(DetectorType::SIFT) {}
 
 /**
- * @brief Runs the feature detection and matching algorithm on two input images.
+ * @brief Copy constructor
  *
- * @details
- * <ul>
- * <li> 1. Detect and compute features on both images.
- * <li> 2. Match features between the two images.
- * <li> 3. Filter the matched features.
- * <li> 4. Find homography matrix.
- * <li> 5. Apply homography matrix to the second image.
- * </ul>
- *
- * @param image1 First input image, Source Image.
- * @param image2 Second input image, Image to allign.
+ * @param other FeatureDetector object to be copied.
  */
-void FeatureDetector::allign(cv::Mat &image1, cv::Mat &image2) {
-    // TODO: run first compute at constructor/init
-    FeatureDetector::clearVector();
+FeatureDetector &FeatureDetector::operator=(const FeatureDetector &other) {
+    if (this != &other) {
+        this->detectorType = other.detectorType;
+        this->detector = other.detector;
+        this->keyPoints1 = other.keyPoints1;
+        this->keyPoints2 = other.keyPoints2;
+        this->descriptors1 = other.descriptors1.clone();
+        this->descriptors2 = other.descriptors2.clone();
+        this->homographyMatrix = other.homographyMatrix.clone();
+        this->transform = other.transform.clone();
+    }
+    return *this;
+}
+
+/**
+ * @brief Clone function
+ *
+ * @return FeatureDetector
+ */
+FeatureDetector FeatureDetector::clone() { return FeatureDetector(*this); }
+
+void FeatureDetector::Init(cv::Mat &image1) {
+    clearVector();
+
+    if (image1.empty()) {
+        throw std::logic_error("Image is empty");
+    }
+
     detector->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
+}
+
+void FeatureDetector::Allign(cv::Mat &image2) {
+    if (image2.empty()) {
+        throw std::logic_error("Image is empty");
+    }
+
+    if (keyPoints1.empty() || descriptors1.empty()) {
+        throw std::logic_error("No keypoints detected. Run Init() first.");
+    }
+
+    if (keyPoints2.empty() || descriptors2.empty()) {
+        keyPoints2.clear();
+        descriptors2.release();
+    }
+
     detector->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
 
     DMatcher::FlannBasedMatcher(descriptors1, descriptors2, matchKP,
                                 detectorType);
+
     DMatcher::FilterKeyPoints(matchKP, filterKP, 0.3);
 
     homographyMatrix =
         Homography::FindHomography(keyPoints1, keyPoints2, filterKP);
-    transform = Homography::PerscpectiveTransform(image2, homographyMatrix);
-}
 
-/**
- * @brief Run image allignment on a vector of ImageData objects.
- * Attention! The result will replace the original image in the ImageData
- * object.
- *
- * @param imgData result of Image Allignment.
- */
-void FeatureDetector::allign(std::vector<ImageData> &imgData) {
-    cv::Mat firstImg = imgData.front().image;
-    for (ImageData &img : imgData) {
-        allign(firstImg, img.image);
-        img.image = transform.clone();
-    }
+    transform = Homography::PerscpectiveTransform(image2, homographyMatrix);
 }
 
 /**
@@ -91,6 +110,17 @@ cv::Mat FeatureDetector::GetMatchImage(cv::Mat &image1, cv::Mat &image2) {
                     std::vector<char>(),
                     cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
     return result;
+}
+
+/**
+ * @brief Inline function to clear all vectors from previous run
+ *
+ */
+void FeatureDetector::clearVector() {
+    filterKP.clear();
+    matchKP.clear();
+    keyPoints1.clear();
+    keyPoints2.clear();
 }
 
 /**

@@ -11,18 +11,15 @@
 
 #include <Thread/ThreadPool.hpp>
 
+ThreadPool::ThreadPool() : isStop(false) {}
+
 /**
  * @brief Construct a new Thread Pool:: Thread Pool object
  *
  * @param numThreads number of threads/workers to create
  */
-ThreadPool::ThreadPool(const int numThreads)
-    : numThreads(numThreads), isStop(false) {
-    wxLogMessage("Creating %d threads for ThreadPool", numThreads);
-    for (int i = 0; i < numThreads; i++) {
-        threadArray.push_back(std::thread(&ThreadPool::WorkerThread, this, i));
-        taskMap[i] = NULL;
-    }
+ThreadPool::ThreadPool(const int numThreads) : ThreadPool() {
+    setNumThreads(numThreads);
 }
 
 /**
@@ -41,14 +38,24 @@ ThreadPool::~ThreadPool() {
     }
 }
 
+void ThreadPool::setNumThreads(const int numThreads) {
+    this->numThreads = numThreads;
+    std::cout << "Creating " << numThreads << " threads for ThreadPool"
+              << std::endl;
+    for (int i = 0; i < numThreads; i++) {
+        threadArray.push_back(std::thread(&ThreadPool::WorkerThread, this, i));
+        taskMap[i] = TaskProperty(TASK_NONE);
+    }
+}
+
 /**
  * @brief Add Task to the queue
  *
  * @param task pointer to Task object
  */
-void ThreadPool::AddTask(Task *task) {
+void ThreadPool::AddTask(std::unique_ptr<Task> &task) {
     std::unique_lock<std::mutex> lock(m_mutex);
-    taskQueue.push_back(task);
+    taskQueue.push_back(std::move(task));
     cv.notify_one();
 }
 
@@ -57,12 +64,9 @@ void ThreadPool::AddTask(Task *task) {
  *
  * @param task pointer to Task object
  */
-void ThreadPool::AddTaskFront(Task *task) {
+void ThreadPool::AddTaskFront(std::unique_ptr<Task> task) {
     std::unique_lock<std::mutex> lock(m_mutex);
-    taskQueue.push_front(task);
-    for (auto &task : taskQueue) {
-        std::cout << task->GetName() << std::endl;
-    }
+    taskQueue.push_front(std::move(task));
     cv.notify_one();
 }
 
@@ -72,16 +76,16 @@ void ThreadPool::AddTaskFront(Task *task) {
  * <ul>
  * <li> 1. The worker thread will run in an infinite loop
  * <li> 2. cv.wait() will block the thread until the condition variable is
- * notified <li> 3. The condition variable will be notified when a new task is
- * added to the queue <li> 4. The worker thread will then pop the task from the
- * queue and execute it <li> 5. Finished task will be deleted
+ * notified <li> 3. The condition variable will be notified when a new task
+ * is added to the queue <li> 4. The worker thread will then pop the task
+ * from the queue and execute it <li> 5. Finished task will be deleted
  * </ul>
  *
  * @param threadId thread id
  */
 void ThreadPool::WorkerThread(int threadId) {
     while (true) {
-        Task *task = NULL;
+        std::unique_ptr<Task> task = nullptr;
         {
             std::unique_lock<std::mutex> lock(m_mutex);
             cv.wait(lock, [this] { return isStop || !taskQueue.empty(); });
@@ -89,15 +93,20 @@ void ThreadPool::WorkerThread(int threadId) {
                 return;
             }
 
-            task = taskQueue.front();
+            task = std::move(taskQueue.front());
             taskQueue.pop_front();
-            taskMap[threadId] = task;
+            taskMap[threadId] = task->GetProperty();
         }
-        task->Execute();
+        try {
+            task->Execute();
+        } catch (std::exception &e) {
+            auto error = std::string(e.what());
+            TaskErrorData data = {threadId, task->GetProperty(), error};
+            errorData.push_back(data);
+        }
         {
             std::unique_lock<std::mutex> lock(m_mutex);
-            delete task;
-            taskMap[threadId] = NULL;
+            taskMap[threadId] = TASK_NONE;
         }
     }
 }
@@ -122,9 +131,10 @@ bool ThreadPool::isBusy() {
 bool ThreadPool::isWorkerBusy() {
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto &task : taskMap) {
-        if (task.second != NULL) {
-            return true;
+        if (task.second.isTypeNone()) {
+            continue;
         }
+        return true;
     }
     return false;
 }
@@ -139,7 +149,14 @@ bool ThreadPool::isWorkerBusy() {
 bool ThreadPool::isWorkerBusy(TaskProperty &property) {
     std::unique_lock<std::mutex> lock(m_mutex);
     for (auto &task : taskMap) {
-        if (task.second != NULL && task.second->GetProperty() == property) {
+
+        TaskProperty p = task.second;
+
+        if (p.isTypeNone()) {
+            continue;
+        }
+
+        if (p == property) {
             return true;
         }
     }
@@ -154,14 +171,9 @@ bool ThreadPool::isWorkerBusy(TaskProperty &property) {
  * @return false if all workers are idle
  */
 bool ThreadPool::isWorkerBusy(std::vector<TaskProperty> &properties) {
-    std::unique_lock<std::mutex> lock(m_mutex);
-    for (auto &task : taskMap) {
-        if (task.second != NULL) {
-            for (auto &property : properties) {
-                if (task.second->GetProperty() == property) {
-                    return true;
-                }
-            }
+    for (auto property : properties) {
+        if (isWorkerBusy(property)) {
+            return true;
         }
     }
     return false;
@@ -178,12 +190,36 @@ bool ThreadPool::isQueueEmpty() {
     return taskQueue.empty();
 }
 
+int ThreadPool::countTasks(std::vector<TaskProperty> &properties) {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    int count = 0;
+
+    for (auto &task : taskQueue) {
+        for (auto property : properties) {
+            if (task->GetProperty() == property) {
+                count++;
+            }
+        }
+    }
+
+    for (auto &task : taskMap) {
+        for (auto property : properties) {
+            if (task.second == property) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
+
 /**
  * @brief Check if the task queue has a task of a specific type
  *
  * @param type task type from TaskType enum
  * @return true if the task queue has a task of the specified type
- * @return false if the task queue does not have a task of the specified type
+ * @return false if the task queue does not have a task of the specified
+ * type
  */
 bool ThreadPool::HasTasks(TaskProperty &property) {
     std::unique_lock<std::mutex> lock(m_mutex);
@@ -200,7 +236,8 @@ bool ThreadPool::HasTasks(TaskProperty &property) {
  *
  * @param properties list of task properties
  * @return true if the task queue has a task of the specified type
- * @return false if the task queue does not have a task of the specified type
+ * @return false if the task queue does not have a task of the specified
+ * type
  */
 bool ThreadPool::HasTasks(std::vector<TaskProperty> &properties) {
     std::unique_lock<std::mutex> lock(m_mutex);
@@ -212,6 +249,76 @@ bool ThreadPool::HasTasks(std::vector<TaskProperty> &properties) {
         }
     }
     return false;
+}
+
+/**
+ * @brief Empty the task queue
+ */
+void ThreadPool::emptyQueue() {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    taskQueue.clear();
+}
+
+/**
+ * @brief Check if a task has an error
+ *
+ * @param property task property which is used to identify the task
+ * @return true if the task has an error
+ * @return false if the task does not have an error
+ */
+bool ThreadPool::isTaskError(TaskProperty &property) {
+    for (auto &data : errorData) {
+        if (data.property == property) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * @brief Check if a list of tasks has an error
+ *
+ * @param properties list of task properties
+ * @return true if any task in the list has an error
+ * @return false if all tasks in the list do not have an error
+ */
+bool ThreadPool::isTaskError(std::vector<TaskProperty> &properties) {
+    for (auto property : properties) {
+        if (isTaskError(property)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * @brief Get the error data of a task
+ *
+ * @param property task property which is used to identify the task
+ * @return TaskErrorData struct
+ */
+TaskErrorData ThreadPool::getErrorData(TaskProperty &property) {
+    for (auto &data : errorData) {
+        if (data.property == property) {
+            return data;
+        }
+    }
+    return TaskErrorData();
+}
+
+/**
+ * @brief Get the error data of a list of tasks
+ *
+ * @param properties list of task properties
+ * @return TaskErrorData struct
+ */
+TaskErrorData ThreadPool::getErrorData(std::vector<TaskProperty> &properties) {
+    for (auto property : properties) {
+        if (isTaskError(property)) {
+            return getErrorData(property);
+        }
+    }
+    return TaskErrorData();
 }
 
 /*

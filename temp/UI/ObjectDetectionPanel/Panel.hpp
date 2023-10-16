@@ -1,7 +1,7 @@
 #ifndef OBJECT_DETECTION_PANEL
 #define OBJECT_DETECTION_PANEL
 
-#include <Algorithm/object_detection/ObjectDetection.hpp>
+#include <Algorithm/object_tracker/OpticalFlowTracker.hpp>
 #include <Algorithm/speed_calculation/speedCalculation.hpp>
 #include <Thread/ObjectDetectionThread.hpp>
 #include <UI/ObjectDetectionPanel/ButtonPanel.hpp>

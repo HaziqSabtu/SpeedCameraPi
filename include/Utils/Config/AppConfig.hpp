@@ -3,6 +3,7 @@
 
 #include <Utils/Config/ConfigStruct.hpp>
 #include <opencv2/core/cvdef.h>
+#include <opencv2/core/types.hpp>
 #include <wx/file.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
@@ -13,34 +14,65 @@ class AppConfig {
     AppConfig();
     ~AppConfig();
 
-    wxString GetLoadFileName();
+    SettingsModel GetConfig();
+    void SaveConfig(const SettingsModel &model);
+    void ResetConfig();
 
-    PanelConfig GetPanelConfig();
+    ModelConfig GetModelConfig();
+    void SetModelConfig(ModelConfig config);
+    void ResetModelConfig();
+
+    PreviewConfig GetPreviewConfig();
+    void SetPreviewConfig(PreviewConfig config);
+    void ResetPreviewConfig();
 
     CameraConfig GetCameraConfig();
+    void SetCameraConfig(CameraConfig config);
+    void ResetCameraConfig();
 
     CaptureConfig GetCaptureConfig();
-
-    LoadConfig GetLoadConfig();
-
-    CannyConfig GetCannyConfig();
-
-    HoughConfig GetHoughConfig();
+    void SetCaptureConfig(CaptureConfig config);
+    void ResetCaptureConfig();
 
     OpticalFlowConfig GetOpticalFlowConfig();
+    void SetOpticalFlowConfig(OpticalFlowConfig config);
+    void ResetOpticalFlowConfig();
 
     SensorConfig GetSensorConfig();
+    void SetSensorConfig(SensorConfig config);
+    void ResetSensorConfig();
 
-    int GetMaxLoadFrame();
+    MeasurementConfig GetMeasurementConfig();
+    void SetMeasurementConfig(MeasurementConfig config);
+    void ResetMeasurementConfig();
 
-    int GetRadius();
+    HSVRangeConfig GetBlueRange();
+    void SetBlueRange(HSVRangeConfig range);
+    void ResetBlueRange();
+
+    HSVRangeConfig GetYellowRange();
+    void SetYellowRange(HSVRangeConfig range);
+    void ResetYellowRange();
+
+    RansacConfig GetRansacConfig();
+    void SetRansacConfig(RansacConfig config);
+    void ResetRansacConfig();
+
+    ThreadsConfig GetThreadsConfig();
+    void SetThreadsConfig(ThreadsConfig config);
+    void ResetThreadsConfig();
 
   private:
     wxFileConfig *config;
 
     // Default Values
-    // Camera Panel
+
+    // Model Config
     int Default_Thread_Pool_Size = 2;
+
+    // Preview Config
+    int Default_Preview_Width = 640;
+    int Default_Preview_Height = 480;
 
     // Camera Parameter
     int Default_Camera_ID = 0;
@@ -51,35 +83,21 @@ class AppConfig {
     // Sensor Parameter
     double Default_Sensor_Width = 3.68;
     double Default_Sensor_Focal_Length = 3.04;
-    double Default_Object_Width = 360.0;
+
+    // Measurement Parameter
+    double Default_Object_Width = 3500.0;
+    double Default_Object_Height = 2000.0;
 
     // Capture Parameter
     int Default_Max_Frame_Count = 10;
-    bool Default_Debug = false;
-
-    // Load Parameter
-    wxString Default_Load_File_Name = "default";
-    wxString Default_Load_Dir_Location = "default";
-    int Default_Max_Frame = 10;
+    bool Default_DebugShowImage = false;
+    bool Default_DebugSave = false;
 
     // Detection Parameter
     int Default_Max_Points = 1000;
 
     // Line Selection Parameter
     int Default_Radius = 10;
-
-    // Canny Parameter
-    double Default_Threshold1 = 50.0;
-    double Default_Threshold2 = 150.0;
-    int Default_Aperture_Size = 3;
-    bool Default_L2_Gradient = false;
-
-    // HoughLine Parameter
-    double Default_Rho = 1.0;
-    double Default_Theta = CV_PI / 180;
-    int Default_Hough_Threshold = 50;
-    double Default_Min_Line_Length = 25;
-    double Default_Max_Line_Gap = 10;
 
     // Optical Flow Parameter
     int Default_Max_Corners = 1000;
@@ -90,6 +108,37 @@ class AppConfig {
     double Default_K = 0.04;
     double Default_Min_Point_Distance = 0.2;
     double Default_Threshold = 2.0;
+
+    // HSV Blue Range Parameter
+    int Default_Hue_Blue_Low = 100;
+    int Default_Hue_Blue_High = 130;
+
+    int Default_Sat_Blue_Low = 100;
+    int Default_Sat_Blue_High = 255;
+
+    int Default_Val_Blue_Low = 100;
+    int Default_Val_Blue_High = 255;
+
+    // HSV Yellow Range Parameter
+    int Default_Hue_Yellow_Low = 20;
+    int Default_Hue_Yellow_High = 35;
+
+    int Default_Sat_Yellow_Low = 100;
+    int Default_Sat_Yellow_High = 255;
+
+    int Default_Val_Yellow_Low = 100;
+    int Default_Val_Yellow_High = 255;
+
+    // RANSAC Parameter
+    double Default_RANSAC_Threshold = 6;
+    int Default_RANSAC_Min_Points = 50;
+    int Default_RANSAC_Max_Iterations = 500;
+
+    // Threads Parameter
+    bool Default_AutoManualCalibration = false;
+    bool Default_AutoCalibration = false;
+    bool Default_AutoRoi = false;
+    bool Default_AutoResult = false;
 };
 
 #endif

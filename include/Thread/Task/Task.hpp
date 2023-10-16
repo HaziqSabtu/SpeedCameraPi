@@ -11,7 +11,7 @@
 #ifndef TASK_HPP
 #define TASK_HPP
 
-#include <Utils/IDGenerator/IDGenerator.hpp>
+#include <Utils/CommonUtils.hpp>
 #include <string>
 
 /**
@@ -34,6 +34,7 @@ enum TaskType {
     TASK_SIFT,
     TASK_HOUGHLINE,
     TASK_FLOW,
+    TASK_CSRT,
     TASK_SPEED,
 };
 
@@ -62,6 +63,8 @@ struct TaskProperty {
     TaskType type;
     int id;
 
+    TaskProperty() : TaskProperty(TASK_NONE) {}
+
     /**
      * @brief Construct a new Task Property object
      *
@@ -69,7 +72,7 @@ struct TaskProperty {
      */
     TaskProperty(TaskType type) {
         this->type = type;
-        this->id = Utils::IDGenerator::GenerateID();
+        this->id = Utils::generateRandomID();
     }
 
     /**
@@ -77,12 +80,14 @@ struct TaskProperty {
      *
      * @param other TaskProperty to be compared with
      * @return true true if both TaskProperty are equal in TaskType and ID
-     * @return false false if both TaskProperty are not equal in either TaskType
-     * or ID
+     * @return false false if both TaskProperty are not equal in either
+     * TaskType or ID
      */
     bool operator==(const TaskProperty &other) const {
         return (this->type == other.type && this->id == other.id);
     }
+
+    bool isTypeNone() const { return (this->type == TASK_NONE); }
 };
 
 /**
@@ -109,14 +114,18 @@ class Task {
      *
      * @return TaskProperty
      */
-    virtual TaskProperty GetProperty() const = 0;
+    TaskProperty GetProperty() const { return property; }
 
     /**
      * @brief Get the Priority object
      *
      * @return TaskPriority
      */
-    virtual std::string GetName() const = 0;
+    std::string GetName() const { return name; }
+
+  protected:
+    TaskProperty property;
+    std::string name;
 };
 
 #endif
