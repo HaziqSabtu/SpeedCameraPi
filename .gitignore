@@ -11,8 +11,8 @@ CTestTestfile.cmake
 _deps
 *.txt
 build
-docs/Doxygen
-
+Docs/Doxygen
+Doxyfile.bak
 data.bin
 src.bin
 output.mp4

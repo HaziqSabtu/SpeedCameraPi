@@ -5,7 +5,6 @@ import shutil
 import cUtils
 
 
-
 def run_command(command):
     os.system(command)
 
