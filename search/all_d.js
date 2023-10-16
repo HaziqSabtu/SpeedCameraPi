@@ -1,24 +1,12 @@
 var searchData=
 [
-  ['setcannyparameters_0',['SetCannyParameters',['../classLineDetection.html#a64e8b8e4e348ba10492c5e2ae2681f36',1,'LineDetection']]],
-  ['setdetectionparams_1',['SetDetectionParams',['../classDetection_1_1ObjectDetection.html#a45c974a2541d3ca1d51fb4050100303f',1,'Detection::ObjectDetection']]],
-  ['sethoughdata_2',['SetHoughData',['../classHoughEvent.html#ab8f04bc5507e4fd3e16ccb536ec8d3d7',1,'HoughEvent']]],
-  ['sethoughlinespparameters_3',['SetHoughLinesPParameters',['../classLineDetection.html#a20ec6a0bbe553daeb8a0b47faa572243',1,'LineDetection']]],
-  ['setimage_4',['SetImage',['../classLineDetection.html#aa01f9305b7d38922f90c2a53dc047ee0',1,'LineDetection']]],
-  ['setimagedata_5',['SetImageData',['../classUpdateImageEvent.html#ad0effc35c9bd56865bef3850d99ade98',1,'UpdateImageEvent::SetImageData()'],['../classCaptureImageEvent.html#a0ad39472ac9769137455c8166f15afe2',1,'CaptureImageEvent::SetImageData()']]],
-  ['setimagewidth_6',['SetImageWidth',['../classSpeedCalculation.html#ac1a834eae4ac5b3b352bc465838f4224',1,'SpeedCalculation']]],
-  ['setline_7',['SetLine',['../classSpeedCalculation.html#aadfb7c8b7c2f8bda44f2afb281367a9c',1,'SpeedCalculation']]],
-  ['setspeed_8',['SetSpeed',['../classSpeedCalcEvent.html#acd73c4da80d95bd3e5867c9ac36050aa',1,'SpeedCalcEvent']]],
-  ['sifttask_9',['SiftTask',['../classSiftTask.html#a891df53db56b28d9a4ae2ed5a24dbb5b',1,'SiftTask::SiftTask()'],['../classSiftTask.html',1,'SiftTask']]],
-  ['slope_10',['Slope',['../structDetection_1_1Line.html#a93d5767c8c737befcfafceef421736fe',1,'Detection::Line']]],
-  ['speed_20calculation_11',['Speed Calculation',['../md_Docs_markdown_SpeedCalculation.html',1,'']]],
-  ['speed_5fcalc_5ftype_12',['SPEED_CALC_TYPE',['../Event__Speed_8hpp.html#a68309a8712cf74ce852f8b2de39f7365',1,'Event_Speed.hpp']]],
-  ['speedcalcevent_13',['SpeedCalcEvent',['../classSpeedCalcEvent.html#a8808acdd0b5711a8e3c1457859813677',1,'SpeedCalcEvent::SpeedCalcEvent(wxEventType eventType=c_SPEED_CALC_EVENT, int id=1)'],['../classSpeedCalcEvent.html#a5a3a9efc8e4a44d9e2e4b20615541626',1,'SpeedCalcEvent::SpeedCalcEvent(const SpeedCalcEvent &amp;e)'],['../classSpeedCalcEvent.html',1,'SpeedCalcEvent']]],
-  ['speedcalculation_14',['SpeedCalculation',['../classSpeedCalculation.html#a9b7513645932aa5487a9e50689a5d43c',1,'SpeedCalculation::SpeedCalculation()'],['../classSpeedCalculation.html',1,'SpeedCalculation']]],
-  ['speedcalculation_2ecpp_15',['speedCalculation.cpp',['../speedCalculation_8cpp.html',1,'']]],
-  ['speedcalculation_2ehpp_16',['speedCalculation.hpp',['../speedCalculation_8hpp.html',1,'']]],
-  ['speedcamerapi_28scp_29_17',['SpeedCameraPi(SCP)',['../index.html',1,'']]],
-  ['speeddata_18',['SpeedData',['../structSpeedData.html',1,'']]],
-  ['speedtask_19',['SpeedTask',['../classSpeedTask.html',1,'SpeedTask'],['../classSpeedTask.html#ac453eda4339a71905eeef28c77d77107',1,'SpeedTask::SpeedTask()']]],
-  ['speedthread_20',['SpeedThread',['../classSpeedThread.html',1,'SpeedThread'],['../classSpeedThread.html#a265136c197127c5fded2fa611b3dd469',1,'SpeedThread::SpeedThread()']]]
+  ['raspicam_0',['Installing RaspiCam',['../md_Docs_2markdown_2InstallingRequiredDependency.html#autotoc_md8',1,'']]],
+  ['rawavgspeed_1',['rawAvgSpeed',['../classSpeedCalculation.html#a9ee78afe593e453eb3e078c7edb32c1c',1,'SpeedCalculation']]],
+  ['readfile_2',['readfile',['../classFILEH264.html#a55243bbbda31ca3ac16d619fe858003e',1,'FILEH264::ReadFile(std::string path, std::vector&lt; ImageData &gt; &amp;imgData)'],['../classFILEH264.html#a82f29e92b4f9ded778cdffc76f6d8f13',1,'FILEH264::ReadFile(std::string path, std::vector&lt; ImageData &gt; *imgData)'],['../classFILEH264.html#a337c7276e7eb6230a0da985c8bb2f1db',1,'FILEH264::ReadFile(wxString path, std::vector&lt; ImageData &gt; &amp;imgData)'],['../classFILEH264.html#acf24da11ea296aa49f5ef62c8b31ffc7',1,'FILEH264::ReadFile(wxString path, std::vector&lt; ImageData &gt; *imgData)'],['../classFILEWR.html#a0b997216b4343407d6d314d51db58d4b',1,'FILEWR::ReadFile()']]],
+  ['required_20dependencies_3',['Installing Required Dependencies',['../md_Docs_2markdown_2InstallingRequiredDependency.html',1,'']]],
+  ['result_20panel_4',['Result Panel',['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md26',1,'']]],
+  ['results_5',['Results',['../index.html#autotoc_md1',1,'']]],
+  ['resultthread_6',['resultthread',['../classResultThread.html',1,'ResultThread'],['../classResultThread.html#a2b965ef2e1b68d8bb802a0c8b882202f',1,'ResultThread::ResultThread()']]],
+  ['rotateimage_7',['RotateImage',['../namespaceUtils.html#a0dcc0b4784bad2f873800680b1f9be86',1,'Utils']]],
+  ['runcalculation_8',['runcalculation',['../classSpeedCalculation.html#a2205156f47e9a84c881b588b42609dc2',1,'SpeedCalculation::runCalculation(std::vector&lt; SpeedData &gt; speedData)'],['../classSpeedCalculation.html#a5f2821a023b9d8e266492c1d1152297f',1,'SpeedCalculation::runCalculation(std::vector&lt; ImageData &gt; *imgData, std::vector&lt; Detection::Line &gt; &amp;lines)']]]
 ];

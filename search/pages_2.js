@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['deprecated_20list_0',['Deprecated List',['../deprecated.html',1,'']]]
+  ['calculation_0',['Speed Calculation',['../md_Docs_2markdown_2SpeedCalculation.html',1,'']]],
+  ['compiling_20the_20application_1',['Compiling the Application',['../md_Docs_2markdown_2CompilingProgramm.html',1,'']]]
 ];

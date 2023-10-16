@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['image_20allignment_0',['Image Allignment',['../md_Docs_markdown_ImageAllignment.html',1,'']]],
-  ['installing_20required_20dependencies_1',['Installing Required Dependencies',['../md_Docs_markdown_InstallingRequiredDependency.html',1,'']]]
+  ['dependencies_0',['Installing Required Dependencies',['../md_Docs_2markdown_2InstallingRequiredDependency.html',1,'']]],
+  ['deprecated_20list_1',['Deprecated List',['../deprecated.html',1,'']]],
+  ['detection_2',['detection',['../md_Docs_2markdown_2LineDetection.html',1,'Line Detection'],['../md_Docs_2markdown_2ObjectDetection.html',1,'Object Detection']]]
 ];
