@@ -1054,6 +1054,7 @@ IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/vnc4.png \
                          Docs/assets/debug.png \
                          Docs/assets/debug2.png \
+                         Docs/assets/dlcode.png \
 
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should

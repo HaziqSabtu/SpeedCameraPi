@@ -29,6 +29,36 @@ To further simplify the installation process, we have provided a set of scripts
 that will automatically install the required dependencies for you. You may
 choose to run the scripts or follow the steps manually. It is also recommended to perform installation on fresh installation of Raspberry Pi OS to prevent any conflicts with existing packages.
 
+## Acquiring the source code
+
+The first step is to acquire the source code of this project. Run the following commands to clone the repository:
+
+- Navigate to home directory:
+
+        cd ~
+
+- Clone the repository:
+
+        git clone https://github.com/HaziqSabtu/SpeedCameraPi.git
+
+
+Alternatively, you can download the source code as a zip file from the GitHub repository page and extract it to your home directory.
+
+- Go to the GitHub repository page:
+
+       
+        git clone https://github.com/HaziqSabtu/SpeedCameraPi.git 
+
+- Click on the green button labeled "Code" and select "Download ZIP".
+
+<!-- prettier-ignore-start -->
+\image html dlcode.png ""
+\image latex dlcode.png ""
+<!-- prettier-ignore-end -->
+
+- Extract the downloaded zip file to your **home** directory.
+
+
 ## Preparing the system
 
 Before installing the required dependencies, following steps are required to be
