@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['required_20dependencies_0',['Installing Required Dependencies',['../md_Docs_2markdown_2InstallingRequiredDependency.html',1,'']]]
+  ['using_20the_20app_0',['Using the App',['../md_Docs_markdown_UsingTheApp.html',1,'']]]
 ];

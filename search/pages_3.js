@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['dependencies_0',['Installing Required Dependencies',['../md_Docs_2markdown_2InstallingRequiredDependency.html',1,'']]],
-  ['detection_1',['detection',['../md_Docs_2markdown_2LineDetection.html',1,'Line Detection'],['../md_Docs_2markdown_2ObjectDetection.html',1,'Object Detection']]],
-  ['development_20setup_2',['Development Setup',['../md_Docs_2markdown_2developmentSetup.html',1,'']]]
+  ['image_20allignment_0',['Image Allignment',['../md_Docs_markdown_ImageAllignment.html',1,'']]],
+  ['installing_20required_20dependencies_1',['Installing Required Dependencies',['../md_Docs_markdown_InstallingRequiredDependency.html',1,'']]]
 ];
