@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['capture_5fimage_5ftype_0',['CAPTURE_IMAGE_TYPE',['../Event__CaptureImage_8hpp.html#a083f74d322866ed1e404ae00d4eb416b',1,'Event_CaptureImage.hpp']]]
+  ['detectortype_0',['DetectorType',['../Algorithm_2image__allign_2Enum_8hpp.html#aba5019e335fb2939e79e0e5b62202729',1,'Enum.hpp']]]
 ];

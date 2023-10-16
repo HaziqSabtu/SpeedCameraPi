@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hough_5fevent_5ftype_0',['HOUGH_EVENT_TYPE',['../Event__Hough_8hpp.html#aa7f101fbf4eba6b3f1cb7db9e6af0c35',1,'Event_Hough.hpp']]]
+  ['process_5fimage_5ftype_0',['PROCESS_IMAGE_TYPE',['../Event__ProcessImage_8hpp.html#a6367f1afec1c2435bba4403d9a3c1aea',1,'Event_ProcessImage.hpp']]]
 ];

@@ -34,9 +34,9 @@ MathJax.Hub.Config({
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="Speed.ico"/></td>
+  <td id="projectlogo"><img alt="Logo" src="speed_64.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">SpeedCameraPi<span id="projectnumber">&#160;1.0.0</span>
+   <div id="projectname">SpeedCameraPi<span id="projectnumber">&#160;1.3.0</span>
    </div>
   </td>
  </tr>
@@ -101,132 +101,22 @@ $(document).ready(function(){initNavTree('classProcessThread.html',''); initResi
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classProcessThread-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">ProcessThread Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Custom wxThread for processing <a class="el" href="structImageData.html" title="Struct for ImageData.">ImageData</a>.  
+<p>Custom wxThread for processing ImageData.  
  <a href="classProcessThread.html#details">More...</a></p>
 
 <p><code>#include &lt;Thread_Process.hpp&gt;</code></p>
 
-<p>Inherits wxThread.</p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a663a20874b6c29a1841f78a56f8f5958" id="r_a663a20874b6c29a1841f78a56f8f5958"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProcessThread.html#a663a20874b6c29a1841f78a56f8f5958">ProcessThread</a> (wxEvtHandler *parent, <a class="el" href="classThreadPool.html">ThreadPool</a> *threadPool, std::vector&lt; <a class="el" href="structImageData.html">ImageData</a> &gt; *imgData, OpticalFlowConfig ofConfig)</td></tr>
-<tr class="memdesc:a663a20874b6c29a1841f78a56f8f5958"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Process Thread:: Process Thread object.  <br /></td></tr>
-<tr class="separator:a663a20874b6c29a1841f78a56f8f5958"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9507e5804bb4867b7a8bbc905faf88d" id="r_ad9507e5804bb4867b7a8bbc905faf88d"><td class="memItemLeft" align="right" valign="top"><a id="ad9507e5804bb4867b7a8bbc905faf88d" name="ad9507e5804bb4867b7a8bbc905faf88d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>~ProcessThread</b> ()</td></tr>
-<tr class="memdesc:ad9507e5804bb4867b7a8bbc905faf88d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the Process Thread:: Process Thread object. <br /></td></tr>
-<tr class="separator:ad9507e5804bb4867b7a8bbc905faf88d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a311e9ec28a1d668765b9995ec4b43e58" id="r_a311e9ec28a1d668765b9995ec4b43e58"><td class="memItemLeft" align="right" valign="top">virtual ExitCode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProcessThread.html#a311e9ec28a1d668765b9995ec4b43e58">Entry</a> ()</td></tr>
-<tr class="memdesc:a311e9ec28a1d668765b9995ec4b43e58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entry point of the thread.  <br /></td></tr>
-<tr class="separator:a311e9ec28a1d668765b9995ec4b43e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
+<p>Inherits BaseThread.</p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Custom wxThread for processing <a class="el" href="structImageData.html" title="Struct for ImageData.">ImageData</a>. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a663a20874b6c29a1841f78a56f8f5958" name="a663a20874b6c29a1841f78a56f8f5958"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a663a20874b6c29a1841f78a56f8f5958">&#9670;&#160;</a></span>ProcessThread()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ProcessThread::ProcessThread </td>
-          <td>(</td>
-          <td class="paramtype">wxEvtHandler *&#160;</td>
-          <td class="paramname"><em>parent</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classThreadPool.html">ThreadPool</a> *&#160;</td>
-          <td class="paramname"><em>threadPool</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="structImageData.html">ImageData</a> &gt; *&#160;</td>
-          <td class="paramname"><em>imgData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">OpticalFlowConfig&#160;</td>
-          <td class="paramname"><em>ofConfig</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Construct a new Process Thread:: Process Thread object. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parent</td><td>parent wxEvtHandler </td></tr>
-    <tr><td class="paramname">threadPool</td><td>pointer to <a class="el" href="classThreadPool.html" title="Class Implementation for Background Thread Pool.">ThreadPool</a> </td></tr>
-    <tr><td class="paramname">imgData</td><td>pointer to <a class="el" href="structImageData.html" title="Struct for ImageData.">ImageData</a> vector </td></tr>
-    <tr><td class="paramname">ofConfig</td><td>OpticalFlowConfig </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a311e9ec28a1d668765b9995ec4b43e58" name="a311e9ec28a1d668765b9995ec4b43e58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a311e9ec28a1d668765b9995ec4b43e58">&#9670;&#160;</a></span>Entry()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">wxThread::ExitCode ProcessThread::Entry </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Entry point of the thread. </p>
-<p>This function will be called when the thread is started </p><ul>
-<li>
-For each <a class="el" href="structImageData.html" title="Struct for ImageData.">ImageData</a> in the vector, <a class="el" href="classSiftTask.html" title="Task Implementation for Sift Feature Detection.">SiftTask</a> is created and added to the thread pool </li>
-<li>
-Wait for the thread pool to finish processing the <a class="el" href="structImageData.html" title="Struct for ImageData.">ImageData</a> </li>
-<li>
-<a class="el" href="classFlowTask.html" title="Task Implementation for Optical Flow Detection.">FlowTask</a> is created and added to the thread pool </li>
-<li>
-Wait for the thread pool to finish processing the <a class="el" href="structImageData.html" title="Struct for ImageData.">ImageData</a> </li>
-</ul>
-<dl class="section return"><dt>Returns</dt><dd>wxThread::ExitCode </dd></dl>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>Custom wxThread for processing ImageData. </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/Thread/<a class="el" href="Thread__Process_8hpp.html">Thread_Process.hpp</a></li>
-<li>src/Thread/<a class="el" href="Thread__Process_8cpp.html">Thread_Process.cpp</a></li>
+<li>src/Thread/<b>Thread_Process.cpp</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

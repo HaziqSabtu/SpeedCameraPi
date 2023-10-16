@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['work_0',['Future Work',['../index.html#autotoc_md2',1,'']]],
-  ['writefile_1',['WriteFile',['../classFILEWR.html#adf4d2c57fd1f96c4504714ee0f903d82',1,'FILEWR']]],
-  ['wxwidget_2',['Installing wxWidget',['../md_Docs_2markdown_2InstallingRequiredDependency.html#autotoc_md7',1,'']]]
+  ['variables_0',['Configuration Variables',['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md22',1,'']]],
+  ['viewer_1',['VNC Viewer',['../md_Docs_2markdown_2developmentSetup.html#autotoc_md70',1,'']]],
+  ['visual_20studio_20code_2',['visual studio code',['../md_Docs_2markdown_2developmentSetup.html#autotoc_md63',1,'Accesing WSL from Visual Studio Code'],['../md_Docs_2markdown_2developmentSetup.html#autotoc_md62',1,'Installing Visual Studio Code']]],
+  ['vnc_20viewer_3',['VNC Viewer',['../md_Docs_2markdown_2developmentSetup.html#autotoc_md70',1,'']]],
+  ['vscode_20extensions_4',['VSCode Extensions',['../md_Docs_2markdown_2developmentSetup.html#autotoc_md71',1,'']]]
 ];

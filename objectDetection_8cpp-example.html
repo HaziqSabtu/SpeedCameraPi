@@ -34,9 +34,9 @@ MathJax.Hub.Config({
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="Speed.ico"/></td>
+  <td id="projectlogo"><img alt="Logo" src="speed_64.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">SpeedCameraPi<span id="projectnumber">&#160;1.0.0</span>
+   <div id="projectname">SpeedCameraPi<span id="projectnumber">&#160;1.3.0</span>
    </div>
   </td>
  </tr>
@@ -103,10 +103,9 @@ $(document).ready(function(){initNavTree('objectDetection_8cpp-example.html','')
   <div class="headertitle"><div class="title">objectDetection.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<p>Example of using <a class="el" href="ObjectDetection_8hpp.html" title="Class for Detecting Objects from Image using Optical Flow.">ObjectDetection.hpp</a>.</p>
-<p>Example of using <a class="el" href="ObjectDetection_8hpp.html" title="Class for Detecting Objects from Image using Optical Flow.">ObjectDetection.hpp</a></p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;Algorithm/Object_Detection/ObjectDetection.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="DataStruct_8hpp.html">Utils/DataStruct.hpp</a>&gt;</span></div>
+<p>Example of using OFTracker.hpp.</p>
+<p>Example of using OFTracker.hpp</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;Algorithm/Object_Detection/OpticalFlowTracker.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;opencv2/opencv.hpp&gt;</span></div>
@@ -143,21 +142,21 @@ $(document).ready(function(){initNavTree('objectDetection_8cpp-example.html','')
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// Fill the vector with the frames</span></div>
-<div class="line">        imgData-&gt;push_back(<a id="_a0" name="_a0"></a><a class="code hl_struct" href="structImageData.html">ImageData</a>(frame));</div>
+<div class="line">        imgData-&gt;push_back(ImageData(frame));</div>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Run image allignment if necessary</span></div>
 <div class="line">    <span class="comment">// ...</span></div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Create ObjectDetector object</span></div>
-<div class="line">    <a id="_a1" name="_a1"></a><a class="code hl_class" href="classDetection_1_1ObjectDetection.html">Detection::ObjectDetection</a> objectDetection(maxCorners);</div>
+<div class="line">    ObjectDetection objectDetection(maxCorners);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Compute the flow for the first frame and then update the flow for the</span></div>
 <div class="line">    <span class="comment">// rest of the frames</span></div>
-<div class="line">    imgData-&gt;at(0).SetFlow(objectDetection.<a id="a2" name="a2"></a><a class="code hl_function" href="classDetection_1_1ObjectDetection.html#abe908ace743364f1ef736879f47087e7">init</a>(imgData-&gt;at(0).image));</div>
+<div class="line">    imgData-&gt;at(0).SetFlow(objectDetection.init(imgData-&gt;at(0).image));</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; imgData-&gt;size(); i++) {</div>
 <div class="line">        imgData-&gt;at(i).SetFlow(</div>
-<div class="line">            objectDetection.<a id="a3" name="a3"></a><a class="code hl_function" href="classDetection_1_1ObjectDetection.html#a0e0b1b3b45ff793a30daaa7f8ba37064">updateFlow</a>(imgData-&gt;at(i), imgData-&gt;at(i - 1)));</div>
+<div class="line">            objectDetection.updateFlow(imgData-&gt;at(i), imgData-&gt;at(i - 1)));</div>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Threshold the points</span></div>
@@ -188,11 +187,6 @@ $(document).ready(function(){initNavTree('objectDetection_8cpp-example.html','')
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="aDataStruct_8hpp_html"><div class="ttname"><a href="DataStruct_8hpp.html">DataStruct.hpp</a></div><div class="ttdoc">Custom Data Structures.</div></div>
-<div class="ttc" id="aclassDetection_1_1ObjectDetection_html"><div class="ttname"><a href="classDetection_1_1ObjectDetection.html">Detection::ObjectDetection</a></div><div class="ttdoc">Class for Detecting Objects from Image using Optical Flow.</div><div class="ttdef"><b>Definition</b> ObjectDetection.hpp:26</div></div>
-<div class="ttc" id="aclassDetection_1_1ObjectDetection_html_a0e0b1b3b45ff793a30daaa7f8ba37064"><div class="ttname"><a href="classDetection_1_1ObjectDetection.html#a0e0b1b3b45ff793a30daaa7f8ba37064">Detection::ObjectDetection::updateFlow</a></div><div class="ttdeci">Detection::OpticalFlowData updateFlow(ImageData &amp;current, ImageData &amp;previous)</div><div class="ttdoc">Update the Optical Flow with the current frame.</div><div class="ttdef"><b>Definition</b> ObjectDetection.cpp:77</div></div>
-<div class="ttc" id="aclassDetection_1_1ObjectDetection_html_abe908ace743364f1ef736879f47087e7"><div class="ttname"><a href="classDetection_1_1ObjectDetection.html#abe908ace743364f1ef736879f47087e7">Detection::ObjectDetection::init</a></div><div class="ttdeci">Detection::OpticalFlowData init(cv::Mat &amp;frame)</div><div class="ttdoc">Initialize the Optical Flow.</div><div class="ttdef"><b>Definition</b> ObjectDetection.cpp:61</div></div>
-<div class="ttc" id="astructImageData_html"><div class="ttname"><a href="structImageData.html">ImageData</a></div><div class="ttdoc">Struct for ImageData.</div><div class="ttdef"><b>Definition</b> DataStruct.hpp:24</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

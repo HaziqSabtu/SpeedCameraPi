@@ -26,6 +26,7 @@ var menudata={children:[
 {text:"Main Page",url:"index.html"},
 {text:"Installing Dependency",url:"md_Docs_markdown_InstallingRequiredDependency.html"},
 {text:"Compiling Application",url:"md_Docs_markdown_CompilingProgramm.html"},
+{text:"Development Setup",url:"md_Docs_markdown_developmentSetup.html"},
 {text:"Using the App",url:"md_Docs_markdown_UsingTheApp.html",children:[
 {text:"Main Page",url:"index.html"},
 {text:"Image Allignment",url:"md_Docs_markdown_ImageAllignment.html"},
@@ -56,11 +57,9 @@ var menudata={children:[
 {text:"l",url:"functions.html#index_l"},
 {text:"o",url:"functions.html#index_o"},
 {text:"p",url:"functions.html#index_p"},
-{text:"r",url:"functions.html#index_r"},
 {text:"s",url:"functions.html#index_s"},
 {text:"t",url:"functions.html#index_t"},
 {text:"u",url:"functions.html#index_u"},
-{text:"w",url:"functions.html#index_w"},
 {text:"~",url:"functions.html#index__7E"}]},
 {text:"Functions",url:"functions_func.html",children:[
 {text:"a",url:"functions_func.html#index_a"},
@@ -75,9 +74,7 @@ var menudata={children:[
 {text:"l",url:"functions_func.html#index_l"},
 {text:"o",url:"functions_func.html#index_o"},
 {text:"p",url:"functions_func.html#index_p"},
-{text:"r",url:"functions_func.html#index_r"},
 {text:"s",url:"functions_func.html#index_s"},
 {text:"t",url:"functions_func.html#index_t"},
 {text:"u",url:"functions_func.html#index_u"},
-{text:"w",url:"functions_func.html#index_w"},
 {text:"~",url:"functions_func.html#index__7E"}]}]}]}]}]}

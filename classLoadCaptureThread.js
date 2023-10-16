@@ -1,6 +1,5 @@
 var classLoadCaptureThread =
 [
-    [ "LoadCaptureThread", "classLoadCaptureThread.html#a8a233819ad01d1bbcf7df31fd8a12682", null ],
-    [ "~LoadCaptureThread", "classLoadCaptureThread.html#a4fedf2b38461413ae4abec7b0399ab6f", null ],
-    [ "Entry", "classLoadCaptureThread.html#a854af86d8657b6b090d7f2855a9c5fc6", null ]
+    [ "Entry", "classLoadCaptureThread.html#a39e0dd60257c2bd740d14ca68f0e3ce4", null ],
+    [ "getID", "classLoadCaptureThread.html#aaec9e9492256fbf97ceb58b796b29c80", null ]
 ];

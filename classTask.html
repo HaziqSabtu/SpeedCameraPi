@@ -34,9 +34,9 @@ MathJax.Hub.Config({
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="Speed.ico"/></td>
+  <td id="projectlogo"><img alt="Logo" src="speed_64.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">SpeedCameraPi<span id="projectnumber">&#160;1.0.0</span>
+   <div id="projectname">SpeedCameraPi<span id="projectnumber">&#160;1.3.0</span>
    </div>
   </td>
  </tr>
@@ -119,12 +119,8 @@ $(document).ready(function(){initNavTree('classTask.html',''); initResizable(); 
  <div class="center">
   <img src="classTask.png" usemap="#Task_map" alt=""/>
   <map id="Task_map" name="Task_map">
-<area href="classCaptureTask.html" title="Task Implementation for Capturing Image from Camera to ImageData." alt="CaptureTask" shape="rect" coords="0,56,83,80"/>
-<area href="classFlowTask.html" title="Task Implementation for Optical Flow Detection." alt="FlowTask" shape="rect" coords="93,56,176,80"/>
-<area href="classHoughTask.html" title="Task Implementation for Hough Line Detection." alt="HoughTask" shape="rect" coords="186,56,269,80"/>
-<area href="classLoadTask.html" title="Task Implementation for Loading File to ImageData." alt="LoadTask" shape="rect" coords="279,56,362,80"/>
-<area href="classSiftTask.html" title="Task Implementation for Sift Feature Detection." alt="SiftTask" shape="rect" coords="372,56,455,80"/>
-<area href="classSpeedTask.html" title="Task Implementation for Speed Calculation." alt="SpeedTask" shape="rect" coords="465,56,548,80"/>
+<area href="classFlowTask.html" title="Task Implementation for Optical Flow Detection." alt="FlowTask" shape="rect" coords="0,56,74,80"/>
+<area href="classSpeedTask.html" title="Task Implementation for Speed Calculation." alt="SpeedTask" shape="rect" coords="84,56,158,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -137,12 +133,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Task</b> ()</td><
 <tr class="memitem:a9a3a783ca463dab7e615ded0bd5d07e2" id="r_a9a3a783ca463dab7e615ded0bd5d07e2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTask.html#a9a3a783ca463dab7e615ded0bd5d07e2">Execute</a> ()=0</td></tr>
 <tr class="memdesc:a9a3a783ca463dab7e615ded0bd5d07e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute the <a class="el" href="classTask.html" title="Interface Class for TaskPool Task.">Task</a>.  <br /></td></tr>
 <tr class="separator:a9a3a783ca463dab7e615ded0bd5d07e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae78ff883c2ee40db3eafe44c3e11c168" id="r_ae78ff883c2ee40db3eafe44c3e11c168"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structTaskProperty.html">TaskProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTask.html#ae78ff883c2ee40db3eafe44c3e11c168">GetProperty</a> () const =0</td></tr>
-<tr class="memdesc:ae78ff883c2ee40db3eafe44c3e11c168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Property object.  <br /></td></tr>
-<tr class="separator:ae78ff883c2ee40db3eafe44c3e11c168"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa81c07b87124a2742af2312414607a61" id="r_aa81c07b87124a2742af2312414607a61"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTask.html#aa81c07b87124a2742af2312414607a61">GetName</a> () const =0</td></tr>
-<tr class="memdesc:aa81c07b87124a2742af2312414607a61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Priority object.  <br /></td></tr>
-<tr class="separator:aa81c07b87124a2742af2312414607a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98981164762af337e5497eace214cb41" id="r_a98981164762af337e5497eace214cb41"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structTaskProperty.html">TaskProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTask.html#a98981164762af337e5497eace214cb41">GetProperty</a> () const</td></tr>
+<tr class="memdesc:a98981164762af337e5497eace214cb41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Property object.  <br /></td></tr>
+<tr class="separator:a98981164762af337e5497eace214cb41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c52a6407565ee3d244c4fe270afad48" id="r_a9c52a6407565ee3d244c4fe270afad48"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTask.html#a9c52a6407565ee3d244c4fe270afad48">GetName</a> () const</td></tr>
+<tr class="memdesc:a9c52a6407565ee3d244c4fe270afad48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Priority object.  <br /></td></tr>
+<tr class="separator:a9c52a6407565ee3d244c4fe270afad48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interface Class for TaskPool <a class="el" href="classTask.html" title="Interface Class for TaskPool Task.">Task</a>. </p>
@@ -173,12 +169,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Task</b> ()</td><
 <p>Execute the <a class="el" href="classTask.html" title="Interface Class for TaskPool Task.">Task</a>. </p>
 <p>Implementations required to override this method </p>
 
-<p>Implemented in <a class="el" href="classCaptureTask.html#a306ead3635e313bc64b5ac6d1c3b4ef4">CaptureTask</a>, <a class="el" href="classHoughTask.html#a3cc628dfb94054c32fb5cde9afb4b06c">HoughTask</a>, <a class="el" href="classLoadTask.html#a14d2c7c93bcf021606325589a6f27b8f">LoadTask</a>, <a class="el" href="classFlowTask.html#a3f587e8d7efa890047a7464d0f2bd936">FlowTask</a>, <a class="el" href="classSiftTask.html#ade4324a4e8f1cdc6af5e0f37a7a8b201">SiftTask</a>, and <a class="el" href="classSpeedTask.html#acb54aff9bad15ec4224e77d0fda60219">SpeedTask</a>.</p>
+<p>Implemented in <a class="el" href="classFlowTask.html#a3f587e8d7efa890047a7464d0f2bd936">FlowTask</a>, and <a class="el" href="classSpeedTask.html#acb54aff9bad15ec4224e77d0fda60219">SpeedTask</a>.</p>
 
 </div>
 </div>
-<a id="aa81c07b87124a2742af2312414607a61" name="aa81c07b87124a2742af2312414607a61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa81c07b87124a2742af2312414607a61">&#9670;&#160;</a></span>GetName()</h2>
+<a id="a9c52a6407565ee3d244c4fe270afad48" name="a9c52a6407565ee3d244c4fe270afad48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c52a6407565ee3d244c4fe270afad48">&#9670;&#160;</a></span>GetName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,7 +183,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Task</b> ()</td><
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::string Task::GetName </td>
+          <td class="memname">std::string Task::GetName </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -195,7 +191,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Task</b> ()</td><
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -203,12 +199,10 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Task</b> ()</td><
 <p>Get the Priority object. </p>
 <dl class="section return"><dt>Returns</dt><dd>TaskPriority </dd></dl>
 
-<p>Implemented in <a class="el" href="classCaptureTask.html#aa12f3fb8f41f0f04ccdf6bad4e99362b">CaptureTask</a>, <a class="el" href="classHoughTask.html#a6899b0518a16042a581e7fa995d1ea3f">HoughTask</a>, <a class="el" href="classLoadTask.html#a97fd954885a2ef73473baa3efc8f5388">LoadTask</a>, <a class="el" href="classFlowTask.html#ac47e6c948c09ef6d43cab46673bad52b">FlowTask</a>, <a class="el" href="classSiftTask.html#a0e1e13f422691026e6639321e2ebf3c2">SiftTask</a>, and <a class="el" href="classSpeedTask.html#a13cd48d1eef1e1c6c6075b42a0b6c016">SpeedTask</a>.</p>
-
 </div>
 </div>
-<a id="ae78ff883c2ee40db3eafe44c3e11c168" name="ae78ff883c2ee40db3eafe44c3e11c168"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae78ff883c2ee40db3eafe44c3e11c168">&#9670;&#160;</a></span>GetProperty()</h2>
+<a id="a98981164762af337e5497eace214cb41" name="a98981164762af337e5497eace214cb41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98981164762af337e5497eace214cb41">&#9670;&#160;</a></span>GetProperty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +211,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Task</b> ()</td><
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="structTaskProperty.html">TaskProperty</a> Task::GetProperty </td>
+          <td class="memname"><a class="el" href="structTaskProperty.html">TaskProperty</a> Task::GetProperty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -225,15 +219,13 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Task</b> ()</td><
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Get the Property object. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="structTaskProperty.html" title="Struct for TaskProperty.">TaskProperty</a> </dd></dl>
-
-<p>Implemented in <a class="el" href="classCaptureTask.html#a8908d816ad5de374e39ae4ab601c082e">CaptureTask</a>, <a class="el" href="classHoughTask.html#a372190b8b363f09beca38a96f95aafb2">HoughTask</a>, <a class="el" href="classLoadTask.html#afa17eb23dced21a84c134a270635ef6d">LoadTask</a>, <a class="el" href="classFlowTask.html#a96742c914797aabcb101dfd4ade866d1">FlowTask</a>, <a class="el" href="classSiftTask.html#a940bbca34a8a49fb6852c41df278104b">SiftTask</a>, and <a class="el" href="classSpeedTask.html#ae75a80a7bcdf0aa69061251d8b0a925f">SpeedTask</a>.</p>
 
 </div>
 </div>

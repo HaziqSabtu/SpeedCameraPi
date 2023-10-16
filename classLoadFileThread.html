@@ -34,9 +34,9 @@ MathJax.Hub.Config({
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="Speed.ico"/></td>
+  <td id="projectlogo"><img alt="Logo" src="speed_64.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">SpeedCameraPi<span id="projectnumber">&#160;1.0.0</span>
+   <div id="projectname">SpeedCameraPi<span id="projectnumber">&#160;1.3.0</span>
    </div>
   </td>
  </tr>
@@ -108,34 +108,37 @@ $(document).ready(function(){initNavTree('classLoadFileThread.html',''); initRes
 </div><!--header-->
 <div class="contents">
 
-<p>Custom wxThread for loading <a class="el" href="structImageData.html" title="Struct for ImageData.">ImageData</a> from file.  
+<p>Custom wxThread for loading ImageData from file.  
  <a href="classLoadFileThread.html#details">More...</a></p>
 
 <p><code>#include &lt;Thread_LoadFile.hpp&gt;</code></p>
 
-<p>Inherits wxThread.</p>
+<p>Inherits BaseThread, and PreviewableThread.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa4d474ec426b8106275fb9f8669032e3" id="r_aa4d474ec426b8106275fb9f8669032e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLoadFileThread.html#aa4d474ec426b8106275fb9f8669032e3">LoadFileThread</a> (wxEvtHandler *parent, <a class="el" href="classThreadPool.html">ThreadPool</a> *threadPool, wxString path, const int maxFrame)</td></tr>
-<tr class="memdesc:aa4d474ec426b8106275fb9f8669032e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Load File Thread:: Load File Thread object.  <br /></td></tr>
-<tr class="separator:aa4d474ec426b8106275fb9f8669032e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26d1496909ac63701afa1bc4b3f9b486" id="r_a26d1496909ac63701afa1bc4b3f9b486"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLoadFileThread.html#a26d1496909ac63701afa1bc4b3f9b486">LoadFileThread</a> (wxEvtHandler *parent, DataPtr data, std::string path)</td></tr>
+<tr class="memdesc:a26d1496909ac63701afa1bc4b3f9b486"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Load File Thread:: Load File Thread object.  <br /></td></tr>
+<tr class="separator:a26d1496909ac63701afa1bc4b3f9b486"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd79e08291d86ecbed1d1dfada49b1b1" id="r_acd79e08291d86ecbed1d1dfada49b1b1"><td class="memItemLeft" align="right" valign="top"><a id="acd79e08291d86ecbed1d1dfada49b1b1" name="acd79e08291d86ecbed1d1dfada49b1b1"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>~LoadFileThread</b> ()</td></tr>
 <tr class="memdesc:acd79e08291d86ecbed1d1dfada49b1b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the Load File Thread:: Load File Thread object. <br /></td></tr>
 <tr class="separator:acd79e08291d86ecbed1d1dfada49b1b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7de658dbaa9d8a745fab68e92832f482" id="r_a7de658dbaa9d8a745fab68e92832f482"><td class="memItemLeft" align="right" valign="top">ThreadID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLoadFileThread.html#a7de658dbaa9d8a745fab68e92832f482">getID</a> () const override</td></tr>
+<tr class="memdesc:a7de658dbaa9d8a745fab68e92832f482"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Thread Id object.  <br /></td></tr>
+<tr class="separator:a7de658dbaa9d8a745fab68e92832f482"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a1b84d7667d2fa4cfb33f4ba3ed3585f1" id="r_a1b84d7667d2fa4cfb33f4ba3ed3585f1"><td class="memItemLeft" align="right" valign="top">ExitCode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLoadFileThread.html#a1b84d7667d2fa4cfb33f4ba3ed3585f1">Entry</a> ()</td></tr>
-<tr class="memdesc:a1b84d7667d2fa4cfb33f4ba3ed3585f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entry point of the thread.  <br /></td></tr>
-<tr class="separator:a1b84d7667d2fa4cfb33f4ba3ed3585f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7134907902e5b4d18800180e827411b" id="r_ab7134907902e5b4d18800180e827411b"><td class="memItemLeft" align="right" valign="top">ExitCode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLoadFileThread.html#ab7134907902e5b4d18800180e827411b">Entry</a> () override</td></tr>
+<tr class="memdesc:ab7134907902e5b4d18800180e827411b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entry point of the thread.  <br /></td></tr>
+<tr class="separator:ab7134907902e5b4d18800180e827411b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Custom wxThread for loading <a class="el" href="structImageData.html" title="Struct for ImageData.">ImageData</a> from file. </p>
+<div class="textblock"><p>Custom wxThread for loading ImageData from file. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aa4d474ec426b8106275fb9f8669032e3" name="aa4d474ec426b8106275fb9f8669032e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4d474ec426b8106275fb9f8669032e3">&#9670;&#160;</a></span>LoadFileThread()</h2>
+<a id="a26d1496909ac63701afa1bc4b3f9b486" name="a26d1496909ac63701afa1bc4b3f9b486"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26d1496909ac63701afa1bc4b3f9b486">&#9670;&#160;</a></span>LoadFileThread()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,20 +152,14 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classThreadPool.html">ThreadPool</a> *&#160;</td>
-          <td class="paramname"><em>threadPool</em>, </td>
+          <td class="paramtype">DataPtr&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">wxString&#160;</td>
-          <td class="paramname"><em>path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>maxFrame</em>&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -177,6 +174,7 @@ Protected Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">parent</td><td>parent wxEvtHandler </td></tr>
     <tr><td class="paramname">threadPool</td><td>pointer to <a class="el" href="classThreadPool.html" title="Class Implementation for Background Thread Pool.">ThreadPool</a> </td></tr>
+    <tr><td class="paramname">imgData</td><td>pointer to ImageData vector </td></tr>
     <tr><td class="paramname">path</td><td>path to file </td></tr>
     <tr><td class="paramname">maxFrame</td><td>maximum number of frame to load </td></tr>
   </table>
@@ -186,8 +184,8 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1b84d7667d2fa4cfb33f4ba3ed3585f1" name="a1b84d7667d2fa4cfb33f4ba3ed3585f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b84d7667d2fa4cfb33f4ba3ed3585f1">&#9670;&#160;</a></span>Entry()</h2>
+<a id="ab7134907902e5b4d18800180e827411b" name="ab7134907902e5b4d18800180e827411b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7134907902e5b4d18800180e827411b">&#9670;&#160;</a></span>Entry()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +202,7 @@ Protected Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -212,11 +210,39 @@ Protected Member Functions</h2></td></tr>
 <p>Entry point of the thread. </p>
 <p>This function will be called when the thread is started </p><ul>
 <li>
-<a class="el" href="classLoadTask.html" title="Task Implementation for Loading File to ImageData.">LoadTask</a> is created and added to the thread pool </li>
+LoadTask is created and added to the thread pool </li>
 <li>
 Wait for the thread pool to finish loading the file </li>
 </ul>
 <dl class="section return"><dt>Returns</dt><dd>wxThread::ExitCode </dd></dl>
+
+</div>
+</div>
+<a id="a7de658dbaa9d8a745fab68e92832f482" name="a7de658dbaa9d8a745fab68e92832f482"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7de658dbaa9d8a745fab68e92832f482">&#9670;&#160;</a></span>getID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ThreadID LoadFileThread::getID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the Thread Id object. </p>
+<dl class="section return"><dt>Returns</dt><dd>ThreadID </dd></dl>
 
 </div>
 </div>

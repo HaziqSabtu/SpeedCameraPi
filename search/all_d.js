@@ -1,12 +1,15 @@
 var searchData=
 [
-  ['raspicam_0',['Installing RaspiCam',['../md_Docs_2markdown_2InstallingRequiredDependency.html#autotoc_md8',1,'']]],
-  ['rawavgspeed_1',['rawAvgSpeed',['../classSpeedCalculation.html#a9ee78afe593e453eb3e078c7edb32c1c',1,'SpeedCalculation']]],
-  ['readfile_2',['readfile',['../classFILEH264.html#a55243bbbda31ca3ac16d619fe858003e',1,'FILEH264::ReadFile(std::string path, std::vector&lt; ImageData &gt; &amp;imgData)'],['../classFILEH264.html#a82f29e92b4f9ded778cdffc76f6d8f13',1,'FILEH264::ReadFile(std::string path, std::vector&lt; ImageData &gt; *imgData)'],['../classFILEH264.html#a337c7276e7eb6230a0da985c8bb2f1db',1,'FILEH264::ReadFile(wxString path, std::vector&lt; ImageData &gt; &amp;imgData)'],['../classFILEH264.html#acf24da11ea296aa49f5ef62c8b31ffc7',1,'FILEH264::ReadFile(wxString path, std::vector&lt; ImageData &gt; *imgData)'],['../classFILEWR.html#a0b997216b4343407d6d314d51db58d4b',1,'FILEWR::ReadFile()']]],
-  ['required_20dependencies_3',['Installing Required Dependencies',['../md_Docs_2markdown_2InstallingRequiredDependency.html',1,'']]],
-  ['result_20panel_4',['Result Panel',['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md26',1,'']]],
-  ['results_5',['Results',['../index.html#autotoc_md1',1,'']]],
-  ['resultthread_6',['resultthread',['../classResultThread.html',1,'ResultThread'],['../classResultThread.html#a2b965ef2e1b68d8bb802a0c8b882202f',1,'ResultThread::ResultThread()']]],
-  ['rotateimage_7',['RotateImage',['../namespaceUtils.html#a0dcc0b4784bad2f873800680b1f9be86',1,'Utils']]],
-  ['runcalculation_8',['runcalculation',['../classSpeedCalculation.html#a2205156f47e9a84c881b588b42609dc2',1,'SpeedCalculation::runCalculation(std::vector&lt; SpeedData &gt; speedData)'],['../classSpeedCalculation.html#a5f2821a023b9d8e266492c1d1152297f',1,'SpeedCalculation::runCalculation(std::vector&lt; ImageData &gt; *imgData, std::vector&lt; Detection::Line &gt; &amp;lines)']]]
+  ['panel_0',['panel',['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md23',1,'Camera Panel'],['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md33',1,'Capture Panel'],['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md34',1,'Processing Panel'],['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md35',1,'Result Panel']]],
+  ['parameter_1',['parameter',['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md24',1,'Camera Parameter'],['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md26',1,'Capture Parameter'],['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md30',1,'Hough Parameter'],['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md28',1,'Line Selection Parameter'],['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md27',1,'Load Parameter'],['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md31',1,'Optical Flow Parameter'],['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md25',1,'Sensor Parameter']]],
+  ['perscpectivetransform_2',['PerscpectiveTransform',['../classHomography.html#a4c38ebe83a497ba897bed4a3ae86d41a',1,'Homography']]],
+  ['pinhole_20camera_20model_3',['Pinhole Camera Model',['../md_Docs_2markdown_2SpeedCalculation.html#autotoc_md53',1,'']]],
+  ['preparing_20the_20system_4',['Preparing the system',['../md_Docs_2markdown_2InstallingRequiredDependency.html#autotoc_md6',1,'']]],
+  ['problem_5',['Fixing OpenCV linker problem',['../md_Docs_2markdown_2developmentSetup.html#autotoc_md61',1,'']]],
+  ['process_5fimage_5ftype_6',['PROCESS_IMAGE_TYPE',['../Event__ProcessImage_8hpp.html#a6367f1afec1c2435bba4403d9a3c1aea',1,'Event_ProcessImage.hpp']]],
+  ['processing_20panel_7',['Processing Panel',['../md_Docs_2markdown_2UsingTheApp.html#autotoc_md34',1,'']]],
+  ['processthread_8',['ProcessThread',['../classProcessThread.html',1,'']]],
+  ['project_9',['project',['../md_Docs_2markdown_2developmentSetup.html#autotoc_md67',1,'Building the project'],['../md_Docs_2markdown_2developmentSetup.html#autotoc_md76',1,'Building the project'],['../md_Docs_2markdown_2developmentSetup.html#autotoc_md68',1,'Debugging the project'],['../md_Docs_2markdown_2developmentSetup.html#autotoc_md77',1,'Debugging the project'],['../md_Docs_2markdown_2developmentSetup.html#autotoc_md65',1,'Opening SpeedCameraPi project'],['../md_Docs_2markdown_2developmentSetup.html#autotoc_md74',1,'Opening SpeedCameraPi project']]],
+  ['proposed_20algorithm_10',['Proposed Algorithm',['../md_Docs_2markdown_2SpeedCalculation.html#autotoc_md56',1,'']]],
+  ['push_11',['push',['../structOpticalFlowData.html#a629c3f4d5a15cee3101d824fe1c92898',1,'OpticalFlowData::push(OpticalFlowData &amp;OFData, std::vector&lt; cv::Point2f &gt; points, std::vector&lt; float &gt; errors, std::vector&lt; uchar &gt; status)'],['../structOpticalFlowData.html#a590923332deccd062d60697fc5e25b3e',1,'OpticalFlowData::push(std::vector&lt; cv::Point2f &gt; points)']]]
 ];
