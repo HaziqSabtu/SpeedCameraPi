@@ -318,9 +318,58 @@ To build the project, open the Command Palette (Ctrl+Shift+P) and type *CMake:Bu
 
 Withing the CMakeLists.txt file, the executable file is by default, configured to be automatically copied to the **Target** machine. You can disable this by editing out the command. However, it is recommended to keep it as it is. The build application is located at *~/Target/SpeedCameraPi*.
 
+<br/>
+
 ##### Debugging the project
 
-Debugging is crucial when developing a project. To debug the project, open the Command Palette (Ctrl+Shift+P) and type *CMake:Debug*. This will build the project and generate the executable file in the *build* folder. It will then run the executable file in debug mode.
+###### Preparations
+Debugging is crucial when developing a project. This steps need to be done atleast once. To perform debug, we first need to configure the **launch.json** script. To do so, navigate to the script folder:
+      
+      cd ~/SpeedCameraPi/scripts/debug
+
+Next, run the following command:
+      
+      sudo chmod +x launch.py
+
+Lastly, run the script with following parameters:
+
+- **ipaddress** - IP address of the **Target** machine. Cannot be raspberrypi
+      
+      sudo ./launch.py ipaddress
+
+This will generate the **launch.json** file in the *.vscode* folder. Now we need to install gdbserver on the **Target** machine. To do so, run the following command on **Host**:
+
+      ssh RPi0
+      sudo apt-get install gdbserver
+
+<br/>
+
+###### Debugging
+
+To debug the project, open the Debugger Tab (ctrl + shift + D) and select the profile *(GDB-Auto) Remote GDB Launch* and click on the Run button. This will start the GDBServer on the **Target** machine and connect to it. You should now be able to debug the project.
+
+<!-- prettier-ignore-start -->
+\image html debug.png ""
+\image latex debug.png ""
+<!-- prettier-ignore-end -->
+
+<br/>
+
+###### Known Issues
+
+In some cases, these libs cannot be found. To fix run the following command on **Host**:
+
+- **libncurses.so**
+      - Run the following command on **Host**:
+
+      sudo apt install libncurses5
+
+- **libpython2.7.so**
+      - Run the following command on **Host**:
+
+      sudo apt install libpython2.7
+
+<br/>
 
 #### Extra Features
 
@@ -379,11 +428,100 @@ Once done you may need to prepare the **Target** machine to allow VNC connection
 
 - Now, you should be able to access the **Target** machine via VNC Viewer. You may need to enter the password of the **Target** machine.
 
+<br/>
+
+##### VSCode Extensions
+
+Following are some useful extensions that can be used to improve the development experience:
+
+<!-- table -->
+| Extension | Description |
+| --- | --- |
+| [Clang-Format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format) | Clang-Format is a tool that formats C/C++/Obj-C code according to a set of style options, similar to the way that clang-format formats code. |
+| [Github Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) | GitHub Copilot is an AI pair programmer that helps you write code faster and with less work. |
+| [Todo Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) | Todo Tree is a task manager that helps you manage your TODOs. |
+
+<br/>
+
 ## Native compilation
 
 For those that prefer to develop natively on Raspberry Pi, this section will guide you through the process of setting up the development environment.
 
 For native compilation, the steps is much simpler. Simply install the required dependencies on the **target** machine and you are good to go. Refer to [this section](md_Docs_markdown_InstallingRequiredDependency.html) for more information.
 
+The installation of VSCode on RaspberryPi is done with [this](https://code.visualstudio.com/docs/setup/raspberry-pi) instruction.
+
+##### Installing required Extensions
+
+To install extensions, open Visual Studio Code and press Ctrl+Shift+X to open the Extensions pane. Search for the following extensions and install them:
+
+- C/C++ Extension Pack
+<!-- prettier-ignore-start -->
+\image html c++ext.png ""
+\image latex c++ext.png ""
+<!-- prettier-ignore-end -->
+
+##### Opening SpeedCameraPi project
+
+To open the SpeedCameraPi project, open the Explorer pane (Ctrl+Shift+E) and click on the Open Folder button. Navigate to the SpeedCameraPi folder and click on the OK button. You should now see the SpeedCameraPi project in the Explorer pane.
+
+<!-- prettier-ignore-start -->
+\image html wslfolder.png ""
+\image latex wslfolder.png ""
+<!-- prettier-ignore-end -->
+
+<br/>
+
+##### Configuring C/C++ extension
+
+To configure the C/C++ extension, open the Command Palette (Ctrl+Shift+P) and type *CMake:Configure* and select the default compiler. This will create a *build* folder in the project directory and generate the CMake cache. 
+
+<!-- prettier-ignore-start -->
+\image html cppconf.png ""
+\image latex cppconf.png ""
+<!-- prettier-ignore-end -->
+
+<br/>
+
+<!-- prettier-ignore-start -->
+\image html cppconf4.png ""
+\image latex cppconf4.png ""
+<!-- prettier-ignore-end -->
+
+If the configuration process is successful, you should see the following message in the terminal:
+
+<!-- prettier-ignore-start -->
+\image html cppconf3.png ""
+\image latex cppconf3.png ""
+<!-- prettier-ignore-end -->
+
+##### Building the project
+
+To build the project, open the Command Palette (Ctrl+Shift+P) and type *CMake:Build*. This will build the project and generate the executable file in the *build* folder.
+
+<!-- prettier-ignore-start -->
+\image html cppbuild.png ""
+\image latex cppbuild.png ""
+<!-- prettier-ignore-end -->
+
+If the ui is unrespomsive, highly likely that the building process is using all of the resources available. Either wait until the process complete, or reduce the number of parallel build jobs. To do so, open the Command Palette (Ctrl+Shift+P) and type *Settings: Open Settings (UI)*. Navigate to *CMake: Parallel Jobs* and set the value to 1.
+
+<!-- prettier-ignore-start -->
+\image html cppbuild3.png ""
+\image latex cppbuild3.png ""
+<!-- prettier-ignore-end -->
+
+##### Debugging the project
+
+###### Debugging
+
+To debug the project, open the Debugger Tab (ctrl + shift + D) and select the profile *GDB - Native* and click on the Run button. This will compile the project and start the debugger. You should now be able to debug the project.
+
+<!-- prettier-ignore-start -->
+\image html debug2.png ""
+\image latex debug2.png ""
+<!-- prettier-ignore-end -->
+
+<br/>
 
 

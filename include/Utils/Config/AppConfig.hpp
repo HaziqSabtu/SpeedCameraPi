@@ -138,6 +138,7 @@ class AppConfig {
     bool Default_AutoManualCalibration = false;
     bool Default_AutoCalibration = false;
     bool Default_AutoRoi = false;
+    bool Default_AutoResult = false;
 };
 
 #endif

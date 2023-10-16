@@ -57,8 +57,8 @@
         {
             "name": "Ubuntu CCX",
             "includePath": [
-                "/home/haziqsabtu/cmake-test/rootfs/usr/local/include/**",
-                "/home/haziqsabtu/cmake-test/rootfs/usr/local/lib/wx/include/**"
+                "/home/haziqsabtu/cxcmpl/sysroot/usr/local/include/**",
+                "/home/haziqsabtu/cxcmpl/sysroot/usr/local/lib/wx/include/**"
             ],
             "defines": [
                 "__WXGTK__"

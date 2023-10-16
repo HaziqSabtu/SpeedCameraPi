@@ -26,7 +26,7 @@ class MainFrame : public wxFrame {
     ~MainFrame();
 
   private:
-    const PanelID FIRST_PANEL_ID = PANEL_COLOR_CALIBRATION;
+    const PanelID FIRST_PANEL_ID = PANEL_CAPTURE;
 
     std::shared_ptr<SharedModel> sharedModel;
 

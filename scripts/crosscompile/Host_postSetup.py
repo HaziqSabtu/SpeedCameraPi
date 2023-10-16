@@ -4,7 +4,7 @@ import os
 import shutil
 import cUtils
 import SyncWTarget as sync
-import SSymlinker as link
+import Ssymlinker as link
 
 
 def main():

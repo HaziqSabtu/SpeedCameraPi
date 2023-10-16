@@ -123,46 +123,6 @@
             "logging": {
                 "engineLogging": true
             }
-        },
-        {
-            "name": "GDB-Native",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${command:cmake.launchTargetPath}",
-            "args": [],
-            "cwd": "${workspaceRoot}",
-            "environment": [],
-            "setupCommands": [
-                {
-                    "text": "-enable-pretty-printing",
-                    "description": "Enable GDB pretty printing",
-                    "ignoreFailures": false
-                },
-                {
-                    "text": "skip -rfu ^std::.*",
-                    "description": "Don't step into standard library ",
-                    "ignoreFailures": false
-                },
-                {
-                    "text": "skip -rfu ^cv::.*",
-                    "description": "Don't step into cv library ",
-                    "ignoreFailures": false
-                },
-            ],
-            "stopAtEntry": true,
-            "targetArchitecture": "arm",
-            "miDebuggerPath": "/usr/bin/gdb",
-            "MIMode": "gdb",
-            "externalConsole": false,
-            "sourceFileMap": {
-                "${workspaceFolder}": {
-                    "editorPath": "${workspaceFolder}",
-                    "useForBreakpoints": "true"
-                }
-            },
-            "logging": {
-                "engineLogging": true
-            }
-        },
+        }
     ]
 }

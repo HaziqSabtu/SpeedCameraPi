@@ -794,6 +794,18 @@ const STDV AutoRoiDD = {
      .fontData = T::descriptionFontData},
 };
 
+const STD AutoResultTD = {.textColor = T::Text,
+                          .backgroundColor = T::Background,
+                          .text = "Auto Result",
+                          .fontData = T::TitleChildFontData};
+
+const STDV AutoResultDD = {
+    {.textColor = T::Text,
+     .backgroundColor = T::Background,
+     .text = "Enable / Disable automatic result processing.",
+     .fontData = T::descriptionFontData},
+};
+
 } // namespace Threads
 } // namespace Panel
 } // namespace Settings

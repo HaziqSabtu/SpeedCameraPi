@@ -513,11 +513,6 @@ void ResultController::setIndexToZeroHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_RESULT_PREVIEW_REPLAY);
 }
 
-void ResultController::panelShowHandler(wxEvtHandler *parent) {
-    // do nothing
-    // do not create temp session data
-}
-
 void ResultController::okButtonHandler(wxEvtHandler *parent) {
     throw std::runtime_error("Blocked Endpoint");
 }
@@ -570,4 +565,17 @@ void ResultController::processEndHandler(wxEvtHandler *parent) {
     }
 
     throw std::runtime_error("Invalid thread ID");
+}
+
+void ResultController::panelShowHandler(wxEvtHandler *parent) {
+
+    AppConfig c;
+    auto config = c.GetThreadsConfig();
+    auto startThread = config.autoResult;
+
+    if (!startThread) {
+        return;
+    }
+
+    processOFStartHandler(parent);
 }

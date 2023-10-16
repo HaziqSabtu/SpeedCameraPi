@@ -1042,6 +1042,7 @@ IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/cppconf.png \
                          Docs/assets/cppconf2.png \
                          Docs/assets/cppconf3.png \
+                         Docs/assets/cppconf4.png \
                          Docs/assets/wslconnect.png \
                          Docs/assets/wslconnect2.png \
                          Docs/assets/wslfolder.png \
@@ -1049,7 +1050,10 @@ IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/cppbuild.png \
                          Docs/assets/vnc1.png \
                          Docs/assets/vnc2.png \
+                         Docs/assets/vnc3.png \
                          Docs/assets/vnc4.png \
+                         Docs/assets/debug.png \
+                         Docs/assets/debug2.png \
 
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should

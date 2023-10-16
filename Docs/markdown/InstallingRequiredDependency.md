@@ -282,3 +282,56 @@ After installing the required dependencies, you may want to clean up the unneces
                 
         sudo ./DI_Scripts5.sh
 
+
+## Utility Scripts
+
+This collection of scripts is not necessary for the installation of the required dependencies. However, it is recommended to run these scripts to ensure that the system is properly configured for the project.
+
+### Hotspot
+
+This script will configure the Raspberry Pi to enable the hotspot feature whenever it is not connected to local network. This will allow you to connect to the Raspberry Pi directly when you are not at home.
+
+- Navigate to scripts directory:
+
+        cd ~/SpeedCameraPi/scripts/Installation
+
+- Allow script to be executed:
+        
+        sudo chmod +x Hotspot.sh
+
+- Run script:
+                
+        sudo ./Hotspot.sh
+
+### Startup
+
+This script will configure the Raspberry Pi to automatically start the SpeedCameraPi application whenever it is booted up. This will allow you to use the Raspberry Pi as a standalone device without the need to manually start the application.
+
+- Navigate to scripts directory:
+
+        cd ~/SpeedCameraPi/scripts/Installation
+
+- Allow script to be executed:
+
+        sudo chmod +x Startup.py
+
+- Run script:
+
+        sudo ./Startup.py
+
+### Touchscreen
+
+This script will fix the touchscreen rotation issue. This will allow you to use the touchscreen in portrait mode.
+
+- Navigate to scripts directory:
+
+        cd ~/SpeedCameraPi/scripts/Installation
+
+- Allow script to be executed:
+
+        sudo chmod +x Touchscreen.sh    
+
+- Run script:
+
+        sudo ./Touchscreen.sh
+

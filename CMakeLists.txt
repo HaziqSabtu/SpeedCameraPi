@@ -62,18 +62,12 @@ if(CROSS_COMPILING)
     COMMAND ssh RPi0 "killall SpeedCameraPi" || true
     )
 
-
     # POST_BUILD command to copy executable to RPi0(target)
     add_custom_command(TARGET SpeedCameraPi POST_BUILD
         COMMAND ssh RPi0 "mkdir -p ~/Target"
         COMMAND scp $<TARGET_FILE:SpeedCameraPi> RPi0:~/Target/
         COMMAND scp -r ${CMAKE_SOURCE_DIR}/Assets RPi0:~/Target
     )
-
-    # POST_BUILD command curl
-    # add_custom_command(TARGET SpeedCameraPi POST_BUILD
-    #     COMMAND curl --location '192.168.178.20:8080/wav/succ'
-    # )
 else()
     message("Native compiling")
     set(libcamIncludeDir /usr/local/include/libcamera)

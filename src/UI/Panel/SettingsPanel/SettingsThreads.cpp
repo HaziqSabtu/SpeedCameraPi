@@ -11,12 +11,16 @@ SettingsThreadsComponent::SettingsThreadsComponent(wxWindow *parent)
 
     autoRoi = new SettingsChildComponentBool(this, AutoRoiTD, AutoRoiDD);
 
+    autoResult =
+        new SettingsChildComponentBool(this, AutoResultTD, AutoResultDD);
+
     mainSizer->AddSpacer(20);
     mainSizer->Add(autoCalibration, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM,
                    10);
     mainSizer->Add(autoManualCalibration, 0,
                    wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
     mainSizer->Add(autoRoi, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+    mainSizer->Add(autoResult, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
     SetSizer(mainSizer);
 }
@@ -25,16 +29,19 @@ void SettingsThreadsComponent::setValue(const ThreadsConfig &config) {
     autoManualCalibration->getControl()->setValue(config.autoManualCalibration);
     autoCalibration->getControl()->setValue(config.autoCalibration);
     autoRoi->getControl()->setValue(config.autoRoi);
+    autoResult->getControl()->setValue(config.autoResult);
 }
 
 ThreadsConfig SettingsThreadsComponent::getValue() {
     auto amc = autoManualCalibration->getControl()->getValue();
     auto ac = autoCalibration->getControl()->getValue();
     auto ar = autoRoi->getControl()->getValue();
+    auto ars = autoResult->getControl()->getValue();
 
     ThreadsConfig c;
     c.autoManualCalibration = amc;
     c.autoCalibration = ac;
     c.autoRoi = ar;
+    c.autoResult = ars;
     return c;
 }

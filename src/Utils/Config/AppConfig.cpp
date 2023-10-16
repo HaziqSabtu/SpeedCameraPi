@@ -72,6 +72,7 @@ AppConfig::AppConfig() {
         config->Write("Auto_Manual_Calibration", Default_AutoManualCalibration);
         config->Write("Auto_Calibration", Default_AutoCalibration);
         config->Write("Auto_Roi", Default_AutoRoi);
+        config->Write("Auto_Result", Default_AutoResult);
 
         config->Flush();
     } else {
@@ -478,6 +479,7 @@ ThreadsConfig AppConfig::GetThreadsConfig() {
     config->Read("Auto_Calibration", &threadsConfig.autoCalibration,
                  Default_AutoCalibration);
     config->Read("Auto_Roi", &threadsConfig.autoRoi, Default_AutoRoi);
+    config->Read("Auto_Result", &threadsConfig.autoResult, Default_AutoResult);
 
     return threadsConfig;
 }
@@ -491,6 +493,7 @@ void AppConfig::SetThreadsConfig(ThreadsConfig threadsConfig) {
     config->Write("Auto_Manual_Calibration", autoManualCalibration);
     config->Write("Auto_Calibration", autoCalibration);
     config->Write("Auto_Roi", autoRoi);
+    config->Write("Auto_Result", threadsConfig.autoResult);
 }
 
 void AppConfig::ResetThreadsConfig() {
@@ -498,6 +501,7 @@ void AppConfig::ResetThreadsConfig() {
     threadsConfig.autoManualCalibration = Default_AutoManualCalibration;
     threadsConfig.autoCalibration = Default_AutoCalibration;
     threadsConfig.autoRoi = Default_AutoRoi;
+    threadsConfig.autoResult = Default_AutoResult;
 
     SetThreadsConfig(threadsConfig);
 }

@@ -120,11 +120,13 @@ struct ThreadsConfig {
     bool autoManualCalibration;
     bool autoRoi;
     bool autoCalibration;
+    bool autoResult;
 
     bool operator==(const ThreadsConfig &other) const {
         return autoManualCalibration == other.autoManualCalibration &&
                autoRoi == other.autoRoi &&
-               autoCalibration == other.autoCalibration;
+               autoCalibration == other.autoCalibration &&
+               autoResult == other.autoResult;
     }
 };
 

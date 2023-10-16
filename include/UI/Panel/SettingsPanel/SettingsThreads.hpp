@@ -21,7 +21,11 @@ class SettingsThreadsComponent : public SettingsComponent {
     const STD AutoRoiTD = DSPThd::AutoRoiTD;
     const STDV AutoRoiDD = DSPThd::AutoRoiDD;
 
+    const STD AutoResultTD = DSPThd::AutoResultTD;
+    const STDV AutoResultDD = DSPThd::AutoResultDD;
+
     SettingsChildComponentBool *autoManualCalibration;
     SettingsChildComponentBool *autoCalibration;
     SettingsChildComponentBool *autoRoi;
+    SettingsChildComponentBool *autoResult;
 };

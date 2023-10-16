@@ -1494,6 +1494,11 @@ ButtonState AppState::getRPBoxButtonState(ModelPtr model) {
 ButtonState AppState::getRPLinesButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
+    auto data = model->getSessionData();
+    if (data->getMode() == Mode::MODE_DISTANCE) {
+        return ButtonState::HIDDEN;
+    }
+
     if (getRPPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
