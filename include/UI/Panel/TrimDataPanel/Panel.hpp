@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Controller/ManualCalibrationController.hpp"
+#include "Controller/LaneManualCalibrationController.hpp"
 #include "Controller/TrimDataController.hpp"
 #include "Event/Event_UpdatePreview.hpp"
 #include "Event/Event_UpdateState.hpp"

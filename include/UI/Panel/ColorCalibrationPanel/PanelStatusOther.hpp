@@ -12,7 +12,6 @@ class ColorCalibrationButtonOther : public TextOutlinePanel {
 
     void update(const AppState &state);
 
-    BitmapButton *Save_button;
     BitmapButton *Restore_button;
 
   private:

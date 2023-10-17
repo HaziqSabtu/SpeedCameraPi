@@ -32,7 +32,7 @@ struct CapturePanelState {
     ButtonState measureButtonState;
 };
 
-struct CalibrationPanelState {
+struct LaneCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
@@ -52,7 +52,7 @@ struct CalibrationPanelState {
     ButtonState cancelButtonState;
 };
 
-struct ManualCalibrationPanelState {
+struct LaneManualCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
@@ -71,7 +71,7 @@ struct ManualCalibrationPanelState {
     ButtonState cancelButtonState;
 };
 
-struct HorizontalCalibrationPanelState {
+struct DistanceCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
@@ -94,7 +94,6 @@ struct ColorCalibrationPanelState {
 
     ButtonState calibrationButtonState;
     ButtonState stopButtonState;
-    ButtonState removeButtonState;
     ButtonState cameraButtonState;
 
     PanelState blueStatusState;
@@ -106,7 +105,6 @@ struct ColorCalibrationPanelState {
     ButtonState acceptYellowButtonState;
 
     PanelState otherStatusState;
-    ButtonState saveButtonState;
     ButtonState restoreButtonState;
 
     ButtonState okButtonState;
@@ -169,10 +167,11 @@ class AppState {
     AppState(ModelPtr model);
 
     CapturePanelState getCapturePanelState(ModelPtr model);
-    CalibrationPanelState getCalibrationPanelState(ModelPtr model);
-    ManualCalibrationPanelState getManualCalibrationPanelState(ModelPtr model);
-    HorizontalCalibrationPanelState
-    getHorizontalCalibrationPanelState(ModelPtr model);
+    LaneCalibrationPanelState getLaneCalibrationPanelState(ModelPtr model);
+    LaneManualCalibrationPanelState
+    getLaneManualCalibrationPanelState(ModelPtr model);
+    DistanceCalibrationPanelState
+    getDistanceCalibrationPanelState(ModelPtr model);
     ColorCalibrationPanelState getColorCalibrationPanelState(ModelPtr model);
     RoiPanelState getRoiPanelState(ModelPtr model);
     ResultPanelState getResultPanelState(ModelPtr model);
@@ -180,9 +179,9 @@ class AppState {
 
   public:
     CapturePanelState capturePanel;
-    CalibrationPanelState calibrationPanel;
-    ManualCalibrationPanelState manualCalibrationPanel;
-    HorizontalCalibrationPanelState horizontalCalibrationPanel;
+    LaneCalibrationPanelState laneCalibrationPanel;
+    LaneManualCalibrationPanelState laneManualCalibrationPanel;
+    DistanceCalibrationPanelState distanceCalibrationPanel;
     ColorCalibrationPanelState colorCalibrationPanel;
     RoiPanelState roiPanel;
     ResultPanelState resultPanel;
@@ -217,72 +216,71 @@ class AppState {
     // Capture Panel -> Measure
     ButtonState getCPMeasureButtonState(ModelPtr model);
 
-    // Calibration Panel
-    PanelState getCLStatusState(ModelPtr model);
-    ButtonState getCLCalibrationButtonState(ModelPtr model);
-    ButtonState getCLPreviewButtonState(ModelPtr model);
-    ButtonState getCLManualCalibrationButtonState(ModelPtr model);
-    ButtonState getCLRemoveButtonState(ModelPtr model);
+    // Lane Calibration Panel
+    PanelState getLCStatusState(ModelPtr model);
+    ButtonState getLCCalibrationButtonState(ModelPtr model);
+    ButtonState getLCPreviewButtonState(ModelPtr model);
+    ButtonState getLCManualCalibrationButtonState(ModelPtr model);
+    ButtonState getLCRemoveButtonState(ModelPtr model);
 
-    // Calibration Panel -> Tools
-    PanelState getCLToolStatusState(ModelPtr model);
-    ButtonState getCLSelectPointButtonState(ModelPtr model);
-    ButtonState getCLCancelCalibrationButtonState(ModelPtr model);
-    ButtonState getCLAcceptCalibrationButtonState(ModelPtr model);
+    // Lane Calibration Panel -> Tools
+    PanelState getLCToolStatusState(ModelPtr model);
+    ButtonState getLCSelectPointButtonState(ModelPtr model);
+    ButtonState getLCCancelCalibrationButtonState(ModelPtr model);
+    ButtonState getLCAcceptCalibrationButtonState(ModelPtr model);
 
-    // Calibration Panel -> Recalibrate / Others
-    PanelState getCLOtherStatusState(ModelPtr model);
-    ButtonState getCLRecalibrateColorButtonState(ModelPtr model);
+    // Lane Calibration Panel -> Recalibrate / Others
+    PanelState getLCOtherStatusState(ModelPtr model);
+    ButtonState getLCRecalibrateColorButtonState(ModelPtr model);
 
-    // Calibration Panel -> OK / Cancel
-    ButtonState getCLOKButtonState(ModelPtr model);
-    ButtonState getCLCancelButtonState(ModelPtr model);
+    // Lane Calibration Panel -> OK / Cancel
+    ButtonState getLCOKButtonState(ModelPtr model);
+    ButtonState getLCCancelButtonState(ModelPtr model);
 
-    // Manual Calibration Panel
-    PanelState getMCStatusState(ModelPtr model);
-    ButtonState getMCButtonState(ModelPtr model);
-    ButtonState getMCPreviewButtonState(ModelPtr model);
+    // Lane Manual Calibration Panel
+    PanelState getLMStatusState(ModelPtr model);
+    ButtonState getLMButtonState(ModelPtr model);
+    ButtonState getLMPreviewButtonState(ModelPtr model);
     ButtonState getMCRemoveButtonState(ModelPtr model);
 
-    // Manual Calibration Panel -> Left
-    PanelState getMCLeftStatusState(ModelPtr model);
-    ButtonState getMCSelectLeftButtonState(ModelPtr model);
-    ButtonState getMCRemoveLeftButtonState(ModelPtr model);
+    // Lane Manual Calibration Panel -> Left
+    PanelState getLMLeftStatusState(ModelPtr model);
+    ButtonState getLMSelectLeftButtonState(ModelPtr model);
+    ButtonState getLMRemoveLeftButtonState(ModelPtr model);
 
-    // Manual Calibration Panel -> Right
-    PanelState getMCRightStatusState(ModelPtr model);
-    ButtonState getMCSelectRightButtonState(ModelPtr model);
-    ButtonState getMCRemoveRightButtonState(ModelPtr model);
+    // Lane Manual Calibration Panel -> Right
+    PanelState getLMRightStatusState(ModelPtr model);
+    ButtonState getLMSelectRightButtonState(ModelPtr model);
+    ButtonState getLMRemoveRightButtonState(ModelPtr model);
 
-    // Manual Calibration Panel -> OK / Cancel
-    ButtonState getMCOKButtonState(ModelPtr model);
-    ButtonState getMCCancelButtonState(ModelPtr model);
+    // Lane Manual Calibration Panel -> OK / Cancel
+    ButtonState getLMOKButtonState(ModelPtr model);
+    ButtonState getLMCancelButtonState(ModelPtr model);
 
-    // Horizontal Calibration Panel
-    PanelState getHCStatusState(ModelPtr model);
-    ButtonState getHCButtonState(ModelPtr model);
-    ButtonState getHCPreviewButtonState(ModelPtr model);
-    ButtonState getHCRemoveButtonState(ModelPtr model);
+    // Distance Calibration Panel
+    PanelState getDCStatusState(ModelPtr model);
+    ButtonState getDCButtonState(ModelPtr model);
+    ButtonState getDCPreviewButtonState(ModelPtr model);
+    ButtonState getDCRemoveButtonState(ModelPtr model);
 
-    // Horizontal Calibration Panel -> Top
-    PanelState getHCTopStatusState(ModelPtr model);
-    ButtonState getHCSelectTopButtonState(ModelPtr model);
-    ButtonState getHCRemoveTopButtonState(ModelPtr model);
+    // Distance Calibration Panel -> Top
+    PanelState getDCTopStatusState(ModelPtr model);
+    ButtonState getDCSelectTopButtonState(ModelPtr model);
+    ButtonState getDCRemoveTopButtonState(ModelPtr model);
 
-    // Horizontal Calibration Panel -> Bottom
-    PanelState getHCBottomStatusState(ModelPtr model);
-    ButtonState getHCSelectBottomButtonState(ModelPtr model);
-    ButtonState getHCRemoveBottomButtonState(ModelPtr model);
+    // Distance Calibration Panel -> Bottom
+    PanelState getDCBottomStatusState(ModelPtr model);
+    ButtonState getDCSelectBottomButtonState(ModelPtr model);
+    ButtonState getDCRemoveBottomButtonState(ModelPtr model);
 
-    // Horizontal Calibration Panel -> OK / Cancel
-    ButtonState getHCOKButtonState(ModelPtr model);
-    ButtonState getHCCancelButtonState(ModelPtr model);
+    // Distance Calibration Panel -> OK / Cancel
+    ButtonState getDCOKButtonState(ModelPtr model);
+    ButtonState getDCCancelButtonState(ModelPtr model);
 
     // Color Calibration Panel
     ButtonState getCCButtonState(ModelPtr model);
     ButtonState getCCStopButtonState(ModelPtr model);
     ButtonState getCCCameraButtonState(ModelPtr model);
-    ButtonState getCCRemoveButtonState(ModelPtr model);
 
     // Color Calibration Panel -> Blue
     PanelState getCCBlueStatusState(ModelPtr model);
@@ -296,7 +294,6 @@ class AppState {
 
     // Color Calibration Panel -> Save / Restore
     PanelState getCCOtherStatusState(ModelPtr model);
-    ButtonState getCCSaveButtonState(ModelPtr model);
     ButtonState getCCRestoreButtonState(ModelPtr model);
 
     // Color Calibration Panel -> OK / Cancel

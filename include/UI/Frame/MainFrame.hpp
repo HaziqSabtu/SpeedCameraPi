@@ -3,10 +3,10 @@
 
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/SessionData.hpp"
-#include "UI/Panel/CalibrationPanel/Panel.hpp"
 #include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
 #include "UI/Panel/Common/PanelFactory.hpp"
-#include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
+#include "UI/Panel/LaneCalibrationPanel/Panel.hpp"
+#include "UI/Panel/LaneManualCalibrationPanel/Panel.hpp"
 #include "UI/Panel/ResultPanel/Panel.hpp"
 #include "UI/Panel/TrimDataPanel/Panel.hpp"
 #include <Controller/ControllerFactory.hpp>
@@ -34,8 +34,8 @@ class MainFrame : public wxFrame {
 
     CapturePanel *cpp;
     RoiPanel *rop;
-    CalibrationPanel *clp;
-    ManualCalibrationPanel *mcp;
+    LaneCalibrationPanel *clp;
+    LaneManualCalibrationPanel *mcp;
     ColorCalibrationPanel *ccp;
     TrimDataPanel *tdp;
     ResultPanel *rsp;

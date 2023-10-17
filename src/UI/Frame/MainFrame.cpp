@@ -1,5 +1,5 @@
 #include "Controller/ControllerFactory.hpp"
-#include "Controller/ManualCalibrationController.hpp"
+#include "Controller/LaneManualCalibrationController.hpp"
 #include "Controller/TrimDataController.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/SessionData.hpp"
@@ -10,7 +10,7 @@
 #include "UI/Dialog/ExitAppDialog.hpp"
 #include "UI/Frame/InfoFrame.hpp"
 #include "UI/Frame/SettingsFrame.hpp"
-#include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
+#include "UI/Panel/LaneManualCalibrationPanel/Panel.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Frame/MainFrame.hpp>
 #include <cstddef>
@@ -43,9 +43,9 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
 
     registerPanel(PANEL_CAPTURE);
     registerPanel(PANEL_ROI);
-    registerPanel(PANEL_CALIBRATION);
-    registerPanel(PANEL_MANUAL_CALIBRATION);
-    registerPanel(PANEL_HORIZONTAL_CALIBRATION);
+    registerPanel(PANEL_LANE_CALIBRATION);
+    registerPanel(PANEL_LANE_MANUAL_CALIBRATION);
+    registerPanel(PANEL_DISTANCE_CALIBRATION);
     registerPanel(PANEL_COLOR_CALIBRATION);
     registerPanel(PANEL_TRIM_DATA);
     registerPanel(PANEL_RESULT);

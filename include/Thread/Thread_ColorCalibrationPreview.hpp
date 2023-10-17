@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/Thread_Base.hpp"
 #include "Thread/Thread_ID.hpp"
@@ -39,6 +38,4 @@ class ColorCalibrationPreviewThread : public BaseThread,
 
     ColorRange blueRange;
     ColorRange yellowRange;
-
-    // CCModelPtr ccExtraModel;
 };

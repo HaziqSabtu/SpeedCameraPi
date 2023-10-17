@@ -1,10 +1,11 @@
 
+
 #include "Event/Event_Error.hpp"
 #include "Event/Event_UpdateState.hpp"
 #include "Event/Event_UpdateStatus.hpp"
-#include "Model/ExtraModel.hpp"
 #include "Thread/Thread_Base.hpp"
 #include "Utils/Camera/CameraBase.hpp"
+#include "Utils/CommonUtils.hpp"
 #include <Thread/Thread_ColorCalibrationPreview.hpp>
 #include <memory>
 #include <opencv2/core/types.hpp>
@@ -90,7 +91,6 @@ wxThread::ExitCode ColorCalibrationPreviewThread::Entry() {
 ThreadID ColorCalibrationPreviewThread::getID() const { return id; }
 
 bool ColorCalibrationPreviewThread::isCalibrationComplete() {
-    // return ccExtraModel->isBlueCalibrated() &&
-    //        ccExtraModel->isYellowCalibrated();
-    return true;
+    return Utils::isRangeCalibrated(blueRange) &&
+           Utils::isRangeCalibrated(yellowRange);
 }

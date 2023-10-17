@@ -10,28 +10,10 @@ ColorCalibrationController::ColorCalibrationController(ModelPtr sharedModel)
 
 ColorCalibrationController::~ColorCalibrationController() {}
 
-void ColorCalibrationController::e_SaveToConfig(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-        saveToConfigHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
 void ColorCalibrationController::e_RestoreRange(wxEvtHandler *parent) {
     try {
         checkPreCondition();
         restoreRangeHandler(parent);
-    } catch (std::exception &e) {
-        ErrorEvent::Submit(parent, e.what());
-    }
-}
-
-void ColorCalibrationController::e_RemoveCalibratedRange(wxEvtHandler *parent) {
-    try {
-        checkPreCondition();
-        removeCalibratedRangeHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -191,32 +173,6 @@ void ColorCalibrationController::leftUpHandler(wxEvtHandler *parent,
     throw std::runtime_error("Blocked Endpoint");
 }
 
-void ColorCalibrationController::saveToConfigHandler(wxEvtHandler *parent) {
-    auto tc = shared->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
-        throw std::runtime_error("ColorCalibrationThread is running");
-    }
-
-    // auto ccExtraModel = shared->getCCExtraModel();
-
-    // auto blueRange = ccExtraModel->getBlueRange();
-    // if (!Utils::isRangeCalibrated(blueRange)) {
-    //     throw std::runtime_error("Blue range is not calibrated");
-    // }
-
-    // auto yellowRange = ccExtraModel->getYellowRange();
-    // if (!Utils::isRangeCalibrated(yellowRange)) {
-    //     throw std::runtime_error("Yellow range is not calibrated");
-    // }
-
-    // auto config = AppConfig();
-    // config.SetBlueRange(Utils::ScalarToHSVRangeConfig(blueRange));
-    // config.SetYellowRange(Utils::ScalarToHSVRangeConfig(yellowRange));
-
-    // UpdateStatusEvent::Submit(parent, "Saved to config");
-}
-
 void ColorCalibrationController::restoreRangeHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -231,22 +187,6 @@ void ColorCalibrationController::restoreRangeHandler(wxEvtHandler *parent) {
     config.ResetYellowRange();
 
     UpdateStatusEvent::Submit(parent, "Range restored");
-}
-
-void ColorCalibrationController::removeCalibratedRangeHandler(
-    wxEvtHandler *parent) {
-    auto tc = shared->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
-        throw std::runtime_error("ColorCalibrationThread is running");
-    }
-
-    // auto ccExtraModel = shared->getCCExtraModel();
-
-    // ccExtraModel->resetBlueRange();
-    // ccExtraModel->resetYellowRange();
-
-    UpdateStatusEvent::Submit(parent, "Range removed");
 }
 
 void ColorCalibrationController::setTypeBlueHandler(wxEvtHandler *parent) {
@@ -342,7 +282,6 @@ void ColorCalibrationController::colorCalibrationPreviewStartHandler(
 
     auto camera = shared->getCamera();
 
-    // auto ccExtraModel = shared->getCCExtraModel();
     AppConfig c;
     auto blueRange = Utils::HSVRangeConfigToScalar(c.GetBlueRange());
     auto yellowRange = Utils::HSVRangeConfigToScalar(c.GetYellowRange());

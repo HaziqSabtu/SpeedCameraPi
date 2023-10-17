@@ -1,5 +1,5 @@
 #include "Model/SessionData.hpp"
-#include "Thread/Thread_HorizontalCalibrationCamera.hpp"
+#include "Thread/Thread_DistanceCalibrationCamera.hpp"
 #include "Thread/Thread_ID.hpp"
 #include <Model/AppState.hpp>
 
@@ -7,9 +7,9 @@ AppState::AppState() {}
 
 AppState::AppState(ModelPtr model) {
     capturePanel = getCapturePanelState(model);
-    calibrationPanel = getCalibrationPanelState(model);
-    manualCalibrationPanel = getManualCalibrationPanelState(model);
-    horizontalCalibrationPanel = getHorizontalCalibrationPanelState(model);
+    laneCalibrationPanel = getLaneCalibrationPanelState(model);
+    laneManualCalibrationPanel = getLaneManualCalibrationPanelState(model);
+    distanceCalibrationPanel = getDistanceCalibrationPanelState(model);
     colorCalibrationPanel = getColorCalibrationPanelState(model);
     roiPanel = getRoiPanelState(model);
     resultPanel = getResultPanelState(model);
@@ -45,74 +45,75 @@ CapturePanelState AppState::getCapturePanelState(ModelPtr model) {
     return ps;
 }
 
-CalibrationPanelState AppState::getCalibrationPanelState(ModelPtr model) {
-    CalibrationPanelState ps;
+LaneCalibrationPanelState
+AppState::getLaneCalibrationPanelState(ModelPtr model) {
+    LaneCalibrationPanelState ps;
 
-    ps.state = getCLStatusState(model);
+    ps.state = getLCStatusState(model);
 
-    ps.calibrationButtonState = getCLCalibrationButtonState(model);
-    ps.previewButtonState = getCLPreviewButtonState(model);
-    ps.manualCalibrationButtonState = getCLManualCalibrationButtonState(model);
-    ps.removeButtonState = getCLRemoveButtonState(model);
+    ps.calibrationButtonState = getLCCalibrationButtonState(model);
+    ps.previewButtonState = getLCPreviewButtonState(model);
+    ps.manualCalibrationButtonState = getLCManualCalibrationButtonState(model);
+    ps.removeButtonState = getLCRemoveButtonState(model);
 
-    ps.toolStatusState = getCLToolStatusState(model);
-    ps.selectPointButtonState = getCLSelectPointButtonState(model);
-    ps.cancelCalibrationButtonState = getCLCancelCalibrationButtonState(model);
-    ps.acceptCalibrationButtonState = getCLAcceptCalibrationButtonState(model);
+    ps.toolStatusState = getLCToolStatusState(model);
+    ps.selectPointButtonState = getLCSelectPointButtonState(model);
+    ps.cancelCalibrationButtonState = getLCCancelCalibrationButtonState(model);
+    ps.acceptCalibrationButtonState = getLCAcceptCalibrationButtonState(model);
 
-    ps.otherStatusState = getCLOtherStatusState(model);
-    ps.recalibrateColorButtonState = getCLRecalibrateColorButtonState(model);
+    ps.otherStatusState = getLCOtherStatusState(model);
+    ps.recalibrateColorButtonState = getLCRecalibrateColorButtonState(model);
 
-    ps.okButtonState = getCLOKButtonState(model);
-    ps.cancelButtonState = getCLCancelButtonState(model);
+    ps.okButtonState = getLCOKButtonState(model);
+    ps.cancelButtonState = getLCCancelButtonState(model);
 
     return ps;
 }
 
-ManualCalibrationPanelState
-AppState::getManualCalibrationPanelState(std::shared_ptr<SharedModel> model) {
-    ManualCalibrationPanelState ps;
+LaneManualCalibrationPanelState AppState::getLaneManualCalibrationPanelState(
+    std::shared_ptr<SharedModel> model) {
+    LaneManualCalibrationPanelState ps;
 
-    ps.state = getMCStatusState(model);
+    ps.state = getLMStatusState(model);
 
-    ps.calibrationButtonState = getMCButtonState(model);
-    ps.previewButtonState = getMCPreviewButtonState(model);
+    ps.calibrationButtonState = getLMButtonState(model);
+    ps.previewButtonState = getLMPreviewButtonState(model);
     ps.removeButtonState = getMCRemoveButtonState(model);
 
-    ps.leftStatusState = getMCLeftStatusState(model);
-    ps.selectLeftButtonState = getMCSelectLeftButtonState(model);
-    ps.removeLeftButtonState = getMCRemoveLeftButtonState(model);
+    ps.leftStatusState = getLMLeftStatusState(model);
+    ps.selectLeftButtonState = getLMSelectLeftButtonState(model);
+    ps.removeLeftButtonState = getLMRemoveLeftButtonState(model);
 
-    ps.rightStatusState = getMCRightStatusState(model);
-    ps.selectRightButtonState = getMCSelectRightButtonState(model);
-    ps.removeRightButtonState = getMCRemoveRightButtonState(model);
+    ps.rightStatusState = getLMRightStatusState(model);
+    ps.selectRightButtonState = getLMSelectRightButtonState(model);
+    ps.removeRightButtonState = getLMRemoveRightButtonState(model);
 
-    ps.okButtonState = getMCOKButtonState(model);
-    ps.cancelButtonState = getMCCancelButtonState(model);
+    ps.okButtonState = getLMOKButtonState(model);
+    ps.cancelButtonState = getLMCancelButtonState(model);
 
     return ps;
 }
 
-HorizontalCalibrationPanelState
-AppState::getHorizontalCalibrationPanelState(ModelPtr model) {
-    HorizontalCalibrationPanelState ps;
+DistanceCalibrationPanelState
+AppState::getDistanceCalibrationPanelState(ModelPtr model) {
+    DistanceCalibrationPanelState ps;
 
-    ps.state = getHCStatusState(model);
+    ps.state = getDCStatusState(model);
 
-    ps.calibrationButtonState = getHCButtonState(model);
-    ps.previewButtonState = getHCPreviewButtonState(model);
-    ps.removeButtonState = getHCRemoveButtonState(model);
+    ps.calibrationButtonState = getDCButtonState(model);
+    ps.previewButtonState = getDCPreviewButtonState(model);
+    ps.removeButtonState = getDCRemoveButtonState(model);
 
-    ps.topStatusState = getHCTopStatusState(model);
-    ps.selectTopButtonState = getHCSelectTopButtonState(model);
-    ps.removeTopButtonState = getHCRemoveTopButtonState(model);
+    ps.topStatusState = getDCTopStatusState(model);
+    ps.selectTopButtonState = getDCSelectTopButtonState(model);
+    ps.removeTopButtonState = getDCRemoveTopButtonState(model);
 
-    ps.bottomStatusState = getHCBottomStatusState(model);
-    ps.selectBottomButtonState = getHCSelectBottomButtonState(model);
-    ps.removeBottomButtonState = getHCRemoveBottomButtonState(model);
+    ps.bottomStatusState = getDCBottomStatusState(model);
+    ps.selectBottomButtonState = getDCSelectBottomButtonState(model);
+    ps.removeBottomButtonState = getDCRemoveBottomButtonState(model);
 
-    ps.okButtonState = getHCOKButtonState(model);
-    ps.cancelButtonState = getHCCancelButtonState(model);
+    ps.okButtonState = getDCOKButtonState(model);
+    ps.cancelButtonState = getDCCancelButtonState(model);
 
     return ps;
 }
@@ -124,7 +125,6 @@ AppState::getColorCalibrationPanelState(std::shared_ptr<SharedModel> model) {
     ps.calibrationButtonState = getCCButtonState(model);
     ps.stopButtonState = getCCStopButtonState(model);
     ps.cameraButtonState = getCCCameraButtonState(model);
-    ps.removeButtonState = getCCRemoveButtonState(model);
 
     ps.blueStatusState = getCCBlueStatusState(model);
     ps.selectBlueButtonState = getCCSelectBlueButtonState(model);
@@ -135,7 +135,6 @@ AppState::getColorCalibrationPanelState(std::shared_ptr<SharedModel> model) {
     ps.acceptYellowButtonState = getCCAcceptYellowButtonState(model);
 
     ps.otherStatusState = getCCOtherStatusState(model);
-    ps.saveButtonState = getCCSaveButtonState(model);
     ps.restoreButtonState = getCCRestoreButtonState(model);
 
     ps.okButtonState = getCCOKButtonState(model);
@@ -456,16 +455,16 @@ ButtonState AppState::getCPMeasureButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getCLStatusState(ModelPtr model) {
+PanelState AppState::getLCStatusState(ModelPtr model) {
     return model->sessionData.isCalibrationDataEmpty()
                ? PanelState::PANEL_NOT_OK
                : PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getCLCalibrationButtonState(ModelPtr model) {
+ButtonState AppState::getLCCalibrationButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (tc->isCalibrationThreadRunning()) {
+    if (tc->isLaneCalibrationThreadRunning()) {
         return ButtonState::ON;
     }
 
@@ -477,14 +476,14 @@ ButtonState AppState::getCLCalibrationButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getCLRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getLCRemoveButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     if (model->sessionData.isCalibrationDataEmpty()) {
         return ButtonState::HIDDEN;
     }
 
-    if (tc->isCalibrationThreadRunning()) {
+    if (tc->isLaneCalibrationThreadRunning()) {
         return ButtonState::HIDDEN;
     }
 
@@ -495,35 +494,35 @@ ButtonState AppState::getCLRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getCLToolStatusState(ModelPtr model) {
+PanelState AppState::getLCToolStatusState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isCalibrationThreadRunning()) {
+    if (!tc->isLaneCalibrationThreadRunning()) {
         return PanelState::PANEL_HIDDEN;
     }
 
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getCLSelectPointButtonState(ModelPtr model) {
+ButtonState AppState::getLCSelectPointButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getCLToolStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getLCToolStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCLCancelCalibrationButtonState(ModelPtr model) {
-    return getCLSelectPointButtonState(model);
+ButtonState AppState::getLCCancelCalibrationButtonState(ModelPtr model) {
+    return getLCSelectPointButtonState(model);
 }
 
-ButtonState AppState::getCLAcceptCalibrationButtonState(ModelPtr model) {
-    return getCLSelectPointButtonState(model);
+ButtonState AppState::getLCAcceptCalibrationButtonState(ModelPtr model) {
+    return getLCSelectPointButtonState(model);
 }
 
-ButtonState AppState::getCLPreviewButtonState(ModelPtr model) {
+ButtonState AppState::getLCPreviewButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -531,7 +530,7 @@ ButtonState AppState::getCLPreviewButtonState(ModelPtr model) {
         return ButtonState::HIDDEN;
     }
 
-    if (tc->isCalibrationThreadRunning()) {
+    if (tc->isLaneCalibrationThreadRunning()) {
         return ButtonState::HIDDEN;
     }
 
@@ -542,10 +541,10 @@ ButtonState AppState::getCLPreviewButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-PanelState AppState::getCLOtherStatusState(ModelPtr model) {
+PanelState AppState::getLCOtherStatusState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (tc->isCalibrationThreadRunning()) {
+    if (tc->isLaneCalibrationThreadRunning()) {
         return PanelState::PANEL_HIDDEN;
     }
 
@@ -557,20 +556,20 @@ PanelState AppState::getCLOtherStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getCLRecalibrateColorButtonState(ModelPtr model) {
+ButtonState AppState::getLCRecalibrateColorButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getCLOtherStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getLCOtherStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCLManualCalibrationButtonState(ModelPtr model) {
+ButtonState AppState::getLCManualCalibrationButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (tc->isCalibrationThreadRunning()) {
+    if (tc->isLaneCalibrationThreadRunning()) {
         return ButtonState::HIDDEN;
     }
 
@@ -582,7 +581,7 @@ ButtonState AppState::getCLManualCalibrationButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCLOKButtonState(ModelPtr model) {
+ButtonState AppState::getLCOKButtonState(ModelPtr model) {
     if (model->isSessionDataChanged()) {
         return ButtonState::NORMAL;
     }
@@ -590,20 +589,20 @@ ButtonState AppState::getCLOKButtonState(ModelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getCLCancelButtonState(ModelPtr model) {
+ButtonState AppState::getLCCancelButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getMCStatusState(ModelPtr model) {
+PanelState AppState::getLMStatusState(ModelPtr model) {
     return model->sessionData.isCalibrationDataEmpty()
                ? PanelState::PANEL_NOT_OK
                : PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getMCButtonState(ModelPtr model) {
+ButtonState AppState::getLMButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (tc->isManualCalibrationThreadRunning()) {
+    if (tc->isLaneManualCalibrationThreadRunning()) {
         return ButtonState::ON;
     }
 
@@ -622,7 +621,7 @@ ButtonState AppState::getMCRemoveButtonState(ModelPtr model) {
         return ButtonState::HIDDEN;
     }
 
-    if (tc->isManualCalibrationThreadRunning()) {
+    if (tc->isLaneManualCalibrationThreadRunning()) {
         return ButtonState::HIDDEN;
     }
 
@@ -633,10 +632,10 @@ ButtonState AppState::getMCRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getMCLeftStatusState(ModelPtr model) {
+PanelState AppState::getLMLeftStatusState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isManualCalibrationThreadRunning()) {
+    if (!tc->isLaneManualCalibrationThreadRunning()) {
         return PanelState::PANEL_HIDDEN;
     }
 
@@ -651,14 +650,14 @@ PanelState AppState::getMCLeftStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getMCSelectLeftButtonState(ModelPtr model) {
+ButtonState AppState::getLMSelectLeftButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getMCLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getLMLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
-    auto thread = tc->getRunningManualCalibrationThread();
+    auto thread = tc->getRunningLaneManualCalibrationThread();
     if (thread->getDirection() == ManualDirection::MANUAL_LEFT) {
         return ButtonState::ACTIVE;
     }
@@ -666,20 +665,20 @@ ButtonState AppState::getMCSelectLeftButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getMCRemoveLeftButtonState(ModelPtr model) {
+ButtonState AppState::getLMRemoveLeftButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getMCLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getLMLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getMCRightStatusState(ModelPtr model) {
+PanelState AppState::getLMRightStatusState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isManualCalibrationThreadRunning()) {
+    if (!tc->isLaneManualCalibrationThreadRunning()) {
         return PanelState::PANEL_HIDDEN;
     }
 
@@ -693,14 +692,14 @@ PanelState AppState::getMCRightStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getMCSelectRightButtonState(ModelPtr model) {
+ButtonState AppState::getLMSelectRightButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getMCLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getLMLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
-    auto thread = tc->getRunningManualCalibrationThread();
+    auto thread = tc->getRunningLaneManualCalibrationThread();
     if (thread->getDirection() == ManualDirection::MANUAL_RIGHT) {
         return ButtonState::ACTIVE;
     }
@@ -708,17 +707,17 @@ ButtonState AppState::getMCSelectRightButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getMCRemoveRightButtonState(ModelPtr model) {
+ButtonState AppState::getLMRemoveRightButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getMCLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getLMLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getMCPreviewButtonState(ModelPtr model) {
+ButtonState AppState::getLMPreviewButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -726,7 +725,7 @@ ButtonState AppState::getMCPreviewButtonState(ModelPtr model) {
         return ButtonState::HIDDEN;
     }
 
-    if (tc->isManualCalibrationThreadRunning()) {
+    if (tc->isLaneManualCalibrationThreadRunning()) {
         return ButtonState::HIDDEN;
     }
 
@@ -737,7 +736,7 @@ ButtonState AppState::getMCPreviewButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getMCOKButtonState(ModelPtr model) {
+ButtonState AppState::getLMOKButtonState(ModelPtr model) {
     if (model->isSessionDataChanged()) {
         return ButtonState::NORMAL;
     }
@@ -745,20 +744,20 @@ ButtonState AppState::getMCOKButtonState(ModelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getMCCancelButtonState(ModelPtr model) {
+ButtonState AppState::getLMCancelButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getHCStatusState(ModelPtr model) {
+PanelState AppState::getDCStatusState(ModelPtr model) {
     return model->sessionData.isCalibrationDataEmpty()
                ? PanelState::PANEL_NOT_OK
                : PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getHCButtonState(ModelPtr model) {
+ButtonState AppState::getDCButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (tc->isHorizontalCalibrationThreadRunning()) {
+    if (tc->isDistanceCalibrationThreadRunning()) {
         return ButtonState::ON;
     }
 
@@ -770,14 +769,14 @@ ButtonState AppState::getHCButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getHCRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getDCRemoveButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     if (model->sessionData.isCalibrationDataEmpty()) {
         return ButtonState::HIDDEN;
     }
 
-    if (tc->isManualCalibrationThreadRunning()) {
+    if (tc->isLaneManualCalibrationThreadRunning()) {
         return ButtonState::HIDDEN;
     }
 
@@ -788,10 +787,10 @@ ButtonState AppState::getHCRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getHCTopStatusState(ModelPtr model) {
+PanelState AppState::getDCTopStatusState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isHorizontalCalibrationThreadRunning()) {
+    if (!tc->isDistanceCalibrationThreadRunning()) {
         return PanelState::PANEL_HIDDEN;
     }
 
@@ -806,35 +805,35 @@ PanelState AppState::getHCTopStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getHCSelectTopButtonState(ModelPtr model) {
+ButtonState AppState::getDCSelectTopButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getHCTopStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getDCTopStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
-    auto thread = tc->getRunningHorizontalCalibrationThread();
-    if (thread->getDirection() == HorizontalDirection::HORIZONTAL_TOP) {
+    auto thread = tc->getRunningDistanceCalibrationThread();
+    if (thread->getDirection() == DistanceDirection::DISTANCE_TOP) {
         return ButtonState::ACTIVE;
     }
 
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getHCRemoveTopButtonState(ModelPtr model) {
+ButtonState AppState::getDCRemoveTopButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getHCTopStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getDCTopStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getHCBottomStatusState(ModelPtr model) {
+PanelState AppState::getDCBottomStatusState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (!tc->isHorizontalCalibrationThreadRunning()) {
+    if (!tc->isDistanceCalibrationThreadRunning()) {
         return PanelState::PANEL_HIDDEN;
     }
 
@@ -848,32 +847,32 @@ PanelState AppState::getHCBottomStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getHCSelectBottomButtonState(ModelPtr model) {
+ButtonState AppState::getDCSelectBottomButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getHCBottomStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getDCBottomStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
-    auto thread = tc->getRunningHorizontalCalibrationThread();
-    if (thread->getDirection() == HorizontalDirection::HORIZONTAL_BOTTOM) {
+    auto thread = tc->getRunningDistanceCalibrationThread();
+    if (thread->getDirection() == DistanceDirection::DISTANCE_BOTTOM) {
         return ButtonState::ACTIVE;
     }
 
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getHCRemoveBottomButtonState(ModelPtr model) {
+ButtonState AppState::getDCRemoveBottomButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
-    if (getHCBottomStatusState(model) == PanelState::PANEL_HIDDEN) {
+    if (getDCBottomStatusState(model) == PanelState::PANEL_HIDDEN) {
         return ButtonState::DISABLED;
     }
 
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getHCPreviewButtonState(ModelPtr model) {
+ButtonState AppState::getDCPreviewButtonState(ModelPtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -881,7 +880,7 @@ ButtonState AppState::getHCPreviewButtonState(ModelPtr model) {
         return ButtonState::HIDDEN;
     }
 
-    if (tc->isHorizontalCalibrationThreadRunning()) {
+    if (tc->isDistanceCalibrationThreadRunning()) {
         return ButtonState::HIDDEN;
     }
 
@@ -892,7 +891,7 @@ ButtonState AppState::getHCPreviewButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getHCOKButtonState(ModelPtr model) {
+ButtonState AppState::getDCOKButtonState(ModelPtr model) {
     if (model->isSessionDataChanged()) {
         return ButtonState::NORMAL;
     }
@@ -900,7 +899,7 @@ ButtonState AppState::getHCOKButtonState(ModelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getHCCancelButtonState(ModelPtr model) {
+ButtonState AppState::getDCCancelButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
@@ -940,27 +939,6 @@ ButtonState AppState::getCCCameraButtonState(ModelPtr model) {
     }
 
     return ButtonState::OFF;
-}
-
-ButtonState AppState::getCCRemoveButtonState(ModelPtr model) {
-    // auto tc = model->getThreadController();
-
-    // if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
-    //     return ButtonState::DISABLED;
-    // }
-
-    // if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
-    //     return ButtonState::DISABLED;
-    // }
-
-    // auto ccExtraModel = model->getCCExtraModel();
-
-    // if (ccExtraModel->isBlueCalibrated() ||
-    //     ccExtraModel->isYellowCalibrated()) {
-    //     return ButtonState::NORMAL;
-    // }
-
-    return ButtonState::HIDDEN;
 }
 
 PanelState AppState::getCCBlueStatusState(ModelPtr model) {
@@ -1075,30 +1053,6 @@ PanelState AppState::getCCOtherStatusState(ModelPtr model) {
     }
 
     return PanelState::PANEL_OK;
-}
-
-ButtonState AppState::getCCSaveButtonState(ModelPtr model) {
-    // auto tc = model->getThreadController();
-
-    // if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
-    //     return ButtonState::DISABLED;
-    // }
-
-    // if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
-    //     return ButtonState::DISABLED;
-    // }
-
-    // auto ccExtraModel = model->getCCExtraModel();
-
-    // if (!ccExtraModel->isBlueCalibrated()) {
-    //     return ButtonState::DISABLED;
-    // }
-
-    // if (!ccExtraModel->isYellowCalibrated()) {
-    //     return ButtonState::DISABLED;
-    // }
-
-    return ButtonState::HIDDEN;
 }
 
 ButtonState AppState::getCCRestoreButtonState(ModelPtr model) {

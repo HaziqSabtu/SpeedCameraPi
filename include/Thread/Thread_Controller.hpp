@@ -1,21 +1,20 @@
 #pragma once
 
-#include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
-#include "Thread/Thread_CalibrationCamera.hpp"
-#include "Thread/Thread_CalibrationCapture.hpp"
 #include "Thread/Thread_CalibrationPreviewCamera.hpp"
 #include "Thread/Thread_CalibrationPreviewCapture.hpp"
 #include "Thread/Thread_CameraPreview.hpp"
 #include "Thread/Thread_CapturePreview.hpp"
 #include "Thread/Thread_ColorCalibration.hpp"
 #include "Thread/Thread_ColorCalibrationPreview.hpp"
-#include "Thread/Thread_HorizontalCalibrationCamera.hpp"
-#include "Thread/Thread_HorizontalCalibrationCapture.hpp"
+#include "Thread/Thread_DistanceCalibrationCamera.hpp"
+#include "Thread/Thread_DistanceCalibrationCapture.hpp"
+#include "Thread/Thread_LaneCalibrationCamera.hpp"
+#include "Thread/Thread_LaneCalibrationCapture.hpp"
+#include "Thread/Thread_LaneManualCalibrationCamera.hpp"
+#include "Thread/Thread_LaneManualCalibrationCapture.hpp"
 #include "Thread/Thread_LoadCapture.hpp"
 #include "Thread/Thread_LoadFile.hpp"
-#include "Thread/Thread_ManualCalibrationCamera.hpp"
-#include "Thread/Thread_ManualCalibrationCapture.hpp"
 #include "Thread/Thread_Process.hpp"
 #include "Thread/Thread_ResultPreview.hpp"
 #include "Thread/Thread_Roi.hpp"
@@ -54,15 +53,16 @@ class ThreadController {
                                             PanelID panelID);
     void endCapturePreviewHandler();
 
-    virtual void startCalibrationCameraHandler(wxEvtHandler *parent,
-                                               CameraPtr &camera,
-                                               PanelID panelID);
-    void endCalibrationCameraHandler();
+    virtual void startLaneCalibrationCameraHandler(wxEvtHandler *parent,
+                                                   CameraPtr &camera,
+                                                   PanelID panelID);
+    void endLaneCalibrationCameraHandler();
 
-    virtual void startCalibrationCaptureHandler(wxEvtHandler *parent,
-                                                DataPtr data, PanelID panelID);
+    virtual void startLaneCalibrationCaptureHandler(wxEvtHandler *parent,
+                                                    DataPtr data,
+                                                    PanelID panelID);
 
-    void endCalibrationCaptureHandler();
+    void endLaneCalibrationCaptureHandler();
 
     virtual void startCalibrationPreviewCameraHandler(wxEvtHandler *parent,
                                                       CameraPtr &camera,
@@ -77,11 +77,11 @@ class ThreadController {
 
     void endCalibrationPreviewCaptureHandler();
 
-    virtual void startManualCalibrationCameraHandler(wxEvtHandler *parent,
-                                                     CameraPtr &camera,
-                                                     PanelID panelID);
+    virtual void startLaneManualCalibrationCameraHandler(wxEvtHandler *parent,
+                                                         CameraPtr &camera,
+                                                         PanelID panelID);
 
-    void endManualCalibrationCameraHandler();
+    void endLaneManualCalibrationCameraHandler();
 
     virtual void startManualCalibrationCaptureHandler(wxEvtHandler *parent,
                                                       DataPtr data,
@@ -89,17 +89,17 @@ class ThreadController {
 
     void endManualCalibrationCaptureHandler();
 
-    virtual void startHorizontalCalibrationCameraHandler(wxEvtHandler *parent,
-                                                         CameraPtr &camera,
-                                                         PanelID panelID);
+    virtual void startDistaneCalibrationCameraHandler(wxEvtHandler *parent,
+                                                      CameraPtr &camera,
+                                                      PanelID panelID);
 
-    void endHorizontalCalibrationCameraHandler();
+    void endDistanceCalibrationCameraHandler();
 
-    virtual void startHorizontalCalibrationCaptureHandler(wxEvtHandler *parent,
-                                                          DataPtr data,
-                                                          PanelID panelID);
+    virtual void startDistanceCalibrationCaptureHandler(wxEvtHandler *parent,
+                                                        DataPtr data,
+                                                        PanelID panelID);
 
-    void endHorizontalCalibrationCaptureHandler();
+    void endDistanceCalibrationCaptureHandler();
 
     virtual void startColorCalibrationHandler(wxEvtHandler *parent,
                                               CameraPtr &camera,
@@ -150,20 +150,20 @@ class ThreadController {
 
     bool isThreadOwner(ThreadID threadID, PanelID panelID);
 
-    // Calibration Helper Methods
-    bool isCalibrationThreadRunning();
-    bool isCalibrationThreadOwner(PanelID panelID);
-    BaseCalibrationThread *getRunningCalibrationThread();
+    // Lane Calibration Helper Methods
+    bool isLaneCalibrationThreadRunning();
+    bool isLaneCalibrationThreadOwner(PanelID panelID);
+    BaseLaneCalibrationThread *getRunningLaneCalibrationThread();
 
-    // Manual Calibration Helper Methods
-    bool isManualCalibrationThreadRunning();
-    bool isManualCalibrationThreadOwner(PanelID panelID);
-    BaseManualCalibrationThread *getRunningManualCalibrationThread();
+    // Lane Manual Calibration Helper Methods
+    bool isLaneManualCalibrationThreadRunning();
+    bool isLaneManualCalibrationThreadOwner(PanelID panelID);
+    BaseLaneManualCalibrationThread *getRunningLaneManualCalibrationThread();
 
-    // Horizontal Calibration Helper Methods
-    bool isHorizontalCalibrationThreadRunning();
-    bool isHorizontalCalibrationThreadOwner(PanelID panelID);
-    BaseHorizontalCalibrationThread *getRunningHorizontalCalibrationThread();
+    // Distance Calibration Helper Methods
+    bool isDistanceCalibrationThreadRunning();
+    bool isDistanceCalibrationThreadOwner(PanelID panelID);
+    BaseDistanceCalibrationThread *getRunningDistanceCalibrationThread();
 
     // Calibration Preview Helper Methods
     bool isCalibPreviewThreadRunning();
@@ -193,21 +193,21 @@ class ThreadController {
 
     CapturePreviewThread *getCapturePreviewThread();
 
-    CalibrationCameraThread *getCalibrationCameraThread();
+    LaneCalibrationCameraThread *getLaneCalibrationCameraThread();
 
-    CalibrationCaptureThread *getCalibrationCaptureThread();
+    LaneCalibrationCaptureThread *getLaneCalibrationCaptureThread();
 
     CalibrationPreviewCameraThread *getCalibrationPreviewCameraThread();
 
     CalibrationPreviewCaptureThread *getCalibrationPreviewCaptureThread();
 
-    ManualCalibrationCameraThread *getManualCalibrationCameraThread();
+    ManualCalibrationCameraThread *getLaneManualCalibrationCameraThread();
 
-    ManualCalibrationCaptureThread *getManualCalibrationCaptureThread();
+    LaneManualCalibrationCaptureThread *getLaneManualCalibrationCaptureThread();
 
-    HorizontalCalibrationCameraThread *getHorizontalCalibrationCameraThread();
+    DistanceCalibrationCameraThread *getDistanceCalibrationCameraThread();
 
-    HorizontalCalibrationCaptureThread *getHorizontalCalibrationCaptureThread();
+    DistanceCalibrationCaptureThread *getDistanceCalibrationCaptureThread();
 
     ColorCalibrationThread *getColorCalibrationThread();
 
@@ -245,21 +245,21 @@ class ThreadController {
 
     CapturePreviewThread *capturePreviewThread;
 
-    CalibrationCameraThread *calibrationCameraThread;
+    LaneCalibrationCameraThread *laneCalibrationCameraThread;
 
-    CalibrationCaptureThread *calibrationCaptureThread;
+    LaneCalibrationCaptureThread *laneCalibrationCaptureThread;
 
     CalibrationPreviewCameraThread *calibrationPreviewCameraThread;
 
     CalibrationPreviewCaptureThread *calibrationPreviewCaptureThread;
 
-    ManualCalibrationCameraThread *manualCalibrationCameraThread;
+    ManualCalibrationCameraThread *laneManualCalibrationCameraThread;
 
-    ManualCalibrationCaptureThread *manualCalibrationCaptureThread;
+    LaneManualCalibrationCaptureThread *laneManualCalibrationCaptureThread;
 
-    HorizontalCalibrationCameraThread *horizontalCalibrationCameraThread;
+    DistanceCalibrationCameraThread *distanceCalibrationCameraThread;
 
-    HorizontalCalibrationCaptureThread *horizontalCalibrationCaptureThread;
+    DistanceCalibrationCaptureThread *distanceCalibrationCaptureThread;
 
     ColorCalibrationThread *colorCalibrationThread;
 

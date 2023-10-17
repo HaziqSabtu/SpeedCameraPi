@@ -25,14 +25,14 @@ void ThreadController::initThread() {
     loadFileThread = nullptr;
     saveFileThread = nullptr;
     capturePreviewThread = nullptr;
-    calibrationCameraThread = nullptr;
-    calibrationCaptureThread = nullptr;
+    laneCalibrationCameraThread = nullptr;
+    laneCalibrationCaptureThread = nullptr;
     calibrationPreviewCameraThread = nullptr;
     calibrationPreviewCaptureThread = nullptr;
-    manualCalibrationCameraThread = nullptr;
-    manualCalibrationCaptureThread = nullptr;
-    horizontalCalibrationCameraThread = nullptr;
-    horizontalCalibrationCaptureThread = nullptr;
+    laneManualCalibrationCameraThread = nullptr;
+    laneManualCalibrationCaptureThread = nullptr;
+    distanceCalibrationCameraThread = nullptr;
+    distanceCalibrationCaptureThread = nullptr;
     colorCalibrationThread = nullptr;
     colorCalibPreviewThread = nullptr;
     roiThread = nullptr;
@@ -48,14 +48,14 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(loadFileThread);
     stopAndDeleteThread(saveFileThread);
     stopAndDeleteThread(capturePreviewThread);
-    stopAndDeleteThread(calibrationCameraThread);
-    stopAndDeleteThread(calibrationCaptureThread);
+    stopAndDeleteThread(laneCalibrationCameraThread);
+    stopAndDeleteThread(laneCalibrationCaptureThread);
     stopAndDeleteThread(calibrationPreviewCameraThread);
     stopAndDeleteThread(calibrationPreviewCaptureThread);
-    stopAndDeleteThread(manualCalibrationCameraThread);
-    stopAndDeleteThread(manualCalibrationCaptureThread);
-    stopAndDeleteThread(horizontalCalibrationCameraThread);
-    stopAndDeleteThread(horizontalCalibrationCaptureThread);
+    stopAndDeleteThread(laneManualCalibrationCameraThread);
+    stopAndDeleteThread(laneManualCalibrationCaptureThread);
+    stopAndDeleteThread(distanceCalibrationCameraThread);
+    stopAndDeleteThread(distanceCalibrationCaptureThread);
     stopAndDeleteThread(colorCalibrationThread);
     stopAndDeleteThread(colorCalibPreviewThread);
     stopAndDeleteThread(roiThread);
@@ -86,12 +86,12 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return capturePreviewThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_CALIBRATION_CAMERA) {
-        return calibrationCameraThread == nullptr;
+    if (threadID == ThreadID::THREAD_LANE_CALIBRATION_CAMERA) {
+        return laneCalibrationCameraThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_CALIBRATION_CAPTURE) {
-        return calibrationCaptureThread == nullptr;
+    if (threadID == ThreadID::THREAD_LANE_CALIBRATION_CAPTURE) {
+        return laneCalibrationCaptureThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_CALIBRATION_PREVIEW_CAMERA) {
@@ -102,20 +102,20 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return calibrationPreviewCaptureThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION_CAMERA) {
-        return manualCalibrationCameraThread == nullptr;
+    if (threadID == ThreadID::THREAD_LANE_MANUAL_CALIBRATION_CAMERA) {
+        return laneManualCalibrationCameraThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION_CAPTURE) {
-        return manualCalibrationCaptureThread == nullptr;
+    if (threadID == ThreadID::THREAD_LANE_MANUAL_CALIBRATION_CAPTURE) {
+        return laneManualCalibrationCaptureThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_HORIZONTAL_CALIBRATION_CAMERA) {
-        return horizontalCalibrationCameraThread == nullptr;
+    if (threadID == ThreadID::THREAD_DISTANCE_CALIBRATION_CAMERA) {
+        return distanceCalibrationCameraThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_HORIZONTAL_CALIBRATION_CAPTURE) {
-        return horizontalCalibrationCaptureThread == nullptr;
+    if (threadID == ThreadID::THREAD_DISTANCE_CALIBRATION_CAPTURE) {
+        return distanceCalibrationCaptureThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_COLOR_CALIBRATION) {
@@ -161,120 +161,120 @@ bool ThreadController::isThreadOwner(ThreadID threadID, PanelID panelID) {
     return owner[threadID] == panelID;
 }
 
-bool ThreadController::isCalibrationThreadRunning() {
+bool ThreadController::isLaneCalibrationThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAMERA)) {
         return true;
     }
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAPTURE)) {
         return true;
     }
 
     return false;
 }
 
-bool ThreadController::isCalibrationThreadOwner(PanelID panelID) {
+bool ThreadController::isLaneCalibrationThreadOwner(PanelID panelID) {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
-        return isThreadOwner(THREAD_CALIBRATION_CAMERA, panelID);
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAMERA)) {
+        return isThreadOwner(THREAD_LANE_CALIBRATION_CAMERA, panelID);
     }
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
-        return isThreadOwner(THREAD_CALIBRATION_CAPTURE, panelID);
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAPTURE)) {
+        return isThreadOwner(THREAD_LANE_CALIBRATION_CAPTURE, panelID);
     }
 
     return false;
 }
 
-BaseCalibrationThread *ThreadController::getRunningCalibrationThread() {
+BaseLaneCalibrationThread *ThreadController::getRunningLaneCalibrationThread() {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
-        return getCalibrationCameraThread();
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAMERA)) {
+        return getLaneCalibrationCameraThread();
     }
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
-        return getCalibrationCaptureThread();
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAPTURE)) {
+        return getLaneCalibrationCaptureThread();
     }
 
     return nullptr;
 }
 
-bool ThreadController::isManualCalibrationThreadRunning() {
+bool ThreadController::isLaneManualCalibrationThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAMERA)) {
         return true;
     }
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAPTURE)) {
         return true;
     }
 
     return false;
 }
 
-bool ThreadController::isManualCalibrationThreadOwner(PanelID panelID) {
+bool ThreadController::isLaneManualCalibrationThreadOwner(PanelID panelID) {
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
-        return isThreadOwner(THREAD_MANUAL_CALIBRATION_CAMERA, panelID);
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAMERA)) {
+        return isThreadOwner(THREAD_LANE_MANUAL_CALIBRATION_CAMERA, panelID);
     }
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
-        return isThreadOwner(THREAD_MANUAL_CALIBRATION_CAPTURE, panelID);
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAPTURE)) {
+        return isThreadOwner(THREAD_LANE_MANUAL_CALIBRATION_CAPTURE, panelID);
     }
 
     return false;
 }
 
-BaseManualCalibrationThread *
-ThreadController::getRunningManualCalibrationThread() {
+BaseLaneManualCalibrationThread *
+ThreadController::getRunningLaneManualCalibrationThread() {
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
-        return getManualCalibrationCameraThread();
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAMERA)) {
+        return getLaneManualCalibrationCameraThread();
     }
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
-        return getManualCalibrationCaptureThread();
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAPTURE)) {
+        return getLaneManualCalibrationCaptureThread();
     }
 
     return nullptr;
 }
 
-bool ThreadController::isHorizontalCalibrationThreadRunning() {
+bool ThreadController::isDistanceCalibrationThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAMERA)) {
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAMERA)) {
         return true;
     }
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAPTURE)) {
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAPTURE)) {
         return true;
     }
 
     return false;
 }
 
-bool ThreadController::isHorizontalCalibrationThreadOwner(PanelID panelID) {
+bool ThreadController::isDistanceCalibrationThreadOwner(PanelID panelID) {
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAMERA)) {
-        return isThreadOwner(THREAD_HORIZONTAL_CALIBRATION_CAMERA, panelID);
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAMERA)) {
+        return isThreadOwner(THREAD_DISTANCE_CALIBRATION_CAMERA, panelID);
     }
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAPTURE)) {
-        return isThreadOwner(THREAD_HORIZONTAL_CALIBRATION_CAPTURE, panelID);
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAPTURE)) {
+        return isThreadOwner(THREAD_DISTANCE_CALIBRATION_CAPTURE, panelID);
     }
 
     return false;
 }
 
-BaseHorizontalCalibrationThread *
-ThreadController::getRunningHorizontalCalibrationThread() {
+BaseDistanceCalibrationThread *
+ThreadController::getRunningDistanceCalibrationThread() {
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAMERA)) {
-        return getHorizontalCalibrationCameraThread();
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAMERA)) {
+        return getDistanceCalibrationCameraThread();
     }
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAPTURE)) {
-        return getHorizontalCalibrationCaptureThread();
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAPTURE)) {
+        return getDistanceCalibrationCaptureThread();
     }
 
     return nullptr;
@@ -430,12 +430,14 @@ CapturePreviewThread *ThreadController::getCapturePreviewThread() {
     return capturePreviewThread;
 }
 
-CalibrationCameraThread *ThreadController::getCalibrationCameraThread() {
-    return calibrationCameraThread;
+LaneCalibrationCameraThread *
+ThreadController::getLaneCalibrationCameraThread() {
+    return laneCalibrationCameraThread;
 }
 
-CalibrationCaptureThread *ThreadController::getCalibrationCaptureThread() {
-    return calibrationCaptureThread;
+LaneCalibrationCaptureThread *
+ThreadController::getLaneCalibrationCaptureThread() {
+    return laneCalibrationCaptureThread;
 }
 
 CalibrationPreviewCameraThread *
@@ -449,23 +451,23 @@ ThreadController::getCalibrationPreviewCaptureThread() {
 }
 
 ManualCalibrationCameraThread *
-ThreadController::getManualCalibrationCameraThread() {
-    return manualCalibrationCameraThread;
+ThreadController::getLaneManualCalibrationCameraThread() {
+    return laneManualCalibrationCameraThread;
 }
 
-ManualCalibrationCaptureThread *
-ThreadController::getManualCalibrationCaptureThread() {
-    return manualCalibrationCaptureThread;
+LaneManualCalibrationCaptureThread *
+ThreadController::getLaneManualCalibrationCaptureThread() {
+    return laneManualCalibrationCaptureThread;
 }
 
-HorizontalCalibrationCameraThread *
-ThreadController::getHorizontalCalibrationCameraThread() {
-    return horizontalCalibrationCameraThread;
+DistanceCalibrationCameraThread *
+ThreadController::getDistanceCalibrationCameraThread() {
+    return distanceCalibrationCameraThread;
 }
 
-HorizontalCalibrationCaptureThread *
-ThreadController::getHorizontalCalibrationCaptureThread() {
-    return horizontalCalibrationCaptureThread;
+DistanceCalibrationCaptureThread *
+ThreadController::getDistanceCalibrationCaptureThread() {
+    return distanceCalibrationCaptureThread;
 }
 
 ColorCalibrationThread *ThreadController::getColorCalibrationThread() {
@@ -516,32 +518,36 @@ void ThreadController::endSaveFileHandler() {
     saveFileThread = stopAndDeleteThread(saveFileThread);
 }
 
-void ThreadController::startCalibrationCameraHandler(wxEvtHandler *parent,
-                                                     CameraPtr &camera,
-                                                     PanelID panelID) {
+void ThreadController::startLaneCalibrationCameraHandler(wxEvtHandler *parent,
+                                                         CameraPtr &camera,
+                                                         PanelID panelID) {
 
-    calibrationCameraThread = new CalibrationCameraThread(parent, camera);
-    calibrationCameraThread->Run();
+    laneCalibrationCameraThread =
+        new LaneCalibrationCameraThread(parent, camera);
+    laneCalibrationCameraThread->Run();
 
-    owner[calibrationCameraThread->getID()] = panelID;
+    owner[laneCalibrationCameraThread->getID()] = panelID;
 }
 
-void ThreadController::endCalibrationCameraHandler() {
-    calibrationCameraThread = stopAndDeleteThread(calibrationCameraThread);
+void ThreadController::endLaneCalibrationCameraHandler() {
+    laneCalibrationCameraThread =
+        stopAndDeleteThread(laneCalibrationCameraThread);
 }
 
-void ThreadController::startCalibrationCaptureHandler(wxEvtHandler *parent,
-                                                      DataPtr data,
-                                                      PanelID panelID) {
+void ThreadController::startLaneCalibrationCaptureHandler(wxEvtHandler *parent,
+                                                          DataPtr data,
+                                                          PanelID panelID) {
 
-    calibrationCaptureThread = new CalibrationCaptureThread(parent, data);
-    calibrationCaptureThread->Run();
+    laneCalibrationCaptureThread =
+        new LaneCalibrationCaptureThread(parent, data);
+    laneCalibrationCaptureThread->Run();
 
-    owner[calibrationCaptureThread->getID()] = panelID;
+    owner[laneCalibrationCaptureThread->getID()] = panelID;
 }
 
-void ThreadController::endCalibrationCaptureHandler() {
-    calibrationCaptureThread = stopAndDeleteThread(calibrationCaptureThread);
+void ThreadController::endLaneCalibrationCaptureHandler() {
+    laneCalibrationCaptureThread =
+        stopAndDeleteThread(laneCalibrationCaptureThread);
 }
 
 void ThreadController::startCalibrationPreviewCameraHandler(
@@ -572,65 +578,64 @@ void ThreadController::endCalibrationPreviewCaptureHandler() {
         stopAndDeleteThread(calibrationPreviewCaptureThread);
 }
 
-void ThreadController::startManualCalibrationCameraHandler(wxEvtHandler *parent,
-                                                           CameraPtr &camera,
-                                                           PanelID panelID) {
+void ThreadController::startLaneManualCalibrationCameraHandler(
+    wxEvtHandler *parent, CameraPtr &camera, PanelID panelID) {
 
-    manualCalibrationCameraThread =
+    laneManualCalibrationCameraThread =
         new ManualCalibrationCameraThread(parent, camera);
-    manualCalibrationCameraThread->Run();
+    laneManualCalibrationCameraThread->Run();
 
-    owner[manualCalibrationCameraThread->getID()] = panelID;
+    owner[laneManualCalibrationCameraThread->getID()] = panelID;
 }
 
-void ThreadController::endManualCalibrationCameraHandler() {
-    manualCalibrationCameraThread =
-        stopAndDeleteThread(manualCalibrationCameraThread);
+void ThreadController::endLaneManualCalibrationCameraHandler() {
+    laneManualCalibrationCameraThread =
+        stopAndDeleteThread(laneManualCalibrationCameraThread);
 }
 
 void ThreadController::startManualCalibrationCaptureHandler(
     wxEvtHandler *parent, DataPtr data, PanelID panelID) {
 
-    manualCalibrationCaptureThread =
-        new ManualCalibrationCaptureThread(parent, data);
-    manualCalibrationCaptureThread->Run();
+    laneManualCalibrationCaptureThread =
+        new LaneManualCalibrationCaptureThread(parent, data);
+    laneManualCalibrationCaptureThread->Run();
 
-    owner[manualCalibrationCaptureThread->getID()] = panelID;
+    owner[laneManualCalibrationCaptureThread->getID()] = panelID;
 }
 
 void ThreadController::endManualCalibrationCaptureHandler() {
-    manualCalibrationCaptureThread =
-        stopAndDeleteThread(manualCalibrationCaptureThread);
+    laneManualCalibrationCaptureThread =
+        stopAndDeleteThread(laneManualCalibrationCaptureThread);
 }
 
-void ThreadController::startHorizontalCalibrationCameraHandler(
+void ThreadController::startDistaneCalibrationCameraHandler(
     wxEvtHandler *parent, CameraPtr &camera, PanelID panelID) {
 
-    horizontalCalibrationCameraThread =
-        new HorizontalCalibrationCameraThread(parent, camera);
-    horizontalCalibrationCameraThread->Run();
+    distanceCalibrationCameraThread =
+        new DistanceCalibrationCameraThread(parent, camera);
+    distanceCalibrationCameraThread->Run();
 
-    owner[horizontalCalibrationCameraThread->getID()] = panelID;
+    owner[distanceCalibrationCameraThread->getID()] = panelID;
 }
 
-void ThreadController::endHorizontalCalibrationCameraHandler() {
-    horizontalCalibrationCameraThread =
-        stopAndDeleteThread(horizontalCalibrationCameraThread);
+void ThreadController::endDistanceCalibrationCameraHandler() {
+    distanceCalibrationCameraThread =
+        stopAndDeleteThread(distanceCalibrationCameraThread);
 }
 
-void ThreadController::startHorizontalCalibrationCaptureHandler(
+void ThreadController::startDistanceCalibrationCaptureHandler(
     wxEvtHandler *parent, DataPtr data, PanelID panelID) {
 
-    horizontalCalibrationCaptureThread =
-        new HorizontalCalibrationCaptureThread(parent, data);
-    horizontalCalibrationCaptureThread->Run();
+    distanceCalibrationCaptureThread =
+        new DistanceCalibrationCaptureThread(parent, data);
+    distanceCalibrationCaptureThread->Run();
 
-    owner[horizontalCalibrationCaptureThread->getID()] = panelID;
+    owner[distanceCalibrationCaptureThread->getID()] = panelID;
 }
 
-void ThreadController::endHorizontalCalibrationCaptureHandler() {
-    horizontalCalibrationCaptureThread =
-        stopAndDeleteThread(horizontalCalibrationCaptureThread);
+void ThreadController::endDistanceCalibrationCaptureHandler() {
+    distanceCalibrationCaptureThread =
+        stopAndDeleteThread(distanceCalibrationCaptureThread);
 }
 
 void ThreadController::startColorCalibrationHandler(wxEvtHandler *parent,

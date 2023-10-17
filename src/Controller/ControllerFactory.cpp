@@ -1,6 +1,6 @@
-#include "Controller/CalibrationController.hpp"
 #include "Controller/CaptureController.hpp"
-#include "Controller/ManualCalibrationController.hpp"
+#include "Controller/LaneCalibrationController.hpp"
+#include "Controller/LaneManualCalibrationController.hpp"
 #include "Controller/RoiController.hpp"
 #include "Model/SharedModel.hpp"
 #include "Thread/ThreadPool.hpp"
@@ -47,16 +47,16 @@ CPCPtr ControllerFactory::createCaptureController() {
     return std::make_shared<CaptureController>(sharedModel);
 }
 
-CLCPtr ControllerFactory::createCalibrationController() {
-    return std::make_shared<CalibrationController>(sharedModel);
+LCCPtr ControllerFactory::createLaneCalibrationController() {
+    return std::make_shared<LaneCalibrationController>(sharedModel);
 }
 
-HCCPtr ControllerFactory::createHorizontalCalibrationController() {
-    return std::make_shared<HorizontalCalibrationController>(sharedModel);
+DCCPtr ControllerFactory::createDistanceCalibrationController() {
+    return std::make_shared<DistanceCalibrationController>(sharedModel);
 }
 
-MCCPtr ControllerFactory::createManualCalibrationController() {
-    return std::make_shared<ManualCalibrationController>(sharedModel);
+LMCPtr ControllerFactory::createLaneManualCalibrationController() {
+    return std::make_shared<LaneManualCalibrationController>(sharedModel);
 }
 
 CCCPtr ControllerFactory::createColorCalibrationController() {

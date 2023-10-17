@@ -9,11 +9,7 @@ class ColorCalibrationController : public BaseControllerWithTouch {
     ColorCalibrationController(ModelPtr sharedModel);
     ~ColorCalibrationController();
 
-    void e_SaveToConfig(wxEvtHandler *parent);
-
     void e_RestoreRange(wxEvtHandler *parent);
-
-    void e_RemoveCalibratedRange(wxEvtHandler *parent);
 
     void e_SetTypeBlue(wxEvtHandler *parent);
     void e_SetTypeYellow(wxEvtHandler *parent);
@@ -44,11 +40,7 @@ class ColorCalibrationController : public BaseControllerWithTouch {
     void leftMoveHandler(wxEvtHandler *parent, cv::Point point) override;
     void leftUpHandler(wxEvtHandler *parent, cv::Point point) override;
 
-    void saveToConfigHandler(wxEvtHandler *parent);
-
     void restoreRangeHandler(wxEvtHandler *parent);
-
-    void removeCalibratedRangeHandler(wxEvtHandler *parent);
 
     void setTypeBlueHandler(wxEvtHandler *parent);
     void setTypeYellowHandler(wxEvtHandler *parent);

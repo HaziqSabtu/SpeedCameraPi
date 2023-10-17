@@ -15,7 +15,6 @@ class ColorCalibrationButtonMain : public TextOutlinePanel {
     BitmapButtonT2 *Calibrate_Button;
     BitmapButton *Stop_Button;
     BitmapButtonT2 *Preview_Button;
-    BitmapButton *Reset_Button;
 
   private:
     void setPanelState(PanelState state);

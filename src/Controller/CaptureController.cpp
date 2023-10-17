@@ -12,10 +12,10 @@ CaptureController::CaptureController(ModelPtr sharedModel)
 
 CaptureController::~CaptureController() {}
 
-void CaptureController::e_ChangeToCalibrationPanel(wxEvtHandler *parent) {
+void CaptureController::e_ChangeToLaneCalibrationPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        changeToCalibrationPanelHandler(parent);
+        changeToLaneCalibrationPanelHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -39,11 +39,11 @@ void CaptureController::e_ChangeToResultPanel(wxEvtHandler *parent) {
     }
 }
 
-void CaptureController::e_ChangeToHorizontalCalibrationPanel(
+void CaptureController::e_ChangeToDistanceCalibrationPanel(
     wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        changeToHorizontalCalibrationPanelHandler(parent);
+        changeToDistanceCalibrationPanelHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
@@ -497,10 +497,11 @@ void CaptureController::resetSessionDataHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_RESET_SESSION_OK);
 }
 
-void CaptureController::changeToCalibrationPanelHandler(wxEvtHandler *parent) {
+void CaptureController::changeToLaneCalibrationPanelHandler(
+    wxEvtHandler *parent) {
     killAllThreads(parent);
 
-    ChangePanelData data(panelID, PanelID::PANEL_CALIBRATION);
+    ChangePanelData data(panelID, PanelID::PANEL_LANE_CALIBRATION);
     ChangePanelEvent::Submit(parent, data);
 }
 
@@ -537,11 +538,11 @@ void CaptureController::changeToTrimDataPanelHandler(wxEvtHandler *parent) {
     ChangePanelEvent::Submit(parent, changeToTrimPanelEvent);
 }
 
-void CaptureController::changeToHorizontalCalibrationPanelHandler(
+void CaptureController::changeToDistanceCalibrationPanelHandler(
     wxEvtHandler *parent) {
     killAllThreads(parent);
 
-    ChangePanelData data(panelID, PanelID::PANEL_HORIZONTAL_CALIBRATION);
+    ChangePanelData data(panelID, PanelID::PANEL_DISTANCE_CALIBRATION);
     ChangePanelEvent::Submit(parent, data);
 }
 

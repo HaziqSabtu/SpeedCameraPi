@@ -21,18 +21,13 @@ ColorCalibrationButtonMain::ColorCalibrationButtonMain(wxWindow *parent)
     Stop_Button = new BitmapStop(this, Enum::CC_Stop_Button_ID);
     Preview_Button =
         new BitmapT2MagnifyGlass(this, Enum::CC_ToggleCamera_Button_ID);
-    Reset_Button = new BitmapRemove(this, Enum::CC_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(Calibrate_Button, 1, wxEXPAND);
     buttonSizer->Add(Stop_Button, 1, wxEXPAND);
     buttonSizer->Add(Preview_Button, 1, wxEXPAND);
-    buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     SetButtonSizer(buttonSizer);
-
-    Reset_Button->Bind(wxEVT_BUTTON,
-                       &ColorCalibrationButtonMain::OnButtonClicked, this);
 }
 
 void ColorCalibrationButtonMain::OnButtonClicked(wxCommandEvent &e) {
@@ -46,7 +41,6 @@ void ColorCalibrationButtonMain::update(const AppState &state) {
     Calibrate_Button->update(ps.calibrationButtonState);
     Stop_Button->update(ps.stopButtonState);
     Preview_Button->update(ps.cameraButtonState);
-    Reset_Button->update(ps.removeButtonState);
 }
 
 void ColorCalibrationButtonMain::setPanelState(PanelState state) {

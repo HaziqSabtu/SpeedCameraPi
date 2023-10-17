@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Controller/CalibrationController.hpp"
 #include "Controller/ControllerFactory.hpp"
+#include "Controller/LaneCalibrationController.hpp"
 #include "Model/SessionData.hpp"
-#include "UI/Panel/CalibrationPanel/Panel.hpp"
 #include "UI/Panel/CapturePanel/Panel.hpp"
 #include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
-#include "UI/Panel/HorizontalCalibrationPanel/Panel.hpp"
-#include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
+#include "UI/Panel/DistanceCalibrationPanel/Panel.hpp"
+#include "UI/Panel/LaneCalibrationPanel/Panel.hpp"
+#include "UI/Panel/LaneManualCalibrationPanel/Panel.hpp"
 #include "UI/Panel/ResultPanel/Panel.hpp"
 #include "UI/Panel/RoiPanel/Panel.hpp"
 #include "UI/Panel/TrimDataPanel/Panel.hpp"
@@ -29,16 +29,16 @@ class PanelFactory {
             return createRoiPanel(parent);
         }
 
-        if (panelID == PANEL_CALIBRATION) {
-            return createCalibrationPanel(parent);
+        if (panelID == PANEL_LANE_CALIBRATION) {
+            return createLaneCalibrationPanel(parent);
         }
 
-        if (panelID == PANEL_MANUAL_CALIBRATION) {
-            return createManualCalibrationPanel(parent);
+        if (panelID == PANEL_LANE_MANUAL_CALIBRATION) {
+            return createLaneManualCalibrationPanel(parent);
         }
 
-        if (panelID == PANEL_HORIZONTAL_CALIBRATION) {
-            return createHorizontalCalibrationPanel(parent);
+        if (panelID == PANEL_DISTANCE_CALIBRATION) {
+            return createDistanceCalibrationPanel(parent);
         }
 
         if (panelID == PANEL_COLOR_CALIBRATION) {
@@ -66,24 +66,25 @@ class PanelFactory {
         return new RoiPanel(parent, Enum::RO_Panel_ID, controller);
     }
 
-    CalibrationPanel *createCalibrationPanel(wxWindow *parent) {
-        CLCPtr controller = controllerFactory->createCalibrationController();
-        return new CalibrationPanel(parent, Enum::CL_Panel_ID, controller);
+    LaneCalibrationPanel *createLaneCalibrationPanel(wxWindow *parent) {
+        LCCPtr controller =
+            controllerFactory->createLaneCalibrationController();
+        return new LaneCalibrationPanel(parent, Enum::LC_Panel_ID, controller);
     }
 
-    ManualCalibrationPanel *createManualCalibrationPanel(wxWindow *parent) {
-        MCCPtr controller =
-            controllerFactory->createManualCalibrationController();
-        return new ManualCalibrationPanel(parent, Enum::MC_Panel_ID,
-                                          controller);
-    }
-
-    HorizontalCalibrationPanel *
-    createHorizontalCalibrationPanel(wxWindow *parent) {
-        HCCPtr controller =
-            controllerFactory->createHorizontalCalibrationController();
-        return new HorizontalCalibrationPanel(parent, Enum::HC_Panel_ID,
+    LaneManualCalibrationPanel *
+    createLaneManualCalibrationPanel(wxWindow *parent) {
+        LMCPtr controller =
+            controllerFactory->createLaneManualCalibrationController();
+        return new LaneManualCalibrationPanel(parent, Enum::LM_Panel_ID,
                                               controller);
+    }
+
+    DistanceCalibrationPanel *createDistanceCalibrationPanel(wxWindow *parent) {
+        DCCPtr controller =
+            controllerFactory->createDistanceCalibrationController();
+        return new DistanceCalibrationPanel(parent, Enum::DC_Panel_ID,
+                                            controller);
     }
 
     ColorCalibrationPanel *createColorCalibrationPanel(wxWindow *parent) {

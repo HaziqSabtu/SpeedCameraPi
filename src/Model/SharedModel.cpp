@@ -1,6 +1,6 @@
 #include "Model/SharedModel.hpp"
+
 #include "Model/AppState.hpp"
-#include "Model/ExtraModel.hpp"
 #include "Model/SessionData.hpp"
 #include "Thread/ThreadPool.hpp"
 #include "Thread/Thread_Controller.hpp"
@@ -68,14 +68,14 @@ void SharedModel::killAllThreads() {
         tc->endLoadCaptureHandler();
     }
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION_CAMERA)) {
-        auto thread = tc->getCalibrationCameraThread();
+    if (!tc->isThreadNullptr(ThreadID::THREAD_LANE_CALIBRATION_CAMERA)) {
+        auto thread = tc->getLaneCalibrationCameraThread();
         thread->Pause();
 
         auto camera = thread->getCamera();
         setCamera(camera);
 
-        tc->endCalibrationCameraHandler();
+        tc->endLaneCalibrationCameraHandler();
     }
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_CALIBRATION_PREVIEW_CAMERA)) {
@@ -95,18 +95,19 @@ void SharedModel::killAllThreads() {
         tc->endCalibrationPreviewCaptureHandler();
     }
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_MANUAL_CALIBRATION_CAMERA)) {
-        auto thread = tc->getManualCalibrationCameraThread();
+    if (!tc->isThreadNullptr(ThreadID::THREAD_LANE_MANUAL_CALIBRATION_CAMERA)) {
+        auto thread = tc->getLaneManualCalibrationCameraThread();
         thread->Pause();
 
         auto camera = thread->getCamera();
         setCamera(camera);
 
-        tc->endManualCalibrationCameraHandler();
+        tc->endLaneManualCalibrationCameraHandler();
     }
 
-    if (!tc->isThreadNullptr(ThreadID::THREAD_MANUAL_CALIBRATION_CAPTURE)) {
-        auto thread = tc->getManualCalibrationCaptureThread();
+    if (!tc->isThreadNullptr(
+            ThreadID::THREAD_LANE_MANUAL_CALIBRATION_CAPTURE)) {
+        auto thread = tc->getLaneManualCalibrationCaptureThread();
         thread->Pause();
 
         tc->endManualCalibrationCaptureHandler();
@@ -179,12 +180,3 @@ void SharedModel::setTempSessionData(SessionData data) {
 bool SharedModel::isSessionDataChanged() {
     return sessionData != tempSessionData;
 }
-
-// void SharedModel::setCCExtraModel(ColorCalibExtraModel ccExtraModel) {
-//     this->ccExtraModel = ccExtraModel.clone();
-// }
-
-// CCModelPtr SharedModel::getCCExtraModel() {
-//     return std::shared_ptr<ColorCalibExtraModel>(&ccExtraModel,
-//                                                  [](ColorCalibExtraModel *) {});
-// }

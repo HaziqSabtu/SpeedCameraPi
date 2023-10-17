@@ -52,10 +52,10 @@ class CaptureController : public BaseController {
     void e_CapturePreviewStart(wxEvtHandler *parent);
     void e_CapturePreviewEnd(wxEvtHandler *parent);
 
-    void e_ChangeToCalibrationPanel(wxEvtHandler *parent);
+    void e_ChangeToLaneCalibrationPanel(wxEvtHandler *parent);
     void e_RemoveCalibration(wxEvtHandler *parent);
 
-    void e_ChangeToHorizontalCalibrationPanel(wxEvtHandler *parent);
+    void e_ChangeToDistanceCalibrationPanel(wxEvtHandler *parent);
 
     void e_ChangeToRoiPanel(wxEvtHandler *parent);
     void e_RemoveRoi(wxEvtHandler *parent);
@@ -101,13 +101,13 @@ class CaptureController : public BaseController {
 
     void resetSessionDataHandler(wxEvtHandler *parent);
 
-    void changeToCalibrationPanelHandler(wxEvtHandler *parent);
+    void changeToLaneCalibrationPanelHandler(wxEvtHandler *parent);
     void changeToRoiPanelHandler(wxEvtHandler *parent);
     void changeToResultPanelHandler(wxEvtHandler *parent);
 
     void changeToTrimDataPanelHandler(wxEvtHandler *parent);
 
-    void changeToHorizontalCalibrationPanelHandler(wxEvtHandler *parent);
+    void changeToDistanceCalibrationPanelHandler(wxEvtHandler *parent);
 
     void panelShowHandler(wxEvtHandler *parent) override;
     void okButtonHandler(wxEvtHandler *parent) override;
