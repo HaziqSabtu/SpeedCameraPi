@@ -1,6 +1,6 @@
-#include "Event/Event_UpdateStatus.hpp"
-#include "UI/Dialog/RemoveRoiDialog.hpp"
 #include <Controller/RoiController.hpp>
+
+#include <UI/Dialog/RemoveRoiDialog.hpp>
 
 RoiController::RoiController(ModelPtr sharedModel)
     : BaseControllerWithTouch(sharedModel) {

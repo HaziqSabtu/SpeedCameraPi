@@ -11,19 +11,9 @@
 #ifndef CAPTURE_THREAD_HPP
 #define CAPTURE_THREAD_HPP
 
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
-#include <Event/Event_Preview.hpp>
-#include <Event/Event_UpdatePreview.hpp>
+#include <Thread/Thread_Base.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>
-
-#include <memory>
-#include <string>
-
-#include <opencv2/opencv.hpp>
-
-#include <wx/thread.h>
 
 /**
  * @brief Custom wxThread for capturing image from camera

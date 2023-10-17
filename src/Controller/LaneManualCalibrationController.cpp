@@ -1,8 +1,6 @@
-#include "Event/Event_UpdateStatus.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "UI/Data/StatusData.hpp"
-#include "UI/Dialog/RemoveCalibrationDialog.hpp"
 #include <Controller/LaneManualCalibrationController.hpp>
+
+#include <UI/Dialog/RemoveCalibrationDialog.hpp>
 
 LaneManualCalibrationController::LaneManualCalibrationController(
     ModelPtr sharedModel)

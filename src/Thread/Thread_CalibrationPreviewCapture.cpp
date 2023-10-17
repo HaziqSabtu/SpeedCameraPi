@@ -1,8 +1,7 @@
 
-#include "Event/Event_Error.hpp"
 #include <Thread/Thread_CalibrationPreviewCapture.hpp>
-#include <memory>
-#include <opencv2/core/types.hpp>
+
+#include <Event/Event.hpp>
 
 CalibrationPreviewCaptureThread::CalibrationPreviewCaptureThread(
     wxEvtHandler *parent, DataPtr data)

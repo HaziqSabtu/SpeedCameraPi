@@ -1,23 +1,6 @@
 #pragma once
 
-#include <Algorithm/Struct/D_Line.hpp>
-
 #include <Controller/BaseController.hpp>
-
-#include <Event/Event_UpdateState.hpp>
-
-#include <Model/AppState.hpp>
-#include <Model/CalibrationData.hpp>
-#include <Model/SessionData.hpp>
-#include <Model/SharedModel.hpp>
-
-#include <Thread/Thread_Controller.hpp>
-
-#include <UI/Dialog/CancelDialog.hpp>
-
-#include <Utils/wxUtils.hpp>
-
-#include <wx/event.h>
 
 #define DCCPtr std::shared_ptr<DistanceCalibrationController>
 

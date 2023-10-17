@@ -1,9 +1,6 @@
-#include "Event/Event_UpdateStatus.hpp"
-#include "Thread/Thread_DistanceCalibrationCamera.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "UI/Data/StatusData.hpp"
-#include "UI/Dialog/RemoveCalibrationDialog.hpp"
 #include <Controller/DistanceCalibrationController.hpp>
+
+#include <UI/Dialog/RemoveCalibrationDialog.hpp>
 
 DistanceCalibrationController::DistanceCalibrationController(
     ModelPtr sharedModel)

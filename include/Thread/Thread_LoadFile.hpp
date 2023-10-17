@@ -12,24 +12,9 @@
 #ifndef LOAD_FILE_THREAD_HPP
 #define LOAD_FILE_THREAD_HPP
 
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
-#include <Event/Event_Error.hpp>
-#include <Event/Event_LoadImage.hpp>
-#include <Event/Event_UpdatePreview.hpp>
-
-#include <Thread/ThreadPool.hpp>
+#include <Thread/Thread_Base.hpp>
 
 #include <Utils/FileReader/fileWR.hpp>
-#include <Utils/wxUtils.hpp>
-
-#include <memory>
-#include <opencv2/opencv.hpp>
-
-#include <wx/string.h>
-#include <wx/thread.h>
-#include <wx/wx.h>
 
 /**
  * @brief Custom wxThread for loading ImageData from file

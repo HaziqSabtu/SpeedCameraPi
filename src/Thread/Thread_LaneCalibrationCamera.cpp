@@ -1,35 +1,22 @@
-#include "Algorithm/ransac_line/RansacLine.hpp"
-#include "Event/Event_Calibration.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "UI/Layout/StatusPanel.hpp"
-#include "Utils/Camera/CameraBase.hpp"
-#include "Utils/Config/AppConfig.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_LaneCalibrationCamera.hpp>
-#include <opencv2/imgproc.hpp>
-#include <wx/utils.h>
+#include <UI/Layout/StatusPanel.hpp>
 
 BaseLaneCalibrationThread::BaseLaneCalibrationThread(wxEvtHandler *parent,
-                                                     DataPtr data)
-    : BaseThread(parent, data), PreviewableThread() {
-
-    AppConfig c;
-    auto RansacConfig = c.GetRansacConfig();
-    int minPoints = RansacConfig.minPoints;
-    int maxIterations = RansacConfig.maxIterations;
-    double threshold = RansacConfig.threshold;
-    ransac = RansacLine(maxIterations, minPoints, threshold);
-}
+                                                     DataPtr data,
+                                                     HSVFilterPtr hsvFilter,
+                                                     BFSPtr bfs,
+                                                     RansacLinePtr ransac)
+    : BaseThread(parent, data), hsvFilter(hsvFilter), bfs(bfs), ransac(ransac),
+      PreviewableThread() {}
 
 BaseLaneCalibrationThread::~BaseLaneCalibrationThread() {}
 
-LaneCalibrationCameraThread::LaneCalibrationCameraThread(wxEvtHandler *parent,
-                                                         CameraPtr &camera)
-    : BaseLaneCalibrationThread(parent, nullptr), CameraAccessor(camera),
-      ImageSizeCameraThread() {}
+LaneCalibrationCameraThread::LaneCalibrationCameraThread(
+    wxEvtHandler *parent, DataPtr data, CameraPtr &camera,
+    HSVFilterPtr hsvFilter, BFSPtr bfs, RansacLinePtr ransac)
+    : BaseLaneCalibrationThread(parent, data, hsvFilter, bfs, ransac),
+      CameraAccessor(camera), ImageSizeCameraThread() {}
 
 LaneCalibrationCameraThread::~LaneCalibrationCameraThread() {}
 
@@ -51,8 +38,8 @@ wxThread::ExitCode LaneCalibrationCameraThread::Entry() {
 
             cv::resize(frame, frame, pSize);
 
-            cv::Mat hsvFrame = hsvFilter.toHSV(frame);
-            cv::Mat filteredFrame = bfs.run(hsvFrame);
+            cv::Mat hsvFrame = hsvFilter->toHSV(frame);
+            cv::Mat filteredFrame = bfs->run(hsvFrame);
 
             auto boundingBox = cv::boundingRect(filteredFrame);
             cv::rectangle(filteredFrame, boundingBox, cv::Scalar(0, 255, 0), 2);
@@ -66,17 +53,17 @@ wxThread::ExitCode LaneCalibrationCameraThread::Entry() {
                 cv::rectangle(mask, boundingBox, cv::Scalar(255, 255, 255), -1);
                 cv::bitwise_and(hsvFrame, hsvFrame, combined, mask);
 
-                cv::Mat mask_yellow = hsvFilter.yellowMask(combined);
+                cv::Mat mask_yellow = hsvFilter->yellowMask(combined);
                 Line yellowLine =
-                    ransac.run(mask_yellow).Extrapolate(mask_yellow);
+                    ransac->run(mask_yellow).Extrapolate(mask_yellow);
                 if (!yellowLine.isNull()) {
                     updateRightLine(yellowLine);
                     cv::line(frame, yellowLine.p1, yellowLine.p2,
                              cv::Scalar(0, 255, 255), 2);
                 }
 
-                cv::Mat mask_blue = hsvFilter.blueMask(combined);
-                Line blueLine = ransac.run(mask_blue).Extrapolate(mask_blue);
+                cv::Mat mask_blue = hsvFilter->blueMask(combined);
+                Line blueLine = ransac->run(mask_blue).Extrapolate(mask_blue);
                 if (!blueLine.isNull()) {
                     updateLeftLine(blueLine);
                     cv::line(frame, blueLine.p1, blueLine.p2,
@@ -123,13 +110,13 @@ wxThread::ExitCode LaneCalibrationCameraThread::Entry() {
 void BaseLaneCalibrationThread::setPoint(cv::Point point) {
     std::unique_lock<std::mutex> lock(m_mutex);
     this->point = point;
-    bfs.setStart(point);
+    bfs->setStart(point);
 }
 
 void BaseLaneCalibrationThread::clearPoint() {
     std::unique_lock<std::mutex> lock(m_mutex);
     this->point = cv::Point(-1, -1);
-    bfs.setStart(point);
+    bfs->setStart(point);
 }
 
 void BaseLaneCalibrationThread::updateRightLine(Line line) {

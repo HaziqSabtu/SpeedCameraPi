@@ -1,11 +1,4 @@
-#include "Algorithm/object_tracker/CSRTTracker.hpp"
-#include "Algorithm/speed_calculation/H_speedCalculation.hpp"
-#include "Algorithm/speed_calculation/speedCalculation.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "UI/Data/StatusData.hpp"
 #include <Controller/ResultController.hpp>
-#include <wx/event.h>
 
 ResultController::ResultController(ModelPtr sharedModel)
     : BaseController(sharedModel) {
@@ -268,27 +261,9 @@ void ResultController::processLaneOFStartHandler(wxEvtHandler *parent) {
     auto pool = shared->getThreadPool();
 
     AppConfig c;
-    auto ofConfig = c.GetOpticalFlowConfig();
-    auto sConfig = c.GetSensorConfig();
-    auto mConfig = c.GetMeasurementConfig();
-
-    DetectorPtr detector =
-        std::make_shared<FeatureDetector>(DetectorType::SIFT);
-
-    auto tracker = std::make_shared<OFTracker>();
-    tracker->SetMaxCorners(ofConfig.maxCorners);
-    tracker->SetQualityLevel(ofConfig.qualityLevel);
-    tracker->SetMinDistance(ofConfig.minDistance);
-    tracker->SetBlockSize(ofConfig.blockSize);
-    tracker->SetUseHarrisDetector(ofConfig.useHarrisDetector);
-    tracker->SetK(ofConfig.k);
-    tracker->SetMinPointDistance(ofConfig.minPointDistance);
-    tracker->SetThreshold(ofConfig.threshold);
-
-    auto speedCalc = std::make_shared<LaneSpeedCalculation>();
-    speedCalc->SetSensorWidth(sConfig.SensorWidth);
-    speedCalc->SetFocalLength(sConfig.SensorFocalLength);
-    speedCalc->SetLaneWidth(mConfig.ObjectWidth);
+    auto detector = AF::createFeatureDetector(c);
+    auto tracker = AF::createOFTracker(c);
+    auto speedCalc = AF::createLaneSpeedCalculator(c);
 
     tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
                             speedCalc, panelID);
@@ -325,18 +300,9 @@ void ResultController::processLaneCSRTStartHandler(wxEvtHandler *parent) {
     auto pool = shared->getThreadPool();
 
     AppConfig c;
-    auto sConfig = c.GetSensorConfig();
-    auto mConfig = c.GetMeasurementConfig();
-
-    DetectorPtr detector =
-        std::make_shared<FeatureDetector>(DetectorType::SIFT);
-
-    auto tracker = std::make_shared<CSRTTracker>();
-
-    auto speedCalc = std::make_shared<LaneSpeedCalculation>();
-    speedCalc->SetSensorWidth(sConfig.SensorWidth);
-    speedCalc->SetFocalLength(sConfig.SensorFocalLength);
-    speedCalc->SetLaneWidth(mConfig.ObjectWidth);
+    auto detector = AF::createFeatureDetector(c);
+    auto tracker = AF::createCSRTTracker(c);
+    auto speedCalc = AF::createLaneSpeedCalculator(c);
 
     tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
                             speedCalc, panelID);
@@ -357,24 +323,9 @@ void ResultController::processDistOFStartHandler(wxEvtHandler *parent) {
     auto pool = shared->getThreadPool();
 
     AppConfig c;
-    auto ofConfig = c.GetOpticalFlowConfig();
-    auto mConfig = c.GetMeasurementConfig();
-
-    DetectorPtr detector =
-        std::make_shared<FeatureDetector>(DetectorType::SIFT);
-
-    auto tracker = std::make_shared<OFTracker>();
-    tracker->SetMaxCorners(ofConfig.maxCorners);
-    tracker->SetQualityLevel(ofConfig.qualityLevel);
-    tracker->SetMinDistance(ofConfig.minDistance);
-    tracker->SetBlockSize(ofConfig.blockSize);
-    tracker->SetUseHarrisDetector(ofConfig.useHarrisDetector);
-    tracker->SetK(ofConfig.k);
-    tracker->SetMinPointDistance(ofConfig.minPointDistance);
-    tracker->SetThreshold(ofConfig.threshold);
-
-    auto speedCalc = std::make_shared<DistanceSpeedCalculation>();
-    speedCalc->setObjectLength(mConfig.ObjectHeight);
+    auto detector = AF::createFeatureDetector(c);
+    auto tracker = AF::createOFTracker(c);
+    auto speedCalc = AF::createDistanceSpeedCalculator(c);
 
     tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
                             speedCalc, panelID);
@@ -395,15 +346,9 @@ void ResultController::processDistCSRTStartHandler(wxEvtHandler *parent) {
     auto pool = shared->getThreadPool();
 
     AppConfig c;
-    auto mConfig = c.GetMeasurementConfig();
-
-    DetectorPtr detector =
-        std::make_shared<FeatureDetector>(DetectorType::SIFT);
-
-    auto tracker = std::make_shared<CSRTTracker>();
-
-    auto speedCalc = std::make_shared<DistanceSpeedCalculation>();
-    speedCalc->setObjectLength(mConfig.ObjectHeight);
+    auto detector = AF::createFeatureDetector(c);
+    auto tracker = AF::createCSRTTracker(c);
+    auto speedCalc = AF::createDistanceSpeedCalculator(c);
 
     tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
                             speedCalc, panelID);

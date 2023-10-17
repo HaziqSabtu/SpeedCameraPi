@@ -17,8 +17,6 @@
 #include <chrono>
 #include <opencv2/core.hpp>
 
-#define SpeedPtr std::shared_ptr<SpeedCalculator>
-
 enum SpeedCalculationType {
     SPEED_CALCULATION_LANE,
     SPEED_CALCULATION_DISTANCE,
@@ -43,9 +41,9 @@ class SpeedCalculator {
  * @brief Class for Calculating Speed of Tracked Objects
  *
  */
-class LaneSpeedCalculation : public SpeedCalculator {
+class LaneSpeedCalculator : public SpeedCalculator {
   public:
-    LaneSpeedCalculation();
+    LaneSpeedCalculator();
 
     void runCalculation(std::vector<cv::Mat> &images,
                         std::vector<HPTime> &times,

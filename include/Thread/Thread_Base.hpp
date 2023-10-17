@@ -1,9 +1,18 @@
 #pragma once
 
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "Utils/Config/AppConfig.hpp"
+#include <Model/SessionData.hpp>
+
+#include <Thread/Thread_ID.hpp>
+
+#include <Utils/Algorithm/AlgorithmFactory.hpp>
+#include <Utils/Config/AppConfig.hpp>
+
+#include <opencv2/opencv.hpp>
+
 #include <wx/wx.h>
+
+#include <memory>
+#include <string>
 
 class BaseThread : public wxThread {
   public:

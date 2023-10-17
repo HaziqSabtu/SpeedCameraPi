@@ -1,19 +1,8 @@
 #pragma once
 
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
-#include <Event/Event_Preview.hpp>
-#include <Event/Event_UpdatePreview.hpp>
+#include <Thread/Thread_Base.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>
-
-#include <memory>
-#include <string>
-
-#include <opencv2/opencv.hpp>
-
-#include <wx/thread.h>
 
 class CalibrationPreviewCameraThread : public BaseThread,
                                        public CameraAccessor,

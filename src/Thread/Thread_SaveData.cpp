@@ -1,13 +1,6 @@
 
-#include "Event/Event_LoadImage.hpp"
-#include "Event/Event_SaveData.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "UI/Dialog/SaveDataDialog.hpp"
-#include "Utils/FileReader/fileWR.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_SaveData.hpp>
-#include <wx/utils.h>
 
 SaveDataThread::SaveDataThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data) {}

@@ -1,9 +1,11 @@
-#include "UI/Dialog/RemoveCalibrationDialog.hpp"
-#include "UI/Dialog/RemoveRoiDialog.hpp"
-#include "UI/Dialog/SwitchModeDialog.hpp"
-#include "UI/Dialog/TrimDataDialog.hpp"
-#include "UI/Layout/StatusPanel.hpp"
 #include <Controller/CaptureController.hpp>
+
+#include <UI/Dialog/RemoveCalibrationDialog.hpp>
+#include <UI/Dialog/RemoveRoiDialog.hpp>
+#include <UI/Dialog/ResetDataDialog.hpp>
+#include <UI/Dialog/SaveDataDialog.hpp>
+#include <UI/Dialog/SwitchModeDialog.hpp>
+#include <UI/Dialog/TrimDataDialog.hpp>
 
 CaptureController::CaptureController(ModelPtr sharedModel)
     : BaseController(sharedModel) {

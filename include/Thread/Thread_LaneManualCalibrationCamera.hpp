@@ -1,23 +1,8 @@
 #pragma once
 
-#include "Algorithm/Struct/D_Line.hpp"
-#include "Algorithm/hsv_filter/BFS.hpp"
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Algorithm/ransac_line/RansacLine.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
-#include <Event/Event_Calibration.hpp>
-#include <Event/Event_UpdatePreview.hpp>
+#include <Thread/Thread_Base.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>
-
-#include <memory>
-#include <string>
-
-#include <opencv2/opencv.hpp>
-
-#include <wx/thread.h>
 
 enum ManualDirection { MANUAL_LEFT, MANUAL_RIGHT };
 

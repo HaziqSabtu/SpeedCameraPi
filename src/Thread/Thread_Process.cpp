@@ -1,26 +1,12 @@
-#include "Algorithm/image_allign/FeatureDetector.hpp"
-#include "Algorithm/speed_calculation/H_speedCalculation.hpp"
-#include "Algorithm/speed_calculation/speedCalculation.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_ProcessImage.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Task/Task_OpticalFlow.hpp"
-#include "Thread/Task/Task_Speed.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Utils/Config/AppConfig.hpp"
+#include <Event/Event.hpp>
+#include <Thread/Task/Task_Sift.hpp>
+#include <Thread/Task/Task_Speed.hpp>
+#include <Thread/Task/Task_Track.hpp>
 #include <Thread/Thread_Process.hpp>
-#include <memory>
-#include <vector>
-#include <wx/event.h>
-#include <wx/utils.h>
 
 ProcessThread::ProcessThread(wxEvtHandler *parent, DataPtr data,
                              DetectorPtr detector, TrackerPtr tracker,
-                             SpeedPtr speedCalc, POOLPtr threadPool)
+                             SpeedCalcPtr speedCalc, POOLPtr threadPool)
     : BaseThread(parent, data), pool(threadPool), detector(detector),
       tracker(tracker), speedCalc(speedCalc) {}
 
@@ -77,7 +63,7 @@ wxThread::ExitCode ProcessThread::Entry() {
         OpticalFlowConfig ofConfig = c.GetOpticalFlowConfig();
 
         std::unique_ptr<Task> flowTask =
-            std::make_unique<FlowTask>(data, tracker);
+            std::make_unique<TrackTask>(data, tracker);
         TaskProperty flowProperty = flowTask->GetProperty();
 
         pool->AddTask(flowTask);

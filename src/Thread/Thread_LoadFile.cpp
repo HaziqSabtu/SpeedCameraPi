@@ -9,11 +9,7 @@
  *
  */
 
-#include "Event/Event_LoadImage.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Utils/FileReader/fileWR.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_LoadFile.hpp>
 
 /**

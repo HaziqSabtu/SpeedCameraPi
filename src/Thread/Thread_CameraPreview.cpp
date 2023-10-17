@@ -1,8 +1,5 @@
-#include "Event/Event_Error.hpp"
-#include "Thread/Thread_Base.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_CameraPreview.hpp>
-#include <memory>
-#include <wx/event.h>
 
 CameraPreviewThread::CameraPreviewThread(wxEvtHandler *parent,
                                          CameraPtr &camera)

@@ -1,11 +1,7 @@
 
-#include "Event/Event_Error.hpp"
-#include "Event/Event_Preview.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Utils/Camera/CameraBase.hpp"
 #include <Thread/Thread_CalibrationPreviewCamera.hpp>
-#include <memory>
-#include <opencv2/core/types.hpp>
+
+#include <Event/Event.hpp>
 
 CalibrationPreviewCameraThread::CalibrationPreviewCameraThread(
     wxEvtHandler *parent, DataPtr data, CameraPtr &camera)

@@ -1,17 +1,5 @@
-#include "Event/Event_Calibration.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_Replay.hpp"
-#include "Event/Event_RequestUpdateState.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Model/SessionData.hpp"
-#include "UI/Layout/StatusPanel.hpp"
-#include "Utils/Config/AppConfig.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_TrimData.hpp>
-#include <opencv2/imgproc.hpp>
-#include <wx/event.h>
-#include <wx/utils.h>
 
 TrimDataThread::TrimDataThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread(),

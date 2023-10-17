@@ -9,9 +9,9 @@
 
 enum MovementDirection { MOVING_DOWNWARDS, MOVING_UPWARDS };
 
-class DistanceSpeedCalculation : public SpeedCalculator {
+class DistanceSpeedCalculator : public SpeedCalculator {
   public:
-    DistanceSpeedCalculation();
+    DistanceSpeedCalculator();
 
     void runCalculation(std::vector<cv::Mat> &images,
                         std::vector<HPTime> &times,

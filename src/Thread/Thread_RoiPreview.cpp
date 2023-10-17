@@ -1,11 +1,6 @@
 
-#include "Thread/Thread_RoiPreview.hpp"
-#include "Event/Event_Error.hpp"
-#include "Utils/CommonUtils.hpp"
+#include "Event/Event.hpp"
 #include <Thread/Thread_RoiPreview.hpp>
-#include <memory>
-#include <opencv2/core/types.hpp>
-#include <wx/utils.h>
 
 RoiPreviewThread::RoiPreviewThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread(), ImageSizeDataThread(data) {

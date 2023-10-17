@@ -12,10 +12,7 @@
 #ifndef SIFT_TASK_HPP
 #define SIFT_TASK_HPP
 
-#include "Model/SessionData.hpp"
-#include <Algorithm/image_allign/FeatureDetector.hpp>
 #include <Thread/Task/Task.hpp>
-#include <memory>
 
 class SiftTask : public Task {
   public:

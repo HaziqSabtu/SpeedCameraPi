@@ -1,6 +1,6 @@
-#include "Event/Event_UpdateStatus.hpp"
-#include "UI/Layout/StatusPanel.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_DistanceCalibrationCapture.hpp>
+#include <UI/Layout/StatusPanel.hpp>
 
 DistanceCalibrationCaptureThread::DistanceCalibrationCaptureThread(
     wxEvtHandler *parent, DataPtr data)

@@ -1,25 +1,11 @@
 #pragma once
 
-#include "Algorithm/Struct/D_Line.hpp"
-#include "Algorithm/hsv_filter/BFS.hpp"
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Algorithm/ransac_line/RansacLine.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
-#include <Event/Event_Calibration.hpp>
-#include <Event/Event_UpdatePreview.hpp>
+#include <Thread/Thread_Base.hpp>
 
+#include <Utils/Algorithm/AlgorithmFactory.hpp>
 #include <Utils/Camera/CameraBase.hpp>
 
 #include <condition_variable>
-#include <memory>
-#include <opencv2/core/types.hpp>
-#include <string>
-
-#include <opencv2/opencv.hpp>
-
-#include <wx/thread.h>
 
 enum ColorCalibrationType { COLOR_CALIBRATION_BLUE, COLOR_CALIBRATION_YELLOW };
 
@@ -27,7 +13,9 @@ class ColorCalibrationThread : public BaseThread,
                                public PreviewableThread,
                                public CameraAccessor {
   public:
-    ColorCalibrationThread(wxEvtHandler *parent, CameraPtr &camera);
+    ColorCalibrationThread(wxEvtHandler *parent, DataPtr data,
+                           CameraPtr &camera, HSVFilterPtr hsvFilter,
+                           BFSPtr bfs);
     ~ColorCalibrationThread();
 
     ThreadID getID() const override;
@@ -53,8 +41,8 @@ class ColorCalibrationThread : public BaseThread,
   private:
     const ThreadID threadID = ThreadID::THREAD_COLOR_CALIBRATION;
 
-    HSVFilter hsvFilter;
-    BFS bfs;
+    HSVFilterPtr hsvFilter;
+    BFSPtr bfs;
 
     std::recursive_mutex m_mutex;
     cv::Point point = cv::Point(-1, -1);

@@ -1,22 +1,15 @@
-#include "Event/Event_Calibration.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_RequestUpdateState.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "UI/Layout/StatusPanel.hpp"
 #include <Thread/Thread_ColorCalibration.hpp>
-#include <iostream>
-#include <opencv2/imgproc.hpp>
-#include <utility>
-#include <wx/event.h>
-#include <wx/utils.h>
+
+#include <UI/Layout/StatusPanel.hpp>
+
+#include <Event/Event.hpp>
 
 ColorCalibrationThread::ColorCalibrationThread(wxEvtHandler *parent,
-                                               CameraPtr &camera)
-    : BaseThread(parent, nullptr), PreviewableThread(), CameraAccessor(camera) {
-}
+                                               DataPtr data, CameraPtr &camera,
+                                               HSVFilterPtr hsvFilter,
+                                               BFSPtr bfs)
+    : BaseThread(parent, data), PreviewableThread(), CameraAccessor(camera),
+      hsvFilter(hsvFilter), bfs(bfs) {}
 
 ColorCalibrationThread::~ColorCalibrationThread() {}
 
@@ -61,8 +54,8 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
                     processedPoint = point;
                 }
 
-                cv::Mat hsvFrame = hsvFilter.toHSV(frame);
-                cv::Mat filteredFrame = bfs.run(hsvFrame);
+                cv::Mat hsvFrame = hsvFilter->toHSV(frame);
+                cv::Mat filteredFrame = bfs->run(hsvFrame);
 
                 cv::Mat grayImage;
                 cv::cvtColor(frame, grayImage, cv::COLOR_BGR2GRAY);
@@ -183,7 +176,7 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
 void ColorCalibrationThread::setPoint(cv::Point point) {
     std::unique_lock<std::recursive_mutex> lock(m_mutex);
     this->point = point;
-    bfs.setStart(point);
+    bfs->setStart(point);
     updateStateSwitch = true;
 }
 

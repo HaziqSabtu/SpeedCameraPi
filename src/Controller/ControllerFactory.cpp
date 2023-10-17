@@ -1,13 +1,6 @@
-#include "Controller/CaptureController.hpp"
-#include "Controller/LaneCalibrationController.hpp"
-#include "Controller/LaneManualCalibrationController.hpp"
-#include "Controller/RoiController.hpp"
-#include "Model/SharedModel.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_Controller.hpp"
-#include "Utils/Camera/CameraBase.hpp"
 #include <Controller/ControllerFactory.hpp>
-#include <memory>
+
+#include <Thread/Thread_Controller.hpp>
 
 ControllerFactory::ControllerFactory(wxWindow *parent) {
 

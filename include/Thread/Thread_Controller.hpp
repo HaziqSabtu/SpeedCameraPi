@@ -1,26 +1,29 @@
 #pragma once
 
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_CalibrationPreviewCamera.hpp"
-#include "Thread/Thread_CalibrationPreviewCapture.hpp"
-#include "Thread/Thread_CameraPreview.hpp"
-#include "Thread/Thread_CapturePreview.hpp"
-#include "Thread/Thread_ColorCalibration.hpp"
-#include "Thread/Thread_ColorCalibrationPreview.hpp"
-#include "Thread/Thread_DistanceCalibrationCamera.hpp"
-#include "Thread/Thread_DistanceCalibrationCapture.hpp"
-#include "Thread/Thread_LaneCalibrationCamera.hpp"
-#include "Thread/Thread_LaneCalibrationCapture.hpp"
-#include "Thread/Thread_LaneManualCalibrationCamera.hpp"
-#include "Thread/Thread_LaneManualCalibrationCapture.hpp"
-#include "Thread/Thread_LoadCapture.hpp"
-#include "Thread/Thread_LoadFile.hpp"
-#include "Thread/Thread_Process.hpp"
-#include "Thread/Thread_ResultPreview.hpp"
-#include "Thread/Thread_Roi.hpp"
-#include "Thread/Thread_RoiPreview.hpp"
-#include "Thread/Thread_SaveData.hpp"
-#include "Thread/Thread_TrimData.hpp"
+#include <Model/SessionData.hpp>
+#include <Thread/Thread_CalibrationPreviewCamera.hpp>
+#include <Thread/Thread_CalibrationPreviewCapture.hpp>
+#include <Thread/Thread_CameraPreview.hpp>
+#include <Thread/Thread_CapturePreview.hpp>
+#include <Thread/Thread_ColorCalibration.hpp>
+#include <Thread/Thread_ColorCalibrationPreview.hpp>
+#include <Thread/Thread_DistanceCalibrationCamera.hpp>
+#include <Thread/Thread_DistanceCalibrationCapture.hpp>
+#include <Thread/Thread_LaneCalibrationCamera.hpp>
+#include <Thread/Thread_LaneCalibrationCapture.hpp>
+#include <Thread/Thread_LaneManualCalibrationCamera.hpp>
+#include <Thread/Thread_LaneManualCalibrationCapture.hpp>
+#include <Thread/Thread_LoadCapture.hpp>
+#include <Thread/Thread_LoadFile.hpp>
+#include <Thread/Thread_Process.hpp>
+#include <Thread/Thread_ResultPreview.hpp>
+#include <Thread/Thread_Roi.hpp>
+#include <Thread/Thread_RoiPreview.hpp>
+#include <Thread/Thread_SaveData.hpp>
+#include <Thread/Thread_TrimData.hpp>
+
+#include <Utils/Algorithm/AlgorithmFactory.hpp>
+
 #include <unordered_map>
 
 class ThreadController {
@@ -53,14 +56,17 @@ class ThreadController {
                                             PanelID panelID);
     void endCapturePreviewHandler();
 
-    virtual void startLaneCalibrationCameraHandler(wxEvtHandler *parent,
-                                                   CameraPtr &camera,
-                                                   PanelID panelID);
+    virtual void
+    startLaneCalibrationCameraHandler(wxEvtHandler *parent, DataPtr data,
+                                      CameraPtr &camera, HSVFilterPtr hsvFilter,
+                                      BFSPtr bfs, RansacLinePtr ransac,
+                                      PanelID panelID);
     void endLaneCalibrationCameraHandler();
 
-    virtual void startLaneCalibrationCaptureHandler(wxEvtHandler *parent,
-                                                    DataPtr data,
-                                                    PanelID panelID);
+    virtual void
+    startLaneCalibrationCaptureHandler(wxEvtHandler *parent, DataPtr data,
+                                       HSVFilterPtr hsvFilter, BFSPtr bfs,
+                                       RansacLinePtr ransac, PanelID panelID);
 
     void endLaneCalibrationCaptureHandler();
 
@@ -102,8 +108,9 @@ class ThreadController {
     void endDistanceCalibrationCaptureHandler();
 
     virtual void startColorCalibrationHandler(wxEvtHandler *parent,
-                                              CameraPtr &camera,
-                                              PanelID panelID);
+                                              DataPtr data, CameraPtr &camera,
+                                              HSVFilterPtr hsvFilter,
+                                              BFSPtr bfs, PanelID panelID);
     void endColorCalibrationHandler();
 
     virtual void startColorCalibrationPreviewHandler(
@@ -124,7 +131,7 @@ class ThreadController {
 
     virtual void startProcessHandler(wxEvtHandler *parent, POOLPtr threadPool,
                                      DataPtr data, DetectorPtr detector,
-                                     TrackerPtr tracker, SpeedPtr speedCalc,
+                                     TrackerPtr tracker, SpeedCalcPtr speedCalc,
                                      PanelID panelID);
 
     void endProcessHandler();

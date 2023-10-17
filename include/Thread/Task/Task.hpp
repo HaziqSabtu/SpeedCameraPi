@@ -11,6 +11,8 @@
 #ifndef TASK_HPP
 #define TASK_HPP
 
+#include <Model/SessionData.hpp>
+#include <Utils/Algorithm/AlgorithmFactory.hpp>
 #include <Utils/CommonUtils.hpp>
 #include <string>
 
@@ -29,12 +31,8 @@
  */
 enum TaskType {
     TASK_NONE,
-    TASK_CAPTURE,
-    TASK_LOAD,
     TASK_SIFT,
-    TASK_HOUGHLINE,
-    TASK_FLOW,
-    TASK_CSRT,
+    TASK_TRACK,
     TASK_SPEED,
 };
 

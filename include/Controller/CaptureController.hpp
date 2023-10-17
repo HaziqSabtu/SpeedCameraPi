@@ -2,34 +2,9 @@
 
 #include <Controller/BaseController.hpp>
 
-#include <Event/Event_ChangePanel.hpp>
-#include <Event/Event_SwitchMode.hpp>
-#include <Event/Event_UpdatePreview.hpp>
-#include <Event/Event_UpdateState.hpp>
-#include <Event/Event_UpdateStatus.hpp>
-
-#include <Model/AppState.hpp>
-#include <Model/SessionData.hpp>
-#include <Model/SharedModel.hpp>
-
-#include <Thread/ThreadPool.hpp>
-#include <Thread/Thread_Controller.hpp>
-
-#include <UI/Dialog/ResetDataDialog.hpp>
-#include <UI/Dialog/SaveDataDialog.hpp>
-#include <UI/Layout/StatusPanel.hpp>
-
 #include <Utils/Camera/CameraBase.hpp>
-#include <Utils/Config/AppConfig.hpp>
-#include <Utils/Config/ConfigStruct.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <Utils/wxUtils.hpp>
-
-#include <memory>
-#include <vector>
-
-#include <wx/event.h>
-#include <wx/thread.h>
 
 #define CPCPtr std::shared_ptr<CaptureController>
 

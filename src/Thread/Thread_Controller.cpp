@@ -1,13 +1,4 @@
-#include "Algorithm/hsv_filter/BFS.hpp"
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
 #include <Thread/Thread_Controller.hpp>
-
-#include <exception>
-#include <iostream>
-#include <memory>
 
 ThreadController::ThreadController() { initThread(); }
 
@@ -518,12 +509,12 @@ void ThreadController::endSaveFileHandler() {
     saveFileThread = stopAndDeleteThread(saveFileThread);
 }
 
-void ThreadController::startLaneCalibrationCameraHandler(wxEvtHandler *parent,
-                                                         CameraPtr &camera,
-                                                         PanelID panelID) {
+void ThreadController::startLaneCalibrationCameraHandler(
+    wxEvtHandler *parent, DataPtr data, CameraPtr &camera,
+    HSVFilterPtr hsvFilter, BFSPtr bfs, RansacLinePtr ransac, PanelID panelID) {
 
-    laneCalibrationCameraThread =
-        new LaneCalibrationCameraThread(parent, camera);
+    laneCalibrationCameraThread = new LaneCalibrationCameraThread(
+        parent, data, camera, hsvFilter, bfs, ransac);
     laneCalibrationCameraThread->Run();
 
     owner[laneCalibrationCameraThread->getID()] = panelID;
@@ -534,12 +525,12 @@ void ThreadController::endLaneCalibrationCameraHandler() {
         stopAndDeleteThread(laneCalibrationCameraThread);
 }
 
-void ThreadController::startLaneCalibrationCaptureHandler(wxEvtHandler *parent,
-                                                          DataPtr data,
-                                                          PanelID panelID) {
+void ThreadController::startLaneCalibrationCaptureHandler(
+    wxEvtHandler *parent, DataPtr data, HSVFilterPtr hsvFilter, BFSPtr bfs,
+    RansacLinePtr ransac, PanelID panelID) {
 
     laneCalibrationCaptureThread =
-        new LaneCalibrationCaptureThread(parent, data);
+        new LaneCalibrationCaptureThread(parent, data, hsvFilter, bfs, ransac);
     laneCalibrationCaptureThread->Run();
 
     owner[laneCalibrationCaptureThread->getID()] = panelID;
@@ -638,11 +629,12 @@ void ThreadController::endDistanceCalibrationCaptureHandler() {
         stopAndDeleteThread(distanceCalibrationCaptureThread);
 }
 
-void ThreadController::startColorCalibrationHandler(wxEvtHandler *parent,
-                                                    CameraPtr &camera,
-                                                    PanelID panelID) {
+void ThreadController::startColorCalibrationHandler(
+    wxEvtHandler *parent, DataPtr data, CameraPtr &camera,
+    HSVFilterPtr hsvFilter, BFSPtr bfs, PanelID panelID) {
 
-    colorCalibrationThread = new ColorCalibrationThread(parent, camera);
+    colorCalibrationThread =
+        new ColorCalibrationThread(parent, data, camera, hsvFilter, bfs);
     colorCalibrationThread->Run();
 
     owner[colorCalibrationThread->getID()] = panelID;
@@ -694,7 +686,7 @@ void ThreadController::startProcessHandler(wxEvtHandler *parent,
                                            POOLPtr threadPool, DataPtr data,
                                            DetectorPtr detector,
                                            TrackerPtr tracker,
-                                           SpeedPtr speedCalc,
+                                           SpeedCalcPtr speedCalc,
                                            PanelID panelID) {
     processThread = new ProcessThread(parent, data, detector, tracker,
                                       speedCalc, threadPool);

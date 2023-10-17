@@ -1,14 +1,5 @@
-#include "Event/Event_Calibration.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "UI/Data/StatusData.hpp"
-#include "UI/Layout/StatusPanel.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_LaneManualCalibrationCapture.hpp>
-#include <opencv2/imgproc.hpp>
-#include <wx/utils.h>
 
 LaneManualCalibrationCaptureThread::LaneManualCalibrationCaptureThread(
     wxEvtHandler *parent, DataPtr data)

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Event/Event_UpdateState.hpp>
-#include <Event/Event_UpdateStatus.hpp>
+#include <Event/Event.hpp>
 
 #include <Model/SessionData.hpp>
 #include <Model/SharedModel.hpp>
@@ -12,6 +11,9 @@
 #include <Utils/Config/AppConfig.hpp>
 #include <Utils/Config/ConfigStruct.hpp>
 #include <Utils/wxUtils.hpp>
+
+#include <Thread/ThreadPool.hpp>
+#include <Thread/Thread_Controller.hpp>
 
 #include <memory>
 #include <vector>

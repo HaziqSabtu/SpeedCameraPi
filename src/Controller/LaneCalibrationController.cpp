@@ -1,9 +1,6 @@
-#include "Event/Event_UpdateStatus.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "UI/Dialog/RemoveCalibrationDialog.hpp"
 #include <Controller/LaneCalibrationController.hpp>
-#include <stdexcept>
-#include <wx/app.h>
+
+#include <UI/Dialog/RemoveCalibrationDialog.hpp>
 
 LaneCalibrationController::LaneCalibrationController(ModelPtr sharedModel)
     : BaseControllerWithTouch(sharedModel) {
@@ -211,8 +208,15 @@ void LaneCalibrationController::calibrationCameraStartHandler(
     }
 
     auto camera = shared->getCamera();
+    auto data = shared->getSessionData();
 
-    tc->startLaneCalibrationCameraHandler(parent, camera, panelID);
+    AppConfig c;
+    auto hsvFilter = AF::createHSVFilter(c);
+    auto bfs = AF::createBFS(c);
+    auto ransac = AF::createRansacLine(c);
+
+    tc->startLaneCalibrationCameraHandler(parent, data, camera, hsvFilter, bfs,
+                                          ransac, panelID);
 }
 
 void LaneCalibrationController::calibrationCameraEndHandler(
@@ -246,7 +250,13 @@ void LaneCalibrationController::calibrationCaptureStartHandler(
 
     DataPtr data = shared->getSessionData();
 
-    tc->startLaneCalibrationCaptureHandler(parent, data, panelID);
+    AppConfig c;
+    auto hsvFilter = AF::createHSVFilter(c);
+    auto bfs = AF::createBFS(c);
+    auto ransac = AF::createRansacLine(c);
+
+    tc->startLaneCalibrationCaptureHandler(parent, data, hsvFilter, bfs, ransac,
+                                           panelID);
 }
 
 void LaneCalibrationController::calibrationCaptureEndHandler(

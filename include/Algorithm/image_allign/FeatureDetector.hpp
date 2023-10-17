@@ -20,8 +20,6 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
-#define DetectorPtr std::shared_ptr<FeatureDetector>
-
 /**
  * @brief  Class for detecting and matching features between two images
  * and alligning them

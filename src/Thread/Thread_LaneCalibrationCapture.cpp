@@ -1,25 +1,15 @@
-#include "Algorithm/ransac_line/RansacLine.hpp"
-#include "Event/Event_Calibration.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "UI/Layout/StatusPanel.hpp"
-#include "Utils/Config/AppConfig.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_LaneCalibrationCapture.hpp>
-#include <opencv2/imgproc.hpp>
-#include <wx/utils.h>
 
-LaneCalibrationCaptureThread::LaneCalibrationCaptureThread(wxEvtHandler *parent,
-                                                           DataPtr data)
-    : BaseLaneCalibrationThread(parent, data), ImageSizeDataThread(data) {}
+LaneCalibrationCaptureThread::LaneCalibrationCaptureThread(
+    wxEvtHandler *parent, DataPtr data, HSVFilterPtr hsvFilter, BFSPtr bfs,
+    RansacLinePtr ransac)
+    : BaseLaneCalibrationThread(parent, data, hsvFilter, bfs, ransac),
+      ImageSizeDataThread(data) {}
 
 LaneCalibrationCaptureThread::~LaneCalibrationCaptureThread() {}
 
 wxThread::ExitCode LaneCalibrationCaptureThread::Entry() {
-
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
                                          CALIBRATION_CAPTURE_START);
     wxPostEvent(parent, startCalibrationEvent);
@@ -43,8 +33,8 @@ wxThread::ExitCode LaneCalibrationCaptureThread::Entry() {
 
             cv::Mat previewImage = firstFrame.clone();
 
-            cv::Mat hsvFrame = hsvFilter.toHSV(previewImage);
-            cv::Mat filteredFrame = bfs.run(hsvFrame);
+            cv::Mat hsvFrame = hsvFilter->toHSV(previewImage);
+            cv::Mat filteredFrame = bfs->run(hsvFrame);
 
             auto boundingBox = cv::boundingRect(filteredFrame);
             cv::rectangle(filteredFrame, boundingBox, cv::Scalar(0, 255, 0), 2);
@@ -59,17 +49,17 @@ wxThread::ExitCode LaneCalibrationCaptureThread::Entry() {
                 cv::rectangle(mask, boundingBox, cv::Scalar(255, 255, 255), -1);
                 cv::bitwise_and(hsvFrame, hsvFrame, combined, mask);
 
-                cv::Mat mask_yellow = hsvFilter.yellowMask(combined);
+                cv::Mat mask_yellow = hsvFilter->yellowMask(combined);
                 Line yellowLine =
-                    ransac.run(mask_yellow).Extrapolate(mask_yellow);
+                    ransac->run(mask_yellow).Extrapolate(mask_yellow);
                 if (!yellowLine.isNull()) {
                     updateRightLine(yellowLine);
                     cv::line(previewImage, yellowLine.p1, yellowLine.p2,
                              cv::Scalar(0, 255, 255), 2);
                 }
 
-                cv::Mat mask_blue = hsvFilter.blueMask(combined);
-                Line blueLine = ransac.run(mask_blue).Extrapolate(mask_blue);
+                cv::Mat mask_blue = hsvFilter->blueMask(combined);
+                Line blueLine = ransac->run(mask_blue).Extrapolate(mask_blue);
                 if (!blueLine.isNull()) {
                     updateLeftLine(blueLine);
                     cv::line(previewImage, blueLine.p1, blueLine.p2,

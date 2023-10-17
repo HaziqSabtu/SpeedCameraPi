@@ -1,12 +1,6 @@
-#include "Thread/Thread_CapturePreview.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_LoadImage.hpp"
-#include "Event/Event_Preview.hpp"
-#include "Event/Event_Replay.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
-#include <memory>
-#include <opencv2/imgproc.hpp>
+#include <Thread/Thread_CapturePreview.hpp>
+
+#include <Event/Event.hpp>
 
 CapturePreviewThread::CapturePreviewThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread() {}

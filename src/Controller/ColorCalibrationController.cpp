@@ -1,6 +1,3 @@
-#include "Controller/BaseController.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Utils/Config/AppConfig.hpp"
 #include <Controller/ColorCalibrationController.hpp>
 
 ColorCalibrationController::ColorCalibrationController(ModelPtr sharedModel)
@@ -236,8 +233,14 @@ void ColorCalibrationController::colorCalibrationStartHandler(
     }
 
     auto camera = shared->getCamera();
+    auto data = shared->getSessionData();
 
-    tc->startColorCalibrationHandler(parent, camera, panelID);
+    AppConfig c;
+    auto hsvFilter = AF::createHSVFilter(c);
+    auto bfs = AF::createBFS(c);
+
+    tc->startColorCalibrationHandler(parent, data, camera, hsvFilter, bfs,
+                                     panelID);
 }
 
 void ColorCalibrationController::colorCalibrationEndHandler(

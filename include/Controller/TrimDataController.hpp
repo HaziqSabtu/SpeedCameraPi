@@ -2,30 +2,6 @@
 
 #include <Controller/BaseController.hpp>
 
-#include <Event/Event_UpdateState.hpp>
-#include <Event/Event_UpdateStatus.hpp>
-
-#include <Model/SessionData.hpp>
-#include <Model/SharedModel.hpp>
-
-#include <Thread/ThreadPool.hpp>
-#include <Thread/Thread_Controller.hpp>
-
-#include <UI/Dialog/CancelDialog.hpp>
-
-#include <Utils/Camera/CameraBase.hpp>
-#include <Utils/CommonUtils.hpp>
-#include <Utils/Config/AppConfig.hpp>
-#include <Utils/Config/ConfigStruct.hpp>
-#include <Utils/wxUtils.hpp>
-
-#include <memory>
-#include <vector>
-
-#include <wx/event.h>
-#include <wx/object.h>
-#include <wx/thread.h>
-
 #define TDCPtr std::shared_ptr<TrimDataController>
 
 class TrimDataController : public BaseController {

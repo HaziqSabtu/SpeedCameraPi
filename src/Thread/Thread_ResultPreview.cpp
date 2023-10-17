@@ -1,16 +1,5 @@
-#include "Event/Event_Error.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Utils/CommonUtils.hpp"
-#include "Utils/Config/AppConfig.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_ResultPreview.hpp>
-#include <opencv2/imgproc.hpp>
-#include <wx/utils.h>
 
 ResultPreviewThread::ResultPreviewThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread(), ImageSizeDataThread(data) {

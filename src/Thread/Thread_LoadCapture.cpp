@@ -9,15 +9,8 @@
  *
  */
 
-#include "Event/Event_Error.hpp"
-#include "Event/Event_LoadImage.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Utils/FileReader/fileWR.hpp"
-#include "Utils/wxUtils.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_LoadCapture.hpp>
-#include <memory>
-#include <opencv2/imgproc.hpp>
 
 LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent, CameraPtr &camera,
                                      DataPtr data, const int maxFrame,

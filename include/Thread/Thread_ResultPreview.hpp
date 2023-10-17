@@ -1,20 +1,6 @@
 #pragma once
 
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
-#include <Event/Event_ProcessImage.hpp>
-#include <Event/Event_UpdatePreview.hpp>
-#include <Thread/Task/Task_OpticalFlow.hpp>
-#include <Thread/Task/Task_Sift.hpp>
-#include <Thread/ThreadPool.hpp>
-#include <Utils/Config/AppConfig.hpp>
-#include <memory>
-#include <mutex>
-#include <opencv2/opencv.hpp>
-#include <wx/string.h>
-#include <wx/thread.h>
-#include <wx/wx.h>
+#include <Thread/Thread_Base.hpp>
 
 class ResultPreviewThread : public BaseThread,
                             public PreviewableThread,
