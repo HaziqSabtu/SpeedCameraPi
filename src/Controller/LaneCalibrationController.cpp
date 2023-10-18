@@ -2,13 +2,29 @@
 
 #include <UI/Dialog/RemoveCalibrationDialog.hpp>
 
+/**
+ * @brief Construct a new Lane Calibration Controller:: Lane Calibration
+ * Controller object
+ *
+ * @param shared Shared pointer to SharedResource
+ */
 LaneCalibrationController::LaneCalibrationController(ResourcePtr shared)
     : BaseControllerWithTouch(shared) {
     panelID = currentPanelID;
 }
 
+/**
+ * @brief Destroy the Lane Calibration Controller:: Lane Calibration Controller
+ * object
+ *
+ */
 LaneCalibrationController::~LaneCalibrationController() {}
 
+/**
+ * @brief Endpoint to remove CalibrationData
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_RemoveCalibrationData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -18,6 +34,12 @@ void LaneCalibrationController::e_RemoveCalibrationData(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start calibration (LaneCalibrationCameraThread or
+ * LaneCalibrationCaptureThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -27,6 +49,12 @@ void LaneCalibrationController::e_CalibrationStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to end calibration (LaneCalibrationCameraThread or
+ * LaneCalibrationCaptureThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -36,6 +64,11 @@ void LaneCalibrationController::e_CalibrationEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start LaneCalibrationCameraThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationCameraStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -45,6 +78,11 @@ void LaneCalibrationController::e_CalibrationCameraStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to end LaneCalibrationCameraThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationCameraEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -54,6 +92,11 @@ void LaneCalibrationController::e_CalibrationCameraEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start LaneCalibrationCaptureThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationCaptureStart(
     wxEvtHandler *parent) {
     try {
@@ -64,6 +107,11 @@ void LaneCalibrationController::e_CalibrationCaptureStart(
     }
 }
 
+/**
+ * @brief Endpoint to end LaneCalibrationCaptureThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationCaptureEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -73,6 +121,11 @@ void LaneCalibrationController::e_CalibrationCaptureEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start CalibrationPreviewThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationPreviewStart(
     wxEvtHandler *parent) {
     try {
@@ -83,6 +136,11 @@ void LaneCalibrationController::e_CalibrationPreviewStart(
     }
 }
 
+/**
+ * @brief Endpoint to end CalibrationPreviewThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationPreviewEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -92,6 +150,11 @@ void LaneCalibrationController::e_CalibrationPreviewEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start CalibrationPreviewCameraThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationPreviewCameraStart(
     wxEvtHandler *parent) {
     try {
@@ -102,6 +165,11 @@ void LaneCalibrationController::e_CalibrationPreviewCameraStart(
     }
 }
 
+/**
+ * @brief Endpoint to end CalibrationPreviewCameraThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationPreviewCameraEnd(
     wxEvtHandler *parent) {
     try {
@@ -112,6 +180,11 @@ void LaneCalibrationController::e_CalibrationPreviewCameraEnd(
     }
 }
 
+/**
+ * @brief Endpoint to start CalibrationPreviewCaptureThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationPreviewCaptureStart(
     wxEvtHandler *parent) {
     try {
@@ -122,6 +195,11 @@ void LaneCalibrationController::e_CalibrationPreviewCaptureStart(
     }
 }
 
+/**
+ * @brief Endpoint to end CalibrationPreviewCaptureThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_CalibrationPreviewCaptureEnd(
     wxEvtHandler *parent) {
     try {
@@ -132,6 +210,11 @@ void LaneCalibrationController::e_CalibrationPreviewCaptureEnd(
     }
 }
 
+/**
+ * @brief Endpoint to change to ManualLaneCalibrationPanel
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_ChangeToManualPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -141,6 +224,11 @@ void LaneCalibrationController::e_ChangeToManualPanel(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to change to ColorCalibrationPanel
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_ChangeToColorPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -150,6 +238,11 @@ void LaneCalibrationController::e_ChangeToColorPanel(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to remove calibrated points from calibration thread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_ClearPoint(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -159,6 +252,11 @@ void LaneCalibrationController::e_ClearPoint(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to save CalibrationData
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::e_SaveData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -168,6 +266,14 @@ void LaneCalibrationController::e_SaveData(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Handler to start calibration thread (LaneCalibrationCameraThread or
+ * LaneCalibrationCaptureThread).
+ * @details If CaptureData is empty, start
+ * LaneCalibrationCameraThread, else start LaneCalibrationCaptureThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -182,6 +288,12 @@ void LaneCalibrationController::calibrationStartHandler(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Handler to end calibration thread (LaneCalibrationCameraThread or
+ * LaneCalibrationCaptureThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -197,6 +309,11 @@ void LaneCalibrationController::calibrationEndHandler(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Handler to start LaneCalibrationCameraThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -219,6 +336,11 @@ void LaneCalibrationController::calibrationCameraStartHandler(
                                           ransac, panelID);
 }
 
+/**
+ * @brief Handler to end LaneCalibrationCameraThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationCameraEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -242,6 +364,11 @@ void LaneCalibrationController::calibrationCameraEndHandler(
     tc->endLaneCalibrationCameraHandler();
 }
 
+/**
+ * @brief Handler to start LaneCalibrationCaptureThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationCaptureStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -259,6 +386,11 @@ void LaneCalibrationController::calibrationCaptureStartHandler(
                                            panelID);
 }
 
+/**
+ * @brief Handler to end LaneCalibrationCaptureThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationCaptureEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -280,6 +412,11 @@ void LaneCalibrationController::calibrationCaptureEndHandler(
     tc->endLaneCalibrationCaptureHandler();
 }
 
+/**
+ * @brief Handler to start CalibrationPreviewThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationPreviewStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -295,6 +432,11 @@ void LaneCalibrationController::calibrationPreviewStartHandler(
     }
 }
 
+/**
+ * @brief Handler to end CalibrationPreviewThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationPreviewEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -311,6 +453,11 @@ void LaneCalibrationController::calibrationPreviewEndHandler(
     }
 }
 
+/**
+ * @brief Handler to start CalibrationPreviewCameraThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationPreviewCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -328,6 +475,11 @@ void LaneCalibrationController::calibrationPreviewCameraStartHandler(
     tc->startCalibrationPreviewCameraHandler(parent, camera, data, panelID);
 }
 
+/**
+ * @brief Handler to end CalibrationPreviewCameraThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationPreviewCameraEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -349,6 +501,11 @@ void LaneCalibrationController::calibrationPreviewCameraEndHandler(
     tc->endCalibrationPreviewCameraHandler();
 }
 
+/**
+ * @brief Handler to start CalibrationPreviewCaptureThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationPreviewCaptureStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -364,6 +521,11 @@ void LaneCalibrationController::calibrationPreviewCaptureStartHandler(
     tc->startCalibrationPreviewCaptureHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Handler to end CalibrationPreviewCaptureThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::calibrationPreviewCaptureEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -383,6 +545,12 @@ void LaneCalibrationController::calibrationPreviewCaptureEndHandler(
     tc->endCalibrationPreviewCaptureHandler();
 }
 
+/**
+ * @brief Handler to save CalibrationData
+ *
+ * @param parent Parent wxEvtHandler
+ * @param thread Pointer to running thread
+ */
 void LaneCalibrationController::saveCalibrationData(
     wxEvtHandler *parent, BaseLaneCalibrationThread *thread) {
     auto calibData = thread->getCalibrationData();
@@ -391,6 +559,10 @@ void LaneCalibrationController::saveCalibrationData(
     data->setCalibrationData(calibData);
 }
 
+/**
+ * @brief Handler for left down event
+ * @details Set point to calibration thread
+ */
 void LaneCalibrationController::leftDownHandler(wxEvtHandler *parent,
                                                 cv::Point point) {
     auto tc = shared->getThreadController();
@@ -411,6 +583,11 @@ void LaneCalibrationController::leftDownHandler(wxEvtHandler *parent,
                               SC::STATUS_LANE_CALIBRATION_POINTSELECTED);
 }
 
+/**
+ * @brief Handler to save CalibrationData
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::saveDataHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -428,16 +605,35 @@ void LaneCalibrationController::saveDataHandler(wxEvtHandler *parent) {
     saveCalibrationData(parent, thread);
 }
 
+/**
+ * @brief Blocked Endpoint
+ * @details Prevent user from moving point. Only allows left down
+ *
+ * @param parent
+ * @param point
+ */
 void LaneCalibrationController::leftMoveHandler(wxEvtHandler *parent,
                                                 cv::Point point) {
     throw std::runtime_error("Blocked Endpoint");
 }
 
+/**
+ * @brief Blocked Endpoint
+ * @details Prevent user from moving point. Only allows left down
+ *
+ * @param parent
+ * @param point
+ */
 void LaneCalibrationController::leftUpHandler(wxEvtHandler *parent,
                                               cv::Point point) {
     throw std::runtime_error("Blocked Endpoint");
 }
 
+/**
+ * @brief Handler to remove point from calibration thread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::clearPointHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -456,6 +652,11 @@ void LaneCalibrationController::clearPointHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_LANE_CALIBRATION_POINTREMOVED);
 }
 
+/**
+ * @brief Handler to remove CalibrationData
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::removeCalibrationDataHandler(
     wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
@@ -471,6 +672,10 @@ void LaneCalibrationController::removeCalibrationDataHandler(
     UpdateStatusEvent::Submit(parent, SC::STATUS_REMOVE_CALIBRATION_OK);
 }
 
+/**
+ * @brief Handler to throw exception if any thread is running
+ *
+ */
 void LaneCalibrationController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -491,6 +696,11 @@ void LaneCalibrationController::throwIfAnyThreadIsRunning() {
     }
 }
 
+/**
+ * @brief Handler to kill all running threads
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::killAllThreads(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -513,6 +723,11 @@ void LaneCalibrationController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
+/**
+ * @brief Handler to change to ManualLaneCalibrationPanel
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::changeToManualPanelHandler(
     wxEvtHandler *parent) {
     if (shared->isSessionDataChanged()) {
@@ -531,6 +746,11 @@ void LaneCalibrationController::changeToManualPanelHandler(
     ChangePanelEvent::Submit(parent, data);
 }
 
+/**
+ * @brief Handler to change to ColorCalibrationPanel
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::changeToColorPanelHandler(
     wxEvtHandler *parent) {
     if (shared->isSessionDataChanged()) {
@@ -548,6 +768,12 @@ void LaneCalibrationController::changeToColorPanelHandler(
     ChangePanelEvent::Submit(parent, data);
 }
 
+/**
+ * @brief Handler to show panel
+ * @details If auto thread variable is enabled, start calibration thread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void LaneCalibrationController::panelShowHandler(wxEvtHandler *parent) {
     createTempSessionDataHandler(parent);
 

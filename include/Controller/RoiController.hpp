@@ -4,6 +4,10 @@
 
 #define ROCPtr std::shared_ptr<RoiController>
 
+/**
+ * @brief Controller for RoiPanel
+ *
+ */
 class RoiController : public BaseControllerWithTouch {
   public:
     RoiController(ResourcePtr shared);

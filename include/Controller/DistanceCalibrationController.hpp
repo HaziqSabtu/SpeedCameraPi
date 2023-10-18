@@ -4,6 +4,10 @@
 
 #define DCCPtr std::shared_ptr<DistanceCalibrationController>
 
+/**
+ * @brief Controller for DistanceCalibrationPanel
+ *
+ */
 class DistanceCalibrationController : public BaseControllerWithTouch {
   public:
     DistanceCalibrationController(ResourcePtr shared);

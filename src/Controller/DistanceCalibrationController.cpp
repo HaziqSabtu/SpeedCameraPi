@@ -2,13 +2,28 @@
 
 #include <UI/Dialog/RemoveCalibrationDialog.hpp>
 
+/**
+ * @brief Construct a new Distance Calibration Controller:: Distance Calibration
+ * Controller object
+ *
+ * @param shared
+ */
 DistanceCalibrationController::DistanceCalibrationController(ResourcePtr shared)
     : BaseControllerWithTouch(shared) {
     panelID = currentPanelID;
 }
 
+/**
+ * @brief Destroy the Distance Calibration Controller:: Distance Calibration
+ * Controller object
+ *
+ */
 DistanceCalibrationController::~DistanceCalibrationController() {}
 
+/**
+ * @brief Throw exception if any thread from ThreadController is running
+ *
+ */
 void DistanceCalibrationController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -29,6 +44,11 @@ void DistanceCalibrationController::throwIfAnyThreadIsRunning() {
     }
 }
 
+/**
+ * @brief Kill all threads from ThreadController
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::killAllThreads(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -51,6 +71,11 @@ void DistanceCalibrationController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
+/**
+ * @brief Endpoint to change calibration type to DISTANCE_BOTTOM
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_ChangeToBottom(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -60,6 +85,11 @@ void DistanceCalibrationController::e_ChangeToBottom(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to change calibration type to DISTANCE_TOP
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_ChangeToTop(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -69,6 +99,12 @@ void DistanceCalibrationController::e_ChangeToTop(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start distance calibration
+ * (DistanceCalibrationCameraThread or DistanceCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_DistanceCalibrationStart(
     wxEvtHandler *parent) {
     try {
@@ -79,6 +115,12 @@ void DistanceCalibrationController::e_DistanceCalibrationStart(
     }
 }
 
+/**
+ * @brief Endpoint to end distance calibration (DistanceCalibrationCameraThread
+ * or DistanceCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_DistanceCalibrationEnd(
     wxEvtHandler *parent) {
     try {
@@ -89,6 +131,12 @@ void DistanceCalibrationController::e_DistanceCalibrationEnd(
     }
 }
 
+/**
+ * @brief Endpoint to start distance calibration using camera
+ * (DistanceCalibrationCameraThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_DistanceCalibrationCameraStart(
     wxEvtHandler *parent) {
     try {
@@ -99,6 +147,12 @@ void DistanceCalibrationController::e_DistanceCalibrationCameraStart(
     }
 }
 
+/**
+ * @brief Endpoint to end distance calibration using camera
+ * (DistanceCalibrationCameraThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_DistanceCalibrationCameraEnd(
     wxEvtHandler *parent) {
     try {
@@ -109,6 +163,12 @@ void DistanceCalibrationController::e_DistanceCalibrationCameraEnd(
     }
 }
 
+/**
+ * @brief Endpoint to start distance calibration using capture
+ * (DistanceCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_DistanceCalibrationCaptureStart(
     wxEvtHandler *parent) {
     try {
@@ -119,6 +179,12 @@ void DistanceCalibrationController::e_DistanceCalibrationCaptureStart(
     }
 }
 
+/**
+ * @brief Endpoint to end distance calibration using capture
+ * (DistanceCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_DistanceCalibrationCaptureEnd(
     wxEvtHandler *parent) {
     try {
@@ -129,6 +195,12 @@ void DistanceCalibrationController::e_DistanceCalibrationCaptureEnd(
     }
 }
 
+/**
+ * @brief Endpoint to start calibration preview
+ * (CalibrationPreviewCameraThread or CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_CalibrationPreviewStart(
     wxEvtHandler *parent) {
     try {
@@ -139,6 +211,12 @@ void DistanceCalibrationController::e_CalibrationPreviewStart(
     }
 }
 
+/**
+ * @brief Endpoint to end calibration preview (CalibrationPreviewCameraThread or
+ * CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_CalibrationPreviewEnd(
     wxEvtHandler *parent) {
     try {
@@ -149,6 +227,12 @@ void DistanceCalibrationController::e_CalibrationPreviewEnd(
     }
 }
 
+/**
+ * @brief Endpoint to start calibration preview using camera
+ * (CalibrationPreviewCameraThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_CalibrationPreviewCameraStart(
     wxEvtHandler *parent) {
     try {
@@ -159,6 +243,12 @@ void DistanceCalibrationController::e_CalibrationPreviewCameraStart(
     }
 }
 
+/**
+ * @brief Endpoint to end calibration preview using camera
+ * (CalibrationPreviewCameraThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_CalibrationPreviewCameraEnd(
     wxEvtHandler *parent) {
     try {
@@ -169,6 +259,12 @@ void DistanceCalibrationController::e_CalibrationPreviewCameraEnd(
     }
 }
 
+/**
+ * @brief Endpoint to start calibration preview using capture
+ * (CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_CalibrationPreviewCaptureStart(
     wxEvtHandler *parent) {
     try {
@@ -179,6 +275,12 @@ void DistanceCalibrationController::e_CalibrationPreviewCaptureStart(
     }
 }
 
+/**
+ * @brief Endpoint to end calibration preview using capture
+ * (CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_CalibrationPreviewCaptureEnd(
     wxEvtHandler *parent) {
     try {
@@ -189,6 +291,11 @@ void DistanceCalibrationController::e_CalibrationPreviewCaptureEnd(
     }
 }
 
+/**
+ * @brief Endpoint to remove bottom line
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_RemoveBottom(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -198,6 +305,11 @@ void DistanceCalibrationController::e_RemoveBottom(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to remove top line
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_RemoveTop(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -207,6 +319,11 @@ void DistanceCalibrationController::e_RemoveTop(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to remove calibration data
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::e_RemoveCalibrationData(
     wxEvtHandler *parent) {
     try {
@@ -217,6 +334,11 @@ void DistanceCalibrationController::e_RemoveCalibrationData(
     }
 }
 
+/**
+ * @brief Handle request to change calibraton type to DISTANCE_BOTTOM
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::changeToBottomHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -237,6 +359,11 @@ void DistanceCalibrationController::changeToBottomHandler(
     UpdateStatusEvent::Submit(parent, SC::STATUS_DISTANCE_SELECTBOTTOM);
 }
 
+/**
+ * @brief Handle request to change calibraton type to DISTANCE_TOP
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::changeToTopHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -256,6 +383,13 @@ void DistanceCalibrationController::changeToTopHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_DISTANCE_SELECTTOP);
 }
 
+/**
+ * @brief Handle left down event
+ * @details When left down set point and extend line in running calibration
+ * thread
+ * @param parent wxEvtHandler
+ * @param point cv::Point point
+ */
 void DistanceCalibrationController::leftDownHandler(wxEvtHandler *parent,
                                                     cv::Point point) {
     auto tc = shared->getThreadController();
@@ -274,12 +408,28 @@ void DistanceCalibrationController::leftDownHandler(wxEvtHandler *parent,
     thread->setPointAndExtend(point);
 }
 
+/**
+ * @brief Handle left move event
+ * @details DO the same as DistanceCalibrationController::leftDownHandler. But
+ * by enabling this, it allows user to draw cursor freely, wich enables user to
+ * select more accurate line
+ *
+ * @param parent wxEvtHandler
+ * @param point cv::Point point
+ */
 void DistanceCalibrationController::leftMoveHandler(wxEvtHandler *parent,
                                                     cv::Point point) {
     // throw std::runtime_error("Blocked Endpoint");
     leftDownHandler(parent, point);
 }
 
+/**
+ * @brief Handle left up event
+ * @details When left up set point and extend line in running calibration
+ * thread. Also save line to calibration data
+ * @param parent wxEvtHandler
+ * @param point cv::Point point
+ */
 void DistanceCalibrationController::leftUpHandler(wxEvtHandler *parent,
                                                   cv::Point point) {
     auto tc = shared->getThreadController();
@@ -311,6 +461,12 @@ void DistanceCalibrationController::leftUpHandler(wxEvtHandler *parent,
     data->setCalibrationData(calibData);
 }
 
+/**
+ * @brief Handle request to start distance calibration
+ * (DistanceCalibrationCameraThread or DistanceCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::distanceCalibrationStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -326,6 +482,12 @@ void DistanceCalibrationController::distanceCalibrationStartHandler(
     }
 }
 
+/**
+ * @brief Handle request to end distance calibration
+ * (DistanceCalibrationCameraThread or DistanceCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::distanceCalibrationEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -342,6 +504,12 @@ void DistanceCalibrationController::distanceCalibrationEndHandler(
     }
 }
 
+/**
+ * @brief Handle request to start distance calibration using camera
+ * (DistanceCalibrationCameraThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::distanceCalibrationCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -357,6 +525,12 @@ void DistanceCalibrationController::distanceCalibrationCameraStartHandler(
     tc->startDistaneCalibrationCameraHandler(parent, camera, panelID);
 }
 
+/**
+ * @brief Handle request to end distance calibration using camera
+ * (DistanceCalibrationCameraThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::distanceCalibrationCameraEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -378,6 +552,12 @@ void DistanceCalibrationController::distanceCalibrationCameraEndHandler(
     tc->endDistanceCalibrationCameraHandler();
 }
 
+/**
+ * @brief Handle request to start distance calibration using capture
+ * (DistanceCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::distanceCalibrationCaptureStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -389,6 +569,12 @@ void DistanceCalibrationController::distanceCalibrationCaptureStartHandler(
     tc->startDistanceCalibrationCaptureHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Handle request to end distance calibration using capture
+ * (DistanceCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::distanceCalibrationCaptureEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -408,6 +594,12 @@ void DistanceCalibrationController::distanceCalibrationCaptureEndHandler(
     tc->endDistanceCalibrationCaptureHandler();
 }
 
+/**
+ * @brief Handle request to start calibration preview
+ * (CalibrationPreviewCameraThread or CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::calibrationPreviewStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -423,6 +615,12 @@ void DistanceCalibrationController::calibrationPreviewStartHandler(
     }
 }
 
+/**
+ * @brief Handle request to end calibration preview
+ * (CalibrationPreviewCameraThread or CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::calibrationPreviewEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -439,6 +637,12 @@ void DistanceCalibrationController::calibrationPreviewEndHandler(
     }
 }
 
+/**
+ * @brief Handle request to start calibration preview using camera
+ * (CalibrationPreviewCameraThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::calibrationPreviewCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -456,6 +660,12 @@ void DistanceCalibrationController::calibrationPreviewCameraStartHandler(
     tc->startCalibrationPreviewCameraHandler(parent, camera, data, panelID);
 }
 
+/**
+ * @brief Handle request to end calibration preview using camera
+ * (CalibrationPreviewCameraThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::calibrationPreviewCameraEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -477,6 +687,12 @@ void DistanceCalibrationController::calibrationPreviewCameraEndHandler(
     tc->endCalibrationPreviewCameraHandler();
 }
 
+/**
+ * @brief Handle request to start calibration preview using capture
+ * (CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::calibrationPreviewCaptureStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -492,6 +708,12 @@ void DistanceCalibrationController::calibrationPreviewCaptureStartHandler(
     tc->startCalibrationPreviewCaptureHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Handle request to end calibration preview using capture
+ * (CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::calibrationPreviewCaptureEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -511,6 +733,11 @@ void DistanceCalibrationController::calibrationPreviewCaptureEndHandler(
     tc->endCalibrationPreviewCaptureHandler();
 }
 
+/**
+ * @brief Handle request to remove bottom line
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::removeBottomHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -538,6 +765,11 @@ void DistanceCalibrationController::removeBottomHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_DISTANCE_REMOVEBOTTOM);
 }
 
+/**
+ * @brief Handle request to remove top line
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::removeTopHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -565,6 +797,11 @@ void DistanceCalibrationController::removeTopHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_DISTANCE_REMOVETOP);
 }
 
+/**
+ * @brief Handle request to remove calibration data
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::removeCalibrationDataHandler(
     wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
@@ -580,6 +817,14 @@ void DistanceCalibrationController::removeCalibrationDataHandler(
     UpdateStatusEvent::Submit(parent, SC::STATUS_REMOVE_CALIBRATION_OK);
 }
 
+/**
+ * @brief Handle request to show panel
+ * @details Override BaseControllerWithTouch::panelShowHandler. Add features to
+ * automatically start calibration thread. This variable can be change in
+ * SettingsPanel
+ *
+ * @param parent wxEvtHandler
+ */
 void DistanceCalibrationController::panelShowHandler(wxEvtHandler *parent) {
     createTempSessionDataHandler(parent);
 

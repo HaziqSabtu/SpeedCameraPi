@@ -6,6 +6,10 @@
 
 #define RSCPtr std::shared_ptr<ResultController>
 
+/**
+ * @brief Controller for ResultPanel
+ *
+ */
 class ResultController : public BaseController {
   public:
     ResultController(ResourcePtr shared);

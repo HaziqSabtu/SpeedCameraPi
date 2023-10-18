@@ -2,14 +2,29 @@
 
 #include <UI/Dialog/RemoveCalibrationDialog.hpp>
 
+/**
+ * @brief Construct a new Lane Manual Calibration Controller:: Lane Manual
+ Calibration Controller object
+ *
+ * @param shared Shared pointer to SharedResource
+ */
 LaneManualCalibrationController::LaneManualCalibrationController(
     ResourcePtr shared)
     : BaseControllerWithTouch(shared) {
     panelID = currentPanelID;
 }
 
+/**
+ * @brief Destroy the Lane Manual Calibration Controller:: Lane Manual
+ * Calibration Controller object
+ *
+ */
 LaneManualCalibrationController::~LaneManualCalibrationController() {}
 
+/**
+ * @brief throw an exception if any thread on ThreadController is running
+ *
+ */
 void LaneManualCalibrationController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -30,6 +45,11 @@ void LaneManualCalibrationController::throwIfAnyThreadIsRunning() {
     }
 }
 
+/**
+ * @brief kill all running threads on ThreadController
+ *
+ * @param parent
+ */
 void LaneManualCalibrationController::killAllThreads(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -52,6 +72,11 @@ void LaneManualCalibrationController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
+/**
+ * @brief Endpoint for changing direction to MANUAL_LEFT
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_ChangeToLeft(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -61,6 +86,11 @@ void LaneManualCalibrationController::e_ChangeToLeft(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for changing direction to MANUAL_RIGHT
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_ChangeToRight(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -70,6 +100,12 @@ void LaneManualCalibrationController::e_ChangeToRight(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for starting manual calibration
+ * (ManualLaneCalibrationCameraThread or ManualLaneCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_ManualCalibrationStart(
     wxEvtHandler *parent) {
     try {
@@ -80,6 +116,12 @@ void LaneManualCalibrationController::e_ManualCalibrationStart(
     }
 }
 
+/**
+ * @brief Endpoint for ending manual calibration
+ * (ManualLaneCalibrationCameraThread or ManualLaneCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_ManualCalibrationEnd(
     wxEvtHandler *parent) {
     try {
@@ -90,6 +132,11 @@ void LaneManualCalibrationController::e_ManualCalibrationEnd(
     }
 }
 
+/**
+ * @brief Endpoint for starting ManualLaneCalibrationCameraThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_ManualCalibrationCameraStart(
     wxEvtHandler *parent) {
     try {
@@ -100,6 +147,11 @@ void LaneManualCalibrationController::e_ManualCalibrationCameraStart(
     }
 }
 
+/**
+ * @brief Endpoint for ending ManualLaneCalibrationCameraThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_ManualCalibrationCameraEnd(
     wxEvtHandler *parent) {
     try {
@@ -110,6 +162,11 @@ void LaneManualCalibrationController::e_ManualCalibrationCameraEnd(
     }
 }
 
+/**
+ * @brief Endpoint for starting ManualLaneCalibrationCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_ManualCalibrationCaptureStart(
     wxEvtHandler *parent) {
     try {
@@ -120,6 +177,11 @@ void LaneManualCalibrationController::e_ManualCalibrationCaptureStart(
     }
 }
 
+/**
+ * @brief Endpoint for ending ManualLaneCalibrationCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_ManualCalibrationCaptureEnd(
     wxEvtHandler *parent) {
     try {
@@ -130,6 +192,12 @@ void LaneManualCalibrationController::e_ManualCalibrationCaptureEnd(
     }
 }
 
+/**
+ * @brief Endpoint for starting CalibrationPreviewThread
+ * (CalibrationPreviewCameraThread or CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_CalibrationPreviewStart(
     wxEvtHandler *parent) {
     try {
@@ -140,6 +208,12 @@ void LaneManualCalibrationController::e_CalibrationPreviewStart(
     }
 }
 
+/**
+ * @brief Endpoint for ending CalibrationPreviewThread
+ * (CalibrationPreviewCameraThread or CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_CalibrationPreviewEnd(
     wxEvtHandler *parent) {
     try {
@@ -150,6 +224,11 @@ void LaneManualCalibrationController::e_CalibrationPreviewEnd(
     }
 }
 
+/**
+ * @brief Endpoint for starting CalibrationPreviewCameraThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_CalibrationPreviewCameraStart(
     wxEvtHandler *parent) {
     try {
@@ -160,6 +239,11 @@ void LaneManualCalibrationController::e_CalibrationPreviewCameraStart(
     }
 }
 
+/**
+ * @brief Endpoint for ending CalibrationPreviewCameraThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_CalibrationPreviewCameraEnd(
     wxEvtHandler *parent) {
     try {
@@ -170,6 +254,11 @@ void LaneManualCalibrationController::e_CalibrationPreviewCameraEnd(
     }
 }
 
+/**
+ * @brief Endpoint for starting CalibrationPreviewCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_CalibrationPreviewCaptureStart(
     wxEvtHandler *parent) {
     try {
@@ -180,6 +269,11 @@ void LaneManualCalibrationController::e_CalibrationPreviewCaptureStart(
     }
 }
 
+/**
+ * @brief Endpoint for ending CalibrationPreviewCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_CalibrationPreviewCaptureEnd(
     wxEvtHandler *parent) {
     try {
@@ -190,6 +284,11 @@ void LaneManualCalibrationController::e_CalibrationPreviewCaptureEnd(
     }
 }
 
+/**
+ * @brief Endpoint for removing calibrated left Line
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_RemoveLeft(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -199,6 +298,11 @@ void LaneManualCalibrationController::e_RemoveLeft(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for removing calibrated right Line
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_RemoveRight(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -208,6 +312,11 @@ void LaneManualCalibrationController::e_RemoveRight(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for removing CalibrationData
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::e_RemoveCalibrationData(
     wxEvtHandler *parent) {
     try {
@@ -218,6 +327,11 @@ void LaneManualCalibrationController::e_RemoveCalibrationData(
     }
 }
 
+/**
+ * @brief Handler for changing direction to MANUAL_LEFT
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::changeToLeftHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -238,6 +352,11 @@ void LaneManualCalibrationController::changeToLeftHandler(
     UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_SELECTLEFT);
 }
 
+/**
+ * @brief Handler for changing direction to MANUAL_RIGHT
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::changeToRightHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -258,6 +377,13 @@ void LaneManualCalibrationController::changeToRightHandler(
     UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_SELECTRIGHT);
 }
 
+/**
+ * @brief Handler for Left Down event
+ * @details Select stating point for Line
+ *
+ * @param parent wxEvtHandler
+ * @param point cv::Point
+ */
 void LaneManualCalibrationController::leftDownHandler(wxEvtHandler *parent,
                                                       cv::Point point) {
     auto tc = shared->getThreadController();
@@ -276,6 +402,13 @@ void LaneManualCalibrationController::leftDownHandler(wxEvtHandler *parent,
     thread->setPoint1(point);
 }
 
+/**
+ * @brief Handler for Left Move event
+ * @details Select ending point for Line
+ *
+ * @param parent wxEvtHandler
+ * @param point cv::Point
+ */
 void LaneManualCalibrationController::leftMoveHandler(wxEvtHandler *parent,
                                                       cv::Point point) {
     auto tc = shared->getThreadController();
@@ -294,6 +427,13 @@ void LaneManualCalibrationController::leftMoveHandler(wxEvtHandler *parent,
     thread->setPoint2(point);
 }
 
+/**
+ * @brief Handler for Left Up event
+ * @details Select ending point for Line and extend it
+ *
+ * @param parent wxEvtHandler
+ * @param point cv::Point
+ */
 void LaneManualCalibrationController::leftUpHandler(wxEvtHandler *parent,
                                                     cv::Point point) {
     auto tc = shared->getThreadController();
@@ -324,6 +464,14 @@ void LaneManualCalibrationController::leftUpHandler(wxEvtHandler *parent,
     data->setCalibrationData(calibData);
 }
 
+/**
+ * @brief Handler for starting manual calibration
+ * (ManualLaneCalibrationCameraThread or ManualLaneCalibrationCaptureThread)
+ * @details If capture data is empty, start ManualLaneCalibrationCameraThread.
+ * else start ManualLaneCalibrationCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::manualCalibrationStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -339,6 +487,12 @@ void LaneManualCalibrationController::manualCalibrationStartHandler(
     }
 }
 
+/**
+ * @brief Handler for ending manual calibration
+ * (ManualLaneCalibrationCameraThread or ManualLaneCalibrationCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::manualCalibrationEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -355,6 +509,11 @@ void LaneManualCalibrationController::manualCalibrationEndHandler(
     }
 }
 
+/**
+ * @brief Handler for starting ManualLaneCalibrationCameraThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::manualCalibrationCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -370,6 +529,11 @@ void LaneManualCalibrationController::manualCalibrationCameraStartHandler(
     tc->startLaneManualCalibrationCameraHandler(parent, camera, panelID);
 }
 
+/**
+ * @brief Handler for ending ManualLaneCalibrationCameraThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::manualCalibrationCameraEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -392,6 +556,11 @@ void LaneManualCalibrationController::manualCalibrationCameraEndHandler(
     tc->endLaneManualCalibrationCameraHandler();
 }
 
+/**
+ * @brief Handler for starting ManualLaneCalibrationCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::manualCalibrationCaptureStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -403,6 +572,11 @@ void LaneManualCalibrationController::manualCalibrationCaptureStartHandler(
     tc->startManualCalibrationCaptureHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Handler for ending ManualLaneCalibrationCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::manualCalibrationCaptureEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -422,6 +596,14 @@ void LaneManualCalibrationController::manualCalibrationCaptureEndHandler(
     tc->endManualCalibrationCaptureHandler();
 }
 
+/**
+ * @brief Handler for starting CalibrationPreviewThread
+ * (CalibrationPreviewCameraThread or CalibrationPreviewCaptureThread)
+ * @details If capture data is empty, start CalibrationPreviewCameraThread.
+ * else start CalibrationPreviewCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::calibrationPreviewStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -437,6 +619,12 @@ void LaneManualCalibrationController::calibrationPreviewStartHandler(
     }
 }
 
+/**
+ * @brief Handler for ending CalibrationPreviewThread
+ * (CalibrationPreviewCameraThread or CalibrationPreviewCaptureThread)
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::calibrationPreviewEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -453,6 +641,11 @@ void LaneManualCalibrationController::calibrationPreviewEndHandler(
     }
 }
 
+/**
+ * @brief Handler for starting CalibrationPreviewCameraThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::calibrationPreviewCameraStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -470,6 +663,11 @@ void LaneManualCalibrationController::calibrationPreviewCameraStartHandler(
     tc->startCalibrationPreviewCameraHandler(parent, camera, data, panelID);
 }
 
+/**
+ * @brief Handler for ending CalibrationPreviewCameraThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::calibrationPreviewCameraEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -491,6 +689,11 @@ void LaneManualCalibrationController::calibrationPreviewCameraEndHandler(
     tc->endCalibrationPreviewCameraHandler();
 }
 
+/**
+ * @brief Handler for starting CalibrationPreviewCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::calibrationPreviewCaptureStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -506,6 +709,11 @@ void LaneManualCalibrationController::calibrationPreviewCaptureStartHandler(
     tc->startCalibrationPreviewCaptureHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Handler for ending CalibrationPreviewCaptureThread
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::calibrationPreviewCaptureEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -525,6 +733,11 @@ void LaneManualCalibrationController::calibrationPreviewCaptureEndHandler(
     tc->endCalibrationPreviewCaptureHandler();
 }
 
+/**
+ * @brief Handler for removing calibrated left Line
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::removeLeftHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -552,6 +765,11 @@ void LaneManualCalibrationController::removeLeftHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_REMOVELEFT);
 }
 
+/**
+ * @brief Handler for removing calibrated right Line
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -579,6 +797,11 @@ void LaneManualCalibrationController::removeRightHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_MANUAL_REMOVERIGHT);
 }
 
+/**
+ * @brief Handler for removing CalibrationData
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::removeCalibrationDataHandler(
     wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
@@ -594,6 +817,12 @@ void LaneManualCalibrationController::removeCalibrationDataHandler(
     UpdateStatusEvent::Submit(parent, SC::STATUS_REMOVE_CALIBRATION_OK);
 }
 
+/**
+ * @brief Handler for OnShow event
+ * @details If auto thread is enabled, start manual calibration
+ *
+ * @param parent wxEvtHandler
+ */
 void LaneManualCalibrationController::panelShowHandler(wxEvtHandler *parent) {
     createTempSessionDataHandler(parent);
 

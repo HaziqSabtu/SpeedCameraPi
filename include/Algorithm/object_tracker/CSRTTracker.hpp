@@ -5,6 +5,10 @@
 #include <opencv2/tracking/tracking.hpp>
 #include <vector>
 
+/**
+ * @brief Class for Tracking Objects from Image using CSRT methods. This method will act as alternative to OpticalFlow implementation (see OFTracker)
+ * 
+ */
 class CSRTTracker : public ObjectTracker {
   public:
     CSRTTracker();

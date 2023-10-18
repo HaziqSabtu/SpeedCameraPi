@@ -22,6 +22,10 @@
 #include <wx/object.h>
 #include <wx/thread.h>
 
+/**
+ * @brief Base Class for all Controller, used with BasePanel
+ *
+ */
 class BaseController {
   public:
     BaseController(ResourcePtr shared);
@@ -45,8 +49,18 @@ class BaseController {
   protected:
     virtual void checkPreCondition();
 
+    /**
+     * @brief check if any thread is running, if yes, throw an exception
+     *
+     */
     virtual void throwIfAnyThreadIsRunning() = 0;
 
+    /**
+     * @brief kill all threads by ThreadController. Used when navigating between
+     * panels
+     *
+     * @param parent the parent wxEvtHandler
+     */
     virtual void killAllThreads(wxEvtHandler *parent) = 0;
 
     virtual void panelShowHandler(wxEvtHandler *parent);
@@ -59,6 +73,11 @@ class BaseController {
     virtual void saveSessionDataHandler(wxEvtHandler *parent);
 };
 
+/**
+ * @brief Base Class for all Controller with Touch methods, used with
+ * BasePanelWithTouch
+ *
+ */
 class BaseControllerWithTouch : public BaseController {
   public:
     BaseControllerWithTouch(ResourcePtr shared);

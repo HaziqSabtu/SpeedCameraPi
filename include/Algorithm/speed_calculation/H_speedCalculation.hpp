@@ -7,8 +7,16 @@
 #include <chrono>
 #include <opencv2/core.hpp>
 
+/**
+ * @brief Enum for movement direction. Used within DistanceSpeedCalculator
+ *
+ */
 enum MovementDirection { MOVING_DOWNWARDS, MOVING_UPWARDS };
 
+/**
+ * @brief Class for calculating speed based on fixed distance between two lines
+ *
+ */
 class DistanceSpeedCalculator : public SpeedCalculator {
   public:
     DistanceSpeedCalculator();

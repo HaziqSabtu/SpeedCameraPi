@@ -83,6 +83,7 @@ Line DetectionData::GetLine() {
  *
  */
 OpticalFlowData::OpticalFlowData() {}
+
 /**
  * @brief Construct a new Optical Flow Data:: Optical Flow Data object
  *
@@ -220,7 +221,7 @@ void OpticalFlowData::update(OpticalFlowData OFData) {
  * <li> If the distance between Optical Flow Point and Optical Flow Point in
  * previous Optical Flow Data is bigger than threshold, remove it
  * </ul>
- *
+ * @note deprecated ?
  * @param previous previous OpticalFlowData
  * @param threshold threshold
  * @return std::vector<OFPoint> vector of Optical Flow Point that
@@ -240,6 +241,21 @@ std::vector<OFPoint> OpticalFlowData::threshold(OpticalFlowData &previous,
     return points;
 }
 
+/**
+ * @brief Apply threshold to Optical Flow Data
+ * @details This function will remove all Optical Flow Point that is not in
+ * threshold
+ * <ul>
+ * <li> Iterate through all Optical Flow Point in Optical Flow Data
+ * <li> Compare Optical Flow Point with Optical Flow Point in previous Optical
+ * Flow Data
+ * <li> If the distance between Optical Flow Point and Optical Flow Point in
+ * previous Optical Flow Data is bigger than threshold, remove it
+ * </ul>
+ * @param ids vector of id
+ * @param previous previous OpticalFlowData
+ * @param threshold threshold
+ */
 void OpticalFlowData::thresholdPointsId(std::vector<int> &ids,
                                         OpticalFlowData &previous,
                                         float threshold) {
@@ -263,16 +279,6 @@ std::vector<OFPoint> OpticalFlowData::GetPointsById(std::vector<int> &ids) {
     std::vector<OFPoint> points;
     for (int id : ids) {
         points.push_back(GetPointById(id));
-    }
-    return points;
-}
-
-std::vector<OFPoint> OpticalFlowData::update2(std::vector<OFPoint> &refData) {
-    std::vector<OFPoint> points;
-    for (auto data : refData) {
-        if (data.status == 1) {
-            points.push_back(GetPointById(data.id));
-        }
     }
     return points;
 }

@@ -8,6 +8,10 @@
 
 #define CPCPtr std::shared_ptr<CaptureController>
 
+/**
+ * @brief Controller for CapturePanel
+ *
+ */
 class CaptureController : public BaseController {
   public:
     CaptureController(ResourcePtr shared);

@@ -4,6 +4,10 @@
 
 #define TDCPtr std::shared_ptr<TrimDataController>
 
+/**
+ * @brief Controller for TrimDataPanel
+ *
+ */
 class TrimDataController : public BaseController {
   public:
     TrimDataController(ResourcePtr shared);

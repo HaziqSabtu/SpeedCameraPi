@@ -5,6 +5,11 @@
 #include <opencv2/core/types.hpp>
 #include <opencv2/imgproc.hpp>
 
+/**
+ * @brief A class for applying HSV filters to images.
+ *
+ * This class provides methods for converting images to HSV color space and applying specific color filters.
+ */
 class HSVFilter {
   private:
     cv::Scalar lower_red1 = cv::Scalar(0, 100, 100);

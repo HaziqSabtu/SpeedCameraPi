@@ -23,6 +23,8 @@
 /**
  * @brief  Class for detecting and matching features between two images
  * and alligning them
+
+ * @note As of now only SIFT is supported. More methods can be added in the future if needed.
  */
 class FeatureDetector {
 

@@ -7,6 +7,11 @@
 
 #define LCCPtr std::shared_ptr<LaneCalibrationController>
 
+/**
+ * @brief Controller for LaneCalibrationPanel
+ *
+ */
+
 class LaneCalibrationController : public BaseControllerWithTouch {
   public:
     LaneCalibrationController(ResourcePtr shared);

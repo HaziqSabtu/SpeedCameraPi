@@ -1,12 +1,28 @@
 #include <Controller/ColorCalibrationController.hpp>
 
+/**
+ * @brief Construct a new Color Calibration Controller:: Color Calibration
+ * Controller object
+ *
+ * @param shared Shared pointer to SharedResource
+ */
 ColorCalibrationController::ColorCalibrationController(ResourcePtr shared)
     : BaseControllerWithTouch(shared) {
     panelID = currentPanelID;
 }
 
+/**
+ * @brief Destroy the Color Calibration Controller:: Color Calibration
+ * Controller object
+ *
+ */
 ColorCalibrationController::~ColorCalibrationController() {}
 
+/**
+ * @brief Endpoint to restoring hsv range to default value
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_RestoreRange(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -16,6 +32,11 @@ void ColorCalibrationController::e_RestoreRange(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to set color calibration type to blue
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_SetTypeBlue(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -25,6 +46,11 @@ void ColorCalibrationController::e_SetTypeBlue(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to set color calibration type to yellow
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_SetTypeYellow(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -34,6 +60,11 @@ void ColorCalibrationController::e_SetTypeYellow(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start color calibration (ColorCalibrationThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_ColorCalibrationStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -43,6 +74,11 @@ void ColorCalibrationController::e_ColorCalibrationStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to end color calibration (ColorCalibrationThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_ColorCalibrationEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -52,6 +88,12 @@ void ColorCalibrationController::e_ColorCalibrationEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start color calibration preview
+ * (ColorCalibrationPreviewThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_ColorCalibrationPreviewStart(
     wxEvtHandler *parent) {
     try {
@@ -62,6 +104,12 @@ void ColorCalibrationController::e_ColorCalibrationPreviewStart(
     }
 }
 
+/**
+ * @brief Endpoint to end color calibration preview
+ * (ColorCalibrationPreviewThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_ColorCalibrationPreviewEnd(
     wxEvtHandler *parent) {
     try {
@@ -72,6 +120,11 @@ void ColorCalibrationController::e_ColorCalibrationPreviewEnd(
     }
 }
 
+/**
+ * @brief Endpoint to remove calibrated blue range
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_RemoveBlue(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -81,6 +134,11 @@ void ColorCalibrationController::e_RemoveBlue(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to remove calibrated yellow range
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_RemoveYellow(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -90,6 +148,11 @@ void ColorCalibrationController::e_RemoveYellow(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to save calibrated blue range
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_SaveBlue(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -99,6 +162,11 @@ void ColorCalibrationController::e_SaveBlue(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to save calibrated yellow range
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_SaveYellow(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -108,6 +176,11 @@ void ColorCalibrationController::e_SaveYellow(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to save all calibrated range (blue and yellow)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::e_SaveColorCalibration(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -117,6 +190,10 @@ void ColorCalibrationController::e_SaveColorCalibration(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Throw exception if any thread is running
+ *
+ */
 void ColorCalibrationController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -129,6 +206,11 @@ void ColorCalibrationController::throwIfAnyThreadIsRunning() {
     }
 }
 
+/**
+ * @brief Kill all running threads
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::killAllThreads(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -143,6 +225,14 @@ void ColorCalibrationController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
+/**
+ * @brief Left down handler
+ * @details when left down, send point to ColorCalibrationThread to perform hsv
+ * filtering
+ *
+ * @param parent Parent wxEvtHandler
+ * @param point Point of mouse cursor
+ */
 void ColorCalibrationController::leftDownHandler(wxEvtHandler *parent,
                                                  cv::Point point) {
     auto tc = shared->getThreadController();
@@ -160,16 +250,33 @@ void ColorCalibrationController::leftDownHandler(wxEvtHandler *parent,
     calibrationThread->setPoint(point);
 }
 
+/**
+ * @brief Blocked endpoint. To only allow left down event
+ *
+ * @param parent
+ * @param point
+ */
 void ColorCalibrationController::leftMoveHandler(wxEvtHandler *parent,
                                                  cv::Point point) {
     throw std::runtime_error("Blocked Endpoint");
 }
 
+/**
+ * @brief Blocked endpoint. To only allow left down event
+ *
+ * @param parent
+ * @param point
+ */
 void ColorCalibrationController::leftUpHandler(wxEvtHandler *parent,
                                                cv::Point point) {
     throw std::runtime_error("Blocked Endpoint");
 }
 
+/**
+ * @brief Restore hsv range to default value
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::restoreRangeHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -186,6 +293,11 @@ void ColorCalibrationController::restoreRangeHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, "Range restored");
 }
 
+/**
+ * @brief Set color calibration type to blue
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::setTypeBlueHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -202,6 +314,11 @@ void ColorCalibrationController::setTypeBlueHandler(wxEvtHandler *parent) {
     calibrationThread->setColorCalibrationType(COLOR_CALIBRATION_BLUE);
 }
 
+/**
+ * @brief Set color calibration type to yellow
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::setTypeYellowHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -218,6 +335,11 @@ void ColorCalibrationController::setTypeYellowHandler(wxEvtHandler *parent) {
     calibrationThread->setColorCalibrationType(COLOR_CALIBRATION_YELLOW);
 }
 
+/**
+ * @brief Start color calibration (ColorCalibrationThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::colorCalibrationStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -243,6 +365,11 @@ void ColorCalibrationController::colorCalibrationStartHandler(
                                      panelID);
 }
 
+/**
+ * @brief End color calibration (ColorCalibrationThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::colorCalibrationEndHandler(
     wxEvtHandler *parent) {
 
@@ -268,6 +395,11 @@ void ColorCalibrationController::colorCalibrationEndHandler(
     tc->endColorCalibrationHandler();
 }
 
+/**
+ * @brief Start color calibration preview (ColorCalibrationPreviewThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::colorCalibrationPreviewStartHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -293,6 +425,11 @@ void ColorCalibrationController::colorCalibrationPreviewStartHandler(
                                             yellowRange, panelID);
 }
 
+/**
+ * @brief End color calibration preview (ColorCalibrationPreviewThread)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::colorCalibrationPreviewEndHandler(
     wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
@@ -316,6 +453,11 @@ void ColorCalibrationController::colorCalibrationPreviewEndHandler(
     tc->endColorCalibrationPreviewHandler();
 }
 
+/**
+ * @brief Remove calibrated blue range
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::removeBlueHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -332,6 +474,11 @@ void ColorCalibrationController::removeBlueHandler(wxEvtHandler *parent) {
     calibrationThread->removeBlueRange();
 }
 
+/**
+ * @brief Remove calibrated yellow range
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::removeYellowHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -348,6 +495,11 @@ void ColorCalibrationController::removeYellowHandler(wxEvtHandler *parent) {
     calibrationThread->removeYellowRange();
 }
 
+/**
+ * @brief Save calibrated blue range
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::saveBlueHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -375,6 +527,11 @@ void ColorCalibrationController::saveBlueHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, "Blue range saved");
 }
 
+/**
+ * @brief Save calibrated yellow range
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::saveYellowHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -400,6 +557,11 @@ void ColorCalibrationController::saveYellowHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, "Yellow range saved");
 }
 
+/**
+ * @brief Save all calibrated range (blue and yellow)
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::saveColorCalibrationHandler(
     wxEvtHandler *parent) {
 
@@ -409,6 +571,12 @@ void ColorCalibrationController::saveColorCalibrationHandler(
     UpdateStatusEvent::Submit(parent, "Color calibration saved");
 }
 
+/**
+ * @brief Override BaseController::okButtonHandler
+ * @details Save all calibrated range (blue and yellow) before closing
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void ColorCalibrationController::okButtonHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
     if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {

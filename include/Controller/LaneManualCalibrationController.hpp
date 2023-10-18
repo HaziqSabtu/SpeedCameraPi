@@ -4,6 +4,10 @@
 
 #define LMCPtr std::shared_ptr<LaneManualCalibrationController>
 
+/**
+ * @brief Controller for LaneManualCalibrationPanel
+ *
+ */
 class LaneManualCalibrationController : public BaseControllerWithTouch {
   public:
     LaneManualCalibrationController(ResourcePtr shared);

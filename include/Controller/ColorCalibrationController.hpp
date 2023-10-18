@@ -4,6 +4,11 @@
 
 #define CCCPtr std::shared_ptr<ColorCalibrationController>
 
+/**
+ * @brief Controller for ColorCalibrationPanel
+ *
+ */
+
 class ColorCalibrationController : public BaseControllerWithTouch {
   public:
     ColorCalibrationController(ResourcePtr shared);

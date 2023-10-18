@@ -4,6 +4,11 @@
 #include <opencv2/core/core.hpp>
 #include <vector>
 
+/**
+ * @brief Class to find a line in a binary image using RANSAC
+ * (example)[https://cs.gmu.edu/~kosecka/cs482/lect-fitting.pdf]
+ *
+ */
 class RansacLine {
   private:
     int numIterations;
@@ -19,6 +24,7 @@ class RansacLine {
 
     Line run(cv::Mat &src);
 
+  private:
     std::vector<cv::Point> maskToPoint(cv::Mat &mask);
 
     int countInliers(std::vector<cv::Point> &points, Line &line);
