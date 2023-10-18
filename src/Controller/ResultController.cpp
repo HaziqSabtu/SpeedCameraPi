@@ -1,7 +1,7 @@
 #include <Controller/ResultController.hpp>
 
-ResultController::ResultController(ModelPtr sharedModel)
-    : BaseController(sharedModel) {
+ResultController::ResultController(ResourcePtr shared)
+    : BaseController(shared) {
     panelID = currentPanelID;
 }
 

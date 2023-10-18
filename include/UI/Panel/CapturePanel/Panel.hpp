@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Controller/CaptureController.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include <Event/Event_Replay.hpp>
+#include "Event/Event.hpp"
 
 #include "Model/SessionData.hpp"
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"

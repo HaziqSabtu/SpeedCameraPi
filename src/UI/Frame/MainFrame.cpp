@@ -3,7 +3,7 @@
 #include "Controller/TrimDataController.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/SessionData.hpp"
-#include "Model/SharedModel.hpp"
+#include "Model/SharedResource.hpp"
 #include "UI/Data/Data.hpp"
 #include "UI/Data/Theme.hpp"
 #include "UI/Dialog/ConfirmationDialog.hpp"
@@ -37,7 +37,7 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
     ShowFullScreen(true);
 
     CtrlFactoryPtr ctrlFactory = std::make_shared<ControllerFactory>(this);
-    sharedModel = ctrlFactory->getSharedModel();
+    shared = ctrlFactory->getSharedModel();
 
     panelFactory = std::make_shared<PanelFactory>(ctrlFactory);
 
@@ -82,7 +82,7 @@ void MainFrame::showFirstPanel() {
         throw std::runtime_error("MainFrame::showFirstPanel: panel is null");
     }
 
-    sharedModel->sessionData.setPanelID(FIRST_PANEL_ID);
+    shared->sessionData.setPanelID(FIRST_PANEL_ID);
     panels[FIRST_PANEL_ID]->Show();
 }
 
@@ -105,7 +105,7 @@ void MainFrame::OnChangePanel(ChangePanelEvent &e) {
             throw std::runtime_error("Error fetching next panel");
         }
 
-        sharedModel->sessionData.setPanelID(data.nextPanelID);
+        shared->sessionData.setPanelID(data.nextPanelID);
 
         currentPanel->Hide();
         nextPanel->Show();
@@ -135,7 +135,7 @@ void MainFrame::OnButton(wxCommandEvent &e) {
 
 #ifdef DEBUG
 void MainFrame::ExitButtonHandler(wxCommandEvent &e) {
-    sharedModel->killAllThreads();
+    shared->killAllThreads();
     Close();
 }
 
@@ -144,12 +144,12 @@ void MainFrame::ExitButtonHandler(wxCommandEvent &e) {
     auto dialog = new ExitAppDialog(this);
     int result = dialog->ShowModal();
     if (result == wxID_YES) {
-        sharedModel->killAllThreads();
+        shared->killAllThreads();
         Close();
     }
 
     if (result == dialog->getShutdownButtonID()) {
-        sharedModel->killAllThreads();
+        shared->killAllThreads();
         wxShutdown();
     }
 }

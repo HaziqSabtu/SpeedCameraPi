@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Model/AppState.hpp"
 #include "UI/Data/Theme.hpp"
 #include "UI/StaticText/Statustext.hpp"
 #include <wx/gtk/stattext.h>

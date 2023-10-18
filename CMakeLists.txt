@@ -40,11 +40,9 @@ if(CROSS_COMPILING)
     message("Cross compiling")  
   # allow pkg-config to find the libraries in sysroot
     set(ENV{PKG_CONFIG_DIR} "")
-    # set(ENV "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/pkgconfig:${CMAKE_SYSROOT}/usr/local/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf/pkgconfig")
     set(ENV{LD_LIBRARY_PATH} "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf:${CMAKE_SYSROOT}/usr/local/lib:${CMAKE_SYSROOT}/usr/local/share:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf")
     set(ENV{PKG_CONFIG_LIBDIR} "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/pkgconfig:${CMAKE_SYSROOT}/usr/local/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf/pkgconfig")
     set(ENV{PKG_CONFIG_PATH} "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig")
-    # set(ENV{PKG_CONFIG_PATH} "${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/pkgconfig:${CMAKE_SYSROOT}/usr/local/lib/pkgconfig:${CMAKE_SYSROOT}/usr/local/share/pkgconfig:${CMAKE_SYSROOT}/usr/local/local/lib/arm-linux-gnueabihf/pkgconfig")
     set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
 
     set(pathToLibcamera ${CMAKE_SYSROOT}/usr/local/lib/arm-linux-gnueabihf/libcamera.so)
@@ -104,14 +102,10 @@ else()
     message(FATAL_ERROR "wxWIdgets not found!")
 endif() # wxWidgets_FOUND
 
+# Find libcamera
 find_package(PkgConfig REQUIRED)
-
-# print out the pkg-config path
 message(STATUS "pkg-config path: $ENV{PKG_CONFIG_PATH}")
-
-# force to look in local directory
 pkg_check_modules(LIBCAMERA REQUIRED libcamera)
-
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 if(Threads_FOUND AND LIBCAMERA_FOUND)
@@ -127,79 +121,12 @@ if(Threads_FOUND AND LIBCAMERA_FOUND)
     message (STATUS "path to libcamera-base: ${pathToLibcameraBase}")
 
     target_link_libraries(SpeedCameraPi PRIVATE Threads::Threads ${pathToLibcamera} ${pathToLibcameraBase})
-    # target_link_libraries(SpeedCameraPi PRIVATE Threads::Threads ${LIBCAMERA_LINK_LIBRARIES})
     target_include_directories(SpeedCameraPi PRIVATE ${libcamIncludeDir})
 else()
     message(FATAL_ERROR "Threads not found")
 endif() # Threads_FOUND
 
-
-# set(CMAKE_MODULE_PATH "/usr/local/lib/cmake" ; ${CMAKE_MODULE_PATH})
-# find_package(raspicam REQUIRED)
-# if(raspicam_CV_FOUND)
-#     message("raspicam found!")
-# else()
-#     message(FATAL_ERROR "raspicam not found!")
-# endif()
-
+# Link libraries
 target_link_libraries(SpeedCameraPi PRIVATE ${OpenCV_LIBS} ${wxWidgets_LIBRARIES})
-
-# set boolean
-option(ENABLE_TESTING "Enable Test Builds" OFF)
-
-if(ENABLE_TESTING)
-  message(STATUS "Testing enabled")
-
-  include(FetchContent)
-  FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-  )
-  FetchContent_MakeAvailable(googletest)
-
-  enable_testing()
-
-  file(GLOB_RECURSE ALG    src/Algorithm/*.cpp)
-  file(GLOB_RECURSE EVENT  src/Event/*.cpp)
-  file(GLOB_RECURSE MODEL  src/Model/*.cpp)
-  file(GLOB_RECURSE THREAD src/Thread/*.cpp)
-  file(GLOB_RECURSE UTILS  src/Utils/*.cpp)
-  file(GLOB_RECURSE CONTROLLER  src/Controller/*.cpp)
-
-
-  file(GLOB_RECURSE MODELTEST tests/Model/*.cpp)
-
-  add_executable(
-    Tests
-    tests/testableframe.cpp
-
-    ${THREAD} 
-    ${MODEL} 
-    ${EVENT} 
-    ${UTILS} 
-    ${ALG}
-    ${CONTROLLER}
-
-    ${MODELTEST}
-  )
-
-  target_link_libraries(
-    Tests
-    GTest::gtest_main
-    GTest::gmock_main
-    ${OpenCV_LIBS} 
-    ${wxWidgets_LIBRARIES}
-    ${LIBCAMERA_LINK_LIBRARIES}
-    Threads::Threads 
-  )
-
-  target_include_directories(Tests PRIVATE ${libcamIncludeDir})
-
-  add_custom_command(TARGET Tests POST_BUILD
-          COMMAND ssh RPi0 "mkdir -p ~/Target"
-          COMMAND scp $<TARGET_FILE:Tests> RPi0:~/Target/
-      )
-  
-endif() # ENABLE_TESTING  
 
 

@@ -2,8 +2,8 @@
 
 #include <UI/Dialog/RemoveRoiDialog.hpp>
 
-RoiController::RoiController(ModelPtr sharedModel)
-    : BaseControllerWithTouch(sharedModel) {
+RoiController::RoiController(ResourcePtr shared)
+    : BaseControllerWithTouch(shared) {
     panelID = currentPanelID;
 }
 

@@ -13,7 +13,6 @@ class ColorCalibrationButtonMain : public TextOutlinePanel {
     void update(const AppState &state);
 
     BitmapButtonT2 *Calibrate_Button;
-    BitmapButton *Stop_Button;
     BitmapButtonT2 *Preview_Button;
 
   private:

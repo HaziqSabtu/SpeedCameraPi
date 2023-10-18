@@ -156,22 +156,28 @@ const STD Title = {
 };
 
 const STDV Description = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The camera sensor settings.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The camera sensor settings.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
-const STD WidthTD = {.textColor = T::Text,
-                     .backgroundColor = T::Background,
-                     .text = "Sensor Width",
-                     .fontData = T::TitleChildFontData};
+const STD WidthTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Sensor Width",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV WidthDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The width of the camera sensor. (in mm)",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The width of the camera sensor. (in mm)",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDD WidthCtrlData = {
@@ -180,16 +186,20 @@ const SCDD WidthCtrlData = {
     .increment = 0.01,
 };
 
-const STD FocalLengthTD = {.textColor = T::Text,
-                           .backgroundColor = T::Background,
-                           .text = "Sensor Focal Length",
-                           .fontData = T::TitleChildFontData};
+const STD FocalLengthTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Sensor Focal Length",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV FocalLengthDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The focal length of the camera sensor. (in mm)",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The focal length of the camera sensor. (in mm)",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDD FocalLengthCtrlData = {
@@ -200,16 +210,20 @@ const SCDD FocalLengthCtrlData = {
 } // namespace Sensor
 
 namespace Capture {
-const STD Title = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Capture",
-                   .fontData = T::TitleFontData};
+const STD Title = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Capture",
+    .fontData = T::TitleFontData,
+};
 
 const STDV Description = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The capture settings.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The capture settings.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const STD MaxFrameTD = {
@@ -275,22 +289,28 @@ const STDV DebugSaveDD = {
 }; // namespace Capture
 
 namespace Model {
-const STD Title = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Model",
-                   .fontData = T::TitleFontData};
-
-const STDV Description = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The model settings.",
-     .fontData = T::descriptionFontData},
+const STD Title = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Model",
+    .fontData = T::TitleFontData,
 };
 
-const STD MaxPoolTD = {.textColor = T::Text,
-                       .backgroundColor = T::Background,
-                       .text = "Maximum Thread Pool",
-                       .fontData = T::TitleChildFontData};
+const STDV Description = {
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The model settings.",
+        .fontData = T::descriptionFontData,
+    },
+};
+
+const STD MaxPoolTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Maximum Thread Pool",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV MaxPoolDD = {
     {
@@ -315,22 +335,28 @@ const SCDI MaxPoolCtrlData = {
 }; // namespace Model
 
 namespace Measurement {
-const STD Title = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Measurement",
-                   .fontData = T::TitleFontData};
-
-const STDV Description = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The measurement settings.",
-     .fontData = T::descriptionFontData},
+const STD Title = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Measurement",
+    .fontData = T::TitleFontData,
 };
 
-const STD ObjectWidthTD = {.textColor = T::Text,
-                           .backgroundColor = T::Background,
-                           .text = "Object Width",
-                           .fontData = T::TitleChildFontData};
+const STDV Description = {
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The measurement settings.",
+        .fontData = T::descriptionFontData,
+    },
+};
+
+const STD ObjectWidthTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Object Width",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV ObjectWidthDD = {
     {.textColor = T::Text,
@@ -347,17 +373,21 @@ const SCDI ObjectWidthCtrlData = {
 
 };
 
-const STD ObjectHeightTD = {.textColor = T::Text,
-                            .backgroundColor = T::Background,
-                            .text = "Object Height",
-                            .fontData = T::TitleChildFontData};
+const STD ObjectHeightTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Object Height",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV ObjectHeightDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The height of the object to measure. (in mm) (for Distance "
-             "Measurement)",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The height of the object to measure. (in mm) (for Distance "
+                "Measurement)",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI ObjectHeightCtrlData = {
@@ -368,28 +398,36 @@ const SCDI ObjectHeightCtrlData = {
 } // namespace Measurement
 
 namespace Preview {
-const STD Title = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Preview",
-                   .fontData = T::TitleFontData};
-
-const STDV Description = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The preview settings.",
-     .fontData = T::descriptionFontData},
+const STD Title = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Preview",
+    .fontData = T::TitleFontData,
 };
 
-const STD WidthTD = {.textColor = T::Text,
-                     .backgroundColor = T::Background,
-                     .text = "Preview Width",
-                     .fontData = T::TitleChildFontData};
+const STDV Description = {
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The preview settings.",
+        .fontData = T::descriptionFontData,
+    },
+};
+
+const STD WidthTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Preview Width",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV WidthDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The width of the preview window.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The width of the preview window.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI WidthCtrlData = {
@@ -398,16 +436,20 @@ const SCDI WidthCtrlData = {
     .increment = 1,
 };
 
-const STD HeightTD = {.textColor = T::Text,
-                      .backgroundColor = T::Background,
-                      .text = "Preview Height",
-                      .fontData = T::TitleChildFontData};
+const STD HeightTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Preview Height",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV HeightDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The height of the preview window.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The height of the preview window.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI HeightCtrlData = {
@@ -419,32 +461,42 @@ const SCDI HeightCtrlData = {
 } // namespace Preview
 
 namespace OpticalFlow {
-const STD Title = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Optical Flow",
-                   .fontData = T::TitleFontData};
-
-const STDV Description = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The optical flow settings.",
-     .fontData = T::descriptionFontData},
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "For more information, refer OpenCV documentation.",
-     .fontData = T::descriptionFontData},
+const STD Title = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Optical Flow",
+    .fontData = T::TitleFontData,
 };
 
-const STD MaxCornersTD = {.textColor = T::Text,
-                          .backgroundColor = T::Background,
-                          .text = "Max Corners",
-                          .fontData = T::TitleChildFontData};
+const STDV Description = {
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The optical flow settings.",
+        .fontData = T::descriptionFontData,
+    },
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "For more information, refer OpenCV documentation.",
+        .fontData = T::descriptionFontData,
+    },
+};
+
+const STD MaxCornersTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Max Corners",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV MaxCornersDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The maximum number of corners to detect.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The maximum number of corners to detect.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI MaxCornersCtrlData = {
@@ -453,16 +505,20 @@ const SCDI MaxCornersCtrlData = {
     .increment = 1,
 };
 
-const STD QualityLevelTD = {.textColor = T::Text,
-                            .backgroundColor = T::Background,
-                            .text = "Quality Level",
-                            .fontData = T::TitleChildFontData};
+const STD QualityLevelTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Quality Level",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV QualityLevelDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The minimum accepted quality of image corners.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The minimum accepted quality of image corners.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDD QualityLevelCtrlData = {
@@ -471,17 +527,21 @@ const SCDD QualityLevelCtrlData = {
     .increment = 0.01,
 };
 
-const STD MinDistanceTD = {.textColor = T::Text,
-                           .backgroundColor = T::Background,
-                           .text = "Minimum Distance",
-                           .fontData = T::TitleChildFontData};
+const STD MinDistanceTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Minimum Distance",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV MinDistanceDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The minimum possible Euclidean distance between the returned "
-             "corners.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The minimum possible Euclidean distance between the returned "
+                "corners.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDD MinDistanceCtrlData = {
@@ -490,20 +550,26 @@ const SCDD MinDistanceCtrlData = {
     .increment = 1,
 };
 
-const STD BlockSizeTD = {.textColor = T::Text,
-                         .backgroundColor = T::Background,
-                         .text = "Block Size",
-                         .fontData = T::TitleChildFontData};
+const STD BlockSizeTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Block Size",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV BlockSizeDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Size of an average block for computing a derivative",
-     .fontData = T::descriptionFontData},
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "covariation matrix over each pixel neighborhood.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Size of an average block for computing a derivative",
+        .fontData = T::descriptionFontData,
+    },
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "covariation matrix over each pixel neighborhood.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI BlockSizeCtrlData = {
@@ -512,28 +578,36 @@ const SCDI BlockSizeCtrlData = {
     .increment = 1,
 };
 
-const STD UseHarrisDetectorTD = {.textColor = T::Text,
-                                 .backgroundColor = T::Background,
-                                 .text = "Use Harris Detector",
-                                 .fontData = T::TitleChildFontData};
-
-const STDV UseHarrisDetectorDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Use Harris Detector instead of Shi-Tomasi.",
-     .fontData = T::descriptionFontData},
+const STD UseHarrisDetectorTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Use Harris Detector",
+    .fontData = T::TitleChildFontData,
 };
 
-const STD KTD = {.textColor = T::Text,
-                 .backgroundColor = T::Background,
-                 .text = "K",
-                 .fontData = T::TitleChildFontData};
+const STDV UseHarrisDetectorDD = {
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Use Harris Detector instead of Shi-Tomasi.",
+        .fontData = T::descriptionFontData,
+    },
+};
+
+const STD KTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "K",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV KDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Free parameter of the Harris detector.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Free parameter of the Harris detector.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDD KCtrlData = {
@@ -542,16 +616,20 @@ const SCDD KCtrlData = {
     .increment = 0.01,
 };
 
-const STD MinPointDistanceTD = {.textColor = T::Text,
-                                .backgroundColor = T::Background,
-                                .text = "Minimum Point Distance",
-                                .fontData = T::TitleChildFontData};
+const STD MinPointDistanceTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Minimum Point Distance",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV MinPointDistanceDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The minimum distance between two points.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The minimum distance between two points.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDD MinPointDistanceCtrlData = {
@@ -560,17 +638,22 @@ const SCDD MinPointDistanceCtrlData = {
     .increment = 0.1,
 };
 
-const STD ThresholdTD = {.textColor = T::Text,
-                         .backgroundColor = T::Background,
-                         .text = "Threshold",
-                         .fontData = T::TitleChildFontData};
+const STD ThresholdTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Threshold",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV ThresholdDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The threshold for the minimal point distance to be considered as "
-             "moving.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text =
+            "The threshold for the minimal point distance to be considered as "
+            "moving.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDD ThresholdCtrlData = {
@@ -582,32 +665,42 @@ const SCDD ThresholdCtrlData = {
 } // namespace OpticalFlow
 
 namespace Ransac {
-const STD Title = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "RANSAC",
-                   .fontData = T::TitleFontData};
-
-const STDV Description = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The RANSAC settings.",
-     .fontData = T::descriptionFontData},
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Used in Line Search.",
-     .fontData = T::descriptionFontData},
+const STD Title = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "RANSAC",
+    .fontData = T::TitleFontData,
 };
 
-const STD ThresholdTD = {.textColor = T::Text,
-                         .backgroundColor = T::Background,
-                         .text = "Threshold",
-                         .fontData = T::TitleChildFontData};
+const STDV Description = {
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The RANSAC settings.",
+        .fontData = T::descriptionFontData,
+    },
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Used in Line Search.",
+        .fontData = T::descriptionFontData,
+    },
+};
+
+const STD ThresholdTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Threshold",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV ThresholdDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Minimum distance to be considered as inlier.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Minimum distance to be considered as inlier.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDD ThresholdCtrlData = {
@@ -616,16 +709,20 @@ const SCDD ThresholdCtrlData = {
     .increment = 1,
 };
 
-const STD MinPointsTD = {.textColor = T::Text,
-                         .backgroundColor = T::Background,
-                         .text = "Minimum Points",
-                         .fontData = T::TitleChildFontData};
+const STD MinPointsTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Minimum Points",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV MinPointsDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Minimum number of data points to allow line search.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Minimum number of data points to allow line search.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI MinPointsCtrlData = {
@@ -634,16 +731,20 @@ const SCDI MinPointsCtrlData = {
     .increment = 1,
 };
 
-const STD MaxIterationsTD = {.textColor = T::Text,
-                             .backgroundColor = T::Background,
-                             .text = "Maximum Iterations",
-                             .fontData = T::TitleChildFontData};
+const STD MaxIterationsTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Maximum Iterations",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV MaxIterationsDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Maximum number of iterations in model fitting.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Maximum number of iterations in model fitting.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI MaxIterationsCtrlData = {
@@ -655,40 +756,52 @@ const SCDI MaxIterationsCtrlData = {
 } // namespace Ransac
 
 namespace HSV {
-const STD BlueTD = {.textColor = T::Text,
-                    .backgroundColor = T::Background,
-                    .text = "Blue HSV",
-                    .fontData = T::TitleFontData};
+const STD BlueTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Blue HSV",
+    .fontData = T::TitleFontData,
+};
 
 const STDV BlueDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The blue HSV settings.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The blue HSV settings.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
-const STD YellowTD = {.textColor = T::Text,
-                      .backgroundColor = T::Background,
-                      .text = "Yellow HSV",
-                      .fontData = T::TitleFontData};
+const STD YellowTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Yellow HSV",
+    .fontData = T::TitleFontData,
+};
 
 const STDV YellowDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "The yellow HSV settings.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "The yellow HSV settings.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
-const STD HueTD = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Hue",
-                   .fontData = T::TitleChildFontData};
+const STD HueTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Hue",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV HueDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Hue Range. (0-180)",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Hue Range. (0-180)",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI HueCtrlData = {
@@ -697,18 +810,25 @@ const SCDI HueCtrlData = {
     .increment = 1,
 };
 
-const wxStringPair HueLabels = {"Upper Hue", "Lower Hue"};
+const wxStringPair HueLabels = {
+    "Upper Hue",
+    "Lower Hue",
+};
 
-const STD SaturationTD = {.textColor = T::Text,
-                          .backgroundColor = T::Background,
-                          .text = "Saturation",
-                          .fontData = T::TitleChildFontData};
+const STD SaturationTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Saturation",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV SaturationDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Saturation Range. (0-255)",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Saturation Range. (0-255)",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI SaturationCtrlData = {
@@ -717,18 +837,25 @@ const SCDI SaturationCtrlData = {
     .increment = 1,
 };
 
-const wxStringPair SaturationLabels = {"Upper Saturation", "Lower Saturation"};
+const wxStringPair SaturationLabels = {
+    "Upper Saturation",
+    "Lower Saturation",
+};
 
-const STD ValueTD = {.textColor = T::Text,
-                     .backgroundColor = T::Background,
-                     .text = "Value",
-                     .fontData = T::TitleChildFontData};
+const STD ValueTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Value",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV ValueDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Value Range. (0-255)",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Value Range. (0-255)",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 const SCDI ValueCtrlData = {
@@ -737,73 +864,96 @@ const SCDI ValueCtrlData = {
     .increment = 1,
 };
 
-const wxStringPair ValueLabels = {"Upper Value", "Lower Value"};
+const wxStringPair ValueLabels = {
+    "Upper Value",
+    "Lower Value",
+};
 
 } // namespace HSV
 
 namespace Threads {
-const STD Title = {.textColor = T::Text,
-                   .backgroundColor = T::Background,
-                   .text = "Threads",
-                   .fontData = T::TitleFontData};
+const STD Title = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Threads",
+    .fontData = T::TitleFontData,
+};
 
 const STDV Description = {
     {.textColor = T::Text,
      .backgroundColor = T::Background,
      .text = "The thread settings.",
      .fontData = T::descriptionFontData},
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Enable / Disable automatic thread initialization",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Enable / Disable automatic thread initialization",
+        .fontData = T::descriptionFontData,
+    },
 };
 
-const STD AutoManualCalibrationTD = {.textColor = T::Text,
-                                     .backgroundColor = T::Background,
-                                     .text = "Auto Manual Calibration",
-                                     .fontData = T::TitleChildFontData};
+const STD AutoManualCalibrationTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Auto Manual Calibration",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV AutoManualCalibrationDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Enable / Disable automatic manual calibration.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Enable / Disable automatic manual calibration.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
-const STD AutoCalibrationTD = {.textColor = T::Text,
-                               .backgroundColor = T::Background,
-                               .text = "Auto Calibration",
-                               .fontData = T::TitleChildFontData};
+const STD AutoCalibrationTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Auto Calibration",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV AutoCalibrationDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Enable / Disable automatic calibration.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Enable / Disable automatic calibration.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
-const STD AutoRoiTD = {.textColor = T::Text,
-                       .backgroundColor = T::Background,
-                       .text = "Auto ROI",
-                       .fontData = T::TitleChildFontData};
+const STD AutoRoiTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Auto ROI",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV AutoRoiDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Enable / Disable automatic ROI.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Enable / Disable automatic ROI.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
-const STD AutoResultTD = {.textColor = T::Text,
-                          .backgroundColor = T::Background,
-                          .text = "Auto Result",
-                          .fontData = T::TitleChildFontData};
+const STD AutoResultTD = {
+    .textColor = T::Text,
+    .backgroundColor = T::Background,
+    .text = "Auto Result",
+    .fontData = T::TitleChildFontData,
+};
 
 const STDV AutoResultDD = {
-    {.textColor = T::Text,
-     .backgroundColor = T::Background,
-     .text = "Enable / Disable automatic result processing.",
-     .fontData = T::descriptionFontData},
+    {
+        .textColor = T::Text,
+        .backgroundColor = T::Background,
+        .text = "Enable / Disable automatic result processing.",
+        .fontData = T::descriptionFontData,
+    },
 };
 
 } // namespace Threads

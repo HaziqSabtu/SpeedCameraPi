@@ -2,9 +2,8 @@
 
 #include <UI/Dialog/RemoveCalibrationDialog.hpp>
 
-DistanceCalibrationController::DistanceCalibrationController(
-    ModelPtr sharedModel)
-    : BaseControllerWithTouch(sharedModel) {
+DistanceCalibrationController::DistanceCalibrationController(ResourcePtr shared)
+    : BaseControllerWithTouch(shared) {
     panelID = currentPanelID;
 }
 

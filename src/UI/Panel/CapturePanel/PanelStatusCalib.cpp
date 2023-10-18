@@ -1,7 +1,6 @@
 #include "UI/Button/BitmapButton/Button_Height.hpp"
 #include "UI/Button/BitmapButton/Button_Remove.hpp"
 #include "UI/Button/BitmapButton/Button_Road.hpp"
-#include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include "UI/StaticText/RichText.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/PanelStatusCalib.hpp>

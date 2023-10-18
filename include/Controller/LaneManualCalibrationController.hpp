@@ -6,7 +6,7 @@
 
 class LaneManualCalibrationController : public BaseControllerWithTouch {
   public:
-    LaneManualCalibrationController(ModelPtr sharedModel);
+    LaneManualCalibrationController(ResourcePtr shared);
     ~LaneManualCalibrationController();
 
     void e_ChangeToLeft(wxEvtHandler *parent);

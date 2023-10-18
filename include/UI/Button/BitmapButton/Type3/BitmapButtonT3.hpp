@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Model/AppState.hpp"
-#include <wx/gtk/colour.h>
-#include <wx/wx.h>
+#include "wx/wx.h"
+#include <Model/Enum.hpp>
 
 struct BitmapDataT3 {
     wxSize size;

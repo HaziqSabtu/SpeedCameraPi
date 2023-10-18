@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Controller/BaseController.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/AppState.hpp"
-#include "Model/SessionData.hpp"
-#include "UI/Layout/StatusPanel.hpp"
-#include "UI/Layout/TitlePanel.hpp"
-#include "UI/Panel/Common/Panel_Image.hpp"
+#include <Controller/BaseController.hpp>
+#include <Event/Event.hpp>
+#include <Model/AppState.hpp>
+#include <Model/SessionData.hpp>
+#include <UI/Layout/StatusPanel.hpp>
+#include <UI/Layout/TitlePanel.hpp>
+#include <UI/Panel/Common/Panel_Image.hpp>
+#include <Utils/Enum.hpp>
 #include <wx/wx.h>
 
 class BaseButtonPanel : public wxPanel {

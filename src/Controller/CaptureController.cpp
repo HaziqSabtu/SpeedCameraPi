@@ -7,8 +7,8 @@
 #include <UI/Dialog/SwitchModeDialog.hpp>
 #include <UI/Dialog/TrimDataDialog.hpp>
 
-CaptureController::CaptureController(ModelPtr sharedModel)
-    : BaseController(sharedModel) {
+CaptureController::CaptureController(ResourcePtr shared)
+    : BaseController(shared) {
     panelID = currentPanelID;
 }
 

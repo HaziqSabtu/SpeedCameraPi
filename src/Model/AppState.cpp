@@ -5,7 +5,7 @@
 
 AppState::AppState() {}
 
-AppState::AppState(ModelPtr model) {
+AppState::AppState(ResourcePtr model) {
     capturePanel = getCapturePanelState(model);
     laneCalibrationPanel = getLaneCalibrationPanelState(model);
     laneManualCalibrationPanel = getLaneManualCalibrationPanelState(model);
@@ -16,7 +16,7 @@ AppState::AppState(ModelPtr model) {
     trimDataPanel = getTrimDataPanelState(model);
 }
 
-CapturePanelState AppState::getCapturePanelState(ModelPtr model) {
+CapturePanelState AppState::getCapturePanelState(ResourcePtr model) {
     CapturePanelState ps;
 
     ps.captureStatusState = getCPCaptureStatusState(model);
@@ -46,7 +46,7 @@ CapturePanelState AppState::getCapturePanelState(ModelPtr model) {
 }
 
 LaneCalibrationPanelState
-AppState::getLaneCalibrationPanelState(ModelPtr model) {
+AppState::getLaneCalibrationPanelState(ResourcePtr model) {
     LaneCalibrationPanelState ps;
 
     ps.state = getLCStatusState(model);
@@ -71,7 +71,7 @@ AppState::getLaneCalibrationPanelState(ModelPtr model) {
 }
 
 LaneManualCalibrationPanelState AppState::getLaneManualCalibrationPanelState(
-    std::shared_ptr<SharedModel> model) {
+    std::shared_ptr<SharedResource> model) {
     LaneManualCalibrationPanelState ps;
 
     ps.state = getLMStatusState(model);
@@ -95,7 +95,7 @@ LaneManualCalibrationPanelState AppState::getLaneManualCalibrationPanelState(
 }
 
 DistanceCalibrationPanelState
-AppState::getDistanceCalibrationPanelState(ModelPtr model) {
+AppState::getDistanceCalibrationPanelState(ResourcePtr model) {
     DistanceCalibrationPanelState ps;
 
     ps.state = getDCStatusState(model);
@@ -119,11 +119,10 @@ AppState::getDistanceCalibrationPanelState(ModelPtr model) {
 }
 
 ColorCalibrationPanelState
-AppState::getColorCalibrationPanelState(std::shared_ptr<SharedModel> model) {
+AppState::getColorCalibrationPanelState(std::shared_ptr<SharedResource> model) {
     ColorCalibrationPanelState ps;
 
     ps.calibrationButtonState = getCCButtonState(model);
-    ps.stopButtonState = getCCStopButtonState(model);
     ps.cameraButtonState = getCCCameraButtonState(model);
 
     ps.blueStatusState = getCCBlueStatusState(model);
@@ -143,7 +142,7 @@ AppState::getColorCalibrationPanelState(std::shared_ptr<SharedModel> model) {
     return ps;
 }
 
-RoiPanelState AppState::getRoiPanelState(ModelPtr model) {
+RoiPanelState AppState::getRoiPanelState(ResourcePtr model) {
     RoiPanelState ps;
 
     ps.state = getROIStatusState(model);
@@ -161,7 +160,7 @@ RoiPanelState AppState::getRoiPanelState(ModelPtr model) {
     return ps;
 }
 
-TrimDataPanelState AppState::getTrimDataPanelState(ModelPtr model) {
+TrimDataPanelState AppState::getTrimDataPanelState(ResourcePtr model) {
     TrimDataPanelState ps;
 
     ps.startButtonState = getTDStartButtonState(model);
@@ -183,7 +182,7 @@ TrimDataPanelState AppState::getTrimDataPanelState(ModelPtr model) {
     return ps;
 }
 
-ResultPanelState AppState::getResultPanelState(ModelPtr model) {
+ResultPanelState AppState::getResultPanelState(ResourcePtr model) {
     ResultPanelState ps;
 
     ps.state = getRPResultStatusState(model);
@@ -205,12 +204,12 @@ ResultPanelState AppState::getResultPanelState(ModelPtr model) {
     return ps;
 }
 
-PanelState AppState::getCPCaptureStatusState(ModelPtr model) {
+PanelState AppState::getCPCaptureStatusState(ResourcePtr model) {
     return model->sessionData.isCaptureDataEmpty() ? PanelState::PANEL_NOT_OK
                                                    : PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getCPCaptureButtonState(ModelPtr model) {
+ButtonState AppState::getCPCaptureButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
     if (!tc->isThreadNullptr(THREAD_LOAD_CAPTURE)) {
         return ButtonState::ACTIVE;
@@ -231,7 +230,7 @@ ButtonState AppState::getCPCaptureButtonState(ModelPtr model) {
     return ButtonState::HIDDEN;
 }
 
-ButtonState AppState::getCPLoadButtonState(ModelPtr model) {
+ButtonState AppState::getCPLoadButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
     if (!tc->isThreadNullptr(THREAD_LOAD_FILE)) {
         return ButtonState::ACTIVE;
@@ -252,7 +251,7 @@ ButtonState AppState::getCPLoadButtonState(ModelPtr model) {
     return ButtonState::HIDDEN;
 }
 
-ButtonState AppState::getCPReplayButtonState(ModelPtr model) {
+ButtonState AppState::getCPReplayButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_CAPTURE_PREVIEW)) {
@@ -274,7 +273,7 @@ ButtonState AppState::getCPReplayButtonState(ModelPtr model) {
     return ButtonState::HIDDEN;
 }
 
-ButtonState AppState::getCPRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getCPRemoveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isCapturePanelThreadRunning()) {
@@ -292,7 +291,7 @@ ButtonState AppState::getCPRemoveButtonState(ModelPtr model) {
     return ButtonState::HIDDEN;
 }
 
-ButtonState AppState::getCPCameraButtonState(ModelPtr model) {
+ButtonState AppState::getCPCameraButtonState(ResourcePtr model) {
 
     auto tc = model->getThreadController();
 
@@ -311,7 +310,7 @@ ButtonState AppState::getCPCameraButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-PanelState AppState::getCPCalibrationStatusState(ModelPtr model) {
+PanelState AppState::getCPCalibrationStatusState(ResourcePtr model) {
     auto data = model->getSessionData();
 
     if (data->getMode() != MODE_LANE) {
@@ -325,7 +324,7 @@ PanelState AppState::getCPCalibrationStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-PanelState AppState::getCPHorCalibrationStatusState(ModelPtr model) {
+PanelState AppState::getCPHorCalibrationStatusState(ResourcePtr model) {
     auto data = model->getSessionData();
 
     if (data->getMode() != MODE_DISTANCE) {
@@ -339,7 +338,7 @@ PanelState AppState::getCPHorCalibrationStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getCPCalibrationButtonState(ModelPtr model) {
+ButtonState AppState::getCPCalibrationButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isCapturePanelThreadRunning()) {
@@ -349,7 +348,7 @@ ButtonState AppState::getCPCalibrationButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCPCalibrationRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getCPCalibrationRemoveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isCapturePanelThreadRunning()) {
@@ -363,12 +362,12 @@ ButtonState AppState::getCPCalibrationRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getCPRoiStatusState(ModelPtr model) {
+PanelState AppState::getCPRoiStatusState(ResourcePtr model) {
     return model->sessionData.isTrackingDataEmpty() ? PanelState::PANEL_NOT_OK
                                                     : PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getCPROIButtonState(ModelPtr model) {
+ButtonState AppState::getCPROIButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isCapturePanelThreadRunning()) {
@@ -382,7 +381,7 @@ ButtonState AppState::getCPROIButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCPROIRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getCPROIRemoveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isCapturePanelThreadRunning()) {
@@ -401,7 +400,7 @@ ButtonState AppState::getCPROIRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getCPToolsStatusState(ModelPtr model) {
+PanelState AppState::getCPToolsStatusState(ResourcePtr model) {
     auto data = model->getSessionData();
 
     if (data->isCaptureDataEmpty()) {
@@ -411,7 +410,7 @@ PanelState AppState::getCPToolsStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getCPSaveButtonState(ModelPtr model) {
+ButtonState AppState::getCPSaveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isCapturePanelThreadRunning()) {
@@ -425,15 +424,15 @@ ButtonState AppState::getCPSaveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCPTrimButtonState(ModelPtr model) {
+ButtonState AppState::getCPTrimButtonState(ResourcePtr model) {
     return getCPSaveButtonState(model);
 }
 
-ButtonState AppState::getCPResetButtonState(ModelPtr model) {
+ButtonState AppState::getCPResetButtonState(ResourcePtr model) {
     return getCPSaveButtonState(model);
 }
 
-ButtonState AppState::getCPMeasureButtonState(ModelPtr model) {
+ButtonState AppState::getCPMeasureButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isCapturePanelThreadRunning()) {
@@ -455,13 +454,13 @@ ButtonState AppState::getCPMeasureButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getLCStatusState(ModelPtr model) {
+PanelState AppState::getLCStatusState(ResourcePtr model) {
     return model->sessionData.isCalibrationDataEmpty()
                ? PanelState::PANEL_NOT_OK
                : PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getLCCalibrationButtonState(ModelPtr model) {
+ButtonState AppState::getLCCalibrationButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isLaneCalibrationThreadRunning()) {
@@ -476,7 +475,7 @@ ButtonState AppState::getLCCalibrationButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getLCRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getLCRemoveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (model->sessionData.isCalibrationDataEmpty()) {
@@ -494,7 +493,7 @@ ButtonState AppState::getLCRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getLCToolStatusState(ModelPtr model) {
+PanelState AppState::getLCToolStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isLaneCalibrationThreadRunning()) {
@@ -504,7 +503,7 @@ PanelState AppState::getLCToolStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getLCSelectPointButtonState(ModelPtr model) {
+ButtonState AppState::getLCSelectPointButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getLCToolStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -514,15 +513,15 @@ ButtonState AppState::getLCSelectPointButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getLCCancelCalibrationButtonState(ModelPtr model) {
+ButtonState AppState::getLCCancelCalibrationButtonState(ResourcePtr model) {
     return getLCSelectPointButtonState(model);
 }
 
-ButtonState AppState::getLCAcceptCalibrationButtonState(ModelPtr model) {
+ButtonState AppState::getLCAcceptCalibrationButtonState(ResourcePtr model) {
     return getLCSelectPointButtonState(model);
 }
 
-ButtonState AppState::getLCPreviewButtonState(ModelPtr model) {
+ButtonState AppState::getLCPreviewButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -541,7 +540,7 @@ ButtonState AppState::getLCPreviewButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-PanelState AppState::getLCOtherStatusState(ModelPtr model) {
+PanelState AppState::getLCOtherStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isLaneCalibrationThreadRunning()) {
@@ -556,7 +555,7 @@ PanelState AppState::getLCOtherStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getLCRecalibrateColorButtonState(ModelPtr model) {
+ButtonState AppState::getLCRecalibrateColorButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getLCOtherStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -566,7 +565,7 @@ ButtonState AppState::getLCRecalibrateColorButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getLCManualCalibrationButtonState(ModelPtr model) {
+ButtonState AppState::getLCManualCalibrationButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isLaneCalibrationThreadRunning()) {
@@ -581,7 +580,7 @@ ButtonState AppState::getLCManualCalibrationButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getLCOKButtonState(ModelPtr model) {
+ButtonState AppState::getLCOKButtonState(ResourcePtr model) {
     if (model->isSessionDataChanged()) {
         return ButtonState::NORMAL;
     }
@@ -589,17 +588,17 @@ ButtonState AppState::getLCOKButtonState(ModelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getLCCancelButtonState(ModelPtr model) {
+ButtonState AppState::getLCCancelButtonState(ResourcePtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getLMStatusState(ModelPtr model) {
+PanelState AppState::getLMStatusState(ResourcePtr model) {
     return model->sessionData.isCalibrationDataEmpty()
                ? PanelState::PANEL_NOT_OK
                : PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getLMButtonState(ModelPtr model) {
+ButtonState AppState::getLMButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isLaneManualCalibrationThreadRunning()) {
@@ -614,7 +613,7 @@ ButtonState AppState::getLMButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getMCRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getMCRemoveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (model->sessionData.isCalibrationDataEmpty()) {
@@ -632,7 +631,7 @@ ButtonState AppState::getMCRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getLMLeftStatusState(ModelPtr model) {
+PanelState AppState::getLMLeftStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isLaneManualCalibrationThreadRunning()) {
@@ -650,7 +649,7 @@ PanelState AppState::getLMLeftStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getLMSelectLeftButtonState(ModelPtr model) {
+ButtonState AppState::getLMSelectLeftButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getLMLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -665,7 +664,7 @@ ButtonState AppState::getLMSelectLeftButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getLMRemoveLeftButtonState(ModelPtr model) {
+ButtonState AppState::getLMRemoveLeftButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getLMLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -675,7 +674,7 @@ ButtonState AppState::getLMRemoveLeftButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getLMRightStatusState(ModelPtr model) {
+PanelState AppState::getLMRightStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isLaneManualCalibrationThreadRunning()) {
@@ -692,7 +691,7 @@ PanelState AppState::getLMRightStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getLMSelectRightButtonState(ModelPtr model) {
+ButtonState AppState::getLMSelectRightButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getLMLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -707,7 +706,7 @@ ButtonState AppState::getLMSelectRightButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getLMRemoveRightButtonState(ModelPtr model) {
+ButtonState AppState::getLMRemoveRightButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getLMLeftStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -717,7 +716,7 @@ ButtonState AppState::getLMRemoveRightButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getLMPreviewButtonState(ModelPtr model) {
+ButtonState AppState::getLMPreviewButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -736,7 +735,7 @@ ButtonState AppState::getLMPreviewButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getLMOKButtonState(ModelPtr model) {
+ButtonState AppState::getLMOKButtonState(ResourcePtr model) {
     if (model->isSessionDataChanged()) {
         return ButtonState::NORMAL;
     }
@@ -744,17 +743,17 @@ ButtonState AppState::getLMOKButtonState(ModelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getLMCancelButtonState(ModelPtr model) {
+ButtonState AppState::getLMCancelButtonState(ResourcePtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getDCStatusState(ModelPtr model) {
+PanelState AppState::getDCStatusState(ResourcePtr model) {
     return model->sessionData.isCalibrationDataEmpty()
                ? PanelState::PANEL_NOT_OK
                : PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getDCButtonState(ModelPtr model) {
+ButtonState AppState::getDCButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isDistanceCalibrationThreadRunning()) {
@@ -769,7 +768,7 @@ ButtonState AppState::getDCButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getDCRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getDCRemoveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (model->sessionData.isCalibrationDataEmpty()) {
@@ -787,7 +786,7 @@ ButtonState AppState::getDCRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getDCTopStatusState(ModelPtr model) {
+PanelState AppState::getDCTopStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isDistanceCalibrationThreadRunning()) {
@@ -805,7 +804,7 @@ PanelState AppState::getDCTopStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getDCSelectTopButtonState(ModelPtr model) {
+ButtonState AppState::getDCSelectTopButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getDCTopStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -820,7 +819,7 @@ ButtonState AppState::getDCSelectTopButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getDCRemoveTopButtonState(ModelPtr model) {
+ButtonState AppState::getDCRemoveTopButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getDCTopStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -830,7 +829,7 @@ ButtonState AppState::getDCRemoveTopButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getDCBottomStatusState(ModelPtr model) {
+PanelState AppState::getDCBottomStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isDistanceCalibrationThreadRunning()) {
@@ -847,7 +846,7 @@ PanelState AppState::getDCBottomStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getDCSelectBottomButtonState(ModelPtr model) {
+ButtonState AppState::getDCSelectBottomButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getDCBottomStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -862,7 +861,7 @@ ButtonState AppState::getDCSelectBottomButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getDCRemoveBottomButtonState(ModelPtr model) {
+ButtonState AppState::getDCRemoveBottomButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getDCBottomStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -872,7 +871,7 @@ ButtonState AppState::getDCRemoveBottomButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getDCPreviewButtonState(ModelPtr model) {
+ButtonState AppState::getDCPreviewButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -891,7 +890,7 @@ ButtonState AppState::getDCPreviewButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getDCOKButtonState(ModelPtr model) {
+ButtonState AppState::getDCOKButtonState(ResourcePtr model) {
     if (model->isSessionDataChanged()) {
         return ButtonState::NORMAL;
     }
@@ -899,11 +898,11 @@ ButtonState AppState::getDCOKButtonState(ModelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getDCCancelButtonState(ModelPtr model) {
+ButtonState AppState::getDCCancelButtonState(ResourcePtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCCButtonState(ModelPtr model) {
+ButtonState AppState::getCCButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION_PREVIEW)) {
@@ -917,17 +916,7 @@ ButtonState AppState::getCCButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getCCStopButtonState(ModelPtr model) {
-    // auto tc = model->getThreadController();
-
-    // if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
-    //     return ButtonState::NORMAL;
-    // }
-
-    return ButtonState::HIDDEN;
-}
-
-ButtonState AppState::getCCCameraButtonState(ModelPtr model) {
+ButtonState AppState::getCCCameraButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -941,7 +930,7 @@ ButtonState AppState::getCCCameraButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-PanelState AppState::getCCBlueStatusState(ModelPtr model) {
+PanelState AppState::getCCBlueStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -956,7 +945,7 @@ PanelState AppState::getCCBlueStatusState(ModelPtr model) {
     return PanelState::PANEL_NOT_OK;
 }
 
-ButtonState AppState::getCCSelectBlueButtonState(ModelPtr model) {
+ButtonState AppState::getCCSelectBlueButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -976,7 +965,7 @@ ButtonState AppState::getCCSelectBlueButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCCAcceptBlueButtonState(ModelPtr model) {
+ButtonState AppState::getCCAcceptBlueButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -991,7 +980,7 @@ ButtonState AppState::getCCAcceptBlueButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getCCYellowStatusState(ModelPtr model) {
+PanelState AppState::getCCYellowStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -1006,7 +995,7 @@ PanelState AppState::getCCYellowStatusState(ModelPtr model) {
     return PanelState::PANEL_NOT_OK;
 }
 
-ButtonState AppState::getCCSelectYellowButtonState(ModelPtr model) {
+ButtonState AppState::getCCSelectYellowButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -1026,7 +1015,7 @@ ButtonState AppState::getCCSelectYellowButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCCAcceptYellowButtonState(ModelPtr model) {
+ButtonState AppState::getCCAcceptYellowButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -1041,7 +1030,7 @@ ButtonState AppState::getCCAcceptYellowButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getCCOtherStatusState(ModelPtr model) {
+PanelState AppState::getCCOtherStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -1055,7 +1044,7 @@ PanelState AppState::getCCOtherStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getCCRestoreButtonState(ModelPtr model) {
+ButtonState AppState::getCCRestoreButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_COLOR_CALIBRATION)) {
@@ -1069,21 +1058,21 @@ ButtonState AppState::getCCRestoreButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCCOKButtonState(ModelPtr model) {
+ButtonState AppState::getCCOKButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getCCCancelButtonState(ModelPtr model) {
+ButtonState AppState::getCCCancelButtonState(ResourcePtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getROIStatusState(ModelPtr model) {
+PanelState AppState::getROIStatusState(ResourcePtr model) {
     return model->sessionData.isTrackingDataEmpty() ? PanelState::PANEL_NOT_OK
                                                     : PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getROIButtonState(ModelPtr model) {
+ButtonState AppState::getROIButtonState(ResourcePtr model) {
     auto data = model->getSessionData();
 
     if (!data->isTrackingDataEmpty()) {
@@ -1103,7 +1092,7 @@ ButtonState AppState::getROIButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getROICameraButtonState(ModelPtr model) {
+ButtonState AppState::getROICameraButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_ROI)) {
@@ -1117,7 +1106,7 @@ ButtonState AppState::getROICameraButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getROIRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getROIRemoveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_ROI)) {
@@ -1136,7 +1125,7 @@ ButtonState AppState::getROIRemoveButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getROIToolsStatusState(ModelPtr model) {
+PanelState AppState::getROIToolsStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_ROI)) {
@@ -1146,7 +1135,7 @@ PanelState AppState::getROIToolsStatusState(ModelPtr model) {
     return PanelState::PANEL_HIDDEN;
 }
 
-ButtonState AppState::getROIAcceptRoiButtonState(ModelPtr model) {
+ButtonState AppState::getROIAcceptRoiButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getROIToolsStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -1162,11 +1151,11 @@ ButtonState AppState::getROIAcceptRoiButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getROIClearRoiButtonState(ModelPtr model) {
+ButtonState AppState::getROIClearRoiButtonState(ResourcePtr model) {
     return getROIAcceptRoiButtonState(model);
 }
 
-ButtonState AppState::getROIOKButtonState(ModelPtr model) {
+ButtonState AppState::getROIOKButtonState(ResourcePtr model) {
     if (model->isSessionDataChanged()) {
         return ButtonState::NORMAL;
     }
@@ -1174,11 +1163,11 @@ ButtonState AppState::getROIOKButtonState(ModelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getROICancelButtonState(ModelPtr model) {
+ButtonState AppState::getROICancelButtonState(ResourcePtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getTDStartButtonState(ModelPtr model) {
+ButtonState AppState::getTDStartButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
@@ -1192,7 +1181,7 @@ ButtonState AppState::getTDStartButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getTDReplayButtonState(ModelPtr model) {
+ButtonState AppState::getTDReplayButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
@@ -1202,7 +1191,7 @@ ButtonState AppState::getTDReplayButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getTDRangeButtonState(ModelPtr model) {
+ButtonState AppState::getTDRangeButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isThreadNullptr(THREAD_TRIM_DATA)) {
@@ -1217,7 +1206,7 @@ ButtonState AppState::getTDRangeButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getTDRemoveButtonState(ModelPtr model) {
+ButtonState AppState::getTDRemoveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
@@ -1235,7 +1224,7 @@ ButtonState AppState::getTDRemoveButtonState(ModelPtr model) {
     return ButtonState::DISABLED;
 }
 
-PanelState AppState::getTDStartStatusState(ModelPtr model) {
+PanelState AppState::getTDStartStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
@@ -1245,7 +1234,7 @@ PanelState AppState::getTDStartStatusState(ModelPtr model) {
     return PanelState::PANEL_HIDDEN;
 }
 
-ButtonState AppState::getTDIncStartButtonState(ModelPtr model) {
+ButtonState AppState::getTDIncStartButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getTDStartStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -1269,7 +1258,7 @@ ButtonState AppState::getTDIncStartButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getTDDecStartButtonState(ModelPtr model) {
+ButtonState AppState::getTDDecStartButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getTDStartStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -1293,11 +1282,11 @@ ButtonState AppState::getTDDecStartButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getTDEndStatusState(ModelPtr model) {
+PanelState AppState::getTDEndStatusState(ResourcePtr model) {
     return getTDStartStatusState(model);
 }
 
-ButtonState AppState::getTDIncEndButtonState(ModelPtr model) {
+ButtonState AppState::getTDIncEndButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getTDEndStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -1321,7 +1310,7 @@ ButtonState AppState::getTDIncEndButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getTDDecEndButtonState(ModelPtr model) {
+ButtonState AppState::getTDDecEndButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getTDEndStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -1345,7 +1334,7 @@ ButtonState AppState::getTDDecEndButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getTDOKButtonState(ModelPtr model) {
+ButtonState AppState::getTDOKButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
@@ -1355,11 +1344,11 @@ ButtonState AppState::getTDOKButtonState(ModelPtr model) {
     return ButtonState::DISABLED;
 }
 
-ButtonState AppState::getTDCancelButtonState(ModelPtr model) {
+ButtonState AppState::getTDCancelButtonState(ResourcePtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getRPResultStatusState(ModelPtr model) {
+PanelState AppState::getRPResultStatusState(ResourcePtr model) {
     auto data = model->getSessionData();
     if (data->isResultDataEmpty()) {
         return PanelState::PANEL_NOT_OK;
@@ -1367,7 +1356,7 @@ PanelState AppState::getRPResultStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getRPProcLaneButtonState(ModelPtr model) {
+ButtonState AppState::getRPProcLaneButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -1382,7 +1371,7 @@ ButtonState AppState::getRPProcLaneButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getRPProcDistButtonState(ModelPtr model) {
+ButtonState AppState::getRPProcDistButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -1401,7 +1390,7 @@ ButtonState AppState::getRPProcDistButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-ButtonState AppState::getRPPreviewButtonState(ModelPtr model) {
+ButtonState AppState::getRPPreviewButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -1420,7 +1409,7 @@ ButtonState AppState::getRPPreviewButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-PanelState AppState::getRPPreviewStatusState(ModelPtr model) {
+PanelState AppState::getRPPreviewStatusState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
@@ -1430,7 +1419,7 @@ PanelState AppState::getRPPreviewStatusState(ModelPtr model) {
     return PanelState::PANEL_HIDDEN;
 }
 
-ButtonState AppState::getRPBoxButtonState(ModelPtr model) {
+ButtonState AppState::getRPBoxButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getRPPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -1445,7 +1434,7 @@ ButtonState AppState::getRPBoxButtonState(ModelPtr model) {
 
     return ButtonState::OFF;
 }
-ButtonState AppState::getRPLinesButtonState(ModelPtr model) {
+ButtonState AppState::getRPLinesButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     auto data = model->getSessionData();
@@ -1465,7 +1454,7 @@ ButtonState AppState::getRPLinesButtonState(ModelPtr model) {
 
     return ButtonState::OFF;
 }
-ButtonState AppState::getRPLanesButtonState(ModelPtr model) {
+ButtonState AppState::getRPLanesButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getRPPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -1481,7 +1470,7 @@ ButtonState AppState::getRPLanesButtonState(ModelPtr model) {
     return ButtonState::OFF;
 }
 
-ButtonState AppState::getRPReplayButtonState(ModelPtr model) {
+ButtonState AppState::getRPReplayButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (getRPPreviewStatusState(model) == PanelState::PANEL_HIDDEN) {
@@ -1491,7 +1480,7 @@ ButtonState AppState::getRPReplayButtonState(ModelPtr model) {
     return ButtonState::NORMAL;
 }
 
-PanelState AppState::getRPSpeedStatusState(ModelPtr model) {
+PanelState AppState::getRPSpeedStatusState(ResourcePtr model) {
     auto data = model->getSessionData();
 
     if (data->isResultDataEmpty()) {
@@ -1501,7 +1490,7 @@ PanelState AppState::getRPSpeedStatusState(ModelPtr model) {
     return PanelState::PANEL_OK;
 }
 
-ButtonState AppState::getRPBackButtonState(ModelPtr model) {
+ButtonState AppState::getRPBackButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (tc->isProcessThreadRunning()) {

@@ -3,7 +3,7 @@
 #include <Event/Event.hpp>
 
 #include <Model/SessionData.hpp>
-#include <Model/SharedModel.hpp>
+#include <Model/SharedResource.hpp>
 
 #include <UI/Dialog/CancelDialog.hpp>
 
@@ -24,7 +24,7 @@
 
 class BaseController {
   public:
-    BaseController(ModelPtr sharedModel);
+    BaseController(ResourcePtr shared);
     virtual ~BaseController();
 
     void e_UpdateState(wxEvtHandler *parent);
@@ -39,7 +39,7 @@ class BaseController {
     void e_SaveSessionData(wxEvtHandler *parent);
 
   protected:
-    ModelPtr shared;
+    ResourcePtr shared;
     PanelID panelID;
 
   protected:
@@ -61,7 +61,7 @@ class BaseController {
 
 class BaseControllerWithTouch : public BaseController {
   public:
-    BaseControllerWithTouch(ModelPtr shared);
+    BaseControllerWithTouch(ResourcePtr shared);
     ~BaseControllerWithTouch();
 
     void e_LeftDown(wxEvtHandler *parent, wxPoint point);

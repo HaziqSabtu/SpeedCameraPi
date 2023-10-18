@@ -8,7 +8,7 @@
 
 class ResultController : public BaseController {
   public:
-    ResultController(ModelPtr sharedModel);
+    ResultController(ResourcePtr shared);
     ~ResultController();
 
     void e_ProcessEnd(wxEvtHandler *parent);

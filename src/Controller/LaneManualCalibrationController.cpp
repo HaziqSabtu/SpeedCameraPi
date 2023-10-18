@@ -3,8 +3,8 @@
 #include <UI/Dialog/RemoveCalibrationDialog.hpp>
 
 LaneManualCalibrationController::LaneManualCalibrationController(
-    ModelPtr sharedModel)
-    : BaseControllerWithTouch(sharedModel) {
+    ResourcePtr shared)
+    : BaseControllerWithTouch(shared) {
     panelID = currentPanelID;
 }
 

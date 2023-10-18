@@ -6,7 +6,7 @@
 
 class ColorCalibrationController : public BaseControllerWithTouch {
   public:
-    ColorCalibrationController(ModelPtr sharedModel);
+    ColorCalibrationController(ResourcePtr shared);
     ~ColorCalibrationController();
 
     void e_RestoreRange(wxEvtHandler *parent);

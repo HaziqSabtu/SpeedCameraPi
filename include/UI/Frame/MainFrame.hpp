@@ -1,15 +1,15 @@
 #ifndef MAIN_FRAME_HPP
 #define MAIN_FRAME_HPP
 
-#include "Event/Event_ChangePanel.hpp"
-#include "Model/SessionData.hpp"
-#include "UI/Panel/ColorCalibrationPanel/Panel.hpp"
-#include "UI/Panel/Common/PanelFactory.hpp"
-#include "UI/Panel/LaneCalibrationPanel/Panel.hpp"
-#include "UI/Panel/LaneManualCalibrationPanel/Panel.hpp"
-#include "UI/Panel/ResultPanel/Panel.hpp"
-#include "UI/Panel/TrimDataPanel/Panel.hpp"
 #include <Controller/ControllerFactory.hpp>
+#include <Event/Event.hpp>
+#include <Model/SessionData.hpp>
+#include <UI/Panel/ColorCalibrationPanel/Panel.hpp>
+#include <UI/Panel/Common/PanelFactory.hpp>
+#include <UI/Panel/LaneCalibrationPanel/Panel.hpp>
+#include <UI/Panel/LaneManualCalibrationPanel/Panel.hpp>
+#include <UI/Panel/ResultPanel/Panel.hpp>
+#include <UI/Panel/TrimDataPanel/Panel.hpp>
 
 #include <UI/Panel/CapturePanel/Panel.hpp>
 #include <UI/Panel/RoiPanel/Panel.hpp>
@@ -28,7 +28,7 @@ class MainFrame : public wxFrame {
   private:
     const PanelID FIRST_PANEL_ID = PANEL_CAPTURE;
 
-    std::shared_ptr<SharedModel> sharedModel;
+    std::shared_ptr<SharedResource> shared;
 
     PanelFactoryPtr panelFactory;
 

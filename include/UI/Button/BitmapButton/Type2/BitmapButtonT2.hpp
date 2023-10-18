@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Model/AppState.hpp"
 #include "wx/wx.h"
+#include <Model/Enum.hpp>
 #include <wx/gtk/bitmap.h>
 
 struct BitmapDataT2 {

@@ -6,7 +6,7 @@
 
 class DistanceCalibrationController : public BaseControllerWithTouch {
   public:
-    DistanceCalibrationController(ModelPtr sharedModel);
+    DistanceCalibrationController(ResourcePtr shared);
     ~DistanceCalibrationController();
 
     void e_ChangeToBottom(wxEvtHandler *parent);

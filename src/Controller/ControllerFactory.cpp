@@ -4,7 +4,7 @@
 
 ControllerFactory::ControllerFactory(wxWindow *parent) {
 
-    sharedModel = std::make_shared<SharedModel>();
+    shared = std::make_shared<SharedResource>();
 
     AppConfig config;
 
@@ -27,43 +27,43 @@ ControllerFactory::ControllerFactory(wxWindow *parent) {
     std::shared_ptr<ThreadController> threadController =
         std::make_shared<ThreadController>();
 
-    sharedModel->setCamera(camera);
-    sharedModel->setThreadPool(threadPool);
-    sharedModel->setThreadController(threadController);
+    shared->setCamera(camera);
+    shared->setThreadPool(threadPool);
+    shared->setThreadController(threadController);
 }
 
-ControllerFactory::~ControllerFactory() { sharedModel = nullptr; }
+ControllerFactory::~ControllerFactory() { shared = nullptr; }
 
-ModelPtr ControllerFactory::getSharedModel() { return sharedModel; }
+ResourcePtr ControllerFactory::getSharedModel() { return shared; }
 
 CPCPtr ControllerFactory::createCaptureController() {
-    return std::make_shared<CaptureController>(sharedModel);
+    return std::make_shared<CaptureController>(shared);
 }
 
 LCCPtr ControllerFactory::createLaneCalibrationController() {
-    return std::make_shared<LaneCalibrationController>(sharedModel);
+    return std::make_shared<LaneCalibrationController>(shared);
 }
 
 DCCPtr ControllerFactory::createDistanceCalibrationController() {
-    return std::make_shared<DistanceCalibrationController>(sharedModel);
+    return std::make_shared<DistanceCalibrationController>(shared);
 }
 
 LMCPtr ControllerFactory::createLaneManualCalibrationController() {
-    return std::make_shared<LaneManualCalibrationController>(sharedModel);
+    return std::make_shared<LaneManualCalibrationController>(shared);
 }
 
 CCCPtr ControllerFactory::createColorCalibrationController() {
-    return std::make_shared<ColorCalibrationController>(sharedModel);
+    return std::make_shared<ColorCalibrationController>(shared);
 }
 
 ROCPtr ControllerFactory::createRoiController() {
-    return std::make_shared<RoiController>(sharedModel);
+    return std::make_shared<RoiController>(shared);
 }
 
 RSCPtr ControllerFactory::createResultController() {
-    return std::make_shared<ResultController>(sharedModel);
+    return std::make_shared<ResultController>(shared);
 }
 
 TDCPtr ControllerFactory::createTrimDataController() {
-    return std::make_shared<TrimDataController>(sharedModel);
+    return std::make_shared<TrimDataController>(shared);
 }

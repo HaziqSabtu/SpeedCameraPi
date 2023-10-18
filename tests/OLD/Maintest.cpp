@@ -1,5 +1,5 @@
 #include "Model/CaptureModel.hpp"
-#include "Model/SharedModel.hpp"
+#include "Model/SharedResource.hpp"
 #include "Thread/Thread_Capture2.hpp"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

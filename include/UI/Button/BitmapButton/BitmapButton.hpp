@@ -1,16 +1,20 @@
 #pragma once
 
-#include "Model/AppState.hpp"
+#include <Model/Enum.hpp>
+#include <UI/Data/Theme.hpp>
+
 #include <wx/gdicmn.h>
 #include <wx/wx.h>
 
+namespace T = Theme;
+
 struct BitmapData {
     wxString filename;
-    wxSize size;
+    wxSize size = T::BitmapDefaultSize;
 
-    wxColour normal;
-    wxColour active;
-    wxColour disabled;
+    wxColour normal = T::BitmapNormal;
+    wxColour active = T::BitmapActive;
+    wxColour disabled = T::BitmapDisabled;
 
     wxString text;
 };

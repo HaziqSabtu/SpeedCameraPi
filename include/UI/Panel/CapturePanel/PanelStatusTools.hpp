@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Model/AppState.hpp"
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
 #include <wx/sizer.h>

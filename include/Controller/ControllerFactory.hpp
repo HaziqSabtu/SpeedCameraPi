@@ -8,7 +8,7 @@
 #include <Controller/ResultController.hpp>
 #include <Controller/RoiController.hpp>
 #include <Controller/TrimDataController.hpp>
-#include <Model/SharedModel.hpp>
+#include <Model/SharedResource.hpp>
 #include <memory>
 
 #define CtrlFactoryPtr std::shared_ptr<ControllerFactory>
@@ -18,7 +18,7 @@ class ControllerFactory {
     ControllerFactory(wxWindow *parent);
     ~ControllerFactory();
 
-    ModelPtr getSharedModel();
+    ResourcePtr getSharedModel();
 
     CPCPtr createCaptureController();
     LCCPtr createLaneCalibrationController();
@@ -30,5 +30,5 @@ class ControllerFactory {
     TDCPtr createTrimDataController();
 
   private:
-    ModelPtr sharedModel;
+    ResourcePtr shared;
 };

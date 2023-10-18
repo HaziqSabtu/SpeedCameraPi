@@ -6,7 +6,7 @@
 
 class RoiController : public BaseControllerWithTouch {
   public:
-    RoiController(ModelPtr sharedModel);
+    RoiController(ResourcePtr shared);
     ~RoiController();
 
     void e_ClearRect(wxEvtHandler *parent);

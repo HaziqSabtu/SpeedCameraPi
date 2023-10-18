@@ -1,10 +1,4 @@
-#include "Event/Event_RequestUpdateState.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "UI/Layout/StatusPanel.hpp"
-#include "Utils/Enum.hpp"
 #include <UI/Panel/Common/BasePanel.hpp>
-#include <iostream>
-#include <wx/event.h>
 
 BasePanel::BasePanel(wxWindow *parent, wxWindowID id, BSCPtr controller)
     : wxPanel(parent, id), controller(controller) {

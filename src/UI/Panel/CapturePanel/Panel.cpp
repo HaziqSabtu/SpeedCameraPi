@@ -1,12 +1,3 @@
-#include "Controller/CaptureController.hpp"
-#include "Event/Event_ChangePanel.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_LoadImage.hpp"
-#include "Event/Event_Preview.hpp"
-#include "Event/Event_SaveData.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/AppState.hpp"
 
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Dialog/DataSavedDialog.hpp"
@@ -15,11 +6,6 @@
 #include "UI/StaticText/Titletext.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/Panel.hpp>
-#include <iostream>
-#include <stdexcept>
-#include <wx/app.h>
-#include <wx/event.h>
-#include <wx/gdicmn.h>
 
 CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Model/AppState.hpp"
+#include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Data/Theme.hpp"
 #include "UI/StaticText/RichText.hpp"
 #include <wx/wx.h>
@@ -15,10 +17,8 @@ class TextOutlinePanel : public wxPanel {
     void SetButtonSizer(wxSizer *sizer);
 
   protected:
-    // TODO: Add this to theme
-    wxColour defaultBackgroundColor = Theme::Background;
-
-    wxColour outlineColor = Theme::Primary;
+    wxColour defaultBackgroundColor = Theme::Primary60;
+    wxColour outlineColor = Theme::Accent10;
     int outlineWidth = 3;
 
     wxColour textColor = Theme::Text;

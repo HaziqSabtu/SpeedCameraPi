@@ -1,10 +1,6 @@
 #pragma once
 
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Process.hpp"
-
-#include <Event/Event_ChangePanel.hpp>
-#include <Event/Event_Error.hpp>
+#include <Model/SessionData.hpp>
 
 #include <Thread/ThreadPool.hpp>
 #include <Thread/Thread_Controller.hpp>
@@ -15,14 +11,11 @@
 
 #include <memory>
 
-#include <wx/gdicmn.h>
-#include <wx/wx.h>
+#define ResourcePtr std::shared_ptr<SharedResource>
 
-#define ModelPtr std::shared_ptr<SharedModel>
-
-class ISharedModel {
+class ISharedResource {
   public:
-    virtual ~ISharedModel() = default;
+    virtual ~ISharedResource() = default;
 
     virtual void setCamera(CameraPtr &camera) = 0;
     virtual CameraPtr getCamera() = 0;
@@ -37,10 +30,10 @@ class ISharedModel {
     virtual void killAllThreads() = 0;
 };
 
-class SharedModel : public ISharedModel {
+class SharedResource : public ISharedResource {
   public:
-    SharedModel();
-    ~SharedModel();
+    SharedResource();
+    ~SharedResource();
 
     void setCamera(CameraPtr &camera) override;
     CameraPtr getCamera() override;

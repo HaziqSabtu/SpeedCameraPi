@@ -1,16 +1,13 @@
-#include "Model/SharedModel.hpp"
+#include <Model/SharedResource.hpp>
 
-#include "Model/AppState.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_Controller.hpp"
-#include "Thread/Thread_ID.hpp"
+#include <Event/Event.hpp>
+
 #include <memory>
 #include <wx/event.h>
 
-SharedModel::SharedModel() : camera(nullptr), threadPool(nullptr) {}
+SharedResource::SharedResource() : camera(nullptr), threadPool(nullptr) {}
 
-SharedModel::~SharedModel() {
+SharedResource::~SharedResource() {
     try {
         if (camera != nullptr) {
             camera->stop();
@@ -20,32 +17,32 @@ SharedModel::~SharedModel() {
     }
 }
 
-void SharedModel::setCamera(CameraPtr &camera) {
+void SharedResource::setCamera(CameraPtr &camera) {
     this->camera = std::move(camera);
 }
 
-CameraPtr SharedModel::getCamera() {
+CameraPtr SharedResource::getCamera() {
     return camera == nullptr ? nullptr : std::move(camera);
 }
 
-bool SharedModel::isCameraAvailable() { return camera != nullptr; }
+bool SharedResource::isCameraAvailable() { return camera != nullptr; }
 
-void SharedModel::setThreadPool(POOLPtr threadPool) {
+void SharedResource::setThreadPool(POOLPtr threadPool) {
     this->threadPool = threadPool;
 }
 
-POOLPtr SharedModel::getThreadPool() { return threadPool; }
+POOLPtr SharedResource::getThreadPool() { return threadPool; }
 
-void SharedModel::setThreadController(
+void SharedResource::setThreadController(
     std::shared_ptr<ThreadController> threadController) {
     this->threadController = threadController;
 }
 
-std::shared_ptr<ThreadController> SharedModel::getThreadController() {
+std::shared_ptr<ThreadController> SharedResource::getThreadController() {
     return threadController;
 }
 
-void SharedModel::killAllThreads() {
+void SharedResource::killAllThreads() {
     auto tc = getThreadController();
 
     if (!tc->isThreadNullptr(ThreadID::THREAD_CAMERA_PREVIEW)) {
@@ -158,25 +155,25 @@ void SharedModel::killAllThreads() {
 // return a shared_ptr to the SessionData object WITHOUT copying it
 // e.g. is pointing to the same object as the one in SharedModel
 // if want to deep copy -> DataPtr(sessionData)
-DataPtr SharedModel::getSessionData() {
+DataPtr SharedResource::getSessionData() {
     return DataPtr(&sessionData, [](SessionData *) {});
 }
 
-DataPtr SharedModel::getTempSessionData() {
+DataPtr SharedResource::getTempSessionData() {
     return DataPtr(&tempSessionData, [](SessionData *) {});
 }
 
-void SharedModel::setSessionData(SessionData data) {
+void SharedResource::setSessionData(SessionData data) {
     sessionData = data.clone();
 }
 
-void SharedModel::resetSessionData() { sessionData = SessionData(); }
+void SharedResource::resetSessionData() { sessionData = SessionData(); }
 
-void SharedModel::setTempSessionData(SessionData data) {
+void SharedResource::setTempSessionData(SessionData data) {
     tempSessionData = data.clone();
     // tempSessionData = data;
 }
 
-bool SharedModel::isSessionDataChanged() {
+bool SharedResource::isSessionDataChanged() {
     return sessionData != tempSessionData;
 }

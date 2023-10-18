@@ -7,10 +7,6 @@
 #include "UI/StaticText/RichText.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/PanelStatusMain.hpp>
-#include <wx/gdicmn.h>
-#include <wx/gtk/bmpbuttn.h>
-#include <wx/gtk/stattext.h>
-#include <wx/sizer.h>
 
 CaptureButtonMain::CaptureButtonMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::CAPTURE_NONE) {

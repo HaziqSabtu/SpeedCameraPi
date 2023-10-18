@@ -9,7 +9,7 @@
 
 class LaneCalibrationController : public BaseControllerWithTouch {
   public:
-    LaneCalibrationController(ModelPtr sharedModel);
+    LaneCalibrationController(ResourcePtr shared);
     ~LaneCalibrationController();
 
     void e_RemoveCalibrationData(wxEvtHandler *parent);

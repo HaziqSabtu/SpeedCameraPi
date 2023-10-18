@@ -1,6 +1,6 @@
 #include <Controller/BaseController.hpp>
 
-BaseController::BaseController(ModelPtr sharedModel) : shared(sharedModel) {}
+BaseController::BaseController(ResourcePtr shared) : shared(shared) {}
 
 BaseController::~BaseController() {}
 
@@ -138,7 +138,7 @@ void BaseController::cancelButtonHandler(wxEvtHandler *parent) {
     ChangePanelEvent::Submit(parent, data);
 }
 
-BaseControllerWithTouch::BaseControllerWithTouch(ModelPtr shared)
+BaseControllerWithTouch::BaseControllerWithTouch(ResourcePtr shared)
     : BaseController(shared) {}
 
 BaseControllerWithTouch::~BaseControllerWithTouch() {}

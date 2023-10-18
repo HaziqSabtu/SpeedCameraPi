@@ -18,13 +18,11 @@ ColorCalibrationButtonMain::ColorCalibrationButtonMain(wxWindow *parent)
     : TextOutlinePanel(parent, RTC::COLOR_CALIB) {
 
     Calibrate_Button = new BitmapT2Calibration(this, Enum::CC_Start_Button_ID);
-    Stop_Button = new BitmapStop(this, Enum::CC_Stop_Button_ID);
     Preview_Button =
         new BitmapT2MagnifyGlass(this, Enum::CC_ToggleCamera_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(Calibrate_Button, 1, wxEXPAND);
-    buttonSizer->Add(Stop_Button, 1, wxEXPAND);
     buttonSizer->Add(Preview_Button, 1, wxEXPAND);
 
     SetButtonSizer(buttonSizer);
@@ -39,7 +37,6 @@ void ColorCalibrationButtonMain::update(const AppState &state) {
     ColorCalibrationPanelState ps = state.colorCalibrationPanel;
 
     Calibrate_Button->update(ps.calibrationButtonState);
-    Stop_Button->update(ps.stopButtonState);
     Preview_Button->update(ps.cameraButtonState);
 }
 

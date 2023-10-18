@@ -6,7 +6,7 @@
 
 class TrimDataController : public BaseController {
   public:
-    TrimDataController(ModelPtr sharedModel);
+    TrimDataController(ResourcePtr shared);
     ~TrimDataController();
 
     void e_TrimDataStart(wxEvtHandler *parent);

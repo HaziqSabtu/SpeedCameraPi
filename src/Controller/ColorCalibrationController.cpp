@@ -1,7 +1,7 @@
 #include <Controller/ColorCalibrationController.hpp>
 
-ColorCalibrationController::ColorCalibrationController(ModelPtr sharedModel)
-    : BaseControllerWithTouch(sharedModel) {
+ColorCalibrationController::ColorCalibrationController(ResourcePtr shared)
+    : BaseControllerWithTouch(shared) {
     panelID = currentPanelID;
 }
 

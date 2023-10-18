@@ -1,7 +1,7 @@
 #include <Controller/TrimDataController.hpp>
 
-TrimDataController::TrimDataController(ModelPtr sharedModel)
-    : BaseController(sharedModel) {
+TrimDataController::TrimDataController(ResourcePtr shared)
+    : BaseController(shared) {
     panelID = currentPanelID;
 }
 

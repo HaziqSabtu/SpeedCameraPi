@@ -10,7 +10,7 @@
 
 class CaptureController : public BaseController {
   public:
-    CaptureController(ModelPtr sharedModel);
+    CaptureController(ResourcePtr shared);
     ~CaptureController();
 
     void e_ClearImageData(wxEvtHandler *parent);
