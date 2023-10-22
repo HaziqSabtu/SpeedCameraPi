@@ -114,10 +114,6 @@ struct RoiPanelState {
     ButtonState cameraButtonState;
     ButtonState removeButtonState;
 
-    PanelState roiToolsStatusState;
-    ButtonState acceptRoiButtonState;
-    ButtonState clearRoiButtonState;
-
     ButtonState okButtonState;
     ButtonState cancelButtonState;
 };
@@ -299,11 +295,6 @@ class AppState {
     ButtonState getROIButtonState(ResourcePtr model);
     ButtonState getROICameraButtonState(ResourcePtr model);
     ButtonState getROIRemoveButtonState(ResourcePtr model);
-
-    // ROI Panel -> Accept / Clear
-    PanelState getROIToolsStatusState(ResourcePtr model);
-    ButtonState getROIAcceptRoiButtonState(ResourcePtr model);
-    ButtonState getROIClearRoiButtonState(ResourcePtr model);
 
     // ROI Panel -> OK / Cancel
     ButtonState getROIOKButtonState(ResourcePtr model);

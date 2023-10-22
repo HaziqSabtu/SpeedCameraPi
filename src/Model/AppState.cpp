@@ -150,10 +150,6 @@ RoiPanelState AppState::getRoiPanelState(ResourcePtr model) {
     ps.cameraButtonState = getROICameraButtonState(model);
     ps.removeButtonState = getROIRemoveButtonState(model);
 
-    ps.roiToolsStatusState = getROIToolsStatusState(model);
-    ps.acceptRoiButtonState = getROIAcceptRoiButtonState(model);
-    ps.clearRoiButtonState = getROIClearRoiButtonState(model);
-
     ps.okButtonState = getROIOKButtonState(model);
     ps.cancelButtonState = getROICancelButtonState(model);
 
@@ -1074,18 +1070,13 @@ PanelState AppState::getROIStatusState(ResourcePtr model) {
 ButtonState AppState::getROIButtonState(ResourcePtr model) {
     auto data = model->getSessionData();
 
-    if (!data->isTrackingDataEmpty()) {
-        return ButtonState::DISABLED;
-    }
-
     auto tc = model->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
-        return ButtonState::DISABLED;
-    }
-
     if (!tc->isThreadNullptr(THREAD_ROI)) {
         return ButtonState::ON;
+    }
+
+    if (!data->isTrackingDataEmpty()) {
+        return ButtonState::HIDDEN;
     }
 
     return ButtonState::OFF;
@@ -1095,7 +1086,12 @@ ButtonState AppState::getROICameraButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_ROI)) {
-        return ButtonState::DISABLED;
+        return ButtonState::HIDDEN;
+    }
+
+    auto data = model->getSessionData();
+    if (data->isTrackingDataEmpty()) {
+        return ButtonState::HIDDEN;
     }
 
     if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
@@ -1109,49 +1105,19 @@ ButtonState AppState::getROIRemoveButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
     if (!tc->isThreadNullptr(THREAD_ROI)) {
-        return ButtonState::DISABLED;
+        return ButtonState::HIDDEN;
+    }
+
+    auto data = model->getSessionData();
+    if (data->isTrackingDataEmpty()) {
+        return ButtonState::HIDDEN;
     }
 
     if (!tc->isThreadNullptr(THREAD_ROI_PREVIEW)) {
         return ButtonState::DISABLED;
     }
 
-    auto data = model->getSessionData();
-    if (data->isTrackingDataEmpty()) {
-        return ButtonState::DISABLED;
-    }
-
     return ButtonState::NORMAL;
-}
-
-PanelState AppState::getROIToolsStatusState(ResourcePtr model) {
-    auto tc = model->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_ROI)) {
-        return PanelState::PANEL_OK;
-    }
-
-    return PanelState::PANEL_HIDDEN;
-}
-
-ButtonState AppState::getROIAcceptRoiButtonState(ResourcePtr model) {
-    auto tc = model->getThreadController();
-
-    if (getROIToolsStatusState(model) == PanelState::PANEL_HIDDEN) {
-        return ButtonState::DISABLED;
-    }
-
-    auto thread = tc->getRoiThread();
-
-    if (!thread->isRectValid()) {
-        return ButtonState::DISABLED;
-    }
-
-    return ButtonState::NORMAL;
-}
-
-ButtonState AppState::getROIClearRoiButtonState(ResourcePtr model) {
-    return getROIAcceptRoiButtonState(model);
 }
 
 ButtonState AppState::getROIOKButtonState(ResourcePtr model) {
