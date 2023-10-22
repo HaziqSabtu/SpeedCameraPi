@@ -1,5 +1,6 @@
 # Line Detection
 
+
 ## Introduction
 
 Line detection is a fundamental technique in computer vision that plays an
@@ -34,3 +35,22 @@ LineDetection::ProcessImage() method.
 ### Useful links
 
 [OpenCV HoughLinesP](http://docs.opencv.org/2.4/modules/imgproc/doc/feature_detection.html?highlight=houghlinesp#houghlinesp)
+
+
+# Subpage 1 Title {#subpage_1}
+\section page_intro Introduction
+
+# The List of subpages:
+
+* Page @subpage subpage_1_1
+* Page @subpage subpage_1_2
+* Page @subpage subpage_1_3
+
+# Subpage 1 Title {#example}
+\section page_intro Introduction
+
+# The List of subpages:
+
+* Page @subpage subpage_1_1
+* Page @subpage subpage_1_2
+* Page @subpage subpage_1_3
