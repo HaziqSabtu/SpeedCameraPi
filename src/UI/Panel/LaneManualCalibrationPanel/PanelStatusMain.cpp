@@ -20,14 +20,11 @@ LaneManualCalibrationButtonMain::LaneManualCalibrationButtonMain(
     Calibrate_Button =
         new BitmapT2Calibration(this, Enum::LM_Calibration_Button_ID);
     Preview_Button = new BitmapT2MagnifyGlass(this, Enum::LM_Preview_Button_ID);
-    // CalibrateCapture_Button =
-    //     new BitmapT2Calibration(this, Enum::LM_CalibrationCapture_Button_ID);
     Reset_Button = new BitmapRemove(this, Enum::LM_Remove_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(Calibrate_Button, 1, wxEXPAND);
     buttonSizer->Add(Preview_Button, 1, wxEXPAND);
-    // buttonSizer->Add(CalibrateCapture_Button, 1, wxEXPAND);
     buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     SetButtonSizer(buttonSizer);
@@ -47,7 +44,6 @@ void LaneManualCalibrationButtonMain::update(const AppState &state) {
 
     Calibrate_Button->update(ps.calibrationButtonState);
     Preview_Button->update(ps.previewButtonState);
-    // CalibrateCapture_Button->update(ps.calibrationCaptureButtonState);
     Reset_Button->update(ps.removeButtonState);
 }
 

@@ -126,7 +126,6 @@ struct TrimDataPanelState {
     ButtonState startButtonState;
     ButtonState replayButtonState;
     ButtonState rangeButtonState;
-    ButtonState removeButtonState;
 
     PanelState startStatusState;
     ButtonState incStartButtonState;
@@ -314,7 +313,6 @@ class AppState {
     ButtonState getTDStartButtonState(ResourcePtr model);
     ButtonState getTDReplayButtonState(ResourcePtr model);
     ButtonState getTDRangeButtonState(ResourcePtr model);
-    ButtonState getTDRemoveButtonState(ResourcePtr model);
 
     // Trim Data Panel -> Start
     PanelState getTDStartStatusState(ResourcePtr model);

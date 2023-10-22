@@ -26,11 +26,11 @@ wxString TitleText::panelID_to_string(PanelID panel_id) {
     }
 
     if (panel_id == PanelID::PANEL_LANE_CALIBRATION) {
-        return "Calibration";
+        return "Auto Lane Calibration";
     }
 
     if (panel_id == PanelID::PANEL_LANE_MANUAL_CALIBRATION) {
-        return "Manual Calibration";
+        return "Manual Lane Calibration";
     }
 
     if (panel_id == PanelID::PANEL_COLOR_CALIBRATION) {
@@ -38,7 +38,7 @@ wxString TitleText::panelID_to_string(PanelID panel_id) {
     }
 
     if (panel_id == PanelID::PANEL_DISTANCE_CALIBRATION) {
-        return "Horizontal Calibration";
+        return "Distance Calibration";
     }
 
     if (panel_id == PanelID::PANEL_ROI) {

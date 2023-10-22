@@ -65,6 +65,8 @@ void TrimDataPanel::OnButton(wxCommandEvent &e) {
         controller->e_PreviewCurrentRange(this);
     }
 
+    controller->e_UpdateState(this);
+
     e.Skip();
 }
 
@@ -85,10 +87,11 @@ void TrimDataPanel::OnReplay(wxCommandEvent &e) {
     if (e.GetId() == REPLAY_END) {
         controller->e_ReplayEnd(this);
     }
+    controller->e_UpdateState(this);
 }
 
 // clang-format off
 wxBEGIN_EVENT_TABLE(TrimDataPanel, BasePanel)
-    EVT_COMMAND(wxID_ANY, c_REPLAY_EVENT, TrimDataPanel::OnReplay)
+    EVT_COMMAND(wxID_ANY, c_PREVIEW_CAPTURE_EVENT, TrimDataPanel::OnReplay)
     EVT_BUTTON(wxID_ANY,TrimDataPanel::OnButton) 
 wxEND_EVENT_TABLE()

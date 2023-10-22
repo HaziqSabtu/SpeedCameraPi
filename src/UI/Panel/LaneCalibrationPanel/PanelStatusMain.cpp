@@ -46,10 +46,10 @@ void LaneCalibrationButtonMain::update(const AppState &state) {
 
 void LaneCalibrationButtonMain::setPanelState(PanelState state) {
     if (state == PanelState::PANEL_OK) {
-        SetTextData(RTC::CAPTURE_OK);
+        SetTextData(RTC::CALIB_OK);
     }
 
     if (state == PanelState::PANEL_NOT_OK) {
-        SetTextData(RTC::CAPTURE_NONE);
+        SetTextData(RTC::CALIB_NONE);
     }
 }

@@ -166,7 +166,6 @@ TrimDataPanelState AppState::getTrimDataPanelState(ResourcePtr model) {
     ps.startButtonState = getTDStartButtonState(model);
     ps.replayButtonState = getTDReplayButtonState(model);
     ps.rangeButtonState = getTDRangeButtonState(model);
-    ps.removeButtonState = getTDRemoveButtonState(model);
 
     ps.startStatusState = getTDStartStatusState(model);
     ps.incStartButtonState = getTDIncStartButtonState(model);
@@ -1188,6 +1187,10 @@ ButtonState AppState::getTDReplayButtonState(ResourcePtr model) {
         return ButtonState::HIDDEN;
     }
 
+    if (!tc->isThreadNullptr(THREAD_CAPTURE_PREVIEW)) {
+        return ButtonState::DISABLED;
+    }
+
     return ButtonState::NORMAL;
 }
 
@@ -1204,24 +1207,6 @@ ButtonState AppState::getTDRangeButtonState(ResourcePtr model) {
     }
 
     return ButtonState::NORMAL;
-}
-
-ButtonState AppState::getTDRemoveButtonState(ResourcePtr model) {
-    auto tc = model->getThreadController();
-
-    if (!tc->isThreadNullptr(THREAD_TRIM_DATA)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (!tc->isThreadNullptr(THREAD_CAPTURE_PREVIEW)) {
-        return ButtonState::DISABLED;
-    }
-
-    if (model->isSessionDataChanged()) {
-        return ButtonState::NORMAL;
-    }
-
-    return ButtonState::DISABLED;
 }
 
 PanelState AppState::getTDStartStatusState(ResourcePtr model) {
@@ -1434,6 +1419,7 @@ ButtonState AppState::getRPBoxButtonState(ResourcePtr model) {
 
     return ButtonState::OFF;
 }
+
 ButtonState AppState::getRPLinesButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
@@ -1454,6 +1440,7 @@ ButtonState AppState::getRPLinesButtonState(ResourcePtr model) {
 
     return ButtonState::OFF;
 }
+
 ButtonState AppState::getRPLanesButtonState(ResourcePtr model) {
     auto tc = model->getThreadController();
 
