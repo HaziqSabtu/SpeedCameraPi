@@ -12,6 +12,7 @@
     <!-- <tab type="user" visible="yes" title="Line Detection" url="md_Docs_markdown_LineDetection.html"/> -->
     <!-- <tab type="user" visible="yes" title="Speed Calculation" url="md_Docs_markdown_SpeedCalculation.html"/> -->
     <tab type="user" visible="yes" title="Manuals" url="md_Docs_markdown_Manual.html"/>
+    <tab type="user" visible="yes" title="Custom Class" url="md_Docs_markdown_YourOwn.html"/>
     <tab type="user" visible="yes" title="Theory" url="md_Docs_markdown_Theory.html"/>
     <!-- </tab> -->
     <tab type="examples" visible="yes" title="" intro=""/>
