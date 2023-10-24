@@ -1,5 +1,15 @@
 \tableofcontents{HTML:2}
 
+# Introduction
+
+This section will guide you through the process of developing the application. It is assumed that you have already set up the development environment. If not, please refer to the previous section. This section will cover the following topics:
+
+- **Adding a new Panel** - This section will guide you through the process of adding a new panel to the application.
+- **Custom Event** - This section will guide you through the process of defining, triggering, and handling custom events.
+- **Defining Process Threads** - This section will guide you through the process of defining process threads.
+- **Creating Tasks** - This section will guide you through the process of creating tasks for ThreadPool.
+
+
 # Add new Panel
 
 This chapter will provide description on how to add new panel to the application. To add a new Panel to the Application, following steps are required:

@@ -3,19 +3,13 @@
   <!-- Navigation index tabs for HTML output -->
   <navindex>
     <tab type="mainpage" visible="yes" title=""/>
-    <tab type="user" visible="yes" title="Installing Dependency" url="md_Docs_markdown_InstallingRequiredDependency.html"/>
-    <tab type="user" visible="yes" title="Compiling Application" url="md_Docs_markdown_CompilingProgramm.html"/>
+    <tab type="user" visible="yes" title="User Manual" url="md_Docs_markdown_UserManual.html"/>
+    <tab type="user" visible="yes" title="Compiling Application" url="md_Docs_markdown_CompilingApplication.html"/>
     <tab type="user" visible="yes" title="Development Setup" url="md_Docs_markdown_developmentSetup.html"/>
-    <tab type="user" visible="yes" title="Using the App" url="md_Docs_markdown_UsingTheApp.html">
-    <!-- <tab type="user" visible="yes" title="Image Allignment" url="md_Docs_markdown_ImageAllignment.html"/> -->
-    <!-- <tab type="user" visible="yes" title="Object Detection" url="md_Docs_markdown_ObjectDetection.html"/> -->
-    <!-- <tab type="user" visible="yes" title="Line Detection" url="md_Docs_markdown_LineDetection.html"/> -->
-    <!-- <tab type="user" visible="yes" title="Speed Calculation" url="md_Docs_markdown_SpeedCalculation.html"/> -->
-    <tab type="user" visible="yes" title="Manuals" url="md_Docs_markdown_Manual.html"/>
-    <tab type="user" visible="yes" title="Custom Class" url="md_Docs_markdown_YourOwn.html"/>
+    <tab type="user" visible="yes" title="Getting Started with Development" url="md_Docs_markdown_YourOwn.html"/>
     <tab type="user" visible="yes" title="Theory" url="md_Docs_markdown_Theory.html"/>
     <!-- </tab> -->
-    <tab type="examples" visible="yes" title="" intro=""/>
+    <!-- <tab type="examples" visible="yes" title="" intro=""/> -->
     <tab type="pages" visible="no" title="" intro=""/>
     <tab type="modules" visible="no" title="" intro=""/>
     <tab type="namespaces" visible="yes" title="">
@@ -44,10 +38,10 @@
       <tab type="exceptionindex" visible="$ALPHABETICAL_INDEX" title=""/>
       <tab type="exceptionhierarchy" visible="yes" title="" intro=""/>
     </tab>
-    <tab type="files" visible="no" title="">
+    <!-- <tab type="files" visible="no" title="">
       <tab type="filelist" visible="yes" title="" intro=""/>
       <tab type="globals" visible="yes" title="" intro=""/>
-    </tab>
+    </tab> -->
   </navindex>
 
   <!-- Layout definition for a class page -->
