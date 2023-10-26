@@ -9,6 +9,12 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @class BaseImagePanel
+ * @brief Base class for image panel
+ * @image html imagepanel.png
+ * @image latex imagepanel.png
+ */
 class BaseImagePanel : public wxPanel {
   protected:
     wxBitmap noImageBitmap;

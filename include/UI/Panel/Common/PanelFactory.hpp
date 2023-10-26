@@ -14,12 +14,33 @@
 
 #define PanelFactoryPtr std::shared_ptr<PanelFactory>
 
+/**
+ * @class PanelFactory
+ * @brief Factory for creating panels
+ */
 class PanelFactory {
   public:
+    /**
+     * @brief Construct a new Panel Factory object
+     *
+     * @param controllerFactory Pointer to ControllerFactory
+     */
     PanelFactory(CtrlFactoryPtr controllerFactory)
         : controllerFactory(controllerFactory) {};
+
+    /**
+     * @brief Destroy the Panel Factory object
+     *
+     */
     ~PanelFactory() {};
 
+    /**
+     * @brief Create a panel
+     *
+     * @param parent Pointer to parent window
+     * @param panelID ID of the panel to be created
+     * @return wxPanel* Pointer to the created panel
+     */
     wxPanel *createPanel(wxWindow *parent, PanelID panelID) {
         if (panelID == PANEL_CAPTURE) {
             return createCapturePanel(parent);

@@ -8,6 +8,12 @@
 
 namespace RTC = RichTextCollection;
 
+/**
+ * @brief Text outline panel, to group buttons
+ * @image html textoutlinepanel.png
+ * @image latex textoutlinepanel.png
+ *
+ */
 class TextOutlinePanel : public wxPanel {
   public:
     TextOutlinePanel(wxWindow *parent, RTD textData);

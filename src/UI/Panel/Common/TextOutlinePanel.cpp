@@ -10,6 +10,12 @@
 #include <wx/settings.h>
 #include <wx/stringimpl.h>
 
+/**
+ * @brief Construct a new Text Outline Panel:: Text Outline Panel object
+ *
+ * @param parent Pointer to parent window
+ * @param textData Text data
+ */
 TextOutlinePanel::TextOutlinePanel(wxWindow *parent, RTD textData)
     : wxPanel(parent, wxID_ANY), textData(textData) {
 
@@ -34,6 +40,11 @@ TextOutlinePanel::TextOutlinePanel(wxWindow *parent, RTD textData)
     Bind(wxEVT_PAINT, &TextOutlinePanel::OnPaint, this);
 }
 
+/**
+ * @brief Handle paint event
+ *
+ * @param event Event
+ */
 void TextOutlinePanel::OnPaint(wxPaintEvent &event) {
     wxPaintDC dc(this);
 
@@ -88,21 +99,41 @@ void TextOutlinePanel::OnPaint(wxPaintEvent &event) {
     }
 }
 
+/**
+ * @brief Set the outline color
+ *
+ * @param color Color
+ */
 void TextOutlinePanel::SetOutlineColor(const wxColour &color) {
     outlineColor = color;
     Refresh();
 }
 
+/**
+ * @brief Set the outline width
+ *
+ * @param width Width
+ */
 void TextOutlinePanel::SetOutlineWidth(int width) {
     outlineWidth = width;
     Refresh();
 }
 
+/**
+ * @brief Set the text data
+ *
+ * @param textData Text data
+ */
 void TextOutlinePanel::SetTextData(const RTD &textData) {
     this->textData = textData;
     Refresh();
 }
 
+/**
+ * @brief Set the button sizer
+ *
+ * @param sizer Sizer
+ */
 void TextOutlinePanel::SetButtonSizer(wxSizer *sizer) {
     vSizer = new wxBoxSizer(wxVERTICAL);
     vSizer->Add(topPadding, 0, wxEXPAND);

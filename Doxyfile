@@ -1070,6 +1070,20 @@ IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/dialog.png \
                          Docs/assets/titlepanel.png \
                          Docs/assets/statuspanel.png \
+                         Docs/assets/capturepanel.png \
+                         Docs/assets/lanecalibrationpanel.png \
+                         Docs/assets/lanemanualcalibrationpanel.png \
+                         Docs/assets/roipanel.png \
+                         Docs/assets/resultpanel.png \
+                         Docs/assets/distancecalibrationpanel.png \
+                         Docs/assets/trimdatapanel.png \
+                         Docs/assets/colorcalibrationpanel.png \
+                         Docs/assets/settingpanel.png \
+                         Docs/assets/infopanel.png \
+                         Docs/assets/okcancelpanel.png \
+                         Docs/assets/okcancelresetpanel.png \
+                         Docs/assets/imagepanel.png \
+                         Docs/assets/textoutlinepanel.png \
 
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should

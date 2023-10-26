@@ -1,5 +1,12 @@
 #include <UI/Panel/Common/BasePanel.hpp>
 
+/**
+ * @brief Construct a new Base Panel:: Base Panel object
+ *
+ * @param parent Pointer to parent window
+ * @param id Window ID
+ * @param controller Pointer to BaseController
+ */
 BasePanel::BasePanel(wxWindow *parent, wxWindowID id, BSCPtr controller)
     : wxPanel(parent, id), controller(controller) {
 
@@ -9,8 +16,16 @@ BasePanel::BasePanel(wxWindow *parent, wxWindowID id, BSCPtr controller)
     Hide();
 }
 
+/**
+ * @brief Destroy the Base Panel:: Base Panel object
+ *
+ */
 BasePanel::~BasePanel() {}
 
+/**
+ * @brief Properly set the size of the panel
+ *
+ */
 void BasePanel::size() {
     main_sizer = new wxBoxSizer(wxVERTICAL);
     main_sizer->Add(title_panel, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 10);
@@ -22,6 +37,11 @@ void BasePanel::size() {
     Fit();
 }
 
+/**
+ * @brief Handle button events
+ *
+ * @param e Event
+ */
 void BasePanel::OnButton(wxCommandEvent &e) {
 
     if (e.GetId() == Enum::G_Cancel_Button_ID) {
@@ -37,6 +57,11 @@ void BasePanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle preview update events
+ *
+ * @param e Event
+ */
 void BasePanel::OnUpdatePreview(UpdatePreviewEvent &e) {
     if (e.GetId() == UPDATE_PREVIEW) {
         wxBitmap image = e.GetImage();
@@ -50,6 +75,11 @@ void BasePanel::OnUpdatePreview(UpdatePreviewEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle state update events
+ *
+ * @param e Event
+ */
 void BasePanel::OnUpdateState(UpdateStateEvent &e) {
     try {
         auto state = e.GetState();
@@ -61,6 +91,12 @@ void BasePanel::OnUpdateState(UpdateStateEvent &e) {
         ErrorEvent::Submit(this, e.what());
     }
 }
+
+/**
+ * @brief Handle status update events
+ *
+ * @param e Event
+ */
 void BasePanel::OnUpdateStatus(UpdateStatusEvent &e) {
     try {
         auto status = e.GetStatus();
@@ -71,6 +107,11 @@ void BasePanel::OnUpdateStatus(UpdateStatusEvent &e) {
     }
 }
 
+/**
+ * @brief Handle show events
+ *
+ * @param e Event
+ */
 void BasePanel::OnShow(wxShowEvent &e) {
     if (e.IsShown()) {
         status_panel->SetText(SC::STATUS_IDLE);
@@ -78,54 +119,107 @@ void BasePanel::OnShow(wxShowEvent &e) {
     }
 }
 
+/**
+ * @brief Handle request update state events
+ *
+ * @param e Event
+ */
 void BasePanel::OnRequestUpdateState(wxCommandEvent &e) {
     if (e.GetId() == REQUEST_UPDATE_STATE) {
         controller->e_UpdateState(this);
     }
 }
 
+/**
+ * @brief Construct a new Base Panel With Touch:: Base Panel With Touch object
+ *
+ * @param parent Pointer to parent window
+ * @param id Window ID
+ * @param controller Pointer to BaseControllerWithTouch
+ */
 BasePanelWithTouch::BasePanelWithTouch(wxWindow *parent, wxWindowID id,
                                        BTCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {}
 
+/**
+ * @brief Destroy the Base Panel With Touch:: Base Panel With Touch object
+ *
+ */
 BasePanelWithTouch::~BasePanelWithTouch() {}
 
+/**
+ * @brief Bind left down event
+ *
+ */
 void BasePanelWithTouch::bindLeftDown() {
     img_bitmap->Bind(wxEVT_LEFT_DOWN, &BasePanelWithTouch::OnLeftDown, this);
 }
 
+/**
+ * @brief Bind motion event
+ *
+ */
 void BasePanelWithTouch::bindMotion() {
     img_bitmap->Bind(wxEVT_MOTION, &BasePanelWithTouch::OnMotion, this);
 }
 
+/**
+ * @brief Bind left up event
+ *
+ */
 void BasePanelWithTouch::bindLeftUp() {
     img_bitmap->Bind(wxEVT_LEFT_UP, &BasePanelWithTouch::OnLeftUp, this);
 }
 
+/**
+ * @brief Bind all events (left down, motion, left up)
+ *
+ */
 void BasePanelWithTouch::bindAll() {
     img_bitmap->Bind(wxEVT_LEFT_DOWN, &BasePanelWithTouch::OnLeftDown, this);
     img_bitmap->Bind(wxEVT_MOTION, &BasePanelWithTouch::OnMotion, this);
     img_bitmap->Bind(wxEVT_LEFT_UP, &BasePanelWithTouch::OnLeftUp, this);
 }
 
+/**
+ * @brief Unbind left down event
+ *
+ */
 void BasePanelWithTouch::unBindLeftDown() {
     img_bitmap->Unbind(wxEVT_LEFT_DOWN, &BasePanelWithTouch::OnLeftDown, this);
 }
 
+/**
+ * @brief Unbind motion event
+ *
+ */
 void BasePanelWithTouch::unBindMotion() {
     img_bitmap->Unbind(wxEVT_MOTION, &BasePanelWithTouch::OnMotion, this);
 }
 
+/**
+ * @brief Unbind left up event
+ *
+ */
 void BasePanelWithTouch::unBindLeftUp() {
     img_bitmap->Unbind(wxEVT_LEFT_UP, &BasePanelWithTouch::OnLeftUp, this);
 }
 
+/**
+ * @brief Unbind all events (left down, motion, left up)
+ *
+ */
 void BasePanelWithTouch::unBindAll() {
     img_bitmap->Unbind(wxEVT_LEFT_DOWN, &BasePanelWithTouch::OnLeftDown, this);
     img_bitmap->Unbind(wxEVT_LEFT_UP, &BasePanelWithTouch::OnLeftUp, this);
     img_bitmap->Unbind(wxEVT_MOTION, &BasePanelWithTouch::OnMotion, this);
 }
 
+/**
+ * @brief Handle left down event
+ *
+ * @param e Event
+ */
 void BasePanelWithTouch::OnLeftDown(wxMouseEvent &e) {
     wxPoint pos = e.GetPosition();
     wxSize size = img_bitmap->GetSize();
@@ -142,6 +236,11 @@ void BasePanelWithTouch::OnLeftDown(wxMouseEvent &e) {
     }
 }
 
+/**
+ * @brief Handle motion event
+ *
+ * @param e Event
+ */
 void BasePanelWithTouch::OnMotion(wxMouseEvent &e) {
     wxPoint pos = e.GetPosition();
     wxSize size = img_bitmap->GetSize();
@@ -158,6 +257,11 @@ void BasePanelWithTouch::OnMotion(wxMouseEvent &e) {
     }
 }
 
+/**
+ * @brief Handle left up event
+ *
+ * @param e Event
+ */
 void BasePanelWithTouch::OnLeftUp(wxMouseEvent &e) {
     wxPoint pos = e.GetPosition();
     wxSize size = img_bitmap->GetSize();
@@ -177,15 +281,28 @@ void BasePanelWithTouch::OnLeftUp(wxMouseEvent &e) {
     }
 }
 
+/**
+ * @brief Do post left down
+ *
+ */
 void BasePanelWithTouch::doPostLeftDown() {
     unBindLeftDown();
     bindLeftUp();
     bindMotion();
 }
 
+/**
+ * @brief Do post motion
+ *
+ */
 void BasePanelWithTouch::doPostMotion() {
     // do nothing
 }
+
+/**
+ * @brief Do post left up
+ *
+ */
 void BasePanelWithTouch::doPostLeftUp() {
     unBindMotion();
     unBindLeftUp();
