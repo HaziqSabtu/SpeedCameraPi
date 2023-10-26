@@ -14,12 +14,32 @@
 #include <memory>
 #include <string>
 
+/**
+ * @brief Base class for all Threads for ThreadController
+ *
+ */
 class BaseThread : public wxThread {
   public:
+    /**
+     * @brief Construct a new BaseThread object
+     *
+     * @param parent View
+     * @param data Pointer to the SessionData
+     */
     BaseThread(wxEvtHandler *parent, DataPtr data)
         : wxThread(wxTHREAD_JOINABLE), parent(parent), data(data) {}
+
+    /**
+     * @brief Destroy the Base Thread object
+     *
+     */
     virtual ~BaseThread() {};
 
+    /**
+     * @brief Get the ThreadID
+     *
+     * @return ThreadID
+     */
     virtual ThreadID getID() const = 0;
 
   protected:
@@ -27,6 +47,12 @@ class BaseThread : public wxThread {
     wxEvtHandler *parent;
 };
 
+/**
+ * @brief Helper Class for BaseThread
+ * @details Add a variable pSize, which is the size of the preview image. Also
+ * enables the Thread to update the Image Panel.
+ *
+ */
 class PreviewableThread {
   public:
     PreviewableThread() {
@@ -41,6 +67,11 @@ class PreviewableThread {
     cv::Size pSize;
 };
 
+/**
+ * @brief Helper Class for BaseThread
+ * @details Add a variable imageSize, which is the size of the captured data.
+ *
+ */
 class ImageSizeDataThread {
   public:
     ImageSizeDataThread(DataPtr data) {
@@ -61,6 +92,11 @@ class ImageSizeDataThread {
     cv::Size imageSize;
 };
 
+/**
+ * @brief Helper Class for BaseThread
+ * @details Add a variable imageSize, which is the size of the camera.
+ *
+ */
 class ImageSizeCameraThread {
   public:
     ImageSizeCameraThread() {

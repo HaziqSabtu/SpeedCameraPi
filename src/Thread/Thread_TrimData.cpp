@@ -1,6 +1,12 @@
 #include <Event/Event.hpp>
 #include <Thread/Thread_TrimData.hpp>
 
+/**
+ * @brief Construct a new Trim Data Thread:: Trim Data Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ */
 TrimDataThread::TrimDataThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread(),
       MAX_FRAME(data->getCaptureData().size()) {
@@ -10,8 +16,27 @@ TrimDataThread::TrimDataThread(wxEvtHandler *parent, DataPtr data)
     endPos = MAX_FRAME - 1;
 }
 
+/**
+ * @brief Destroy the Trim Data Thread:: Trim Data Thread object
+ *
+ */
 TrimDataThread::~TrimDataThread() {}
 
+/**
+ * @brief Process the trim data
+ * @details This function will be called when the thread is started
+ * <ul>
+ * <li>Check if capture data is empty</li>
+ * <li>Check if startPos or endPos is -1</li>
+ * <li>Check if startPos > endPos</li>
+ * <li>Check if frame range is less than MIN_ALLOWED_FRAME</li>
+ * <li>Resize the capture data</li>
+ * <li>Update the capture data</li>
+ * </ul>
+ *
+ *
+ * @return wxThread::ExitCode
+ */
 void TrimDataThread::processTrimData() {
     auto captureData = data->getCaptureData();
 
@@ -43,6 +68,14 @@ void TrimDataThread::processTrimData() {
     data->setCaptureData(trimData);
 }
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. Then perform the trim data task.
+ * If an error occurs, send the error event to the View. Finally send the end
+ * event to the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode TrimDataThread::Entry() {
     try {
         if (data->isCaptureDataEmpty()) {
@@ -145,8 +178,17 @@ wxThread::ExitCode TrimDataThread::Entry() {
     return 0;
 }
 
+/**
+ * @brief Get the ID of the Thread
+ *
+ * @return ThreadID
+ */
 ThreadID TrimDataThread::getID() const { return threadID; }
 
+/**
+ * @brief Increment the start position
+ *
+ */
 void TrimDataThread::incrementStartPos() {
     std::lock_guard<std::mutex> lock(m_mutex);
     if (startPos < MAX_FRAME - 1) {
@@ -154,6 +196,10 @@ void TrimDataThread::incrementStartPos() {
     }
 }
 
+/**
+ * @brief Decrement the start position
+ *
+ */
 void TrimDataThread::decrementStartPos() {
     std::lock_guard<std::mutex> lock(m_mutex);
     if (startPos > 0) {
@@ -161,16 +207,32 @@ void TrimDataThread::decrementStartPos() {
     }
 }
 
+/**
+ * @brief Check if the start position is incrementable
+ *
+ * @return true
+ * @return false
+ */
 bool TrimDataThread::isStartIncrementable() {
     std::lock_guard<std::mutex> lock(m_mutex);
     return getFrameRange() > MIN_ALLOWED_FRAME;
 }
 
+/**
+ * @brief Check if the start position is decrementable
+ *
+ * @return true
+ * @return false
+ */
 bool TrimDataThread::isStartDecrementable() {
     std::lock_guard<std::mutex> lock(m_mutex);
     return startPos > 0;
 }
 
+/**
+ * @brief Increment the end position
+ *
+ */
 void TrimDataThread::incrementEndPos() {
     std::lock_guard<std::mutex> lock(m_mutex);
     if (endPos < MAX_FRAME - 1) {
@@ -178,6 +240,10 @@ void TrimDataThread::incrementEndPos() {
     }
 }
 
+/**
+ * @brief Decrement the end position
+ *
+ */
 void TrimDataThread::decrementEndPos() {
     std::lock_guard<std::mutex> lock(m_mutex);
     if (endPos > 0) {
@@ -185,24 +251,51 @@ void TrimDataThread::decrementEndPos() {
     }
 }
 
+/**
+ * @brief Check if the end position is incrementable
+ *
+ * @return true
+ * @return false
+ */
 bool TrimDataThread::isEndIncrementable() {
     std::lock_guard<std::mutex> lock(m_mutex);
     return endPos < MAX_FRAME - 1;
 }
 
+/**
+ * @brief Check if the end position is decrementable
+ *
+ * @return true
+ * @return false
+ */
 bool TrimDataThread::isEndDecrementable() {
     std::lock_guard<std::mutex> lock(m_mutex);
     return getFrameRange() > MIN_ALLOWED_FRAME;
 }
 
+/**
+ * @brief Set the status of the TrimDataThread
+ *
+ * @param status TrimDataThreadCurrentStatus
+ */
 void TrimDataThread::setStatus(TrimDataThreadCurrentStatus status) {
     std::lock_guard<std::mutex> lock(m_mutex);
     this->status = status;
 }
 
+/**
+ * @brief Get the status of the TrimDataThread
+ *
+ * @return TrimDataThreadCurrentStatus
+ */
 TrimDataThreadCurrentStatus TrimDataThread::getStatus() {
     std::lock_guard<std::mutex> lock(m_mutex);
     return this->status;
 }
 
+/**
+ * @brief Get the frame range
+ *
+ * @return int
+ */
 int TrimDataThread::getFrameRange() { return abs(endPos - startPos) + 1; }

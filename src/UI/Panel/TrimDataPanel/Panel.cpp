@@ -16,6 +16,13 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
+/**
+ * @brief Construct a new Trim Data Panel:: Trim Data Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ * @param controller Pointer to the TrimDataController
+ */
 TrimDataPanel::TrimDataPanel(wxWindow *parent, wxWindowID id, TDCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {
 
@@ -25,8 +32,16 @@ TrimDataPanel::TrimDataPanel(wxWindow *parent, wxWindowID id, TDCPtr controller)
     size();
 }
 
+/**
+ * @brief Destroy the Trim Data Panel:: Trim Data Panel object
+ *
+ */
 TrimDataPanel::~TrimDataPanel() {}
 
+/**
+ * @brief Handle button events
+ *
+ */
 void TrimDataPanel::OnButton(wxCommandEvent &e) {
 
     TrimDataPanelButton *button_panel =
@@ -70,6 +85,10 @@ void TrimDataPanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle toggle preview button
+ *
+ */
 void TrimDataPanel::ToggleTrimDataButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_TrimDataStart(button);
@@ -83,6 +102,10 @@ void TrimDataPanel::ToggleTrimDataButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle replay events
+ *
+ */
 void TrimDataPanel::OnReplay(wxCommandEvent &e) {
     if (e.GetId() == REPLAY_END) {
         controller->e_ReplayEnd(this);

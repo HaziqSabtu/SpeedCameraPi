@@ -7,6 +7,13 @@
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/Panel.hpp>
 
+/**
+ * @brief Construct a new Capture Panel:: Capture Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ * @param controller Pointer to the CaptureController
+ */
 CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {
 
@@ -16,8 +23,16 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller)
     size();
 }
 
+/**
+ * @brief Destroy the Capture Panel:: Capture Panel object
+ *
+ */
 CapturePanel::~CapturePanel() {}
 
+/**
+ * @brief Handle button events
+ *
+ */
 void CapturePanel::OnButton(wxCommandEvent &e) {
 
     CaptureButtonPanel *button_panel =
@@ -88,6 +103,10 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle the load button
+ *
+ */
 void CapturePanel::LoadButtonHandler() {
     wxFileDialog openFileDialog(this, _("Open .scpdata file"), "", "",
                                 "XYZ files (*.scpdata)|*.scpdata",
@@ -102,6 +121,11 @@ void CapturePanel::LoadButtonHandler() {
     controller->e_LoadFileStart(this, path);
 }
 
+/**
+ * @brief Handle the toggle camera button
+ *
+ * @param button Pointer to the button
+ */
 void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_CameraPreviewStart(button);
@@ -115,6 +139,11 @@ void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle load image events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     if (e.GetId() == LOAD_START_CAMERA) {
         UpdateStatusEvent::Submit(this, SC::STATUS_CAPTURE_START);
@@ -149,6 +178,11 @@ void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle preview capture events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnPreviewCapture(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_START);
@@ -168,6 +202,11 @@ void CapturePanel::OnPreviewCapture(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle preview camera events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnPreviewCamera(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_START);
@@ -185,6 +224,11 @@ void CapturePanel::OnPreviewCamera(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle save data events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnSaveData(wxCommandEvent &e) {
     if (e.GetId() == SAVE_DATA_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_SAVE_DATA_START);
@@ -217,6 +261,11 @@ void CapturePanel::OnSaveData(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle switch mode events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnSwitchMode(wxCommandEvent &e) {
     if (e.GetId() == SWITCH_MODE_OK) {
         UpdateStatusEvent::Submit(this, SC::STATUS_SWITCH_MODE_OK);

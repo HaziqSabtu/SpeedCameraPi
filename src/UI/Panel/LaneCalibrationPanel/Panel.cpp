@@ -13,6 +13,13 @@
 #include <stdexcept>
 #include <wx/event.h>
 
+/**
+ * @brief Construct a new Lane Calibration Panel:: Lane Calibration Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ * @param controller Pointer to the LaneCalibrationController
+ */
 LaneCalibrationPanel::LaneCalibrationPanel(wxWindow *parent, wxWindowID id,
                                            LCCPtr controller)
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
@@ -24,8 +31,16 @@ LaneCalibrationPanel::LaneCalibrationPanel(wxWindow *parent, wxWindowID id,
     size();
 }
 
+/**
+ * @brief Destroy the Lane Calibration Panel:: Lane Calibration Panel object
+ *
+ */
 LaneCalibrationPanel::~LaneCalibrationPanel() {}
 
+/**
+ * @brief Handle button events
+ *
+ */
 void LaneCalibrationPanel::OnButton(wxCommandEvent &e) {
 
     LaneCalibrationPanelButton *button_panel =
@@ -66,6 +81,10 @@ void LaneCalibrationPanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle toggle preview button
+ *
+ */
 void LaneCalibrationPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_CalibrationPreviewStart(button);
@@ -79,6 +98,10 @@ void LaneCalibrationPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle toggle calibration button
+ *
+ */
 void LaneCalibrationPanel::ToggleCalibrationButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
@@ -93,6 +116,10 @@ void LaneCalibrationPanel::ToggleCalibrationButtonHandler(
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle calibration events
+ *
+ */
 void LaneCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     if (e.GetId() == CALIBRATION_CAMERA_START) {
         status_panel->SetText(SC::STATUS_CALIBRATION_CAMERA_START);
@@ -134,6 +161,10 @@ void LaneCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     controller->e_UpdateState(this);
 }
 
+/**
+ * @brief Handle preview capture events
+ *
+ */
 void LaneCalibrationPanel::OnPreviewCapture(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_START);
@@ -151,6 +182,10 @@ void LaneCalibrationPanel::OnPreviewCapture(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle preview camera events
+ *
+ */
 void LaneCalibrationPanel::OnPreviewCamera(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_START);
@@ -168,6 +203,10 @@ void LaneCalibrationPanel::OnPreviewCamera(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle left down event (override)
+ *
+ */
 void LaneCalibrationPanel::doPostLeftDown() { unBindAll(); }
 
 // clang-format off

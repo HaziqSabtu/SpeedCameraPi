@@ -15,3 +15,8 @@
 #include <Event/Event_UpdateSpeed.hpp>
 #include <Event/Event_UpdateState.hpp>
 #include <Event/Event_UpdateStatus.hpp>
+
+/**
+ * @brief Contains all Custom Event
+ *
+ */

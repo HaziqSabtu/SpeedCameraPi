@@ -13,6 +13,10 @@
 
 #define ResourcePtr std::shared_ptr<SharedResource>
 
+/**
+ * @brief Base class for SharedResource
+ *
+ */
 class ISharedResource {
   public:
     virtual ~ISharedResource() = default;
@@ -30,6 +34,10 @@ class ISharedResource {
     virtual void killAllThreads() = 0;
 };
 
+/**
+ * @brief SharedResource for all Controllers
+ *
+ */
 class SharedResource : public ISharedResource {
   public:
     SharedResource();

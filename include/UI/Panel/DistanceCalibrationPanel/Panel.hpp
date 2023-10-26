@@ -14,6 +14,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @brief The distance calibration panel
+ * @image html distancecalibrationpanel.png
+ * @image latex distancecalibrationpanel.png
+ */
 class DistanceCalibrationPanel : public BasePanelWithTouch {
   public:
     DistanceCalibrationPanel(wxWindow *parent, wxWindowID id,

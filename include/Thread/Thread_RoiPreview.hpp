@@ -2,6 +2,10 @@
 
 #include <Thread/Thread_Base.hpp>
 
+/**
+ * @brief Thread implementation for the ROI Preview
+ *
+ */
 class RoiPreviewThread : public BaseThread,
                          PreviewableThread,
                          ImageSizeDataThread {

@@ -5,6 +5,10 @@
 
 #define CameraPtr std::unique_ptr<CameraBase>
 
+/**
+ * @brief Base class for Camera
+ *
+ */
 class CameraBase {
 
   public:
@@ -17,11 +21,16 @@ class CameraBase {
     virtual void getFrame(cv::Mat &frame) = 0;
 };
 
+/**
+ * @brief Class to enable access to Camera
+ *
+ */
 class CameraAccessor {
   public:
     CameraAccessor(CameraPtr &camera) : camera(std::move(camera)) {}
 
     CameraPtr getCamera() { return std::move(camera); }
+
     void setCamera(CameraPtr camera) { this->camera = std::move(camera); }
 
   protected:

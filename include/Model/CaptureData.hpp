@@ -8,6 +8,10 @@ using namespace std::chrono;
 #define HPTime std::chrono::high_resolution_clock::time_point
 #define CDVector std::vector<CaptureData>
 
+/**
+ * @brief Data for Capturing Images
+ *
+ */
 struct CaptureData {
     cv::Mat image;
     HPTime time;

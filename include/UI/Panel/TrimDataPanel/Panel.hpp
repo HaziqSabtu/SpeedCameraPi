@@ -25,6 +25,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @brief The trim data panel
+ * @image html trimdatapanel.png
+ * @image latex trimdatapanel.png
+ */
 class TrimDataPanel : public BasePanel {
   public:
     TrimDataPanel(wxWindow *parent, wxWindowID id, TDCPtr controller);

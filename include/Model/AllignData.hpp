@@ -4,8 +4,16 @@
 
 #define ADVector std::vector<AllignData>
 
+/**
+ * @brief Data for Alligning Images
+ *
+ */
 struct AllignData {
+
+    // The alligned Image
     cv::Mat image;
+
+    // The transformation Matrix
     cv::Mat transformMatrix;
 
     AllignData();

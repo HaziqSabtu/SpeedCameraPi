@@ -15,6 +15,14 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
+/**
+ * @brief Construct a new Distance Calibration Panel:: Distance Calibration
+ * Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ * @param controller Pointer to the DistanceCalibrationController
+ */
 DistanceCalibrationPanel::DistanceCalibrationPanel(wxWindow *parent,
                                                    wxWindowID id,
                                                    DCCPtr controller)
@@ -27,8 +35,17 @@ DistanceCalibrationPanel::DistanceCalibrationPanel(wxWindow *parent,
     size();
 }
 
+/**
+ * @brief Destroy the Distance Calibration Panel:: Distance Calibration Panel
+ * object
+ *
+ */
 DistanceCalibrationPanel::~DistanceCalibrationPanel() {}
 
+/**
+ * @brief Handle button events
+ *
+ */
 void DistanceCalibrationPanel::OnButton(wxCommandEvent &e) {
 
     DistanceCalibrationPanelButton *button_panel =
@@ -69,6 +86,10 @@ void DistanceCalibrationPanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle toggle of preview button
+ *
+ */
 void DistanceCalibrationPanel::TogglePreviewButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
@@ -82,6 +103,11 @@ void DistanceCalibrationPanel::TogglePreviewButtonHandler(
     }
     throw std::runtime_error("Invalid button state");
 }
+
+/**
+ * @brief Handle toggle of calibration button
+ *
+ */
 void DistanceCalibrationPanel::ToggleCalibrationButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
@@ -96,6 +122,10 @@ void DistanceCalibrationPanel::ToggleCalibrationButtonHandler(
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle calibration events
+ *
+ */
 void DistanceCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     if (e.GetId() == CALIBRATION_CAMERA_START) {
         status_panel->SetText(SC::STATUS_CALIBRATION_CAMERA_START);
@@ -128,6 +158,10 @@ void DistanceCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     }
 }
 
+/**
+ * @brief Handle preview events
+ *
+ */
 void DistanceCalibrationPanel::OnPreviewCapture(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_START);
@@ -145,6 +179,10 @@ void DistanceCalibrationPanel::OnPreviewCapture(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle preview camera events
+ *
+ */
 void DistanceCalibrationPanel::OnPreviewCamera(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_START);

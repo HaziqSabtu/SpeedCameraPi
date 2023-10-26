@@ -5,6 +5,10 @@
 #include <Utils/Algorithm/AlgorithmFactory.hpp>
 #include <Utils/Camera/CameraBase.hpp>
 
+/**
+ * @brief Base Class for Automatic Lane Calibration
+ *
+ */
 class BaseLaneCalibrationThread : public BaseThread, public PreviewableThread {
   public:
     BaseLaneCalibrationThread(wxEvtHandler *parent, DataPtr data,
@@ -37,6 +41,10 @@ class BaseLaneCalibrationThread : public BaseThread, public PreviewableThread {
     bool isBothLineValid();
 };
 
+/**
+ * @brief Thread implementation for the Automatic Lane Calibration with camera
+ *
+ */
 class LaneCalibrationCameraThread : public BaseLaneCalibrationThread,
                                     public CameraAccessor,
                                     public ImageSizeCameraThread {

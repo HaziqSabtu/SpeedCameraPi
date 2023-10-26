@@ -2,6 +2,10 @@
 
 #include <Thread/Thread_Base.hpp>
 
+/**
+ * @brief Thread implementation for the Result Preview
+ *
+ */
 class ResultPreviewThread : public BaseThread,
                             public PreviewableThread,
                             public ImageSizeDataThread {

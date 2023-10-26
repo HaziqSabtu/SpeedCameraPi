@@ -2,6 +2,10 @@
 
 #include "Thread/Thread_DistanceCalibrationCamera.hpp"
 
+/**
+ * @brief Thread implementation Distance Calibration with Captured Data
+ *
+ */
 class DistanceCalibrationCaptureThread : public BaseDistanceCalibrationThread,
                                          public ImageSizeDataThread {
   public:

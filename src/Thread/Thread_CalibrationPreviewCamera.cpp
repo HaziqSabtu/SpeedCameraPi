@@ -3,13 +3,33 @@
 
 #include <Event/Event.hpp>
 
+/**
+ * @brief Construct a new
+ * CalibrationPreviewCameraThread::CalibrationPreviewCameraThread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param camera Unique_ptr to the Camera
+ */
 CalibrationPreviewCameraThread::CalibrationPreviewCameraThread(
     wxEvtHandler *parent, DataPtr data, CameraPtr &camera)
     : BaseThread(parent, data), CameraAccessor(camera), ImageSizeCameraThread(),
       PreviewableThread() {}
 
+/**
+ * @brief Destroy the Calibration Preview Camera Thread:: Calibration Preview
+ * Camera Thread object
+ *
+ */
 CalibrationPreviewCameraThread::~CalibrationPreviewCameraThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details If calibration data is available, draw the lines on the preview
+ * image. Then send the image to the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode CalibrationPreviewCameraThread::Entry() {
 
     wxCommandEvent startPreviewEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_START);
@@ -60,4 +80,9 @@ wxThread::ExitCode CalibrationPreviewCameraThread::Entry() {
     return 0;
 }
 
+/**
+ * @brief Get the ThreadID
+ *
+ * @return ThreadID
+ */
 ThreadID CalibrationPreviewCameraThread::getID() const { return id; }

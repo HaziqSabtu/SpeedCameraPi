@@ -5,6 +5,10 @@
 #include <string>
 #include <wx/event.h>
 
+/**
+ * @brief DataEvent for Error Submittion
+ *
+ */
 class ErrorEvent;
 wxDECLARE_EVENT(c_ERROR_EVENT, ErrorEvent);
 

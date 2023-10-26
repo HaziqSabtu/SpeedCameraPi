@@ -2,6 +2,11 @@
 
 #include "Thread/Thread_Base.hpp"
 
+/**
+ * @brief Thread implementation for Preview the Calibration result with captured
+ * data
+ *
+ */
 class CalibrationPreviewCaptureThread : public BaseThread,
                                         public ImageSizeDataThread,
                                         public PreviewableThread {

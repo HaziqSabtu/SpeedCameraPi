@@ -4,6 +4,16 @@
 
 #include <Event/Event.hpp>
 
+/**
+ * @brief Construct a new Color Calibration Thread:: Color Calibration Thread
+ * object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param camera Unique_ptr to the Camera
+ * @param hsvFilter Pointer to the HSVFilter object
+ * @param bfs Pointer to the BFS object
+ */
 ColorCalibrationThread::ColorCalibrationThread(wxEvtHandler *parent,
                                                DataPtr data, CameraPtr &camera,
                                                HSVFilterPtr hsvFilter,
@@ -11,8 +21,21 @@ ColorCalibrationThread::ColorCalibrationThread(wxEvtHandler *parent,
     : BaseThread(parent, data), PreviewableThread(), CameraAccessor(camera),
       hsvFilter(hsvFilter), bfs(bfs) {}
 
+/**
+ * @brief Destroy the Color Calibration Thread:: Color Calibration Thread object
+ *
+ */
 ColorCalibrationThread::~ColorCalibrationThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. Then capture the frame from the
+ * camera and send it to the View. Perform the color calibration. If an error
+ * occurs, send the error event to the View. Finally send the end event to the
+ * View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode ColorCalibrationThread::Entry() {
 
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
@@ -60,7 +83,7 @@ wxThread::ExitCode ColorCalibrationThread::Entry() {
                 cv::Mat grayImage;
                 cv::cvtColor(frame, grayImage, cv::COLOR_BGR2GRAY);
 
-                //crop image
+                // crop image
                 auto boundingBox = cv::boundingRect(filteredFrame);
                 cv::Mat hsvCrop = hsvFrame(boundingBox);
                 cv::Mat maskCrop = filteredFrame(boundingBox);

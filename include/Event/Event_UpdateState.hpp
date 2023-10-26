@@ -4,6 +4,10 @@
 #include <wx/event.h>
 #include <wx/string.h>
 
+/**
+ * @brief Data Event, containing the State of the Application
+ *
+ */
 class UpdateStateEvent;
 wxDECLARE_EVENT(c_UPDATE_STATE_EVENT, UpdateStateEvent);
 

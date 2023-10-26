@@ -25,6 +25,10 @@
 #define LaneCalcPtr std::shared_ptr<LaneSpeedCalculator>
 #define DistanceCalcPtr std::shared_ptr<DistanceSpeedCalculator>
 
+/**
+ * @brief Factory class for creating algorithms objects
+ *
+ */
 class AlgorithmFactory {
   public:
     static HSVFilterPtr createHSVFilter(AppConfig &config);

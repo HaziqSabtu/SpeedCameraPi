@@ -6,6 +6,11 @@
 
 #define ColorRange std::pair<cv::Scalar, cv::Scalar>
 
+/**
+ * @brief Thread implementation for Preview the result from
+ * ColorCalibrationThread
+ *
+ */
 class ColorCalibrationPreviewThread : public BaseThread,
                                       public PreviewableThread,
                                       public CameraAccessor {

@@ -6,6 +6,10 @@
 
 #include <Utils/Camera/CameraBase.hpp>
 
+/**
+ * @brief Thread implementation Lane Calibration with Captured Data
+ *
+ */
 class LaneCalibrationCaptureThread : public BaseLaneCalibrationThread,
                                      public ImageSizeDataThread {
   public:

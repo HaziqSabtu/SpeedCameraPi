@@ -2,6 +2,13 @@
 #include <Thread/Thread_DistanceCalibrationCapture.hpp>
 #include <UI/Layout/StatusPanel.hpp>
 
+/**
+ * @brief Construct a new Distance Calibration Capture Thread:: Distance
+ * Calibration Capture Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ */
 DistanceCalibrationCaptureThread::DistanceCalibrationCaptureThread(
     wxEvtHandler *parent, DataPtr data)
     : BaseDistanceCalibrationThread(parent, data), ImageSizeDataThread(data) {
@@ -11,8 +18,22 @@ DistanceCalibrationCaptureThread::DistanceCalibrationCaptureThread(
     }
 }
 
+/**
+ * @brief Destroy the Distance Calibration Capture Thread:: Distance Calibration
+ * Capture Thread object
+ *
+ */
 DistanceCalibrationCaptureThread::~DistanceCalibrationCaptureThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. Then capture the frame from the
+ * captured data and send it to the View. Perform the distance calibration. If
+ * an error occurs, send the error event to the View. Finally send the end event
+ * to the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode DistanceCalibrationCaptureThread::Entry() {
 
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
@@ -73,10 +94,21 @@ wxThread::ExitCode DistanceCalibrationCaptureThread::Entry() {
     return 0;
 }
 
+/**
+ * @brief Get the ThreadID
+ *
+ * @return ThreadID
+ */
 ThreadID DistanceCalibrationCaptureThread::getID() const { return threadID; }
 
 // line size is in preview size
 // need to convert to original size (image size)
+/**
+ * @brief Get the Real Top Line object
+ * @note The line size is in preview size. Need to convert to original size
+ *
+ * @return Line
+ */
 Line DistanceCalibrationCaptureThread::getRealTopLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -84,6 +116,12 @@ Line DistanceCalibrationCaptureThread::getRealTopLine() {
     return rl;
 }
 
+/**
+ * @brief Get the Real Bottom Line object
+ * @note The line size is in preview size. Need to convert to original size
+ *
+ * @return Line
+ */
 Line DistanceCalibrationCaptureThread::getRealBottomLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -91,6 +129,11 @@ Line DistanceCalibrationCaptureThread::getRealBottomLine() {
     return ll;
 }
 
+/**
+ * @brief Get the Calibration Data object
+ *
+ * @return CalibrationData
+ */
 CalibrationData DistanceCalibrationCaptureThread::getCalibrationData() {
     return CalibrationData(getRealTopLine(), getRealBottomLine());
 }

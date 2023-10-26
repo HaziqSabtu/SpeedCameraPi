@@ -1,22 +1,10 @@
-/**
- * @file Thread_Capture.hpp
- * @author Haziq Sabtu (mhaziq.sabtu@gmail.com)
- * @brief Custom wxThread for capturing image from camera
- * @version 1.0.0
- * @date 2023-03-18
- *
- * @copyright Copyright (c) 2023
- *
- */
-#ifndef CAPTURE_THREAD_HPP
-#define CAPTURE_THREAD_HPP
+#pragma once
 
 #include <Thread/Thread_Base.hpp>
-
 #include <Utils/Camera/CameraBase.hpp>
 
 /**
- * @brief Custom wxThread for capturing image from camera
+ * @brief Custom wxThread for showing image from camera
  *
  */
 class CameraPreviewThread : public BaseThread,
@@ -34,5 +22,3 @@ class CameraPreviewThread : public BaseThread,
   private:
     const ThreadID id = THREAD_CAMERA_PREVIEW;
 };
-
-#endif

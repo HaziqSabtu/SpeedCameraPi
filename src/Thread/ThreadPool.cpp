@@ -11,6 +11,10 @@
 
 #include <Thread/ThreadPool.hpp>
 
+/**
+ * @brief Construct a new Thread Pool:: Thread Pool object
+ *
+ */
 ThreadPool::ThreadPool() : isStop(false) {}
 
 /**
@@ -38,6 +42,11 @@ ThreadPool::~ThreadPool() {
     }
 }
 
+/**
+ * @brief Set the number of threads/workers
+ *
+ * @param numThreads number of threads/workers to create
+ */
 void ThreadPool::setNumThreads(const int numThreads) {
     this->numThreads = numThreads;
     std::cout << "Creating " << numThreads << " threads for ThreadPool"

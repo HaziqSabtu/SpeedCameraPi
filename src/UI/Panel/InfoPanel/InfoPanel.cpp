@@ -1,5 +1,11 @@
 #include <UI/Panel/InfoPanel/InfoPanel.hpp>
 
+/**
+ * @brief Construct a new Info Panel:: Info Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ */
 InfoPanel::InfoPanel(wxWindow *parent, wxWindowID id) : wxPanel(parent, id) {
     wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -49,4 +55,8 @@ InfoPanel::InfoPanel(wxWindow *parent, wxWindowID id) : wxPanel(parent, id) {
     SetSizerAndFit(mainSizer);
 }
 
+/**
+ * @brief Destroy the Info Panel:: Info Panel object
+ *
+ */
 InfoPanel::~InfoPanel() {}

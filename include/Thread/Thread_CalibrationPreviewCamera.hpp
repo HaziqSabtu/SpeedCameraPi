@@ -4,6 +4,10 @@
 
 #include <Utils/Camera/CameraBase.hpp>
 
+/**
+ * @brief Thread implementation for Preview the Calibration result with camera
+ *
+ */
 class CalibrationPreviewCameraThread : public BaseThread,
                                        public CameraAccessor,
                                        public ImageSizeCameraThread,

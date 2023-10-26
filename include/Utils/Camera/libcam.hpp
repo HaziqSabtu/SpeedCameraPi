@@ -4,6 +4,10 @@
 #include "CameraBase.hpp"
 #include "LCCV/lccv.hpp"
 
+/**
+ * @brief Access camera with Libcamera
+ *
+ */
 class LibCam : public CameraBase {
   public:
     LibCam();

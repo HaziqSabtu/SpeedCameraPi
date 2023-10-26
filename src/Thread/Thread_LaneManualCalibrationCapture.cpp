@@ -1,6 +1,13 @@
 #include <Event/Event.hpp>
 #include <Thread/Thread_LaneManualCalibrationCapture.hpp>
 
+/**
+ * @brief Construct a new Base Lane Manual Calibration Thread:: Base Lane Manual
+ * Calibration Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ */
 LaneManualCalibrationCaptureThread::LaneManualCalibrationCaptureThread(
     wxEvtHandler *parent, DataPtr data)
     : BaseLaneManualCalibrationThread(parent, data), ImageSizeDataThread(data) {
@@ -10,8 +17,22 @@ LaneManualCalibrationCaptureThread::LaneManualCalibrationCaptureThread(
     }
 }
 
+/**
+ * @brief Destroy the Base Lane Manual Calibration Thread:: Base Lane Manual
+ * Calibration Thread object
+ *
+ */
 LaneManualCalibrationCaptureThread::~LaneManualCalibrationCaptureThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. Then capture the frame from the
+ * captured data and send it to the View. Perform the manual calibration. If an
+ * error occurs, send the error event to the View. Finally send the end event to
+ * the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode LaneManualCalibrationCaptureThread::Entry() {
 
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
@@ -71,10 +92,22 @@ wxThread::ExitCode LaneManualCalibrationCaptureThread::Entry() {
     return 0;
 }
 
+/**
+ * @brief Get the Thread ID
+ *
+ * @return ThreadID
+ */
 ThreadID LaneManualCalibrationCaptureThread::getID() const { return threadID; }
 
 // line size is in preview size
 // need to convert to original size (image size)
+
+/**
+ * @brief Get the Real Right Line object
+ * @note The line size is in preview size. Need to convert to original size
+ *
+ * @return Line
+ */
 Line LaneManualCalibrationCaptureThread::getRealRightLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -82,6 +115,12 @@ Line LaneManualCalibrationCaptureThread::getRealRightLine() {
     return rl;
 }
 
+/**
+ * @brief Get the Real Left Line object
+ * @note The line size is in preview size. Need to convert to original size
+ *
+ * @return Line
+ */
 Line LaneManualCalibrationCaptureThread::getRealLeftLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -89,6 +128,11 @@ Line LaneManualCalibrationCaptureThread::getRealLeftLine() {
     return ll;
 }
 
+/**
+ * @brief Get the Calibration Data object
+ *
+ * @return CalibrationData
+ */
 CalibrationData LaneManualCalibrationCaptureThread::getCalibrationData() {
     return CalibrationData(getRealRightLine(), getRealLeftLine());
 }

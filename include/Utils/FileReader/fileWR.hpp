@@ -21,6 +21,11 @@
 #pragma once
 
 namespace Utils {
+
+/**
+ * @brief Custom Struct for File Meta Data. Used within FileReadWrite class
+ *
+ */
 struct FileMetaData {
     int vectorSize;
     int imgWidth;
@@ -32,11 +37,15 @@ struct FileMetaData {
 
     bool isROI;
 };
+
+/**
+ * @brief Class for reading and writing binary file
+ *
+ */
 class FileReadWrite {
   public:
     FileReadWrite();
     ~FileReadWrite();
-    //CDVector ReadFile(std::string path);
     void WriteFile(DataPtr data, std::string filename = "");
     void ReadFile(DataPtr data, std::string filename);
 

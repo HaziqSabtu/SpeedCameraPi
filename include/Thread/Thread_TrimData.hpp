@@ -2,6 +2,10 @@
 
 #include <Thread/Thread_Base.hpp>
 
+/**
+ * @brief Enum for the status of the TrimDataThread
+ *
+ */
 enum TrimDataThreadCurrentStatus {
     TRIM_NONE,
     TRIM_START,
@@ -9,6 +13,10 @@ enum TrimDataThreadCurrentStatus {
     TRIM_PREVIEW,
 };
 
+/**
+ * @brief Thread implementation for the Trim Data
+ *
+ */
 class TrimDataThread : public BaseThread, PreviewableThread {
   public:
     TrimDataThread(wxEvtHandler *parent, DataPtr data);

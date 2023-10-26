@@ -23,6 +23,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @brief The lane calibration panel
+ * @image html lanecalibrationpanel.png
+ * @image latex lanecalibrationpanel.png
+ */
 class LaneCalibrationPanel : public BasePanelWithTouch {
   public:
     LaneCalibrationPanel(wxWindow *parent, wxWindowID id, LCCPtr controller);

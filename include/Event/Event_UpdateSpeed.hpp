@@ -4,6 +4,10 @@
 #include <string>
 #include <wx/event.h>
 
+/**
+ * @brief Data Event for updating Result Panel with Speed Value
+ *
+ */
 class UpdateSpeedEvent;
 wxDECLARE_EVENT(c_UPDATE_SPEED_EVENT, UpdateSpeedEvent);
 

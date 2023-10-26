@@ -2,6 +2,10 @@
 
 #include <Thread/Thread_LaneManualCalibrationCamera.hpp>
 
+/**
+ * @brief Thread implementation Lane Manual Calibration with Captured Data
+ *
+ */
 class LaneManualCalibrationCaptureThread
     : public BaseLaneManualCalibrationThread,
       public ImageSizeDataThread {

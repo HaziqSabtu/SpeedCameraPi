@@ -4,8 +4,18 @@
 
 #include <Utils/Camera/CameraBase.hpp>
 
+/**
+ * @brief Enum for the Manual Direction, Used within the
+ * BaseLaneManualCalibrationThread
+ *
+ */
 enum ManualDirection { MANUAL_LEFT, MANUAL_RIGHT };
 
+/**
+ * @brief Base Class for the Manual Calibration
+ *
+ *
+ */
 class BaseLaneManualCalibrationThread : public BaseThread,
                                         public PreviewableThread {
   public:
@@ -43,6 +53,10 @@ class BaseLaneManualCalibrationThread : public BaseThread,
     bool isLineValid(Line &line);
 };
 
+/**
+ * @brief Thread implementation for the Manual Calibration with camera
+ *
+ */
 class ManualCalibrationCameraThread : public BaseLaneManualCalibrationThread,
                                       public CameraAccessor,
                                       public ImageSizeCameraThread {

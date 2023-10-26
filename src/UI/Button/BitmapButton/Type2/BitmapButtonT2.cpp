@@ -3,6 +3,13 @@
 #include <wx/gdicmn.h>
 #include <wx/tracker.h>
 
+/**
+ * @brief Construct a new Bitmap Button T2:: Bitmap Button T2 object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the button
+ * @param data BitmapDataT2 of the button
+ */
 BitmapButtonT2::BitmapButtonT2(wxWindow *parent, wxWindowID id,
                                const BitmapDataT2 &data)
     : wxPanel(parent, wxID_ANY) {
@@ -52,6 +59,11 @@ BitmapButtonT2::BitmapButtonT2(wxWindow *parent, wxWindowID id,
     this->state = ButtonState::OFF;
 }
 
+/**
+ * @brief Update the button to the given state
+ *
+ * @param state State to update to
+ */
 void BitmapButtonT2::update(ButtonState state) {
     if (state == ButtonState::ON) {
         this->Show();
@@ -76,6 +88,10 @@ void BitmapButtonT2::update(ButtonState state) {
     throw std::invalid_argument("Invalid ButtonState");
 }
 
+/**
+ * @brief Set the button to ON state
+ *
+ */
 void BitmapButtonT2::setOn() {
     button->SetBitmapLabel(onBitmap);
     button->Enable();
@@ -87,6 +103,10 @@ void BitmapButtonT2::setOn() {
     this->state = ButtonState::ON;
 }
 
+/**
+ * @brief Set the button to OFF state
+ *
+ */
 void BitmapButtonT2::setOff() {
     button->SetBitmapLabel(offBitmap);
     button->Enable();
@@ -98,6 +118,10 @@ void BitmapButtonT2::setOff() {
     this->state = ButtonState::OFF;
 }
 
+/**
+ * @brief Set the button to DISABLED state
+ *
+ */
 void BitmapButtonT2::setDisabled() {
     button->SetBitmapLabel(disabledBitmap);
     button->Disable();
@@ -109,4 +133,9 @@ void BitmapButtonT2::setDisabled() {
     this->state = ButtonState::DISABLED;
 }
 
+/**
+ * @brief Get the current state of the button
+ *
+ * @return ButtonState Current state of the button
+ */
 ButtonState BitmapButtonT2::getState() { return state; }

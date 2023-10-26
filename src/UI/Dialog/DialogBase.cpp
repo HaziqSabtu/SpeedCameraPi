@@ -1,5 +1,12 @@
 #include <UI/Dialog/DialogBase.hpp>
 
+/**
+ * @brief Construct a new DialogBaseYesNo:: DialogBaseYesNo object
+ *
+ * @param parent Pointer to the parent window
+ * @param title Title of the dialog
+ * @param text Text of the dialog
+ */
 DialogBaseYesNo::DialogBaseYesNo(wxWindow *parent, const wxString &title,
                                  const wxString &text)
     : wxDialog(parent, wxID_ANY, title, wxDefaultPosition, wxDefaultSize) {
@@ -29,6 +36,11 @@ DialogBaseYesNo::DialogBaseYesNo(wxWindow *parent, const wxString &title,
     staticText->Wrap(GetSize().GetWidth() - 20);
 }
 
+/**
+ * @brief Get the confirmation result
+ *
+ * @return bool Confirmation result
+ */
 bool DialogBaseYesNo::GetConfirmationResult() const { return result; }
 
 void DialogBaseYesNo::OnYesButton(wxCommandEvent &event) {

@@ -15,6 +15,12 @@ struct SpinControlData {
     bool isDisabled = false;
 };
 
+/**
+ * @brief Spin Control
+ * @image html spincontrol.png
+ * @image latex spincontrol.png
+ *
+ */
 template <typename T>
 class SpinControl : public wxPanel {
   public:

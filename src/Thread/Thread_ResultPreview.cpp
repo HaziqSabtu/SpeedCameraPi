@@ -1,12 +1,30 @@
 #include <Event/Event.hpp>
 #include <Thread/Thread_ResultPreview.hpp>
 
+/**
+ * @brief Construct a new Result Preview Thread:: Result Preview Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ */
 ResultPreviewThread::ResultPreviewThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread(), ImageSizeDataThread(data) {
 }
 
+/**
+ * @brief Destroy the Result Preview Thread:: Result Preview Thread object
+ *
+ */
 ResultPreviewThread::~ResultPreviewThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. If result process is already done,
+ * show the result of allign data. If an error occurs, send the error event to
+ * the View. Finally send the end event to the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode ResultPreviewThread::Entry() {
     try {
 

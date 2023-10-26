@@ -11,11 +11,20 @@
 
 #define DataPtr std::shared_ptr<SessionData>
 
+/**
+ * @brief Data containing all the data for a session
+ *
+ */
 class SessionData {
 
   private:
+    // Unique ID of the Session (Not utilized yet)
     std::string id;
+
+    // Mode of the Session (Lane or Distance)
     Mode mode;
+
+    // PanelID that is currently active
     PanelID currentPanelID;
 
   public:

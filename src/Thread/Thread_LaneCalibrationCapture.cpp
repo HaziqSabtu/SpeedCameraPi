@@ -1,14 +1,38 @@
 #include <Event/Event.hpp>
 #include <Thread/Thread_LaneCalibrationCapture.hpp>
 
+/**
+ * @brief Construct a new Lane Calibration Capture Thread:: Lane Calibration
+ * Capture Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param hsvFilter Pointer to the HSVFilter object
+ * @param bfs Pointer to the BFS object
+ * @param ransac Pointer to the RansacLine object
+ */
 LaneCalibrationCaptureThread::LaneCalibrationCaptureThread(
     wxEvtHandler *parent, DataPtr data, HSVFilterPtr hsvFilter, BFSPtr bfs,
     RansacLinePtr ransac)
     : BaseLaneCalibrationThread(parent, data, hsvFilter, bfs, ransac),
       ImageSizeDataThread(data) {}
 
+/**
+ * @brief Destroy the Lane Calibration Capture Thread:: Lane Calibration Capture
+ * Thread object
+ *
+ */
 LaneCalibrationCaptureThread::~LaneCalibrationCaptureThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. Then capture the frame from the
+ * captured data and send it to the View. Perform the lane calibration. If an
+ * error occurs, send the error event to the View. Finally send the end event to
+ * the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode LaneCalibrationCaptureThread::Entry() {
     wxCommandEvent startCalibrationEvent(c_CALIBRATION_EVENT,
                                          CALIBRATION_CAPTURE_START);
@@ -105,18 +129,40 @@ wxThread::ExitCode LaneCalibrationCaptureThread::Entry() {
     return 0;
 }
 
+/**
+ * @brief Get the ThreadID
+ *
+ * @return ThreadID
+ */
 ThreadID LaneCalibrationCaptureThread::getID() const { return threadID; }
 
+/**
+ * @brief Get the Calibration Data object
+ *
+ * @return CalibrationData
+ */
 CalibrationData LaneCalibrationCaptureThread::getCalibrationData() {
     return CalibrationData(getRealLeftLine(), getRealRightLine());
 }
 
+/**
+ * @brief Get the Real Right Line object
+ * @note The line size is in preview size. Need to convert to original size
+ *
+ * @return Line
+ */
 Line LaneCalibrationCaptureThread::getRealRightLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
     auto rl = rightLine.Scale(pSize, imageSize);
     return rl;
 }
 
+/**
+ * @brief Get the Real Left Line object
+ * @note The line size is in preview size. Need to convert to original size
+ *
+ * @return Line
+ */
 Line LaneCalibrationCaptureThread::getRealLeftLine() {
     std::unique_lock<std::mutex> lock(m_mutex);
     auto ll = leftLine.Scale(pSize, imageSize);

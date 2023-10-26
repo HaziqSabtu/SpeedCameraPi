@@ -24,6 +24,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @brief The roi panel
+ * @image html roipanel.png
+ * @image latex roipanel.png
+ */
 class RoiPanel : public BasePanelWithTouch {
   public:
     RoiPanel(wxWindow *parent, wxWindowID id, ROCPtr controller);

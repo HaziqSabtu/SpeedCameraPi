@@ -26,6 +26,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @brief The result panel
+ * @image html resultpanel.png
+ * @image latex resultpanel.png
+ */
 class ResultPanel : public BasePanel {
   public:
     ResultPanel(wxWindow *parent, wxWindowID id, RSCPtr controller);

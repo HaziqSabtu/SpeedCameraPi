@@ -1,6 +1,10 @@
 #include "Utils/Config/ConfigStruct.hpp"
 #include <Utils/Config/AppConfig.hpp>
 
+/**
+ * @brief Construct a new App Config:: App Config object
+ *
+ */
 AppConfig::AppConfig() {
     wxString ini_filename = wxStandardPaths::Get().GetUserConfigDir() +
                             wxFileName::GetPathSeparator() + "SCPConfig.ini";
@@ -80,6 +84,11 @@ AppConfig::AppConfig() {
     }
 }
 
+/**
+ * @brief Get the ModelConfig object
+ *
+ * @return ModelConfig
+ */
 ModelConfig AppConfig::GetModelConfig() {
     ModelConfig modelConfig;
     config->SetPath("/Model_Parameter");
@@ -87,6 +96,11 @@ ModelConfig AppConfig::GetModelConfig() {
     return modelConfig;
 }
 
+/**
+ * @brief Set the ModelConfig object
+ *
+ * @param modelConfig
+ */
 void AppConfig::SetModelConfig(ModelConfig modelConfig) {
     int poolSize = modelConfig.Pool_Size;
 
@@ -94,6 +108,10 @@ void AppConfig::SetModelConfig(ModelConfig modelConfig) {
     config->Write("Pool_Size", poolSize);
 }
 
+/**
+ * @brief Reset the ModelConfig object to default
+ *
+ */
 void AppConfig::ResetModelConfig() {
     ModelConfig modelConfig;
     modelConfig.Pool_Size = Default_Thread_Pool_Size;
@@ -101,6 +119,11 @@ void AppConfig::ResetModelConfig() {
     SetModelConfig(modelConfig);
 }
 
+/**
+ * @brief Get the PreviewConfig object
+ *
+ * @return PreviewConfig
+ */
 PreviewConfig AppConfig::GetPreviewConfig() {
     PreviewConfig previewConfig;
     config->SetPath("/Preview_Config");
@@ -110,6 +133,11 @@ PreviewConfig AppConfig::GetPreviewConfig() {
     return previewConfig;
 }
 
+/**
+ * @brief Set the PreviewConfig object
+ *
+ * @param previewConfig
+ */
 void AppConfig::SetPreviewConfig(PreviewConfig previewConfig) {
     int width = previewConfig.width;
     int height = previewConfig.height;
@@ -119,6 +147,10 @@ void AppConfig::SetPreviewConfig(PreviewConfig previewConfig) {
     config->Write("Preview_Height", height);
 }
 
+/**
+ * @brief Reset the PreviewConfig object to default
+ *
+ */
 void AppConfig::ResetPreviewConfig() {
     PreviewConfig previewConfig;
     previewConfig.width = Default_Preview_Width;
@@ -127,6 +159,11 @@ void AppConfig::ResetPreviewConfig() {
     SetPreviewConfig(previewConfig);
 }
 
+/**
+ * @brief Get the CameraConfig object
+ *
+ * @return CameraConfig
+ */
 CameraConfig AppConfig::GetCameraConfig() {
     CameraConfig cameraConfig;
     config->SetPath("/Camera_Parameter");
@@ -139,6 +176,11 @@ CameraConfig AppConfig::GetCameraConfig() {
     return cameraConfig;
 }
 
+/**
+ * @brief Set the CameraConfig object
+ *
+ * @param cameraConfig
+ */
 void AppConfig::SetCameraConfig(CameraConfig cameraConfig) {
     int cameraID = cameraConfig.Camera_ID;
     int cameraWidth = cameraConfig.Camera_Width;
@@ -152,6 +194,10 @@ void AppConfig::SetCameraConfig(CameraConfig cameraConfig) {
     config->Write("Camera_FPS", cameraFPS);
 }
 
+/**
+ * @brief Reset the CameraConfig object to default
+ *
+ */
 void AppConfig::ResetCameraConfig() {
     CameraConfig cameraConfig;
     cameraConfig.Camera_ID = Default_Camera_ID;
@@ -162,6 +208,11 @@ void AppConfig::ResetCameraConfig() {
     SetCameraConfig(cameraConfig);
 }
 
+/**
+ * @brief Get the SensorConfig object
+ *
+ * @return SensorConfig
+ */
 SensorConfig AppConfig::GetSensorConfig() {
     SensorConfig sensorConfig;
     config->SetPath("/Sensor_Parameter");
@@ -172,6 +223,11 @@ SensorConfig AppConfig::GetSensorConfig() {
     return sensorConfig;
 }
 
+/**
+ * @brief Set the SensorConfig object
+ *
+ * @param sensorConfig
+ */
 void AppConfig::SetSensorConfig(SensorConfig sensorConfig) {
     double sensorWidth = sensorConfig.SensorWidth;
     double sensorFocalLength = sensorConfig.SensorFocalLength;
@@ -181,6 +237,10 @@ void AppConfig::SetSensorConfig(SensorConfig sensorConfig) {
     config->Write("Sensor_Focal_Length", sensorFocalLength);
 }
 
+/**
+ * @brief Reset the SensorConfig object to default
+ *
+ */
 void AppConfig::ResetSensorConfig() {
     SensorConfig sensorConfig;
     sensorConfig.SensorWidth = Default_Sensor_Width;
@@ -189,6 +249,11 @@ void AppConfig::ResetSensorConfig() {
     SetSensorConfig(sensorConfig);
 }
 
+/**
+ * @brief Get the MeasurementConfig object
+ *
+ * @return MeasurementConfig
+ */
 MeasurementConfig AppConfig::GetMeasurementConfig() {
     MeasurementConfig measurementConfig;
     config->SetPath("/Measurement_Parameter");
@@ -199,6 +264,11 @@ MeasurementConfig AppConfig::GetMeasurementConfig() {
     return measurementConfig;
 }
 
+/**
+ * @brief Set the MeasurementConfig object
+ *
+ * @param measurementConfig
+ */
 void AppConfig::SetMeasurementConfig(MeasurementConfig measurementConfig) {
     double objectWidth = measurementConfig.ObjectWidth;
     double objectHeight = measurementConfig.ObjectHeight;
@@ -208,6 +278,10 @@ void AppConfig::SetMeasurementConfig(MeasurementConfig measurementConfig) {
     config->Write("Object_Height", objectHeight);
 }
 
+/**
+ * @brief Reset the MeasurementConfig object to default
+ *
+ */
 void AppConfig::ResetMeasurementConfig() {
     MeasurementConfig measurementConfig;
     measurementConfig.ObjectWidth = Default_Object_Width;
@@ -216,6 +290,11 @@ void AppConfig::ResetMeasurementConfig() {
     SetMeasurementConfig(measurementConfig);
 }
 
+/**
+ * @brief Get the CaptureConfig object
+ *
+ * @return CaptureConfig
+ */
 CaptureConfig AppConfig::GetCaptureConfig() {
     CaptureConfig captureConfig;
     config->SetPath("/Capture_Parameter");
@@ -227,6 +306,11 @@ CaptureConfig AppConfig::GetCaptureConfig() {
     return captureConfig;
 }
 
+/**
+ * @brief Set the CaptureConfig object
+ *
+ * @param captureConfig
+ */
 void AppConfig::SetCaptureConfig(CaptureConfig captureConfig) {
     int maxFrame = captureConfig.maxFrame;
     bool debug = captureConfig.DebugShowImage;
@@ -237,6 +321,10 @@ void AppConfig::SetCaptureConfig(CaptureConfig captureConfig) {
     config->Write("Debug_Save", captureConfig.DebugSave);
 }
 
+/**
+ * @brief Reset the CaptureConfig object to default
+ *
+ */
 void AppConfig::ResetCaptureConfig() {
     CaptureConfig captureConfig;
     captureConfig.maxFrame = Default_Max_Frame_Count;
@@ -245,6 +333,11 @@ void AppConfig::ResetCaptureConfig() {
     SetCaptureConfig(captureConfig);
 }
 
+/**
+ * @brief Get the OpticalFlowConfig object
+ *
+ * @return OpticalFlowConfig
+ */
 OpticalFlowConfig AppConfig::GetOpticalFlowConfig() {
     OpticalFlowConfig opticalFlowConfig;
     config->SetPath("/Optical_Flow_Parameter");
@@ -265,6 +358,11 @@ OpticalFlowConfig AppConfig::GetOpticalFlowConfig() {
     return opticalFlowConfig;
 }
 
+/**
+ * @brief Set the OpticalFlowConfig object
+ *
+ * @param opticalFlowConfig
+ */
 void AppConfig::SetOpticalFlowConfig(OpticalFlowConfig opticalFlowConfig) {
     int maxCorners = opticalFlowConfig.maxCorners;
     double qualityLevel = opticalFlowConfig.qualityLevel;
@@ -286,6 +384,10 @@ void AppConfig::SetOpticalFlowConfig(OpticalFlowConfig opticalFlowConfig) {
     config->Write("Threshold", threshold);
 }
 
+/**
+ * @brief Reset the OpticalFlowConfig object to default
+ *
+ */
 void AppConfig::ResetOpticalFlowConfig() {
     OpticalFlowConfig opticalFlowConfig;
     opticalFlowConfig.maxCorners = Default_Max_Corners;
@@ -300,6 +402,11 @@ void AppConfig::ResetOpticalFlowConfig() {
     SetOpticalFlowConfig(opticalFlowConfig);
 }
 
+/**
+ * @brief Get the HSVRangeConfig object
+ *
+ * @return HSVRangeConfig of blue
+ */
 HSVRangeConfig AppConfig::GetBlueRange() {
     int hueMin, hueMax, satMin, satMax, valMin, valMax;
     config->SetPath("/HSV_Blue_Range_Parameter");
@@ -339,6 +446,11 @@ HSVRangeConfig AppConfig::GetBlueRange() {
     return r;
 }
 
+/**
+ * @brief Set the HSVRangeConfig of blue
+ *
+ * @param range
+ */
 void AppConfig::SetBlueRange(HSVRangeConfig range) {
 
     int hueMin = range.hueLower;
@@ -357,6 +469,10 @@ void AppConfig::SetBlueRange(HSVRangeConfig range) {
     config->Write("Value_Max", valMax);
 }
 
+/**
+ * @brief Reset the HSVRangeConfig of blue to default
+ *
+ */
 void AppConfig::ResetBlueRange() {
     HSVRangeConfig r;
     r.hueLower = Default_Hue_Blue_Low;
@@ -369,6 +485,11 @@ void AppConfig::ResetBlueRange() {
     SetBlueRange(r);
 }
 
+/**
+ * @brief Get the HSVRangeConfig of yellow
+ *
+ * @return HSVRangeConfig
+ */
 HSVRangeConfig AppConfig::GetYellowRange() {
     int hueMin, hueMax, satMin, satMax, valMin, valMax;
     config->SetPath("/HSV_Yellow_Range_Parameter");
@@ -408,6 +529,11 @@ HSVRangeConfig AppConfig::GetYellowRange() {
     return r;
 }
 
+/**
+ * @brief Set the HSVRangeConfig of yellow
+ *
+ * @param range
+ */
 void AppConfig::SetYellowRange(HSVRangeConfig range) {
     int hueMin = range.hueLower;
     int hueMax = range.hueUpper;
@@ -425,6 +551,10 @@ void AppConfig::SetYellowRange(HSVRangeConfig range) {
     config->Write("Value_Max", valMax);
 }
 
+/**
+ * @brief Reset the HSVRangeConfig of yellow to default
+ *
+ */
 void AppConfig::ResetYellowRange() {
     HSVRangeConfig r;
     r.hueLower = Default_Hue_Yellow_Low;
@@ -437,6 +567,11 @@ void AppConfig::ResetYellowRange() {
     SetYellowRange(r);
 }
 
+/**
+ * @brief Get the RansacConfig object
+ *
+ * @return RansacConfig
+ */
 RansacConfig AppConfig::GetRansacConfig() {
     RansacConfig ransacConfig;
     config->SetPath("/Ransac_Parameter");
@@ -450,6 +585,11 @@ RansacConfig AppConfig::GetRansacConfig() {
     return ransacConfig;
 }
 
+/**
+ * @brief Set the RansacConfig object
+ *
+ * @param ransacConfig
+ */
 void AppConfig::SetRansacConfig(RansacConfig ransacConfig) {
     double threshold = ransacConfig.threshold;
     int maxIterations = ransacConfig.maxIterations;
@@ -461,6 +601,10 @@ void AppConfig::SetRansacConfig(RansacConfig ransacConfig) {
     config->Write("Ransac_Min_Points", minPoints);
 }
 
+/**
+ * @brief Reset the RansacConfig object to default
+ *
+ */
 void AppConfig::ResetRansacConfig() {
     RansacConfig ransacConfig;
     ransacConfig.threshold = Default_RANSAC_Threshold;
@@ -470,6 +614,11 @@ void AppConfig::ResetRansacConfig() {
     SetRansacConfig(ransacConfig);
 }
 
+/**
+ * @brief Get the ThreadsConfig object
+ *
+ * @return ThreadsConfig
+ */
 ThreadsConfig AppConfig::GetThreadsConfig() {
     ThreadsConfig threadsConfig;
     config->SetPath("/Threads_Parameter");
@@ -484,6 +633,11 @@ ThreadsConfig AppConfig::GetThreadsConfig() {
     return threadsConfig;
 }
 
+/**
+ * @brief Set the ThreadsConfig object
+ *
+ * @param threadsConfig
+ */
 void AppConfig::SetThreadsConfig(ThreadsConfig threadsConfig) {
     bool autoManualCalibration = threadsConfig.autoManualCalibration;
     bool autoCalibration = threadsConfig.autoCalibration;
@@ -496,6 +650,10 @@ void AppConfig::SetThreadsConfig(ThreadsConfig threadsConfig) {
     config->Write("Auto_Result", threadsConfig.autoResult);
 }
 
+/**
+ * @brief Reset the ThreadsConfig object to default
+ *
+ */
 void AppConfig::ResetThreadsConfig() {
     ThreadsConfig threadsConfig;
     threadsConfig.autoManualCalibration = Default_AutoManualCalibration;
@@ -506,6 +664,11 @@ void AppConfig::ResetThreadsConfig() {
     SetThreadsConfig(threadsConfig);
 }
 
+/**
+ * @brief Get All Config
+ *
+ * @return SettingsModel All Config
+ */
 SettingsModel AppConfig::GetConfig() {
     SettingsModel settingsModel;
     settingsModel.modelConfig = GetModelConfig();
@@ -522,6 +685,10 @@ SettingsModel AppConfig::GetConfig() {
     return settingsModel;
 }
 
+/**
+ * @brief Reset All Config to default
+ *
+ */
 void AppConfig::ResetConfig() {
     ResetModelConfig();
     ResetPreviewConfig();
@@ -536,6 +703,11 @@ void AppConfig::ResetConfig() {
     ResetThreadsConfig();
 }
 
+/**
+ * @brief Save All Config
+ *
+ * @param model
+ */
 void AppConfig::SaveConfig(const SettingsModel &model) {
     SetModelConfig(model.modelConfig);
     SetCameraConfig(model.cameraConfig);
@@ -550,4 +722,8 @@ void AppConfig::SaveConfig(const SettingsModel &model) {
     SetThreadsConfig(model.threadsConfig);
 }
 
+/**
+ * @brief Destroy the App Config:: App Config object
+ *
+ */
 AppConfig::~AppConfig() { delete config; }

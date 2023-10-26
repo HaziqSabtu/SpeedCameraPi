@@ -7,8 +7,23 @@
 
 #include <condition_variable>
 
+/**
+ * @brief Enum for the Color Calibration Type, Used within the
+ * ColorCalibrationThread
+ * @details
+ * <table>
+ * <tr><th>ColorCalibrationType</th><th>Description</th></tr>
+ * <tr><td>COLOR_CALIBRATION_BLUE</td><td>Color Calibration for Blue</td></tr>
+ * <tr><td>COLOR_CALIBRATION_YELLOW</td><td>Color Calibration for
+ * Yellow</td></tr>
+ * </table>
+ */
 enum ColorCalibrationType { COLOR_CALIBRATION_BLUE, COLOR_CALIBRATION_YELLOW };
 
+/**
+ * @brief Thread implementation for the Color Calibration
+ *
+ */
 class ColorCalibrationThread : public BaseThread,
                                public PreviewableThread,
                                public CameraAccessor {

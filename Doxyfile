@@ -1062,6 +1062,14 @@ IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/p8.png \
                          Docs/assets/p9.png \
                          Docs/assets/111.png \
+                         Docs/assets/type1state.png \
+                         Docs/assets/type2state.png \
+                         Docs/assets/type3state.png \
+                         Docs/assets/buttoncontrol.png \
+                         Docs/assets/spincontrol.png \
+                         Docs/assets/dialog.png \
+                         Docs/assets/titlepanel.png \
+                         Docs/assets/statuspanel.png \
 
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should

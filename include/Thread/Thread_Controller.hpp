@@ -26,6 +26,10 @@
 
 #include <unordered_map>
 
+/**
+ * @brief Class that manages the starting and stopping of the threads
+ *
+ */
 class ThreadController {
   public:
     ThreadController();

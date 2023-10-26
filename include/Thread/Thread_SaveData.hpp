@@ -16,7 +16,7 @@
 #include <Utils/FileReader/fileWR.hpp>
 
 /**
- * @brief Custom wxThread for loading ImageData from file
+ * @brief Custom wxThread for saving ImageData to file
  *
  */
 class SaveDataThread : public BaseThread {

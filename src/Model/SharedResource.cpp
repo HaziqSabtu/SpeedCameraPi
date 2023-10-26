@@ -5,8 +5,16 @@
 #include <memory>
 #include <wx/event.h>
 
+/**
+ * @brief Construct a new Shared Resource:: Shared Resource object
+ *
+ */
 SharedResource::SharedResource() : camera(nullptr), threadPool(nullptr) {}
 
+/**
+ * @brief Destroy the Shared Resource:: Shared Resource object
+ *
+ */
 SharedResource::~SharedResource() {
     try {
         if (camera != nullptr) {
@@ -17,31 +25,71 @@ SharedResource::~SharedResource() {
     }
 }
 
+/**
+ * @brief Set the Camera pointer
+ *
+ * @param camera unique_ptr to the Camera
+ */
 void SharedResource::setCamera(CameraPtr &camera) {
     this->camera = std::move(camera);
 }
 
+/**
+ * @brief Get the Camera pointer
+ *
+ * @return CameraPtr unique_ptr to the Camera
+ */
 CameraPtr SharedResource::getCamera() {
     return camera == nullptr ? nullptr : std::move(camera);
 }
 
+/**
+ * @brief Check if the Camera is available
+ *
+ * @return true if available
+ * @return false if not available
+ */
 bool SharedResource::isCameraAvailable() { return camera != nullptr; }
 
+/**
+ * @brief Set the ThreadPool object
+ *
+ * @param threadPool shared_ptr to the ThreadPool
+ */
 void SharedResource::setThreadPool(POOLPtr threadPool) {
     this->threadPool = threadPool;
 }
 
+/**
+ * @brief Get the ThreadPool object
+ *
+ * @return POOLPtr shared_ptr to the ThreadPool
+ */
 POOLPtr SharedResource::getThreadPool() { return threadPool; }
 
+/**
+ * @brief Set the ThreadController object
+ *
+ * @param threadController shared_ptr to the ThreadController
+ */
 void SharedResource::setThreadController(
     std::shared_ptr<ThreadController> threadController) {
     this->threadController = threadController;
 }
 
+/**
+ * @brief Get the ThreadController object
+ *
+ * @return std::shared_ptr<ThreadController> shared_ptr to the ThreadController
+ */
 std::shared_ptr<ThreadController> SharedResource::getThreadController() {
     return threadController;
 }
 
+/**
+ * @brief Kill all threads
+ *
+ */
 void SharedResource::killAllThreads() {
     auto tc = getThreadController();
 
@@ -155,25 +203,55 @@ void SharedResource::killAllThreads() {
 // return a shared_ptr to the SessionData object WITHOUT copying it
 // e.g. is pointing to the same object as the one in SharedModel
 // if want to deep copy -> DataPtr(sessionData)
+
+/**
+ * @brief Return a shared_ptr to the SessionData object WITHOUT copying it
+ *
+ * @return DataPtr
+ */
 DataPtr SharedResource::getSessionData() {
     return DataPtr(&sessionData, [](SessionData *) {});
 }
 
+/**
+ * @brief Return a shared_ptr to the SessionData object WITHOUT copying it
+ *
+ * @return DataPtr
+ */
 DataPtr SharedResource::getTempSessionData() {
     return DataPtr(&tempSessionData, [](SessionData *) {});
 }
 
+/**
+ * @brief Set the SessionData object
+ *
+ * @param data SessionData object
+ */
 void SharedResource::setSessionData(SessionData data) {
     sessionData = data.clone();
 }
 
+/**
+ * @brief Reset the SessionData object
+ *
+ */
 void SharedResource::resetSessionData() { sessionData = SessionData(); }
 
+/**
+ * @brief Set the Temp Session Data object
+ *
+ * @param data SessionData object
+ */
 void SharedResource::setTempSessionData(SessionData data) {
     tempSessionData = data.clone();
-    // tempSessionData = data;
 }
 
+/**
+ * @brief Check if the SessionData object has changed
+ *
+ * @return true if changed
+ * @return false if not changed
+ */
 bool SharedResource::isSessionDataChanged() {
     return sessionData != tempSessionData;
 }

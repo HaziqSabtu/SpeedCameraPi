@@ -2,8 +2,17 @@
 
 #include <Algorithm/Struct/D_Line.hpp>
 
+/**
+ * @brief Data for Calibration
+ * @note The left and right Line, does not actually have to be left and right,
+ * can be any two lines
+ *
+ */
 struct CalibrationData {
+    // The left Line
     Line lineLeft;
+
+    // The right Line
     Line lineRight;
 
     CalibrationData();

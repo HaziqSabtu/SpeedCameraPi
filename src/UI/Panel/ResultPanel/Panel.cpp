@@ -20,6 +20,14 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
+/**
+ * @brief Construct a new Distance Calibration Panel:: Distance Calibration
+ * Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ * @param controller Pointer to the ResultController
+ */
 ResultPanel::ResultPanel(wxWindow *parent, wxWindowID id, RSCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {
 
@@ -30,8 +38,17 @@ ResultPanel::ResultPanel(wxWindow *parent, wxWindowID id, RSCPtr controller)
     size();
 }
 
+/**
+ * @brief Destroy the Distance Calibration Panel:: Distance Calibration Panel
+ * object
+ *
+ */
 ResultPanel::~ResultPanel() {}
 
+/**
+ * @brief Handle button events
+ *
+ */
 void ResultPanel::OnButton(wxCommandEvent &e) {
 
     ResultPanelButton *button_panel =
@@ -73,6 +90,10 @@ void ResultPanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle toggle preview button
+ *
+ */
 void ResultPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_ResultPreviewStart(button);
@@ -86,6 +107,10 @@ void ResultPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle toggle box button
+ *
+ */
 void ResultPanel::ToggleBoxButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_ToggleShowBox(button, true);
@@ -99,6 +124,10 @@ void ResultPanel::ToggleBoxButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle toggle lines button
+ *
+ */
 void ResultPanel::ToggleLinesButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_ToggleShowLines(button, true);
@@ -112,6 +141,10 @@ void ResultPanel::ToggleLinesButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle toggle lanes button
+ *
+ */
 void ResultPanel::ToggleLanesButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_ToggleShowLanes(button, true);
@@ -125,6 +158,11 @@ void ResultPanel::ToggleLanesButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle process image events
+ *
+ * @param e Event
+ */
 void ResultPanel::OnProcessImage(wxCommandEvent &e) {
 
     if (e.GetId() == PROCESS_START) {
@@ -143,6 +181,11 @@ void ResultPanel::OnProcessImage(wxCommandEvent &e) {
     controller->e_UpdateState(this);
 }
 
+/**
+ * @brief Handle capture preview events
+ *
+ * @param e Event
+ */
 void ResultPanel::OnCapturePreview(wxCommandEvent &e) {
 
     if (e.GetId() == PREVIEW_START) {
@@ -160,6 +203,11 @@ void ResultPanel::OnCapturePreview(wxCommandEvent &e) {
     controller->e_UpdateState(this);
 }
 
+/**
+ * @brief Handle update speed events
+ *
+ * @param e Event
+ */
 void ResultPanel::OnUpdateSpeed(UpdateSpeedEvent &e) {
     auto speed = e.GetSpeed();
 

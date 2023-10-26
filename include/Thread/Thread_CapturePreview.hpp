@@ -4,6 +4,10 @@
 
 #include <Utils/Camera/CameraBase.hpp>
 
+/**
+ * @brief Thread implementation for Preview the the captured data
+ *
+ */
 class CapturePreviewThread : public BaseThread, PreviewableThread {
   public:
     CapturePreviewThread(wxEvtHandler *parent, DataPtr data);

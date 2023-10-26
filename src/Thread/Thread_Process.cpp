@@ -4,14 +4,38 @@
 #include <Thread/Task/Task_Track.hpp>
 #include <Thread/Thread_Process.hpp>
 
+/**
+ * @brief Construct a new Process Thread:: Process Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param detector Pointer to the FeatureDetector
+ * @param tracker Pointer to the Tracker
+ * @param speedCalc Pointer to the SpeedCalculation
+ * @param threadPool Pointer to the ThreadPool
+ */
 ProcessThread::ProcessThread(wxEvtHandler *parent, DataPtr data,
                              DetectorPtr detector, TrackerPtr tracker,
                              SpeedCalcPtr speedCalc, POOLPtr threadPool)
     : BaseThread(parent, data), pool(threadPool), detector(detector),
       tracker(tracker), speedCalc(speedCalc) {}
 
+/**
+ * @brief Destroy the Process Thread:: Process Thread object
+ *
+ */
 ProcessThread::~ProcessThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. Then perform the SIFT task. If an
+ * error occurs, send the error event to the View. Then track the object. If an
+ * error occurs, send the error event to the View. Then calculate the speed. If
+ * an error occurs, send the error event to the View. Finally send the end
+ * event to the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode ProcessThread::Entry() {
     wxCommandEvent startProcessEvent(c_PROCESS_IMAGE_EVENT, PROCESS_START);
     wxPostEvent(parent, startProcessEvent);
@@ -109,4 +133,9 @@ wxThread::ExitCode ProcessThread::Entry() {
     return 0;
 }
 
+/**
+ * @brief Get the ThreadID
+ *
+ * @return ThreadID
+ */
 ThreadID ProcessThread::getID() const { return threadID; }

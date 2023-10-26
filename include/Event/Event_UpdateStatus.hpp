@@ -4,6 +4,10 @@
 #include <wx/event.h>
 #include <wx/string.h>
 
+/**
+ * @brief Data Event for Updating Status Panel
+ *
+ */
 class UpdateStatusEvent;
 wxDECLARE_EVENT(c_UPDATE_STATUS_EVENT, UpdateStatusEvent);
 

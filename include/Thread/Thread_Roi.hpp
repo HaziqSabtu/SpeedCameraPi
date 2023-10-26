@@ -2,6 +2,10 @@
 
 #include <Thread/Thread_Base.hpp>
 
+/**
+ * @brief Thread implementation for the ROI
+ *
+ */
 class RoiThread : public BaseThread, PreviewableThread, ImageSizeDataThread {
   public:
     RoiThread(wxEvtHandler *parent, DataPtr data);

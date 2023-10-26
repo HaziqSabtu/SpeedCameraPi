@@ -16,10 +16,9 @@
 #include <Utils/Config/AppConfig.hpp>
 
 /**
- * @brief Task Implementation for Optical Flow Detection
+ * @brief Task Implementation for Tracking
  *
  */
-//TODO: Rename
 class TrackTask : public Task {
   public:
     TrackTask(DataPtr data, TrackerPtr tracker);

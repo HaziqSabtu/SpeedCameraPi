@@ -24,6 +24,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @brief The capture panel
+ * @image html capturepanel.png
+ * @image latex capturepanel.png
+ */
 class CapturePanel : public BasePanel {
   public:
     CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller);

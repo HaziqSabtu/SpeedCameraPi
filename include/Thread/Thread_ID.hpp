@@ -1,5 +1,9 @@
 #pragma once
 
+/**
+ * @brief Thread ID
+ *
+ */
 enum ThreadID {
     THREAD_NONE,
     THREAD_CAMERA_PREVIEW,

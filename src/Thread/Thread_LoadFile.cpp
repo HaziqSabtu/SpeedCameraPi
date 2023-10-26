@@ -15,11 +15,9 @@
 /**
  * @brief Construct a new Load File Thread:: Load File Thread object
  *
- * @param parent parent wxEvtHandler
- * @param threadPool pointer to ThreadPool
- * @param imgData pointer to ImageData vector
- * @param path path to file
- * @param maxFrame maximum number of frame to load
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param path Path to the file
  */
 LoadFileThread::LoadFileThread(wxEvtHandler *parent, DataPtr data,
                                std::string path)

@@ -14,6 +14,10 @@
 
 #include <Thread/Task/Task.hpp>
 
+/**
+ * @brief Task Implementation for Image Allignment with SIFT
+ *
+ */
 class SiftTask : public Task {
   public:
     SiftTask(DetectorPtr detector, DataPtr data, int id);

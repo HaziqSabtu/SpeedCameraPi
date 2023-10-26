@@ -4,8 +4,17 @@
 
 #include <Utils/Camera/CameraBase.hpp>
 
+/**
+ * @brief Enum for the Distance Direction, Used within the
+ * BaseDistanceCalibrationThread
+ *
+ */
 enum DistanceDirection { DISTANCE_TOP, DISTANCE_BOTTOM };
 
+/**
+ * @brief Base Class for the Distance Calibration
+ *
+ */
 class BaseDistanceCalibrationThread : public BaseThread,
                                       public PreviewableThread {
   public:
@@ -41,6 +50,10 @@ class BaseDistanceCalibrationThread : public BaseThread,
     bool isLineValid(Line &line);
 };
 
+/**
+ * @brief Thread implementation for the Distance Calibration with camera
+ *
+ */
 class DistanceCalibrationCameraThread : public BaseDistanceCalibrationThread,
                                         public CameraAccessor,
                                         public ImageSizeCameraThread {
