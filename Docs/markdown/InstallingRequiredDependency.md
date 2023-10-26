@@ -45,9 +45,8 @@ The first step is to acquire the source code of this project. Run the following 
 Alternatively, you can download the source code as a zip file from the GitHub repository page and extract it to your home directory.
 
 - Go to the GitHub repository page:
-
        
-        git clone https://github.com/HaziqSabtu/SpeedCameraPi.git 
+        https://github.com/HaziqSabtu/SpeedCameraPi
 
 - Click on the green button labeled "Code" and select "Download ZIP".
 
