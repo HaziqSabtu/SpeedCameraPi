@@ -1,0 +1,105 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REQUIRED PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{a4wide}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{ae,aecompl}
+\usepackage{ae}
+\usepackage{graphicx}
+\usepackage{bibgerm}
+% \usepackage{mathptmx} %Schriftart Times New Roman
+
+\usepackage{dsfont}
+
+\usepackage{setspace}
+\onehalfspace
+
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyhdr}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{makeidx}
+\usepackage{nomencl}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings} %zur Einbindung von anderen Codes
+
+\usepackage{braket}
+\usepackage{url}
+
+\usepackage{mathpazo}
+\usepackage[scaled=.95]{helvet}
+\usepackage{courier}
+\usepackage{longtable}
+% \renewcommand\familydefault{\sfdefault}
+
+% use paragraph spacing
+\usepackage{parskip}
+\usepackage[headheight=15mm]{geometry}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[block]{\normalfont\sffamily\huge\bfseries}{\thechapter}{0.5 em}{}
+\titleformat{\section}[block]{\normalfont\sffamily\Large\bfseries}{\thesection}{0.5 em}{}
+\titleformat{\subsection}[block]{\normalfont\sffamily\large\bfseries}{\thesubsection}{0.5 em}{}
+\titlespacing{\chapter}{0pt}{3.0em}{2.0em}
+\titlespacing{\section}{0pt}{2.0em}{2.0em}
+\titlespacing{\subsection}{0pt}{2.0em}{1.5em}
+
+
+% \usepackage[style=chicago-authordate,natbib=true,backend=biber]{biblatex}
+
+\hypersetup{
+    % bookmarks=true,								% Lesezeichen erzeugen
+    bookmarksopen=false,					% Lesezeichen ausgeklappt
+    bookmarksnumbered=true,				% Anzeige der Kapitelzahlen am Anfang der Namen der Lesezeichen
+    pdfstartpage=1,							% Seite, welche automatisch ge�ffnet werden soll
+    pdftitle={Titel},
+    % Titel des PDF-Dokuments
+    pdfauthor={Autor},	% Autor(Innen) des PDF-Dokuments
+    pdfsubject={Betreff},	% Inhaltsbeschreibung des
+    pdfkeywords={Schl�sselw�rter},
+    % Stichwortangabe zum PDF-Dokument
+    breaklinks=true,							% erm�glicht einen Umbruch von URLs
+    colorlinks=true,							% Einf�rbung von Links
+    linkcolor=myBlue,							% Linkfarbe: blau
+    anchorcolor=blue,						% Ankerfarbe: schwarz
+    citecolor=myRed, 							% Literaturlinks: schwarz
+    filecolor=black,							% Links zu lokalen Dateien: schwarz
+    menucolor=black, 							% Acrobat Men� Eintr�ge: schwarz
+    % pagecolor=myBlue, 							% Links zu anderen Seiten im Text: schwarz
+    urlcolor=myBlue,							% URL-Farbe: blau
+    %backref=true,
+    % pagebackref=false,
+    pdfcenterwindow=true,
+    pdfnewwindow=true,
+    pdffitwindow=true,
+    pdfstartview=FitH,
+    pdfpagemode=UseOutlines
+}
+
+\definecolor{myBlue} {rgb}{0.423529412,0.388235294,0.725490196}
+\definecolor{myRed} {cmyk}{0.02,0.88,0.99,0.0}
+\definecolor{myBlue2} {cmyk}{0.681,0.511,0,0.471}
+\definecolor{myTablehead} {cmyk}{0.57,0.19,0,0}
+
+\let\abbrev\nomenclature
+\renewcommand{\nomname}{List of Abbreviations}
+\setlength{\nomlabelwidth}{.3\hsize}
+\renewcommand{\nomlabel}[1]{#1 \dotfill}
+\setlength{\nomitemsep}{-\parsep}
+\makenomenclature
+
+
+\usepackage[bottom]{footmisc}
+\usepackage{cleveref}
+\crefformat{footnote}{#2\footnotemark[#1]#3}
+
