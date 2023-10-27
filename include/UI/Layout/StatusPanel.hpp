@@ -9,6 +9,11 @@
 
 namespace SC = StatusCollection;
 
+/**
+ * @brief The status panel
+ * @image html statuspanel.png
+ * @image latex statuspanel.png
+ */
 class StatusPanel : public wxPanel {
   public:
     StatusPanel(wxWindow *parent, wxString stat = SC::STATUS_IDLE);

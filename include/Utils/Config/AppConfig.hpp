@@ -9,6 +9,10 @@
 #include <wx/stdpaths.h>
 #include <wx/wx.h>
 
+/**
+ * @brief Class the manages the application configuration
+ *
+ */
 class AppConfig {
   public:
     AppConfig();

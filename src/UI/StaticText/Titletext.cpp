@@ -25,20 +25,20 @@ wxString TitleText::panelID_to_string(PanelID panel_id) {
         return "Capture";
     }
 
-    if (panel_id == PanelID::PANEL_CALIBRATION) {
-        return "Calibration";
+    if (panel_id == PanelID::PANEL_LANE_CALIBRATION) {
+        return "Auto Lane Calibration";
     }
 
-    if (panel_id == PanelID::PANEL_MANUAL_CALIBRATION) {
-        return "Manual Calibration";
+    if (panel_id == PanelID::PANEL_LANE_MANUAL_CALIBRATION) {
+        return "Manual Lane Calibration";
     }
 
     if (panel_id == PanelID::PANEL_COLOR_CALIBRATION) {
         return "Color Calibration";
     }
 
-    if (panel_id == PanelID::PANEL_HORIZONTAL_CALIBRATION) {
-        return "Horizontal Calibration";
+    if (panel_id == PanelID::PANEL_DISTANCE_CALIBRATION) {
+        return "Distance Calibration";
     }
 
     if (panel_id == PanelID::PANEL_ROI) {

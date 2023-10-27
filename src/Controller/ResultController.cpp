@@ -1,19 +1,26 @@
-#include "Algorithm/object_tracker/CSRTTracker.hpp"
-#include "Algorithm/speed_calculation/H_speedCalculation.hpp"
-#include "Algorithm/speed_calculation/speedCalculation.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Thread/Thread_ID.hpp"
-#include "UI/Data/StatusData.hpp"
 #include <Controller/ResultController.hpp>
-#include <wx/event.h>
 
-ResultController::ResultController(ModelPtr sharedModel)
-    : BaseController(sharedModel) {
+/**
+ * @brief Construct a new Result Controller:: Result Controller object
+ *
+ * @param shared Shared pointer to SharedResource
+ */
+ResultController::ResultController(ResourcePtr shared)
+    : BaseController(shared) {
     panelID = currentPanelID;
 }
 
+/**
+ * @brief Destroy the Result Controller:: Result Controller object
+ *
+ */
 ResultController::~ResultController() {}
 
+/**
+ * @brief Endpoint for Stopping ProcessThread
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -23,6 +30,11 @@ void ResultController::e_ProcessEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for Cancel Button
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_CancelButtonHandler(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -32,6 +44,11 @@ void ResultController::e_CancelButtonHandler(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for initiating ProcessThread with OFTracker
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessOFStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -41,6 +58,11 @@ void ResultController::e_ProcessOFStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping ProcessThread with OFTracker
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessOFEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -50,6 +72,11 @@ void ResultController::e_ProcessOFEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for initiating ProcessThread with CSRTTracker
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessCSRTStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -59,6 +86,11 @@ void ResultController::e_ProcessCSRTStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping ProcessThread with CSRTTracker
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessCSRTEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -68,6 +100,12 @@ void ResultController::e_ProcessCSRTEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for initiating ProcessThread with OFTracker and
+ * LaneSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessLaneOFStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -77,6 +115,12 @@ void ResultController::e_ProcessLaneOFStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping ProcessThread with OFTracker and
+ * LaneSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessLaneOFEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -86,6 +130,12 @@ void ResultController::e_ProcessLaneOFEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for initiating ProcessThread with CSRTTracker and
+ * LaneSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessLaneCSRTStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -95,6 +145,12 @@ void ResultController::e_ProcessLaneCSRTStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping ProcessThread with CSRTTracker and
+ * LaneSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessLaneCSRTEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -104,6 +160,12 @@ void ResultController::e_ProcessLaneCSRTEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for initiating ProcessThread with OFTracker and
+ * DistanceSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessDistOFStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -113,6 +175,12 @@ void ResultController::e_ProcessDistOFStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping ProcessThread with OFTracker and
+ * DistanceSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessDistOFEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -122,6 +190,12 @@ void ResultController::e_ProcessDistOFEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for initiating ProcessThread with CSRTTracker and
+ * DistanceSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessDistCSRTStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -131,6 +205,12 @@ void ResultController::e_ProcessDistCSRTStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping ProcessThread with CSRTTracker and
+ * DistanceSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ProcessDistCSRTEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -140,6 +220,11 @@ void ResultController::e_ProcessDistCSRTEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for initiating ResultPreviewThread
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ResultPreviewStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -149,6 +234,11 @@ void ResultController::e_ResultPreviewStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping ResultPreviewThread
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_ResultPreviewEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -158,6 +248,11 @@ void ResultController::e_ResultPreviewEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for updating speed panel
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_UpdateSpeedPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -167,6 +262,12 @@ void ResultController::e_UpdateSpeedPanel(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for toggling show bounding box on ResultPreviewPanel
+ *
+ * @param parent wxEvtHandler
+ * @param show true if show, false if hide
+ */
 void ResultController::e_ToggleShowBox(wxEvtHandler *parent, bool show) {
     try {
         checkPreCondition();
@@ -176,6 +277,12 @@ void ResultController::e_ToggleShowBox(wxEvtHandler *parent, bool show) {
     }
 }
 
+/**
+ * @brief Endpoint for toggling show intersection lines on ResultPreviewPanel
+ *
+ * @param parent wxEvtHandler
+ * @param show true if show, false if hide
+ */
 void ResultController::e_ToggleShowLines(wxEvtHandler *parent, bool show) {
     try {
         checkPreCondition();
@@ -185,6 +292,12 @@ void ResultController::e_ToggleShowLines(wxEvtHandler *parent, bool show) {
     }
 }
 
+/**
+ * @brief Endpoint for toggling show lanes on ResultPreviewPanel
+ *
+ * @param parent wxEvtHandler
+ * @param show true if show, false if hide
+ */
 void ResultController::e_ToggleShowLanes(wxEvtHandler *parent, bool show) {
     try {
         checkPreCondition();
@@ -194,6 +307,11 @@ void ResultController::e_ToggleShowLanes(wxEvtHandler *parent, bool show) {
     }
 }
 
+/**
+ * @brief Endpoint for setting ResultPreviewPanel image index to 0 (replay)
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::e_SetIndexToZero(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -203,6 +321,9 @@ void ResultController::e_SetIndexToZero(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief throw exception if any thread is running on ThreadController
+ */
 void ResultController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -215,6 +336,11 @@ void ResultController::throwIfAnyThreadIsRunning() {
     }
 }
 
+/**
+ * @brief kill all threads on ThreadController
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::killAllThreads(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -229,6 +355,14 @@ void ResultController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
+/**
+ * @brief Handler for initiating ProcessThread with OFTracker
+ * @details Check current Mode, if Mode is MODE_LANE, initiate ProcessThread
+ * with OFTracker and LaneSpeedCalculator otherwise initiate ProcessThread with
+ * OFTracker and DistanceSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::processOFStartHandler(wxEvtHandler *parent) {
     auto data = shared->getSessionData();
 
@@ -241,6 +375,14 @@ void ResultController::processOFStartHandler(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Handler for initiating ProcessThread with CSRTTracker
+ * @details Check current Mode, if Mode is MODE_LANE, initiate ProcessThread
+ * with CSRTTracker and LaneSpeedCalculator otherwise initiate ProcessThread
+ * with CSRTTracker and DistanceSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::processCSRTStartHandler(wxEvtHandler *parent) {
     auto data = shared->getSessionData();
 
@@ -253,6 +395,12 @@ void ResultController::processCSRTStartHandler(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Handler for initiating ProcessThread with OFTracker and
+ * LaneSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::processLaneOFStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -268,32 +416,19 @@ void ResultController::processLaneOFStartHandler(wxEvtHandler *parent) {
     auto pool = shared->getThreadPool();
 
     AppConfig c;
-    auto ofConfig = c.GetOpticalFlowConfig();
-    auto sConfig = c.GetSensorConfig();
-    auto mConfig = c.GetMeasurementConfig();
-
-    DetectorPtr detector =
-        std::make_shared<FeatureDetector>(DetectorType::SIFT);
-
-    auto tracker = std::make_shared<OFTracker>();
-    tracker->SetMaxCorners(ofConfig.maxCorners);
-    tracker->SetQualityLevel(ofConfig.qualityLevel);
-    tracker->SetMinDistance(ofConfig.minDistance);
-    tracker->SetBlockSize(ofConfig.blockSize);
-    tracker->SetUseHarrisDetector(ofConfig.useHarrisDetector);
-    tracker->SetK(ofConfig.k);
-    tracker->SetMinPointDistance(ofConfig.minPointDistance);
-    tracker->SetThreshold(ofConfig.threshold);
-
-    auto speedCalc = std::make_shared<LaneSpeedCalculation>();
-    speedCalc->SetSensorWidth(sConfig.SensorWidth);
-    speedCalc->SetFocalLength(sConfig.SensorFocalLength);
-    speedCalc->SetLaneWidth(mConfig.ObjectWidth);
+    auto detector = AF::createFeatureDetector(c);
+    auto tracker = AF::createOFTracker(c);
+    auto speedCalc = AF::createLaneSpeedCalculator(c);
 
     tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
                             speedCalc, panelID);
 }
 
+/**
+ * @brief Handler for stopping ProcessThread
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::processThreadEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -309,6 +444,12 @@ void ResultController::processThreadEndHandler(wxEvtHandler *parent) {
     tc->endProcessHandler();
 }
 
+/**
+ * @brief Handler for initiating ProcessThread with CSRTTracker and
+ * LaneSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::processLaneCSRTStartHandler(wxEvtHandler *parent) {
 
     auto tc = shared->getThreadController();
@@ -325,23 +466,20 @@ void ResultController::processLaneCSRTStartHandler(wxEvtHandler *parent) {
     auto pool = shared->getThreadPool();
 
     AppConfig c;
-    auto sConfig = c.GetSensorConfig();
-    auto mConfig = c.GetMeasurementConfig();
-
-    DetectorPtr detector =
-        std::make_shared<FeatureDetector>(DetectorType::SIFT);
-
-    auto tracker = std::make_shared<CSRTTracker>();
-
-    auto speedCalc = std::make_shared<LaneSpeedCalculation>();
-    speedCalc->SetSensorWidth(sConfig.SensorWidth);
-    speedCalc->SetFocalLength(sConfig.SensorFocalLength);
-    speedCalc->SetLaneWidth(mConfig.ObjectWidth);
+    auto detector = AF::createFeatureDetector(c);
+    auto tracker = AF::createCSRTTracker(c);
+    auto speedCalc = AF::createLaneSpeedCalculator(c);
 
     tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
                             speedCalc, panelID);
 }
 
+/**
+ * @brief Handler for initiating ProcessThread with OFTracker and
+ * DistanceSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::processDistOFStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -357,29 +495,20 @@ void ResultController::processDistOFStartHandler(wxEvtHandler *parent) {
     auto pool = shared->getThreadPool();
 
     AppConfig c;
-    auto ofConfig = c.GetOpticalFlowConfig();
-    auto mConfig = c.GetMeasurementConfig();
-
-    DetectorPtr detector =
-        std::make_shared<FeatureDetector>(DetectorType::SIFT);
-
-    auto tracker = std::make_shared<OFTracker>();
-    tracker->SetMaxCorners(ofConfig.maxCorners);
-    tracker->SetQualityLevel(ofConfig.qualityLevel);
-    tracker->SetMinDistance(ofConfig.minDistance);
-    tracker->SetBlockSize(ofConfig.blockSize);
-    tracker->SetUseHarrisDetector(ofConfig.useHarrisDetector);
-    tracker->SetK(ofConfig.k);
-    tracker->SetMinPointDistance(ofConfig.minPointDistance);
-    tracker->SetThreshold(ofConfig.threshold);
-
-    auto speedCalc = std::make_shared<DistanceSpeedCalculation>();
-    speedCalc->setObjectLength(mConfig.ObjectHeight);
+    auto detector = AF::createFeatureDetector(c);
+    auto tracker = AF::createOFTracker(c);
+    auto speedCalc = AF::createDistanceSpeedCalculator(c);
 
     tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
                             speedCalc, panelID);
 }
 
+/**
+ * @brief Handler for initiating ProcessThread with CSRTTracker and
+ * DistanceSpeedCalculator
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::processDistCSRTStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -395,20 +524,19 @@ void ResultController::processDistCSRTStartHandler(wxEvtHandler *parent) {
     auto pool = shared->getThreadPool();
 
     AppConfig c;
-    auto mConfig = c.GetMeasurementConfig();
-
-    DetectorPtr detector =
-        std::make_shared<FeatureDetector>(DetectorType::SIFT);
-
-    auto tracker = std::make_shared<CSRTTracker>();
-
-    auto speedCalc = std::make_shared<DistanceSpeedCalculation>();
-    speedCalc->setObjectLength(mConfig.ObjectHeight);
+    auto detector = AF::createFeatureDetector(c);
+    auto tracker = AF::createCSRTTracker(c);
+    auto speedCalc = AF::createDistanceSpeedCalculator(c);
 
     tc->startProcessHandler(parent, pool, sessionData, detector, tracker,
                             speedCalc, panelID);
 }
 
+/**
+ * @brief Handler for initiating ResultPreviewThread
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::resultPreviewStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -421,6 +549,11 @@ void ResultController::resultPreviewStartHandler(wxEvtHandler *parent) {
     tc->startResultPreviewHandler(parent, sessionData, panelID);
 }
 
+/**
+ * @brief Handler for stopping ResultPreviewThread
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::resultPreviewEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -436,6 +569,12 @@ void ResultController::resultPreviewEndHandler(wxEvtHandler *parent) {
     tc->endResultPreviewHandler();
 }
 
+/**
+ * @brief Handler for toggling show bounding box on ResultPreviewPanel
+ *
+ * @param parent wxEvtHandler
+ * @param show true if show, false if hide
+ */
 void ResultController::toggleShowBoxHandler(wxEvtHandler *parent, bool show) {
     auto tc = shared->getThreadController();
     if (tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
@@ -456,6 +595,12 @@ void ResultController::toggleShowBoxHandler(wxEvtHandler *parent, bool show) {
                                      SC::STATUS_RESULT_PREVIEW_SHOWBOX_OFF);
 }
 
+/**
+ * @brief Handler for toggling show intersection lines on ResultPreviewPanel
+ *
+ * @param parent wxEvtHandler
+ * @param show true if show, false if hide
+ */
 void ResultController::toggleShowLinesHandler(wxEvtHandler *parent, bool show) {
     auto tc = shared->getThreadController();
     if (tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
@@ -476,6 +621,12 @@ void ResultController::toggleShowLinesHandler(wxEvtHandler *parent, bool show) {
                                      SC::STATUS_RESULT_PREVIEW_SHOWLINES_OFF);
 }
 
+/**
+ * @brief Handler for toggling show lanes on ResultPreviewPanel
+ *
+ * @param parent wxEvtHandler
+ * @param show true if show, false if hide
+ */
 void ResultController::toggleShowLanesHandler(wxEvtHandler *parent, bool show) {
     auto tc = shared->getThreadController();
     if (tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
@@ -496,6 +647,11 @@ void ResultController::toggleShowLanesHandler(wxEvtHandler *parent, bool show) {
                                      SC::STATUS_RESULT_PREVIEW_SHOWLANES_OFF);
 }
 
+/**
+ * @brief Handler for setting ResultPreviewPanel image index to 0 (replay)
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::setIndexToZeroHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
     if (tc->isThreadNullptr(THREAD_RESULT_PREVIEW)) {
@@ -513,10 +669,22 @@ void ResultController::setIndexToZeroHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_RESULT_PREVIEW_REPLAY);
 }
 
+/**
+ * @brief Blocked Endpoint
+ * @details ResultPanel does not have OK button
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::okButtonHandler(wxEvtHandler *parent) {
     throw std::runtime_error("Blocked Endpoint");
 }
 
+/**
+ * @brief Endpoint for Cancel Button
+ * @details Clear ResultData on SessionData and change panel to CapturePanel
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::cancelButtonHandler(wxEvtHandler *parent) {
     killAllThreads(parent);
 
@@ -529,6 +697,13 @@ void ResultController::cancelButtonHandler(wxEvtHandler *parent) {
     ChangePanelEvent::Submit(parent, data);
 }
 
+/**
+ * @brief Endpoint for updating speed panel
+ * @details Get speed from ResultData on SessionData and submit it to
+ * UpdateSpeedEvent
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::updateSpeedPanelHandler(wxEvtHandler *parent) {
     auto data = shared->getSessionData();
 
@@ -546,6 +721,11 @@ void ResultController::updateSpeedPanelHandler(wxEvtHandler *parent) {
     UpdateSpeedEvent::Submit(parent, speed);
 }
 
+/**
+ * @brief Handler for stopping ProcessThread
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::processEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -567,6 +747,13 @@ void ResultController::processEndHandler(wxEvtHandler *parent) {
     throw std::runtime_error("Invalid thread ID");
 }
 
+/**
+ * @brief Handler for OnShow event
+ * @details Check if autoResult is true on ThreadsConfig, if true, initiate
+ * ProcessThread with OFTracker
+ *
+ * @param parent wxEvtHandler
+ */
 void ResultController::panelShowHandler(wxEvtHandler *parent) {
 
     AppConfig c;

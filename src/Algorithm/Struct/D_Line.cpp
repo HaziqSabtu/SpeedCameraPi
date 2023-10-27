@@ -28,6 +28,10 @@ Line::Line(cv::Point2f p1, cv::Point2f p2) : p1(p1), p2(p2) {}
 Line::Line(cv::Vec4i line)
     : p1(cv::Point2f(line[0], line[1])), p2(cv::Point2f(line[2], line[3])) {}
 
+/**
+ * @brief Construct a new Line:: Line object
+ *
+ */
 Line::Line() {}
 
 /**
@@ -99,10 +103,10 @@ cv::Point2f Line::Intersection(Line line) {
     double x4 = line.p2.x;
     double y4 = line.p2.y;
 
-    //TODO: Handle Horizontal Line
-    // if (isHorizontal()) {
-    //     throw std::runtime_error("Line is Horizontal");
-    // }
+    // TODO: Handle Horizontal Line
+    //  if (isHorizontal()) {
+    //      throw std::runtime_error("Line is Horizontal");
+    //  }
 
     double x =
         ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) /
@@ -150,7 +154,7 @@ Line Line::Extrapolate(cv::Mat &image) {
 
 /**
  * @brief Check if Line is Intersecting with Circle
- * @details Important! This method only checks if the line and
+ * @note Important! This method only checks if the line and
  * not the vector that intersects with the circle. If the line is short and does
  * not actually pass through the circle, this method will return false.
  * @param p center of circle
@@ -216,6 +220,12 @@ std::string Line::ToString() {
     return ss.str();
 }
 
+/**
+ * @brief Check if Line is defined
+ *
+ * @return true if line is null (p1(0,0) and p2(0,0))
+ * @return false if line is not null
+ */
 bool Line::isNull() {
     if (p1.x == 0 && p1.y == 0 && p2.x == 0 && p2.y == 0) {
         return true;
@@ -224,10 +234,23 @@ bool Line::isNull() {
     return false;
 }
 
+/**
+ * @brief Set first point of line
+ */
 void Line::setP1(cv::Point2f p1) { this->p1 = p1; }
 
+/**
+ * @brief Set second point of line
+ */
 void Line::setP2(cv::Point2f p2) { this->p2 = p2; }
 
+/**
+ * @brief Scale Line from one image size to another
+ *
+ * @param src source image size
+ * @param dst destination image size
+ * @return Line scaled line
+ */
 Line Line::Scale(cv::Size src, cv::Size dst) {
     cv::Point2f p1;
     cv::Point2f p2;
@@ -240,6 +263,12 @@ Line Line::Scale(cv::Size src, cv::Size dst) {
     return Line(p1, p2);
 }
 
+/**
+ * @brief Check if Line is Vertical
+ *
+ * @return true if line is vertical
+ * @return false if line is not vertical
+ */
 bool Line::isVertical() {
     if (p1.x == p2.x) {
         return true;
@@ -248,6 +277,12 @@ bool Line::isVertical() {
     return false;
 }
 
+/**
+ * @brief Check if Line is Horizontal
+ *
+ * @return true if line is horizontal
+ * @return false if line is not horizontal
+ */
 bool Line::isHorizontal() {
     if (p1.y == p2.y) {
         return true;
@@ -256,6 +291,14 @@ bool Line::isHorizontal() {
     return false;
 }
 
+/**
+ * @brief Check if Line is equal to another line
+ * @note This method only checks if the points of the line are equal. if they
+ * are parallel but the points are different, this method will return false.
+ * @param other line to be compared
+ * @return true if line is equal to other line
+ * @return false if line is not equal to other line
+ */
 bool Line::operator==(const Line &other) const {
     if (p1 == other.p1 && p2 == other.p2) {
         return true;

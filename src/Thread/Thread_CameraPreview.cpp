@@ -1,16 +1,31 @@
-#include "Event/Event_Error.hpp"
-#include "Thread/Thread_Base.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_CameraPreview.hpp>
-#include <memory>
-#include <wx/event.h>
 
+/**
+ * @brief Construct a new Camera Preview Thread:: Camera Preview Thread object
+ *
+ * @param parent Pointer to the parent wxEvtHandler
+ * @param camera Unique_ptr to the Camera
+ */
 CameraPreviewThread::CameraPreviewThread(wxEvtHandler *parent,
                                          CameraPtr &camera)
     : BaseThread(parent, nullptr), CameraAccessor(camera), PreviewableThread() {
 }
 
+/**
+ * @brief Destroy the Camera Preview Thread:: Camera Preview Thread object
+ *
+ */
 CameraPreviewThread::~CameraPreviewThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. Then capture the frame from the
+ * camera and send it to the View. If an error occurs, send the error event to
+ * the View. Finally send the end event to the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode CameraPreviewThread::Entry() {
 
     wxCommandEvent startPreviewCameraEvent(c_PREVIEW_CAMERA_EVENT,
@@ -48,4 +63,9 @@ wxThread::ExitCode CameraPreviewThread::Entry() {
     return 0;
 }
 
+/**
+ * @brief Get the ThreadID
+ *
+ * @return ThreadID
+ */
 ThreadID CameraPreviewThread::getID() const { return id; }

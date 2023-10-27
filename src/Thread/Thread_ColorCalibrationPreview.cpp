@@ -1,23 +1,39 @@
-
-#include "Event/Event_Error.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/ExtraModel.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Utils/Camera/CameraBase.hpp"
 #include <Thread/Thread_ColorCalibrationPreview.hpp>
-#include <memory>
-#include <opencv2/core/types.hpp>
-#include <wx/utils.h>
 
+#include <Event/Event.hpp>
+
+#include <Utils/CommonUtils.hpp>
+
+/**
+ * @brief Construct a new Color Calibration Preview Thread:: Color Calibration
+ * Preview Thread object
+ *
+ * @param parent Pointer to the View
+ * @param camera Unique_ptr to the Camera
+ * @param blueRange Pair of Scalar for the blue range
+ * @param yellowRange Pair of Scalar for the yellow range
+ */
 ColorCalibrationPreviewThread::ColorCalibrationPreviewThread(
     wxEvtHandler *parent, CameraPtr &camera, const ColorRange &blueRange,
     const ColorRange &yellowRange)
     : BaseThread(parent, nullptr), CameraAccessor(camera), PreviewableThread(),
       blueRange(blueRange), yellowRange(yellowRange) {}
 
+/**
+ * @brief Destroy the Color Calibration Preview Thread:: Color Calibration
+ * Preview Thread object
+ *
+ */
 ColorCalibrationPreviewThread::~ColorCalibrationPreviewThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. Then capture the frame from the
+ * camera and send it to the View. If the color calibration is completed, show
+ * the calibrated color on the preview image.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode ColorCalibrationPreviewThread::Entry() {
     wxCommandEvent startCaptureEvent(c_PREVIEW_CAMERA_EVENT, PREVIEW_START);
     wxPostEvent(parent, startCaptureEvent);
@@ -90,7 +106,6 @@ wxThread::ExitCode ColorCalibrationPreviewThread::Entry() {
 ThreadID ColorCalibrationPreviewThread::getID() const { return id; }
 
 bool ColorCalibrationPreviewThread::isCalibrationComplete() {
-    // return ccExtraModel->isBlueCalibrated() &&
-    //        ccExtraModel->isYellowCalibrated();
-    return true;
+    return Utils::isRangeCalibrated(blueRange) &&
+           Utils::isRangeCalibrated(yellowRange);
 }

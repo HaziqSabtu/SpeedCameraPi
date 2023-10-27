@@ -20,11 +20,11 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
-#define DetectorPtr std::shared_ptr<FeatureDetector>
-
 /**
  * @brief  Class for detecting and matching features between two images
  * and alligning them
+
+ * @note As of now only SIFT is supported. More methods can be added in the future if needed.
  */
 class FeatureDetector {
 

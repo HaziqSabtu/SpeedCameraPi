@@ -1,18 +1,21 @@
 #pragma once
 
 #include <Model/AppState.hpp>
+#include <UI/Data/Theme.hpp>
 #include <wx/wx.h>
+
+namespace T = Theme;
 
 struct TextButtonData {
     wxString text;
 
-    wxColour normalBgColor;
-    wxColour normalFgColor;
+    wxColour normalBgColor = T::Primary60;
+    wxColour normalFgColor = T::Secondary30;
 
-    wxColour disabledBgColor;
-    wxColour disabledFgColor;
+    wxColour disabledBgColor = T::GrayDisabled;
+    wxColour disabledFgColor = T::Primary60;
 
-    wxSize size;
+    wxSize size = wxSize(100, 58);
 };
 
 class TextButton : public wxPanel {

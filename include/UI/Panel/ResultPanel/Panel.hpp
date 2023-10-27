@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Controller/ManualCalibrationController.hpp"
+#include "Controller/LaneManualCalibrationController.hpp"
 #include "Controller/ResultController.hpp"
 #include "Controller/RoiController.hpp"
 #include "Event/Event_UpdatePreview.hpp"
@@ -26,6 +26,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @brief The result panel
+ * @image html resultpanel.png
+ * @image latex resultpanel.png
+ */
 class ResultPanel : public BasePanel {
   public:
     ResultPanel(wxWindow *parent, wxWindowID id, RSCPtr controller);

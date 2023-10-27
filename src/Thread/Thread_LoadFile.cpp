@@ -9,21 +9,15 @@
  *
  */
 
-#include "Event/Event_LoadImage.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Utils/FileReader/fileWR.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_LoadFile.hpp>
 
 /**
  * @brief Construct a new Load File Thread:: Load File Thread object
  *
- * @param parent parent wxEvtHandler
- * @param threadPool pointer to ThreadPool
- * @param imgData pointer to ImageData vector
- * @param path path to file
- * @param maxFrame maximum number of frame to load
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param path Path to the file
  */
 LoadFileThread::LoadFileThread(wxEvtHandler *parent, DataPtr data,
                                std::string path)

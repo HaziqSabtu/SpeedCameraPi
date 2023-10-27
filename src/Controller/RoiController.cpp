@@ -1,14 +1,28 @@
-#include "Event/Event_UpdateStatus.hpp"
-#include "UI/Dialog/RemoveRoiDialog.hpp"
 #include <Controller/RoiController.hpp>
 
-RoiController::RoiController(ModelPtr sharedModel)
-    : BaseControllerWithTouch(sharedModel) {
+#include <UI/Dialog/RemoveRoiDialog.hpp>
+
+/**
+ * @brief Construct a new Roi Controller:: Roi Controller object
+ *
+ * @param shared Shared pointer to SharedResource
+ */
+RoiController::RoiController(ResourcePtr shared)
+    : BaseControllerWithTouch(shared) {
     panelID = currentPanelID;
 }
 
+/**
+ * @brief Destroy the Roi Controller:: Roi Controller object
+ *
+ */
 RoiController::~RoiController() {}
 
+/**
+ * @brief Endpoint for removing selected ROI on RoiThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::e_ClearRect(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -19,6 +33,11 @@ void RoiController::e_ClearRect(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for removing TrackingData
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::e_RemoveRect(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -29,6 +48,11 @@ void RoiController::e_RemoveRect(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for starting RoiThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::e_RoiThreadStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -39,6 +63,11 @@ void RoiController::e_RoiThreadStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for saving TrackingData to SessionData
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::e_RoiThreadSave(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -49,6 +78,11 @@ void RoiController::e_RoiThreadSave(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping RoiThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::e_RoiThreadCancel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -59,6 +93,11 @@ void RoiController::e_RoiThreadCancel(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for starting RoiPreviewThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::e_RoiPreviewStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -69,6 +108,11 @@ void RoiController::e_RoiPreviewStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping RoiPreviewThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::e_RoiPreviewEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -79,6 +123,10 @@ void RoiController::e_RoiPreviewEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Throws exception if any thread is running on ThreadController
+ *
+ */
 void RoiController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -91,6 +139,11 @@ void RoiController::throwIfAnyThreadIsRunning() {
     }
 }
 
+/**
+ * @brief Kills all threads on ThreadController
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::killAllThreads(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -105,6 +158,11 @@ void RoiController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
+/**
+ * @brief Handler for clearing ROI on RoiThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::clearRectHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -122,6 +180,11 @@ void RoiController::clearRectHandler(wxEvtHandler *parent) {
     roiThread->setPoint2(cv::Point(-1, -1));
 }
 
+/**
+ * @brief Handler for removing TrackingData
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::removeRectHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -146,6 +209,13 @@ void RoiController::removeRectHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, "ROI removed");
 }
 
+/**
+ * @brief Handler for left mouse down event
+ * @details Select first point of ROI
+ *
+ * @param parent wxEvtHandler
+ * @param point Point of mouse cursor
+ */
 void RoiController::leftDownHandler(wxEvtHandler *parent, cv::Point point) {
     auto tc = shared->getThreadController();
 
@@ -163,6 +233,13 @@ void RoiController::leftDownHandler(wxEvtHandler *parent, cv::Point point) {
     roiThread->setPoint1(point);
 }
 
+/**
+ * @brief Handler for left mouse move event
+ * @details Select second point of ROI
+ *
+ * @param parent wxEvtHandler
+ * @param point Point of mouse cursor
+ */
 void RoiController::leftMoveHandler(wxEvtHandler *parent, cv::Point point) {
     auto tc = shared->getThreadController();
 
@@ -179,6 +256,13 @@ void RoiController::leftMoveHandler(wxEvtHandler *parent, cv::Point point) {
     roiThread->setPoint2(point);
 }
 
+/**
+ * @brief Handler for left mouse up event
+ * @details Select second point of ROI and save it to TrackingData
+ *
+ * @param parent wxEvtHandler
+ * @param point Point of mouse cursor
+ */
 void RoiController::leftUpHandler(wxEvtHandler *parent, cv::Point point) {
     auto tc = shared->getThreadController();
 
@@ -209,6 +293,11 @@ void RoiController::leftUpHandler(wxEvtHandler *parent, cv::Point point) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_ROI_SELECTED);
 }
 
+/**
+ * @brief Handler for starting RoiThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::roiThreadStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -224,6 +313,11 @@ void RoiController::roiThreadStartHandler(wxEvtHandler *parent) {
     tc->startRoiHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Handler for saving TrackingData to SessionData
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::roiThreadSaveHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -253,6 +347,11 @@ void RoiController::roiThreadSaveHandler(wxEvtHandler *parent) {
     tc->endRoiHandler();
 }
 
+/**
+ * @brief Handler for stopping RoiThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::roiThreadCancelHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -267,6 +366,11 @@ void RoiController::roiThreadCancelHandler(wxEvtHandler *parent) {
     tc->endRoiHandler();
 }
 
+/**
+ * @brief Handler for starting RoiPreviewThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::roiPreviewStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -277,6 +381,11 @@ void RoiController::roiPreviewStartHandler(wxEvtHandler *parent) {
     tc->startRoiPreviewHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Handler for stopping RoiPreviewThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::roiPreviewEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -292,6 +401,12 @@ void RoiController::roiPreviewEndHandler(wxEvtHandler *parent) {
     tc->endRoiPreviewHandler();
 }
 
+/**
+ * @brief Handler for OnShow event
+ * @details If autoRoi is enabled, start RoiThread
+ *
+ * @param parent wxEvtHandler
+ */
 void RoiController::panelShowHandler(wxEvtHandler *parent) {
     createTempSessionDataHandler(parent);
 

@@ -1,4 +1,4 @@
-# Development Setup
+\tableofcontents{HTML:2}
 
 For future developers, this section will help you properly setup your
 development environment. In general the development is done with Visual Studio
@@ -6,13 +6,13 @@ Code with cross compilation to Raspberry Pi 4. Guide to setup the development
 environment is provided below. Alternatively, a native development setup will
 also be provided.
 
-## Introduction
+# Introduction
 
 C++ is a programming language that is designed to be compiled, meaning that it is generally translated into machine language that can be understood directly by the system, making the generated program highly efficient. To compile C++ code, you need a set of tools known as the development toolchain, whose core are a compiler and its linker. A compiler is a program that converts your C++ code into machine code, while a linker is a program that combines the machine code with other libraries and resources to create an executable file. There are different compilers and linkers available for C++, such as Visual Studio, Clang, mingw, etc. Some of them are integrated with IDEs (Integrated Development Environments) that provide features such as syntax highlighting, debugging, code completion, etc.
 
 To cross compile C++ code, you need to use a cross compiler that can generate executable code for a different platform than the one you are running on. For example, if you want to compile C++ code for ARM architecture on a Windows PC, you need to use a cross compiler like arm-none-linux-gnueabi-gcc. Depending on the tool you are using, you may need to configure some settings to enable cross compilation. For example, if you are using Visual Studio Code, you can edit the Compiler path and Compiler arguments settings in the C/C++ extension to specify the cross compiler and the target triplet. You can also use other tools like CMake or Makefile to automate the cross compilation process.
 
-## Cross-compilation
+# Cross-compilation
 
 Cross-compilation is the process of compiling code on one platform (host) to run
 on another platform (target). In this case, we will be compiling the code on a
@@ -36,7 +36,7 @@ environment, following Build number of Windows 11 and WSL is required:
 - Windows 11 Pro Version 22H2 OS Build 22621.2428
 - WSL 2 with Ubuntu 22.04 LTS
 
-### Steps to setup Cross-Compilation
+## Steps to setup Cross-Compilation
 
 For this section, it is assumed that you have already installed WSL 2 with
 Ubuntu 22.04 LTS. If not, please refer to the
@@ -146,7 +146,7 @@ to install WSL 2 with Ubuntu 22.04 LTS. Most of the process are taken from
 
 - Now, you should be able to perform cross compilation. However, as of now, there is a linker problem with OpenCV libraries. To fix this, please refer to the next section.
 
-#### Fixing OpenCV linker problem
+## Fixing OpenCV linker problem
 
 - Now, we will once again compile OpenCV. There seems to be a problem using the
   already compiled library of OpenCV as done previously on the **Target**. Some
@@ -226,13 +226,13 @@ to install WSL 2 with Ubuntu 22.04 LTS. Most of the process are taken from
 
 - Now, the machine is ready for cross-compilation. Now we will explore steps to install Visual Studio Code.
 
-#### Installing Visual Studio Code
+## Installing Visual Studio Code
 
 Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS. It is a very popular code editor among developers. This section will guide you through the process of installing Visual Studio Code for  Cross-compilation.
 
 If you are running Linux on WSL, it is recommended to install Visual Studio Code directly on Windows. Download the installer from [here](https://code.visualstudio.com/Download) and install it on Windows.
 
-##### Accesing WSL from Visual Studio Code
+## Accesing WSL from Visual Studio Code
 
 First we need to install WSL Extension for Visual Studio Code. To do so, open the Extensions pane (Ctrl+Shift+X) and search for WSL. Click on the Install button to install the extension.
 
@@ -256,7 +256,7 @@ You should see that you are currently in the WSL shell. You can also check the b
 \image latex wslconnect2.png ""
 <!-- prettier-ignore-end -->
 
-##### Installing required Extensions
+## Installing required Extensions
 
 To install extensions, open Visual Studio Code and press Ctrl+Shift+X to open the Extensions pane. Search for the following extensions and install them:
 
@@ -266,7 +266,7 @@ To install extensions, open Visual Studio Code and press Ctrl+Shift+X to open th
 \image latex c++ext.png ""
 <!-- prettier-ignore-end -->
 
-##### Opening SpeedCameraPi project
+## Opening SpeedCameraPi project
 
 To open the SpeedCameraPi project, open the Explorer pane (Ctrl+Shift+E) and click on the Open Folder button. Navigate to the SpeedCameraPi folder and click on the OK button. You should now see the SpeedCameraPi project in the Explorer pane.
 
@@ -282,7 +282,7 @@ To open the SpeedCameraPi project, open the Explorer pane (Ctrl+Shift+E) and cli
 \image latex wslfolder2.png ""
 <!-- prettier-ignore-end -->
 
-##### Configuring C/C++ extension
+## Configuring C/C++ extension
 
 To configure the C/C++ extension, open the Command Palette (Ctrl+Shift+P) and type *CMake:Configure* and select the *Pi Toolchain* option. This will create a *build* folder in the project directory and generate the CMake cache. 
 
@@ -307,7 +307,7 @@ If the configuration process is successful, you should see the following message
 \image latex cppconf3.png ""
 <!-- prettier-ignore-end -->
 
-##### Building the project
+## Building the project
 
 To build the project, open the Command Palette (Ctrl+Shift+P) and type *CMake:Build*. This will build the project and generate the executable file in the *build* folder.
 
@@ -320,9 +320,9 @@ Withing the CMakeLists.txt file, the executable file is by default, configured t
 
 <br/>
 
-##### Debugging the project
+## Debugging the project
 
-###### Preparations
+### Preparations
 Debugging is crucial when developing a project. This steps need to be done atleast once. To perform debug, we first need to configure the **launch.json** script. To do so, navigate to the script folder:
       
       cd ~/SpeedCameraPi/scripts/debug
@@ -344,7 +344,7 @@ This will generate the **launch.json** file in the *.vscode* folder. Now we need
 
 <br/>
 
-###### Debugging
+### Debugging
 
 To debug the project, open the Debugger Tab (ctrl + shift + D) and select the profile *(GDB-Auto) Remote GDB Launch* and click on the Run button. This will start the GDBServer on the **Target** machine and connect to it. You should now be able to debug the project.
 
@@ -355,7 +355,7 @@ To debug the project, open the Debugger Tab (ctrl + shift + D) and select the pr
 
 <br/>
 
-###### Known Issues
+### Known Issues
 
 In some cases, these libs cannot be found. To fix run the following command on **Host**:
 
@@ -371,11 +371,11 @@ In some cases, these libs cannot be found. To fix run the following command on *
 
 <br/>
 
-#### Extra Features
+## Extra Features
 
 In this section, we will explore some extra features that can be used to improve the development experience.
 
-##### VNC Viewer
+### VNC Viewer
 
 VNC Viewer is a remote desktop application that allows you to remotely control a computer. It is useful for accessing the **Target** machine remotely. By properly integrating the VNC, your Raspberry Pi can be used without a monitor, keyboard, or mouse.
 
@@ -430,7 +430,7 @@ Once done you may need to prepare the **Target** machine to allow VNC connection
 
 <br/>
 
-##### VSCode Extensions
+### VSCode Extensions
 
 Following are some useful extensions that can be used to improve the development experience:
 
@@ -443,7 +443,7 @@ Following are some useful extensions that can be used to improve the development
 
 <br/>
 
-## Native compilation
+# Native compilation
 
 For those that prefer to develop natively on Raspberry Pi, this section will guide you through the process of setting up the development environment.
 
@@ -451,7 +451,7 @@ For native compilation, the steps is much simpler. Simply install the required d
 
 The installation of VSCode on RaspberryPi is done with [this](https://code.visualstudio.com/docs/setup/raspberry-pi) instruction.
 
-##### Installing required Extensions
+## Installing required Extensions
 
 To install extensions, open Visual Studio Code and press Ctrl+Shift+X to open the Extensions pane. Search for the following extensions and install them:
 
@@ -461,7 +461,7 @@ To install extensions, open Visual Studio Code and press Ctrl+Shift+X to open th
 \image latex c++ext.png ""
 <!-- prettier-ignore-end -->
 
-##### Opening SpeedCameraPi project
+## Opening SpeedCameraPi project
 
 To open the SpeedCameraPi project, open the Explorer pane (Ctrl+Shift+E) and click on the Open Folder button. Navigate to the SpeedCameraPi folder and click on the OK button. You should now see the SpeedCameraPi project in the Explorer pane.
 
@@ -472,7 +472,7 @@ To open the SpeedCameraPi project, open the Explorer pane (Ctrl+Shift+E) and cli
 
 <br/>
 
-##### Configuring C/C++ extension
+## Configuring C/C++ extension
 
 To configure the C/C++ extension, open the Command Palette (Ctrl+Shift+P) and type *CMake:Configure* and select the default compiler. This will create a *build* folder in the project directory and generate the CMake cache. 
 
@@ -495,7 +495,7 @@ If the configuration process is successful, you should see the following message
 \image latex cppconf3.png ""
 <!-- prettier-ignore-end -->
 
-##### Building the project
+## Building the project
 
 To build the project, open the Command Palette (Ctrl+Shift+P) and type *CMake:Build*. This will build the project and generate the executable file in the *build* folder.
 
@@ -511,9 +511,7 @@ If the ui is unrespomsive, highly likely that the building process is using all 
 \image latex cppbuild3.png ""
 <!-- prettier-ignore-end -->
 
-##### Debugging the project
-
-###### Debugging
+## Debugging
 
 To debug the project, open the Debugger Tab (ctrl + shift + D) and select the profile *GDB - Native* and click on the Run button. This will compile the project and start the debugger. You should now be able to debug the project.
 

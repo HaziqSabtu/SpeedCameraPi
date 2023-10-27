@@ -1,12 +1,3 @@
-#include "Controller/CaptureController.hpp"
-#include "Event/Event_ChangePanel.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_LoadImage.hpp"
-#include "Event/Event_Preview.hpp"
-#include "Event/Event_SaveData.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/AppState.hpp"
 
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Dialog/DataSavedDialog.hpp"
@@ -15,12 +6,14 @@
 #include "UI/StaticText/Titletext.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Panel/CapturePanel/Panel.hpp>
-#include <iostream>
-#include <stdexcept>
-#include <wx/app.h>
-#include <wx/event.h>
-#include <wx/gdicmn.h>
 
+/**
+ * @brief Construct a new Capture Panel:: Capture Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ * @param controller Pointer to the CaptureController
+ */
 CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller)
     : BasePanel(parent, id, controller), controller(controller) {
 
@@ -30,8 +23,16 @@ CapturePanel::CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller)
     size();
 }
 
+/**
+ * @brief Destroy the Capture Panel:: Capture Panel object
+ *
+ */
 CapturePanel::~CapturePanel() {}
 
+/**
+ * @brief Handle button events
+ *
+ */
 void CapturePanel::OnButton(wxCommandEvent &e) {
 
     CaptureButtonPanel *button_panel =
@@ -62,16 +63,16 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
         controller->e_ChangeToResultPanel(this);
     }
 
-    if (e.GetId() == Enum::CP_Calibration_Button_ID) {
-        controller->e_ChangeToCalibrationPanel(this);
+    if (e.GetId() == Enum::CP_LaneCalibration_Button_ID) {
+        controller->e_ChangeToLaneCalibrationPanel(this);
     }
 
-    if (e.GetId() == Enum::CP_HorCalibration_Button_ID) {
-        controller->e_ChangeToHorizontalCalibrationPanel(this);
+    if (e.GetId() == Enum::CP_DistCalibration_Button_ID) {
+        controller->e_ChangeToDistanceCalibrationPanel(this);
     }
 
-    if (e.GetId() == Enum::CP_RemoveCalibration_Button_ID ||
-        e.GetId() == Enum::CP_RemoveHorCalibration_Button_ID) {
+    if (e.GetId() == Enum::CP_RemoveLaneCalibration_Button_ID ||
+        e.GetId() == Enum::CP_RemoveDistCalibration_Button_ID) {
         controller->e_RemoveCalibration(this);
     }
 
@@ -102,14 +103,11 @@ void CapturePanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle the load button
+ *
+ */
 void CapturePanel::LoadButtonHandler() {
-    // TODO: remove this
-    // #if DEBUG
-    //     std::string path = "./DEBUG_615629056.scpdata";
-    //     // std::string path = "./2023823_15547.scpdata";
-
-    //     controller->e_LoadFileStart(this, path);
-    // #else
     wxFileDialog openFileDialog(this, _("Open .scpdata file"), "", "",
                                 "XYZ files (*.scpdata)|*.scpdata",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
@@ -121,9 +119,13 @@ void CapturePanel::LoadButtonHandler() {
 
     std::string path = Utils::wxStringToString(openFileDialog.GetPath());
     controller->e_LoadFileStart(this, path);
-    // #endif
 }
 
+/**
+ * @brief Handle the toggle camera button
+ *
+ * @param button Pointer to the button
+ */
 void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_CameraPreviewStart(button);
@@ -137,6 +139,11 @@ void CapturePanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle load image events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     if (e.GetId() == LOAD_START_CAMERA) {
         UpdateStatusEvent::Submit(this, SC::STATUS_CAPTURE_START);
@@ -171,6 +178,11 @@ void CapturePanel::OnLoadImage(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle preview capture events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnPreviewCapture(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_START);
@@ -190,6 +202,11 @@ void CapturePanel::OnPreviewCapture(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle preview camera events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnPreviewCamera(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAMERA_START);
@@ -207,6 +224,11 @@ void CapturePanel::OnPreviewCamera(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle save data events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnSaveData(wxCommandEvent &e) {
     if (e.GetId() == SAVE_DATA_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_SAVE_DATA_START);
@@ -239,6 +261,11 @@ void CapturePanel::OnSaveData(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle switch mode events
+ *
+ * @param e Event
+ */
 void CapturePanel::OnSwitchMode(wxCommandEvent &e) {
     if (e.GetId() == SWITCH_MODE_OK) {
         UpdateStatusEvent::Submit(this, SC::STATUS_SWITCH_MODE_OK);

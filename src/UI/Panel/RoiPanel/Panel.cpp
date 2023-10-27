@@ -1,4 +1,4 @@
-#include "Controller/ManualCalibrationController.hpp"
+#include "Controller/LaneManualCalibrationController.hpp"
 #include "Event/Event_Calibration.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Event/Event_Roi.hpp"
@@ -18,6 +18,13 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
+/**
+ * @brief Construct a new RoiPanel::RoiPanel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ * @param controller Pointer to the RoiController
+ */
 RoiPanel::RoiPanel(wxWindow *parent, wxWindowID id, ROCPtr controller)
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
 
@@ -27,8 +34,17 @@ RoiPanel::RoiPanel(wxWindow *parent, wxWindowID id, ROCPtr controller)
     size();
 }
 
+/**
+ * @brief Destroy the RoiPanel:: RoiPanel
+ * object
+ *
+ */
 RoiPanel::~RoiPanel() {}
 
+/**
+ * @brief Handle button events
+ *
+ */
 void RoiPanel::OnButton(wxCommandEvent &e) {
 
     RoiPanelButton *button_panel =
@@ -59,6 +75,10 @@ void RoiPanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle toggle roi button
+ *
+ */
 void RoiPanel::ToggleRoiButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_RoiThreadStart(this);
@@ -73,6 +93,10 @@ void RoiPanel::ToggleRoiButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle toggle preview button
+ *
+ */
 void RoiPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_RoiPreviewStart(button);
@@ -87,6 +111,10 @@ void RoiPanel::TogglePreviewButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle roi events
+ *
+ */
 void RoiPanel::OnRoi(wxCommandEvent &e) {
     if (e.GetId() == ROI_START) {
         status_panel->SetText(SC::STATUS_ROI_SELECT);
@@ -106,6 +134,10 @@ void RoiPanel::OnRoi(wxCommandEvent &e) {
     }
 }
 
+/**
+ * @brief Handle preview capture events
+ *
+ */
 void RoiPanel::OnPreviewCapture(wxCommandEvent &e) {
     if (e.GetId() == PREVIEW_START) {
         UpdateStatusEvent::Submit(this, SC::STATUS_PREVIEW_CAPTURE_START);

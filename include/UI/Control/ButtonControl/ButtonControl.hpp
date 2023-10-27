@@ -3,6 +3,12 @@
 #include "UI/Button/TextButton/Type2/TextButtonT2.hpp"
 #include <wx/wx.h>
 
+/**
+ * @brief Button Control
+ * @image html buttoncontrol.png
+ * @image latex buttoncontrol.png
+ *
+ */
 class ButtonControl : public wxPanel {
   public:
     ButtonControl(wxWindow *parent, wxWindowID id);

@@ -1,6 +1,12 @@
 #include "UI/StaticText/Titletext.hpp"
 #include <UI/Layout/TitlePanel.hpp>
 
+/**
+ * @brief Construct a new Title Panel:: Title Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param panelID ID of the panel
+ */
 TitlePanel::TitlePanel(wxWindow *parent, PanelID panelID)
     : wxPanel(parent, wxID_ANY),
       titleText(new TitleText(this, wxID_ANY, panelID)),
@@ -16,6 +22,17 @@ TitlePanel::TitlePanel(wxWindow *parent, PanelID panelID)
     }
 }
 
+/**
+ * @brief Construct a new Title Panel:: Title Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param panelID ID of the panel
+ * @param titleText Pointer to the title text
+ * @param exit_Button Pointer to the exit button
+ * @param setting_Button Pointer to the setting button
+ * @param info_Button Pointer to the info button
+ * @param switchMode_Button Pointer to the switch mode button
+ */
 TitlePanel::TitlePanel(wxWindow *parent, PanelID panelID, TitleText *titleText,
                        ButtonExit *exit_Button, ButtonSettings *setting_Button,
                        ButtonInfo *info_Button,
@@ -31,8 +48,16 @@ TitlePanel::TitlePanel(wxWindow *parent, PanelID panelID, TitleText *titleText,
     }
 }
 
+/**
+ * @brief Destroy the Title Panel:: Title Panel object
+ *
+ */
 TitlePanel::~TitlePanel() {}
 
+/**
+ * @brief process sizer
+ *
+ */
 void TitlePanel::addComponentsToSizer() {
     sizer = new wxBoxSizer(wxHORIZONTAL);
 

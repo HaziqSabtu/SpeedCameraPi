@@ -1,5 +1,11 @@
 #include <UI/Panel/InfoPanel/InfoPanel.hpp>
 
+/**
+ * @brief Construct a new Info Panel:: Info Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ */
 InfoPanel::InfoPanel(wxWindow *parent, wxWindowID id) : wxPanel(parent, id) {
     wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -25,8 +31,10 @@ InfoPanel::InfoPanel(wxWindow *parent, wxWindowID id) : wxPanel(parent, id) {
     wxHyperlinkCtrl *repo = new HyperLinkCtrl(this, wxID_ANY, Data::Info::repo);
     wxHyperlinkCtrl *paper =
         new HyperLinkCtrl(this, wxID_ANY, Data::Info::paper);
-    wxHyperlinkCtrl *otherRepo =
-        new HyperLinkCtrl(this, wxID_ANY, Data::Info::otherRepo);
+    wxHyperlinkCtrl *usermanual =
+        new HyperLinkCtrl(this, wxID_ANY, Data::Info::usermanual);
+    wxHyperlinkCtrl *developermanual =
+        new HyperLinkCtrl(this, wxID_ANY, Data::Info::developermanual);
 
     mainSizer->Add(iconBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
     mainSizer->Add(thbBitmap, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
@@ -38,9 +46,11 @@ InfoPanel::InfoPanel(wxWindow *parent, wxWindowID id) : wxPanel(parent, id) {
                    wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT | wxBOTTOM, 10);
     mainSizer->Add(repo, 0,
                    wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT | wxBOTTOM, 10);
-    mainSizer->Add(paper, 0,
+    mainSizer->Add(usermanual, 0,
                    wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT | wxBOTTOM, 10);
-    mainSizer->Add(otherRepo, 0,
+    mainSizer->Add(developermanual, 0,
+                   wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+    mainSizer->Add(paper, 0,
                    wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
     wxStaticText *bottomSpacer = new Spacer(this);
@@ -49,4 +59,8 @@ InfoPanel::InfoPanel(wxWindow *parent, wxWindowID id) : wxPanel(parent, id) {
     SetSizerAndFit(mainSizer);
 }
 
+/**
+ * @brief Destroy the Info Panel:: Info Panel object
+ *
+ */
 InfoPanel::~InfoPanel() {}

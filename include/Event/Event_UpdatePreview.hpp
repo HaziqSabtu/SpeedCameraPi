@@ -6,9 +6,32 @@
 #include <wx/bitmap.h>
 #include <wx/event.h>
 
+/**
+ * @brief DataEvent for updating Image Panel
+ *
+ */
 class UpdatePreviewEvent;
 wxDECLARE_EVENT(c_UPDATE_PREVIEW_EVENT, UpdatePreviewEvent);
 
+/**
+ * @brief Enum for Preview Process
+ * @details
+ * <table>
+ * <tr>
+ *  <th>Enum</th>
+ *  <th>Event</th>
+ * </tr>
+ * <tr>
+ *   <td>UPDATE_PREVIEW</td>
+ *   <td>Event for updating Preview</td>
+ * </tr>
+ * <tr>
+ *   <td>CLEAR_PREVIEW</td>
+ *   <td>Event for clearing Preview</td>
+ * </tr>
+ * </table>
+ *
+ */
 enum UPDATE_PREVIEW_TYPE { UPDATE_PREVIEW = 1, CLEAR_PREVIEW };
 
 class UpdatePreviewEvent : public wxCommandEvent {

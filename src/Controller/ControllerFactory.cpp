@@ -1,17 +1,10 @@
-#include "Controller/CalibrationController.hpp"
-#include "Controller/CaptureController.hpp"
-#include "Controller/ManualCalibrationController.hpp"
-#include "Controller/RoiController.hpp"
-#include "Model/SharedModel.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_Controller.hpp"
-#include "Utils/Camera/CameraBase.hpp"
 #include <Controller/ControllerFactory.hpp>
-#include <memory>
+
+#include <Thread/Thread_Controller.hpp>
 
 ControllerFactory::ControllerFactory(wxWindow *parent) {
 
-    sharedModel = std::make_shared<SharedModel>();
+    shared = std::make_shared<SharedResource>();
 
     AppConfig config;
 
@@ -34,43 +27,43 @@ ControllerFactory::ControllerFactory(wxWindow *parent) {
     std::shared_ptr<ThreadController> threadController =
         std::make_shared<ThreadController>();
 
-    sharedModel->setCamera(camera);
-    sharedModel->setThreadPool(threadPool);
-    sharedModel->setThreadController(threadController);
+    shared->setCamera(camera);
+    shared->setThreadPool(threadPool);
+    shared->setThreadController(threadController);
 }
 
-ControllerFactory::~ControllerFactory() { sharedModel = nullptr; }
+ControllerFactory::~ControllerFactory() { shared = nullptr; }
 
-ModelPtr ControllerFactory::getSharedModel() { return sharedModel; }
+ResourcePtr ControllerFactory::getSharedModel() { return shared; }
 
 CPCPtr ControllerFactory::createCaptureController() {
-    return std::make_shared<CaptureController>(sharedModel);
+    return std::make_shared<CaptureController>(shared);
 }
 
-CLCPtr ControllerFactory::createCalibrationController() {
-    return std::make_shared<CalibrationController>(sharedModel);
+LCCPtr ControllerFactory::createLaneCalibrationController() {
+    return std::make_shared<LaneCalibrationController>(shared);
 }
 
-HCCPtr ControllerFactory::createHorizontalCalibrationController() {
-    return std::make_shared<HorizontalCalibrationController>(sharedModel);
+DCCPtr ControllerFactory::createDistanceCalibrationController() {
+    return std::make_shared<DistanceCalibrationController>(shared);
 }
 
-MCCPtr ControllerFactory::createManualCalibrationController() {
-    return std::make_shared<ManualCalibrationController>(sharedModel);
+LMCPtr ControllerFactory::createLaneManualCalibrationController() {
+    return std::make_shared<LaneManualCalibrationController>(shared);
 }
 
 CCCPtr ControllerFactory::createColorCalibrationController() {
-    return std::make_shared<ColorCalibrationController>(sharedModel);
+    return std::make_shared<ColorCalibrationController>(shared);
 }
 
 ROCPtr ControllerFactory::createRoiController() {
-    return std::make_shared<RoiController>(sharedModel);
+    return std::make_shared<RoiController>(shared);
 }
 
 RSCPtr ControllerFactory::createResultController() {
-    return std::make_shared<ResultController>(sharedModel);
+    return std::make_shared<ResultController>(shared);
 }
 
 TDCPtr ControllerFactory::createTrimDataController() {
-    return std::make_shared<TrimDataController>(sharedModel);
+    return std::make_shared<TrimDataController>(shared);
 }

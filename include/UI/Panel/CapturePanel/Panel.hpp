@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Controller/CaptureController.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include <Event/Event_Replay.hpp>
+#include "Event/Event.hpp"
 
 #include "Model/SessionData.hpp"
 #include "UI/Button/BitmapButton/Type2/BitmapButtonT2.hpp"
@@ -26,6 +24,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @brief The capture panel
+ * @image html capturepanel.png
+ * @image latex capturepanel.png
+ */
 class CapturePanel : public BasePanel {
   public:
     CapturePanel(wxWindow *parent, wxWindowID id, CPCPtr controller);

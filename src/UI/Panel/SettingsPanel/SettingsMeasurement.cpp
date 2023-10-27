@@ -34,6 +34,8 @@ SettingsMeasurementComponent::SettingsMeasurementComponent(wxWindow *parent)
 
     mainSizer->AddSpacer(10);
     mainSizer->Add(buttonSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+    mainSizer->AddSpacer(10);
+    mainSizer->Add(objectHeight, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
     SetSizer(mainSizer);
 

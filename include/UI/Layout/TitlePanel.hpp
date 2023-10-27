@@ -8,6 +8,11 @@
 #include "UI/StaticText/Titletext.hpp"
 #include <wx/wx.h>
 
+/**
+ * @brief The title panel
+ * @image html titlepanel.png
+ * @image latex titlepanel.png
+ */
 class TitlePanel : public wxPanel {
   public:
     TitlePanel(wxWindow *parent, PanelID panelID);

@@ -1,5 +1,11 @@
 #include <UI/Panel/SettingsPanel/SettingsPanel.hpp>
 
+/**
+ * @brief Construct a new Settings Panel:: Settings Panel object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ */
 SettingsScrollPanel::SettingsScrollPanel(wxWindow *parent)
     : wxScrolledWindow(parent, wxID_ANY) {
     wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
@@ -78,6 +84,11 @@ SettingsScrollPanel::SettingsScrollPanel(wxWindow *parent)
     SetScrollRate(0, 5);
 };
 
+/**
+ * @brief Get the settings model
+ *
+ * @return SettingsModel
+ */
 SettingsModel SettingsScrollPanel::getSettingsModel() {
     SettingsModel s;
 
@@ -96,6 +107,11 @@ SettingsModel SettingsScrollPanel::getSettingsModel() {
     return s;
 }
 
+/**
+ * @brief Set the settings model
+ *
+ * @param s SettingsModel
+ */
 void SettingsScrollPanel::setSettingsModel(const SettingsModel &s) {
     settingsCameraComponent->setValue(s.cameraConfig);
     settingsSensorComponent->setValue(s.sensorConfig);

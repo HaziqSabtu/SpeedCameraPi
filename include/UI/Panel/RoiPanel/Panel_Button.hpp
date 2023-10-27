@@ -2,7 +2,6 @@
 
 #include "UI/Panel/Common/BasePanel.hpp"
 #include "UI/Panel/Common/OKCancelPanel.hpp"
-#include "UI/Panel/RoiPanel/PanelRoiTools.hpp"
 #include "UI/Panel/RoiPanel/PanelStatusMain.hpp"
 #include <Utils/Enum.hpp>
 
@@ -17,8 +16,6 @@ class RoiPanelButton : public BaseButtonPanel {
     void update(const AppState &state) override;
 
     RoiButtonMain *MainPanel;
-
-    RoiButtonTools *ToolsPanel;
 
     OKCancelPanel *OkCancelPanel;
 

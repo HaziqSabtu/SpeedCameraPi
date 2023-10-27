@@ -4,6 +4,11 @@
 #include <wx/gtk/bitmap.h>
 #include <wx/gtk/colour.h>
 
+/**
+ * @brief Construct a new Base Image Panel:: Base Image Panel object
+ *
+ * @param parent Pointer to parent window
+ */
 BaseImagePanel::BaseImagePanel(wxPanel *parent)
     : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(640, 480)) {
     noImageBitmap = createBitmapPNG(noImage);
@@ -15,16 +20,30 @@ BaseImagePanel::BaseImagePanel(wxPanel *parent)
     h = -1;
 }
 
+/**
+ * @brief Set the image
+ *
+ * @param image Image
+ */
 void BaseImagePanel::setImage(wxBitmap &image) {
     this->image = image;
     Refresh();
 }
 
+/**
+ * @brief Set the no image bitmap
+ *
+ */
 void BaseImagePanel::setNoImage() {
     image = noImageBitmap;
     Refresh();
 }
 
+/**
+ * @brief Get the image size
+ *
+ * @return wxSize Image size
+ */
 wxSize BaseImagePanel::getImageSize() { return image.GetSize(); }
 
 const wxBitmap BaseImagePanel::createBitmapText(wxString text) {
@@ -59,6 +78,7 @@ const wxBitmap BaseImagePanel::createBitmapText(wxString text) {
 
     return bitmap;
 }
+
 const wxBitmap BaseImagePanel::createBitmapPNG(wxString fileName) {
     wxImage image(DEF_WIDTH, DEF_HEIGHT, true);
 
@@ -126,11 +146,21 @@ wxBitmap BaseImagePanel::resize(wxBitmap &bitmap, const wxSize &size) {
     return wxBitmap(image);
 }
 
+/**
+ * @brief Handle paint event
+ *
+ * @param e Event
+ */
 void BaseImagePanel::OnPaint(wxPaintEvent &e) {
     wxPaintDC dc(this);
     render(dc);
 }
 
+/**
+ * @brief Handle size event
+ *
+ * @param event Event
+ */
 void BaseImagePanel::OnSize(wxSizeEvent &event) {
     Refresh();
     event.Skip();

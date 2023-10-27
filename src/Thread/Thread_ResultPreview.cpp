@@ -1,23 +1,30 @@
-#include "Event/Event_Error.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/ThreadPool.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Utils/CommonUtils.hpp"
-#include "Utils/Config/AppConfig.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_ResultPreview.hpp>
-#include <opencv2/imgproc.hpp>
-#include <wx/utils.h>
 
+/**
+ * @brief Construct a new Result Preview Thread:: Result Preview Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ */
 ResultPreviewThread::ResultPreviewThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread(), ImageSizeDataThread(data) {
 }
 
+/**
+ * @brief Destroy the Result Preview Thread:: Result Preview Thread object
+ *
+ */
 ResultPreviewThread::~ResultPreviewThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. If result process is already done,
+ * show the result of allign data. If an error occurs, send the error event to
+ * the View. Finally send the end event to the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode ResultPreviewThread::Entry() {
     try {
 

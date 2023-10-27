@@ -4,9 +4,13 @@
 
 #define ROCPtr std::shared_ptr<RoiController>
 
+/**
+ * @brief Controller for RoiPanel
+ *
+ */
 class RoiController : public BaseControllerWithTouch {
   public:
-    RoiController(ModelPtr sharedModel);
+    RoiController(ResourcePtr shared);
     ~RoiController();
 
     void e_ClearRect(wxEvtHandler *parent);

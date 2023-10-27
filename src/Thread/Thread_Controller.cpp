@@ -1,16 +1,15 @@
-#include "Algorithm/hsv_filter/BFS.hpp"
-#include "Algorithm/hsv_filter/HSVFilter.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
 #include <Thread/Thread_Controller.hpp>
 
-#include <exception>
-#include <iostream>
-#include <memory>
-
+/**
+ * @brief Construct a new Thread Controller:: Thread Controller object
+ *
+ */
 ThreadController::ThreadController() { initThread(); }
 
+/**
+ * @brief Destroy the Thread Controller:: Thread Controller object
+ *
+ */
 ThreadController::~ThreadController() {
     try {
         deleteThread();
@@ -19,20 +18,24 @@ ThreadController::~ThreadController() {
     }
 }
 
+/**
+ * @brief assign all threads to null
+ *
+ */
 void ThreadController::initThread() {
     cameraPreviewThread = nullptr;
     loadCaptureThread = nullptr;
     loadFileThread = nullptr;
     saveFileThread = nullptr;
     capturePreviewThread = nullptr;
-    calibrationCameraThread = nullptr;
-    calibrationCaptureThread = nullptr;
+    laneCalibrationCameraThread = nullptr;
+    laneCalibrationCaptureThread = nullptr;
     calibrationPreviewCameraThread = nullptr;
     calibrationPreviewCaptureThread = nullptr;
-    manualCalibrationCameraThread = nullptr;
-    manualCalibrationCaptureThread = nullptr;
-    horizontalCalibrationCameraThread = nullptr;
-    horizontalCalibrationCaptureThread = nullptr;
+    laneManualCalibrationCameraThread = nullptr;
+    laneManualCalibrationCaptureThread = nullptr;
+    distanceCalibrationCameraThread = nullptr;
+    distanceCalibrationCaptureThread = nullptr;
     colorCalibrationThread = nullptr;
     colorCalibPreviewThread = nullptr;
     roiThread = nullptr;
@@ -42,20 +45,25 @@ void ThreadController::initThread() {
     trimDataThread = nullptr;
 };
 
+/**
+ * @brief stop and delete the thread
+ *
+ * @return BaseThread* Pointer to the thread
+ */
 void ThreadController::deleteThread() {
     stopAndDeleteThread(cameraPreviewThread);
     stopAndDeleteThread(loadCaptureThread);
     stopAndDeleteThread(loadFileThread);
     stopAndDeleteThread(saveFileThread);
     stopAndDeleteThread(capturePreviewThread);
-    stopAndDeleteThread(calibrationCameraThread);
-    stopAndDeleteThread(calibrationCaptureThread);
+    stopAndDeleteThread(laneCalibrationCameraThread);
+    stopAndDeleteThread(laneCalibrationCaptureThread);
     stopAndDeleteThread(calibrationPreviewCameraThread);
     stopAndDeleteThread(calibrationPreviewCaptureThread);
-    stopAndDeleteThread(manualCalibrationCameraThread);
-    stopAndDeleteThread(manualCalibrationCaptureThread);
-    stopAndDeleteThread(horizontalCalibrationCameraThread);
-    stopAndDeleteThread(horizontalCalibrationCaptureThread);
+    stopAndDeleteThread(laneManualCalibrationCameraThread);
+    stopAndDeleteThread(laneManualCalibrationCaptureThread);
+    stopAndDeleteThread(distanceCalibrationCameraThread);
+    stopAndDeleteThread(distanceCalibrationCaptureThread);
     stopAndDeleteThread(colorCalibrationThread);
     stopAndDeleteThread(colorCalibPreviewThread);
     stopAndDeleteThread(roiThread);
@@ -65,6 +73,13 @@ void ThreadController::deleteThread() {
     stopAndDeleteThread(trimDataThread);
 };
 
+/**
+ * @brief Check if the thread is running
+ *
+ * @param threadID The ThreadID of the thread
+ * @return true If the thread is running
+ * @return false If the thread is not running
+ */
 bool ThreadController::isThreadNullptr(ThreadID threadID) {
     if (threadID == ThreadID::THREAD_CAMERA_PREVIEW) {
         return cameraPreviewThread == nullptr;
@@ -86,12 +101,12 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return capturePreviewThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_CALIBRATION_CAMERA) {
-        return calibrationCameraThread == nullptr;
+    if (threadID == ThreadID::THREAD_LANE_CALIBRATION_CAMERA) {
+        return laneCalibrationCameraThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_CALIBRATION_CAPTURE) {
-        return calibrationCaptureThread == nullptr;
+    if (threadID == ThreadID::THREAD_LANE_CALIBRATION_CAPTURE) {
+        return laneCalibrationCaptureThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_CALIBRATION_PREVIEW_CAMERA) {
@@ -102,20 +117,20 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         return calibrationPreviewCaptureThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION_CAMERA) {
-        return manualCalibrationCameraThread == nullptr;
+    if (threadID == ThreadID::THREAD_LANE_MANUAL_CALIBRATION_CAMERA) {
+        return laneManualCalibrationCameraThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_MANUAL_CALIBRATION_CAPTURE) {
-        return manualCalibrationCaptureThread == nullptr;
+    if (threadID == ThreadID::THREAD_LANE_MANUAL_CALIBRATION_CAPTURE) {
+        return laneManualCalibrationCaptureThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_HORIZONTAL_CALIBRATION_CAMERA) {
-        return horizontalCalibrationCameraThread == nullptr;
+    if (threadID == ThreadID::THREAD_DISTANCE_CALIBRATION_CAMERA) {
+        return distanceCalibrationCameraThread == nullptr;
     }
 
-    if (threadID == ThreadID::THREAD_HORIZONTAL_CALIBRATION_CAPTURE) {
-        return horizontalCalibrationCaptureThread == nullptr;
+    if (threadID == ThreadID::THREAD_DISTANCE_CALIBRATION_CAPTURE) {
+        return distanceCalibrationCaptureThread == nullptr;
     }
 
     if (threadID == ThreadID::THREAD_COLOR_CALIBRATION) {
@@ -150,10 +165,27 @@ bool ThreadController::isThreadNullptr(ThreadID threadID) {
         "ThreadController::isThreadNullptr() - Invalid ThreadID");
 }
 
+/**
+ * @brief Check if the thread is running
+ *
+ * @param thread Pointer to the thread
+ * @return true If the thread is running
+ * @return false If the thread is not running
+ */
 bool ThreadController::isThreadRunning(ThreadID threadID) {
     return !isThreadNullptr(threadID);
 }
 
+/**
+ * @brief Check if current Panel Owns the thread. Owning means that the panel
+ * starts the thread
+ *
+ * @param threadID The ThreadID of the thread
+ * @param panelID The PanelID of the panel
+ *
+ * @return true If the panel owns the thread
+ * @return false If the panel does not own the thread
+ */
 bool ThreadController::isThreadOwner(ThreadID threadID, PanelID panelID) {
     if (owner.find(threadID) == owner.end()) {
         return false;
@@ -161,125 +193,185 @@ bool ThreadController::isThreadOwner(ThreadID threadID, PanelID panelID) {
     return owner[threadID] == panelID;
 }
 
-bool ThreadController::isCalibrationThreadRunning() {
+/**
+ * @brief Check if LaneCalibrationThread is running
+ *
+ * @return true If the thread is running
+ * @return false If the thread is not running
+ */
+bool ThreadController::isLaneCalibrationThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAMERA)) {
         return true;
     }
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAPTURE)) {
         return true;
     }
 
     return false;
 }
 
-bool ThreadController::isCalibrationThreadOwner(PanelID panelID) {
+/**
+ * @brief Check if LaneCalibrationThread is owned by the current panel
+ *
+ * @param panelID The PanelID of the panel
+ * @return true If the panel owns the thread
+ * @return false If the panel does not own the thread
+ */
+bool ThreadController::isLaneCalibrationThreadOwner(PanelID panelID) {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
-        return isThreadOwner(THREAD_CALIBRATION_CAMERA, panelID);
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAMERA)) {
+        return isThreadOwner(THREAD_LANE_CALIBRATION_CAMERA, panelID);
     }
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
-        return isThreadOwner(THREAD_CALIBRATION_CAPTURE, panelID);
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAPTURE)) {
+        return isThreadOwner(THREAD_LANE_CALIBRATION_CAPTURE, panelID);
     }
 
     return false;
 }
 
-BaseCalibrationThread *ThreadController::getRunningCalibrationThread() {
+/**
+ * @brief Get the running LaneCalibrationThread
+ *
+ * @return BaseLaneCalibrationThread* Pointer to the thread
+ */
+BaseLaneCalibrationThread *ThreadController::getRunningLaneCalibrationThread() {
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAMERA)) {
-        return getCalibrationCameraThread();
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAMERA)) {
+        return getLaneCalibrationCameraThread();
     }
 
-    if (!isThreadNullptr(THREAD_CALIBRATION_CAPTURE)) {
-        return getCalibrationCaptureThread();
+    if (!isThreadNullptr(THREAD_LANE_CALIBRATION_CAPTURE)) {
+        return getLaneCalibrationCaptureThread();
     }
 
     return nullptr;
 }
 
-bool ThreadController::isManualCalibrationThreadRunning() {
+/**
+ * @brief Check if ManualLaneCalibrationThread is running
+ *
+ * @return true If the thread is running
+ * @return false If the thread is not running
+ */
+bool ThreadController::isLaneManualCalibrationThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAMERA)) {
         return true;
     }
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAPTURE)) {
         return true;
     }
 
     return false;
 }
 
-bool ThreadController::isManualCalibrationThreadOwner(PanelID panelID) {
+/**
+ * @brief Check if ManualLaneCalibrationThread is owned by the current panel
+ *
+ * @param panelID The PanelID of the panel
+ * @return true If the panel owns the thread
+ * @return false If the panel does not own the thread
+ */
+bool ThreadController::isLaneManualCalibrationThreadOwner(PanelID panelID) {
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
-        return isThreadOwner(THREAD_MANUAL_CALIBRATION_CAMERA, panelID);
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAMERA)) {
+        return isThreadOwner(THREAD_LANE_MANUAL_CALIBRATION_CAMERA, panelID);
     }
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
-        return isThreadOwner(THREAD_MANUAL_CALIBRATION_CAPTURE, panelID);
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAPTURE)) {
+        return isThreadOwner(THREAD_LANE_MANUAL_CALIBRATION_CAPTURE, panelID);
     }
 
     return false;
 }
 
-BaseManualCalibrationThread *
-ThreadController::getRunningManualCalibrationThread() {
+/**
+ * @brief Get the running ManualLaneCalibrationThread
+ *
+ * @return BaseLaneManualCalibrationThread* Pointer to the thread
+ */
+BaseLaneManualCalibrationThread *
+ThreadController::getRunningLaneManualCalibrationThread() {
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAMERA)) {
-        return getManualCalibrationCameraThread();
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAMERA)) {
+        return getLaneManualCalibrationCameraThread();
     }
 
-    if (!isThreadNullptr(THREAD_MANUAL_CALIBRATION_CAPTURE)) {
-        return getManualCalibrationCaptureThread();
+    if (!isThreadNullptr(THREAD_LANE_MANUAL_CALIBRATION_CAPTURE)) {
+        return getLaneManualCalibrationCaptureThread();
     }
 
     return nullptr;
 }
 
-bool ThreadController::isHorizontalCalibrationThreadRunning() {
+/**
+ * @brief Check if DistanceCalibrationThread is running
+ *
+ * @return true If the thread is running
+ * @return false If the thread is not running
+ */
+bool ThreadController::isDistanceCalibrationThreadRunning() {
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAMERA)) {
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAMERA)) {
         return true;
     }
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAPTURE)) {
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAPTURE)) {
         return true;
     }
 
     return false;
 }
 
-bool ThreadController::isHorizontalCalibrationThreadOwner(PanelID panelID) {
+/**
+ * @brief Check if DistanceCalibrationThread is owned by the current panel
+ *
+ * @param panelID The PanelID of the panel
+ * @return true If the panel owns the thread
+ * @return false If the panel does not own the thread
+ */
+bool ThreadController::isDistanceCalibrationThreadOwner(PanelID panelID) {
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAMERA)) {
-        return isThreadOwner(THREAD_HORIZONTAL_CALIBRATION_CAMERA, panelID);
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAMERA)) {
+        return isThreadOwner(THREAD_DISTANCE_CALIBRATION_CAMERA, panelID);
     }
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAPTURE)) {
-        return isThreadOwner(THREAD_HORIZONTAL_CALIBRATION_CAPTURE, panelID);
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAPTURE)) {
+        return isThreadOwner(THREAD_DISTANCE_CALIBRATION_CAPTURE, panelID);
     }
 
     return false;
 }
 
-BaseHorizontalCalibrationThread *
-ThreadController::getRunningHorizontalCalibrationThread() {
+/**
+ * @brief Get the running DistanceCalibrationThread
+ *
+ * @return BaseDistanceCalibrationThread* Pointer to the thread
+ */
+BaseDistanceCalibrationThread *
+ThreadController::getRunningDistanceCalibrationThread() {
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAMERA)) {
-        return getHorizontalCalibrationCameraThread();
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAMERA)) {
+        return getDistanceCalibrationCameraThread();
     }
 
-    if (!isThreadNullptr(THREAD_HORIZONTAL_CALIBRATION_CAPTURE)) {
-        return getHorizontalCalibrationCaptureThread();
+    if (!isThreadNullptr(THREAD_DISTANCE_CALIBRATION_CAPTURE)) {
+        return getDistanceCalibrationCaptureThread();
     }
 
     return nullptr;
 }
 
+/**
+ * @brief Check if ProcessThread is running
+ *
+ * @return true If the thread is running
+ * @return false If the thread is not running
+ */
 bool ThreadController::isProcessThreadRunning() {
 
     if (!isThreadNullptr(THREAD_PROCESS)) {
@@ -289,6 +381,13 @@ bool ThreadController::isProcessThreadRunning() {
     return false;
 }
 
+/**
+ * @brief Check if ProcessThread is owned by the current panel
+ *
+ * @param panelID The PanelID of the panel
+ * @return true If the panel owns the thread
+ * @return false If the panel does not own the thread
+ */
 bool ThreadController::isProcessThreadOwner(PanelID panelID) {
 
     if (!isThreadNullptr(THREAD_PROCESS)) {
@@ -298,6 +397,11 @@ bool ThreadController::isProcessThreadOwner(PanelID panelID) {
     return false;
 }
 
+/**
+ * @brief Get the running ProcessThread
+ *
+ * @return BaseThread* Pointer to the thread
+ */
 BaseThread *ThreadController::getRunningProcessThread() {
 
     if (!isThreadNullptr(THREAD_PROCESS)) {
@@ -307,6 +411,12 @@ BaseThread *ThreadController::getRunningProcessThread() {
     return nullptr;
 }
 
+/**
+ * @brief Check if CalibrationPreviewThread is running
+ *
+ * @return true If the thread is running
+ * @return false If the thread is not running
+ */
 bool ThreadController::isCalibPreviewThreadRunning() {
 
     if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
@@ -320,6 +430,13 @@ bool ThreadController::isCalibPreviewThreadRunning() {
     return false;
 }
 
+/**
+ * @brief Check if CalibrationPreviewThread is owned by the current panel
+ *
+ * @param panelID The PanelID of the panel
+ * @return true If the panel owns the thread
+ * @return false If the panel does not own the thread
+ */
 bool ThreadController::isCalibPreviewThreadOwner(PanelID panelID) {
 
     if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
@@ -333,6 +450,11 @@ bool ThreadController::isCalibPreviewThreadOwner(PanelID panelID) {
     return false;
 }
 
+/**
+ * @brief Get the running CalibrationPreviewThread
+ *
+ * @return BaseThread* Pointer to the thread
+ */
 BaseThread *ThreadController::getRunningCalibPreviewThread() {
 
     if (!isThreadNullptr(THREAD_CALIBRATION_PREVIEW_CAMERA)) {
@@ -347,10 +469,6 @@ BaseThread *ThreadController::getRunningCalibPreviewThread() {
 }
 
 bool ThreadController::isCapturePanelThreadRunning() {
-
-    // if (!isThreadNullptr(THREAD_CAMERA_PREVIEW)) {
-    //     return true;
-    // }
 
     if (!isThreadNullptr(THREAD_LOAD_CAPTURE)) {
         return true;
@@ -371,6 +489,13 @@ bool ThreadController::isCapturePanelThreadRunning() {
     return false;
 }
 
+/**
+ * @brief Handle the start of the CameraPreviewThread
+ *
+ * @param parent Pointer to the View
+ * @param camera Unique pointer to the Camera
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startCameraPreviewHandler(wxEvtHandler *parent,
                                                  CameraPtr &camera,
                                                  PanelID panelID) {
@@ -381,10 +506,25 @@ void ThreadController::startCameraPreviewHandler(wxEvtHandler *parent,
     owner[cameraPreviewThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the CameraPreviewThread
+ *
+ */
 void ThreadController::endCameraPreviewHandler() {
     cameraPreviewThread = stopAndDeleteThread(cameraPreviewThread);
 }
 
+/**
+ * @brief Handle the start of the LoadCaptureThread
+ *
+ * @param parent Pointer to the View
+ * @param camera Unique pointer to the Camera
+ * @param data Pointer to the SessionData
+ * @param maxFrame Maximum number of frames to capture
+ * @param Debug_ShowImage Flag to show the captured image
+ * @param Debug_Save Flag to save the captured image
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startLoadCaptureHandler(
     wxEvtHandler *parent, CameraPtr &camera, DataPtr data, const int maxFrame,
     const bool Debug_ShowImage, const bool Debug_Save, PanelID panelID) {
@@ -396,10 +536,21 @@ void ThreadController::startLoadCaptureHandler(
     owner[loadCaptureThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the LoadCaptureThread
+ *
+ */
 void ThreadController::endLoadCaptureHandler() {
     loadCaptureThread = stopAndDeleteThread(loadCaptureThread);
 }
 
+/**
+ * @brief Handle the start of the CapturePreviewThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startCapturePreviewHandler(wxEvtHandler *parent,
                                                   DataPtr data,
                                                   PanelID panelID) {
@@ -410,86 +561,200 @@ void ThreadController::startCapturePreviewHandler(wxEvtHandler *parent,
     owner[capturePreviewThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the CapturePreviewThread
+ *
+ */
 void ThreadController::endCapturePreviewHandler() {
     capturePreviewThread = stopAndDeleteThread(capturePreviewThread);
 }
 
+/**
+ * @brief Get the CameraPreviewThread
+ *
+ * @return CameraPreviewThread*
+ */
 CameraPreviewThread *ThreadController::getCameraPreviewThread() {
     return cameraPreviewThread;
 }
 
+/**
+ * @brief Get the LoadCaptureThread
+ *
+ * @return LoadCaptureThread*
+ */
 LoadCaptureThread *ThreadController::getLoadCaptureThread() {
     return loadCaptureThread;
 }
 
+/**
+ * @brief Get the LoadFilteThread
+ *
+ * @return LoadFilteThread*
+ */
 LoadFileThread *ThreadController::getLoadFileThread() { return loadFileThread; }
 
+/**
+ * @brief Get the SaveDataThread
+ *
+ * @return SaveDataThread*
+ */
 SaveDataThread *ThreadController::getSaveFileThread() { return saveFileThread; }
 
+/**
+ * @brief Get the CapturePreviewThread
+ *
+ * @return CapturePreviewThread*
+ */
 CapturePreviewThread *ThreadController::getCapturePreviewThread() {
     return capturePreviewThread;
 }
 
-CalibrationCameraThread *ThreadController::getCalibrationCameraThread() {
-    return calibrationCameraThread;
+/**
+ * @brief Get the LaneCalibrationCameraThread
+ *
+ * @return LaneCalibrationCameraThread*
+ */
+LaneCalibrationCameraThread *
+ThreadController::getLaneCalibrationCameraThread() {
+    return laneCalibrationCameraThread;
 }
 
-CalibrationCaptureThread *ThreadController::getCalibrationCaptureThread() {
-    return calibrationCaptureThread;
+/**
+ * @brief Get the LaneCalibrationCaptureThread
+ *
+ * @return LaneCalibrationCaptureThread*
+ */
+LaneCalibrationCaptureThread *
+ThreadController::getLaneCalibrationCaptureThread() {
+    return laneCalibrationCaptureThread;
 }
 
+/**
+ * @brief Get the CalibrationPreviewCameraThread
+ *
+ * @return CalibrationPreviewCameraThread*
+ */
 CalibrationPreviewCameraThread *
 ThreadController::getCalibrationPreviewCameraThread() {
     return calibrationPreviewCameraThread;
 }
 
+/**
+ * @brief Get the CalibrationPreviewCaptureThread
+ *
+ * @return CalibrationPreviewCaptureThread*
+ */
 CalibrationPreviewCaptureThread *
 ThreadController::getCalibrationPreviewCaptureThread() {
     return calibrationPreviewCaptureThread;
 }
 
+/**
+ * @brief Get the LaneManualCalibrationCameraThread
+ *
+ * @return LaneManualCalibrationCameraThread*
+ */
 ManualCalibrationCameraThread *
-ThreadController::getManualCalibrationCameraThread() {
-    return manualCalibrationCameraThread;
+ThreadController::getLaneManualCalibrationCameraThread() {
+    return laneManualCalibrationCameraThread;
 }
 
-ManualCalibrationCaptureThread *
-ThreadController::getManualCalibrationCaptureThread() {
-    return manualCalibrationCaptureThread;
+/**
+ * @brief Get the LaneManualCalibrationCaptureThread
+ *
+ * @return LaneManualCalibrationCaptureThread*
+ */
+LaneManualCalibrationCaptureThread *
+ThreadController::getLaneManualCalibrationCaptureThread() {
+    return laneManualCalibrationCaptureThread;
 }
 
-HorizontalCalibrationCameraThread *
-ThreadController::getHorizontalCalibrationCameraThread() {
-    return horizontalCalibrationCameraThread;
+/**
+ * @brief Get the DistanceCalibrationCameraThread
+ *
+ * @return DistanceCalibrationCameraThread*
+ */
+DistanceCalibrationCameraThread *
+ThreadController::getDistanceCalibrationCameraThread() {
+    return distanceCalibrationCameraThread;
 }
 
-HorizontalCalibrationCaptureThread *
-ThreadController::getHorizontalCalibrationCaptureThread() {
-    return horizontalCalibrationCaptureThread;
+/**
+ * @brief Get the DistanceCalibrationCaptureThread
+ *
+ * @return DistanceCalibrationCaptureThread*
+ */
+DistanceCalibrationCaptureThread *
+ThreadController::getDistanceCalibrationCaptureThread() {
+    return distanceCalibrationCaptureThread;
 }
 
+/**
+ * @brief Get the ColorCalibrationThread
+ *
+ * @return ColorCalibrationThread*
+ */
 ColorCalibrationThread *ThreadController::getColorCalibrationThread() {
     return colorCalibrationThread;
 }
 
+/**
+ * @brief Get the ColorCalibrationPreviewThread
+ *
+ * @return ColorCalibrationPreviewThread*
+ */
 ColorCalibrationPreviewThread *ThreadController::getColorCalibPreviewThread() {
     return colorCalibPreviewThread;
 }
 
+/**
+ * @brief Get the RoiThread
+ *
+ * @return RoiThread*
+ */
 RoiThread *ThreadController::getRoiThread() { return roiThread; }
 
+/**
+ * @brief Get the RoiPreviewThread
+ *
+ * @return RoiPreviewThread*
+ */
 RoiPreviewThread *ThreadController::getRoiPreviewThread() {
     return roiPreviewThread;
 }
 
+/**
+ * @brief Get the ProcessThread
+ *
+ * @return ProcessThread*
+ */
 ProcessThread *ThreadController::getProcessThread() { return processThread; }
 
+/**
+ * @brief Get the ResultPreviewThread
+ *
+ * @return ResultPreviewThread*
+ */
 ResultPreviewThread *ThreadController::getResultPreviewThread() {
     return resultPreviewThread;
 }
 
+/**
+ * @brief Get the TrimDataThread
+ *
+ * @return TrimDataThread*
+ */
 TrimDataThread *ThreadController::getTrimDataThread() { return trimDataThread; }
 
+/**
+ * @brief Handle the start of the LoadFileThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param path Path to the file
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startLoadFileHandler(wxEvtHandler *parent, DataPtr data,
                                             std::string path, PanelID panelID) {
 
@@ -499,10 +764,21 @@ void ThreadController::startLoadFileHandler(wxEvtHandler *parent, DataPtr data,
     owner[loadFileThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the LoadFileThread
+ *
+ */
 void ThreadController::endLoadFileHandler() {
     loadFileThread = stopAndDeleteThread(loadFileThread);
 }
 
+/**
+ * @brief Handle the start of the SaveFileThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startSaveFileHandler(wxEvtHandler *parent, DataPtr data,
                                             PanelID panelID) {
 
@@ -512,38 +788,83 @@ void ThreadController::startSaveFileHandler(wxEvtHandler *parent, DataPtr data,
     owner[saveFileThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the SaveFileThread
+ *
+ */
 void ThreadController::endSaveFileHandler() {
     saveFileThread = stopAndDeleteThread(saveFileThread);
 }
 
-void ThreadController::startCalibrationCameraHandler(wxEvtHandler *parent,
-                                                     CameraPtr &camera,
-                                                     PanelID panelID) {
+/**
+ * @brief Handle the start of the LaneCalibrationCameraThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param camera Unique pointer to the Camera
+ * @param hsvFilter Pointer to the HSVFilter
+ * @param bfs Pointer to the BFS
+ * @param ransac Pointer to the RansacLine
+ * @param panelID PanelID of the panel
+ */
+void ThreadController::startLaneCalibrationCameraHandler(
+    wxEvtHandler *parent, DataPtr data, CameraPtr &camera,
+    HSVFilterPtr hsvFilter, BFSPtr bfs, RansacLinePtr ransac, PanelID panelID) {
 
-    calibrationCameraThread = new CalibrationCameraThread(parent, camera);
-    calibrationCameraThread->Run();
+    laneCalibrationCameraThread = new LaneCalibrationCameraThread(
+        parent, data, camera, hsvFilter, bfs, ransac);
+    laneCalibrationCameraThread->Run();
 
-    owner[calibrationCameraThread->getID()] = panelID;
+    owner[laneCalibrationCameraThread->getID()] = panelID;
 }
 
-void ThreadController::endCalibrationCameraHandler() {
-    calibrationCameraThread = stopAndDeleteThread(calibrationCameraThread);
+/**
+ * @brief Handle the end of the LaneCalibrationCameraThread
+ *
+ */
+void ThreadController::endLaneCalibrationCameraHandler() {
+    laneCalibrationCameraThread =
+        stopAndDeleteThread(laneCalibrationCameraThread);
 }
 
-void ThreadController::startCalibrationCaptureHandler(wxEvtHandler *parent,
-                                                      DataPtr data,
-                                                      PanelID panelID) {
+/**
+ * @brief Handle the start of the LaneCalibrationCaptureThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param hsvFilter Pointer to the HSVFilter
+ * @param bfs Pointer to the BFS
+ * @param ransac Pointer to the RansacLine
+ * @param panelID PanelID of the panel
+ */
+void ThreadController::startLaneCalibrationCaptureHandler(
+    wxEvtHandler *parent, DataPtr data, HSVFilterPtr hsvFilter, BFSPtr bfs,
+    RansacLinePtr ransac, PanelID panelID) {
 
-    calibrationCaptureThread = new CalibrationCaptureThread(parent, data);
-    calibrationCaptureThread->Run();
+    laneCalibrationCaptureThread =
+        new LaneCalibrationCaptureThread(parent, data, hsvFilter, bfs, ransac);
+    laneCalibrationCaptureThread->Run();
 
-    owner[calibrationCaptureThread->getID()] = panelID;
+    owner[laneCalibrationCaptureThread->getID()] = panelID;
 }
 
-void ThreadController::endCalibrationCaptureHandler() {
-    calibrationCaptureThread = stopAndDeleteThread(calibrationCaptureThread);
+/**
+ * @brief Handle the end of the LaneCalibrationCaptureThread
+ *
+ */
+void ThreadController::endLaneCalibrationCaptureHandler() {
+    laneCalibrationCaptureThread =
+        stopAndDeleteThread(laneCalibrationCaptureThread);
 }
 
+/**
+ * @brief Handle the start of the CalibrationPreviewCameraThread
+ *
+ * @param parent Pointer to the View
+ * @param camera Unique pointer to the Camera
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startCalibrationPreviewCameraHandler(
     wxEvtHandler *parent, CameraPtr &camera, DataPtr data, PanelID panelID) {
     calibrationPreviewCameraThread =
@@ -553,11 +874,22 @@ void ThreadController::startCalibrationPreviewCameraHandler(
     owner[calibrationPreviewCameraThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the CalibrationPreviewCameraThread
+ *
+ */
 void ThreadController::endCalibrationPreviewCameraHandler() {
     calibrationPreviewCameraThread =
         stopAndDeleteThread(calibrationPreviewCameraThread);
 }
 
+/**
+ * @brief Handle the start of the CalibrationPreviewCaptureThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startCalibrationPreviewCaptureHandler(
     wxEvtHandler *parent, DataPtr data, PanelID panelID) {
     calibrationPreviewCaptureThread =
@@ -567,86 +899,157 @@ void ThreadController::startCalibrationPreviewCaptureHandler(
     owner[calibrationPreviewCaptureThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the CalibrationPreviewCaptureThread
+ *
+ */
 void ThreadController::endCalibrationPreviewCaptureHandler() {
     calibrationPreviewCaptureThread =
         stopAndDeleteThread(calibrationPreviewCaptureThread);
 }
 
-void ThreadController::startManualCalibrationCameraHandler(wxEvtHandler *parent,
-                                                           CameraPtr &camera,
-                                                           PanelID panelID) {
+/**
+ * @brief Handle the start of the LaneManualCalibrationCameraThread
+ *
+ * @param parent Pointer to the View
+ * @param camera Unique pointer to the Camera
+ * @param panelID PanelID of the panel
+ */
+void ThreadController::startLaneManualCalibrationCameraHandler(
+    wxEvtHandler *parent, CameraPtr &camera, PanelID panelID) {
 
-    manualCalibrationCameraThread =
+    laneManualCalibrationCameraThread =
         new ManualCalibrationCameraThread(parent, camera);
-    manualCalibrationCameraThread->Run();
+    laneManualCalibrationCameraThread->Run();
 
-    owner[manualCalibrationCameraThread->getID()] = panelID;
+    owner[laneManualCalibrationCameraThread->getID()] = panelID;
 }
 
-void ThreadController::endManualCalibrationCameraHandler() {
-    manualCalibrationCameraThread =
-        stopAndDeleteThread(manualCalibrationCameraThread);
+/**
+ * @brief Handle the end of the LaneManualCalibrationCameraThread
+ *
+ */
+void ThreadController::endLaneManualCalibrationCameraHandler() {
+    laneManualCalibrationCameraThread =
+        stopAndDeleteThread(laneManualCalibrationCameraThread);
 }
 
+/**
+ * @brief Handle the start of the LaneManualCalibrationCaptureThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startManualCalibrationCaptureHandler(
     wxEvtHandler *parent, DataPtr data, PanelID panelID) {
 
-    manualCalibrationCaptureThread =
-        new ManualCalibrationCaptureThread(parent, data);
-    manualCalibrationCaptureThread->Run();
+    laneManualCalibrationCaptureThread =
+        new LaneManualCalibrationCaptureThread(parent, data);
+    laneManualCalibrationCaptureThread->Run();
 
-    owner[manualCalibrationCaptureThread->getID()] = panelID;
+    owner[laneManualCalibrationCaptureThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the LaneManualCalibrationCaptureThread
+ *
+ */
 void ThreadController::endManualCalibrationCaptureHandler() {
-    manualCalibrationCaptureThread =
-        stopAndDeleteThread(manualCalibrationCaptureThread);
+    laneManualCalibrationCaptureThread =
+        stopAndDeleteThread(laneManualCalibrationCaptureThread);
 }
 
-void ThreadController::startHorizontalCalibrationCameraHandler(
+/**
+ * @brief Handle the start of the DistanceCalibrationCameraThread
+ *
+ * @param parent Pointer to the View
+ * @param camera Unique pointer to the Camera
+ * @param panelID PanelID of the panel
+ */
+void ThreadController::startDistaneCalibrationCameraHandler(
     wxEvtHandler *parent, CameraPtr &camera, PanelID panelID) {
 
-    horizontalCalibrationCameraThread =
-        new HorizontalCalibrationCameraThread(parent, camera);
-    horizontalCalibrationCameraThread->Run();
+    distanceCalibrationCameraThread =
+        new DistanceCalibrationCameraThread(parent, camera);
+    distanceCalibrationCameraThread->Run();
 
-    owner[horizontalCalibrationCameraThread->getID()] = panelID;
+    owner[distanceCalibrationCameraThread->getID()] = panelID;
 }
 
-void ThreadController::endHorizontalCalibrationCameraHandler() {
-    horizontalCalibrationCameraThread =
-        stopAndDeleteThread(horizontalCalibrationCameraThread);
+/**
+ * @brief Handle the end of the DistanceCalibrationCameraThread
+ *
+ */
+void ThreadController::endDistanceCalibrationCameraHandler() {
+    distanceCalibrationCameraThread =
+        stopAndDeleteThread(distanceCalibrationCameraThread);
 }
 
-void ThreadController::startHorizontalCalibrationCaptureHandler(
+/**
+ * @brief Handle the start of the DistanceCalibrationCaptureThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
+void ThreadController::startDistanceCalibrationCaptureHandler(
     wxEvtHandler *parent, DataPtr data, PanelID panelID) {
 
-    horizontalCalibrationCaptureThread =
-        new HorizontalCalibrationCaptureThread(parent, data);
-    horizontalCalibrationCaptureThread->Run();
+    distanceCalibrationCaptureThread =
+        new DistanceCalibrationCaptureThread(parent, data);
+    distanceCalibrationCaptureThread->Run();
 
-    owner[horizontalCalibrationCaptureThread->getID()] = panelID;
+    owner[distanceCalibrationCaptureThread->getID()] = panelID;
 }
 
-void ThreadController::endHorizontalCalibrationCaptureHandler() {
-    horizontalCalibrationCaptureThread =
-        stopAndDeleteThread(horizontalCalibrationCaptureThread);
+/**
+ * @brief Handle the end of the DistanceCalibrationCaptureThread
+ *
+ */
+void ThreadController::endDistanceCalibrationCaptureHandler() {
+    distanceCalibrationCaptureThread =
+        stopAndDeleteThread(distanceCalibrationCaptureThread);
 }
 
-void ThreadController::startColorCalibrationHandler(wxEvtHandler *parent,
-                                                    CameraPtr &camera,
-                                                    PanelID panelID) {
+/**
+ * @brief Handle the start of the ColorCalibrationThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param camera Unique pointer to the Camera
+ * @param hsvFilter Pointer to the HSVFilter
+ * @param bfs Pointer to the BFS
+ * @param panelID PanelID of the panel
+ */
+void ThreadController::startColorCalibrationHandler(
+    wxEvtHandler *parent, DataPtr data, CameraPtr &camera,
+    HSVFilterPtr hsvFilter, BFSPtr bfs, PanelID panelID) {
 
-    colorCalibrationThread = new ColorCalibrationThread(parent, camera);
+    colorCalibrationThread =
+        new ColorCalibrationThread(parent, data, camera, hsvFilter, bfs);
     colorCalibrationThread->Run();
 
     owner[colorCalibrationThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the ColorCalibrationThread
+ *
+ */
 void ThreadController::endColorCalibrationHandler() {
     colorCalibrationThread = stopAndDeleteThread(colorCalibrationThread);
 }
 
+/**
+ * @brief Handle the start of the ColorCalibrationPreviewThread
+ *
+ * @param parent Pointer to the View
+ * @param camera Unique pointer to the Camera
+ * @param blueRange The blue color range
+ * @param yellowRange The yellow color range
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startColorCalibrationPreviewHandler(
     wxEvtHandler *parent, CameraPtr &camera, const ColorRange &blueRange,
     const ColorRange &yellowRange, PanelID panelID) {
@@ -657,10 +1060,21 @@ void ThreadController::startColorCalibrationPreviewHandler(
     owner[colorCalibPreviewThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the ColorCalibrationPreviewThread
+ *
+ */
 void ThreadController::endColorCalibrationPreviewHandler() {
     colorCalibPreviewThread = stopAndDeleteThread(colorCalibPreviewThread);
 }
 
+/**
+ * @brief Handle the start of the RoiThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startRoiHandler(wxEvtHandler *parent, DataPtr data,
                                        PanelID panelID) {
     roiThread = new RoiThread(parent, data);
@@ -669,10 +1083,21 @@ void ThreadController::startRoiHandler(wxEvtHandler *parent, DataPtr data,
     owner[roiThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the RoiThread
+ *
+ */
 void ThreadController::endRoiHandler() {
     roiThread = stopAndDeleteThread(roiThread);
 }
 
+/**
+ * @brief Handle the start of the RoiPreviewThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startRoiPreviewHandler(wxEvtHandler *parent,
                                               DataPtr data, PanelID panelID) {
     roiPreviewThread = new RoiPreviewThread(parent, data);
@@ -681,15 +1106,30 @@ void ThreadController::startRoiPreviewHandler(wxEvtHandler *parent,
     owner[roiPreviewThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the RoiPreviewThread
+ *
+ */
 void ThreadController::endRoiPreviewHandler() {
     roiPreviewThread = stopAndDeleteThread(roiPreviewThread);
 }
 
+/**
+ * @brief Handle the start of the ProcessThread
+ *
+ * @param parent Pointer to the View
+ * @param threadPool Pointer to the ThreadPool
+ * @param data Pointer to the SessionData
+ * @param detector Pointer to the FeatureDetector
+ * @param tracker Pointer to the Tracker
+ * @param speedCalc Pointer to the SpeedCalculation
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startProcessHandler(wxEvtHandler *parent,
                                            POOLPtr threadPool, DataPtr data,
                                            DetectorPtr detector,
                                            TrackerPtr tracker,
-                                           SpeedPtr speedCalc,
+                                           SpeedCalcPtr speedCalc,
                                            PanelID panelID) {
     processThread = new ProcessThread(parent, data, detector, tracker,
                                       speedCalc, threadPool);
@@ -698,10 +1138,21 @@ void ThreadController::startProcessHandler(wxEvtHandler *parent,
     owner[processThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the ProcessThread
+ *
+ */
 void ThreadController::endProcessHandler() {
     processThread = stopAndDeleteThread(processThread);
 }
 
+/**
+ * @brief Handle the start of the ResultPreviewThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startResultPreviewHandler(wxEvtHandler *parent,
                                                  DataPtr data,
                                                  PanelID panelID) {
@@ -711,10 +1162,21 @@ void ThreadController::startResultPreviewHandler(wxEvtHandler *parent,
     owner[resultPreviewThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the ResultPreviewThread
+ *
+ */
 void ThreadController::endResultPreviewHandler() {
     resultPreviewThread = stopAndDeleteThread(resultPreviewThread);
 }
 
+/**
+ * @brief Handle the start of the TrimDataThread
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ * @param panelID PanelID of the panel
+ */
 void ThreadController::startTrimDataHandler(wxEvtHandler *parent, DataPtr data,
                                             PanelID panelID) {
     trimDataThread = new TrimDataThread(parent, data);
@@ -723,6 +1185,10 @@ void ThreadController::startTrimDataHandler(wxEvtHandler *parent, DataPtr data,
     owner[trimDataThread->getID()] = panelID;
 }
 
+/**
+ * @brief Handle the end of the TrimDataThread
+ *
+ */
 void ThreadController::endTrimDataHandler() {
     trimDataThread = stopAndDeleteThread(trimDataThread);
 }
@@ -740,12 +1206,8 @@ T *ThreadController::stopAndDeleteThread(T *threadPtr) {
     return threadPtr;
 }
 
+/**
+ * @brief Kill all threads
+ *
+ */
 void ThreadController::killAllThreads() { deleteThread(); }
-
-// TODO: Cleanup
-// Maybe Required for testing
-// CaptureThread *
-// CaptureModel::initCaptureThread(wxEvtHandler *parent,
-//                                 CameraPtr &camera) {
-//     return new CaptureThread(parent, camera);
-// }

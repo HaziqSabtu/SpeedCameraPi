@@ -1,10 +1,9 @@
 #pragma once
 
-#include <Event/Event_UpdateState.hpp>
-#include <Event/Event_UpdateStatus.hpp>
+#include <Event/Event.hpp>
 
 #include <Model/SessionData.hpp>
-#include <Model/SharedModel.hpp>
+#include <Model/SharedResource.hpp>
 
 #include <UI/Dialog/CancelDialog.hpp>
 
@@ -13,6 +12,9 @@
 #include <Utils/Config/ConfigStruct.hpp>
 #include <Utils/wxUtils.hpp>
 
+#include <Thread/ThreadPool.hpp>
+#include <Thread/Thread_Controller.hpp>
+
 #include <memory>
 #include <vector>
 
@@ -20,9 +22,13 @@
 #include <wx/object.h>
 #include <wx/thread.h>
 
+/**
+ * @brief Base Class for all Controller, used with BasePanel
+ *
+ */
 class BaseController {
   public:
-    BaseController(ModelPtr sharedModel);
+    BaseController(ResourcePtr shared);
     virtual ~BaseController();
 
     void e_UpdateState(wxEvtHandler *parent);
@@ -37,14 +43,24 @@ class BaseController {
     void e_SaveSessionData(wxEvtHandler *parent);
 
   protected:
-    ModelPtr shared;
+    ResourcePtr shared;
     PanelID panelID;
 
   protected:
     virtual void checkPreCondition();
 
+    /**
+     * @brief check if any thread is running, if yes, throw an exception
+     *
+     */
     virtual void throwIfAnyThreadIsRunning() = 0;
 
+    /**
+     * @brief kill all threads by ThreadController. Used when navigating between
+     * panels
+     *
+     * @param parent the parent wxEvtHandler
+     */
     virtual void killAllThreads(wxEvtHandler *parent) = 0;
 
     virtual void panelShowHandler(wxEvtHandler *parent);
@@ -57,9 +73,14 @@ class BaseController {
     virtual void saveSessionDataHandler(wxEvtHandler *parent);
 };
 
+/**
+ * @brief Base Class for all Controller with Touch methods, used with
+ * BasePanelWithTouch
+ *
+ */
 class BaseControllerWithTouch : public BaseController {
   public:
-    BaseControllerWithTouch(ModelPtr shared);
+    BaseControllerWithTouch(ResourcePtr shared);
     ~BaseControllerWithTouch();
 
     void e_LeftDown(wxEvtHandler *parent, wxPoint point);

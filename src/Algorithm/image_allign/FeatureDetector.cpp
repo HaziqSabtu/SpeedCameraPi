@@ -50,12 +50,17 @@ FeatureDetector &FeatureDetector::operator=(const FeatureDetector &other) {
 }
 
 /**
- * @brief Clone function
+ * @brief Clone function, returns a deep copy of the FeatureDetector object.
  *
  * @return FeatureDetector
  */
 FeatureDetector FeatureDetector::clone() { return FeatureDetector(*this); }
 
+/**
+ * @brief Initializes the FeatureDetector object with the first image.
+ * 
+ * @param image1 the reference image
+ */
 void FeatureDetector::Init(cv::Mat &image1) {
     clearVector();
 
@@ -66,6 +71,14 @@ void FeatureDetector::Init(cv::Mat &image1) {
     detector->detectAndCompute(image1, cv::Mat(), keyPoints1, descriptors1);
 }
 
+/**
+ * @brief Detects and matches features between the first image and the second
+ * image.
+ *
+ * @param image2 The target image.
+ * @throw std::logic_error if the image is empty.
+ * @throw std::logic_error if the keypoints are empty. Run Init() first.
+ */
 void FeatureDetector::Allign(cv::Mat &image2) {
     if (image2.empty()) {
         throw std::logic_error("Image is empty");
@@ -80,16 +93,21 @@ void FeatureDetector::Allign(cv::Mat &image2) {
         descriptors2.release();
     }
 
+    // Detect keypoints and compute descriptors
     detector->detectAndCompute(image2, cv::Mat(), keyPoints2, descriptors2);
 
+    // Match keypoints
     DMatcher::FlannBasedMatcher(descriptors1, descriptors2, matchKP,
                                 detectorType);
 
+    // Filter keypoints
     DMatcher::FilterKeyPoints(matchKP, filterKP, 0.3);
 
+    // Find homography matrix
     homographyMatrix =
         Homography::FindHomography(keyPoints1, keyPoints2, filterKP);
 
+    // Transform image
     transform = Homography::PerscpectiveTransform(image2, homographyMatrix);
 }
 
@@ -113,8 +131,9 @@ cv::Mat FeatureDetector::GetMatchImage(cv::Mat &image1, cv::Mat &image2) {
 }
 
 /**
- * @brief Inline function to clear all vectors from previous run
+ * @brief Function to clear all vectors from previous run
  *
+ * @note May be removed in the future. (Not used)
  */
 void FeatureDetector::clearVector() {
     filterKP.clear();

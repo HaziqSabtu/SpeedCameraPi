@@ -2,19 +2,22 @@
 
 #include "Model/AppState.hpp"
 #include "wx/wx.h"
+#include <UI/Data/Theme.hpp>
 #include <wx/string.h>
+
+namespace T = Theme;
 
 struct TextButtonDataT2 {
     wxString onText;
     wxString offText;
 
-    wxColour onBgColor;
-    wxColour onFgColor;
+    wxColour onBgColor = T::Accent10;
+    wxColour onFgColor = T::Primary60;
 
-    wxColour offBgColor;
-    wxColour offFgColor;
+    wxColour offBgColor = T::GrayDisabled;
+    wxColour offFgColor = T::Primary60;
 
-    wxSize size;
+    wxSize size = wxSize(100, 40);
 };
 
 class TextButtonT2 : public wxPanel {

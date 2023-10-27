@@ -1,16 +1,16 @@
 #include "Controller/ControllerFactory.hpp"
-#include "Controller/ManualCalibrationController.hpp"
+#include "Controller/LaneManualCalibrationController.hpp"
 #include "Controller/TrimDataController.hpp"
 #include "Event/Event_ChangePanel.hpp"
 #include "Model/SessionData.hpp"
-#include "Model/SharedModel.hpp"
+#include "Model/SharedResource.hpp"
 #include "UI/Data/Data.hpp"
 #include "UI/Data/Theme.hpp"
 #include "UI/Dialog/ConfirmationDialog.hpp"
 #include "UI/Dialog/ExitAppDialog.hpp"
 #include "UI/Frame/InfoFrame.hpp"
 #include "UI/Frame/SettingsFrame.hpp"
-#include "UI/Panel/ManualCalibrationPanel/Panel.hpp"
+#include "UI/Panel/LaneManualCalibrationPanel/Panel.hpp"
 #include "Utils/Enum.hpp"
 #include <UI/Frame/MainFrame.hpp>
 #include <cstddef>
@@ -37,15 +37,15 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, Data::AppName) {
     ShowFullScreen(true);
 
     CtrlFactoryPtr ctrlFactory = std::make_shared<ControllerFactory>(this);
-    sharedModel = ctrlFactory->getSharedModel();
+    shared = ctrlFactory->getSharedModel();
 
     panelFactory = std::make_shared<PanelFactory>(ctrlFactory);
 
     registerPanel(PANEL_CAPTURE);
     registerPanel(PANEL_ROI);
-    registerPanel(PANEL_CALIBRATION);
-    registerPanel(PANEL_MANUAL_CALIBRATION);
-    registerPanel(PANEL_HORIZONTAL_CALIBRATION);
+    registerPanel(PANEL_LANE_CALIBRATION);
+    registerPanel(PANEL_LANE_MANUAL_CALIBRATION);
+    registerPanel(PANEL_DISTANCE_CALIBRATION);
     registerPanel(PANEL_COLOR_CALIBRATION);
     registerPanel(PANEL_TRIM_DATA);
     registerPanel(PANEL_RESULT);
@@ -82,7 +82,7 @@ void MainFrame::showFirstPanel() {
         throw std::runtime_error("MainFrame::showFirstPanel: panel is null");
     }
 
-    sharedModel->sessionData.setPanelID(FIRST_PANEL_ID);
+    shared->sessionData.setPanelID(FIRST_PANEL_ID);
     panels[FIRST_PANEL_ID]->Show();
 }
 
@@ -105,7 +105,7 @@ void MainFrame::OnChangePanel(ChangePanelEvent &e) {
             throw std::runtime_error("Error fetching next panel");
         }
 
-        sharedModel->sessionData.setPanelID(data.nextPanelID);
+        shared->sessionData.setPanelID(data.nextPanelID);
 
         currentPanel->Hide();
         nextPanel->Show();
@@ -135,7 +135,7 @@ void MainFrame::OnButton(wxCommandEvent &e) {
 
 #ifdef DEBUG
 void MainFrame::ExitButtonHandler(wxCommandEvent &e) {
-    sharedModel->killAllThreads();
+    shared->killAllThreads();
     Close();
 }
 
@@ -144,12 +144,12 @@ void MainFrame::ExitButtonHandler(wxCommandEvent &e) {
     auto dialog = new ExitAppDialog(this);
     int result = dialog->ShowModal();
     if (result == wxID_YES) {
-        sharedModel->killAllThreads();
+        shared->killAllThreads();
         Close();
     }
 
     if (result == dialog->getShutdownButtonID()) {
-        sharedModel->killAllThreads();
+        shared->killAllThreads();
         wxShutdown();
     }
 }

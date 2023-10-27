@@ -867,14 +867,11 @@ WARN_LOGFILE           =
 INPUT                  = src \
                          include \
                          Docs/markdown/index.md \
-                         Docs/markdown/InstallingRequiredDependency.md \
-                         Docs/markdown/CompilingProgramm.md \
-                         Docs/markdown/UsingTheApp.md \
-                         Docs/markdown/ImageAllignment.md \
-                         Docs/markdown/ObjectDetection.md \
-                         Docs/markdown/LineDetection.md \
-                         Docs/markdown/SpeedCalculation.md \
+                         Docs/markdown/UserManual.md \
+                         Docs/markdown/CompilingApplication.md \
                          Docs/markdown/developmentSetup.md \
+                         Docs/markdown/YourOwn.md \
+                         Docs/markdown/Theory.md \
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1055,6 +1052,38 @@ IMAGE_PATH             = Docs/assets/ImageAllignmentAlgoDiagram.jpg \
                          Docs/assets/debug.png \
                          Docs/assets/debug2.png \
                          Docs/assets/dlcode.png \
+                         Docs/assets/p1.png \
+                         Docs/assets/p2.png \
+                         Docs/assets/p3.png \
+                         Docs/assets/p4.png \
+                         Docs/assets/p5.png \
+                         Docs/assets/p6.png \
+                         Docs/assets/p7.png \
+                         Docs/assets/p8.png \
+                         Docs/assets/p9.png \
+                         Docs/assets/111.png \
+                         Docs/assets/type1state.png \
+                         Docs/assets/type2state.png \
+                         Docs/assets/type3state.png \
+                         Docs/assets/buttoncontrol.png \
+                         Docs/assets/spincontrol.png \
+                         Docs/assets/dialog.png \
+                         Docs/assets/titlepanel.png \
+                         Docs/assets/statuspanel.png \
+                         Docs/assets/capturepanel.png \
+                         Docs/assets/lanecalibrationpanel.png \
+                         Docs/assets/lanemanualcalibrationpanel.png \
+                         Docs/assets/roipanel.png \
+                         Docs/assets/resultpanel.png \
+                         Docs/assets/distancecalibrationpanel.png \
+                         Docs/assets/trimdatapanel.png \
+                         Docs/assets/colorcalibrationpanel.png \
+                         Docs/assets/settingpanel.png \
+                         Docs/assets/infopanel.png \
+                         Docs/assets/okcancelpanel.png \
+                         Docs/assets/okcancelresetpanel.png \
+                         Docs/assets/imagepanel.png \
+                         Docs/assets/textoutlinepanel.png \
 
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
@@ -1522,7 +1551,7 @@ BINARY_TOC             = NO
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTMLHELP is set to YES.
 
-TOC_EXPAND             = NO
+TOC_EXPAND             = YES
 
 # If the GENERATE_QHP tag is set to YES and both QHP_NAMESPACE and
 # QHP_VIRTUAL_FOLDER are set, an additional index file will be generated that

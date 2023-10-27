@@ -19,8 +19,8 @@ const HyperLinkData contact = {
 };
 
 const HyperLinkData docs = {
-    .text = "Docs",
-    .url = "http://docs-link",
+    .text = "Project Documentation",
+    .url = "https://haziqsabtu.github.io/SpeedCameraPi/",
 };
 
 const HyperLinkData repo = {
@@ -28,13 +28,21 @@ const HyperLinkData repo = {
     .url = "https://github.com/HaziqSabtu/SpeedCameraPi",
 };
 
+const HyperLinkData usermanual = {
+    .text = "User Manual",
+    .url = "https://drive.google.com/file/d/1CKM41b0lVNlPVhcOHVzftnJ13RWR5m6Y/"
+           "view?usp=drive_link",
+};
+
+const HyperLinkData developermanual = {
+    .text = "Developer Manual",
+    .url = "https://drive.google.com/file/d/1Dm2La7uIj3iK4M7hl8aNyZqYd4_LneJs/"
+           "view?usp=sharing",
+};
+
 const HyperLinkData paper = {
     .text = "Paper",
     .url = "http://paper-link",
 };
 
-const HyperLinkData otherRepo = {
-    .text = "Other repository",
-    .url = "https://github.com/HaziqSabtu",
-};
 } // namespace Data::Info

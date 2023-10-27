@@ -1,19 +1,24 @@
 #pragma once
 
-#include "Controller/BaseController.hpp"
-#include "Event/Event_UpdateState.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/AppState.hpp"
-#include "Model/SessionData.hpp"
-#include "UI/Layout/StatusPanel.hpp"
-#include "UI/Layout/TitlePanel.hpp"
-#include "UI/Panel/Common/Panel_Image.hpp"
+#include <Controller/BaseController.hpp>
+#include <Event/Event.hpp>
+#include <Model/AppState.hpp>
+#include <Model/SessionData.hpp>
+#include <UI/Layout/StatusPanel.hpp>
+#include <UI/Layout/TitlePanel.hpp>
+#include <UI/Panel/Common/Panel_Image.hpp>
+#include <Utils/Enum.hpp>
 #include <wx/wx.h>
 
+/**
+ * @class BaseButtonPanel
+ * @brief Base class for button panel
+ */
 class BaseButtonPanel : public wxPanel {
   public:
     BaseButtonPanel(wxWindow *parent, wxWindowID id)
         : wxPanel(parent, id, wxDefaultPosition, wxSize(400, 400)) {}
+
     ~BaseButtonPanel() {}
 
     virtual void update(const AppState &state) = 0;
@@ -25,6 +30,10 @@ class BaseButtonPanel : public wxPanel {
 #define BSCPtr std::shared_ptr<BaseController>
 #define BTCPtr std::shared_ptr<BaseControllerWithTouch>
 
+/**
+ * @class BasePanel
+ * @brief Base class for all panels
+ */
 class BasePanel : public wxPanel {
   public:
     BasePanel(wxWindow *parent, wxWindowID id, BSCPtr controller);
@@ -52,6 +61,10 @@ class BasePanel : public wxPanel {
     DECLARE_EVENT_TABLE()
 };
 
+/**
+ * @class BasePanelWithTouch
+ * @brief Base class for all panels with touch
+ */
 class BasePanelWithTouch : public BasePanel {
   public:
     BasePanelWithTouch(wxWindow *parent, wxWindowID id, BTCPtr controller);

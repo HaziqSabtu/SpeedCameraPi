@@ -1,6 +1,5 @@
 #pragma once
 
-#include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Font/Font.hpp"
 #include <UI/Data/ColorCollection.hpp>
 #include <wx/gtk/colour.h>
@@ -8,42 +7,51 @@
 namespace CC = ColorCollection;
 
 namespace Theme {
-const wxColour Background = CC::Twitter_ExtExtLightGray;
-const wxColour Primary = CC::Twitter_Primary;
-const wxColour Text = CC::Twitter_Secondary;
+
+// 60-30-10 rule
+const wxColour Primary60 = CC::Twitter_ExtExtLightGray;
+const wxColour Secondary30 = CC::Twitter_Secondary;
+const wxColour Accent10 = CC::Twitter_Primary;
+//
+
+const wxColour GrayDisabled = CC::Twitter_LightGray;
+
+const wxColour Background = Primary60;
+// const wxColour Primary = ;
+const wxColour Text = Secondary30;
 
 const wxColour ButtonBackground = CC::Twitter_ExtLightGray;
-const wxColour ButtonText = CC::Twitter_Secondary;
+const wxColour ButtonText = Secondary30;
 
-const wxColour StatusBackground = CC::Twitter_Secondary;
-const wxColour StatusText = CC::Twitter_ExtExtLightGray;
+const wxColour StatusBackground = Secondary30;
+const wxColour StatusText = Primary60;
 
-const wxColour ImageBackground = CC::Twitter_Secondary;
-const wxColour ImageText = CC::Twitter_ExtExtLightGray;
+const wxColour ImageBackground = Secondary30;
+const wxColour ImageText = Primary60;
 const wxString noImageIcon = wxT("Assets/noImage_96.png");
 
-const wxColour BitmapNormal = CC::Twitter_Secondary;
-const wxColour BitmapActive = CC::Twitter_Primary;
-const wxColour BitmapDisabled = CC::Twitter_LightGray;
+const wxColour BitmapNormal = Secondary30;
+const wxColour BitmapActive = Accent10;
+const wxColour BitmapDisabled = GrayDisabled;
 const wxSize BitmapDefaultSize = wxSize(50, 50);
 
 // PanelTitle
-const wxColour TitleActiveBitmap = CC::Twitter_ExtExtLightGray;
+const wxColour TitleActiveBitmap = Primary60;
 
 const wxColour ExitColor = CC::Red_Mandy;
 const wxColour SettingsColor = CC::Yellow_Gamboge;
-const wxColour InfoColor = CC::Twitter_Primary;
+const wxColour InfoColor = Accent10;
 
-const wxColour TitleDisabledBitmap = CC::Twitter_LightGray;
-const wxColour TitleDisabledBg = CC::Twitter_ExtExtLightGray;
+const wxColour TitleDisabledBitmap = GrayDisabled;
+const wxColour TitleDisabledBg = Primary60;
 
 // Settings
 const wxSize SettingsTextDefaultSize = wxSize(200, 20);
-const wxColour SettingsTextBackground = CC::Twitter_ExtExtLightGray;
+const wxColour SettingsTextBackground = Primary60;
 
-const wxColour SettingsButtonBackground = CC::Twitter_ExtExtLightGray;
-const wxColour SettingsButtonNormal = CC::Twitter_Secondary;
-const wxColour SettingsButtonDisabled = CC::Twitter_LightGray;
+const wxColour SettingsButtonBackground = Primary60;
+const wxColour SettingsButtonNormal = Secondary30;
+const wxColour SettingsButtonDisabled = GrayDisabled;
 
 const FontData TitleFontData = {
     .fontSize = 20,

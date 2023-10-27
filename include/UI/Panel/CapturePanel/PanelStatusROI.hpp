@@ -2,6 +2,7 @@
 
 #include "UI/Button/BitmapButton/BitmapButton.hpp"
 #include "UI/Panel/Common/TextOutlinePanel.hpp"
+#include <Model/AppState.hpp>
 #include <wx/sizer.h>
 #include <wx/wx.h>
 

@@ -1,26 +1,47 @@
-#include "UI/Dialog/RemoveCalibrationDialog.hpp"
-#include "UI/Dialog/RemoveRoiDialog.hpp"
-#include "UI/Dialog/SwitchModeDialog.hpp"
-#include "UI/Dialog/TrimDataDialog.hpp"
-#include "UI/Layout/StatusPanel.hpp"
 #include <Controller/CaptureController.hpp>
 
-CaptureController::CaptureController(ModelPtr sharedModel)
-    : BaseController(sharedModel) {
+#include <UI/Dialog/RemoveCalibrationDialog.hpp>
+#include <UI/Dialog/RemoveRoiDialog.hpp>
+#include <UI/Dialog/ResetDataDialog.hpp>
+#include <UI/Dialog/SaveDataDialog.hpp>
+#include <UI/Dialog/SwitchModeDialog.hpp>
+#include <UI/Dialog/TrimDataDialog.hpp>
+
+/**
+ * @brief Construct a new Capture Controller:: Capture Controller object
+ *
+ * @param shared The Shared pointer to SharedResource
+ */
+CaptureController::CaptureController(ResourcePtr shared)
+    : BaseController(shared) {
     panelID = currentPanelID;
 }
 
+/**
+ * @brief Destroy the Capture Controller:: Capture Controller object
+ *
+ */
 CaptureController::~CaptureController() {}
 
-void CaptureController::e_ChangeToCalibrationPanel(wxEvtHandler *parent) {
+/**
+ * @brief Endpoint to change to LaneCalibrationPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
+void CaptureController::e_ChangeToLaneCalibrationPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        changeToCalibrationPanelHandler(parent);
+        changeToLaneCalibrationPanelHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
+/**
+ * @brief Endpoint to change to RoiPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::e_ChangeToRoiPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -30,6 +51,11 @@ void CaptureController::e_ChangeToRoiPanel(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to change to ResultPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::e_ChangeToResultPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -39,16 +65,28 @@ void CaptureController::e_ChangeToResultPanel(wxEvtHandler *parent) {
     }
 }
 
-void CaptureController::e_ChangeToHorizontalCalibrationPanel(
+/**
+ * @brief Change to DistanceCalibrationPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
+void CaptureController::e_ChangeToDistanceCalibrationPanel(
     wxEvtHandler *parent) {
     try {
         checkPreCondition();
-        changeToHorizontalCalibrationPanelHandler(parent);
+        changeToDistanceCalibrationPanelHandler(parent);
     } catch (std::exception &e) {
         ErrorEvent::Submit(parent, e.what());
     }
 }
 
+/**
+ * @brief Endpoint to start save SessionData to create binary file. (Initialize
+ * process)
+ * @note This method is different from BaseController::e_SaveSessionData()
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::e_SaveSessionDataStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -58,6 +96,12 @@ void CaptureController::e_SaveSessionDataStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to when save SessionData is finished. (Kill process)
+ * @note This method is different from BaseController::e_SaveSessionData()
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::e_SaveSessionDataEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -67,6 +111,12 @@ void CaptureController::e_SaveSessionDataEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to reset SessionData.
+ * @details ALL data will be removed. CaptureData, CalibrationData, TrackingData
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::e_ResetSessionData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -76,6 +126,11 @@ void CaptureController::e_ResetSessionData(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to change to TrimDataPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::e_ChangeToTrimDataPanel(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -85,6 +140,15 @@ void CaptureController::e_ChangeToTrimDataPanel(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to remove captured data
+ * @note This method is different from CaptureController::e_ResetSessionData().
+ * In this method only CaptureData and TrackingData are removed, while
+ * CalibrationData is remained. Use case -> when use in Tripod Stand, user does
+ * not have to repeat the same calibration process.
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::e_ClearImageData(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -94,6 +158,11 @@ void CaptureController::e_ClearImageData(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to remove CalibrationData
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::e_RemoveCalibration(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -103,6 +172,11 @@ void CaptureController::e_RemoveCalibration(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to remove TrackingData
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::e_RemoveRoi(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -112,6 +186,11 @@ void CaptureController::e_RemoveRoi(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start Capture Preview (CapturePreviewThread)
+ *
+ * @param parent
+ */
 void CaptureController::e_CapturePreviewStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -121,6 +200,11 @@ void CaptureController::e_CapturePreviewStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to end Capture Preview (CapturePreviewThread)
+ *
+ * @param parent
+ */
 void CaptureController::e_CapturePreviewEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -130,6 +214,11 @@ void CaptureController::e_CapturePreviewEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start Camera Preview (CameraPreviewThread)
+ *
+ * @param parent
+ */
 void CaptureController::e_CameraPreviewStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -139,6 +228,11 @@ void CaptureController::e_CameraPreviewStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to end Camera Preview (CameraPreviewThread)
+ *
+ * @param parent
+ */
 void CaptureController::e_CameraPreviewEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -148,6 +242,12 @@ void CaptureController::e_CameraPreviewEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start Load File (LoadFileThread)
+ *
+ * @param parent
+ * @param path
+ */
 void CaptureController::e_LoadFileStart(wxEvtHandler *parent,
                                         std::string path) {
     try {
@@ -158,6 +258,11 @@ void CaptureController::e_LoadFileStart(wxEvtHandler *parent,
     }
 }
 
+/**
+ * @brief Endpoint to end Load File (LoadFileThread)
+ *
+ * @param parent
+ */
 void CaptureController::e_LoadFileEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -167,6 +272,11 @@ void CaptureController::e_LoadFileEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to start Load Capture (LoadCaptureThread)
+ *
+ * @param parent
+ */
 void CaptureController::e_LoadCaptureStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -176,6 +286,11 @@ void CaptureController::e_LoadCaptureStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to end Load Capture (LoadCaptureThread)
+ *
+ * @param parent
+ */
 void CaptureController::e_LoadCaptureEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -185,6 +300,11 @@ void CaptureController::e_LoadCaptureEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint to toggle mode between Lane and Distance Calibration
+ *
+ * @param parent
+ */
 void CaptureController::e_ToggleMode(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -194,6 +314,10 @@ void CaptureController::e_ToggleMode(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Check if any thread is running, if yes, throw an exception
+ *
+ */
 void CaptureController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -214,6 +338,12 @@ void CaptureController::throwIfAnyThreadIsRunning() {
     }
 }
 
+/**
+ * @brief Kill all threads by ThreadController. Used when navigating between
+ * panels
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::killAllThreads(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -236,6 +366,12 @@ void CaptureController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
+/**
+ * @brief Handle the process of clearing CaptureData, TrackingData, ResultData
+ * in SessionData
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::clearImageDataHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -255,6 +391,11 @@ void CaptureController::clearImageDataHandler(wxEvtHandler *parent) {
     cameraPreviewStartHandler(parent);
 }
 
+/**
+ * @brief Handle the process of initiating CameraPreviewThread
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::cameraPreviewStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -268,6 +409,11 @@ void CaptureController::cameraPreviewStartHandler(wxEvtHandler *parent) {
     tc->startCameraPreviewHandler(parent, camera, panelID);
 }
 
+/**
+ * @brief Handle the process of ending CameraPreviewThread
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::cameraPreviewEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -288,13 +434,18 @@ void CaptureController::cameraPreviewEndHandler(wxEvtHandler *parent) {
     tc->endCameraPreviewHandler();
 }
 
+/**
+ * @brief Handle the process of initiating LoadFileThread
+ *
+ * @param parent the parent wxEvtHandler
+ * @param path the path to the file
+ */
 void CaptureController::loadFileStartHandler(wxEvtHandler *parent,
                                              std::string path) {
 
     auto tc = shared->getThreadController();
 
     killAllThreads(parent);
-    // throwIfAnyThreadIsRunning();
 
     if (!shared->sessionData.isCaptureDataEmpty()) {
         throw std::runtime_error("ImageData is not empty");
@@ -305,6 +456,11 @@ void CaptureController::loadFileStartHandler(wxEvtHandler *parent,
     tc->startLoadFileHandler(parent, data, path, panelID);
 }
 
+/**
+ * @brief Handle the process of ending LoadFileThread
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::loadFileEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -321,6 +477,11 @@ void CaptureController::loadFileEndHandler(wxEvtHandler *parent) {
     tc->endLoadFileHandler();
 }
 
+/**
+ * @brief Handle the process of initiating LoadCaptureThread
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::loadCaptureStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -348,6 +509,11 @@ void CaptureController::loadCaptureStartHandler(wxEvtHandler *parent) {
                                 debug_Save, panelID);
 }
 
+/**
+ * @brief Handle the process of ending LoadCaptureThread
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::loadCaptureEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -370,6 +536,11 @@ void CaptureController::loadCaptureEndHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, StatusCollection::STATUS_CAPTURE_END);
 }
 
+/**
+ * @brief Handle the process of initiating CapturePreviewThread
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::capturePreviewStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -384,6 +555,11 @@ void CaptureController::capturePreviewStartHandler(wxEvtHandler *parent) {
     tc->startCapturePreviewHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Handle the process of ending CapturePreviewThread
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::capturePreviewEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -398,6 +574,11 @@ void CaptureController::capturePreviewEndHandler(wxEvtHandler *parent) {
     tc->endCapturePreviewHandler();
 }
 
+/**
+ * @brief Handle the process of removing CalibrationData
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::removeCalibrationHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -422,6 +603,11 @@ void CaptureController::removeCalibrationHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_REMOVE_CALIBRATION_OK);
 }
 
+/**
+ * @brief Handle the process of removing TrackingData
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::removeRoiHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -446,6 +632,11 @@ void CaptureController::removeRoiHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_REMOVE_ROI_OK);
 }
 
+/**
+ * @brief Handle the process of initiating SaveFileThread
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::saveSessionDataStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -469,6 +660,11 @@ void CaptureController::saveSessionDataStartHandler(wxEvtHandler *parent) {
     tc->startSaveFileHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Handle the process of ending SaveFileThread
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::saveSessionDataEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -483,6 +679,11 @@ void CaptureController::saveSessionDataEndHandler(wxEvtHandler *parent) {
     tc->endSaveFileHandler();
 }
 
+/**
+ * @brief Handle the process of resetting SessionData
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::resetSessionDataHandler(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 
@@ -497,13 +698,24 @@ void CaptureController::resetSessionDataHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, SC::STATUS_RESET_SESSION_OK);
 }
 
-void CaptureController::changeToCalibrationPanelHandler(wxEvtHandler *parent) {
+/**
+ * @brief Handle the process of changing to LaneCalibrationPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
+void CaptureController::changeToLaneCalibrationPanelHandler(
+    wxEvtHandler *parent) {
     killAllThreads(parent);
 
-    ChangePanelData data(panelID, PanelID::PANEL_CALIBRATION);
+    ChangePanelData data(panelID, PanelID::PANEL_LANE_CALIBRATION);
     ChangePanelEvent::Submit(parent, data);
 }
 
+/**
+ * @brief Handle the process of changing to RoiPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::changeToRoiPanelHandler(wxEvtHandler *parent) {
     killAllThreads(parent);
 
@@ -511,6 +723,11 @@ void CaptureController::changeToRoiPanelHandler(wxEvtHandler *parent) {
     ChangePanelEvent::Submit(parent, data);
 }
 
+/**
+ * @brief Handle the process of changing to ResultPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::changeToResultPanelHandler(wxEvtHandler *parent) {
     killAllThreads(parent);
 
@@ -518,6 +735,11 @@ void CaptureController::changeToResultPanelHandler(wxEvtHandler *parent) {
     ChangePanelEvent::Submit(parent, data);
 }
 
+/**
+ * @brief Handle the process of changing to TrimDataPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::changeToTrimDataPanelHandler(wxEvtHandler *parent) {
     killAllThreads(parent);
 
@@ -537,14 +759,24 @@ void CaptureController::changeToTrimDataPanelHandler(wxEvtHandler *parent) {
     ChangePanelEvent::Submit(parent, changeToTrimPanelEvent);
 }
 
-void CaptureController::changeToHorizontalCalibrationPanelHandler(
+/**
+ * @brief Handle the process of changing to DistanceCalibrationPanel
+ *
+ * @param parent the parent wxEvtHandler
+ */
+void CaptureController::changeToDistanceCalibrationPanelHandler(
     wxEvtHandler *parent) {
     killAllThreads(parent);
 
-    ChangePanelData data(panelID, PanelID::PANEL_HORIZONTAL_CALIBRATION);
+    ChangePanelData data(panelID, PanelID::PANEL_DISTANCE_CALIBRATION);
     ChangePanelEvent::Submit(parent, data);
 }
 
+/**
+ * @brief Override method from BaseController. With this panel, we do not need
+ * to create TempSessionData
+ *
+ */
 void CaptureController::panelShowHandler(wxEvtHandler *parent) {
     // do nothing
     // do not create temp session data
@@ -554,14 +786,28 @@ void CaptureController::panelShowHandler(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Override method from BaseController. Disable ok Button
+ *
+ */
 void CaptureController::okButtonHandler(wxEvtHandler *parent) {
     throw std::runtime_error("Blocked Endpoint");
 }
 
+/**
+ * @brief Override method from BaseController. Disable cancel Button
+ *
+ */
 void CaptureController::cancelButtonHandler(wxEvtHandler *parent) {
     throw std::runtime_error("Blocked Endpoint");
 }
 
+/**
+ * @brief Handle the process of toggling mode between Lane and Distance
+ * Calibration
+ *
+ * @param parent the parent wxEvtHandler
+ */
 void CaptureController::toggleModeHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 

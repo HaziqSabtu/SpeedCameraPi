@@ -13,7 +13,6 @@ class TrimButtonMain : public TextOutlinePanel {
     void update(const AppState &state);
 
     BitmapButtonT2 *Start_Button;
-    BitmapButton *Reset_Button;
     BitmapButton *Preview_Button;
     BitmapButton *PreviewInThread_Button;
 

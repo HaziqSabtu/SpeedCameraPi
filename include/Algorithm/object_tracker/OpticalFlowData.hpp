@@ -17,7 +17,8 @@
 
 /**
  * @brief Struct for Optical Flow Point
- *
+ * @details Stores the id, point, error and status of the Optical Flow Point
+ * @note This struct require refactoring.
  */
 struct OFPoint {
     int id;
@@ -31,6 +32,8 @@ struct OFPoint {
 
 /**
  * @brief Struct for Detection Data
+ * @details Stores the vector of Optical Flow Point
+ * @note This struct require refactoring.
  *
  */
 struct DetectionData {
@@ -46,6 +49,8 @@ struct DetectionData {
 
 /**
  * @brief Struct for Optical Flow Data with custom composition of vector
+ *
+ * @note This struct require refactoring. Too much methods and too complex.
  *
  */
 struct OpticalFlowData {
@@ -66,6 +71,5 @@ struct OpticalFlowData {
     std::vector<OFPoint> GetPointsById(std::vector<int> &ids);
     void update(OpticalFlowData OFData);
     std::vector<OFPoint> threshold(OpticalFlowData &previous, float threshold);
-    std::vector<OFPoint> update2(std::vector<OFPoint> &refData);
     OFPoint GetPointById(int id);
 };

@@ -15,6 +15,14 @@
 #include <wx/gtk/stattext.h>
 #include <wx/sizer.h>
 
+/**
+ * @brief Construct a new Color Calibration Panel:: Color Calibration Panel
+ * object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the panel
+ * @param controller Pointer to the ColorCalibrationController
+ */
 ColorCalibrationPanel::ColorCalibrationPanel(wxWindow *parent, wxWindowID id,
                                              CCCPtr controller)
     : BasePanelWithTouch(parent, id, controller), controller(controller) {
@@ -27,8 +35,16 @@ ColorCalibrationPanel::ColorCalibrationPanel(wxWindow *parent, wxWindowID id,
     size();
 }
 
+/**
+ * @brief Destroy the Color Calibration Panel:: Color Calibration Panel object
+ *
+ */
 ColorCalibrationPanel::~ColorCalibrationPanel() {}
 
+/**
+ * @brief Handle button events
+ *
+ */
 void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
 
     ColorCalibrationPanelButton *button_panel =
@@ -48,17 +64,12 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
         controller->e_ColorCalibrationEnd(this);
     }
 
-    if (e.GetId() == Enum::CC_Remove_Button_ID) {
-        controller->e_RemoveCalibratedRange(this);
-    }
-
     if (e.GetId() == Enum::CC_SelectBlue_Button_ID) {
         controller->e_SetTypeBlue(this);
     }
 
     if (e.GetId() == Enum::CC_AcceptBlue_Button_ID) {
         controller->e_RemoveBlue(this);
-        // controller->e_SaveBlue(this);
     }
 
     if (e.GetId() == Enum::CC_SelectYellow_Button_ID) {
@@ -66,12 +77,7 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
     }
 
     if (e.GetId() == Enum::CC_AcceptYellow_Button_ID) {
-        // controller->e_SaveYellow(this);
         controller->e_RemoveYellow(this);
-    }
-
-    if (e.GetId() == Enum::CC_Save_Button_ID) {
-        controller->e_SaveToConfig(this);
     }
 
     if (e.GetId() == Enum::CC_Restore_Button_ID) {
@@ -81,6 +87,11 @@ void ColorCalibrationPanel::OnButton(wxCommandEvent &e) {
     e.Skip();
 }
 
+/**
+ * @brief Handle toggle camera button
+ *
+ * @param button Pointer to the button
+ */
 void ColorCalibrationPanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
         controller->e_ColorCalibrationPreviewStart(button);
@@ -94,6 +105,11 @@ void ColorCalibrationPanel::ToggleCameraButtonHandler(BitmapButtonT2 *button) {
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle toggle calibration button
+ *
+ * @param button Pointer to the button
+ */
 void ColorCalibrationPanel::ToggleCalibrationButtonHandler(
     BitmapButtonT2 *button) {
     if (button->getState() == ButtonState::OFF) {
@@ -108,6 +124,11 @@ void ColorCalibrationPanel::ToggleCalibrationButtonHandler(
     throw std::runtime_error("Invalid button state");
 }
 
+/**
+ * @brief Handle calibration events
+ *
+ * @param e Event
+ */
 void ColorCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     if (e.GetId() == CALIBRATION_CAMERA_START) {
         status_panel->SetText(SC::STATUS_START_CALIBRATION);
@@ -124,6 +145,10 @@ void ColorCalibrationPanel::OnCalibrationEvent(wxCommandEvent &e) {
     controller->e_UpdateState(this);
 }
 
+/**
+ * @brief Handle left down events (override)
+ *
+ */
 void ColorCalibrationPanel::doPostLeftDown() {
     // do nothing
 }

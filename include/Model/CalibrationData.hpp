@@ -1,41 +1,27 @@
 #pragma once
 
-#include "Algorithm/Struct/D_Line.hpp"
+#include <Algorithm/Struct/D_Line.hpp>
 
+/**
+ * @brief Data for Calibration
+ * @note The left and right Line, does not actually have to be left and right,
+ * can be any two lines
+ *
+ */
 struct CalibrationData {
+    // The left Line
     Line lineLeft;
+
+    // The right Line
     Line lineRight;
 
-    CalibrationData() {
-        lineLeft = Line();
-        lineRight = Line();
-    }
+    CalibrationData();
+    CalibrationData(Line lineLeft, Line lineRight);
 
-    CalibrationData(Line lineLeft, Line lineRight) {
-        this->lineLeft = lineLeft;
-        this->lineRight = lineRight;
-    }
-
-    bool operator==(const CalibrationData &other) const {
-        return lineLeft == other.lineLeft && lineRight == other.lineRight;
-    }
-
-    bool operator!=(const CalibrationData &other) const {
-        return !(*this == other);
-    }
-
-    void clear() {
-        lineLeft = Line();
-        lineRight = Line();
-    }
-
-    bool isNull() { return lineLeft.isNull() || lineRight.isNull(); }
-
-    CalibrationData clone() const { return CalibrationData(*this); }
-
-    CalibrationData &operator=(const CalibrationData &other) {
-        lineLeft = other.lineLeft.clone();
-        lineRight = other.lineRight.clone();
-        return *this;
-    }
+    bool operator==(const CalibrationData &other) const;
+    bool operator!=(const CalibrationData &other) const;
+    void clear();
+    bool isNull();
+    CalibrationData clone() const;
+    CalibrationData &operator=(const CalibrationData &other);
 };

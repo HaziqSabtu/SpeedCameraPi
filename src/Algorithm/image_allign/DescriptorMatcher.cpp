@@ -32,7 +32,6 @@
 void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
                                  std::vector<cv::DMatch> &matches,
                                  std::string type, int normType) {
-    // Only For ORB ?
     cv::NormTypes normTypes;
     std::string typeName;
 
@@ -46,7 +45,6 @@ void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
 void DMatcher::BruteForceMatcher(cv::Mat &query, cv::Mat &target,
                                  std::vector<std::vector<cv::DMatch>> &matches,
                                  std::string type, int normType) {
-    // Only For ORB ?
     cv::NormTypes normTypes;
     std::string typeName;
 

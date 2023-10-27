@@ -2,6 +2,13 @@
 #include <Utils/wxUtils.hpp>
 #include <wx/gtk/colour.h>
 
+/**
+ * @brief Construct a new Bitmap Button:: Bitmap Button object
+ *
+ * @param parent Pointer to the parent window
+ * @param id ID of the button
+ * @param data BitmapData of the button
+ */
 BitmapButton::BitmapButton(wxWindow *parent, wxWindowID id,
                            const BitmapData &data)
     : wxPanel(parent, wxID_ANY) {
@@ -43,6 +50,11 @@ BitmapButton::BitmapButton(wxWindow *parent, wxWindowID id,
     Fit();
 }
 
+/**
+ * @brief Update the button to the given state
+ *
+ * @param state State to update to
+ */
 void BitmapButton::update(ButtonState state) {
     if (state == ButtonState::NORMAL) {
         return setNormal();
@@ -63,6 +75,10 @@ void BitmapButton::update(ButtonState state) {
     throw new std::runtime_error("Invalid ButtonState");
 }
 
+/**
+ * @brief Set the button to NORMAL state
+ *
+ */
 void BitmapButton::setNormal() {
     button->SetBitmap(normal);
     button->Enable();
@@ -70,6 +86,10 @@ void BitmapButton::setNormal() {
     Show();
 }
 
+/**
+ * @brief Set the button to ACTIVE state
+ *
+ */
 void BitmapButton::setActive() {
     button->SetBitmap(active);
     button->Disable();
@@ -77,6 +97,10 @@ void BitmapButton::setActive() {
     Show();
 }
 
+/**
+ * @brief Set the button to DISABLED state
+ *
+ */
 void BitmapButton::setDisabled() {
     button->SetBitmap(disabled);
     button->Disable();
@@ -84,4 +108,8 @@ void BitmapButton::setDisabled() {
     Show();
 }
 
+/**
+ * @brief Set the button to HIDDEN state
+ *
+ */
 void BitmapButton::setHidden() { Hide(); }

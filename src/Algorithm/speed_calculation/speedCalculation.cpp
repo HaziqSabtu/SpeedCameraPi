@@ -14,12 +14,24 @@
 #include <iostream>
 #include <vector>
 
-LaneSpeedCalculation::LaneSpeedCalculation() {}
+/**
+ * @brief Construct a new Lane Speed Calculator:: Lane Speed Calculator object
+ *
+ */
+LaneSpeedCalculator::LaneSpeedCalculator() {}
 
-void LaneSpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
-                                          std::vector<HPTime> &times,
-                                          std::vector<cv::Rect> trackedRoi,
-                                          std::vector<Line> &lines) {
+/**
+ * @brief Run the speed calculation
+ *
+ * @param images vector of captured images
+ * @param times vector of captured times
+ * @param trackedRoi vector of tracked roi
+ * @param lines vector of lines representing the object start and end
+ */
+void LaneSpeedCalculator::runCalculation(std::vector<cv::Mat> &images,
+                                         std::vector<HPTime> &times,
+                                         std::vector<cv::Rect> trackedRoi,
+                                         std::vector<Line> &lines) {
     if (lines.size() != 2) {
         throw std::invalid_argument("Lines size must be 2");
         return;
@@ -69,7 +81,7 @@ void LaneSpeedCalculation::runCalculation(std::vector<cv::Mat> &images,
  * @param pixelWidth Width of the object in pixels
  * @return double   Distance of the object from the camera in mm
  */
-double LaneSpeedCalculation::distanceFromCameraInMilli(float pixelWidth) {
+double LaneSpeedCalculator::distanceFromCameraInMilli(float pixelWidth) {
     return (laneWidth * imageWidth * focalLength) / (pixelWidth * sensorWidth);
 }
 
@@ -79,7 +91,7 @@ double LaneSpeedCalculation::distanceFromCameraInMilli(float pixelWidth) {
  * @param speeds vector of speeds
  * @return double average speed
  */
-double LaneSpeedCalculation::GetRawAverageSpeed() {
+double LaneSpeedCalculator::GetRawAverageSpeed() {
     if (speeds.size() == 0) {
         return -1;
     }
@@ -100,15 +112,20 @@ double LaneSpeedCalculation::GetRawAverageSpeed() {
  * @param curTime current time of frame
  * @return double speed of the object
  */
-double LaneSpeedCalculation::calculateSpeed(double prevDist, double curDist,
-                                            HPTime prevTime, HPTime curTime) {
+double LaneSpeedCalculator::calculateSpeed(double prevDist, double curDist,
+                                           HPTime prevTime, HPTime curTime) {
     double distDiff = fabs(curDist - prevDist);
     double timeDiff = Utils::TimeDiffInMilli(prevTime, curTime);
 
     return distDiff / timeDiff;
 }
 
-double LaneSpeedCalculation::GetSpeed() {
+/**
+ * @brief Get the speed of the object in m/s
+ *
+ * @return double speed of the object
+ */
+double LaneSpeedCalculator::GetSpeed() {
     if (speeds.size() == 0) {
         throw std::invalid_argument("Speeds size must be greater than 0");
     }
@@ -116,36 +133,82 @@ double LaneSpeedCalculation::GetSpeed() {
     return Utils::TrimmedMean(speeds, trimPercentage);
 }
 
-double LaneSpeedCalculation::GetSensorWidth() const {
-    return this->sensorWidth;
-}
+/**
+ * @brief Get the sensor width in mm
+ *
+ * @return double sensor width in mm
+ */
+double LaneSpeedCalculator::GetSensorWidth() const { return this->sensorWidth; }
 
-void LaneSpeedCalculation::SetSensorWidth(double width) {
+/**
+ * @brief Set the sensor width in mm
+ *
+ * @param width sensor width in mm
+ */
+void LaneSpeedCalculator::SetSensorWidth(double width) {
     this->sensorWidth = width;
 }
 
-double LaneSpeedCalculation::GetFocalLength() const {
-    return this->focalLength;
-}
+/**
+ * @brief Get the focal length in mm
+ *
+ * @return double focal length in mm
+ */
+double LaneSpeedCalculator::GetFocalLength() const { return this->focalLength; }
 
-void LaneSpeedCalculation::SetFocalLength(double length) {
+/**
+ * @brief Set the focal length in mm
+ *
+ * @param length focal length in mm
+ */
+void LaneSpeedCalculator::SetFocalLength(double length) {
     this->focalLength = length;
 }
 
-double LaneSpeedCalculation::GetLaneWidth() const { return this->laneWidth; }
+/**
+ * @brief Get the lane width in mm
+ *
+ * @return double lane width in mm
+ */
+double LaneSpeedCalculator::GetLaneWidth() const { return this->laneWidth; }
 
-void LaneSpeedCalculation::SetLaneWidth(double width) {
+/**
+ * @brief Set the lane width in mm
+ *
+ * @param width lane width in mm
+ */
+void LaneSpeedCalculator::SetLaneWidth(double width) {
     this->laneWidth = width;
 }
 
-std::vector<double> LaneSpeedCalculation::GetDistanceFromCamera() const {
+/**
+ * @brief Get the distance of object from camera in mm
+ *
+ * @return std::vector<double> vector of distances from camera in mm
+ */
+std::vector<double> LaneSpeedCalculator::GetDistanceFromCamera() const {
     return distFromCamera;
 }
 
-std::vector<Line> LaneSpeedCalculation::GetIntersectingLines() const {
+/**
+ * @brief Get the intersecting lines
+ *
+ * @return std::vector<Line> vector of intersecting lines
+ */
+std::vector<Line> LaneSpeedCalculator::GetIntersectingLines() const {
     return intersectingLines;
 }
 
-std::vector<double> LaneSpeedCalculation::GetRawSpeed() const { return speeds; }
+/**
+ * @brief Get the raw speed vector (without trimmed mean)
+ *
+ * @return std::vector<double> vector of raw speeds
+ */
+std::vector<double> LaneSpeedCalculator::GetRawSpeed() const { return speeds; }
 
-SpeedCalculationType LaneSpeedCalculation::GetType() const { return type; }
+/**
+ * @brief Get the type of speed calculation
+ *
+ * @return SpeedCalculationType type of speed calculation
+ */
+SpeedCalculationType LaneSpeedCalculator::GetType() const { return type; }

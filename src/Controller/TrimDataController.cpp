@@ -1,12 +1,26 @@
 #include <Controller/TrimDataController.hpp>
 
-TrimDataController::TrimDataController(ModelPtr sharedModel)
-    : BaseController(sharedModel) {
+/**
+ * @brief Construct a new Trim Data Controller:: Trim Data Controller object
+ *
+ * @param shared Shared pointer to SharedResource
+ */
+TrimDataController::TrimDataController(ResourcePtr shared)
+    : BaseController(shared) {
     panelID = currentPanelID;
 }
 
+/**
+ * @brief Destroy the Trim Data Controller:: Trim Data Controller object
+ *
+ */
 TrimDataController::~TrimDataController() {}
 
+/**
+ * @brief Endpoint for initializing TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_TrimDataStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -17,6 +31,11 @@ void TrimDataController::e_TrimDataStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_TrimDataEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -27,6 +46,11 @@ void TrimDataController::e_TrimDataEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for initializing CapturePreviewThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_ReplayStart(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -37,6 +61,11 @@ void TrimDataController::e_ReplayStart(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for stopping CapturePreviewThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_ReplayEnd(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -47,6 +76,11 @@ void TrimDataController::e_ReplayEnd(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for incrementing start position of TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_IncrementStartPos(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -57,6 +91,11 @@ void TrimDataController::e_IncrementStartPos(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for decrementing start position of TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_DecrementStartPos(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -67,6 +106,11 @@ void TrimDataController::e_DecrementStartPos(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for incrementing end position of TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_IncrementEndPos(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -77,6 +121,11 @@ void TrimDataController::e_IncrementEndPos(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for decrementing end position of TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_DecrementEndPos(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -87,6 +136,11 @@ void TrimDataController::e_DecrementEndPos(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Endpoint for previewing current range of TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_PreviewCurrentRange(wxEvtHandler *parent) {
     try {
         checkPreCondition();
@@ -97,6 +151,10 @@ void TrimDataController::e_PreviewCurrentRange(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief throw Exception if any thread is running on ThreadController
+ *
+ */
 void TrimDataController::throwIfAnyThreadIsRunning() {
     auto tc = shared->getThreadController();
 
@@ -109,6 +167,11 @@ void TrimDataController::throwIfAnyThreadIsRunning() {
     }
 }
 
+/**
+ * @brief Kill all threads on ThreadController
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::killAllThreads(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -123,6 +186,11 @@ void TrimDataController::killAllThreads(wxEvtHandler *parent) {
     throwIfAnyThreadIsRunning();
 }
 
+/**
+ * @brief Start TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::trimDataStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -132,6 +200,11 @@ void TrimDataController::trimDataStartHandler(wxEvtHandler *parent) {
     tc->startTrimDataHandler(parent, data, panelID);
 }
 
+/**
+ * @brief Stop TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::trimDataEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -154,6 +227,11 @@ void TrimDataController::trimDataEndHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, msg);
 }
 
+/**
+ * @brief Start CapturePreviewThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::replayStartHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -166,6 +244,11 @@ void TrimDataController::replayStartHandler(wxEvtHandler *parent) {
     UpdateStatusEvent::Submit(parent, msg);
 }
 
+/**
+ * @brief Stop CapturePreviewThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::replayEndHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -188,6 +271,11 @@ void TrimDataController::replayEndHandler(wxEvtHandler *parent) {
     e_UpdateState(parent);
 }
 
+/**
+ * @brief Increment start position of TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::incrementStartPosHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -212,6 +300,11 @@ void TrimDataController::incrementStartPosHandler(wxEvtHandler *parent) {
     thread->incrementStartPos();
 }
 
+/**
+ * @brief Decrement start position of TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::decrementStartPosHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -236,6 +329,11 @@ void TrimDataController::decrementStartPosHandler(wxEvtHandler *parent) {
     thread->decrementStartPos();
 }
 
+/**
+ * @brief Increment end position of TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::incrementEndPosHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -260,6 +358,11 @@ void TrimDataController::incrementEndPosHandler(wxEvtHandler *parent) {
     thread->incrementEndPos();
 }
 
+/**
+ * @brief Decrement end position of TrimDataThread
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::decrementEndPosHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -284,6 +387,12 @@ void TrimDataController::decrementEndPosHandler(wxEvtHandler *parent) {
     thread->decrementEndPos();
 }
 
+/**
+ * @brief Preview current range of TrimDataThread
+ * @details set status of TrimDataThread to TRIM_PREVIEW, to enable preview
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::previewCurrentRangeHandler(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 
@@ -302,6 +411,11 @@ void TrimDataController::previewCurrentRangeHandler(wxEvtHandler *parent) {
     }
 }
 
+/**
+ * @brief Restore default values of CaptureData
+ *
+ * @param parent Parent wxEvtHandler
+ */
 void TrimDataController::e_RestoreDefault(wxEvtHandler *parent) {
     auto tc = shared->getThreadController();
 

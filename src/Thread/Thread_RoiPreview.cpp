@@ -1,18 +1,31 @@
 
-#include "Thread/Thread_RoiPreview.hpp"
-#include "Event/Event_Error.hpp"
-#include "Utils/CommonUtils.hpp"
+#include "Event/Event.hpp"
 #include <Thread/Thread_RoiPreview.hpp>
-#include <memory>
-#include <opencv2/core/types.hpp>
-#include <wx/utils.h>
 
+/**
+ * @brief Construct a new Roi Preview Thread:: Roi Preview Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ */
 RoiPreviewThread::RoiPreviewThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread(), ImageSizeDataThread(data) {
 }
 
+/**
+ * @brief Destroy the Roi Preview Thread:: Roi Preview Thread object
+ *
+ */
 RoiPreviewThread::~RoiPreviewThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. If ROI selection is already done,
+ * show the selected ROI. If an error occurs, send the error event to the View.
+ * Finally send the end event to the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode RoiPreviewThread::Entry() {
 
     wxCommandEvent startCaptureEvent(c_PREVIEW_CAPTURE_EVENT, PREVIEW_START);
@@ -59,4 +72,9 @@ wxThread::ExitCode RoiPreviewThread::Entry() {
     return 0;
 }
 
+/**
+ * @brief Get the ID object
+ *
+ * @return ThreadID
+ */
 ThreadID RoiPreviewThread::getID() const { return id; }

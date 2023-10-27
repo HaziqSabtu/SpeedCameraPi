@@ -55,22 +55,22 @@ const wxString STATUS_CALIBRATION_CAPTURE_START = wxT("Calibration Start [CAPTUR
 const wxString STATUS_CALIBRATION_CAPTURE_END = wxT("Calibration End [CAPTURE]");
 const wxString STATUS_CALIBRATION_CAPTURE_ERROR = wxT("Calibration Error [CAPTURE]");
 
-const wxString STATUS_CALIBRATION_NOPOINT = wxT("No Point Selected");
-const wxString STATUS_CALIBRATION_SELECTPOINT = wxT("Select Point");
-const wxString STATUS_CALIBRATION_POINTSELECTED = wxT("Point Selected");
-const wxString STATUS_CALIBRATION_POINTREMOVED = wxT("Point Removed");
-const wxString STATUS_CALIBRATION_LINENOTFOUND = wxT("Line Not Found");
-const wxString STATUS_CALIBRATION_LINEOK = wxT("Line Found");
+const wxString STATUS_LANE_CALIBRATION_NOPOINT = wxT("No Point Selected");
+const wxString STATUS_LANE_CALIBRATION_SELECTPOINT = wxT("Select Point");
+const wxString STATUS_LANE_CALIBRATION_POINTSELECTED = wxT("Point Selected");
+const wxString STATUS_LANE_CALIBRATION_POINTREMOVED = wxT("Point Removed");
+const wxString STATUS_LANE_CALIBRATION_LINENOTFOUND = wxT("Line Not Found");
+const wxString STATUS_LANE_CALIBRATION_LINEOK = wxT("Line Found");
 
 const wxString STATUS_MANUAL_SELECTLEFT = wxT("Select Left Line");
 const wxString STATUS_MANUAL_REMOVELEFT = wxT("Left Line Removed");
 const wxString STATUS_MANUAL_SELECTRIGHT = wxT("Select Right Line");
 const wxString STATUS_MANUAL_REMOVERIGHT = wxT("Right Line Removed");
 
-const wxString STATUS_HORIZONTAL_SELECTTOP = wxT("Select Top Line");
-const wxString STATUS_HORIZONTAL_REMOVETOP = wxT("Top Line Removed");
-const wxString STATUS_HORIZONTAL_SELECTBOTTOM = wxT("Select Bottom Line");
-const wxString STATUS_HORIZONTAL_REMOVEBOTTOM = wxT("Bottom Line Removed");
+const wxString STATUS_DISTANCE_SELECTTOP = wxT("Select Top Line");
+const wxString STATUS_DISTANCE_REMOVETOP = wxT("Top Line Removed");
+const wxString STATUS_DISTANCE_SELECTBOTTOM = wxT("Select Bottom Line");
+const wxString STATUS_DISTANCE_REMOVEBOTTOM = wxT("Bottom Line Removed");
 
 const wxString STATUS_ROI_SELECT = wxT("Select ROI");
 const wxString STATUS_ROI_SELECTED = wxT("ROI Selected");

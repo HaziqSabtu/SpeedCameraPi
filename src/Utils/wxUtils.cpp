@@ -81,11 +81,6 @@ wxBitmap resize(const wxBitmap &b, const wxSize &s) {
 
     return wxBitmap(img);
 }
-// wxBitmap resize(const wxBitmap &b, const wxSize &s) {
-//     wxImage img = b.ConvertToImage();
-//     img.Rescale(s.GetWidth(), s.GetHeight());
-//     return wxBitmap(img);
-// }
 
 std::pair<cv::Scalar, cv::Scalar>
 HSVRangeConfigToScalar(const HSVRangeConfig &range) {

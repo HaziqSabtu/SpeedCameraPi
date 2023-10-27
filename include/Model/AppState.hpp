@@ -1,11 +1,8 @@
 #pragma once
 
-#include <Model/SharedModel.hpp>
+#include <Model/Enum.hpp>
+#include <Model/SharedResource.hpp>
 #include <memory>
-
-enum ButtonState { NORMAL, ACTIVE, DISABLED, ON, OFF, HIDDEN };
-
-enum PanelState { PANEL_NOT_OK, PANEL_OK, PANEL_HIDDEN };
 
 struct CapturePanelState {
     PanelState captureStatusState;
@@ -32,7 +29,7 @@ struct CapturePanelState {
     ButtonState measureButtonState;
 };
 
-struct CalibrationPanelState {
+struct LaneCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
@@ -52,7 +49,7 @@ struct CalibrationPanelState {
     ButtonState cancelButtonState;
 };
 
-struct ManualCalibrationPanelState {
+struct LaneManualCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
@@ -71,7 +68,7 @@ struct ManualCalibrationPanelState {
     ButtonState cancelButtonState;
 };
 
-struct HorizontalCalibrationPanelState {
+struct DistanceCalibrationPanelState {
     PanelState state;
 
     ButtonState calibrationButtonState;
@@ -93,8 +90,6 @@ struct HorizontalCalibrationPanelState {
 struct ColorCalibrationPanelState {
 
     ButtonState calibrationButtonState;
-    ButtonState stopButtonState;
-    ButtonState removeButtonState;
     ButtonState cameraButtonState;
 
     PanelState blueStatusState;
@@ -106,7 +101,6 @@ struct ColorCalibrationPanelState {
     ButtonState acceptYellowButtonState;
 
     PanelState otherStatusState;
-    ButtonState saveButtonState;
     ButtonState restoreButtonState;
 
     ButtonState okButtonState;
@@ -120,10 +114,6 @@ struct RoiPanelState {
     ButtonState cameraButtonState;
     ButtonState removeButtonState;
 
-    PanelState roiToolsStatusState;
-    ButtonState acceptRoiButtonState;
-    ButtonState clearRoiButtonState;
-
     ButtonState okButtonState;
     ButtonState cancelButtonState;
 };
@@ -132,7 +122,6 @@ struct TrimDataPanelState {
     ButtonState startButtonState;
     ButtonState replayButtonState;
     ButtonState rangeButtonState;
-    ButtonState removeButtonState;
 
     PanelState startStatusState;
     ButtonState incStartButtonState;
@@ -166,23 +155,24 @@ struct ResultPanelState {
 class AppState {
   public:
     AppState();
-    AppState(ModelPtr model);
+    AppState(ResourcePtr model);
 
-    CapturePanelState getCapturePanelState(ModelPtr model);
-    CalibrationPanelState getCalibrationPanelState(ModelPtr model);
-    ManualCalibrationPanelState getManualCalibrationPanelState(ModelPtr model);
-    HorizontalCalibrationPanelState
-    getHorizontalCalibrationPanelState(ModelPtr model);
-    ColorCalibrationPanelState getColorCalibrationPanelState(ModelPtr model);
-    RoiPanelState getRoiPanelState(ModelPtr model);
-    ResultPanelState getResultPanelState(ModelPtr model);
-    TrimDataPanelState getTrimDataPanelState(ModelPtr model);
+    CapturePanelState getCapturePanelState(ResourcePtr model);
+    LaneCalibrationPanelState getLaneCalibrationPanelState(ResourcePtr model);
+    LaneManualCalibrationPanelState
+    getLaneManualCalibrationPanelState(ResourcePtr model);
+    DistanceCalibrationPanelState
+    getDistanceCalibrationPanelState(ResourcePtr model);
+    ColorCalibrationPanelState getColorCalibrationPanelState(ResourcePtr model);
+    RoiPanelState getRoiPanelState(ResourcePtr model);
+    ResultPanelState getResultPanelState(ResourcePtr model);
+    TrimDataPanelState getTrimDataPanelState(ResourcePtr model);
 
   public:
     CapturePanelState capturePanel;
-    CalibrationPanelState calibrationPanel;
-    ManualCalibrationPanelState manualCalibrationPanel;
-    HorizontalCalibrationPanelState horizontalCalibrationPanel;
+    LaneCalibrationPanelState laneCalibrationPanel;
+    LaneManualCalibrationPanelState laneManualCalibrationPanel;
+    DistanceCalibrationPanelState distanceCalibrationPanel;
     ColorCalibrationPanelState colorCalibrationPanel;
     RoiPanelState roiPanel;
     ResultPanelState resultPanel;
@@ -190,170 +180,161 @@ class AppState {
 
   private:
     // Capture Panel
-    ButtonState getCPCaptureButtonState(ModelPtr model);
-    ButtonState getCPLoadButtonState(ModelPtr model);
-    ButtonState getCPCameraButtonState(ModelPtr model);
-    ButtonState getCPReplayButtonState(ModelPtr model);
-    ButtonState getCPRemoveButtonState(ModelPtr model);
+    ButtonState getCPCaptureButtonState(ResourcePtr model);
+    ButtonState getCPLoadButtonState(ResourcePtr model);
+    ButtonState getCPCameraButtonState(ResourcePtr model);
+    ButtonState getCPReplayButtonState(ResourcePtr model);
+    ButtonState getCPRemoveButtonState(ResourcePtr model);
 
     // Capture Panel -> Calibration
-    PanelState getCPCaptureStatusState(ModelPtr model);
-    PanelState getCPCalibrationStatusState(ModelPtr model);
-    PanelState getCPHorCalibrationStatusState(ModelPtr model);
-    ButtonState getCPCalibrationButtonState(ModelPtr model);
-    ButtonState getCPCalibrationRemoveButtonState(ModelPtr model);
+    PanelState getCPCaptureStatusState(ResourcePtr model);
+    PanelState getCPCalibrationStatusState(ResourcePtr model);
+    PanelState getCPHorCalibrationStatusState(ResourcePtr model);
+    ButtonState getCPCalibrationButtonState(ResourcePtr model);
+    ButtonState getCPCalibrationRemoveButtonState(ResourcePtr model);
 
     // Capture Panel -> ROI
-    PanelState getCPRoiStatusState(ModelPtr model);
-    ButtonState getCPROIButtonState(ModelPtr model);
-    ButtonState getCPROIRemoveButtonState(ModelPtr model);
+    PanelState getCPRoiStatusState(ResourcePtr model);
+    ButtonState getCPROIButtonState(ResourcePtr model);
+    ButtonState getCPROIRemoveButtonState(ResourcePtr model);
 
     // Capture Panel -> Save / Trim / Reset
-    PanelState getCPToolsStatusState(ModelPtr model);
-    ButtonState getCPSaveButtonState(ModelPtr model);
-    ButtonState getCPTrimButtonState(ModelPtr model);
-    ButtonState getCPResetButtonState(ModelPtr model);
+    PanelState getCPToolsStatusState(ResourcePtr model);
+    ButtonState getCPSaveButtonState(ResourcePtr model);
+    ButtonState getCPTrimButtonState(ResourcePtr model);
+    ButtonState getCPResetButtonState(ResourcePtr model);
 
     // Capture Panel -> Measure
-    ButtonState getCPMeasureButtonState(ModelPtr model);
+    ButtonState getCPMeasureButtonState(ResourcePtr model);
 
-    // Calibration Panel
-    PanelState getCLStatusState(ModelPtr model);
-    ButtonState getCLCalibrationButtonState(ModelPtr model);
-    ButtonState getCLPreviewButtonState(ModelPtr model);
-    ButtonState getCLManualCalibrationButtonState(ModelPtr model);
-    ButtonState getCLRemoveButtonState(ModelPtr model);
+    // Lane Calibration Panel
+    PanelState getLCStatusState(ResourcePtr model);
+    ButtonState getLCCalibrationButtonState(ResourcePtr model);
+    ButtonState getLCPreviewButtonState(ResourcePtr model);
+    ButtonState getLCManualCalibrationButtonState(ResourcePtr model);
+    ButtonState getLCRemoveButtonState(ResourcePtr model);
 
-    // Calibration Panel -> Tools
-    PanelState getCLToolStatusState(ModelPtr model);
-    ButtonState getCLSelectPointButtonState(ModelPtr model);
-    ButtonState getCLCancelCalibrationButtonState(ModelPtr model);
-    ButtonState getCLAcceptCalibrationButtonState(ModelPtr model);
+    // Lane Calibration Panel -> Tools
+    PanelState getLCToolStatusState(ResourcePtr model);
+    ButtonState getLCSelectPointButtonState(ResourcePtr model);
+    ButtonState getLCCancelCalibrationButtonState(ResourcePtr model);
+    ButtonState getLCAcceptCalibrationButtonState(ResourcePtr model);
 
-    // Calibration Panel -> Recalibrate / Others
-    PanelState getCLOtherStatusState(ModelPtr model);
-    ButtonState getCLRecalibrateColorButtonState(ModelPtr model);
+    // Lane Calibration Panel -> Recalibrate / Others
+    PanelState getLCOtherStatusState(ResourcePtr model);
+    ButtonState getLCRecalibrateColorButtonState(ResourcePtr model);
 
-    // Calibration Panel -> OK / Cancel
-    ButtonState getCLOKButtonState(ModelPtr model);
-    ButtonState getCLCancelButtonState(ModelPtr model);
+    // Lane Calibration Panel -> OK / Cancel
+    ButtonState getLCOKButtonState(ResourcePtr model);
+    ButtonState getLCCancelButtonState(ResourcePtr model);
 
-    // Manual Calibration Panel
-    PanelState getMCStatusState(ModelPtr model);
-    ButtonState getMCButtonState(ModelPtr model);
-    ButtonState getMCPreviewButtonState(ModelPtr model);
-    ButtonState getMCRemoveButtonState(ModelPtr model);
+    // Lane Manual Calibration Panel
+    PanelState getLMStatusState(ResourcePtr model);
+    ButtonState getLMButtonState(ResourcePtr model);
+    ButtonState getLMPreviewButtonState(ResourcePtr model);
+    ButtonState getMCRemoveButtonState(ResourcePtr model);
 
-    // Manual Calibration Panel -> Left
-    PanelState getMCLeftStatusState(ModelPtr model);
-    ButtonState getMCSelectLeftButtonState(ModelPtr model);
-    ButtonState getMCRemoveLeftButtonState(ModelPtr model);
+    // Lane Manual Calibration Panel -> Left
+    PanelState getLMLeftStatusState(ResourcePtr model);
+    ButtonState getLMSelectLeftButtonState(ResourcePtr model);
+    ButtonState getLMRemoveLeftButtonState(ResourcePtr model);
 
-    // Manual Calibration Panel -> Right
-    PanelState getMCRightStatusState(ModelPtr model);
-    ButtonState getMCSelectRightButtonState(ModelPtr model);
-    ButtonState getMCRemoveRightButtonState(ModelPtr model);
+    // Lane Manual Calibration Panel -> Right
+    PanelState getLMRightStatusState(ResourcePtr model);
+    ButtonState getLMSelectRightButtonState(ResourcePtr model);
+    ButtonState getLMRemoveRightButtonState(ResourcePtr model);
 
-    // Manual Calibration Panel -> OK / Cancel
-    ButtonState getMCOKButtonState(ModelPtr model);
-    ButtonState getMCCancelButtonState(ModelPtr model);
+    // Lane Manual Calibration Panel -> OK / Cancel
+    ButtonState getLMOKButtonState(ResourcePtr model);
+    ButtonState getLMCancelButtonState(ResourcePtr model);
 
-    // Horizontal Calibration Panel
-    PanelState getHCStatusState(ModelPtr model);
-    ButtonState getHCButtonState(ModelPtr model);
-    ButtonState getHCPreviewButtonState(ModelPtr model);
-    ButtonState getHCRemoveButtonState(ModelPtr model);
+    // Distance Calibration Panel
+    PanelState getDCStatusState(ResourcePtr model);
+    ButtonState getDCButtonState(ResourcePtr model);
+    ButtonState getDCPreviewButtonState(ResourcePtr model);
+    ButtonState getDCRemoveButtonState(ResourcePtr model);
 
-    // Horizontal Calibration Panel -> Top
-    PanelState getHCTopStatusState(ModelPtr model);
-    ButtonState getHCSelectTopButtonState(ModelPtr model);
-    ButtonState getHCRemoveTopButtonState(ModelPtr model);
+    // Distance Calibration Panel -> Top
+    PanelState getDCTopStatusState(ResourcePtr model);
+    ButtonState getDCSelectTopButtonState(ResourcePtr model);
+    ButtonState getDCRemoveTopButtonState(ResourcePtr model);
 
-    // Horizontal Calibration Panel -> Bottom
-    PanelState getHCBottomStatusState(ModelPtr model);
-    ButtonState getHCSelectBottomButtonState(ModelPtr model);
-    ButtonState getHCRemoveBottomButtonState(ModelPtr model);
+    // Distance Calibration Panel -> Bottom
+    PanelState getDCBottomStatusState(ResourcePtr model);
+    ButtonState getDCSelectBottomButtonState(ResourcePtr model);
+    ButtonState getDCRemoveBottomButtonState(ResourcePtr model);
 
-    // Horizontal Calibration Panel -> OK / Cancel
-    ButtonState getHCOKButtonState(ModelPtr model);
-    ButtonState getHCCancelButtonState(ModelPtr model);
+    // Distance Calibration Panel -> OK / Cancel
+    ButtonState getDCOKButtonState(ResourcePtr model);
+    ButtonState getDCCancelButtonState(ResourcePtr model);
 
     // Color Calibration Panel
-    ButtonState getCCButtonState(ModelPtr model);
-    ButtonState getCCStopButtonState(ModelPtr model);
-    ButtonState getCCCameraButtonState(ModelPtr model);
-    ButtonState getCCRemoveButtonState(ModelPtr model);
+    ButtonState getCCButtonState(ResourcePtr model);
+    ButtonState getCCCameraButtonState(ResourcePtr model);
 
     // Color Calibration Panel -> Blue
-    PanelState getCCBlueStatusState(ModelPtr model);
-    ButtonState getCCSelectBlueButtonState(ModelPtr model);
-    ButtonState getCCAcceptBlueButtonState(ModelPtr model);
+    PanelState getCCBlueStatusState(ResourcePtr model);
+    ButtonState getCCSelectBlueButtonState(ResourcePtr model);
+    ButtonState getCCAcceptBlueButtonState(ResourcePtr model);
 
     // Color Calibration Panel -> Yellow
-    PanelState getCCYellowStatusState(ModelPtr model);
-    ButtonState getCCSelectYellowButtonState(ModelPtr model);
-    ButtonState getCCAcceptYellowButtonState(ModelPtr model);
+    PanelState getCCYellowStatusState(ResourcePtr model);
+    ButtonState getCCSelectYellowButtonState(ResourcePtr model);
+    ButtonState getCCAcceptYellowButtonState(ResourcePtr model);
 
     // Color Calibration Panel -> Save / Restore
-    PanelState getCCOtherStatusState(ModelPtr model);
-    ButtonState getCCSaveButtonState(ModelPtr model);
-    ButtonState getCCRestoreButtonState(ModelPtr model);
+    PanelState getCCOtherStatusState(ResourcePtr model);
+    ButtonState getCCRestoreButtonState(ResourcePtr model);
 
     // Color Calibration Panel -> OK / Cancel
-    ButtonState getCCOKButtonState(ModelPtr model);
-    ButtonState getCCCancelButtonState(ModelPtr model);
+    ButtonState getCCOKButtonState(ResourcePtr model);
+    ButtonState getCCCancelButtonState(ResourcePtr model);
 
     // ROI Panel
-    PanelState getROIStatusState(ModelPtr model);
-    ButtonState getROIButtonState(ModelPtr model);
-    ButtonState getROICameraButtonState(ModelPtr model);
-    ButtonState getROIRemoveButtonState(ModelPtr model);
-
-    // ROI Panel -> Accept / Clear
-    PanelState getROIToolsStatusState(ModelPtr model);
-    ButtonState getROIAcceptRoiButtonState(ModelPtr model);
-    ButtonState getROIClearRoiButtonState(ModelPtr model);
+    PanelState getROIStatusState(ResourcePtr model);
+    ButtonState getROIButtonState(ResourcePtr model);
+    ButtonState getROICameraButtonState(ResourcePtr model);
+    ButtonState getROIRemoveButtonState(ResourcePtr model);
 
     // ROI Panel -> OK / Cancel
-    ButtonState getROIOKButtonState(ModelPtr model);
-    ButtonState getROICancelButtonState(ModelPtr model);
+    ButtonState getROIOKButtonState(ResourcePtr model);
+    ButtonState getROICancelButtonState(ResourcePtr model);
 
     // Trim Data Panel
-    ButtonState getTDStartButtonState(ModelPtr model);
-    ButtonState getTDReplayButtonState(ModelPtr model);
-    ButtonState getTDRangeButtonState(ModelPtr model);
-    ButtonState getTDRemoveButtonState(ModelPtr model);
+    ButtonState getTDStartButtonState(ResourcePtr model);
+    ButtonState getTDReplayButtonState(ResourcePtr model);
+    ButtonState getTDRangeButtonState(ResourcePtr model);
 
     // Trim Data Panel -> Start
-    PanelState getTDStartStatusState(ModelPtr model);
-    ButtonState getTDIncStartButtonState(ModelPtr model);
-    ButtonState getTDDecStartButtonState(ModelPtr model);
+    PanelState getTDStartStatusState(ResourcePtr model);
+    ButtonState getTDIncStartButtonState(ResourcePtr model);
+    ButtonState getTDDecStartButtonState(ResourcePtr model);
 
     // Trim Data Panel -> End
-    PanelState getTDEndStatusState(ModelPtr model);
-    ButtonState getTDIncEndButtonState(ModelPtr model);
-    ButtonState getTDDecEndButtonState(ModelPtr model);
+    PanelState getTDEndStatusState(ResourcePtr model);
+    ButtonState getTDIncEndButtonState(ResourcePtr model);
+    ButtonState getTDDecEndButtonState(ResourcePtr model);
 
     // Trim Data Panel -> OK / Cancel
-    ButtonState getTDOKButtonState(ModelPtr model);
-    ButtonState getTDCancelButtonState(ModelPtr model);
+    ButtonState getTDOKButtonState(ResourcePtr model);
+    ButtonState getTDCancelButtonState(ResourcePtr model);
 
     // Result Panel
-    PanelState getRPResultStatusState(ModelPtr model);
-    ButtonState getRPProcLaneButtonState(ModelPtr model);
-    ButtonState getRPProcDistButtonState(ModelPtr model);
-    ButtonState getRPPreviewButtonState(ModelPtr model);
+    PanelState getRPResultStatusState(ResourcePtr model);
+    ButtonState getRPProcLaneButtonState(ResourcePtr model);
+    ButtonState getRPProcDistButtonState(ResourcePtr model);
+    ButtonState getRPPreviewButtonState(ResourcePtr model);
 
     // Result Panel -> Preview
-    PanelState getRPPreviewStatusState(ModelPtr model);
-    ButtonState getRPBoxButtonState(ModelPtr model);
-    ButtonState getRPLinesButtonState(ModelPtr model);
-    ButtonState getRPLanesButtonState(ModelPtr model);
-    ButtonState getRPReplayButtonState(ModelPtr model);
+    PanelState getRPPreviewStatusState(ResourcePtr model);
+    ButtonState getRPBoxButtonState(ResourcePtr model);
+    ButtonState getRPLinesButtonState(ResourcePtr model);
+    ButtonState getRPLanesButtonState(ResourcePtr model);
+    ButtonState getRPReplayButtonState(ResourcePtr model);
 
     // Result Panel -> Speed
-    PanelState getRPSpeedStatusState(ModelPtr model);
+    PanelState getRPSpeedStatusState(ResourcePtr model);
 
     // Result Panel -> Back
-    ButtonState getRPBackButtonState(ModelPtr model);
+    ButtonState getRPBackButtonState(ResourcePtr model);
 };

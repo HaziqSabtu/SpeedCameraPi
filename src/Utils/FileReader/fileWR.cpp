@@ -14,10 +14,25 @@
 #include <iostream>
 
 namespace Utils {
+
+/**
+ * @brief Construct a new File Read Write:: File Read Write object
+ *
+ */
 FileReadWrite::FileReadWrite() {}
 
+/**
+ * @brief Destroy the File Read Write:: File Read Write object
+ *
+ */
 FileReadWrite::~FileReadWrite() {}
 
+/**
+ * @brief Write data to file
+ *
+ * @param data Pointer to SessionData object
+ * @param filename Filename to be written to
+ */
 void FileReadWrite::WriteFile(DataPtr data, std::string filename) {
 
     filename = filename.empty() ? data->getID() : filename;
@@ -113,6 +128,12 @@ void FileReadWrite::WriteFile(DataPtr data, std::string filename) {
     file.close();
 }
 
+/**
+ * @brief Read data from file
+ *
+ * @param data Pointer to SessionData object
+ * @param filename Filename to be read from
+ */
 void FileReadWrite::ReadFile(DataPtr data, std::string filename) {
     std::ifstream file(filename, std::ios::binary);
 

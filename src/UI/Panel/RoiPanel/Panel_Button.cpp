@@ -13,13 +13,10 @@ RoiPanelButton::RoiPanelButton(wxWindow *parent, wxWindowID id)
 
     MainPanel = new RoiButtonMain(this);
 
-    ToolsPanel = new RoiButtonTools(this);
-
     OkCancelPanel = new OKCancelPanel(this);
 
     button_sizer = new wxBoxSizer(wxVERTICAL);
     button_sizer->Add(MainPanel, 0, wxEXPAND | wxBOTTOM, 10);
-    button_sizer->Add(ToolsPanel, 0, wxEXPAND | wxBOTTOM, 10);
     button_sizer->Add(spacer, 1, wxEXPAND);
     button_sizer->Add(OkCancelPanel, 0, wxEXPAND | wxBOTTOM, 0);
 
@@ -28,7 +25,6 @@ RoiPanelButton::RoiPanelButton(wxWindow *parent, wxWindowID id)
 
 void RoiPanelButton::update(const AppState &state) {
     MainPanel->update(state);
-    ToolsPanel->update(state);
 
     auto okState = state.roiPanel.okButtonState;
     auto cancelState = state.roiPanel.cancelButtonState;

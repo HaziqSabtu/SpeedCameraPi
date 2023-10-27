@@ -3,7 +3,7 @@
 #include "Event/Event_Error.hpp"
 #include "Event/Event_LoadImage.hpp"
 #include "Model/SessionData.hpp"
-#include "Model/SharedModel.hpp"
+#include "Model/SharedResource.hpp"
 #include "Thread/Thread_CameraPreview.hpp"
 #include "Utils/Camera/CameraBase.hpp"
 #include "Utils/Config/AppConfig.hpp"

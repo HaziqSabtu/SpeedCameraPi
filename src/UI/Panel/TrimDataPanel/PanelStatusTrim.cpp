@@ -20,13 +20,11 @@ TrimButtonMain::TrimButtonMain(wxWindow *parent)
     Start_Button = new BitmapT2Calibration(this, Enum::TD_Start_Button_ID);
     Preview_Button = new BitmapReplay(this, Enum::TD_Preview_Button_ID);
     PreviewInThread_Button = new BitmapReplay(this, Enum::TD_Range_Button_ID);
-    Reset_Button = new BitmapRemove(this, Enum::TD_Reset_Button_ID);
 
     buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     buttonSizer->Add(Start_Button, 1, wxEXPAND);
     buttonSizer->Add(Preview_Button, 1, wxEXPAND);
     buttonSizer->Add(PreviewInThread_Button, 1, wxEXPAND);
-    buttonSizer->Add(Reset_Button, 1, wxEXPAND);
 
     SetButtonSizer(buttonSizer);
 }
@@ -40,5 +38,4 @@ void TrimButtonMain::update(const AppState &state) {
     Start_Button->update(ps.startButtonState);
     Preview_Button->update(ps.replayButtonState);
     PreviewInThread_Button->update(ps.rangeButtonState);
-    Reset_Button->update(ps.removeButtonState);
 }

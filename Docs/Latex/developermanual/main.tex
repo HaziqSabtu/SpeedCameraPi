@@ -1,0 +1,30 @@
+\documentclass{thesis}
+\input{preamble}
+% for german language type 'ngernman' as option for babel package in in preamble.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PDF SETTINGS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% \hypersetup{hidelinks} % hides boxes around hyperlinks uncomment this with ctrl+shift+7
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\include{texs/pre/title}
+
+\pagenumbering{Roman}
+
+\renewcommand{\baselinestretch}{0.8}
+\tableofcontents
+\renewcommand{\baselinestretch}{1.2}
+
+\normalsize
+
+\include{texs/chapter1/chapter}
+
+
+\end{document}

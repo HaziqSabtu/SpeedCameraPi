@@ -1,23 +1,16 @@
 #pragma once
 
-#include "Model/ExtraModel.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
-#include <Event/Event_Preview.hpp>
-#include <Event/Event_UpdatePreview.hpp>
+#include <Thread/Thread_Base.hpp>
 
 #include <Utils/Camera/CameraBase.hpp>
 
-#include <memory>
-#include <string>
-
-#include <opencv2/opencv.hpp>
-
-#include <wx/thread.h>
-
 #define ColorRange std::pair<cv::Scalar, cv::Scalar>
 
+/**
+ * @brief Thread implementation for Preview the result from
+ * ColorCalibrationThread
+ *
+ */
 class ColorCalibrationPreviewThread : public BaseThread,
                                       public PreviewableThread,
                                       public CameraAccessor {
@@ -39,6 +32,4 @@ class ColorCalibrationPreviewThread : public BaseThread,
 
     ColorRange blueRange;
     ColorRange yellowRange;
-
-    // CCModelPtr ccExtraModel;
 };

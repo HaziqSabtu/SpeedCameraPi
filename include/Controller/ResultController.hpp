@@ -2,32 +2,17 @@
 
 #include <Controller/BaseController.hpp>
 
-#include <Event/Event_UpdateSpeed.hpp>
-#include <Event/Event_UpdateState.hpp>
-
-#include <Model/SessionData.hpp>
-#include <Model/SharedModel.hpp>
-
-#include <Thread/ThreadPool.hpp>
-#include <Thread/Thread_ResultPreview.hpp>
-
-#include <Utils/Camera/CameraBase.hpp>
-#include <Utils/Config/AppConfig.hpp>
-#include <Utils/Config/ConfigStruct.hpp>
-#include <Utils/wxUtils.hpp>
-
-#include <memory>
-#include <vector>
-
-#include <wx/event.h>
-#include <wx/object.h>
-#include <wx/thread.h>
+#include <Utils/Algorithm/AlgorithmFactory.hpp>
 
 #define RSCPtr std::shared_ptr<ResultController>
 
+/**
+ * @brief Controller for ResultPanel
+ *
+ */
 class ResultController : public BaseController {
   public:
-    ResultController(ModelPtr sharedModel);
+    ResultController(ResourcePtr shared);
     ~ResultController();
 
     void e_ProcessEnd(wxEvtHandler *parent);

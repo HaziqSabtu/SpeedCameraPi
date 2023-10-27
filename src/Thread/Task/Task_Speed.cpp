@@ -8,8 +8,6 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include "Model/SessionData.hpp"
-#include "Utils/Config/ConfigStruct.hpp"
 #include <Thread/Task/Task_Speed.hpp>
 
 /**
@@ -20,7 +18,7 @@
  * @param result Result of Speed Calculation
  * @param sensorConfig Sensor Configuration ... SensorConfig
  */
-SpeedTask::SpeedTask(DataPtr data, SpeedPtr speedCalc)
+SpeedTask::SpeedTask(DataPtr data, SpeedCalcPtr speedCalc)
     : data(data), speedCalc(speedCalc) {
     property = TaskProperty(currentType);
     name = currentName;
@@ -71,7 +69,7 @@ void SpeedTask::Execute() {
 
     if (speedCalc->GetType() == SPEED_CALCULATION_LANE) {
         auto laneSpeedCalc =
-            std::dynamic_pointer_cast<LaneSpeedCalculation>(speedCalc);
+            std::dynamic_pointer_cast<LaneSpeedCalculator>(speedCalc);
         auto intersectingLines = laneSpeedCalc->GetIntersectingLines();
         resultData.intersectingLines = intersectingLines;
     }

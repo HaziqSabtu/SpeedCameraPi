@@ -1,18 +1,30 @@
-#include "Thread/Thread_CapturePreview.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_LoadImage.hpp"
-#include "Event/Event_Preview.hpp"
-#include "Event/Event_Replay.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Thread/Thread_ID.hpp"
-#include <memory>
-#include <opencv2/imgproc.hpp>
+#include <Thread/Thread_CapturePreview.hpp>
 
+#include <Event/Event.hpp>
+
+/**
+ * @brief Construct a new Capture Preview Thread:: Capture Preview Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ */
 CapturePreviewThread::CapturePreviewThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread() {}
 
+/**
+ * @brief Destroy the Capture Preview Thread:: Capture Preview Thread object
+ *
+ */
 CapturePreviewThread::~CapturePreviewThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details If capture data is available, send the start event to the View. Then
+ * send the captured image to the View. If an error occurs, send the error event
+ * to the View. Finally send the end event to the View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode CapturePreviewThread::Entry() {
     try {
 

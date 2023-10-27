@@ -1,7 +1,18 @@
 #include <Algorithm/object_tracker/CSRTTracker.hpp>
 
+/**
+ * @brief Construct a new CSRTTracker::CSRTTracker object
+ * 
+ */
 CSRTTracker::CSRTTracker() { tracker = cv::TrackerCSRT::create(); }
 
+/**
+ * @brief Track objects using the CSRT tracker.
+ *
+ * @param images A vector of images representing the video frames.
+ * @param rect The initial region of interest (ROI) to track.
+ * @return A vector of rectangles representing the tracked objects.
+ */
 std::vector<cv::Rect> CSRTTracker::track(std::vector<cv::Mat> &images,
                                          cv::Rect rect) {
     std::vector<cv::Rect> trackedRectangles;

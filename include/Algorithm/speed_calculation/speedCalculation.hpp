@@ -17,35 +17,73 @@
 #include <chrono>
 #include <opencv2/core.hpp>
 
-#define SpeedPtr std::shared_ptr<SpeedCalculator>
-
+/**
+ * @brief Enum for speed calculation type
+ *
+ */
 enum SpeedCalculationType {
     SPEED_CALCULATION_LANE,
     SPEED_CALCULATION_DISTANCE,
 };
 
+/**
+ * @brief The abstract base class for speed calculation algorithms.
+ * @details This class is used to calculate the speed of an object in a video.
+ * It is an abstract base class, and must be inherited by a derived class.
+ * Subclass of SpeedCalculator must implement the runCalculation() method, which
+ * takes a vector of images, a vector of time points, a vector of rectangles
+ * representing the tracked region of interest (ROI), and a vector of lines used
+ * for speed calculation. The subclass must also implement the GetSpeed()
+ * method, which returns the calculated speed.
+ */
 class SpeedCalculator {
   public:
+    /**
+     * @brief Default constructor.
+     */
     SpeedCalculator() = default;
+
+    /**
+     * @brief Virtual destructor.
+     */
     virtual ~SpeedCalculator() = default;
 
+    /**
+     * @brief Run the speed calculation.
+     *
+     * @param images A vector of images representing the video frames.
+     * @param times A vector of time points corresponding to the frames.
+     * @param trackedRoi A vector of rectangles representing the tracked region
+     * of interest (ROI).
+     * @param lines A vector of lines used for speed calculation.
+     */
     virtual void runCalculation(std::vector<cv::Mat> &images,
                                 std::vector<HPTime> &times,
                                 std::vector<cv::Rect> trackedRoi,
                                 std::vector<Line> &lines) = 0;
 
+    /**
+     * @brief Get the calculated speed.
+     *
+     * @return The calculated speed.
+     */
     virtual double GetSpeed() = 0;
 
+    /**
+     * @brief Get the type of speed calculation algorithm.
+     *
+     * @return The type of speed calculation.
+     */
     virtual SpeedCalculationType GetType() const = 0;
 };
 
 /**
- * @brief Class for Calculating Speed of Tracked Objects
+ * @brief Class for Calculating Speed with Lane Width (Pinhole Camera Model)
  *
  */
-class LaneSpeedCalculation : public SpeedCalculator {
+class LaneSpeedCalculator : public SpeedCalculator {
   public:
-    LaneSpeedCalculation();
+    LaneSpeedCalculator();
 
     void runCalculation(std::vector<cv::Mat> &images,
                         std::vector<HPTime> &times,

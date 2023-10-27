@@ -12,6 +12,11 @@
 #include <UI/Panel/SettingsPanel/SettingsSensor.hpp>
 #include <UI/Panel/SettingsPanel/SettingsThreads.hpp>
 
+/**
+ * @brief The settings panel
+ * @image html settingspanel.png
+ * @image latex settingspanel.png
+ */
 class SettingsScrollPanel : public wxScrolledWindow {
   public:
     SettingsScrollPanel(wxWindow *parent);

@@ -20,7 +20,10 @@
 #include <opencv2/video.hpp>
 
 /**
- * @brief Class for Detecting Objects from Image using Optical Flow
+ * @brief Class for Tracking Objects from Image using Optical Flow
+ * @details Perform object tracking using Optical Flow. Refer OpenCV documentation for information on parameters.
+ * @note This implementation is working. However, it is not optimized and
+ * require refactoring. The code is too complex and hard to understand. See OFPoint, DetectionData and OpticalFlowData. 
  */
 class OFTracker : public ObjectTracker {
 
@@ -70,11 +73,5 @@ class OFTracker : public ObjectTracker {
     OpticalFlowData updateFlow(cv::Mat &currentFrame,
                                OpticalFlowData &prevFlowData);
 };
-
-/**
- * @example objectDetection.cpp
- * @brief Example of using OFTracker.hpp
- *
- */
 
 #endif

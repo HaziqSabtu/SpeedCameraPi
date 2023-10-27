@@ -11,24 +11,19 @@
 #ifndef SPEED_TASK_HPP
 #define SPEED_TASK_HPP
 
-#include "Utils/Config/ConfigStruct.hpp"
-#include <Algorithm/Struct/D_Line.hpp>
-
-#include <Algorithm/speed_calculation/speedCalculation.hpp>
 #include <Thread/Task/Task.hpp>
-#include <Utils/Config/AppConfig.hpp>
 /**
  * @brief Task Implementation for Speed Calculation
  *
  */
 class SpeedTask : public Task {
   public:
-    SpeedTask(DataPtr data, SpeedPtr speedCalc);
+    SpeedTask(DataPtr data, SpeedCalcPtr speedCalc);
     void Execute() override;
 
   private:
     DataPtr data;
-    SpeedPtr speedCalc;
+    SpeedCalcPtr speedCalc;
 
     const std::string currentName = "SpeedTask";
     const TaskType currentType = TaskType::TASK_SPEED;

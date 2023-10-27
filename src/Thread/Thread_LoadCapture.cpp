@@ -9,16 +9,19 @@
  *
  */
 
-#include "Event/Event_Error.hpp"
-#include "Event/Event_LoadImage.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "Utils/FileReader/fileWR.hpp"
-#include "Utils/wxUtils.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_LoadCapture.hpp>
-#include <memory>
-#include <opencv2/imgproc.hpp>
 
+/**
+ * @brief Construct a new Load Capture Thread:: Load Capture Thread object
+ *
+ * @param parent Pointer to the View
+ * @param camera Unique_ptr to the Camera
+ * @param data Pointer to the SessionData
+ * @param maxFrame number of max frame to be captured
+ * @param debug_ShowImage Optional. Show the captured frame when capturing
+ * @param debug_Save Optional. Save the captured frame when capturing
+ */
 LoadCaptureThread::LoadCaptureThread(wxEvtHandler *parent, CameraPtr &camera,
                                      DataPtr data, const int maxFrame,
                                      const bool debug_ShowImage,

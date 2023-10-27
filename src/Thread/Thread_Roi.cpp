@@ -1,24 +1,31 @@
-#include "Event/Event_Calibration.hpp"
-#include "Event/Event_Error.hpp"
-#include "Event/Event_Roi.hpp"
-#include "Event/Event_UpdatePreview.hpp"
-#include "Event/Event_UpdateStatus.hpp"
-#include "Model/CalibrationData.hpp"
-#include "Model/SessionData.hpp"
-#include "Thread/Thread_Base.hpp"
-#include "UI/Layout/StatusPanel.hpp"
-#include "Utils/CommonUtils.hpp"
-#include "Utils/Config/AppConfig.hpp"
+#include <Event/Event.hpp>
 #include <Thread/Thread_Roi.hpp>
-#include <opencv2/imgproc.hpp>
-#include <wx/utils.h>
 
+/**
+ * @brief Construct a new Roi Thread:: Roi Thread object
+ *
+ * @param parent Pointer to the View
+ * @param data Pointer to the SessionData
+ */
 RoiThread::RoiThread(wxEvtHandler *parent, DataPtr data)
     : BaseThread(parent, data), PreviewableThread(), ImageSizeDataThread(data) {
 }
 
+/**
+ * @brief Destroy the Roi Thread:: Roi Thread object
+ *
+ */
 RoiThread::~RoiThread() {}
 
+/**
+ * @brief Entry point of the Thread
+ * @details Send the start event to the View. Then capture the frame from the
+ * captured data and send it to the View. Perform the roi selection. If an error
+ * occurs, send the error event to the View. Finally send the end event to the
+ * View.
+ *
+ * @return ExitCode
+ */
 wxThread::ExitCode RoiThread::Entry() {
 
     wxCommandEvent startRoiEvent(c_ROI_EVENT, ROI_START);
@@ -61,16 +68,42 @@ wxThread::ExitCode RoiThread::Entry() {
     return 0;
 }
 
+/**
+ * @brief Get the ID of the Thread
+ *
+ * @return ThreadID
+ */
 ThreadID RoiThread::getID() const { return threadID; }
 
+/**
+ * @brief Set the first point of the ROI
+ *
+ * @param point
+ */
 void RoiThread::setPoint1(cv::Point point) { this->p1 = point; }
 
+/**
+ * @brief Set the second point of the ROI
+ *
+ * @param point
+ */
 void RoiThread::setPoint2(cv::Point point) { this->p2 = point; }
 
+/**
+ * @brief Check if the ROI is valid
+ *
+ * @return true
+ * @return false
+ */
 bool RoiThread::isRectValid() {
     return p1.x != -1 && p1.y != -1 && p2.x != -1 && p2.y != -1;
 }
 
+/**
+ * @brief Get the ROI
+ *
+ * @return cv::Rect
+ */
 cv::Rect RoiThread::getRect() {
     cv::Point start, end;
 
@@ -93,6 +126,12 @@ cv::Rect RoiThread::getRect() {
     return cv::Rect(start, end);
 }
 
+/**
+ * @brief Get the real ROI
+ * @note The ROI is scaled to the original image size
+ *
+ * @return cv::Rect
+ */
 cv::Rect RoiThread::getRealRect() {
     cv::Rect rect = getRect();
     return Utils::scaleRect(rect, pSize, imageSize);

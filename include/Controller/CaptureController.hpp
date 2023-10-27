@@ -2,40 +2,19 @@
 
 #include <Controller/BaseController.hpp>
 
-#include <Event/Event_ChangePanel.hpp>
-#include <Event/Event_SwitchMode.hpp>
-#include <Event/Event_UpdatePreview.hpp>
-#include <Event/Event_UpdateState.hpp>
-#include <Event/Event_UpdateStatus.hpp>
-
-#include <Model/AppState.hpp>
-#include <Model/SessionData.hpp>
-#include <Model/SharedModel.hpp>
-
-#include <Thread/ThreadPool.hpp>
-#include <Thread/Thread_Controller.hpp>
-
-#include <UI/Dialog/ResetDataDialog.hpp>
-#include <UI/Dialog/SaveDataDialog.hpp>
-#include <UI/Layout/StatusPanel.hpp>
-
 #include <Utils/Camera/CameraBase.hpp>
-#include <Utils/Config/AppConfig.hpp>
-#include <Utils/Config/ConfigStruct.hpp>
 #include <Utils/FileReader/fileWR.hpp>
 #include <Utils/wxUtils.hpp>
 
-#include <memory>
-#include <vector>
-
-#include <wx/event.h>
-#include <wx/thread.h>
-
 #define CPCPtr std::shared_ptr<CaptureController>
 
+/**
+ * @brief Controller for CapturePanel
+ *
+ */
 class CaptureController : public BaseController {
   public:
-    CaptureController(ModelPtr sharedModel);
+    CaptureController(ResourcePtr shared);
     ~CaptureController();
 
     void e_ClearImageData(wxEvtHandler *parent);
@@ -52,10 +31,10 @@ class CaptureController : public BaseController {
     void e_CapturePreviewStart(wxEvtHandler *parent);
     void e_CapturePreviewEnd(wxEvtHandler *parent);
 
-    void e_ChangeToCalibrationPanel(wxEvtHandler *parent);
+    void e_ChangeToLaneCalibrationPanel(wxEvtHandler *parent);
     void e_RemoveCalibration(wxEvtHandler *parent);
 
-    void e_ChangeToHorizontalCalibrationPanel(wxEvtHandler *parent);
+    void e_ChangeToDistanceCalibrationPanel(wxEvtHandler *parent);
 
     void e_ChangeToRoiPanel(wxEvtHandler *parent);
     void e_RemoveRoi(wxEvtHandler *parent);
@@ -101,13 +80,13 @@ class CaptureController : public BaseController {
 
     void resetSessionDataHandler(wxEvtHandler *parent);
 
-    void changeToCalibrationPanelHandler(wxEvtHandler *parent);
+    void changeToLaneCalibrationPanelHandler(wxEvtHandler *parent);
     void changeToRoiPanelHandler(wxEvtHandler *parent);
     void changeToResultPanelHandler(wxEvtHandler *parent);
 
     void changeToTrimDataPanelHandler(wxEvtHandler *parent);
 
-    void changeToHorizontalCalibrationPanelHandler(wxEvtHandler *parent);
+    void changeToDistanceCalibrationPanelHandler(wxEvtHandler *parent);
 
     void panelShowHandler(wxEvtHandler *parent) override;
     void okButtonHandler(wxEvtHandler *parent) override;

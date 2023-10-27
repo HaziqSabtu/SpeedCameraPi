@@ -24,6 +24,11 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 
+/**
+ * @brief The color calibration panel
+ * @image html colorcalibrationpanel.png
+ * @image latex colorcalibrationpanel.png
+ */
 class ColorCalibrationPanel : public BasePanelWithTouch {
   public:
     ColorCalibrationPanel(wxWindow *parent, wxWindowID id, CCCPtr controller);
