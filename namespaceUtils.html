@@ -101,6 +101,7 @@ $(document).ready(function(){initNavTree('namespaceUtils.html',''); initResizabl
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">Utils Namespace Reference</div></div>
 </div><!--header-->
@@ -109,6 +110,15 @@ $(document).ready(function(){initNavTree('namespaceUtils.html',''); initResizabl
 <p><a class="el" href="namespaceUtils.html" title="Utils Class.">Utils</a> Class.  
 <a href="namespaceUtils.html#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structUtils_1_1FileMetaData.html">FileMetaData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom Struct for File Meta Data. Used within <a class="el" href="classUtils_1_1FileReadWrite.html" title="Class for reading and writing binary file.">FileReadWrite</a> class.  <a href="structUtils_1_1FileMetaData.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUtils_1_1FileReadWrite.html">FileReadWrite</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for reading and writing binary file.  <a href="classUtils_1_1FileReadWrite.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a4b7f3b8e34f55dc93e485c83c830066f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#a4b7f3b8e34f55dc93e485c83c830066f">TimeDiffInMilli</a> (std::chrono::high_resolution_clock::time_point time1, std::chrono::high_resolution_clock::time_point time2)</td></tr>
@@ -126,10 +136,89 @@ Functions</h2></td></tr>
 <tr class="memitem:a35476841626a47517ee50dad91da8931"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#a35476841626a47517ee50dad91da8931">TrimmedMean</a> (const std::vector&lt; double &gt; &amp;data, double percentage)</td></tr>
 <tr class="memdesc:a35476841626a47517ee50dad91da8931"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate trimmed mean.  <a href="namespaceUtils.html#a35476841626a47517ee50dad91da8931">More...</a><br /></td></tr>
 <tr class="separator:a35476841626a47517ee50dad91da8931"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f8da8fbe3a61ab95a703769fa00e228"><td class="memItemLeft" align="right" valign="top">cv::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#a4f8da8fbe3a61ab95a703769fa00e228">getRelativePoint</a> (const cv::Mat &amp;src, const cv::Mat &amp;target, const cv::Point &amp;point)</td></tr>
+<tr class="memdesc:a4f8da8fbe3a61ab95a703769fa00e228"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the relative point on different image size.  <a href="namespaceUtils.html#a4f8da8fbe3a61ab95a703769fa00e228">More...</a><br /></td></tr>
+<tr class="separator:a4f8da8fbe3a61ab95a703769fa00e228"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad42526d87fd8625001597218c73cbd15"><td class="memItemLeft" align="right" valign="top">cv::Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#ad42526d87fd8625001597218c73cbd15">scaleRect</a> (const cv::Rect &amp;rect, cv::Size src, cv::Size dst)</td></tr>
+<tr class="memdesc:ad42526d87fd8625001597218c73cbd15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scale rect on different image size.  <a href="namespaceUtils.html#ad42526d87fd8625001597218c73cbd15">More...</a><br /></td></tr>
+<tr class="separator:ad42526d87fd8625001597218c73cbd15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3f06d86559bcfdcae55401dc99a6c86"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#ab3f06d86559bcfdcae55401dc99a6c86">generateRandomID</a> ()</td></tr>
+<tr class="memdesc:ab3f06d86559bcfdcae55401dc99a6c86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate random ID.  <a href="namespaceUtils.html#ab3f06d86559bcfdcae55401dc99a6c86">More...</a><br /></td></tr>
+<tr class="separator:ab3f06d86559bcfdcae55401dc99a6c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68c8c16be9870d26d43479491b5fdb98"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#a68c8c16be9870d26d43479491b5fdb98">isCvMatSame</a> (const cv::Mat &amp;img1, const cv::Mat &amp;img2)</td></tr>
+<tr class="memdesc:a68c8c16be9870d26d43479491b5fdb98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if cv::Mat is equal.  <a href="namespaceUtils.html#a68c8c16be9870d26d43479491b5fdb98">More...</a><br /></td></tr>
+<tr class="separator:a68c8c16be9870d26d43479491b5fdb98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa82b857c0e8367a7532f21036f4afd1c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#aa82b857c0e8367a7532f21036f4afd1c">isCvMatSameRandom</a> (const cv::Mat &amp;img1, const cv::Mat &amp;img2, int points)</td></tr>
+<tr class="memdesc:aa82b857c0e8367a7532f21036f4afd1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if cv::Mat is equal at random points.  <a href="namespaceUtils.html#aa82b857c0e8367a7532f21036f4afd1c">More...</a><br /></td></tr>
+<tr class="separator:aa82b857c0e8367a7532f21036f4afd1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6f795405b400b0e66fff8ac4789b003"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#ae6f795405b400b0e66fff8ac4789b003">isRangeCalibrated</a> (const std::pair&lt; cv::Scalar, cv::Scalar &gt; &amp;range)</td></tr>
+<tr class="memdesc:ae6f795405b400b0e66fff8ac4789b003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the range is calibrated.  <a href="namespaceUtils.html#ae6f795405b400b0e66fff8ac4789b003">More...</a><br /></td></tr>
+<tr class="separator:ae6f795405b400b0e66fff8ac4789b003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40fc3186ce9e6ea80988ceab73ad32c4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#a40fc3186ce9e6ea80988ceab73ad32c4">wxStringToString</a> (wxString wxstr)</td></tr>
+<tr class="memdesc:a40fc3186ce9e6ea80988ceab73ad32c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert wxString to std::string.  <a href="namespaceUtils.html#a40fc3186ce9e6ea80988ceab73ad32c4">More...</a><br /></td></tr>
+<tr class="separator:a40fc3186ce9e6ea80988ceab73ad32c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4cd7c0202ef90269738150f7a060943"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#aa4cd7c0202ef90269738150f7a060943">cvMatToWxBitmap</a> (const cv::Mat &amp;matBitmap, wxBitmap &amp;bitmap)</td></tr>
+<tr class="memdesc:aa4cd7c0202ef90269738150f7a060943"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert cv::Mat to wxBitmap.  <a href="namespaceUtils.html#aa4cd7c0202ef90269738150f7a060943">More...</a><br /></td></tr>
+<tr class="separator:aa4cd7c0202ef90269738150f7a060943"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a687c61cce588989b9e200b4891bae59b"><td class="memItemLeft" align="right" valign="top">cv::Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#a687c61cce588989b9e200b4891bae59b">wxPointToCvPoint</a> (const wxPoint &amp;point)</td></tr>
+<tr class="memdesc:a687c61cce588989b9e200b4891bae59b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert wxPoint to cv::Point.  <a href="namespaceUtils.html#a687c61cce588989b9e200b4891bae59b">More...</a><br /></td></tr>
+<tr class="separator:a687c61cce588989b9e200b4891bae59b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae4a6a3d58b5ad2c641453c91274c9b6"><td class="memItemLeft" align="right" valign="top">wxBitmap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#aae4a6a3d58b5ad2c641453c91274c9b6">recolor</a> (wxBitmap &amp;b, const wxColour &amp;c)</td></tr>
+<tr class="memdesc:aae4a6a3d58b5ad2c641453c91274c9b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recolor wxBitmap.  <a href="namespaceUtils.html#aae4a6a3d58b5ad2c641453c91274c9b6">More...</a><br /></td></tr>
+<tr class="separator:aae4a6a3d58b5ad2c641453c91274c9b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9257d87605ae1b65f10b09965500bb3f"><td class="memItemLeft" align="right" valign="top">wxBitmap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#a9257d87605ae1b65f10b09965500bb3f">resize</a> (const wxBitmap &amp;b, const wxSize &amp;s)</td></tr>
+<tr class="memdesc:a9257d87605ae1b65f10b09965500bb3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resize wxBitmap.  <a href="namespaceUtils.html#a9257d87605ae1b65f10b09965500bb3f">More...</a><br /></td></tr>
+<tr class="separator:a9257d87605ae1b65f10b09965500bb3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0372341718b22aa4b3b69fee2ff8b61"><td class="memItemLeft" align="right" valign="top">std::pair&lt; cv::Scalar, cv::Scalar &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#ae0372341718b22aa4b3b69fee2ff8b61">HSVRangeConfigToScalar</a> (const HSVRangeConfig &amp;range)</td></tr>
+<tr class="memdesc:ae0372341718b22aa4b3b69fee2ff8b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert cv::Scalar to HSVRangeConfig.  <a href="namespaceUtils.html#ae0372341718b22aa4b3b69fee2ff8b61">More...</a><br /></td></tr>
+<tr class="separator:ae0372341718b22aa4b3b69fee2ff8b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0e0d11242bfc5500cd7c9be7f27c3b5"><td class="memItemLeft" align="right" valign="top">HSVRangeConfig&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceUtils.html#ab0e0d11242bfc5500cd7c9be7f27c3b5">ScalarToHSVRangeConfig</a> (const std::pair&lt; cv::Scalar, cv::Scalar &gt; &amp;range)</td></tr>
+<tr class="memdesc:ab0e0d11242bfc5500cd7c9be7f27c3b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert HSVRangeConfig to cv::Scalar.  <a href="namespaceUtils.html#ab0e0d11242bfc5500cd7c9be7f27c3b5">More...</a><br /></td></tr>
+<tr class="separator:ab0e0d11242bfc5500cd7c9be7f27c3b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><a class="el" href="namespaceUtils.html" title="Utils Class.">Utils</a> Class. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="aa4cd7c0202ef90269738150f7a060943" name="aa4cd7c0202ef90269738150f7a060943"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4cd7c0202ef90269738150f7a060943">&#9670;&#160;</a></span>cvMatToWxBitmap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Utils::cvMatToWxBitmap </td>
+          <td>(</td>
+          <td class="paramtype">const cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>matBitmap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">wxBitmap &amp;&#160;</td>
+          <td class="paramname"><em>bitmap</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert cv::Mat to wxBitmap. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">matBitmap</td><td>source cv::Mat </td></tr>
+    <tr><td class="paramname">bitmap</td><td>destination wxBitmap </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if ok </dd>
+<dd>
+false if not ok </dd></dl>
+
+</div>
+</div>
 <a id="a78138bf91f0508ece06fe18ac05c8e86" name="a78138bf91f0508ece06fe18ac05c8e86"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a78138bf91f0508ece06fe18ac05c8e86">&#9670;&#160;</a></span>dateToString()</h2>
 
@@ -146,7 +235,28 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the current date and time in string format. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string current date and time in string format </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>std::string current date and time in string format</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>std::string date and time in string format </dd></dl>
+
+</div>
+</div>
+<a id="ab3f06d86559bcfdcae55401dc99a6c86" name="ab3f06d86559bcfdcae55401dc99a6c86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3f06d86559bcfdcae55401dc99a6c86">&#9670;&#160;</a></span>generateRandomID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Utils::generateRandomID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generate random ID. </p>
+<dl class="section return"><dt>Returns</dt><dd>int random ID </dd></dl>
 
 </div>
 </div>
@@ -167,13 +277,285 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get File Extension from path. </p>
+<p >Get the File Extension object.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>path to file </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>FileExtension file extension </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>FileExtension file extension</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Path to the file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>FileExtension File extension </dd></dl>
+
+</div>
+</div>
+<a id="a4f8da8fbe3a61ab95a703769fa00e228" name="a4f8da8fbe3a61ab95a703769fa00e228"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f8da8fbe3a61ab95a703769fa00e228">&#9670;&#160;</a></span>getRelativePoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cv::Point Utils::getRelativePoint </td>
+          <td>(</td>
+          <td class="paramtype">const cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const cv::Point &amp;&#160;</td>
+          <td class="paramname"><em>point</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the relative point on different image size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>source image </td></tr>
+    <tr><td class="paramname">target</td><td>target image </td></tr>
+    <tr><td class="paramname">point</td><td>point to be converted </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>cv::Point relative point </dd></dl>
+
+</div>
+</div>
+<a id="ae0372341718b22aa4b3b69fee2ff8b61" name="ae0372341718b22aa4b3b69fee2ff8b61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0372341718b22aa4b3b69fee2ff8b61">&#9670;&#160;</a></span>HSVRangeConfigToScalar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; cv::Scalar, cv::Scalar &gt; Utils::HSVRangeConfigToScalar </td>
+          <td>(</td>
+          <td class="paramtype">const HSVRangeConfig &amp;&#160;</td>
+          <td class="paramname"><em>range</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert cv::Scalar to HSVRangeConfig. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>cv::Scalar to be converted </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::pair&lt;cv::Scalar, cv::Scalar&gt; converted range </dd></dl>
+
+</div>
+</div>
+<a id="a68c8c16be9870d26d43479491b5fdb98" name="a68c8c16be9870d26d43479491b5fdb98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68c8c16be9870d26d43479491b5fdb98">&#9670;&#160;</a></span>isCvMatSame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Utils::isCvMatSame </td>
+          <td>(</td>
+          <td class="paramtype">const cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>img1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>img2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if cv::Mat is equal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">img1</td><td>cv::Mat object </td></tr>
+    <tr><td class="paramname">img2</td><td>cv::Mat object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true is same </dd>
+<dd>
+false if same </dd></dl>
+
+</div>
+</div>
+<a id="aa82b857c0e8367a7532f21036f4afd1c" name="aa82b857c0e8367a7532f21036f4afd1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa82b857c0e8367a7532f21036f4afd1c">&#9670;&#160;</a></span>isCvMatSameRandom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Utils::isCvMatSameRandom </td>
+          <td>(</td>
+          <td class="paramtype">const cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>img1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>img2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>points</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if cv::Mat is equal at random points. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">img1</td><td>cv::Mat object </td></tr>
+    <tr><td class="paramname">img2</td><td>cv::Mat object </td></tr>
+    <tr><td class="paramname">points</td><td>number of points to be checked </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true is same </dd>
+<dd>
+false if same </dd></dl>
+
+</div>
+</div>
+<a id="ae6f795405b400b0e66fff8ac4789b003" name="ae6f795405b400b0e66fff8ac4789b003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6f795405b400b0e66fff8ac4789b003">&#9670;&#160;</a></span>isRangeCalibrated()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Utils::isRangeCalibrated </td>
+          <td>(</td>
+          <td class="paramtype">const std::pair&lt; cv::Scalar, cv::Scalar &gt; &amp;&#160;</td>
+          <td class="paramname"><em>range</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if the range is calibrated. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>range to be checked </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true </dd>
+<dd>
+false </dd></dl>
+
+</div>
+</div>
+<a id="aae4a6a3d58b5ad2c641453c91274c9b6" name="aae4a6a3d58b5ad2c641453c91274c9b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae4a6a3d58b5ad2c641453c91274c9b6">&#9670;&#160;</a></span>recolor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">wxBitmap Utils::recolor </td>
+          <td>(</td>
+          <td class="paramtype">wxBitmap &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const wxColour &amp;&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Recolor wxBitmap. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>the bitmap to be recolored </td></tr>
+    <tr><td class="paramname">c</td><td>the color to be used </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>wxBitmap recolored bitmap </dd></dl>
+
+</div>
+</div>
+<a id="a9257d87605ae1b65f10b09965500bb3f" name="a9257d87605ae1b65f10b09965500bb3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9257d87605ae1b65f10b09965500bb3f">&#9670;&#160;</a></span>resize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">wxBitmap Utils::resize </td>
+          <td>(</td>
+          <td class="paramtype">const wxBitmap &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const wxSize &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Resize wxBitmap. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>the bitmap to be resized </td></tr>
+    <tr><td class="paramname">s</td><td>the size to be used </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>wxBitmap resized bitmap </dd></dl>
 
 </div>
 </div>
@@ -204,13 +586,93 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Rotate image. </p>
+<p >Rotate image at a certain angle.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">imgData</td><td>image data </td></tr>
-    <tr><td class="paramname">angle</td><td>angle to rotate in degrees </td></tr>
+    <tr><td class="paramname">angle</td><td>angle to rotate in degrees</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">imgData</td><td>vector of cv::Mat </td></tr>
+    <tr><td class="paramname">angle</td><td>angle to rotate </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab0e0d11242bfc5500cd7c9be7f27c3b5" name="ab0e0d11242bfc5500cd7c9be7f27c3b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0e0d11242bfc5500cd7c9be7f27c3b5">&#9670;&#160;</a></span>ScalarToHSVRangeConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">HSVRangeConfig Utils::ScalarToHSVRangeConfig </td>
+          <td>(</td>
+          <td class="paramtype">const std::pair&lt; cv::Scalar, cv::Scalar &gt; &amp;&#160;</td>
+          <td class="paramname"><em>range</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert HSVRangeConfig to cv::Scalar. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>HSVRangeConfig to be converted </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::pair&lt;cv::Scalar, cv::Scalar&gt; converted range </dd></dl>
+
+</div>
+</div>
+<a id="ad42526d87fd8625001597218c73cbd15" name="ad42526d87fd8625001597218c73cbd15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad42526d87fd8625001597218c73cbd15">&#9670;&#160;</a></span>scaleRect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cv::Rect Utils::scaleRect </td>
+          <td>(</td>
+          <td class="paramtype">const cv::Rect &amp;&#160;</td>
+          <td class="paramname"><em>rect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cv::Size&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cv::Size&#160;</td>
+          <td class="paramname"><em>dst</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Scale rect on different image size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rect</td><td>the rect to be scaled </td></tr>
+    <tr><td class="paramname">src</td><td>source image size </td></tr>
+    <tr><td class="paramname">dst</td><td>target image size </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>cv::Rect scaled rect </dd></dl>
 
 </div>
 </div>
@@ -241,6 +703,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Calculate the difference between two time points. </p>
+<p >Calculate the time difference in milliseconds.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">time1</td><td>time point 1 </td></tr>
@@ -248,7 +711,15 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>double time difference in milliseconds </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>double time difference in milliseconds</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">time1</td><td>First time point </td></tr>
+    <tr><td class="paramname">time2</td><td>Second time point </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>double difference in milliseconds </dd></dl>
 
 </div>
 </div>
@@ -279,6 +750,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Calculate trimmed mean. </p>
+<p >Perform trim mean of data.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>data to be trimmed </td></tr>
@@ -286,7 +758,69 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>double trimmed mean</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>vector of double of the data </td></tr>
+    <tr><td class="paramname">percentage</td><td>percentage of data to be trimmed </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>double trimmed mean </dd></dl>
+
+</div>
+</div>
+<a id="a687c61cce588989b9e200b4891bae59b" name="a687c61cce588989b9e200b4891bae59b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a687c61cce588989b9e200b4891bae59b">&#9670;&#160;</a></span>wxPointToCvPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cv::Point Utils::wxPointToCvPoint </td>
+          <td>(</td>
+          <td class="paramtype">const wxPoint &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert wxPoint to cv::Point. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">point</td><td>wxPoint to be converted </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>cv::Point converted point </dd></dl>
+
+</div>
+</div>
+<a id="a40fc3186ce9e6ea80988ceab73ad32c4" name="a40fc3186ce9e6ea80988ceab73ad32c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40fc3186ce9e6ea80988ceab73ad32c4">&#9670;&#160;</a></span>wxStringToString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Utils::wxStringToString </td>
+          <td>(</td>
+          <td class="paramtype">wxString&#160;</td>
+          <td class="paramname"><em>wxstr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert wxString to std::string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wxstr</td><td>wxString to be converted </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::string converted string </dd></dl>
 
 </div>
 </div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['development_20setup_0',['Development Setup',['../md_Docs_markdown_developmentSetup.html',1,'']]]
+  ['developmentsetup_0',['developmentSetup',['../md_Docs_markdown_developmentSetup.html',1,'']]]
 ];

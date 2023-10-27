@@ -114,12 +114,18 @@ $(document).ready(function(){initNavTree('classThreadPool.html',''); initResizab
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a3225e86aa7835545b3f6c2c8d363d5e5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classThreadPool.html#a3225e86aa7835545b3f6c2c8d363d5e5">ThreadPool</a> ()</td></tr>
+<tr class="memdesc:a3225e86aa7835545b3f6c2c8d363d5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Thread Pool:: Thread Pool object.  <a href="classThreadPool.html#a3225e86aa7835545b3f6c2c8d363d5e5">More...</a><br /></td></tr>
+<tr class="separator:a3225e86aa7835545b3f6c2c8d363d5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf6e437d22a13461c15596eeac1e679f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classThreadPool.html#adf6e437d22a13461c15596eeac1e679f">ThreadPool</a> (const int numThreads)</td></tr>
 <tr class="memdesc:adf6e437d22a13461c15596eeac1e679f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Thread Pool:: Thread Pool object.  <a href="classThreadPool.html#adf6e437d22a13461c15596eeac1e679f">More...</a><br /></td></tr>
 <tr class="separator:adf6e437d22a13461c15596eeac1e679f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44d3d2ab618970605e684efc216655eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classThreadPool.html#a44d3d2ab618970605e684efc216655eb">~ThreadPool</a> ()</td></tr>
 <tr class="memdesc:a44d3d2ab618970605e684efc216655eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the Thread Pool:: Thread Pool object.  <a href="classThreadPool.html#a44d3d2ab618970605e684efc216655eb">More...</a><br /></td></tr>
 <tr class="separator:a44d3d2ab618970605e684efc216655eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6836d19d3e1e31ac0cd48a8eb32657f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classThreadPool.html#a6836d19d3e1e31ac0cd48a8eb32657f1">setNumThreads</a> (const int numThreads)</td></tr>
+<tr class="memdesc:a6836d19d3e1e31ac0cd48a8eb32657f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the number of threads/workers.  <a href="classThreadPool.html#a6836d19d3e1e31ac0cd48a8eb32657f1">More...</a><br /></td></tr>
+<tr class="separator:a6836d19d3e1e31ac0cd48a8eb32657f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6509c20bc77c5ee7f67290b9349e2b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classThreadPool.html#ab6509c20bc77c5ee7f67290b9349e2b7">AddTask</a> (std::unique_ptr&lt; <a class="el" href="classTask.html">Task</a> &gt; &amp;task)</td></tr>
 <tr class="memdesc:ab6509c20bc77c5ee7f67290b9349e2b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add <a class="el" href="classTask.html" title="Interface Class for TaskPool Task.">Task</a> to the queue.  <a href="classThreadPool.html#ab6509c20bc77c5ee7f67290b9349e2b7">More...</a><br /></td></tr>
 <tr class="separator:ab6509c20bc77c5ee7f67290b9349e2b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,8 +173,27 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>emptyQueue</b> ()</td
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Class Implementation for Background Thread Pool. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a3225e86aa7835545b3f6c2c8d363d5e5" name="a3225e86aa7835545b3f6c2c8d363d5e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3225e86aa7835545b3f6c2c8d363d5e5">&#9670;&#160;</a></span>ThreadPool() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ThreadPool::ThreadPool </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Construct a new Thread Pool:: Thread Pool object. </p>
+
+</div>
+</div>
 <a id="adf6e437d22a13461c15596eeac1e679f" name="adf6e437d22a13461c15596eeac1e679f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf6e437d22a13461c15596eeac1e679f">&#9670;&#160;</a></span>ThreadPool()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adf6e437d22a13461c15596eeac1e679f">&#9670;&#160;</a></span>ThreadPool() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -557,6 +582,32 @@ false if all workers are idle </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the worker is busy with the specified task </dd>
 <dd>
 false if the worker is not busy with the specified task </dd></dl>
+
+</div>
+</div>
+<a id="a6836d19d3e1e31ac0cd48a8eb32657f1" name="a6836d19d3e1e31ac0cd48a8eb32657f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6836d19d3e1e31ac0cd48a8eb32657f1">&#9670;&#160;</a></span>setNumThreads()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ThreadPool::setNumThreads </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>numThreads</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the number of threads/workers. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">numThreads</td><td>number of threads/workers to create </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -112,14 +112,38 @@ $(document).ready(function(){initNavTree('classLoadCaptureThread.html',''); init
  <a href="classLoadCaptureThread.html#details">More...</a></p>
 
 <p><code>#include &lt;Thread_LoadCapture.hpp&gt;</code></p>
-
-<p>Inherits BaseThread, PreviewableThread, and CameraAccessor.</p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for LoadCaptureThread:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+ <div class="center">
+  <img src="classLoadCaptureThread.png" usemap="#LoadCaptureThread_map" alt=""/>
+  <map id="LoadCaptureThread_map" name="LoadCaptureThread_map">
+<area href="classBaseThread.html" title="Base class for all Threads for ThreadController." alt="BaseThread" shape="rect" coords="0,0,125,24"/>
+<area href="classPreviewableThread.html" title="Helper Class for BaseThread." alt="PreviewableThread" shape="rect" coords="135,0,260,24"/>
+<area href="classCameraAccessor.html" title="Class to enable access to Camera." alt="CameraAccessor" shape="rect" coords="270,0,395,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a4f55d8d5dad9bd1731f645345e566e6e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLoadCaptureThread.html#a4f55d8d5dad9bd1731f645345e566e6e">LoadCaptureThread</a> (wxEvtHandler *parent, CameraPtr &amp;camera, DataPtr data, const int maxFrame, const bool debug_ShowImage=false, const bool debug_Save=false)</td></tr>
+<tr class="memdesc:a4f55d8d5dad9bd1731f645345e566e6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Load Capture Thread:: Load Capture Thread object.  <a href="classLoadCaptureThread.html#a4f55d8d5dad9bd1731f645345e566e6e">More...</a><br /></td></tr>
+<tr class="separator:a4f55d8d5dad9bd1731f645345e566e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaec9e9492256fbf97ceb58b796b29c80"><td class="memItemLeft" align="right" valign="top">ThreadID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLoadCaptureThread.html#aaec9e9492256fbf97ceb58b796b29c80">getID</a> () const override</td></tr>
 <tr class="memdesc:aaec9e9492256fbf97ceb58b796b29c80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the ID object.  <a href="classLoadCaptureThread.html#aaec9e9492256fbf97ceb58b796b29c80">More...</a><br /></td></tr>
 <tr class="separator:aaec9e9492256fbf97ceb58b796b29c80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classBaseThread"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBaseThread')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBaseThread.html">BaseThread</a></td></tr>
+<tr class="memitem:a6490b441323f33ef56dbd766b10eb9b1 inherit pub_methods_classBaseThread"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBaseThread.html#a6490b441323f33ef56dbd766b10eb9b1">BaseThread</a> (wxEvtHandler *parent, DataPtr data)</td></tr>
+<tr class="memdesc:a6490b441323f33ef56dbd766b10eb9b1 inherit pub_methods_classBaseThread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classBaseThread.html" title="Base class for all Threads for ThreadController.">BaseThread</a> object.  <a href="classBaseThread.html#a6490b441323f33ef56dbd766b10eb9b1">More...</a><br /></td></tr>
+<tr class="separator:a6490b441323f33ef56dbd766b10eb9b1 inherit pub_methods_classBaseThread"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8878ee7da76919b0adad936c3db52b24 inherit pub_methods_classBaseThread"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBaseThread.html#a8878ee7da76919b0adad936c3db52b24">~BaseThread</a> ()</td></tr>
+<tr class="memdesc:a8878ee7da76919b0adad936c3db52b24 inherit pub_methods_classBaseThread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the Base Thread object.  <a href="classBaseThread.html#a8878ee7da76919b0adad936c3db52b24">More...</a><br /></td></tr>
+<tr class="separator:a8878ee7da76919b0adad936c3db52b24 inherit pub_methods_classBaseThread"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46ca5bd6f1fd4c19945a9c89b45313cd inherit pub_methods_classBaseThread"><td class="memItemLeft" align="right" valign="top">virtual ThreadID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBaseThread.html#a46ca5bd6f1fd4c19945a9c89b45313cd">getID</a> () const =0</td></tr>
+<tr class="memdesc:a46ca5bd6f1fd4c19945a9c89b45313cd inherit pub_methods_classBaseThread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the ThreadID.  <a href="classBaseThread.html#a46ca5bd6f1fd4c19945a9c89b45313cd">More...</a><br /></td></tr>
+<tr class="separator:a46ca5bd6f1fd4c19945a9c89b45313cd inherit pub_methods_classBaseThread"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -129,7 +153,73 @@ Protected Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Custom wxThread for loading ImageData from Camera. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a4f55d8d5dad9bd1731f645345e566e6e" name="a4f55d8d5dad9bd1731f645345e566e6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f55d8d5dad9bd1731f645345e566e6e">&#9670;&#160;</a></span>LoadCaptureThread()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LoadCaptureThread::LoadCaptureThread </td>
+          <td>(</td>
+          <td class="paramtype">wxEvtHandler *&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CameraPtr &amp;&#160;</td>
+          <td class="paramname"><em>camera</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DataPtr&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>maxFrame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>debug_ShowImage</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>debug_Save</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Construct a new Load Capture Thread:: Load Capture Thread object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>Pointer to the View </td></tr>
+    <tr><td class="paramname">camera</td><td>Unique_ptr to the Camera </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to the <a class="el" href="classSessionData.html" title="Data containing all the data for a session.">SessionData</a> </td></tr>
+    <tr><td class="paramname">maxFrame</td><td>number of max frame to be captured </td></tr>
+    <tr><td class="paramname">debug_ShowImage</td><td>Optional. Show the captured frame when capturing </td></tr>
+    <tr><td class="paramname">debug_Save</td><td>Optional. Save the captured frame when capturing </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a39e0dd60257c2bd740d14ca68f0e3ce4" name="a39e0dd60257c2bd740d14ca68f0e3ce4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a39e0dd60257c2bd740d14ca68f0e3ce4">&#9670;&#160;</a></span>Entry()</h2>
 
@@ -188,13 +278,15 @@ Post CaptureImageEvent to parent to signal the end of capture </li>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Get the ID object. </p>
 <dl class="section return"><dt>Returns</dt><dd>ThreadID </dd></dl>
+
+<p>Implements <a class="el" href="classBaseThread.html#a46ca5bd6f1fd4c19945a9c89b45313cd">BaseThread</a>.</p>
 
 </div>
 </div>

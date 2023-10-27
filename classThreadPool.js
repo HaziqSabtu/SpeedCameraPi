@@ -1,5 +1,6 @@
 var classThreadPool =
 [
+    [ "ThreadPool", "classThreadPool.html#a3225e86aa7835545b3f6c2c8d363d5e5", null ],
     [ "ThreadPool", "classThreadPool.html#adf6e437d22a13461c15596eeac1e679f", null ],
     [ "~ThreadPool", "classThreadPool.html#a44d3d2ab618970605e684efc216655eb", null ],
     [ "AddTask", "classThreadPool.html#ab6509c20bc77c5ee7f67290b9349e2b7", null ],
@@ -15,5 +16,6 @@ var classThreadPool =
     [ "isTaskError", "classThreadPool.html#ad9aa538dc282c351ddba18853f86a851", null ],
     [ "isWorkerBusy", "classThreadPool.html#aa0b9ac0d1b238360096edc960dbf600e", null ],
     [ "isWorkerBusy", "classThreadPool.html#a4152ea6ab72d4b88ee375704fb9afbce", null ],
-    [ "isWorkerBusy", "classThreadPool.html#abafa026d2fe81c2861fea8a3dc3cbf8a", null ]
+    [ "isWorkerBusy", "classThreadPool.html#abafa026d2fe81c2861fea8a3dc3cbf8a", null ],
+    [ "setNumThreads", "classThreadPool.html#a6836d19d3e1e31ac0cd48a8eb32657f1", null ]
 ];

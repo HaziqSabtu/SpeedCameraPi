@@ -109,7 +109,9 @@ $(document).ready(function(){initNavTree('Task_8hpp.html',''); initResizable(); 
 
 <p>Interface for TaskPool <a class="el" href="classTask.html" title="Interface Class for TaskPool Task.">Task</a>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;Utils/CommonUtils.hpp&gt;</code><br />
+<div class="textblock"><code>#include &lt;Model/SessionData.hpp&gt;</code><br />
+<code>#include &lt;Utils/Algorithm/AlgorithmFactory.hpp&gt;</code><br />
+<code>#include &lt;Utils/CommonUtils.hpp&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -182,11 +184,11 @@ TASK_CAPTURE: CaptureTask </li>
 <li>
 TASK_LOAD: LoadTask </li>
 <li>
-TASK_SIFT: SiftTask </li>
+TASK_SIFT: <a class="el" href="classSiftTask.html" title="Task Implementation for Image Allignment with SIFT.">SiftTask</a> </li>
 <li>
 TASK_HOUGHLINE: HoughTask </li>
 <li>
-TASK_FLOW: <a class="el" href="classFlowTask.html" title="Task Implementation for Optical Flow Detection.">FlowTask</a> </li>
+TASK_FLOW: FlowTask </li>
 <li>
 TASK_SPEED: <a class="el" href="classSpeedTask.html" title="Task Implementation for Speed Calculation.">SpeedTask</a> </li>
 </ul>

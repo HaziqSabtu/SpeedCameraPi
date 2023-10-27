@@ -107,21 +107,85 @@ $(document).ready(function(){initNavTree('classOFTracker.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 
-<p>Class for Detecting Objects from Image using Optical Flow.  
+<p>Class for Tracking Objects from Image using Optical Flow.  
  <a href="classOFTracker.html#details">More...</a></p>
 
 <p><code>#include &lt;OpticalFlowTracker.hpp&gt;</code></p>
-
-<p>Inherits ObjectTracker.</p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for OFTracker:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+ <div class="center">
+  <img src="classOFTracker.png" usemap="#OFTracker_map" alt=""/>
+  <map id="OFTracker_map" name="OFTracker_map">
+<area href="classObjectTracker.html" title="Interface for object tracking algorithms." alt="ObjectTracker" shape="rect" coords="0,0,93,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aaa2845ae98221c44ae2aba6188dbc034"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#aaa2845ae98221c44ae2aba6188dbc034">OFTracker</a> ()</td></tr>
 <tr class="memdesc:aaa2845ae98221c44ae2aba6188dbc034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Object Detection:: Object Detection object.  <a href="classOFTracker.html#aaa2845ae98221c44ae2aba6188dbc034">More...</a><br /></td></tr>
 <tr class="separator:aaa2845ae98221c44ae2aba6188dbc034"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04b92054d4d410ecb959c3d2113abdbc"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::Rect &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a04b92054d4d410ecb959c3d2113abdbc">track</a> (std::vector&lt; cv::Mat &gt; &amp;images, cv::Rect rect) override</td></tr>
+<tr class="memdesc:a04b92054d4d410ecb959c3d2113abdbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Track the object in the image.  <a href="classOFTracker.html#a04b92054d4d410ecb959c3d2113abdbc">More...</a><br /></td></tr>
+<tr class="separator:a04b92054d4d410ecb959c3d2113abdbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fb412f9d9e8e595c03b5538a33258d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a1fb412f9d9e8e595c03b5538a33258d7">SetMaxCorners</a> (int maxCorners)</td></tr>
+<tr class="memdesc:a1fb412f9d9e8e595c03b5538a33258d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Max Corners object.  <a href="classOFTracker.html#a1fb412f9d9e8e595c03b5538a33258d7">More...</a><br /></td></tr>
+<tr class="separator:a1fb412f9d9e8e595c03b5538a33258d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affa287f944744f6d24c27bdbd00adf0a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#affa287f944744f6d24c27bdbd00adf0a">GetMaxCorners</a> () const</td></tr>
+<tr class="memdesc:affa287f944744f6d24c27bdbd00adf0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Max Corners object.  <a href="classOFTracker.html#affa287f944744f6d24c27bdbd00adf0a">More...</a><br /></td></tr>
+<tr class="separator:affa287f944744f6d24c27bdbd00adf0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ec983009752509649b9fd0b6dc1f20f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a0ec983009752509649b9fd0b6dc1f20f">SetQualityLevel</a> (double qualityLevel)</td></tr>
+<tr class="memdesc:a0ec983009752509649b9fd0b6dc1f20f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Quality Level object.  <a href="classOFTracker.html#a0ec983009752509649b9fd0b6dc1f20f">More...</a><br /></td></tr>
+<tr class="separator:a0ec983009752509649b9fd0b6dc1f20f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58e94203da9fbf4c212fe1f3c5da82db"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a58e94203da9fbf4c212fe1f3c5da82db">GetQualityLevel</a> () const</td></tr>
+<tr class="memdesc:a58e94203da9fbf4c212fe1f3c5da82db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Quality Level object.  <a href="classOFTracker.html#a58e94203da9fbf4c212fe1f3c5da82db">More...</a><br /></td></tr>
+<tr class="separator:a58e94203da9fbf4c212fe1f3c5da82db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa009a1b3d874fb5442dd35e788be9dce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#aa009a1b3d874fb5442dd35e788be9dce">SetMinDistance</a> (double minDistance)</td></tr>
+<tr class="memdesc:aa009a1b3d874fb5442dd35e788be9dce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Min Distance object.  <a href="classOFTracker.html#aa009a1b3d874fb5442dd35e788be9dce">More...</a><br /></td></tr>
+<tr class="separator:aa009a1b3d874fb5442dd35e788be9dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b7b7bd49c2b407841cbd48a8a1151d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a96b7b7bd49c2b407841cbd48a8a1151d">GetMinDistance</a> () const</td></tr>
+<tr class="memdesc:a96b7b7bd49c2b407841cbd48a8a1151d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Min Distance object.  <a href="classOFTracker.html#a96b7b7bd49c2b407841cbd48a8a1151d">More...</a><br /></td></tr>
+<tr class="separator:a96b7b7bd49c2b407841cbd48a8a1151d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc5e4e2a7f50630450cd61a8422f8a7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#acc5e4e2a7f50630450cd61a8422f8a7d">SetBlockSize</a> (int blockSize)</td></tr>
+<tr class="memdesc:acc5e4e2a7f50630450cd61a8422f8a7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Block Size object.  <a href="classOFTracker.html#acc5e4e2a7f50630450cd61a8422f8a7d">More...</a><br /></td></tr>
+<tr class="separator:acc5e4e2a7f50630450cd61a8422f8a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec8fc280b0d68583192b4c72f466c49f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#aec8fc280b0d68583192b4c72f466c49f">GetBlockSize</a> () const</td></tr>
+<tr class="memdesc:aec8fc280b0d68583192b4c72f466c49f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Block Size object.  <a href="classOFTracker.html#aec8fc280b0d68583192b4c72f466c49f">More...</a><br /></td></tr>
+<tr class="separator:aec8fc280b0d68583192b4c72f466c49f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58be6c07a258be745e592fdf69b5c76a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a58be6c07a258be745e592fdf69b5c76a">SetUseHarrisDetector</a> (bool useHarrisDetector)</td></tr>
+<tr class="memdesc:a58be6c07a258be745e592fdf69b5c76a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Use Harris Detector object.  <a href="classOFTracker.html#a58be6c07a258be745e592fdf69b5c76a">More...</a><br /></td></tr>
+<tr class="separator:a58be6c07a258be745e592fdf69b5c76a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85c36ea4725af1e1f7351ce6bbd0553b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a85c36ea4725af1e1f7351ce6bbd0553b">GetUseHarrisDetector</a> () const</td></tr>
+<tr class="memdesc:a85c36ea4725af1e1f7351ce6bbd0553b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Use Harris Detector object.  <a href="classOFTracker.html#a85c36ea4725af1e1f7351ce6bbd0553b">More...</a><br /></td></tr>
+<tr class="separator:a85c36ea4725af1e1f7351ce6bbd0553b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33e67e92f7601a9079eaaee5dd4ccf33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a33e67e92f7601a9079eaaee5dd4ccf33">SetK</a> (double k)</td></tr>
+<tr class="memdesc:a33e67e92f7601a9079eaaee5dd4ccf33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the K object.  <a href="classOFTracker.html#a33e67e92f7601a9079eaaee5dd4ccf33">More...</a><br /></td></tr>
+<tr class="separator:a33e67e92f7601a9079eaaee5dd4ccf33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad8fb3abd335aef96a2a257d47cb5a08"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#aad8fb3abd335aef96a2a257d47cb5a08">GetK</a> () const</td></tr>
+<tr class="memdesc:aad8fb3abd335aef96a2a257d47cb5a08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the K object.  <a href="classOFTracker.html#aad8fb3abd335aef96a2a257d47cb5a08">More...</a><br /></td></tr>
+<tr class="separator:aad8fb3abd335aef96a2a257d47cb5a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a443608fb9d7f3a5e890d163e8f48ec2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a443608fb9d7f3a5e890d163e8f48ec2d">SetMinPointDistance</a> (double minPointDistance)</td></tr>
+<tr class="memdesc:a443608fb9d7f3a5e890d163e8f48ec2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Min Point Distance object.  <a href="classOFTracker.html#a443608fb9d7f3a5e890d163e8f48ec2d">More...</a><br /></td></tr>
+<tr class="separator:a443608fb9d7f3a5e890d163e8f48ec2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31699c65072999c4722796d1ad49f7c2"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a31699c65072999c4722796d1ad49f7c2">GetMinPointDistance</a> () const</td></tr>
+<tr class="memdesc:a31699c65072999c4722796d1ad49f7c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Min Point Distance object.  <a href="classOFTracker.html#a31699c65072999c4722796d1ad49f7c2">More...</a><br /></td></tr>
+<tr class="separator:a31699c65072999c4722796d1ad49f7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05db47e425393867fdc59da23cd63ac5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#a05db47e425393867fdc59da23cd63ac5">SetThreshold</a> (double threshold)</td></tr>
+<tr class="memdesc:a05db47e425393867fdc59da23cd63ac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Threshold object.  <a href="classOFTracker.html#a05db47e425393867fdc59da23cd63ac5">More...</a><br /></td></tr>
+<tr class="separator:a05db47e425393867fdc59da23cd63ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfd5558e698e856378cfa34a67163828"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOFTracker.html#acfd5558e698e856378cfa34a67163828">GetThreshold</a> () const</td></tr>
+<tr class="memdesc:acfd5558e698e856378cfa34a67163828"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Threshold object.  <a href="classOFTracker.html#acfd5558e698e856378cfa34a67163828">More...</a><br /></td></tr>
+<tr class="separator:acfd5558e698e856378cfa34a67163828"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61549f923eee3f112de6fcc89e4f688c"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; cv::Rect &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classObjectTracker.html#a61549f923eee3f112de6fcc89e4f688c">track</a> (std::vector&lt; cv::Mat &gt; &amp;images, cv::Rect rect)=0</td></tr>
+<tr class="memdesc:a61549f923eee3f112de6fcc89e4f688c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Track objects in a sequence of images.  <a href="classObjectTracker.html#a61549f923eee3f112de6fcc89e4f688c">More...</a><br /></td></tr>
+<tr class="separator:a61549f923eee3f112de6fcc89e4f688c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Class for Detecting Objects from Image using Optical Flow. </p>
+<div class="textblock"><p >Class for Tracking Objects from Image using Optical Flow. </p>
+<p >Perform object tracking using Optical Flow. Refer OpenCV documentation for information on parameters. </p><dl class="section note"><dt>Note</dt><dd>This implementation is working. However, it is not optimized and require refactoring. The code is too complex and hard to understand. See <a class="el" href="structOFPoint.html" title="Struct for Optical Flow Point.">OFPoint</a>, <a class="el" href="structDetectionData.html" title="Struct for Detection Data.">DetectionData</a> and <a class="el" href="structOpticalFlowData.html" title="Struct for Optical Flow Data with custom composition of vector.">OpticalFlowData</a>. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aaa2845ae98221c44ae2aba6188dbc034" name="aaa2845ae98221c44ae2aba6188dbc034"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaa2845ae98221c44ae2aba6188dbc034">&#9670;&#160;</a></span>OFTracker()</h2>
@@ -139,6 +203,426 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Construct a new Object Detection:: Object Detection object. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aec8fc280b0d68583192b4c72f466c49f" name="aec8fc280b0d68583192b4c72f466c49f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec8fc280b0d68583192b4c72f466c49f">&#9670;&#160;</a></span>GetBlockSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int OFTracker::GetBlockSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Block Size object. </p>
+<dl class="section return"><dt>Returns</dt><dd>int Size of an average block for computing a derivative covariation matrix over each pixel neighborhood. See cornerEigenValsAndVecs() . </dd></dl>
+
+</div>
+</div>
+<a id="aad8fb3abd335aef96a2a257d47cb5a08" name="aad8fb3abd335aef96a2a257d47cb5a08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad8fb3abd335aef96a2a257d47cb5a08">&#9670;&#160;</a></span>GetK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double OFTracker::GetK </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the K object. </p>
+<dl class="section return"><dt>Returns</dt><dd>double Free parameter of the Harris detector. </dd></dl>
+
+</div>
+</div>
+<a id="affa287f944744f6d24c27bdbd00adf0a" name="affa287f944744f6d24c27bdbd00adf0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affa287f944744f6d24c27bdbd00adf0a">&#9670;&#160;</a></span>GetMaxCorners()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int OFTracker::GetMaxCorners </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Max Corners object. </p>
+<dl class="section return"><dt>Returns</dt><dd>int Maximum number of corners to be detected </dd></dl>
+
+</div>
+</div>
+<a id="a96b7b7bd49c2b407841cbd48a8a1151d" name="a96b7b7bd49c2b407841cbd48a8a1151d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96b7b7bd49c2b407841cbd48a8a1151d">&#9670;&#160;</a></span>GetMinDistance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double OFTracker::GetMinDistance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Min Distance object. </p>
+<dl class="section return"><dt>Returns</dt><dd>double Minimum possible Euclidean distance between the returned corners. </dd></dl>
+
+</div>
+</div>
+<a id="a31699c65072999c4722796d1ad49f7c2" name="a31699c65072999c4722796d1ad49f7c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31699c65072999c4722796d1ad49f7c2">&#9670;&#160;</a></span>GetMinPointDistance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double OFTracker::GetMinPointDistance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Min Point Distance object. </p>
+<dl class="section return"><dt>Returns</dt><dd>double Minimum distance between two points </dd></dl>
+
+</div>
+</div>
+<a id="a58e94203da9fbf4c212fe1f3c5da82db" name="a58e94203da9fbf4c212fe1f3c5da82db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58e94203da9fbf4c212fe1f3c5da82db">&#9670;&#160;</a></span>GetQualityLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double OFTracker::GetQualityLevel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Quality Level object. </p>
+<dl class="section return"><dt>Returns</dt><dd>double Parameter characterizing the minimal accepted quality of image corners. The parameter value is multiplied by the best corner quality measure, which is the minimal eigenvalue (see cornerMinEigenVal() ) or the Harris function response (see cornerHarris() ). The corners with the quality measure less than the product are rejected. For example, if the best corner has the quality measure = 1500, and the qualityLevel=0.01 , then all the corners with the quality measure less than 15 are rejected. </dd></dl>
+
+</div>
+</div>
+<a id="acfd5558e698e856378cfa34a67163828" name="acfd5558e698e856378cfa34a67163828"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfd5558e698e856378cfa34a67163828">&#9670;&#160;</a></span>GetThreshold()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double OFTracker::GetThreshold </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Threshold object. </p>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a85c36ea4725af1e1f7351ce6bbd0553b" name="a85c36ea4725af1e1f7351ce6bbd0553b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85c36ea4725af1e1f7351ce6bbd0553b">&#9670;&#160;</a></span>GetUseHarrisDetector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OFTracker::GetUseHarrisDetector </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Use Harris Detector object. </p>
+<dl class="section return"><dt>Returns</dt><dd>true Use Harris detector (see cornerHarris()) or cornerMinEigenVal(). </dd>
+<dd>
+false Use cornerMinEigenVal(). </dd></dl>
+
+</div>
+</div>
+<a id="acc5e4e2a7f50630450cd61a8422f8a7d" name="acc5e4e2a7f50630450cd61a8422f8a7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc5e4e2a7f50630450cd61a8422f8a7d">&#9670;&#160;</a></span>SetBlockSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OFTracker::SetBlockSize </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>blockSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the Block Size object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">blockSize</td><td>Size of an average block for computing a derivative covariation matrix over each pixel neighborhood. See cornerEigenValsAndVecs() . </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a33e67e92f7601a9079eaaee5dd4ccf33" name="a33e67e92f7601a9079eaaee5dd4ccf33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33e67e92f7601a9079eaaee5dd4ccf33">&#9670;&#160;</a></span>SetK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OFTracker::SetK </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>k</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the K object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">k</td><td>Free parameter of the Harris detector. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1fb412f9d9e8e595c03b5538a33258d7" name="a1fb412f9d9e8e595c03b5538a33258d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fb412f9d9e8e595c03b5538a33258d7">&#9670;&#160;</a></span>SetMaxCorners()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OFTracker::SetMaxCorners </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxCorners</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the Max Corners object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxCorners</td><td>Maximum number of corners to be detected </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa009a1b3d874fb5442dd35e788be9dce" name="aa009a1b3d874fb5442dd35e788be9dce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa009a1b3d874fb5442dd35e788be9dce">&#9670;&#160;</a></span>SetMinDistance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OFTracker::SetMinDistance </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>minDistance</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the Min Distance object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minDistance</td><td>Minimum possible Euclidean distance between the returned corners. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a443608fb9d7f3a5e890d163e8f48ec2d" name="a443608fb9d7f3a5e890d163e8f48ec2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a443608fb9d7f3a5e890d163e8f48ec2d">&#9670;&#160;</a></span>SetMinPointDistance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OFTracker::SetMinPointDistance </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>minPointDistance</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the Min Point Distance object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minPointDistance</td><td>Minimum distance between two points </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0ec983009752509649b9fd0b6dc1f20f" name="a0ec983009752509649b9fd0b6dc1f20f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ec983009752509649b9fd0b6dc1f20f">&#9670;&#160;</a></span>SetQualityLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OFTracker::SetQualityLevel </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>qualityLevel</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the Quality Level object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">qualityLevel</td><td>Parameter characterizing the minimal accepted quality of image corners. The parameter value is multiplied by the best corner quality measure, which is the minimal eigenvalue (see cornerMinEigenVal() ) or the Harris function response (see cornerHarris() ). The corners with the quality measure less than the product are rejected. For example, if the best corner has the quality measure = 1500, and the qualityLevel=0.01 , then all the corners with the quality measure less than 15 are rejected. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a05db47e425393867fdc59da23cd63ac5" name="a05db47e425393867fdc59da23cd63ac5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05db47e425393867fdc59da23cd63ac5">&#9670;&#160;</a></span>SetThreshold()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OFTracker::SetThreshold </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>threshold</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the Threshold object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">threshold</td><td>Threshold for removing points </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a58be6c07a258be745e592fdf69b5c76a" name="a58be6c07a258be745e592fdf69b5c76a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58be6c07a258be745e592fdf69b5c76a">&#9670;&#160;</a></span>SetUseHarrisDetector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OFTracker::SetUseHarrisDetector </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useHarrisDetector</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the Use Harris Detector object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">useHarrisDetector</td><td>Parameter indicating whether to use a Harris detector (see cornerHarris()) or cornerMinEigenVal(). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a04b92054d4d410ecb959c3d2113abdbc" name="a04b92054d4d410ecb959c3d2113abdbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04b92054d4d410ecb959c3d2113abdbc">&#9670;&#160;</a></span>track()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; cv::Rect &gt; OFTracker::track </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; cv::Mat &gt; &amp;&#160;</td>
+          <td class="paramname"><em>images</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cv::Rect&#160;</td>
+          <td class="paramname"><em>rect</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Track the object in the image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">images</td><td>Vector of images to be used for tracking </td></tr>
+    <tr><td class="paramname">rect</td><td>ROI of the object to be tracked</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This method is not optimized and require refactoring. See source code for explaination </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;cv::Rect&gt; Vector of Rectangles representing the location of the object in the image. If tracking fails, return empty vector. </dd></dl>
+
+<p>Implements <a class="el" href="classObjectTracker.html#a61549f923eee3f112de6fcc89e4f688c">ObjectTracker</a>.</p>
 
 </div>
 </div>

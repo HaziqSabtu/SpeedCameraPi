@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['length_0',['Length',['../structLine.html#a8c4ee40b99dc3e61e9df1abc0e30ab0e',1,'Line']]],
-  ['line_1',['Line',['../structLine.html#a3a423087e371f51368f7b59bc733f28d',1,'Line::Line(cv::Point2f p1, cv::Point2f p2)'],['../structLine.html#a2f5251011bfa3b68e57d83ba4da5c268',1,'Line::Line(cv::Vec4i line)']]],
-  ['loadfilethread_2',['LoadFileThread',['../classLoadFileThread.html#a26d1496909ac63701afa1bc4b3f9b486',1,'LoadFileThread']]]
+  ['killallthreads_0',['killAllThreads',['../classBaseController.html#a3168fa9468c54515630adb85ac4cdf02',1,'BaseController::killAllThreads()'],['../classSharedResource.html#ab133c77b17d65c8a9ebc00f87700aadb',1,'SharedResource::killAllThreads()'],['../classThreadController.html#a56559626cda0b7da66725915d6a2720a',1,'ThreadController::killAllThreads()']]]
 ];

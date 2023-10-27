@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['line_20detection_0',['Line Detection',['../md_Docs_markdown_LineDetection.html',1,'']]]
+  ['theory_0',['Theory',['../md_Docs_markdown_Theory.html',1,'']]]
 ];

@@ -26,29 +26,26 @@ var NAVTREE =
 [
   [ "SpeedCameraPi", "index.html", [
     [ "SpeedCameraPi(SCP)", "index.html", null ],
-    [ "Installing Dependency", "md_Docs_markdown_InstallingRequiredDependency.html", null ],
-    [ "Compiling Application", "md_Docs_markdown_CompilingProgramm.html", null ],
+    [ "User Manual", "md_Docs_markdown_UserManual.html", null ],
+    [ "Compiling Application", "md_Docs_markdown_CompilingApplication.html", null ],
     [ "Development Setup", "md_Docs_markdown_developmentSetup.html", null ],
-    [ "Using the App", "md_Docs_markdown_UsingTheApp.html", null ],
-    [ "Image Allignment", "md_Docs_markdown_ImageAllignment.html", null ],
-    [ "Object Detection", "md_Docs_markdown_ObjectDetection.html", null ],
-    [ "Line Detection", "md_Docs_markdown_LineDetection.html", null ],
-    [ "Speed Calculation", "md_Docs_markdown_SpeedCalculation.html", null ],
-    [ "Examples", "examples.html", "examples" ],
-    [ "Namespace List", "namespaces.html", [
+    [ "Getting Started with Development", "md_Docs_markdown_YourOwn.html", null ],
+    [ "Theory", "md_Docs_markdown_Theory.html", null ],
+    [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
         [ "Functions", "namespacemembers_func.html", null ]
       ] ]
     ] ],
-    [ "Class List", "annotated.html", [
+    [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ]
+        [ "All", "functions.html", "functions_dup" ],
+        [ "Functions", "functions_func.html", "functions_func" ],
+        [ "Variables", "functions_vars.html", null ]
       ] ]
     ] ]
   ] ]
@@ -56,7 +53,10 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"ImageAlignment_8cpp-example.html"
+"annotated.html",
+"classColorCalibrationThread.html#a08dbfb4858e5e30333c0690a1ecef1b4",
+"classResultController.html#a41bb0addde52ae6d30dd99d4c48df772",
+"classThreadPool.html#afec3f1879faf34aa0c0341253c4ab6f3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

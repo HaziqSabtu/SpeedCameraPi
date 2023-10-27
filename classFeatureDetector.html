@@ -117,12 +117,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aed128670457e2089a34eb92b5c070ef1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFeatureDetector.html#aed128670457e2089a34eb92b5c070ef1">FeatureDetector</a> (<a class="el" href="Algorithm_2image__allign_2Enum_8hpp.html#aba5019e335fb2939e79e0e5b62202729">DetectorType</a> type)</td></tr>
 <tr class="memdesc:aed128670457e2089a34eb92b5c070ef1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classFeatureDetector.html" title="Class for detecting and matching features between two images and alligning them.">FeatureDetector</a> constructor.  <a href="classFeatureDetector.html#aed128670457e2089a34eb92b5c070ef1">More...</a><br /></td></tr>
 <tr class="separator:aed128670457e2089a34eb92b5c070ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a351421e4d1c3a542ff053bedb5e39b3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFeatureDetector.html#a351421e4d1c3a542ff053bedb5e39b3a">Init</a> (cv::Mat &amp;image1)</td></tr>
+<tr class="memdesc:a351421e4d1c3a542ff053bedb5e39b3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="classFeatureDetector.html" title="Class for detecting and matching features between two images and alligning them.">FeatureDetector</a> object with the first image.  <a href="classFeatureDetector.html#a351421e4d1c3a542ff053bedb5e39b3a">More...</a><br /></td></tr>
+<tr class="separator:a351421e4d1c3a542ff053bedb5e39b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf4f858178ddf200211ee21e1bca52a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFeatureDetector.html">FeatureDetector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFeatureDetector.html#adf4f858178ddf200211ee21e1bca52a4">operator=</a> (const <a class="el" href="classFeatureDetector.html">FeatureDetector</a> &amp;other)</td></tr>
 <tr class="memdesc:adf4f858178ddf200211ee21e1bca52a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="classFeatureDetector.html#adf4f858178ddf200211ee21e1bca52a4">More...</a><br /></td></tr>
 <tr class="separator:adf4f858178ddf200211ee21e1bca52a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9822af446deb175fe0d14b649fe85bf6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFeatureDetector.html">FeatureDetector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFeatureDetector.html#a9822af446deb175fe0d14b649fe85bf6">clone</a> ()</td></tr>
-<tr class="memdesc:a9822af446deb175fe0d14b649fe85bf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone function.  <a href="classFeatureDetector.html#a9822af446deb175fe0d14b649fe85bf6">More...</a><br /></td></tr>
+<tr class="memdesc:a9822af446deb175fe0d14b649fe85bf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone function, returns a deep copy of the <a class="el" href="classFeatureDetector.html" title="Class for detecting and matching features between two images and alligning them.">FeatureDetector</a> object.  <a href="classFeatureDetector.html#a9822af446deb175fe0d14b649fe85bf6">More...</a><br /></td></tr>
 <tr class="separator:a9822af446deb175fe0d14b649fe85bf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a304083e274f5bf04ea30a0b09eafd6af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFeatureDetector.html#a304083e274f5bf04ea30a0b09eafd6af">Allign</a> (cv::Mat &amp;image2)</td></tr>
+<tr class="memdesc:a304083e274f5bf04ea30a0b09eafd6af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detects and matches features between the first image and the second image.  <a href="classFeatureDetector.html#a304083e274f5bf04ea30a0b09eafd6af">More...</a><br /></td></tr>
+<tr class="separator:a304083e274f5bf04ea30a0b09eafd6af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22080f3059cd600ad75aabe789ccddce"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFeatureDetector.html#a22080f3059cd600ad75aabe789ccddce">GetMatchImage</a> (cv::Mat &amp;image1, cv::Mat &amp;image2)</td></tr>
 <tr class="memdesc:a22080f3059cd600ad75aabe789ccddce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the image with the keypoints drawn on it.  <a href="classFeatureDetector.html#a22080f3059cd600ad75aabe789ccddce">More...</a><br /></td></tr>
 <tr class="separator:a22080f3059cd600ad75aabe789ccddce"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,6 +144,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Class for detecting and matching features between two images and alligning them. </p>
+<dl class="section note"><dt>Note</dt><dd>As of now only SIFT is supported. More methods can be added in the future if needed. </dd></dl>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="ImageAlignment_8cpp-example.html#_a0">ImageAlignment.cpp</a>.</dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -168,6 +175,39 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a304083e274f5bf04ea30a0b09eafd6af" name="a304083e274f5bf04ea30a0b09eafd6af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a304083e274f5bf04ea30a0b09eafd6af">&#9670;&#160;</a></span>Allign()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FeatureDetector::Allign </td>
+          <td>(</td>
+          <td class="paramtype">cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>image2</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Detects and matches features between the first image and the second image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image2</td><td>The target image. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::logic_error</td><td>if the image is empty. </td></tr>
+    <tr><td class="paramname">std::logic_error</td><td>if the keypoints are empty. Run <a class="el" href="classFeatureDetector.html#a351421e4d1c3a542ff053bedb5e39b3a" title="Initializes the FeatureDetector object with the first image.">Init()</a> first. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a9822af446deb175fe0d14b649fe85bf6" name="a9822af446deb175fe0d14b649fe85bf6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9822af446deb175fe0d14b649fe85bf6">&#9670;&#160;</a></span>clone()</h2>
 
@@ -183,7 +223,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Clone function. </p>
+<p>Clone function, returns a deep copy of the <a class="el" href="classFeatureDetector.html" title="Class for detecting and matching features between two images and alligning them.">FeatureDetector</a> object. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classFeatureDetector.html" title="Class for detecting and matching features between two images and alligning them.">FeatureDetector</a> </dd></dl>
 
 </div>
@@ -292,6 +332,32 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>cv::Mat Image with keypoints drawn on it. </dd></dl>
+
+</div>
+</div>
+<a id="a351421e4d1c3a542ff053bedb5e39b3a" name="a351421e4d1c3a542ff053bedb5e39b3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a351421e4d1c3a542ff053bedb5e39b3a">&#9670;&#160;</a></span>Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FeatureDetector::Init </td>
+          <td>(</td>
+          <td class="paramtype">cv::Mat &amp;&#160;</td>
+          <td class="paramname"><em>image1</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes the <a class="el" href="classFeatureDetector.html" title="Class for detecting and matching features between two images and alligning them.">FeatureDetector</a> object with the first image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image1</td><td>the reference image </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
